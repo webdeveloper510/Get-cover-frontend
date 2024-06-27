@@ -2,6 +2,7 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 
 const LineChart = ({ graphData, flag }) => {
+  console.log(graphData, flag);
   if (!graphData || graphData.length === 0) {
     return <div>No data available for the selected range.</div>;
   }
@@ -14,14 +15,44 @@ const LineChart = ({ graphData, flag }) => {
 
   const keys = [
     {
+      key: "total_amount",
+      label: "Total Claim Amount",
+      borderColor: "rgba(255,99,132,1)",
+    },
+    {
+      key: "total_unpaid_amount",
+      label: "Total Unpaid Claim Amount",
+      borderColor: "rgba(75,192,192,1)",
+    },
+    {
+      key: "total_paid_amount",
+      label: "Total Paid Amount",
+      borderColor: "rgba(255,206,86,1)",
+    },
+    {
+      key: "total_claim",
+      label: "Total Claim;",
+      borderColor: "rgba(75,192,192,1)",
+    },
+    {
+      key: "total_paid_claim",
+      label: "Total Paid Claim",
+      borderColor: "rgba(153,102,255,1)",
+    },
+    {
+      key: "total_unpaid_claim",
+      label: "Total Unpaid Claim",
+      borderColor: "rgba(255,159,64,1)",
+    },
+    {
       key: "total_order_amount",
       label: "Order Amount",
       borderColor: "rgba(75,192,192,1)",
     },
     {
-      key: "total_broker_fee",
-      label: "Broker Fee",
-      borderColor: "rgba(255,99,132,1)",
+      key: "total_order_amount",
+      label: "Order Amount",
+      borderColor: "rgba(75,192,192,1)",
     },
     {
       key: "total_admin_fee",
@@ -64,6 +95,7 @@ const LineChart = ({ graphData, flag }) => {
     labels: labels,
     datasets: datasets,
   };
+  console.log(data);
 
   const options = {
     scales: {

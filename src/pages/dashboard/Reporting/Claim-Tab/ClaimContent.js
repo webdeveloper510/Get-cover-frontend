@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../../../common/grid";
 import Button from "../../../../common/button";
 import Cross from "../../../../assets/images/Cross.png";
 import LineChart from "../../../../common/lineChart";
 import Modal from "../../../../common/model";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
+import { getAllClaims } from "../../../../services/reportingServices";
 
 function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,6 +39,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     let flag = "daily";
+    console.log(diffDays < 30);
     if (diffDays < 30) {
       flag = "daily";
     } else {
@@ -53,10 +55,53 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
       flag: flag,
     };
 
-    // getDatasetAtEvent(data);
+    getDatasetAtEvent(data);
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    // setLoading(true);
+    getDatasetAtEvent({
+      startDate: selectedRange.startDate.toISOString().split("T")[0],
+      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      dealerId: "",
+      priceBookId: [],
+      categoryId: [],
+      flag: "daily",
+    });
+    // setLoading(false);
+  }, [selectedRange, activeTab]);
+
+  const getDatasetAtEvent = async (data) => {
+    console.log(activeTab);
+
+    try {
+      const res = await getAllClaims(data);
+
+      let filteredGraphData;
+      if (activeTab === "Amount") {
+        filteredGraphData = res.result.graphData.map((item) => {
+          const { total_claim, total_paid_claim, total_unpaid_claim, ...rest } =
+            item;
+          console.log(rest);
+          return rest;
+        });
+      } else {
+        filteredGraphData = res.result.graphData.map((item) => {
+          return {
+            weekStart: item.weekStart,
+            total_claim: item.total_claim,
+            total_paid_claim: item.total_paid_claim,
+            total_unpaid_claim: item.total_unpaid_claim,
+          };
+        });
+      }
+      console.log(filteredGraphData);
+      setGraphData(filteredGraphData);
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
+  };
   const isValidDateRange = (startDate, endDate) => {
     const oneYear = 365 * 24 * 60 * 60 * 1000;
     return endDate - startDate <= oneYear;
@@ -106,11 +151,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
                 </Button>
               </div>
               <div className="col-span-12">
-                <LineChart
-                  data={graphData}
-                  xAxisKey="date"
-                  lineKey={activeTab === "Amount" ? "amount" : "count"}
-                />
+                <LineChart graphData={graphData} />
               </div>
             </Grid>
           </div>

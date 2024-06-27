@@ -32,3 +32,15 @@ export const getAllSales = async (data) => {
   }
 };
 
+export const getAllClaims = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/user/claimReporting`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
