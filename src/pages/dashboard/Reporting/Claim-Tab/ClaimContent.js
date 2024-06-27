@@ -77,7 +77,6 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
 
     try {
       const res = await getAllClaims(data);
-
       let filteredGraphData;
       if (activeTab === "Amount") {
         filteredGraphData = res.result.graphData.map((item) => {
