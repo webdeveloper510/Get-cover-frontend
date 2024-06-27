@@ -50,9 +50,9 @@ const LineChart = ({ graphData, flag }) => {
       borderColor: "rgba(75,192,192,1)",
     },
     {
-      key: "total_order_amount",
-      label: "Order Amount",
-      borderColor: "rgba(75,192,192,1)",
+      key: "total_broker_fee",
+      label: "Broker Fee",
+      borderColor: "rgba(255,99,132,1)",
     },
     {
       key: "total_admin_fee",
