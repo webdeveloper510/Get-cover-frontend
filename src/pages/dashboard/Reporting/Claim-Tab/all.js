@@ -108,7 +108,7 @@ function All() {
               </div>
 
               <div className="col-span-12">
-                <BarChart />
+                <LineChart data={{}} />
               </div>
             </Grid>
           </div>

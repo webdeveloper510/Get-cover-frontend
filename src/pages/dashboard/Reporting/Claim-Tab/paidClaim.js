@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BarChart from "../../../../common/barChart";
 import Grid from "../../../../common/grid";
 import drop from "../../../../assets/images/icons/dropwhite.svg";
+import LineChart from "../../../../common/lineChart";
 
 function PaidClaim() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -45,7 +46,7 @@ function PaidClaim() {
           </div>
         </Grid>
 
-        <BarChart />
+        <LineChart data={{}} />
       </div>
     </div>
   );
