@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
@@ -11,25 +11,29 @@ import wholesale from "../../../assets/images/AciveCount.svg";
 import WholesaleActive from "../../../assets/images/Count.svg";
 
 import { cityData } from "../../../stateCityJson";
-import All from "./Claim-Tab/amount";
-import PaidClaim from "./Claim-Tab/count";
-
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
+import ClaimContent from "./Claim-Tab/ClaimContent";
 
 function Claims() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
     return storedTab ? storedTab : "Amount";
   };
+
   const [selected, setSelected] = useState([]);
-  const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
+    endDate: new Date(),
+  });
+
   const state = cityData;
 
   useEffect(() => {
     localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
+
   const options = [
     { label: "Grapes ", value: "grapes" },
     { label: "Mango ", value: "mango" },
@@ -41,6 +45,7 @@ function Claims() {
     { label: "Pineapple ", value: "pineapple" },
     { label: "Peach ", value: "peach" },
   ];
+
   const tabs = [
     {
       id: "Amount",
@@ -48,7 +53,6 @@ function Claims() {
       icons: all,
       className: "col-span-6",
       Activeicons: AllActive,
-      content: <All />,
     },
     {
       id: "Count",
@@ -56,22 +60,15 @@ function Claims() {
       className: "col-span-6",
       icons: wholesale,
       Activeicons: WholesaleActive,
-      content: <PaidClaim />,
     },
   ];
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
   return (
     <>
-      {/* {loading && (
-        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
-          </div>
-        </div>
-      )} */}
       <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-grayf9">
         <Headbar />
 
@@ -182,14 +179,11 @@ function Claims() {
               <div className="col-span-1 self-center"></div>
             </Grid>
 
-            {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={`${activeTab !== tab.id ? "hidden" : ""}`}
-              >
-                {tab.content}
-              </div>
-            ))}
+            <ClaimContent
+              activeTab={activeTab}
+              selectedRange={selectedRange}
+              setSelectedRange={setSelectedRange}
+            />
           </div>
         </Grid>
       </div>

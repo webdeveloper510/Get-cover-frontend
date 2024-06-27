@@ -1,17 +1,7 @@
 import React, { useState } from "react";
 import Grid from "../../../../common/grid";
-import Request from "../../../../assets/images/icons/requestServices.svg";
-import Complete from "../../../../assets/images/icons/completeClaim.svg";
-import insurance from "../../../../assets/images/Reporting/insurance.svg";
-import Reserves from "../../../../assets/images/Reporting/Reserves.svg";
-import Broker from "../../../../assets/images/Reporting/Broker.svg";
-import Arrow from "../../../../assets/images/Reporting/icons/arrows.svg";
-import Select from "../../../../common/select";
 import Button from "../../../../common/button";
-import drop from "../../../../assets/images/icons/dropwhite.svg";
-import ChartComponent from "../../../../common/chart";
 import Cross from "../../../../assets/images/Cross.png";
-import BarChart from "../../../../common/barChart";
 import LineChart from "../../../../common/lineChart";
 import Modal from "../../../../common/model";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
