@@ -88,6 +88,7 @@ function All() {
       alert("Selected date range should not exceed 365 days.");
     }
   };
+
   return (
     <>
       <Grid className="mt-3">
