@@ -14,7 +14,7 @@ import coverageStartDate from "../../../assets/images/contract/Coverage Start.sv
 import coverageEndDate from "../../../assets/images/contract/Coverage End.svg";
 import category1 from "../../../assets/images/contract/OrderID.svg";
 import claim from "../../../assets/images/icons/claimAmount.svg";
-import contract from "../../../assets/images/ContractID.png";
+import contract from "../../../assets/images/contract/ContractID.svg";
 import Eligibility from "../../../assets/images/contract/Eligible.svg";
 import delaerName from "../../../assets/images/contract/Dealer.svg";
 import resellerName from "../../../assets/images/contract/reseller.svg";
@@ -144,8 +144,12 @@ function EditContract() {
               <Grid className="mx-8 mx-auto ">
                 <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">
-                    <div className="self-center backdrop-blur mr-4">
-                      <img src={contract} alt="category" />
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-[30%] p-3 mr-4">
+                      <img
+                        src={contract}
+                        className="w-[22px] h-[24px]"
+                        alt="category"
+                      />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -221,8 +225,12 @@ function EditContract() {
                 </div>
                 <div className="col-span-3 self-center ">
                   <div className="flex w-full py-2 border-r border-[#4e4e4e]">
-                    <div className="self-center backdrop-blur  mr-4">
-                      <img src={resellerName} alt="terms" />
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-[30%] p-3 mr-4">
+                      <img
+                        src={resellerName}
+                        className="w-[24px] h-[24px]"
+                        alt="terms"
+                      />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5">
@@ -251,8 +259,12 @@ function EditContract() {
                 </div>
                 <div className="col-span-3 self-center">
                   <div className="flex w-full py-2">
-                    <div className="self-center backdrop-blur   mr-4">
-                      <img src={ServicerName} alt="dealer" />
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-[30%] p-3 mr-4">
+                      <img
+                        src={ServicerName}
+                        className="w-[24px] h-[24px]"
+                        alt="dealer"
+                      />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
@@ -331,8 +343,12 @@ function EditContract() {
                 </div>
                 <div className="col-span-3 self-center">
                   <div className="flex w-full py-2 border-[#4e4e4e]">
-                    <div className="self-center backdrop-blur  mr-4">
-                      <img src={claimed} alt="terms" />
+                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-[30%] p-3 mr-4">
+                      <img
+                        src={claimed}
+                        className="w-[24px] h-[24px]"
+                        alt="terms"
+                      />
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5">

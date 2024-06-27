@@ -11,11 +11,13 @@ import Modal from "../../../../common/model";
 import Cross from "../../../../assets/images/Cross.png";
 import LineChart from "../../../../common/lineChart";
 import { getAllSales } from "../../../../services/reportingServices";
+import { RotateLoader } from "react-spinners";
 
 function All({ activeTab }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
-    startDate: new Date(new Date().setDate(new Date().getDate() - 14)), 
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
   });
   const [graphData, setGraphData] = useState([]);
@@ -70,6 +72,7 @@ function All({ activeTab }) {
   };
 
   useEffect(() => {
+    setLoading(true);
     getDatasetAtEvent({
       startDate: selectedRange.startDate.toISOString().split("T")[0],
       endDate: selectedRange.endDate.toISOString().split("T")[0],
@@ -78,9 +81,11 @@ function All({ activeTab }) {
       categoryId: [],
       flag: "daily",
     });
+    setLoading(false);
   }, [selectedRange, activeTab]);
 
   const getDatasetAtEvent = async (data) => {
+    setLoading(true);
     try {
       const res = await getAllSales(data);
 
@@ -101,10 +106,11 @@ function All({ activeTab }) {
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
+    setLoading(false);
   };
 
   const isValidDateRange = (startDate, endDate) => {
-    const oneYear = 365 * 24 * 60 * 60 * 1000; 
+    const oneYear = 365 * 24 * 60 * 60 * 1000;
     return endDate - startDate <= oneYear;
   };
 
@@ -123,30 +129,38 @@ function All({ activeTab }) {
 
   return (
     <>
-      <Grid>
-        <div className="col-span-12">
-          <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
-            <Grid>
-              <div className="col-span-6 self-center">
-                <p className="text-xl font-bold">Total sales</p>
-              </div>
-              <div className="col-span-6 self-center flex ml-auto">
-                <p className="text-sm self-center mr-5">
-                  {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
-                </p>
-                <Button className="!bg-white !text-black" onClick={openModal}>
-                  {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
-                  <span className="py-1">Filter</span>
-                </Button>
-              </div>
-
-              <div className="col-span-12 mt-4">
-                <LineChart graphData={graphData} />
-              </div>
-            </Grid>
+      {loading ? (
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
           </div>
         </div>
-      </Grid>
+      ) : (
+        <Grid>
+          <div className="col-span-12">
+            <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+              <Grid className="!gap-1">
+                <div className="col-span-6 self-center">
+                  <p className="text-xl font-bold">Total sales</p>
+                </div>
+                <div className="col-span-6 self-center flex ml-auto">
+                  <p className="text-sm self-center mr-5">
+                    {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                  </p>
+                  <Button className="!bg-white !text-black" onClick={openModal}>
+                    {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
+                    <span className="py-1">Date Filter</span>
+                  </Button>
+                </div>
+
+                <div className="col-span-12">
+                  <LineChart graphData={graphData} />
+                </div>
+              </Grid>
+            </div>
+          </div>
+        </Grid>
+      )}
 
       <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
         <Grid className="!grid-cols-5">

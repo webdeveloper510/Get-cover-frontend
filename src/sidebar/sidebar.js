@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/images/Get-Cover-REV-svg.png";
 import DashboardImage from "../assets/images/side-bar/Dashboard.svg";
 import CustomerImage from "../assets/images/side-bar/Customer.svg";
-import DealerImage from "../assets/images/side-bar/Dealer.svg";
+import resellerImage from "../assets/images/side-bar/Dealer.svg";
+import DealerImage from "../assets/images/Dealer.svg";
 import OrderImage from "../assets/images/side-bar/Order.svg";
 import ServicerImage from "../assets/images/side-bar/Servicer.svg";
 import ClaimImage from "../assets/images/side-bar/claim.svg";
@@ -28,7 +29,8 @@ import ActivePriceBook from "../assets/images/side-bar/activePrize.svg";
 import ActiveCustomer from "../assets/images/side-bar/activeCustomer.svg";
 import ActiveOrder from "../assets/images/side-bar/activeOrder.svg";
 import ActiveClaim from "../assets/images/side-bar/activeClaim.svg";
-import ActiveDealer from "../assets/images/side-bar/activeDealer.svg";
+import ActiveReseller from "../assets/images/side-bar/activeDealer.svg";
+import ActiveDealer from "../assets/images/ActiveDealer.svg";
 import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
 import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
 import SeacondActive from "../assets/images/side-bar/220Active.svg";
@@ -345,8 +347,8 @@ const Lists = [
   },
   {
     name: "Reseller",
-    image: DealerImage,
-    active: ActiveDealer,
+    image: resellerImage,
+    active: ActiveReseller,
     // url: "/resellerList",
     items: [
       {

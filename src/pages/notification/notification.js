@@ -168,7 +168,7 @@ function Notification() {
                                 alt="Unread icon"
                               />
                               <p className="text-light-black text-base font-semibold">
-                                {data?.title}: {data?.flag}
+                                {data?.title}: {data?.userId?.firstName}
                               </p>
                               <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
                                 {data?.description}
@@ -205,7 +205,7 @@ function Notification() {
                                 alt="Read icon"
                               />
                               <p className="text-light-black text-base font-semibold">
-                                {data?.title}: {data?.flag}
+                                {data?.title}: {data?.userId?.firstName}
                               </p>
                               <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
                                 {data?.description}

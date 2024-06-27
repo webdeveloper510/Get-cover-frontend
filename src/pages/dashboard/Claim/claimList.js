@@ -140,7 +140,6 @@ function ClaimList(props) {
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
- 
   }, [location.pathname]);
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
@@ -250,8 +249,7 @@ function ClaimList(props) {
         );
       };
       updateAndCallAPI(setClaimType);
-    }
-     else if (selectedValue === "servicer") {
+    } else if (selectedValue === "servicer") {
       console.log(loading1, "------3--------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
@@ -336,10 +334,10 @@ function ClaimList(props) {
         setServicer(res.result.servicerId);
         const updatedClaimListCopy = { ...claimList };
         if (updatedClaimListCopy.result) {
-            updatedClaimListCopy.result[activeIndex]['servicerId'] =res.result.servicerId;
+          updatedClaimListCopy.result[activeIndex]["servicerId"] =
+            res.result.servicerId;
         }
         setClaimList(updatedClaimListCopy);
-       
       })
       .catch((error) => {
         console.error("Error occurred while editing claim servicer:", error);
@@ -1432,7 +1430,9 @@ function ClaimList(props) {
                                             Service Type
                                           </p>
                                           <p className="text-light-green text-base font-semibold">
-                                            {part.serviceType == "Labour" ? "labor" : part.serviceType }
+                                            {part.serviceType == "Labour"
+                                              ? "labor"
+                                              : part.serviceType}
                                           </p>
                                         </div>
                                       </div>
@@ -1476,18 +1476,20 @@ function ClaimList(props) {
                                     <div className="col-span-4 py-4 pl-1 ">
                                       <div className="bg-Eclipse py-2 px-2">
                                         {!location.pathname.includes(
-                                    "customer/claimList"
-                                  ) && <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                  Customer Name :{" "}
-                                  <span className="font-semibold text-white">
-                                    {" "}
-                                    {
-                                      res?.contracts?.orders?.customer
-                                        ?.username
-                                    }{" "}
-                                  </span>
-                                </p>}
-                                        
+                                          "customer/claimList"
+                                        ) && (
+                                          <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                            Customer Name :{" "}
+                                            <span className="font-semibold text-white">
+                                              {" "}
+                                              {
+                                                res?.contracts?.orders?.customer
+                                                  ?.username
+                                              }{" "}
+                                            </span>
+                                          </p>
+                                        )}
+
                                         <p className="text-light-green text-[11px] mb-3 font-Regular">
                                           Claim Cost :{" "}
                                           <span className="font-semibold text-white ml-3">
@@ -1514,7 +1516,7 @@ function ClaimList(props) {
                                             <span className="self-center mr-4">
                                               Servicer Name :{" "}
                                             </span>
-                                            {role =='Super Admin' ? (
+                                            {role == "Super Admin" ? (
                                               <Select
                                                 name="servicer"
                                                 label=""
@@ -1918,40 +1920,46 @@ function ClaimList(props) {
                                  </>} */}
                                         {(role == "Super Admin" ||
                                           claimList.result[activeIndex]
-                                            ?.selfServicer) && !location.pathname.includes(
-                                              "customer/claimList"
-                                            )  && (
-                                          <>
-                                            {claimStatus.status == "Rejected" ||
-                                            claimStatus.status ==
-                                              "Completed" ? (
-                                              <></>
-                                            ) : (
-                                              <div
-                                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                                ref={dropdownRef}
-                                                onClick={handleToggleDropdown1}
-                                              >
-                                                <Select
-                                                  name="repairStatus"
-                                                  label=""
-                                                  value={repairStatus.status}
-                                                  onChange={handleSelectChange}
-                                                  disabled={
-                                                    claimStatus.status ==
-                                                      "Rejected" ||
-                                                    claimStatus.status ==
-                                                      "Completed"
+                                            ?.selfServicer) &&
+                                          !location.pathname.includes(
+                                            "customer/claimList"
+                                          ) && (
+                                            <>
+                                              {claimStatus.status ==
+                                                "Rejected" ||
+                                              claimStatus.status ==
+                                                "Completed" ? (
+                                                <></>
+                                              ) : (
+                                                <div
+                                                  className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                                  ref={dropdownRef}
+                                                  onClick={
+                                                    handleToggleDropdown1
                                                   }
-                                                  white
-                                                  className1="!border-0 !text-[#333333]"
-                                                  options={repairValue}
-                                                  visible={dropdownVisible}
-                                                />
-                                              </div>
-                                            )}
-                                          </>
-                                        )}
+                                                >
+                                                  <Select
+                                                    name="repairStatus"
+                                                    label=""
+                                                    value={repairStatus.status}
+                                                    onChange={
+                                                      handleSelectChange
+                                                    }
+                                                    disabled={
+                                                      claimStatus.status ==
+                                                        "Rejected" ||
+                                                      claimStatus.status ==
+                                                        "Completed"
+                                                    }
+                                                    white
+                                                    className1="!border-0 !text-[#333333]"
+                                                    options={repairValue}
+                                                    visible={dropdownVisible}
+                                                  />
+                                                </div>
+                                              )}
+                                            </>
+                                          )}
                                       </div>
                                     </div>
                                     <div className="col-span-4 pt-2">
@@ -2055,13 +2063,17 @@ function ClaimList(props) {
                 </div>
               </>
             ) : (
-              <CustomPagination
-                totalRecords={totalRecords}
-                page={pageValue}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-                setRecordsPerPage={setRecordsPerPage}
-              />
+              <>
+                {!loading1 && (
+                  <CustomPagination
+                    totalRecords={totalRecords}
+                    page={pageValue}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
+                    onPageChange={handlePageChange}
+                    setRecordsPerPage={setRecordsPerPage}
+                  />
+                )}
+              </>
               // <CustomPagination
               //   totalRecords={totalRecords}
               //   rowsPerPageOptions={[10, 20, 50, 100]}
@@ -2658,7 +2670,7 @@ function ClaimList(props) {
           </div>
         </div>
       </Modal>
-      
+
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}

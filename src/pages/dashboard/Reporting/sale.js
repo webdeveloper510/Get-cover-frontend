@@ -3,20 +3,22 @@ import Headbar from "../../../common/headBar";
 import { Link } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
-import AllActive from "../../../assets/images/Reporting/icons/Activeall.svg";
-import all from "../../../assets/images/Reporting/icons/all.svg";
-import WholesaleActive from "../../../assets/images/Reporting/icons/activeWholesale.svg";
-import wholesale from "../../../assets/images/Reporting/icons/Wholesale.svg";
+import all from "../../../assets/images/AciveAmount.svg";
+import AllActive from "../../../assets/images/Amount.svg";
+import wholesale from "../../../assets/images/AciveCount.svg";
+import WholesaleActive from "../../../assets/images/Count.svg";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { cityData } from "../../../stateCityJson";
 import All from "./Sale-Tab/all";
+import { RotateLoader } from "react-spinners";
+import { MultiSelect } from "react-multi-select-component";
 
 function Sale() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
     return storedTab ? storedTab : "Amount";
   };
-
+  const [selected, setSelected] = useState([]);
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const state = cityData;
   const containerRef = useRef(null);
@@ -24,7 +26,17 @@ function Sale() {
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
-
+  const options = [
+    { label: "Grapes ", value: "grapes" },
+    { label: "Mango ", value: "mango" },
+    { label: "Strawberry ", value: "strawberry", disabled: true },
+    { label: "Watermelon ", value: "watermelon" },
+    { label: "Pear ", value: "pear" },
+    { label: "Apple ", value: "apple" },
+    { label: "Tangerine ", value: "tangerine" },
+    { label: "Pineapple ", value: "pineapple" },
+    { label: "Peach ", value: "peach" },
+  ];
   const tabs = [
     {
       id: "Amount",
@@ -33,8 +45,8 @@ function Sale() {
       Activeicons: AllActive,
     },
     {
-      id: "Number",
-      label: "Number",
+      id: "Count",
+      label: "Count",
       icons: wholesale,
       Activeicons: WholesaleActive,
     },
@@ -72,6 +84,7 @@ function Sale() {
                   name="state"
                   placeholder="Dealer Name"
                   className="!bg-white"
+                  className1="filter"
                   options={state}
                   pName={"Enter Dealer Name"}
                 />
@@ -82,23 +95,25 @@ function Sale() {
                   name="state"
                   placeholder="Category Name"
                   className="!bg-white"
+                  className1="filter"
                   options={state}
-                  pName={"Enter Category"}
+                  pName={"Enter Category Name"}
                 />
               </div>
               <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Product SKU"
-                  className1="!pt-1 !pb-1 !text-[13px]"
-                  className="!text-[14px] !bg-White-Smoke"
-                  options={state}
-                  pName={"Enter Product SKU"}
+                <MultiSelect
+                  options={options}
+                  value={selected}
+                  onChange={setSelected}
+                  labelledBy="Select"
+                  overrideStrings={{
+                    selectSomeItems: "Select Product SKU",
+                  }}
+                  className="SearchSelect css-b62m3t-container p-[0.425rem]"
                 />
               </div>
               <div className="col-span-1 self-center mx-auto pl-3">
-                <Button>Submit</Button>
+                <Button>Filter</Button>
               </div>
             </Grid>
           </div>

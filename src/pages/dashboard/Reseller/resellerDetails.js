@@ -792,7 +792,7 @@ function ResellerDetails() {
                   <p className="text-base text-white font-semibold leading-5">
                     {resellerDetail?.resellerData?.street},{" "}
                     {resellerDetail?.resellerData?.city},{" "}
-                    {resellerDetail?.resellerData?.state}{" "}
+                    {resellerDetail?.resellerData?.state},{" "}
                     {resellerDetail?.resellerData?.zip}, USA
                   </p>
                 </div>
@@ -1230,7 +1230,9 @@ function ResellerDetails() {
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={servicerList}
                 highlightOnHover
                 sortIcon={

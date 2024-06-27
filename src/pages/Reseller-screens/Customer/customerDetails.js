@@ -252,15 +252,14 @@ function ResellerCustomerDetails() {
     setIsUserModalOpen(true);
     setActiveTab("usersss");
     localStorage.setItem("isPopupOpen", "true");
+  };
 
-};
-
-useEffect(() => {
-  const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
-  if (isPopupOpen) {
-    setActiveTab("Users");
-  }
-}, []);
+  useEffect(() => {
+    const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    if (isPopupOpen) {
+      setActiveTab("Users");
+    }
+  }, []);
   useEffect(() => {
     customerDetails();
   }, [customerId, flag]);
@@ -268,9 +267,7 @@ useEffect(() => {
     // console.log(data, id.id);
     switch (data) {
       case "Order":
-        navigate(
-          `/reseller/addOrder/${customerId}`
-        );
+        navigate(`/reseller/addOrder/${customerId}`);
         break;
       case "Users":
         localStorage.getItem("Users");
@@ -465,8 +462,10 @@ useEffect(() => {
                     Address
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {customerDetail?.meta?.city} {", "}
-                    {customerDetail?.meta?.street} {", "}
+                    {customerDetail?.meta?.city}
+                    {", "}
+                    {customerDetail?.meta?.street}
+                    {", "}
                     {customerDetail?.meta?.state}
                     {", "}
                     {customerDetail?.meta?.country}

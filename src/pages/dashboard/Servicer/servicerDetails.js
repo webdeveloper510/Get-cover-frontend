@@ -605,8 +605,8 @@ function ServicerDetails() {
                   <p className="text-base text-white font-semibold leading-5">
                     {servicerDetails?.meta?.street},{" "}
                     {servicerDetails?.meta?.city},{" "}
-                    {servicerDetails?.meta?.state} {servicerDetails?.meta?.zip},
-                    USA
+                    {servicerDetails?.meta?.state}, {servicerDetails?.meta?.zip}
+                    , USA
                   </p>
                 </div>
               </div>

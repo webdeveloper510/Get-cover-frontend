@@ -1,131 +1,144 @@
-import React, { useState } from 'react'
-import Grid from '../../../../common/grid'
-import Request from '../../../../assets/images/icons/requestServices.svg'
-import Complete from '../../../../assets/images/icons/completeClaim.svg'
-import insurance from '../../../../assets/images/Reporting/insurance.svg'
-import Reserves from '../../../../assets/images/Reporting/Reserves.svg'
-import Broker from '../../../../assets/images/Reporting/Broker.svg'
-import Arrow from '../../../../assets/images/Reporting/icons/arrows.svg'
-import Select from '../../../../common/select'
-import Button from '../../../../common/button'
-import drop from '../../../../assets/images/icons/dropwhite.svg'
-import ChartComponent from '../../../../common/chart'
-import BarChart from '../../../../common/barChart'
+import React, { useState } from "react";
+import Grid from "../../../../common/grid";
+import Request from "../../../../assets/images/icons/requestServices.svg";
+import Complete from "../../../../assets/images/icons/completeClaim.svg";
+import insurance from "../../../../assets/images/Reporting/insurance.svg";
+import Reserves from "../../../../assets/images/Reporting/Reserves.svg";
+import Broker from "../../../../assets/images/Reporting/Broker.svg";
+import Arrow from "../../../../assets/images/Reporting/icons/arrows.svg";
+import Select from "../../../../common/select";
+import Button from "../../../../common/button";
+import drop from "../../../../assets/images/icons/dropwhite.svg";
+import ChartComponent from "../../../../common/chart";
+import Cross from "../../../../assets/images/Cross.png";
+import BarChart from "../../../../common/barChart";
+import LineChart from "../../../../common/lineChart";
+import Modal from "../../../../common/model";
+import SelectedDateRangeComponent from "../../../../common/dateFilter";
 
 function All() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [graphData, setGraphData] = useState([]);
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
+    endDate: new Date(),
+  });
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
-  const toggleDropdown1 = () => {
-    setIsDropdownOpen1(!isDropdownOpen1);
+  const openModal = () => {
+    setIsModalOpen(true);
   };
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue?.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
   };
-    const time = [
-        { label: "march 2024", value: true },
-        { label: "Inactive", value: false },
-      ];
-      const year = [
-        { label: "2024", value: true },
-        { label: "2023", value: false },
-      ];
+
+  const handleApply = () => {
+    const { startDate, endDate } = selectedRange;
+
+    const startDateStr = startDate.toISOString().split("T")[0];
+    const endDateStr = endDate.toISOString().split("T")[0];
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let flag = "daily";
+    console.log(diffDays < 30);
+    if (diffDays < 30) {
+      flag = "daily";
+    } else {
+      flag = "weekly";
+    }
+
+    let data = {
+      startDate: startDateStr,
+      endDate: endDateStr,
+      dealerId: "",
+      priceBookId: [],
+      categoryId: [],
+      flag: flag,
+    };
+
+    // getDatasetAtEvent(data);
+    setIsModalOpen(false);
+  };
+
+  const isValidDateRange = (startDate, endDate) => {
+    const oneYear = 365 * 24 * 60 * 60 * 1000;
+    return endDate - startDate <= oneYear;
+  };
+
+  const handleRangeChange = (ranges) => {
+    const { startDate, endDate } = ranges.selection;
+
+    if (isValidDateRange(startDate, endDate)) {
+      setSelectedRange({
+        startDate: startDate > new Date() ? new Date() : startDate,
+        endDate: endDate > new Date() ? new Date() : endDate,
+      });
+    } else {
+      alert("Selected date range should not exceed 365 days.");
+    }
+  };
   return (
     <>
-    <Grid className='mt-3'>
-       <div className='col-span-6'>
-            <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
-               <div className='flex'>
-                    <img src={Request} className='w-12 h-12' alt='Request'/>
-                    <p className='self-center pl-2 font-bold'>Total requests for service</p>
-                </div>
-                <p className='self-center font-bold text-xl'>3698</p>
-            </div>
-       </div>
-       <div className='col-span-6'>
-            <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-full justify-between">
-                <div className='flex'>
-                    <img src={Complete} className='w-12 h-12' alt='Complete'/>
-                    <p className='self-center pl-2 font-bold'>Total Completed claims</p>
-                </div> 
-                <p className='self-center font-bold text-xl'>1698</p>
-            </div>
-       </div>
-       <div className='col-span-6'>
-       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
-              <Grid>
-                <div className='col-span-7 self-center'>
-                    <p className='text-xl font-bold'>Total Claims Paid</p>
-                </div>
-                <div className='col-span-2 self-center'></div>
-                <div className='col-span-3 self-center'>
-                  
-                     <div className='col-span-2'>
-                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown1}>
-                            <p className='self-center text-[13px]'>
-                        Period
-                        </p>
-                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                            </div>  
-                            {isDropdownOpen1 && (
-                            <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
-                                    <p className='font-semibold border-b'>Period</p>
-                                    <p className='border-b'>Days</p>
-                                    <p>Monthly</p>
-                                </div>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    </div>
-                    
-                  
-              </Grid>
+      <Grid className="mt-3">
+        <div className="col-span-12">
+          <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <Grid className="!gap-1">
+              <div className="col-span-6 self-center">
+                <p className="text-xl font-bold">Total Claims</p>
+              </div>
+              <div className="col-span-6 self-center flex ml-auto">
+                <p className="text-sm self-center mr-5">
+                  {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                </p>
+                <Button className="!bg-white !text-black" onClick={openModal}>
+                  {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
+                  <span className="py-1">Date Filter</span>
+                </Button>
+              </div>
 
-              <BarChart/>
-            </div>
-       </div>
-       <div className='col-span-6'>
-       <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
-              <Grid>
-                <div className='col-span-7 self-center'>
-                    <p className='text-xl font-bold'>Total Claims Pending</p>
-                </div>
-                <div className='col-span-2 self-center'></div>
-                <div className='col-span-3 self-center'>
-                  
-                     <div className='col-span-2'>
-                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown}>
-                            <p className='self-center text-[13px]'>
-                        Period
-                        </p>
-                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                            </div>  
-                            {isDropdownOpen && (
-                            <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
-                                    <p className='font-semibold border-b'>Period</p>
-                                    <p className='border-b'>Days</p>
-                                    <p>Monthly</p>
-                                </div>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    </div>
-                    
-                  
-              </Grid>
+              <div className="col-span-12">
+                <BarChart />
+              </div>
+            </Grid>
+          </div>
+        </div>
+      </Grid>
 
-              <BarChart/>
-            </div>
-       </div>
-    </Grid>
+      <Modal isOpen={isModalOpen} className="w-[72vw]" onClose={closeModal}>
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <SelectedDateRangeComponent
+          selectedRange={selectedRange}
+          onRangeChange={handleRangeChange}
+          onApply={handleApply}
+        />
+        <div className="flex justify-end mb-4">
+          <Button onClick={closeModal} className="mr-3">
+            Cancel
+          </Button>
+          <Button onClick={handleApply}>Apply</Button>
+        </div>
+      </Modal>
     </>
-  )
+  );
 }
 
-export default All
+export default All;
