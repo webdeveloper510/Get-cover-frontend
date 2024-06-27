@@ -96,9 +96,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
               </div>
               <div className="col-span-7 justify-end flex">
                 <p className="pr-4 self-center">
-                  {`${selectedRange.startDate.toISOString().split("T")[0]} to ${
-                    selectedRange.endDate.toISOString().split("T")[0]
-                  }`}{" "}
+                  {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
                 </p>
                 <Button
                   className="!bg-white border-[1px] text-[#2A2A2A] font-normal py-2 border-Light-Grey"
