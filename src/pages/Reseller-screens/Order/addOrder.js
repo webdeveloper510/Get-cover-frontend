@@ -270,6 +270,8 @@ function ResellerAddOrder() {
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
         fileValue: "",
+        priceBookDetails: product?.priceBookDetail || {},
+        dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
       })),
     });
     console.log();
@@ -399,6 +401,8 @@ function ResellerAddOrder() {
           pName: "",
           orderFile: {},
           adh: 0,
+          priceBookDetails: {},
+          dealerPriceBookDetails: {},
         },
       ],
     },
@@ -468,7 +472,19 @@ function ResellerAddOrder() {
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
       });
-
+      productNameOptions.forEach((item, index) => {
+        item.data.forEach((subItem) => {
+          console.log(subItem, index);
+          formikStep3.setFieldValue(
+            `productsArray[${index}].priceBookDetails`,
+            subItem.priceBookDetails
+          );
+          formikStep3.setFieldValue(
+            `productsArray[${index}].dealerPriceBookDetails`,
+            subItem.dealerPriceBookDetails
+          );
+        });
+      });
       setCategoryName(arr);
       setPriceBookName(arr1);
     },
@@ -1143,7 +1159,8 @@ function ResellerAddOrder() {
             return newOptions;
           });
         };
-
+        const priceBookDetails = result?.result?.priceBookDetail;
+        const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
@@ -1157,6 +1174,8 @@ function ResellerAddOrder() {
           pName: item.pName,
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
+          priceBookDetails: priceBookDetails,
+          dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
         // setCategoryList(
@@ -2003,7 +2022,7 @@ function ResellerAddOrder() {
                           }
                         />
                         {formikStep3.touched.productsArray &&
-                           formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index] &&
                           formikStep3.touched.productsArray[index]
                             .coverageStartDate && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
