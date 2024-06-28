@@ -93,7 +93,9 @@ function Notification() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
+  const handleClick = () => {
+    navigate("/destination?myProp=Hello, World!");
+  };
   return (
     <div className="relative overflow-x-hidden min-h-screen bg-grayf9">
       <Headbar />

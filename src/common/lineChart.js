@@ -16,33 +16,33 @@ const LineChart = ({ graphData, flag }) => {
   const keys = [
     {
       key: "total_amount",
-      label: "Total Claim Amount",
+      label: "Claim Amount",
       borderColor: "rgba(255,99,132,1)",
     },
     {
-      key: "total_unpaid_amount",
-      label: "Total Unpaid Claim Amount",
-      borderColor: "rgba(75,192,192,1)",
-    },
-    {
       key: "total_paid_amount",
-      label: "Total Paid Amount",
+      label: "Paid Amount",
       borderColor: "rgba(255,206,86,1)",
     },
     {
-      key: "total_claim",
-      label: "Total Claim;",
+      key: "total_unpaid_amount",
+      label: "Unpaid Claim Amount",
       borderColor: "rgba(75,192,192,1)",
     },
     {
+      key: "total_claim",
+      label: "Claim",
+      borderColor: "rgba(255,99,132,1)",
+    },
+    {
       key: "total_paid_claim",
-      label: "Total Paid Claim",
-      borderColor: "rgba(153,102,255,1)",
+      label: "Paid Claim",
+      borderColor: "rgba(255,206,86,1)",
     },
     {
       key: "total_unpaid_claim",
-      label: "Total Unpaid Claim",
-      borderColor: "rgba(255,159,64,1)",
+      label: "Unpaid Claim",
+      borderColor: "rgba(75,192,192,1)",
     },
     {
       key: "total_order_amount",
@@ -115,7 +115,6 @@ const LineChart = ({ graphData, flag }) => {
       },
     },
   };
-
   return (
     <div>
       <Line data={data} options={options} />

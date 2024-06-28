@@ -778,7 +778,7 @@ function AddCustomer() {
                     <div className="col-span-6 self-center">
                       <p className="text-light-black flex text-[13px]  font-semibold self-center">
                         {" "}
-                        Do you want to create an account123?
+                        Do you want to create an account?
                         <RadioButton
                           id="yes"
                           label="Yes"

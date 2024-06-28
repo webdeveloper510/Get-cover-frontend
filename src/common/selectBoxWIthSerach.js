@@ -30,13 +30,15 @@ const SelectBoxWithSearch = ({
   useEffect(() => {
     setLocalDefaultValue(value ? value : "");
   }, [value, localDefaultValue]);
+
   // Adding an "unselect" option
-  // console.log(emailKey, '-------emailKey-----------')
   const extendedOptions = [
     { value: "", label: "Select" }, // Change the label as per your preference
-    ...options.map(option => ({
+    ...options.map((option) => ({
       value: option.value,
-      label: option.emailKey ? `${option.label} (${option.emailKey})` : option.label // Conditionally include email
+      label: option.emailKey
+        ? `${option.label} (${option.emailKey})`
+        : option.label, // Conditionally include email
     })),
   ];
 
@@ -46,12 +48,15 @@ const SelectBoxWithSearch = ({
       width: "100%",
       margin: "0px 0",
       borderWidth: "1px",
-      fontSize:"16px",
-      color:"#111827",
+      fontSize: "16px",
+      color: "#111827",
       borderRadius: "10px",
       padding: "0.425rem",
       borderColor: state.isFocused ? "#80808085" : provided.borderColor,
       boxShadow: state.isFocused ? "0 0 0 0px #80808085" : provided.boxShadow,
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -81,7 +86,7 @@ const SelectBoxWithSearch = ({
         className={`!w-full SearchSelect ${className1}`}
         isDisabled={isDisabled}
         defaultValue={localDefaultValue}
-        placeholder={pName == '' ? 'Search...' : pName }
+        placeholder={pName === "" ? "Search..." : pName}
       />
       <label
         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 !hover:bg-grayf9 scale-75 ${className} text-[#5D6E66]`}
@@ -94,4 +99,3 @@ const SelectBoxWithSearch = ({
 };
 
 export default SelectBoxWithSearch;
-

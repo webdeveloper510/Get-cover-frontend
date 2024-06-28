@@ -55,6 +55,11 @@ function Sale() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+  const [activeButton, setActiveButton] = useState("dealer");
+
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+  };
 
   return (
     <>
@@ -75,49 +80,121 @@ function Sale() {
             </ul>
           </div>
         </div>
-        <Grid className="!grid-cols-3">
-          <div className="col-span-3">
-            <Grid className="mt-5 grid-cols-7 !gap-0">
-              <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Dealer Name"
-                  className="!bg-white"
-                  className1="filter"
-                  options={state}
-                  pName={"Enter Dealer Name"}
-                />
-              </div>
-              <div className="col-span-2 self-center pl-3">
-                <SelectBoxWithSearch
-                  label=""
-                  name="state"
-                  placeholder="Category Name"
-                  className="!bg-white"
-                  className1="filter"
-                  options={state}
-                  pName={"Enter Category Name"}
-                />
-              </div>
-              <div className="col-span-2 self-center pl-3">
-                <MultiSelect
-                  options={options}
-                  value={selected}
-                  onChange={setSelected}
-                  labelledBy="Select"
-                  overrideStrings={{
-                    selectSomeItems: "Select Product SKU",
-                  }}
-                  className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                />
-              </div>
-              <div className="col-span-1 self-center mx-auto pl-3">
-                <Button>Filter</Button>
-              </div>
+        <Grid className="mt-4 !gap-0">
+          <div className="col-span-3 flex">
+            <div className="self-center px-3 py-1">
+              <small className="p-0">Filter By :</small>
+            </div>
+            <div className="self-center">
+              <Button
+                onClick={() => handleButtonClick("dealer")}
+                className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] !border-[#333333] ${
+                  activeButton !== "dealer" && "!bg-[white] !text-[#333] "
+                }`}
+              >
+                Dealer
+              </Button>
+              <Button
+                onClick={() => handleButtonClick("category")}
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
+                  activeButton === "dealer" && "!bg-[white] !text-[#333] "
+                }`}
+              >
+                Category
+              </Button>
+            </div>
+          </div>
+          <div className="col-span-9">
+            <Grid
+              className={`${
+                activeButton === "dealer" ? "grid-cols-9" : "grid-cols-5"
+              } !gap-0`}
+            >
+              {activeButton === "dealer" && (
+                <>
+                  <div className="col-span-2 self-center">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Dealer Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Dealer Name"
+                    />
+                  </div>
+                  <div className="col-span-2 self-center pl-1">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Reseller Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Reseller Name"
+                    />
+                  </div>
+                  <div className="col-span-2 self-center pl-1">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Category Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Category Name"
+                    />
+                  </div>
+                  <div className="col-span-2 self-center pl-1">
+                    <MultiSelect
+                      options={options}
+                      value={selected}
+                      onChange={setSelected}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
+                  <div className="col-span-1 self-center mx-auto pl-3">
+                    <Button>Filter</Button>
+                  </div>
+                </>
+              )}
+              {activeButton === "category" && (
+                <>
+                  <div className="col-span-2 self-center pl-3">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Category Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Enter Category"
+                    />
+                  </div>
+                  <div className="col-span-2 self-center pl-3">
+                    <MultiSelect
+                      options={options}
+                      value={selected}
+                      onChange={setSelected}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
+                  <div className="col-span-1 self-center mx-auto pl-3">
+                    <Button>Filter</Button>
+                  </div>
+                </>
+              )}
             </Grid>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-12">
             <Grid className=" grid-cols-9 !gap-0">
               <div className="col-span-3 relative">
                 <div

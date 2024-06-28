@@ -143,7 +143,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
                   {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
                 </p>
                 <Button
-                  className="!bg-white border-[1px] text-[#333] font-normal py-2 border-Light-Grey"
+                  className="!bg-white border-[1px] !text-[#333] font-normal py-2 border-Light-Grey"
                   onClick={openModal}
                 >
                   Date Filter
