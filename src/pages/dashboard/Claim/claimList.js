@@ -2064,15 +2064,14 @@ function ClaimList(props) {
               </>
             ) : (
               <>
-                {!loading1 && (
-                  <CustomPagination
-                    totalRecords={totalRecords}
-                    page={pageValue}
-                    rowsPerPageOptions={[10, 20, 50, 100]}
-                    onPageChange={handlePageChange}
-                    setRecordsPerPage={setRecordsPerPage}
-                  />
-                )}
+                <CustomPagination
+                  totalRecords={totalRecords}
+                  page={pageValue}
+                  className={loaderType ? "opacity-0	" : "opacity-100"}
+                  rowsPerPageOptions={[10, 20, 50, 100]}
+                  onPageChange={handlePageChange}
+                  setRecordsPerPage={setRecordsPerPage}
+                />
               </>
               // <CustomPagination
               //   totalRecords={totalRecords}
