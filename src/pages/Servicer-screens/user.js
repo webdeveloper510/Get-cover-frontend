@@ -56,6 +56,7 @@ function ServicerUser() {
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
+  const [active, SetActive] = useState(false);
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
@@ -196,12 +197,13 @@ function ServicerUser() {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
+    passwordChangeForm.resetForm();
     passwordChangeApi(values);
     setSubmitting(false);
   };
 
   const passwordChangeApi = async (values) => {
-    setLoading(true);
+    setLoading1(true);
     const { confirmPassword, ...passwordValues } = values;
 
     try {
@@ -222,7 +224,8 @@ function ServicerUser() {
     } catch (error) {
       console.error("Error changing password:", error);
     } finally {
-      setLoading(false);
+      passwordChangeForm.resetForm();
+      setLoading1(false);
     }
     console.log(passwordValues);
   };
@@ -246,7 +249,7 @@ function ServicerUser() {
 
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
-    formik.setFieldValue(name, value);
+    formik1.setFieldValue(name, value);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -328,8 +331,8 @@ function ServicerUser() {
       console.log(result);
       if (result.code == 200) {
         setLoading(false);
-        SetPrimaryText("User Updated Successfully ");
-        SetSecondaryText("user updated successfully ");
+        SetPrimaryText("Add User Successfully ");
+        SetSecondaryText("user added successfully ");
         SetIsModalOpen(true);
         toggleFlag();
         setIsUserModalOpen(false);
@@ -401,7 +404,7 @@ function ServicerUser() {
     console.log(id);
     const result = await userDetailsById(id);
     console.log(result.result.status);
-    SetIsprimary(result.result.isPrimary);
+    SetActive(result.result.isPrimary);
     setMainStatus(result.mainStatus);
     setInitialFormValues({
       id: id,
@@ -1323,7 +1326,7 @@ function ServicerUser() {
                   id="status"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={isprimary}
+                  disabled={active}
                   className="!bg-white"
                   options={status}
                   value={formik1.values.status}
