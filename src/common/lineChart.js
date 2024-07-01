@@ -29,6 +29,7 @@ const LineChart = ({ graphData, flag }) => {
       label: "Unpaid Claim Amount",
       borderColor: "rgba(75,192,192,1)",
     },
+
     {
       key: "total_claim",
       label: "Claim",
@@ -43,6 +44,11 @@ const LineChart = ({ graphData, flag }) => {
       key: "total_unpaid_claim",
       label: "Unpaid Claim",
       borderColor: "rgba(75,192,192,1)",
+    },
+    {
+      key: "total_rejected_claim",
+      label: "Rejected Claim",
+      borderColor: "#fff700",
     },
     {
       key: "total_order_amount",

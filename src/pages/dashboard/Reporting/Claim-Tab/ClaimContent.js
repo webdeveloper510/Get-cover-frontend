@@ -92,6 +92,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
             total_claim: item.total_claim,
             total_paid_claim: item.total_paid_claim,
             total_unpaid_claim: item.total_unpaid_claim,
+            total_rejected_claim: item.total_rejected_claim,
           };
         });
       }
