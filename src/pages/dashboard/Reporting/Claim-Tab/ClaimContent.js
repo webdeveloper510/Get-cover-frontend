@@ -132,8 +132,8 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
         <div className="col-span-12">
           <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
             <Grid className="!gap-4">
-              <div className="col-span-5 mb-2">
-                <h3 className="text-base font-semibold">
+              <div className="col-span-5 flex pl-3">
+                <h3 className="text-base self-center font-semibold">
                   {activeTab === "Amount"
                     ? "Claims Amount Data"
                     : "Claims Count Data"}
