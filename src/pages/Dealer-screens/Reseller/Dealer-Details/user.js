@@ -74,12 +74,12 @@ function UserList(props) {
     if (props.flag == "customer") {
       const result = await getCustomerUsersById(props.id, {});
       setServiceStatus(true);
-      console.log(result.result, 'setUserList');
+      console.log(result.result, "setUserList");
       setUserList(result.result);
     } else if (props.flag == "reseller") {
       const result = await getResellerUsersById(props.id, {});
       console.log(result);
-      console.log(result.data, 'setUserList');
+      console.log(result.data, "setUserList");
       setUserList(result.data);
       setServiceStatus(result.data[0].status);
     }
@@ -106,7 +106,7 @@ function UserList(props) {
       setLoading(false);
     }
   }, [props?.data]);
-  
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -346,7 +346,7 @@ function UserList(props) {
     },
     {
       name: "Phone Number",
-      selector: (row) => '+1 ' + formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -409,25 +409,28 @@ function UserList(props) {
               >
                 {!row.isPrimary && row.status && (
                   <div
-                  onClick={() => makeUserPrimary(row)}
-                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                    onClick={() => makeUserPrimary(row)}
+                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
                   >
-                   <img src={make} className="w-4 h-4 mr-2"/> <span className="self-center"> Make Primary </span>
+                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
                   onClick={() => editUser(row._id)}
                   className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
-                  >
-                   <img src={edit} className="w-4 h-4 mr-2"/> <span className="self-center">Edit </span>
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                  onClick={() => openModal1(row._id)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1"
+                    onClick={() => openModal1(row._id)}
+                    className="text-left cursor-pointer flex hover:font-semibold py-1"
                   >
-                   <img src={delete1} className="w-4 h-4 mr-2"/> <span className="self-center"> Delete </span>
+                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <span className="self-center"> Delete </span>
                   </div>
                 )}
               </div>
@@ -555,7 +558,9 @@ function UserList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={userList}
                 highlightOnHover
                 sortIcon={
@@ -699,7 +704,7 @@ function UserList(props) {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone Number"
                   required={true}
                   className="!bg-white"
                   placeholder=""

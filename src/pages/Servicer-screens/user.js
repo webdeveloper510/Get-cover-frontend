@@ -1120,7 +1120,7 @@ function ServicerUser() {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone Number"
                   required={true}
                   className="!bg-white"
                   placeholder=""

@@ -42,7 +42,7 @@ function UserList(props) {
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
-  const [dealerStatus, setDealerStatus] = useState(true); 
+  const [dealerStatus, setDealerStatus] = useState(true);
 
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
@@ -301,10 +301,9 @@ function UserList(props) {
 
   const handleFilterIconClick = () => {
     // formikUSerFilter.resetForm();
-    console.log(formikUSerFilter, '11---------------')
+    console.log(formikUSerFilter, "11---------------");
     getUserList();
     formikUSerFilter.resetForm();
-
   };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   const formikUSerFilter = useFormik({
@@ -354,7 +353,7 @@ function UserList(props) {
     },
     {
       name: "Phone Number",
-      selector: (row) => "+1 "+formatPhoneNumber(row.phoneNumber),
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -565,7 +564,9 @@ function UserList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={userList}
                 highlightOnHover
                 sortIcon={
@@ -714,7 +715,7 @@ function UserList(props) {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone Number"
                   required={true}
                   className="!bg-white"
                   placeholder=""
@@ -774,7 +775,7 @@ function UserList(props) {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
-                type="button"
+                  type="button"
                   className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeModal2()}
                 >

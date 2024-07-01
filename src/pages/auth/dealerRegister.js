@@ -23,7 +23,7 @@ import { RotateLoader } from "react-spinners";
 
 function DealerRegister() {
   const history = useLocation();
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [userType, setUserType] = useState("");
@@ -91,7 +91,7 @@ function DealerRegister() {
         .matches(/^[0-9]+$/, "Must contain only digits"),
     }),
     onSubmit: async (values) => {
-      setLoader(true)
+      setLoader(true);
       console.log("Form values:", values);
       const result =
         userType === "Dealer's"
@@ -100,11 +100,11 @@ function DealerRegister() {
       console.log(result.result);
       if (result.code !== 200) {
         setError(result.message);
-        setLoader(false)
+        setLoader(false);
       } else {
         setError("");
         openModal();
-        setLoader(false)
+        setLoader(false);
       }
     },
   });
@@ -145,230 +145,234 @@ function DealerRegister() {
                   <span className="font-semibold"> {error} </span>
                 </p>
               )}
-              {loader ?  
-                            <div className=" h-[400px] w-full flex py-5">
-                            <div className="self-center mx-auto">
-                              <RotateLoader color="#333" />
-                            </div>
-                          </div> :
-              <form>
-              <Grid className="">
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="name"
-                    label="Account Name"
-                    required={true}
-                    placeholder=""
-                    maxLength={"50"}
-                    value={formik.values.name}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    error={formik.touched.name && formik.errors.name}
-                  />
-                  {formik.touched.name && formik.errors.name && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.name}
-                    </div>
-                  )}
+              {loader ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
                 </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="email"
-                    label="Email"
-                    placeholder=""
-                    required={true}
-                    value={formik.values.email}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && formik.errors.email}
-                  />
-                  {formik.touched.email && formik.errors.email && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.email}
+              ) : (
+                <form>
+                  <Grid className="">
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="name"
+                        label="Account Name"
+                        required={true}
+                        placeholder=""
+                        maxLength={"50"}
+                        value={formik.values.name}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={formik.touched.name && formik.errors.name}
+                      />
+                      {formik.touched.name && formik.errors.name && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.name}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="firstName"
-                    label="First Name"
-                    required={true}
-                    placeholder=""
-                    maxLength={"30"}
-                    value={formik.values.firstName}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    error={
-                      formik.touched.firstName && formik.errors.firstName
-                    }
-                  />
-                  {formik.touched.firstName && formik.errors.firstName && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.firstName}
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="email"
+                        label="Email"
+                        placeholder=""
+                        required={true}
+                        value={formik.values.email}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && formik.errors.email}
+                      />
+                      {formik.touched.email && formik.errors.email && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.email}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="lastName"
-                    label="Last Name"
-                    required={true}
-                    placeholder=""
-                    maxLength={"30"}
-                    value={formik.values.lastName}
-                    onBlur={formik.handleBlur}
-                    onChange={formik.handleChange}
-                    error={formik.touched.lastName && formik.errors.lastName}
-                  />
-                  {formik.touched.lastName && formik.errors.lastName && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.lastName}
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="firstName"
+                        label="First Name"
+                        required={true}
+                        placeholder=""
+                        maxLength={"30"}
+                        value={formik.values.firstName}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={
+                          formik.touched.firstName && formik.errors.firstName
+                        }
+                      />
+                      {formik.touched.firstName && formik.errors.firstName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.firstName}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="lastName"
+                        label="Last Name"
+                        required={true}
+                        placeholder=""
+                        maxLength={"30"}
+                        value={formik.values.lastName}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        error={
+                          formik.touched.lastName && formik.errors.lastName
+                        }
+                      />
+                      {formik.touched.lastName && formik.errors.lastName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.lastName}
+                        </div>
+                      )}
+                    </div>
 
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="street"
-                    label="Street Address"
-                    required={true}
-                    placeholder=""
-                    maxLength={"50"}
-                    value={formik.values.street}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.street && formik.errors.street}
-                  />
-                  {formik.touched.street && formik.errors.street && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.street}
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="street"
+                        label="Street Address"
+                        required={true}
+                        placeholder=""
+                        maxLength={"50"}
+                        value={formik.values.street}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.street && formik.errors.street}
+                      />
+                      {formik.touched.street && formik.errors.street && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.street}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="city"
-                    label="City"
-                    placeholder=" "
-                    required={true}
-                    maxLength={"20"}
-                    value={formik.values.city}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.city && formik.errors.city}
-                  />
-                  {formik.touched.city && formik.errors.city && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.city}
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="city"
+                        label="City"
+                        placeholder=" "
+                        required={true}
+                        maxLength={"20"}
+                        value={formik.values.city}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.city && formik.errors.city}
+                      />
+                      {formik.touched.city && formik.errors.city && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.city}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Select
-                    label="State"
-                    name="state"
-                    placeholder=""
-                    required={true}
-                    onChange={handleSelectChange}
-                    options={state}
-                    value={formik.values.state}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.state && formik.errors.state}
-                  />
-                  {formik.touched.state && formik.errors.state && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.state}
+                    <div className="col-span-6">
+                      <Select
+                        label="State"
+                        name="state"
+                        placeholder=""
+                        required={true}
+                        onChange={handleSelectChange}
+                        options={state}
+                        value={formik.values.state}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.state && formik.errors.state}
+                      />
+                      {formik.touched.state && formik.errors.state && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.state}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="country"
-                    label="Country"
-                    required={true}
-                    placeholder=""
-                    value={formik.values.country}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    defaultValue="USA"
-                    error={formik.touched.country && formik.errors.country}
-                    disabled
-                  />
-                  {formik.touched.country && formik.errors.country && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.country}
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="country"
+                        label="Country"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.country}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        defaultValue="USA"
+                        error={formik.touched.country && formik.errors.country}
+                        disabled
+                      />
+                      {formik.touched.country && formik.errors.country && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.country}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="number"
-                    name="zip"
-                    label="Zip Code"
-                    required={true}
-                    placeholder=""
-                    value={formik.values.zip}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    minLength={"5"}
-                    maxLength={"6"}
-                    error={formik.touched.zip && formik.errors.zip}
-                  />
-                  {formik.touched.zip && formik.errors.zip && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.zip}
+                    <div className="col-span-6">
+                      <Input
+                        type="number"
+                        name="zip"
+                        label="Zip Code"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.zip}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        minLength={"5"}
+                        maxLength={"6"}
+                        error={formik.touched.zip && formik.errors.zip}
+                      />
+                      {formik.touched.zip && formik.errors.zip && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.zip}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="tel"
-                    name="phoneNumber"
-                    label="Mobile Number"
-                    required={true}
-                    placeholder=""
-                    value={formik.values.phoneNumber}
-                    onChange={(e) => {
-                      const sanitizedValue = e.target.value.replace(
-                        /[^0-9]/g,
-                        ""
-                      );
-                      console.log(sanitizedValue);
-                      formik.handleChange({
-                        target: {
-                          name: "phoneNumber",
-                          value: sanitizedValue,
-                        },
-                      });
-                    }}
-                    onBlur={formik.handleBlur}
-                    onWheelCapture={(e) => {
-                      e.preventDefault();
-                    }}
-                    minLength={"10"}
-                    maxLength={"10"}
-                    error={
-                      formik.touched.phoneNumber && formik.errors.phoneNumber
-                    }
-                  />
-                  {(formik.touched.phoneNumber || formik.submitCount > 0) &&
-                    formik.errors.phoneNumber && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.phoneNumber}
-                      </div>
-                    )}
-                </div>
-              </Grid>
-              </form>
-              }
-              
+                    <div className="col-span-6">
+                      <Input
+                        type="tel"
+                        name="phoneNumber"
+                        label="Phone Number"
+                        required={true}
+                        placeholder=""
+                        value={formik.values.phoneNumber}
+                        onChange={(e) => {
+                          const sanitizedValue = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                          console.log(sanitizedValue);
+                          formik.handleChange({
+                            target: {
+                              name: "phoneNumber",
+                              value: sanitizedValue,
+                            },
+                          });
+                        }}
+                        onBlur={formik.handleBlur}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                        minLength={"10"}
+                        maxLength={"10"}
+                        error={
+                          formik.touched.phoneNumber &&
+                          formik.errors.phoneNumber
+                        }
+                      />
+                      {(formik.touched.phoneNumber || formik.submitCount > 0) &&
+                        formik.errors.phoneNumber && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.phoneNumber}
+                          </div>
+                        )}
+                    </div>
+                  </Grid>
+                </form>
+              )}
+
               <div>
                 <Button
                   type="submit"
@@ -391,7 +395,11 @@ function DealerRegister() {
             </div>
           </div>
           <div className="col-span-5">
-            <img src={Logi} className="py-5  h-screen mx-auto hidden md:block" alt="Logo " />
+            <img
+              src={Logi}
+              className="py-5  h-screen mx-auto hidden md:block"
+              alt="Logo "
+            />
           </div>
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>

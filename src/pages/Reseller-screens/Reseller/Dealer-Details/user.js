@@ -559,7 +559,9 @@ function UserList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={userList}
                 highlightOnHover
                 sortIcon={
@@ -708,7 +710,7 @@ function UserList(props) {
                 <Input
                   type="tel"
                   name="phoneNumber"
-                  label="Mobile Number"
+                  label="Phone Number"
                   required={true}
                   className="!bg-white"
                   placeholder=""
