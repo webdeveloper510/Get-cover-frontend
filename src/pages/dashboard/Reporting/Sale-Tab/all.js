@@ -12,16 +12,19 @@ import Cross from "../../../../assets/images/Cross.png";
 import LineChart from "../../../../common/lineChart";
 import { getAllSales } from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
+import { useMyContext } from "../../../../context/context";
 
 function All({ activeTab }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [flag, setFlag] = useState("daily");
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
   });
   const [graphData, setGraphData] = useState([]);
   const [totalFees, setTotalFees] = useState({});
+  const { filters, flag1, toggleFilterFlag } = useMyContext();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -30,6 +33,7 @@ function All({ activeTab }) {
   const openModal = () => {
     setIsModalOpen(true);
   };
+  console.log(flag1, filters);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -57,13 +61,13 @@ function All({ activeTab }) {
     } else {
       flag = "weekly";
     }
-
+    setFlag(flag);
     let data = {
       startDate: startDateStr,
       endDate: endDateStr,
-      dealerId: "",
-      priceBookId: [],
-      categoryId: [],
+      dealerId: filters.dealerId,
+      priceBookId: filters.priceBookId,
+      categoryId: filters.categoryId,
       flag: flag,
     };
 
@@ -76,13 +80,13 @@ function All({ activeTab }) {
     getDatasetAtEvent({
       startDate: selectedRange.startDate.toISOString().split("T")[0],
       endDate: selectedRange.endDate.toISOString().split("T")[0],
-      dealerId: "",
-      priceBookId: [],
-      categoryId: [],
-      flag: "daily",
+      dealerId: filters.dealerId,
+      priceBookId: filters.priceBookId,
+      categoryId: filters.categoryId,
+      flag: flag,
     });
     setLoading(false);
-  }, [selectedRange, activeTab]);
+  }, [selectedRange, activeTab, flag1]);
 
   const getDatasetAtEvent = async (data) => {
     setLoading(true);
@@ -92,17 +96,22 @@ function All({ activeTab }) {
       let filteredGraphData;
       if (activeTab === "Amount") {
         filteredGraphData = res.result.graphData.map((item) => {
-          const { total_orders, ...rest } = item;
+          const { total_orders, total_contracts, ...rest } = item;
           return rest;
         });
       } else {
         filteredGraphData = res.result.graphData.map((item) => {
-          return { weekStart: item.weekStart, total_orders: item.total_orders };
+          return {
+            weekStart: item.weekStart,
+            total_orders: item.total_orders,
+            total_contracts: item.total_contracts,
+          };
         });
       }
       console.log(filteredGraphData);
       setGraphData(filteredGraphData);
       setTotalFees(res.result.totalFees);
+      toggleFilterFlag();
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }

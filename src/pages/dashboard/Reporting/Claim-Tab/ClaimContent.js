@@ -80,8 +80,13 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
       let filteredGraphData;
       if (activeTab === "Amount") {
         filteredGraphData = res.result.graphData.map((item) => {
-          const { total_claim, total_paid_claim, total_unpaid_claim, ...rest } =
-            item;
+          const {
+            total_claim,
+            total_paid_claim,
+            total_unpaid_claim,
+            total_rejected_claim,
+            ...rest
+          } = item;
           console.log(rest);
           return rest;
         });

@@ -85,6 +85,11 @@ const LineChart = ({ graphData, flag }) => {
       label: "Total Orders",
       borderColor: "rgba(54,162,235,1)",
     },
+    {
+      key: "total_contracts",
+      label: "Total Contracts",
+      borderColor: "rgba(255,99,132,1)",
+    },
   ];
 
   const datasets = keys
@@ -101,7 +106,6 @@ const LineChart = ({ graphData, flag }) => {
     labels: labels,
     datasets: datasets,
   };
-  console.log(data);
 
   const options = {
     scales: {
