@@ -408,8 +408,10 @@ function ClaimList(props) {
       // setIsLoading(false);
     }
   };
-  const getAllClaims = async (page = 1, rowsPerPage) => {
-    setLoaderType(true);
+  const getAllClaims = async (page = 1, rowsPerPage, loader) => {
+    if (loader) {
+      setLoaderType(false);
+    } else setLoaderType(true);
     setPageValue(page);
     let data = {
       page,
@@ -936,14 +938,15 @@ function ClaimList(props) {
       trackingType: "",
     },
     onSubmit: (values) => {
-      // console.log("Selected tracking type:", values);
+      setLoading1(true);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
-          getAllClaims();
+          getAllClaims(undefined, undefined, true);
           setTrackerView(false);
           Shipment.resetForm();
         }
       );
+      setLoading1(false);
     },
   });
 
@@ -1517,6 +1520,7 @@ function ClaimList(props) {
                                                 value={claimType}
                                                 onChange={handleSelectChange}
                                                 white
+                                                disableFirstOption={true}
                                                 disabled={
                                                   claimStatus.status ==
                                                     "Rejected" ||
@@ -1753,6 +1757,7 @@ function ClaimList(props) {
                                             label=""
                                             value={customerStatus.status}
                                             onChange={handleSelectChange}
+                                            disableFirstOption={true}
                                             disabled={
                                               claimStatus.status ==
                                                 "Rejected" ||
@@ -1806,6 +1811,7 @@ function ClaimList(props) {
                                                 name="claimStatus"
                                                 label=""
                                                 value={claimStatus.status}
+                                                disableFirstOption={true}
                                                 disabled={
                                                   claimStatus.status ==
                                                     "Rejected" ||
@@ -1893,6 +1899,7 @@ function ClaimList(props) {
                                                 label=""
                                                 value={repairStatus.status}
                                                 onChange={handleSelectChange}
+                                                disableFirstOption={true}
                                                 disabled={
                                                   claimStatus.status ==
                                                     "Rejected" ||
@@ -2525,6 +2532,7 @@ function ClaimList(props) {
                               }
                               required={true}
                               className="!bg-white"
+                              disableFirstOption={true}
                               disabled={
                                 formik?.values?.repairParts[index]?.value
                               }
