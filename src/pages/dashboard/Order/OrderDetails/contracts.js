@@ -331,7 +331,8 @@ function Contracts(props) {
                             </p>
                             <p className="text-[#333333] text-base font-semibold">
                               {res?.status}
-                            </p>Contracts List
+                            </p>
+                            Contracts List
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
@@ -353,6 +354,7 @@ function Contracts(props) {
           <CustomPagination
             totalRecords={contractDetails?.contractCount}
             rowsPerPageOptions={[10, 20, 50, 100]}
+            className={loading ? "opacity-0" : "opacity-100"}
             onPageChange={handlePageChange}
             setRecordsPerPage={setRecordsPerPage}
           />
@@ -449,13 +451,12 @@ function Contracts(props) {
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                      ${
-                           singleContract?.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              singleContract?.claimAmount ??
-                                  parseInt(0)
-                              )}
+                        $
+                        {singleContract?.claimAmount === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              singleContract?.claimAmount ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
@@ -466,7 +467,7 @@ function Contracts(props) {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
-                            singleContract?.order?.[0]?.productsArray?.[0]
+                          singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
                         }
                       </p>

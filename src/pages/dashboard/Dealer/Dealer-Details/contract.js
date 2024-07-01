@@ -295,19 +295,23 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  {res?.eligibilty === false ?
-                                  <>
-                                   
-                                   <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
-                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                     
-                                     Not Eligible 
-                                   </p>
-                                   </CommonTooltip> 
-                                  </> : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
+                                  {res?.eligibilty === false ? (
+                                    <>
+                                      <CommonTooltip
+                                        place="left"
+                                        id={`tooltip-${index}`}
+                                        content={res?.reason}
+                                      >
+                                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                          Not Eligible
+                                        </p>
+                                      </CommonTooltip>
+                                    </>
+                                  ) : (
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      Eligible
+                                    </p>
+                                  )}
                                   <p className="text-[#333333] text-base font-semibold">
                                     {res.eligibilty}
                                   </p>
@@ -323,6 +327,7 @@ function ContractList(props) {
               <CustomPagination
                 totalRecords={totalRecords}
                 rowsPerPageOptions={[10, 20, 50, 100]}
+                className={loading ? "opacity-0" : "opacity-100"}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
               />
@@ -429,18 +434,23 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      {singleContract?.eligibilty === false ?
-                                  <>
-                                   <CommonTooltip place="left" id={`tooltip`} content={singleContract?.reason}>
-                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                     
-                                     Not Eligible 
-                                   </p>
-                                   </CommonTooltip> 
-                                  </> : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
+                      {singleContract?.eligibilty === false ? (
+                        <>
+                          <CommonTooltip
+                            place="left"
+                            id={`tooltip`}
+                            content={singleContract?.reason}
+                          >
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                              Not Eligible
+                            </p>
+                          </CommonTooltip>
+                        </>
+                      ) : (
+                        <p className="text-[#333333] text-base font-semibold">
+                          Eligible
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
@@ -489,13 +499,12 @@ function ContractList(props) {
                         Claim Amount
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
-                      ${
-                           singleContract?.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              singleContract?.claimAmount ??
-                                  parseInt(0)
-                              )}
+                        $
+                        {singleContract?.claimAmount === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              singleContract?.claimAmount ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
@@ -506,7 +515,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
-                            singleContract?.order?.[0]?.productsArray?.[0]
+                          singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
                         }
                       </p>
