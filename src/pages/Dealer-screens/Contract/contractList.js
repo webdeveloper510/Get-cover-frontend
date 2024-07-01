@@ -164,7 +164,7 @@ function ContractList(props) {
     contractId: "",
     dealerName: "",
     customerName: "",
-    resellerName:"",
+    resellerName: "",
     servicerName: "",
     manufacture: "",
     status: "",
@@ -441,19 +441,23 @@ function ContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Eligibility
                               </p>
-                              {res?.eligibilty === false ?
-                                  <>
-                                   
-                                   <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
-                                   <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                     
-                                     Not Eligible 
-                                   </p>
-                                   </CommonTooltip> 
-                                  </> : 
-                                   <p className="text-[#333333] text-base font-semibold">
+                              {res?.eligibilty === false ? (
+                                <>
+                                  <CommonTooltip
+                                    place="left"
+                                    id={`tooltip-${index}`}
+                                    content={res?.reason}
+                                  >
+                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                      Not Eligible
+                                    </p>
+                                  </CommonTooltip>
+                                </>
+                              ) : (
+                                <p className="text-[#333333] text-base font-semibold">
                                   Eligible
-                               </p> }
+                                </p>
+                              )}
                               {/* <p className="text-[#333333] text-base font-semibold">
                                 {res?.eligibilty === true
                                   ? "Eligible"
@@ -478,6 +482,7 @@ function ContractList(props) {
             <CustomPagination
               totalRecords={totalRecords}
               page={pageValue}
+              className={loading ? "opacity-0" : "opacity-100"}
               rowsPerPageOptions={[10, 20, 50, 100]}
               onPageChange={handlePageChange}
               setRecordsPerPage={setRecordsPerPage}
@@ -570,15 +575,15 @@ function ContractList(props) {
                     <>
                       {" "}
                       <div className="col-span-6">
-                          <Input
-                            type="text"
-                            name="resellerName"
-                            className="!bg-white"
-                            label="Reseller Name"
-                            {...formik.getFieldProps("resellerName")}
-                            placeholder=""
-                          />
-                        </div>
+                        <Input
+                          type="text"
+                          name="resellerName"
+                          className="!bg-white"
+                          label="Reseller Name"
+                          {...formik.getFieldProps("resellerName")}
+                          placeholder=""
+                        />
+                      </div>
                       <div className="col-span-6">
                         <Input
                           type="text"
@@ -836,7 +841,7 @@ function ContractList(props) {
                       <p className="text-[#333333] text-base font-semibold">
                         {
                           contractDetails?.order?.[0]?.productsArray?.[0]
-                          ?.priceBook?.[0].category.name
+                            ?.priceBook?.[0].category.name
                         }
                       </p>
                     </div>
@@ -892,20 +897,23 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      {contractDetails?.eligibilty === false ?
-                      <> 
-                        <CommonTooltip place="top" id="tooltip-default" content={contractDetails?.reason}>
-                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                          
-                          Not Eligible 
+                      {contractDetails?.eligibilty === false ? (
+                        <>
+                          <CommonTooltip
+                            place="top"
+                            id="tooltip-default"
+                            content={contractDetails?.reason}
+                          >
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                              Not Eligible
+                            </p>
+                          </CommonTooltip>
+                        </>
+                      ) : (
+                        <p className="text-[#333333] text-base font-semibold">
+                          Eligible
                         </p>
-                        </CommonTooltip> 
-                       </>
-                                 : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
-                     
+                      )}
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
@@ -1000,53 +1008,53 @@ function ContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Labour Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                           { new Date(
-                              contractDetails?.labourWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Part Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            { new Date(
-                              contractDetails?.partsWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Purchase Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                          {new Date(
-                              contractDetails?.purchaseDate
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Labour Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetails?.labourWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Part Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetails?.partsWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Purchase Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          contractDetails?.purchaseDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
                   {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>

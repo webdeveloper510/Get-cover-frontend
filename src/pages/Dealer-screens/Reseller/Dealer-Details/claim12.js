@@ -161,11 +161,11 @@ function ClaimList12(props) {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
-const downloadImage = (file) => {
+  const downloadImage = (file) => {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
-      fetch(url, {
-        headers: baseUrl.headers 
-      })
+    fetch(url, {
+      headers: baseUrl.headers,
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -190,10 +190,9 @@ const downloadImage = (file) => {
       });
   };
 
-
   useEffect(() => {
     let intervalId;
-    if (isAttachmentsOpen || isSuccessOpen && timer > 0) {
+    if (isAttachmentsOpen || (isSuccessOpen && timer > 0)) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -206,7 +205,7 @@ const downloadImage = (file) => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [isAttachmentsOpen,isSuccessOpen, timer]);
+  }, [isAttachmentsOpen, isSuccessOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -333,7 +332,7 @@ const downloadImage = (file) => {
   const markClaimsasPaid = async (data) => {
     const apiResponse = await markasPaidClaims(data);
     setMarkLoader(true);
-    setIsPayOpen(false)
+    setIsPayOpen(false);
     setIsSuccessOpen(true);
     console.log(apiResponse);
     if (apiResponse) {
@@ -341,7 +340,7 @@ const downloadImage = (file) => {
     }
     setMarkLoader(false);
   };
-  console.log(props,'-------------------<<<<<<<<<<<<>>>>>>>>>>>>')
+  console.log(props, "-------------------<<<<<<<<<<<<>>>>>>>>>>>>");
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
@@ -354,7 +353,6 @@ const downloadImage = (file) => {
 
     let res;
     if (props.activeTab === "Unpaid Claims") {
-      
       res = await getUnpaidClaims(undefined, data);
     } else {
       res = await getPaidClaims(undefined, data);
@@ -362,7 +360,7 @@ const downloadImage = (file) => {
 
     console.log(res);
     setActiveIndex(null);
-        localStorage.removeItem("activeIndex");
+    localStorage.removeItem("activeIndex");
     setClaimList(res);
     setTotalRecords(res?.totalCount);
     setTimeout(function () {
@@ -585,7 +583,7 @@ const downloadImage = (file) => {
       const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
 
       fetch(url, {
-        headers: baseUrl.headers 
+        headers: baseUrl.headers,
       })
         .then((response) => response.blob())
         .then((blob) => {
@@ -603,7 +601,6 @@ const downloadImage = (file) => {
         });
     });
   };
-
 
   const initialValues2 = {
     content: "",
@@ -687,7 +684,7 @@ const downloadImage = (file) => {
 
       let arr = [];
       const filterServicer = claimList?.result[
-        activeIndex 
+        activeIndex
       ]?.contracts?.allServicer.map((res) => ({
         label: res?.name,
         value: res?._id,
@@ -770,16 +767,16 @@ const downloadImage = (file) => {
     { label: "Completed", value: "completed" },
     { label: "Rejected", value: "rejected" },
   ];
-  console.log(modelLoading, "----------------:::::::::")
+  console.log(modelLoading, "----------------:::::::::");
 
   const openPay = () => {
     setIsPayOpen(true);
     setLoading1(true);
     getClaimUnpaid(checkboxStates).then((res) => {
-        setClaims(res.result.totalClaims)
-        setClaimValues(res.result.unpaidValue)
-        setLoading1(false);
-    })  
+      setClaims(res.result.totalClaims);
+      setClaimValues(res.result.unpaidValue);
+      setLoading1(false);
+    });
   };
   const closePay = () => {
     setIsPayOpen(false);
@@ -979,7 +976,7 @@ const downloadImage = (file) => {
   const [checkboxStates, setCheckboxStates] = useState([]);
 
   const handleCheckboxChange = (id) => {
-    console.log(id , '----------')
+    console.log(id, "----------");
     const isChecked = checkboxStates.includes(id);
     if (isChecked) {
       const newCheckboxStates = checkboxStates.filter(
@@ -989,7 +986,6 @@ const downloadImage = (file) => {
     } else {
       setCheckboxStates([...checkboxStates, id]);
     }
-   
   };
 
   const handleSelectAll = (claimList) => {
@@ -997,7 +993,7 @@ const downloadImage = (file) => {
     const newCheckboxStates = [...checkboxStates, ...ids];
     const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
     setCheckboxStates(uniqueCheckboxStates);
-    console.log(checkboxStates, "----------------:::::::::")
+    console.log(checkboxStates, "----------------:::::::::");
   };
 
   const handleUnselectAll = () => {
@@ -1045,47 +1041,49 @@ const downloadImage = (file) => {
             </Link>
           </>
         )}
-          {loaderType ? <>
+        {loaderType ? (
+          <>
             <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-          </> : 
-        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
-          <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
-            <div className="col-span-2 self-center">
-              <p className="text-xl font-semibold">Claims List</p>
             </div>
-            <div className="col-span-10">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                <form onSubmit={formik1.handleSubmit}>
-                  <Grid className="!gap-1">
-                    <div className="col-span-8 self-center">
-                      <Grid className="!gap-2">
-                        <div className="col-span-6 self-center">
-                          <Input
-                            name="contractId"
-                            type="text"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            label=""
-                            placeholder="Contract ID"
-                            {...formik1.getFieldProps("contractId")}
-                          />
-                        </div>
-                        <div className="col-span-6 self-center">
-                          <Input
-                            name="claimId"
-                            type="text"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            label=""
-                            placeholder="Claim ID"
-                            {...formik1.getFieldProps("claimId")}
-                          />
-                        </div>
-                        {/* <div className="col-span-4 self-center">
+          </>
+        ) : (
+          <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+            <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
+              <div className="col-span-2 self-center">
+                <p className="text-xl font-semibold">Claims List</p>
+              </div>
+              <div className="col-span-10">
+                <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <form onSubmit={formik1.handleSubmit}>
+                    <Grid className="!gap-1">
+                      <div className="col-span-8 self-center">
+                        <Grid className="!gap-2">
+                          <div className="col-span-6 self-center">
+                            <Input
+                              name="contractId"
+                              type="text"
+                              className="!text-[14px] !bg-White-Smoke"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                              label=""
+                              placeholder="Contract ID"
+                              {...formik1.getFieldProps("contractId")}
+                            />
+                          </div>
+                          <div className="col-span-6 self-center">
+                            <Input
+                              name="claimId"
+                              type="text"
+                              className="!text-[14px] !bg-White-Smoke"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                              label=""
+                              placeholder="Claim ID"
+                              {...formik1.getFieldProps("claimId")}
+                            />
+                          </div>
+                          {/* <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1097,7 +1095,7 @@ const downloadImage = (file) => {
                             value={formik1.values.claimStatus}
                           />
                         </div> */}
-                        {/* <div className="col-span-3 self-center">
+                          {/* <div className="col-span-3 self-center">
                           <SelectSearch
                             name="repairStatus"
                             className="!text-[14px] !bg-White-Smoke"
@@ -1109,44 +1107,44 @@ const downloadImage = (file) => {
                             value={formik1.values.repairStatus}
                           />
                         </div> */}
-                      </Grid>
-                    </div>
-                    <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-0 !bg-transparent">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        className="!bg-transparent !p-0"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                      <Button
-                        type="button"
-                        className="ml-2 !text-[13px] !px-2"
-                        onClick={() => openDisapproved()}
-                      >
-                        Advance Search
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
+                        </Grid>
+                      </div>
+                      <div className="col-span-4 self-center flex justify-center">
+                        <Button type="submit" className="!p-0 !bg-transparent">
+                          <img
+                            src={Search}
+                            className="cursor-pointer "
+                            alt="Search"
+                          />
+                        </Button>
+                        <Button
+                          className="!bg-transparent !p-0"
+                          onClick={() => {
+                            handleFilterIconClick();
+                          }}
+                        >
+                          <img
+                            src={clearFilter}
+                            className="cursor-pointer	mx-auto"
+                            alt="clearFilter"
+                          />
+                        </Button>
+                        <Button
+                          type="button"
+                          className="ml-2 !text-[13px] !px-2"
+                          onClick={() => openDisapproved()}
+                        >
+                          Advance Search
+                        </Button>
+                      </div>
+                    </Grid>
+                  </form>
+                </div>
               </div>
-            </div>
-          </Grid>
+            </Grid>
 
-          <div className="px-3 mt-5">
-            {/* {totalRecords == 0 ? <></> :
+            <div className="px-3 mt-5">
+              {/* {totalRecords == 0 ? <></> :
             <>
             {props.activeTab == "Unpaid Claims" && (<>
               {!isCheckBox &&  <div className="text-right mt-8">
@@ -1160,17 +1158,20 @@ const downloadImage = (file) => {
              </> ) }
             </>
             } */}
-             
-             {totalRecords == 0 ?  <></>  : <>
-             {loaderType == true ? (
-               <div className=" h-[400px] w-full flex py-5">
-                 <div className="self-center mx-auto">
-                   <RotateLoader color="#333" />
-                 </div>
-               </div>
-             ) : (
-               <>
-                 {/* {anyCheckboxChecked() && (
+
+              {totalRecords == 0 ? (
+                <></>
+              ) : (
+                <>
+                  {loaderType == true ? (
+                    <div className=" h-[400px] w-full flex py-5">
+                      <div className="self-center mx-auto">
+                        <RotateLoader color="#333" />
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* {anyCheckboxChecked() && (
                    <Grid>
                      <div className="col-span-3">
                        <p>
@@ -1202,308 +1203,325 @@ const downloadImage = (file) => {
                      </div>
                    </Grid>
                  )} */}
-                 {claimList?.result &&
-                   claimList?.result?.length !== 0 &&
-                   claimList?.result?.map((res, index) => {
-                     // console.log(res);
-                     return (
-                       <CollapsibleDiv
-                         index={index}
-                         ShowData={showdata}
-                         activeIndex={activeIndex}
-                         setActiveIndex={setActiveIndex}
-                         title={
-                           <>
-                             {" "}
-                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
-                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                 <p className="font-semibold leading-5 text-lg">
-                                   {" "}
-                                   {res.unique_key}{" "}
-                                 </p>
-                                 <p className="text-[#A3A3A3]">Claim ID</p>
-                               </div>
-                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                 <p className="font-semibold leading-5 text-lg">
-                                   {" "}
-                                   {res?.contracts?.unique_key}{" "}
-                                 </p>
-                                 <p className="text-[#A3A3A3]">Contract ID</p>
-                               </div>
-                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                 <p className="font-semibold leading-5 text-lg">
-                                   {" "}
-                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
-                                 </p>
-                                 <p className="text-[#A3A3A3]">Loss Date</p>
-                               </div>
-                               <div className="col-span-3 self-center justify-left pl-4 flex relative">
-                                 <img
-                                   src={chat}
-                                   className=" mr-2 cursor-pointer"
-                                   onClick={() => openView(res)}
-                                   alt="chat"
-                                 />
-                                 {props.activeTab == "Unpaid Claims" ? (
-                                   isCheckBox ?  <>
-                                     <div key={index} className="border p-[11px] px-[18px] rounded-3xl self-center">
-                                   <input
-                                     id={`push-nothing-${index}`}
-                                     name={`push-notifications-${index}`}
-                                     type="checkbox"
-                                     className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
-                                     onChange={() =>
-                                       handleCheckboxChange(res._id)
-                                     }
-                                     checked={checkboxStates.includes(res._id)}
-                                   />
-                                 </div> 
-                                     </> :<></> 
-                                  
-                                 ) : (
-                                   <></>
-                                 )}
-                               </div>
-                             </Grid>
-                             <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
-                               <div className="col-span-1 flex ">
-                                 <img
-                                   src={productName}
-                                   className="self-center h-[50px] w-[50px] ml-3"
-                                   alt="productName"
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                     Product SKU
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.productName}
-                                   </p>
-                                 </div>
-                               </div>
-                               <div className="col-span-2 flex">
-                                 <img
-                                   src={Manufacturer}
-                                   className="self-center h-[50px] w-[50px] ml-3"
-                                   alt=""
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                     Product Manufacturer
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.manufacture}
-                                   </p>
-                                 </div>
-                               </div>
-                               <div className="col-span-1 flex">
-                                 <img
-                                   src={model}
-                                   className="self-center h-[50px] w-[50px] ml-3"
-                                   alt=""
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                     Product Model
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.model}
-                                   </p>
-                                 </div>
-                               </div>
-                               <div className="col-span-1 flex">
-                                 <img
-                                   src={serial}
-                                   className="self-center h-[50px] w-[50px] ml-3"
-                                   alt=""
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                     Product Serial
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                     {res?.contracts?.serial}
-                                   </p>
-                                 </div>
-                               </div>
-                               <div className="col-span-1 flex">
-                                 <img
-                                   src={Money}
-                                   className="self-center h-[50px] p-1 w-[50px] ml-3"
-                                   alt=""
-                                 />
-                                 <div className="py-4 pl-3 self-center">
-                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Claim Amount
-                                   </p>
-                                   <p className="text-[#333333] text-sm font-semibold">
-                                   ${calculateTotalCost(
-                                         res.repairParts
-                                       )}
-                                   </p>
-                                 </div>
-                               </div>
-                             </Grid>{" "}
-                           </>
-                         }
-                       >
-                        {showdata &&  <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
-                           {res?.repairParts.length > 0 &&
-                             res?.repairParts.map((part, index) => (
-                               <>
-                                 <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
-                                   <div className="py-4 pl-3">
-                                     <p className="text-white text-sm font-Regular">
-                                       Service Type
-                                     </p>
-                                     <p className="text-light-green text-base font-semibold">
-                                       {part.serviceType}
-                                     </p>
-                                   </div>
-                                 </div>
-                                 <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
-                                   <div className="py-4 pl-3">
-                                     <p className="text-white text-sm font-Regular">
-                                       Description
-                                     </p>
-                                     <p className="text-light-green text-base font-semibold">
-                                       {part.description}
-                                     </p>
-                                   </div>
-                                 </div>
-                                 <div className="col-span-2 bg-[#333333] border-b border-Gray28">
-                                   <div className="py-4 pl-3">
-                                     <p className="text-white text-sm font-Regular">
-                                       Price
-                                     </p>
-                                     <p className="text-light-green text-base font-semibold">
-                                       $
-                                       {part.price === undefined
-                                         ? (0).toLocaleString("en-US", {
-                                             minimumFractionDigits: 2,
-                                             maximumFractionDigits: 2,
-                                           })
-                                         : parseFloat(
-                                             part.price === undefined
-                                               ? 0
-                                               : part.price
-                                           ).toLocaleString("en-US", {
-                                             minimumFractionDigits: 2,
-                                             maximumFractionDigits: 2,
-                                           })}
-                                     </p>
-                                   </div>
-                                 </div>
-                               </>
-                             ))}
-                           <div className="col-span-12 ">
-                             <Grid className="">
-                               <div className="col-span-4 py-4 pl-1 ">
-                                 <div className="bg-Eclipse py-2 px-2">
-                                   <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                     Customer Name :{" "}
-                                     <span className="font-semibold text-white">
-                                       {" "}
-                                       {
-                                         res?.contracts?.orders?.customer
-                                           ?.username
-                                       }{" "}
-                                     </span>
-                                   </p>
-                                   <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                     Claim Cost :{" "}
-                                     <span className="font-semibold text-white ml-3">
-                                       {" "}
-                                       ${calculateTotalCost(
-                                         res.repairParts
-                                       )}{" "}
-                                     </span>
-                                   </p>
-                                   <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                     {" "}
-                                     <span className="self-center mr-4">
-                                       Servicer Name :{" "}
-                                     </span>
-                                     {userType != "dealer" ? (
-                                       <Select
-                                         name="servicer"
-                                         label=""
-                                         value={servicer}
-                                         disabled={
-                                           claimStatus.status == "Rejected" ||
-                                           claimStatus.status == "Completed"
-                                         }
-                                         onChange={handleSelectChange}
-                                         white
-                                         className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                         classBox="w-[55%]"
-                                         options={servicerList}
-                                       />
-                                     ) : (
-                                       <>{res?.servicerData?.name}</>
-                                     )}
-                                   </p>
- 
-                                   {userType == "admin" && (
-                                     <>
-                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                         <span className="self-center mr-8">
-                                           Claim Type :
-                                         </span>
-                                         <Select
-                                           name="claimType"
-                                           label=""
-                                           value={claimType.bdAdh}
-                                           onChange={handleSelectChange}
-                                           white
-                                           options={claim}
-                                           className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                           classBox="w-[55%]"
-                                         />
-                                       </p>
-                                       <p className="text-light-green mb-2 text-[11px] font-Regular flex self-center">
-                                         <span className="self-center  mr-3">
-                                           Damage Code :
-                                         </span>
-                                         <Select
-                                           name="claimType"
-                                           label=""
-                                           white
-                                           options={state}
-                                           className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                           classBox="w-[55%]"
-                                         />
-                                       </p>
-                                     </>
-                                   )}
-                                 </div>
-                               </div>
-                               <div className="col-span-4 pt-4">
-                                 <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                   <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                     <p className="text-white text-[11px] p-4">
-                                       Customer Status
-                                     </p>
-                                   </div>
-                                   <div
-                                     className="pl-1 self-center cursor-pointer w-[50%]"
-                                     onClick={handleToggleDropdown}
-                                   >
-                                     <p className="text-white text-sm">
-                                       {customerStatus.status}
-                                     </p>
-                                     <span className="text-light-green">
-                                       {format(
-                                         new Date(
-                                           repairStatus.date
-                                             ? customerStatus?.date
-                                             : new Date()
-                                         ),
-                                         "MM/dd/yyyy"
-                                       )}
-                                     </span>
-                                   </div>
-                                   {/* <div
+                      {claimList?.result &&
+                        claimList?.result?.length !== 0 &&
+                        claimList?.result?.map((res, index) => {
+                          // console.log(res);
+                          return (
+                            <CollapsibleDiv
+                              index={index}
+                              ShowData={showdata}
+                              activeIndex={activeIndex}
+                              setActiveIndex={setActiveIndex}
+                              title={
+                                <>
+                                  {" "}
+                                  <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
+                                    <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
+                                      <p className="font-semibold leading-5 text-lg">
+                                        {" "}
+                                        {res.unique_key}{" "}
+                                      </p>
+                                      <p className="text-[#A3A3A3]">Claim ID</p>
+                                    </div>
+                                    <div className="col-span-3 self-center border-Gray28 border-r p-5">
+                                      <p className="font-semibold leading-5 text-lg">
+                                        {" "}
+                                        {res?.contracts?.unique_key}{" "}
+                                      </p>
+                                      <p className="text-[#A3A3A3]">
+                                        Contract ID
+                                      </p>
+                                    </div>
+                                    <div className="col-span-3 self-center border-Gray28 border-r p-5">
+                                      <p className="font-semibold leading-5 text-lg">
+                                        {" "}
+                                        {format(
+                                          new Date(res.lossDate),
+                                          "MM/dd/yyyy"
+                                        )}
+                                      </p>
+                                      <p className="text-[#A3A3A3]">
+                                        Loss Date
+                                      </p>
+                                    </div>
+                                    <div className="col-span-3 self-center justify-left pl-4 flex relative">
+                                      <img
+                                        src={chat}
+                                        className=" mr-2 cursor-pointer"
+                                        onClick={() => openView(res)}
+                                        alt="chat"
+                                      />
+                                      {props.activeTab == "Unpaid Claims" ? (
+                                        isCheckBox ? (
+                                          <>
+                                            <div
+                                              key={index}
+                                              className="border p-[11px] px-[18px] rounded-3xl self-center"
+                                            >
+                                              <input
+                                                id={`push-nothing-${index}`}
+                                                name={`push-notifications-${index}`}
+                                                type="checkbox"
+                                                className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
+                                                onChange={() =>
+                                                  handleCheckboxChange(res._id)
+                                                }
+                                                checked={checkboxStates.includes(
+                                                  res._id
+                                                )}
+                                              />
+                                            </div>
+                                          </>
+                                        ) : (
+                                          <></>
+                                        )
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </div>
+                                  </Grid>
+                                  <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
+                                    <div className="col-span-1 flex ">
+                                      <img
+                                        src={productName}
+                                        className="self-center h-[50px] w-[50px] ml-3"
+                                        alt="productName"
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Product SKU
+                                        </p>
+                                        <p className="text-[#333333] text-sm font-semibold">
+                                          {res?.contracts?.productName}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-2 flex">
+                                      <img
+                                        src={Manufacturer}
+                                        className="self-center h-[50px] w-[50px] ml-3"
+                                        alt=""
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Product Manufacturer
+                                        </p>
+                                        <p className="text-[#333333] text-sm font-semibold">
+                                          {res?.contracts?.manufacture}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-1 flex">
+                                      <img
+                                        src={model}
+                                        className="self-center h-[50px] w-[50px] ml-3"
+                                        alt=""
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Product Model
+                                        </p>
+                                        <p className="text-[#333333] text-sm font-semibold">
+                                          {res?.contracts?.model}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-1 flex">
+                                      <img
+                                        src={serial}
+                                        className="self-center h-[50px] w-[50px] ml-3"
+                                        alt=""
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Product Serial
+                                        </p>
+                                        <p className="text-[#333333] text-sm font-semibold">
+                                          {res?.contracts?.serial}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-1 flex">
+                                      <img
+                                        src={Money}
+                                        className="self-center h-[50px] p-1 w-[50px] ml-3"
+                                        alt=""
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Claim Amount
+                                        </p>
+                                        <p className="text-[#333333] text-sm font-semibold">
+                                          ${calculateTotalCost(res.repairParts)}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </Grid>{" "}
+                                </>
+                              }
+                            >
+                              {showdata && (
+                                <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
+                                  {res?.repairParts.length > 0 &&
+                                    res?.repairParts.map((part, index) => (
+                                      <>
+                                        <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
+                                          <div className="py-4 pl-3">
+                                            <p className="text-white text-sm font-Regular">
+                                              Service Type
+                                            </p>
+                                            <p className="text-light-green text-base font-semibold">
+                                              {part.serviceType}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
+                                          <div className="py-4 pl-3">
+                                            <p className="text-white text-sm font-Regular">
+                                              Description
+                                            </p>
+                                            <p className="text-light-green text-base font-semibold">
+                                              {part.description}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        <div className="col-span-2 bg-[#333333] border-b border-Gray28">
+                                          <div className="py-4 pl-3">
+                                            <p className="text-white text-sm font-Regular">
+                                              Price
+                                            </p>
+                                            <p className="text-light-green text-base font-semibold">
+                                              $
+                                              {part.price === undefined
+                                                ? (0).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })
+                                                : parseFloat(
+                                                    part.price === undefined
+                                                      ? 0
+                                                      : part.price
+                                                  ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </>
+                                    ))}
+                                  <div className="col-span-12 ">
+                                    <Grid className="">
+                                      <div className="col-span-4 py-4 pl-1 ">
+                                        <div className="bg-Eclipse py-2 px-2">
+                                          <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                            Customer Name :{" "}
+                                            <span className="font-semibold text-white">
+                                              {" "}
+                                              {
+                                                res?.contracts?.orders?.customer
+                                                  ?.username
+                                              }{" "}
+                                            </span>
+                                          </p>
+                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                            Claim Cost :{" "}
+                                            <span className="font-semibold text-white ml-3">
+                                              {" "}
+                                              $
+                                              {calculateTotalCost(
+                                                res.repairParts
+                                              )}{" "}
+                                            </span>
+                                          </p>
+                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                            {" "}
+                                            <span className="self-center mr-4">
+                                              Servicer Name :{" "}
+                                            </span>
+                                            {userType != "dealer" ? (
+                                              <Select
+                                                name="servicer"
+                                                label=""
+                                                value={servicer}
+                                                disabled={
+                                                  claimStatus.status ==
+                                                    "Rejected" ||
+                                                  claimStatus.status ==
+                                                    "Completed"
+                                                }
+                                                onChange={handleSelectChange}
+                                                white
+                                                className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                classBox="w-[55%]"
+                                                options={servicerList}
+                                              />
+                                            ) : (
+                                              <>{res?.servicerData?.name}</>
+                                            )}
+                                          </p>
+
+                                          {userType == "admin" && (
+                                            <>
+                                              <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center mr-8">
+                                                  Claim Type :
+                                                </span>
+                                                <Select
+                                                  name="claimType"
+                                                  label=""
+                                                  value={claimType.bdAdh}
+                                                  onChange={handleSelectChange}
+                                                  white
+                                                  options={claim}
+                                                  className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                  classBox="w-[55%]"
+                                                />
+                                              </p>
+                                              <p className="text-light-green mb-2 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center  mr-3">
+                                                  Damage Code :
+                                                </span>
+                                                <Select
+                                                  name="claimType"
+                                                  label=""
+                                                  white
+                                                  options={state}
+                                                  className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                  classBox="w-[55%]"
+                                                />
+                                              </p>
+                                            </>
+                                          )}
+                                        </div>
+                                      </div>
+                                      <div className="col-span-4 pt-4">
+                                        <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                          <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                            <p className="text-white text-[11px] p-4">
+                                              Customer Status
+                                            </p>
+                                          </div>
+                                          <div
+                                            className="pl-1 self-center cursor-pointer w-[50%]"
+                                            onClick={handleToggleDropdown}
+                                          >
+                                            <p className="text-white text-sm">
+                                              {customerStatus.status}
+                                            </p>
+                                            <span className="text-light-green">
+                                              {format(
+                                                new Date(
+                                                  repairStatus.date
+                                                    ? customerStatus?.date
+                                                    : new Date()
+                                                ),
+                                                "MM/dd/yyyy"
+                                              )}
+                                            </span>
+                                          </div>
+                                          {/* <div
                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                      ref={dropdownRef}
                                      onClick={handleToggleDropdown}
@@ -1524,34 +1542,34 @@ const downloadImage = (file) => {
                                        visible={dropdownVisible}
                                      />
                                    </div> */}
-                                 </div>
-                                 <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                   <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                     <p className="text-white text-[11px] p-4">
-                                       Claim Status
-                                     </p>
-                                   </div>
-                                   <div
-                                     className="pl-1 self-center w-[50%] cursor-pointer "
-                                     onClick={handleToggleDropdown2}
-                                   >
-                                     <p className="text-white text-sm">
-                                       {" "}
-                                       {claimStatus.status}
-                                     </p>
-                                     <p className="text-light-green">
-                                       {" "}
-                                       {format(
-                                         new Date(
-                                           repairStatus.date
-                                             ? claimStatus?.date
-                                             : new Date()
-                                         ),
-                                         "MM/dd/yyyy"
-                                       )}
-                                     </p>
-                                   </div>
-                                   {/* <div
+                                        </div>
+                                        <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                          <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                            <p className="text-white text-[11px] p-4">
+                                              Claim Status
+                                            </p>
+                                          </div>
+                                          <div
+                                            className="pl-1 self-center w-[50%] cursor-pointer "
+                                            onClick={handleToggleDropdown2}
+                                          >
+                                            <p className="text-white text-sm">
+                                              {" "}
+                                              {claimStatus.status}
+                                            </p>
+                                            <p className="text-light-green">
+                                              {" "}
+                                              {format(
+                                                new Date(
+                                                  repairStatus.date
+                                                    ? claimStatus?.date
+                                                    : new Date()
+                                                ),
+                                                "MM/dd/yyyy"
+                                              )}
+                                            </p>
+                                          </div>
+                                          {/* <div
                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                      ref={dropdownRef}
                                    >
@@ -1570,32 +1588,32 @@ const downloadImage = (file) => {
                                        visible={dropdownVisible}
                                      />
                                    </div> */}
-                                 </div>
-                                 <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
-                                   <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                     <p className="text-white text-[11px] p-4">
-                                       Repair Status
-                                     </p>
-                                   </div>
-                                   <div
-                                     className="pl-1 cursor-pointer w-[50%]"
-                                     onClick={handleToggleDropdown1}
-                                   >
-                                     <p className="text-white text-sm">
-                                       {repairStatus.status}
-                                     </p>
-                                     <p className="text-light-green">
-                                       {format(
-                                         new Date(
-                                           repairStatus.date
-                                             ? repairStatus.date
-                                             : new Date()
-                                         ),
-                                         "MM/dd/yyyy"
-                                       )}
-                                     </p>
-                                   </div>
-                                   {/* <div
+                                        </div>
+                                        <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                          <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                            <p className="text-white text-[11px] p-4">
+                                              Repair Status
+                                            </p>
+                                          </div>
+                                          <div
+                                            className="pl-1 cursor-pointer w-[50%]"
+                                            onClick={handleToggleDropdown1}
+                                          >
+                                            <p className="text-white text-sm">
+                                              {repairStatus.status}
+                                            </p>
+                                            <p className="text-light-green">
+                                              {format(
+                                                new Date(
+                                                  repairStatus.date
+                                                    ? repairStatus.date
+                                                    : new Date()
+                                                ),
+                                                "MM/dd/yyyy"
+                                              )}
+                                            </p>
+                                          </div>
+                                          {/* <div
                                      className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                      ref={dropdownRef}
                                      onClick={handleToggleDropdown1}
@@ -1615,32 +1633,32 @@ const downloadImage = (file) => {
                                        visible={dropdownVisible}
                                      />
                                    </div> */}
-                                 </div>
-                               </div>
-                               <div className="col-span-4 pt-2">
-                                 <div className="m-2 p-2 bg-Eclipse ">
-                                   <p className="text-[11px] text-white">
-                                     Diagnosis
-                                   </p>
-                                   <div
-                                     className={` overflow-y-scroll Diagnosis ${
-                                       res?.receiptImage != ""
-                                         ? "h-[130px] max-h-[130px]"
-                                         : "h-[164px] max-h-[164px]"
-                                     }`}
-                                   >
-                                     <p className="text-sm text-light-green">
-                                       {res.diagnosis}
-                                     </p>
-                                   </div>
-                                 </div>
-                                 {res?.receiptImage == "" ? (
-                                   ""
-                                 ) : (
-                                   <div>
-                                     <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                       <div className="col-span-4"></div>
-                                       {/* <Button
+                                        </div>
+                                      </div>
+                                      <div className="col-span-4 pt-2">
+                                        <div className="m-2 p-2 bg-Eclipse ">
+                                          <p className="text-[11px] text-white">
+                                            Diagnosis
+                                          </p>
+                                          <div
+                                            className={` overflow-y-scroll Diagnosis ${
+                                              res?.receiptImage != ""
+                                                ? "h-[130px] max-h-[130px]"
+                                                : "h-[164px] max-h-[164px]"
+                                            }`}
+                                          >
+                                            <p className="text-sm text-light-green">
+                                              {res.diagnosis}
+                                            </p>
+                                          </div>
+                                        </div>
+                                        {res?.receiptImage == "" ? (
+                                          ""
+                                        ) : (
+                                          <div>
+                                            <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
+                                              <div className="col-span-4"></div>
+                                              {/* <Button
                                        className="!bg-white col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                        onClick={handleToggle}
                                      >
@@ -1651,71 +1669,73 @@ const downloadImage = (file) => {
                                        />
                                        Track Repair Status
                                      </Button> */}
-                                       {res.receiptImage != null && (
-                                         <Button
-                                           className="!bg-white col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
-                                           onClick={() => {
-                                             downloadAttachments(
-                                               res.receiptImage
-                                             );
-                                           }}
-                                         >
-                                           <img
-                                             src={download}
-                                             className="w-5 h-5 mr-2"
-                                             alt="download"
-                                           />
-                                           <p className="text-[13px] font-semibold text-center">
-                                             Download Attachments
-                                           </p>
-                                         </Button>
-                                       )}
-                                     </Grid>
-                                   </div>
-                                 )}
-                               </div>
-                             </Grid>
-                             {res.claimFile == "Rejected" && (
-                               <div className="px-3 mb-4">
-                                 <Grid>
-                                   <div className="col-span-12">
-                                     <p className="text-white">
-                                       <b>Reason For Rejection : </b>{" "}
-                                       <span>{res.reason}</span>
-                                     </p>
-                                   </div>
-                                 </Grid>
-                               </div>
-                             )}
-                           </div>
-                         </Grid>}
-                        
-                       </CollapsibleDiv>
-                     );
-                   })}
-               </>
-             )}
-             </> }
+                                              {res.receiptImage != null && (
+                                                <Button
+                                                  className="!bg-white col-span-8 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                                  onClick={() => {
+                                                    downloadAttachments(
+                                                      res.receiptImage
+                                                    );
+                                                  }}
+                                                >
+                                                  <img
+                                                    src={download}
+                                                    className="w-5 h-5 mr-2"
+                                                    alt="download"
+                                                  />
+                                                  <p className="text-[13px] font-semibold text-center">
+                                                    Download Attachments
+                                                  </p>
+                                                </Button>
+                                              )}
+                                            </Grid>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </Grid>
+                                    {res.claimFile == "Rejected" && (
+                                      <div className="px-3 mb-4">
+                                        <Grid>
+                                          <div className="col-span-12">
+                                            <p className="text-white">
+                                              <b>Reason For Rejection : </b>{" "}
+                                              <span>{res.reason}</span>
+                                            </p>
+                                          </div>
+                                        </Grid>
+                                      </div>
+                                    )}
+                                  </div>
+                                </Grid>
+                              )}
+                            </CollapsibleDiv>
+                          );
+                        })}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+            <div>
+              {claimList?.result?.length == 0 ? (
+                <>
+                  <div className="text-center my-5">
+                    <p>No records found.</p>
+                  </div>
+                </>
+              ) : (
+                <CustomPagination
+                  totalRecords={totalRecords}
+                  page={pageValue}
+                  className={loaderType ? "opacity-0" : "opacity-100"}
+                  rowsPerPageOptions={[10, 20, 50, 100]}
+                  onPageChange={handlePageChange}
+                  setRecordsPerPage={setRecordsPerPage}
+                />
+              )}
+            </div>
           </div>
-          <div>
-            {claimList?.result?.length == 0 ? (
-              <>
-                <div className="text-center my-5">
-                  <p>No records found.</p>
-                </div>
-              </>
-            ) : (
-              <CustomPagination
-                totalRecords={totalRecords}
-                page={pageValue}
-                rowsPerPageOptions={[10, 20, 50, 100]}
-                onPageChange={handlePageChange}
-                setRecordsPerPage={setRecordsPerPage}
-              />
-            )}
-          </div>
-        </div>
-          }
+        )}
       </div>
 
       <Modal isOpen={isPayOpen} onClose={closePay}>
@@ -1728,57 +1748,66 @@ const downloadImage = (file) => {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-          { loading1 ? (
-            <>
+        {loading1 ? (
+          <>
             <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
               </div>
-              </>
-          ) : (
-             <div className="p-3 text-center">
-             <img src={request} alt="email Image" className="mx-auto" />
-             <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
-               {" "}
-               <span className="text-light-black"> Marked As Paid </span>
-             </p>
-             <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-             You have <span className="text-light-black">{claims} unpaid</span> claim with <span className="text-light-black">${formatOrderValue(claimValues ?? parseInt(0))}</span> amount.<br/> Do you want to paid ?
-             </p>
-             <div className="mt-4">
-               <Grid>
-                 <div className="col-span-3"></div>
-                 <div className="col-span-3">
-                   <Button
-                   className='w-full'
-                     onClick={() => {
-                       markClaimsasPaid(checkboxStates);
-                     }}
-                   >
-                     Yes
-                   </Button>
-                 </div>
-                 <div className="col-span-3">
-                   <Button onClick={closePay} className='w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]'>No</Button>
-                 </div>
-                 <div className="col-span-3"></div>
-               </Grid>
-             </div>
-           </div>
-          )}
-       
+            </div>
+          </>
+        ) : (
+          <div className="p-3 text-center">
+            <img src={request} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+              {" "}
+              <span className="text-light-black"> Marked As Paid </span>
+            </p>
+            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
+              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+              claim with{" "}
+              <span className="text-light-black">
+                ${formatOrderValue(claimValues ?? parseInt(0))}
+              </span>{" "}
+              amount.
+              <br /> Do you want to paid ?
+            </p>
+            <div className="mt-4">
+              <Grid>
+                <div className="col-span-3"></div>
+                <div className="col-span-3">
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      markClaimsasPaid(checkboxStates);
+                    }}
+                  >
+                    Yes
+                  </Button>
+                </div>
+                <div className="col-span-3">
+                  <Button
+                    onClick={closePay}
+                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                  >
+                    No
+                  </Button>
+                </div>
+                <div className="col-span-3"></div>
+              </Grid>
+            </div>
+          </div>
+        )}
       </Modal>
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              
-               <span className="text-light-black"> Claim Successfully Paid </span>
-             </p>
-             <p className="text-neutral-grey text-base font-medium mt-2 ">
-             You have successfully marked the Claim as paid
-             </p>
+            <span className="text-light-black"> Claim Successfully Paid </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2 ">
+            You have successfully marked the Claim as paid
+          </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
@@ -2396,17 +2425,18 @@ const downloadImage = (file) => {
                   value={formik1.values.repairStatus}
                 />
               </div>
-              {props.activeTab == "Unpaid Claims" &&
-              <div className="col-span-6">
-                <Select
-                  options={days}
-                  name="noOfDays"
-                  label="No Of Days Passed"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.noOfDays}
-                />
-              </div>}
+              {props.activeTab == "Unpaid Claims" && (
+                <div className="col-span-6">
+                  <Select
+                    options={days}
+                    name="noOfDays"
+                    label="No Of Days Passed"
+                    className="!bg-white"
+                    onChange={handleSelectChange2}
+                    value={formik1.values.noOfDays}
+                  />
+                </div>
+              )}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

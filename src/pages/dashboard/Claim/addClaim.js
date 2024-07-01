@@ -591,26 +591,6 @@ function AddClaim() {
                           </tbody>
                         </table>
                       </>
-                      //      <DataTable
-                      //      columns={columns}
-                      //      data={contractList}
-                      //      progressPending={loading}
-                      //      pagination
-                      //      paginationServer
-                      //       sortIcon={
-                      //   <>
-                      //     {" "}
-                      //     <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                      //   </>
-                      // }
-                      //      noDataComponent={<CustomNoDataComponent />}
-                      //      paginationTotalRows={totalRecords}
-                      //      paginationRowsPerPageOptions={[10, 20, 50, 100]}
-                      //      onChangeRowsPerPage={handlePerRowsChange}
-                      //      onChangePage={
-                      //        handlePageChange
-                      //     }
-                      //    />
                     )}
                   </div>
                   <div className="col-span-12">
@@ -620,6 +600,7 @@ function AddClaim() {
                           <CustomPagination
                             totalRecords={totalRecords}
                             page={pageValue}
+                            className={loading123 ? "opacity-0" : "opacity-100"}
                             rowsPerPageOptions={[10, 20, 50, 100]}
                             onPageChange={handlePageChange}
                             setRecordsPerPage={setRecordsPerPage}

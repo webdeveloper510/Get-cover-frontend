@@ -398,6 +398,7 @@ function ContractList(props) {
               <CustomPagination
                 totalRecords={totalRecords}
                 page={pageValue}
+                className={loading ? "opacity-0" : "opacity-100"}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}

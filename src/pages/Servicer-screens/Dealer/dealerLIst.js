@@ -17,12 +17,9 @@ import {
   getDealersListServicerPortal,
 } from "../../../services/dealerServices";
 import shorting from "../../../assets/images/icons/shorting.svg";
-import Loader from "../../../assets/images/Loader.gif";
-import view from "../../../assets/images/eye.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
-import axios from "axios";
 
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
@@ -197,73 +194,6 @@ function ServicerDealerList() {
         }`,
       sortable: true,
     },
-    // {
-    //   name: "Status",
-    //   selector: (row) => row.dealerData.accountStatus,
-    //   sortable: true,
-    //   cell: (row) => (
-    //     <div className="relative">
-    //       <div
-    //         className={` ${
-    //           row.dealerData.accountStatus === true
-    //             ? "bg-[#6BD133]"
-    //             : "bg-[#FF4747]"
-    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-    //       ></div>
-    //       <select
-    //         value={
-    //           row.dealerData.accountStatus === true ? "active" : "inactive"
-    //         }
-    //         onChange={(e) => handleStatusChange(row, e.target.value)}
-    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-    //       >
-    //         <option value="active">Active</option>
-    //         <option value="inactive">Inactive</option>
-    //       </select>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   name: "Action",
-    //   minWidth: "auto",
-    //   maxWidth: "90px",
-    //   cell: (row, index) => {
-    //     // console.log(index, index % 10 == 9)
-    //     return (
-    //       <div className="relative">
-    //         <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.dealerData.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-3 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             {/* <img
-    //               src={arrowImage}
-    //               className={`absolute  object-contain left-1/2 w-[12px] ${
-    //                 index % 10 === 9 ? "bottom-[-5px] rotate-180" : "top-[-5px]"
-    //               } `}
-    //               alt="up arror"
-    //             /> */}
-    //             <Link
-    //               to={`/dealerDetails/${row?.dealerData._id}`}
-    //               className="text-center py-1 px-2"
-    //             >
-    //               <img src={view} className="w-4 h-4 mr-2" />  View
-    //             </Link>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   return (

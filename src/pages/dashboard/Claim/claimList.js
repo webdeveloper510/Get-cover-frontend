@@ -913,7 +913,7 @@ function ClaimList(props) {
       trackingType: "",
     },
     onSubmit: (values) => {
-      // console.log("Selected tracking type:", values);
+      setLoading1(true);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
           getAllClaims(undefined, undefined, true);
@@ -922,6 +922,9 @@ function ClaimList(props) {
           Shipment.resetForm();
         }
       );
+      setTimeout(() => {
+        setLoading1(false);
+      }, 3000);
     },
   });
 
@@ -1555,6 +1558,7 @@ function ClaimList(props) {
                                               value={claimType}
                                               onChange={handleSelectChange}
                                               white
+                                              disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ===
                                                   "Rejected" ||
@@ -1792,6 +1796,7 @@ function ClaimList(props) {
                                             <Select
                                               name="customerStatus"
                                               label=""
+                                              disableFirstOption={true}
                                               value={customerStatus.status}
                                               onChange={handleSelectChange}
                                               disabled={
@@ -1848,6 +1853,7 @@ function ClaimList(props) {
                                                 <Select
                                                   name="claimStatus"
                                                   label=""
+                                                  disableFirstOption={true}
                                                   value={claimStatus.status}
                                                   disabled={
                                                     claimStatus.status ==
@@ -1941,6 +1947,7 @@ function ClaimList(props) {
                                                   <Select
                                                     name="repairStatus"
                                                     label=""
+                                                    disableFirstOption={true}
                                                     value={repairStatus.status}
                                                     onChange={
                                                       handleSelectChange
@@ -2380,6 +2387,7 @@ function ClaimList(props) {
                 <Select
                   name="type"
                   options={sendto}
+                  disableFirstOption={true}
                   placeholder=""
                   className="!bg-white "
                   classBox="w-full self-center"

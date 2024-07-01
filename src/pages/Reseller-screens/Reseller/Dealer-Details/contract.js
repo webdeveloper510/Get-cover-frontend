@@ -288,14 +288,12 @@ function ContractList(props) {
                               </div>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Order ID :{" "}
-                                  <b> {res?.orderUniqueKey} </b>
+                                  Order ID : <b> {res?.orderUniqueKey} </b>
                                 </p>
                               </div>
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
                                 <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. # :{" "}
-                                  <b> {res?.venderOrder} </b>
+                                  Dealer P.O. # : <b> {res?.venderOrder} </b>
                                 </p>
                               </div>
                               <div className="col-span-1 self-center justify-end">
@@ -359,19 +357,23 @@ function ContractList(props) {
                                   <p className="text-[#5D6E66] text-sm font-Regular">
                                     Eligibility
                                   </p>
-                                  {res?.eligibilty === false ?
-                                  <>
-                                  <CommonTooltip place="left" id={`tooltip-${index}`} content={res?.reason}>
-                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                      
-                                      Not Eligible 
+                                  {res?.eligibilty === false ? (
+                                    <>
+                                      <CommonTooltip
+                                        place="left"
+                                        id={`tooltip-${index}`}
+                                        content={res?.reason}
+                                      >
+                                        <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                          Not Eligible
+                                        </p>
+                                      </CommonTooltip>
+                                    </>
+                                  ) : (
+                                    <p className="text-[#333333] text-base font-semibold">
+                                      Eligible
                                     </p>
-                                  </CommonTooltip> 
-                                  </>
-                                  : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
+                                  )}
                                 </div>
                               </div>
                             </Grid>
@@ -385,6 +387,7 @@ function ContractList(props) {
               <CustomPagination
                 totalRecords={totalRecords}
                 page={pageValue}
+                className={loading ? "opacity-0" : "opacity-100"}
                 rowsPerPageOptions={[10, 20, 50, 100]}
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
@@ -492,20 +495,24 @@ function ContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      {singleContract?.eligibilty === false ?
-                                  <>
-                                  <CommonTooltip place="top" id={`tooltip`} content={singleContract?.reason}>
-                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
-                                      
-                                      Not Eligible 
-                                    </p>
-                                  </CommonTooltip> 
-                                  </>
-                                  : 
-                                   <p className="text-[#333333] text-base font-semibold">
-                                  Eligible
-                               </p> }
-                        {/* {singleContract?.eligibilty === true
+                      {singleContract?.eligibilty === false ? (
+                        <>
+                          <CommonTooltip
+                            place="top"
+                            id={`tooltip`}
+                            content={singleContract?.reason}
+                          >
+                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                              Not Eligible
+                            </p>
+                          </CommonTooltip>
+                        </>
+                      ) : (
+                        <p className="text-[#333333] text-base font-semibold">
+                          Eligible
+                        </p>
+                      )}
+                      {/* {singleContract?.eligibilty === true
                                   ? "Eligible"
                                   : "Not Eligible "}
                       </p> */}
@@ -538,7 +545,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-[#333333] text-base font-semibold">
                         {
-                            singleContract?.order?.[0]?.productsArray?.[0]
+                          singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
                         }
                       </p>
@@ -564,7 +571,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                 
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -591,7 +598,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -621,9 +628,8 @@ function ContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeStart ??
-                                    parseInt(0)
+                                  singleContract?.order?.[0]?.productsArray?.[0]
+                                    ?.rangeStart ?? parseInt(0)
                                 )}
                           </p>
                         </div>
@@ -639,9 +645,8 @@ function ContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeEnd ??
-                                    parseInt(0)
+                                  singleContract?.order?.[0]?.productsArray?.[0]
+                                    ?.rangeEnd ?? parseInt(0)
                                 )}{" "}
                           </p>
                         </div>
@@ -684,53 +689,53 @@ function ContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Labour Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                           { new Date(
-                              singleContract?.labourWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Part Warranty Start Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                            { new Date(
-                              singleContract?.partsWarranty
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-span-1 border border-Light-Grey ">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Purchase Date
-                          </p>
-                          <p className="text-[#333333] text-base font-semibold">
-                          {new Date(
-                              singleContract?.purchaseDate
-                            ).toLocaleDateString("en-US", {
-                              month: "2-digit",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Labour Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          singleContract?.labourWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Part Warranty Start Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          singleContract?.partsWarranty
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey ">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Purchase Date
+                      </p>
+                      <p className="text-[#333333] text-base font-semibold">
+                        {new Date(
+                          singleContract?.purchaseDate
+                        ).toLocaleDateString("en-US", {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
                   "Quantity Pricing" ? (
                     <>
@@ -769,82 +774,82 @@ function ContractList(props) {
       </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-            <Button
-              onClick={closeDisapproved}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-            >
-              <img
-                src={Cross}
-                className="w-full h-full text-black rounded-full p-0"
-              />
-            </Button>
-            <form onSubmit={formik.handleSubmit}>
-              <div className="py-3">
-                <p className="text-center text-3xl font-semibold ">
-                  Advance Search
-                </p>
-                <Grid className="mt-5 px-6">
+        <Button
+          onClick={closeDisapproved}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="py-3">
+            <p className="text-center text-3xl font-semibold ">
+              Advance Search
+            </p>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="contractId"
+                  className="!bg-white"
+                  label="Contract ID"
+                  placeholder=""
+                  {...formik.getFieldProps("contractId")}
+                />
+              </div>
+              {props.orderId == null ? (
+                <>
                   <div className="col-span-6">
                     <Input
                       type="text"
-                      name="contractId"
+                      name="orderId"
                       className="!bg-white"
-                      label="Contract ID"
+                      label="Order ID"
+                      {...formik.getFieldProps("orderId")}
                       placeholder=""
-                      {...formik.getFieldProps("contractId")}
                     />
                   </div>
-                  {props.orderId == null ? (
-                    <>
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="orderId"
-                          className="!bg-white"
-                          label="Order ID"
-                          {...formik.getFieldProps("orderId")}
-                          placeholder=""
-                        />
-                      </div>
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="venderOrder"
-                          className="!bg-white"
-                          label="Dealer P.O. #"
-                          {...formik.getFieldProps("venderOrder")}
-                          placeholder=""
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="venderOrder"
+                      className="!bg-white"
+                      label="Dealer P.O. #"
+                      {...formik.getFieldProps("venderOrder")}
+                      placeholder=""
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
 
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="serial"
-                      className="!bg-white"
-                      label="Serial #"
-                      placeholder=""
-                      {...formik.getFieldProps("serial")}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="productName"
-                      className="!bg-white"
-                      label="Product Name"
-                      placeholder=""
-                      {...formik.getFieldProps("productName")}
-                    />
-                  </div>
-                  {props.orderId == null ? (
-                    <>
-                      {" "}
-                      {/* <div className="col-span-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="serial"
+                  className="!bg-white"
+                  label="Serial #"
+                  placeholder=""
+                  {...formik.getFieldProps("serial")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="productName"
+                  className="!bg-white"
+                  label="Product Name"
+                  placeholder=""
+                  {...formik.getFieldProps("productName")}
+                />
+              </div>
+              {props.orderId == null ? (
+                <>
+                  {" "}
+                  {/* <div className="col-span-6">
                           <Input
                             type="text"
                             name="dealerName"
@@ -854,72 +859,72 @@ function ContractList(props) {
                             placeholder=""
                           />
                         </div> */}
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="customerName"
-                          className="!bg-white"
-                          label="Customer Name"
-                          {...formik.getFieldProps("customerName")}
-                          placeholder=""
-                        />
-                      </div>
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="servicerName"
-                          className="!bg-white"
-                          label="Servicer Name"
-                          {...formik.getFieldProps("servicerName")}
-                          placeholder=""
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="customerName"
+                      className="!bg-white"
+                      label="Customer Name"
+                      {...formik.getFieldProps("customerName")}
+                      placeholder=""
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="servicerName"
+                      className="!bg-white"
+                      label="Servicer Name"
+                      {...formik.getFieldProps("servicerName")}
+                      placeholder=""
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
 
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="model"
-                      className="!bg-white"
-                      label="Model"
-                      placeholder=""
-                      {...formik.getFieldProps("model")}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="manufacture"
-                      className="!bg-white"
-                      label="Manufacturer"
-                      placeholder=""
-                      {...formik.getFieldProps("manufacture")}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      label="Status"
-                      options={status}
-                      color="text-Black-Russian opacity-50"
-                      value={selectedProduct}
-                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                      className="!text-[14px] !bg-white"
-                      selectedValue={selectedProduct}
-                      onChange={handleSelectChange1}
-                    />
-                  </div>
-                  <div className="col-span-12">
-                    <Button type="submit" className={"w-full"}>
-                      Search
-                    </Button>
-                  </div>
-                </Grid>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="model"
+                  className="!bg-white"
+                  label="Model"
+                  placeholder=""
+                  {...formik.getFieldProps("model")}
+                />
               </div>
-            </form>
-          </Modal>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="manufacture"
+                  className="!bg-white"
+                  label="Manufacturer"
+                  placeholder=""
+                  {...formik.getFieldProps("manufacture")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Status"
+                  options={status}
+                  color="text-Black-Russian opacity-50"
+                  value={selectedProduct}
+                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                  className="!text-[14px] !bg-white"
+                  selectedValue={selectedProduct}
+                  onChange={handleSelectChange1}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button type="submit" className={"w-full"}>
+                  Search
+                </Button>
+              </div>
+            </Grid>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
