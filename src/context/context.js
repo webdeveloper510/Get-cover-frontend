@@ -10,6 +10,11 @@ export const MyContextProvider = ({ children }) => {
     priceBookId: [],
     categoryId: "",
   });
+  const [filtersCategoryTab1, setFiltersCategoryTab] = useState({
+    dealerId: "",
+    priceBookId: [],
+    categoryId: "",
+  });
 
   const toggleFlag = () => {
     setFlag((prevFlag) => !prevFlag);
@@ -23,10 +28,22 @@ export const MyContextProvider = ({ children }) => {
     setFlag1(true);
     setFilters(newFilters);
   };
-
+  const setFiltersForCategory = (newFilters) => {
+    setFlag1(true);
+    setFiltersCategoryTab(newFilters);
+  };
   return (
     <MyContext.Provider
-      value={{ flag, toggleFlag, filters, setAppliedFilters, flag1 }}
+      value={{
+        flag,
+        toggleFlag,
+        filters,
+        setAppliedFilters,
+        flag1,
+        filtersCategoryTab1,
+        toggleFilterFlag,
+        setFiltersForCategory,
+      }}
     >
       {children}
     </MyContext.Provider>
