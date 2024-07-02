@@ -44,3 +44,20 @@ export const getAllClaims = async (data) => {
     throw error;
   }
 };
+
+export const getFilterList = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reporting/getReportingDropdowns`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
