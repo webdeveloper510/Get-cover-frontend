@@ -196,27 +196,22 @@ function ServicerUser() {
     confirmPassword: "",
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    passwordChangeForm.resetForm();
-    passwordChangeApi(values);
-    setSubmitting(false);
-  };
-
-  const passwordChangeApi = async (values) => {
+  const passwordChangeApi = async (values, resetForm) => {
     setLoading1(true);
+
     const { confirmPassword, ...passwordValues } = values;
 
     try {
       const res = await changePasswordbyToken(passwordValues);
-      console.log(res);
+      console.log("API Response:", res);
       if (res.code === 200) {
         SetPrimaryText("Updated Successfully");
         SetSecondaryText("User Password updated successfully");
         SetIsModalOpen(true);
         setTimer(3);
-        passwordChangeForm.resetForm();
+        console.log("Resetting form after success");
+        resetForm(); // Reset the form after successful response
       } else {
-        passwordChangeForm.resetForm();
         SetPrimaryText("Error");
         SetSecondaryText(res.message);
         SetIsModalOpen(true);
@@ -224,10 +219,15 @@ function ServicerUser() {
     } catch (error) {
       console.error("Error changing password:", error);
     } finally {
-      passwordChangeForm.resetForm();
       setLoading1(false);
     }
-    console.log(passwordValues);
+    console.log("Password values:", passwordValues);
+  };
+
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    console.log("Form values on submit:", values);
+    passwordChangeApi(values, resetForm);
+    setSubmitting(false);
   };
 
   const passwordChangeForm = useFormik({
@@ -854,6 +854,7 @@ function ServicerUser() {
                       </div>
                     )}
                 </div>
+
                 <div className="col-span-4">
                   <PasswordInput
                     type="password"

@@ -86,7 +86,22 @@ function All({ activeTab }) {
       flag: flag,
     });
     setLoading(false);
-  }, [selectedRange, activeTab, flag1]);
+  }, [selectedRange, activeTab]);
+
+  useEffect(() => {
+    if (flag1) {
+      setLoading(true);
+      getDatasetAtEvent({
+        startDate: selectedRange.startDate.toISOString().split("T")[0],
+        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        dealerId: filters.dealerId,
+        priceBookId: filters.priceBookId,
+        categoryId: filters.categoryId,
+        flag: flag,
+      });
+      setLoading(false);
+    }
+  }, [flag1]);
 
   const getDatasetAtEvent = async (data) => {
     setLoading(true);
