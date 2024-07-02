@@ -49,11 +49,17 @@ function Notification() {
       const res = await updateNotifications(id);
       if (res) {
         switch (type) {
-          case "dealer":
+          case "dealer request":
             navigate("/newDealerList");
             break;
-          case "servicer":
+          case "dealer":
+            navigate("/dealerList");
+            break;
+          case "servicer request":
             navigate("/servicerRequestList");
+            break;
+          case "servicer":
+            navigate("/servicerList");
             break;
           case "Customer":
             navigate("/customerList");

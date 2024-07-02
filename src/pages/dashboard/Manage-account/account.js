@@ -991,50 +991,6 @@ function Account() {
                     </div>
                   </form>
                 </div>
-                {/* <div className="col-span-12">
-                  <p className="text-xl font-semibold mb-4">
-                    Send Notification
-                  </p>
-                  <div className="relative">
-                    <label
-                      htmlFor="email"
-                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                    >
-                      Send Notification to
-                    </label>
-                    <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer ">
-                      <ReactTags
-                        tags={tags}
-                        delimiters={delimiters}
-                        name="email"
-                        handleDelete={handleDelete}
-                        handleAddition={handleAddition}
-                        autocomplete="off"
-                        handleDrag={handleDrag}
-                        handleTagClick={handleTagClick}
-                        inputFieldPosition="bottom"
-                        editable
-                        placeholder=""
-                      />
-                    </div>
-                  </div>
-                  {formik.errors.email && (
-                    <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                      {formik.errors.email &&
-                        (Array.isArray(formik.errors.email)
-                          ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
-                                {index > 0 && " "}
-                                <span className="font-semibold"> {error} </span>
-                              </span>
-                            ))
-                          : formik.errors.email)}
-                    </p>
-                  )}
-                </div>
-                <div className="col-span-12 text-right">
-                  <Button type="submit">Save</Button>
-                </div> */}
               </Grid>
             </>
 

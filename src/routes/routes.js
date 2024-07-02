@@ -476,7 +476,17 @@ const routes = [
       },
 
       // Dealer Routs ---------------------------------------------------------------
-
+      {
+        path: "/dealer/notifications",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<Notification />}
+            role={"dealer"}
+            path="/dealer/notifications"
+          />
+        ),
+      },
       {
         path: "/dealer/orderDetails/:orderId",
         element: (
@@ -730,7 +740,17 @@ const routes = [
       },
 
       // Servicer Routs ---------------------------------------------------------------
-
+      {
+        path: "/servicer/notifications",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<Notification />}
+            role={"servicer"}
+            path="/servicer/notifications"
+          />
+        ),
+      },
       {
         path: "/servicer/user",
         element: (
@@ -799,7 +819,17 @@ const routes = [
       },
 
       // Reseller Routs ---------------------------------------------------------------
-
+      {
+        path: "/reseller/notifications",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<Notification />}
+            role={"reseller"}
+            path="/reseller/notifications"
+          />
+        ),
+      },
       {
         path: "/reseller/dashboard",
         element: (
@@ -963,7 +993,9 @@ const routes = [
       },
       {
         path: "/reseller/claimList",
-        element: <PrivateRoute element={<ResellerClaimList />} role={"reseller"} />,
+        element: (
+          <PrivateRoute element={<ResellerClaimList />} role={"reseller"} />
+        ),
       },
       {
         path: "/reseller/addClaim/:username?",
@@ -984,7 +1016,17 @@ const routes = [
         element: <NotFoundPage />,
       },
       // Customer Routs ---------------------------------------------------------------
-
+      {
+        path: "/customer/notifications",
+        index: true,
+        element: (
+          <PrivateRoute
+            element={<Notification />}
+            role={"customer"}
+            path="/customer/notifications"
+          />
+        ),
+      },
       {
         path: "/customer/dashboard",
         element: (

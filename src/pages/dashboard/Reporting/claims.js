@@ -156,7 +156,7 @@ function Claims() {
                       className="!bg-white"
                       className1="filter"
                       options={state}
-                      pName="Category Name"
+                      pName="Enter Category Name"
                     />
                   </div>
                   <div className="col-span-2 self-center pl-1">

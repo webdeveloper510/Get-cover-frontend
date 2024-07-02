@@ -132,7 +132,7 @@ function Sale() {
         </div>
       </div>
       <Grid className="mt-4 !gap-0">
-        <div className="col-span-3 flex">
+        <div className="col-span-3 flex my-4">
           <div className="self-center px-3 py-1">
             <small className="p-0">Filter By :</small>
           </div>
@@ -155,7 +155,7 @@ function Sale() {
             </Button>
           </div>
         </div>
-        <div className="col-span-9">
+        <div className="col-span-9 my-4">
           <Grid
             className={`${
               activeButton === "dealer" ? "grid-cols-10" : "grid-cols-5"
@@ -172,6 +172,7 @@ function Sale() {
                     placeholder="Dealer Name"
                     className="!bg-white"
                     className1="filter"
+                    pName="Dealer Name"
                     options={dealerList}
                   />
                 </div>
@@ -212,7 +213,7 @@ function Sale() {
             )}
             {activeButton === "category" && (
               <>
-                <div className="col-span-2 self-center pl-3">
+                <div className="col-span-4 self-center pl-3">
                   <SelectBoxWithSearch
                     label=""
                     name="state"

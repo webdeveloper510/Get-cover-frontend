@@ -41,7 +41,6 @@ function Headbar({ className = "" }) {
     navigate("/");
   };
 
-  
   const getNotificationsData = () => {
     let ArrayData = [];
     getNotificationsCount().then((response) => {
@@ -85,42 +84,35 @@ function Headbar({ className = "" }) {
 
   const truncateString = (str, num) => {
     if (str?.length > num) {
-      return str.slice(0, num) + '...';
+      return str.slice(0, num) + "...";
     } else {
       return str;
     }
   };
   const userData = JSON.parse(localStorage.getItem("userDetails"));
   const firstName = userData.userInfo.firstName;
-  const fetchUserDetails = async () => {
-    setLoading(true);
 
-    try {
-      const userDetails = await getSuperAdminMembers();
-      setIsPrimary(userDetails.loginMember.isPrimary);
-      const { firstName, lastName, email, phoneNumber, position } =
-        userDetails.loginMember;
-
-      setInitialValues({
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        position,
-      });
-      // setEmail(userDetails?.loginMember.email);
-      console.log(userDetails.result);
-      setUserList(userDetails.loginMember);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      setLoading(false);
-    } finally {
-      // fetchUserMembers();
-      setLoading(false);
+  const getRoleRoute = (role) => {
+    switch (role) {
+      case "Super Admin":
+        return "/notifications";
+      case "Dealer":
+        return "/dealer/notifications";
+      case "Reseller":
+        return "/reseller/notifications";
+      case "Customer":
+        return "/customer/notifications";
+      case "Servicer":
+        return "/servicer/notifications";
+      default:
+        return "#";
     }
   };
 
+  const route =
+    userData.role === "Super Admin"
+      ? "/notifications"
+      : getRoleRoute(userData.role);
   return (
     <div className="">
       {loading ? (
@@ -135,23 +127,17 @@ function Headbar({ className = "" }) {
             <Grid className="border-2 w-[250px] bg-white ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
               <div className="col-span-4  flex self-center justify-around border-r-2 border-Light-Grey">
                 <div className="s:hidden md:block xl:block">
-                  <Link
-                    to={userData.role == "Super Admin" ? "/notifications" : "#"}
-                    className="relative"
-                  >
+                  <Link to={route} className="relative">
                     <img
                       src={NotificationImage}
                       className="cursor-pointer mt-[-2%]"
                       alt="NotificationImage"
                     />
-                    {userData.role == "Super Admin" &&
-                      notificationList !== 0 && (
-                        <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
-                          {notificationList > 9
-                            ? "9+"
-                            : notificationList}
-                        </p>
-                      )}
+                    {notificationList !== 0 && (
+                      <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
+                        {notificationList > 9 ? "9+" : notificationList}
+                      </p>
+                    )}
                   </Link>
                 </div>
               </div>

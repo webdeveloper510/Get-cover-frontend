@@ -4,7 +4,7 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 
 // Media Includes
-import Search from "../../../assets/images/icons/SearchIcon.svg";
+import Search from "../../../assets/images/icons/SerachWhite.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import Cross from "../../../assets/images/Cross.png";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
@@ -312,7 +312,13 @@ function ContractList(props) {
                     )}
 
                     <div className="col-span-1 self-center flex justify-center">
-                      <Button type="submit" disabled={disable} className="!p-0">
+                      <Button
+                        type="submit"
+                        disabled={disable}
+                        className={`${
+                          disable ? "!bg-[#817878] !p-2" : " !p-2"
+                        }`}
+                      >
                         <img
                           src={Search}
                           className="cursor-pointer "
@@ -340,7 +346,9 @@ function ContractList(props) {
                       } col-span-2 self-center`}
                     >
                       <Button
-                        className="!text-[13px]"
+                        className={`${
+                          disable ? "!bg-[#817878]" : ""
+                        } !text-[13px]`}
                         disabled={disable}
                         onClick={() => openDisapproved()}
                       >
