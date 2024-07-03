@@ -54,6 +54,10 @@
   color: #111827 !important;
   font-weight: 600;
 }
+.red .dropdown-container {
+  border-width: 0px !important;
+  
+}
 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
   right: -20px;
   min-width: 30px !important;

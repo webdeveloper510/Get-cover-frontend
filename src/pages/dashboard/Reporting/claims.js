@@ -30,19 +30,19 @@ function Claims() {
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
-  const [activeButton, setActiveButton] = useState("dealer")
+  const [activeButton, setActiveButton] = useState("dealer");
 
   const [filter, setFilters] = useState({
     dealerId: "",
     priceBookId: [],
     servicerId: "",
-    categoryId:"",
+    categoryId: "",
   });
   const [filterCategory, setFiltersCategory] = useState({
     dealerId: "",
     priceBookId: [],
     servicerId: "",
-    categoryId:"",
+    categoryId: "",
   });
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
@@ -87,8 +87,6 @@ function Claims() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  ;
-
   const getDatasetAtEvent = async (data) => {
     try {
       const res = await getFilterList(data);
@@ -208,7 +206,7 @@ function Claims() {
                   ? "grid-cols-9"
                   : activeButton === "category"
                   ? "grid-cols-5"
-                  : "grid-cols-5"
+                  : "grid-cols-7"
               } !gap-0`}
             >
               {activeButton === "dealer" && (
@@ -260,6 +258,9 @@ function Claims() {
                   </div>
                   <div className="col-span-1 self-center mx-auto pl-3">
                     <Button>Filter</Button>
+                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                      Reset
+                    </Button>
                   </div>
                 </>
               )}
@@ -290,6 +291,9 @@ function Claims() {
                   </div>
                   <div className="col-span-1 self-center mx-auto pl-3">
                     <Button>Filter</Button>
+                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                      Reset
+                    </Button>
                   </div>
                 </>
               )}
@@ -317,8 +321,30 @@ function Claims() {
                       pName="Enter Category"
                     />
                   </div>
+                  <div className="col-span-2 self-center pl-1">
+                    <MultiSelect
+                      label="Product SKU"
+                      name="priceBookId"
+                      placeholder="Product SKU"
+                      value={selected}
+                      options={priceBookList}
+                      pName="Product SKU"
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
                   <div className="col-span-1 self-center mx-auto pl-3">
                     <Button>Filter</Button>
+                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                      Reset
+                    </Button>
                   </div>
                 </>
               )}

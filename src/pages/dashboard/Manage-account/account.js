@@ -943,7 +943,7 @@ function Account() {
                       >
                         Send Notification to
                       </label>
-                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
                         {/* <ReactTags
                           tags={tags}
                           delimiters={delimiters}
@@ -975,7 +975,7 @@ function Account() {
                           overrideStrings={{
                             selectSomeItems: "Select Product SKU",
                           }}
-                          className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
                         />
                       </div>
                     </div>
