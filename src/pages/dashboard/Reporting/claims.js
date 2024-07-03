@@ -95,7 +95,7 @@ function Claims() {
           </div>
         </div>
         <Grid className="mt-2">
-          <div className="col-span-3 flex">
+          <div className="col-span-4 flex">
             <div className="self-center px-3 py-1">
               <small className="p-0">Filter By :</small>
             </div>
@@ -110,18 +110,30 @@ function Claims() {
               </Button>
               <Button
                 onClick={() => handleButtonClick("category")}
-                className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
-                  activeButton === "dealer" && "!bg-[white] !text-[#333] "
+                className={`!rounded-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
+                  activeButton !== "category" && "!bg-[white] !text-[#333] "
                 }`}
               >
                 Category
               </Button>
+              <Button
+                onClick={() => handleButtonClick("servicer")}
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
+                  activeButton !== "servicer" && "!bg-[white] !text-[#333] "
+                }`}
+              >
+                Servicer
+              </Button>
             </div>
           </div>
-          <div className="col-span-9">
+          <div className="col-span-8">
             <Grid
               className={`${
-                activeButton === "dealer" ? "grid-cols-9" : "grid-cols-5"
+                activeButton === "dealer"
+                  ? "grid-cols-9"
+                  : activeButton === "category"
+                  ? "grid-cols-5"
+                  : "grid-cols-5"
               } !gap-0`}
             >
               {activeButton === "dealer" && (
@@ -199,6 +211,35 @@ function Claims() {
                         selectSomeItems: "Select Product SKU",
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
+                  <div className="col-span-1 self-center mx-auto pl-3">
+                    <Button>Filter</Button>
+                  </div>
+                </>
+              )}
+              {activeButton === "servicer" && (
+                <>
+                  <div className="col-span-2 self-center pl-3">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Servicer Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Servicer Name"
+                    />
+                  </div>
+                  <div className="col-span-2 self-center pl-3">
+                    <SelectBoxWithSearch
+                      label=""
+                      name="state"
+                      placeholder="Category Name"
+                      className="!bg-white"
+                      className1="filter"
+                      options={state}
+                      pName="Enter Category"
                     />
                   </div>
                   <div className="col-span-1 self-center mx-auto pl-3">
