@@ -14,7 +14,7 @@ import { getAllSales } from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
 
-function All({ activeTab }) {
+function All({ activeTab, activeButton }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState("daily");
@@ -24,7 +24,8 @@ function All({ activeTab }) {
   });
   const [graphData, setGraphData] = useState([]);
   const [totalFees, setTotalFees] = useState({});
-  const { filters, flag1, toggleFilterFlag } = useMyContext();
+  const { filters, flag1, toggleFilterFlag, filtersCategoryTab1 } =
+    useMyContext();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -33,7 +34,7 @@ function All({ activeTab }) {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  console.log(flag1, filters);
+  console.log(flag1, activeButton);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -65,9 +66,15 @@ function All({ activeTab }) {
     let data = {
       startDate: startDateStr,
       endDate: endDateStr,
-      dealerId: filters.dealerId,
-      priceBookId: filters.priceBookId,
-      categoryId: filters.categoryId,
+      dealerId: activeButton == "dealer" ? filters.dealerId : "",
+      priceBookId:
+        activeButton == "dealer"
+          ? filters.priceBookId
+          : filtersCategoryTab1.priceBookId,
+      categoryId:
+        activeButton == "dealer"
+          ? filters.categoryId
+          : filtersCategoryTab1.categoryId,
       flag: flag,
     };
 
@@ -80,9 +87,15 @@ function All({ activeTab }) {
     getDatasetAtEvent({
       startDate: selectedRange.startDate.toISOString().split("T")[0],
       endDate: selectedRange.endDate.toISOString().split("T")[0],
-      dealerId: filters.dealerId,
-      priceBookId: filters.priceBookId,
-      categoryId: filters.categoryId,
+      dealerId: activeButton == "dealer" ? filters.dealerId : "",
+      priceBookId:
+        activeButton == "dealer"
+          ? filters.priceBookId
+          : filtersCategoryTab1.priceBookId,
+      categoryId:
+        activeButton == "dealer"
+          ? filters.categoryId
+          : filtersCategoryTab1.categoryId,
       flag: flag,
     });
     setLoading(false);
@@ -94,9 +107,15 @@ function All({ activeTab }) {
       getDatasetAtEvent({
         startDate: selectedRange.startDate.toISOString().split("T")[0],
         endDate: selectedRange.endDate.toISOString().split("T")[0],
-        dealerId: filters.dealerId,
-        priceBookId: filters.priceBookId,
-        categoryId: filters.categoryId,
+        dealerId: activeButton == "dealer" ? filters.dealerId : "",
+        priceBookId:
+          activeButton == "dealer"
+            ? filters.priceBookId
+            : filtersCategoryTab1.priceBookId,
+        categoryId:
+          activeButton == "dealer"
+            ? filters.categoryId
+            : filtersCategoryTab1.categoryId,
         flag: flag,
       });
       setLoading(false);

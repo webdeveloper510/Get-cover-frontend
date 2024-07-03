@@ -57,9 +57,13 @@ function Sale() {
 
   useEffect(() => {
     if (activeButton === "dealer") {
-      getDatasetAtEvent(filters);
+      getDatasetAtEvent();
     } else {
-      getDatasetAtEvent(filtersCategoryTab1);
+      getDatasetAtEvent({
+        dealerId: "",
+        priceBookId: [],
+        categoryId: "",
+      });
     }
   }, [activeButton]);
 
@@ -287,10 +291,7 @@ function Sale() {
               )}
               <div className="col-span-3 self-center ml-auto pl-3 flex">
                 <Button onClick={handleApplyFilters}>Filter</Button>
-                <Button
-                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
-                  onClick={handleApplyFilters}
-                >
+                <Button className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]">
                   Reset
                 </Button>
               </div>
@@ -338,10 +339,7 @@ function Sale() {
               )}
               <div className="col-span-1 self-center mx-auto pl-3">
                 <Button onClick={handleApplyFilters}>Filter</Button>
-                <Button
-                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
-                  onClick={handleApplyFilters}
-                >
+                <Button className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]">
                   Reset
                 </Button>
               </div>
@@ -384,7 +382,7 @@ function Sale() {
               </div>
             </div>
           </Grid>
-          <All activeTab={activeTab} />
+          <All activeTab={activeTab} activeButton={activeButton} />
         </div>
       </Grid>
     </div>
