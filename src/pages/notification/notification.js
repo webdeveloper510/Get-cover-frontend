@@ -209,7 +209,7 @@ function Notification() {
                               />
                               <img
                                 src={Read}
-                                className="mr-2 w-[18px] h-[24px]"
+                                className="mr-2 w-[18px] h-[18px] mt-[3px]"
                                 alt="Read icon"
                               />
                               <p className="text-light-black text-base font-semibold">

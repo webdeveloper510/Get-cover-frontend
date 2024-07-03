@@ -31,7 +31,6 @@ function Sale() {
     categoryId: "",
   });
 
-
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [activeButton, setActiveButton] = useState("dealer");
   const [selected, setSelected] = useState([]);
@@ -186,11 +185,9 @@ function Sale() {
           </ul>
         </div>
       </div>
-      <Grid className="mt-4 !gap-0">
-        <div className="col-span-3 flex my-4">
-          <div className="self-center px-3 py-1">
-            <small className="p-0">Filter By :</small>
-          </div>
+      <div className="p-3 bg-white mt-4">
+        <div className="flex w-full mb-3">
+          <p className="p-0 font-bold mr-4">Filter By :</p>{" "}
           <div className="self-center">
             <Button
               onClick={() => handleButtonClick("dealer")}
@@ -210,117 +207,130 @@ function Sale() {
             </Button>
           </div>
         </div>
-        <div className="col-span-9 my-4">
-          <Grid
-            className={`${
-              activeButton === "dealer" ? "grid-cols-10" : "grid-cols-5"
-            } !gap-0`}
-          >
-            {activeButton === "dealer" && (
-              <>
-                <div className="col-span-3 self-center">
-                  <SelectBoxWithSearch
-                    label=""
-                    name="dealerId"
-                    value={filter.dealerId}
-                    onChange={handleFilterChange}
-                    placeholder="Dealer Name"
-                    className="!bg-white"
-                    className1="filter"
-                    pName="Dealer Name"
-                    options={dealerList}
-                  />
-                </div>
-                {filter.dealerId && (
-                  <>
-                    <div className="col-span-3 self-center pl-1">
-                      <SelectBoxWithSearch
-                        label=""
-                        name="categoryId"
-                        placeholder="Category Name"
-                        value={filter.categoryId}
-                        className="!bg-white"
-                        className1="filter"
-                        options={categoryList}
-                        pName="Category Name"
-                        onChange={handleFilterChange}
-                      />
-                    </div>
-                    <div className="col-span-3 self-center pl-1">
-                      <MultiSelect
-                        label=""
-                        name="priceBookId"
-                        placeholder="Category Name"
-                        value={selected}
-                        options={priceBookList}
-                        pName="Category Name"
-                        onChange={(value) => {
-                          setSelected(value);
-                          handleFilterChange("priceBookId", value);
-                        }}
-                        labelledBy="Select"
-                        overrideStrings={{
-                          selectSomeItems: "Select Product SKU",
-                        }}
-                        className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                      />
-                    </div>
-                  </>
-                )}
-                <div className="col-span-1 self-center mx-auto pl-3">
-                  <Button onClick={handleApplyFilters}>Filter</Button>
-                </div>
-              </>
-            )}
-            {activeButton === "category" && (
-              <>
-                <div
-                  className={`self-center pl-1 ${
-                    filterCategory.categoryId ? "col-span-2" : "col-span-3"
-                  }`}
+        <Grid
+          className={`${
+            activeButton === "dealer" ? "grid-cols-10" : "!grid-cols-5"
+          } !gap-0`}
+        >
+          {activeButton === "dealer" && (
+            <>
+              <div className="col-span-3 self-center">
+                <SelectBoxWithSearch
+                  label="Dealer Name"
+                  name="dealerId"
+                  value={filter.dealerId}
+                  onChange={handleFilterChange}
+                  placeholder="Dealer Name"
+                  className="!bg-white"
+                  required={true}
+                  className1="filter"
+                  pName="Dealer Name"
+                  options={dealerList}
+                />
+              </div>
+              {filter.dealerId ? (
+                <>
+                  <div className="col-span-3 self-center pl-1">
+                    <SelectBoxWithSearch
+                      label="Category Name"
+                      name="categoryId"
+                      placeholder="Category Name"
+                      value={filter.categoryId}
+                      className="!bg-white"
+                      className1="filter"
+                      options={categoryList}
+                      pName="Category Name"
+                      onChange={handleFilterChange}
+                    />
+                  </div>
+                  <div className="col-span-3 self-center pl-1">
+                    <MultiSelect
+                      label="Product SKU"
+                      name="priceBookId"
+                      placeholder="Product SKU"
+                      value={selected}
+                      options={priceBookList}
+                      pName="Product SKU"
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-6"></div>
+              )}
+              <div className="col-span-3 self-center ml-auto pl-3 flex">
+                <Button onClick={handleApplyFilters}>Filter</Button>
+                <Button
+                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                  onClick={handleApplyFilters}
                 >
-                  <SelectBoxWithSearch
-                    label=""
-                    name="categoryId"
-                    placeholder="Category Name"
-                    value={filterCategory.categoryId}
-                    className="!bg-white"
-                    className1="filter"
-                    options={categoryListCat}
-                    pName="Category Name"
-                    onChange={handleFilterChangeforCategory}
-                  />
-                </div>
-                {filterCategory.categoryId && (
-                  <>
-                    <div className="col-span-2 self-center pl-1">
-                      <MultiSelect
-                        label=""
-                        name="priceBookId"
-                        placeholder="Category Name"
-                        value={selectedCat}
-                        options={priceBookListCat}
-                        pName="Category Name"
-                        onChange={(value) => {
-                          setSelectedCat(value);
-                          handleFilterChangeforCategory("priceBookId", value);
-                        }}
-                        labelledBy="Select"
-                        overrideStrings={{
-                          selectSomeItems: "Select Product SKU",
-                        }}
-                        className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                      />
-                    </div>
-                  </>
-                )}
-                <div className="col-span-1 self-center mx-auto pl-3">
-                  <Button onClick={handleApplyFilters}>Filter</Button>
-                </div>
-              </>
-            )}
-          </Grid>
-        </div>
+                  Reset
+                </Button>
+              </div>
+            </>
+          )}
+          {activeButton === "category" && (
+            <>
+              <div className={`self-center pl-1 col-span-2`}>
+                <SelectBoxWithSearch
+                  label="Category Name"
+                  name="categoryId"
+                  placeholder="Category Name"
+                  value={filterCategory.categoryId}
+                  className="!bg-white"
+                  className1="filter"
+                  options={categoryListCat}
+                  pName="Category Name"
+                  onChange={handleFilterChangeforCategory}
+                />
+              </div>
+              {filterCategory.categoryId ? (
+                <>
+                  <div className="col-span-2 self-center pl-1">
+                    <MultiSelect
+                      label=""
+                      name="priceBookId"
+                      placeholder="Category Name"
+                      value={selectedCat}
+                      options={priceBookListCat}
+                      pName="Category Name"
+                      onChange={(value) => {
+                        setSelectedCat(value);
+                        handleFilterChangeforCategory("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="col-span-2"></div>
+              )}
+              <div className="col-span-1 self-center mx-auto pl-3">
+                <Button onClick={handleApplyFilters}>Filter</Button>
+                <Button
+                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                  onClick={handleApplyFilters}
+                >
+                  Reset
+                </Button>
+              </div>
+            </>
+          )}
+        </Grid>
+      </div>
+      <Grid className="mt-4 !gap-0">
         <div className="col-span-12">
           <Grid className=" grid-cols-9 !gap-0">
             <div className="col-span-3 relative">
