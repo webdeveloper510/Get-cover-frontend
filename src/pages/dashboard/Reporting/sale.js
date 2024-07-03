@@ -13,6 +13,7 @@ import All from "./Sale-Tab/all";
 import { MultiSelect } from "react-multi-select-component";
 import { getFilterList } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
+import RadioButton from "../../../common/radio";
 
 function Sale() {
   const getInitialActiveTab = () => {
@@ -162,7 +163,9 @@ function Sale() {
       });
     }
   };
-
+  const handleRadioChange = (event) => {
+    setActiveButton(event.target.value);
+  };
   const handleApplyFilters = () => {
     activeButton === "category"
       ? setFiltersForCategory(filterCategory)
@@ -187,7 +190,7 @@ function Sale() {
       </div>
       <div className="p-3 bg-white mt-4">
         <div className="flex w-full mb-3">
-          <p className="p-0 font-bold mr-4">Filter By :</p>{" "}
+          <p className="p-0 font-bold self-center mr-4">Filter By :</p>{" "}
           <div className="self-center">
             <Button
               onClick={() => handleButtonClick("dealer")}
@@ -205,6 +208,22 @@ function Sale() {
             >
               Category
             </Button>
+          </div>
+          <div className="flex">
+            <RadioButton
+              id="dealer-radio"
+              label="Dealer"
+              value="dealer"
+              checked={activeButton === "dealer"}
+              onChange={handleRadioChange}
+            />
+            <RadioButton
+              id="category-radio"
+              label="Category"
+              value="category"
+              checked={activeButton === "category"}
+              onChange={handleRadioChange}
+            />
           </div>
         </div>
         <Grid
