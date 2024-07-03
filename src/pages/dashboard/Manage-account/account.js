@@ -39,6 +39,7 @@ import {
 import Select from "../../../common/select";
 import PasswordInput from "../../../common/passwordInput";
 import { WithContext as ReactTags } from "react-tag-input";
+import { MultiSelect } from "react-multi-select-component";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -480,40 +481,14 @@ function Account() {
     space: 32,
     enter: 13,
   };
-  const delimiters = [188, 13]; // comma and enter
-
-  const handleDelete = (i) => {
-    const newTags = tags.slice(0);
-    newTags.splice(i, 1);
-    setTags(newTags);
-    formikEmail.setFieldValue(
-      "notificationTo",
-      newTags.map((tag) => tag.text)
-    );
-  };
 
   const handleAddition = (tag) => {
-    const newTags = [...tags, tag];
-    setTags(newTags);
+    const newTags = [...tag];
+    setSelectedEmail(tag);
     formikEmail.setFieldValue(
       "notificationTo",
-      newTags.map((tag) => tag.text)
+      newTags.map((tag) => tag.value)
     );
-  };
-
-  const handleDrag = (tag, currPos, newPos) => {
-    const newTags = tags.slice(0);
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-    setTags(newTags);
-    formikEmail.setFieldValue(
-      "notificationTo",
-      newTags.map((tag) => tag.text)
-    );
-  };
-
-  const handleTagClick = (index) => {
-    console.log(`Tag at index ${index} was clicked`);
   };
 
   const columns = [
@@ -729,6 +704,28 @@ function Account() {
       const members = await getSuperAdminMembers();
       console.log(members, "111111111111111111111111111111");
       setMemberList(members.result);
+      let arr = [];
+      let arr1 = [];
+      members?.result?.map((email) => {
+        let data = {
+          label: email.email,
+          value: email.email,
+        };
+        arr.push(data);
+        if (email.isPrimary == true) {
+          email?.notificationTo?.map((notificationEmail) => {
+            console.log(notificationEmail);
+            let emailData = {
+              label: notificationEmail,
+              value: notificationEmail,
+            };
+            arr1.push(emailData);
+          });
+        }
+      });
+
+      setEmails(arr);
+      setSelectedEmail(arr1);
       let local = JSON.parse(localStorage.getItem("userDetails"));
       // localStorage.removeItem('userDetails')
       local.userInfo = {
@@ -771,6 +768,8 @@ function Account() {
 
     console.log(value);
   };
+  const [selectedEmail, setSelectedEmail] = useState([]);
+  const [emails, setEmails] = useState([]);
 
   return (
     <>
@@ -945,7 +944,7 @@ function Account() {
                         Send Notification to
                       </label>
                       <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
-                        <ReactTags
+                        {/* <ReactTags
                           tags={tags}
                           delimiters={delimiters}
                           name="email"
@@ -957,6 +956,26 @@ function Account() {
                           autocomplete
                           editable
                           placeholder=""
+                        /> */}
+
+                        <MultiSelect
+                          label="Product SKU"
+                          name="priceBookId"
+                          placeholder="Product SKU"
+                          value={selectedEmail}
+                          options={emails}
+                          pName="Product SKU"
+                          onChange={(value) => {
+                            console.log("value", value);
+                            setSelectedEmail(value);
+                            handleAddition(value);
+                            // handleFilterChange("priceBookId", value);
+                          }}
+                          labelledBy="Select"
+                          overrideStrings={{
+                            selectSomeItems: "Select Product SKU",
+                          }}
+                          className="SearchSelect css-b62m3t-container p-[0.425rem]"
                         />
                       </div>
                     </div>
