@@ -14,6 +14,7 @@ import { cityData } from "../../../stateCityJson";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
 import ClaimContent from "./Claim-Tab/ClaimContent";
+import { getFilterList } from "../../../services/reportingServices";
 
 function Claims() {
   const getInitialActiveTab = () => {
@@ -23,6 +24,26 @@ function Claims() {
 
   const [selected, setSelected] = useState([]);
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
+  const [dealerList, setDealerList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [priceBookList, setPriceBookList] = useState([]);
+  const [selectedCat, setSelectedCat] = useState([]);
+  const [categoryListCat, setCategoryListCat] = useState([]);
+  const [priceBookListCat, setPriceBookListCat] = useState([]);
+  const [activeButton, setActiveButton] = useState("dealer")
+
+  const [filter, setFilters] = useState({
+    dealerId: "",
+    priceBookId: [],
+    servicerId: "",
+    categoryId:"",
+  });
+  const [filterCategory, setFiltersCategory] = useState({
+    dealerId: "",
+    priceBookId: [],
+    servicerId: "",
+    categoryId:"",
+  });
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
@@ -66,10 +87,64 @@ function Claims() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
-  const [activeButton, setActiveButton] = useState("dealer");
+  ;
 
+  const getDatasetAtEvent = async (data) => {
+    try {
+      const res = await getFilterList(data);
+      if (activeButton === "dealer") {
+        setDealerList(res.result.getDealers);
+        setCategoryList(res.result.getCategories);
+        setPriceBookList(res.result.getPriceBooks);
+      } else {
+        setCategoryListCat(res.result.getCategories);
+        setPriceBookListCat(res.result.getPriceBooks);
+      }
+    } catch (error) {
+      console.error("Error fetching sales data:", error);
+    }
+  };
   const handleButtonClick = (button) => {
     setActiveButton(button);
+  };
+
+  const handleFilterChange = (name, value) => {
+    if (name === "dealerId") {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        dealerId: value,
+        categoryId: "",
+        priceBookId: [],
+      }));
+      setSelected([]);
+      getDatasetAtEvent({
+        dealerId: value,
+        categoryId: "",
+        priceBookId: [],
+      });
+    } else if (name === "categoryId") {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        categoryId: value,
+      }));
+
+      getDatasetAtEvent({
+        ...filter,
+        categoryId: value,
+      });
+      setSelected([]);
+    } else if (name === "priceBookId") {
+      const priceBookLabels = value.map((item) => item.label);
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        priceBookId: priceBookLabels,
+      }));
+
+      getDatasetAtEvent({
+        ...filter,
+        priceBookId: priceBookLabels,
+      });
+    }
   };
   return (
     <>

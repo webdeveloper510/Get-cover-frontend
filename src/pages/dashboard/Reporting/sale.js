@@ -31,9 +31,10 @@ function Sale() {
     categoryId: "",
   });
 
-  const [selected, setSelected] = useState([]);
+
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [activeButton, setActiveButton] = useState("dealer");
+  const [selected, setSelected] = useState([]);
   const [dealerList, setDealerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [priceBookList, setPriceBookList] = useState([]);
