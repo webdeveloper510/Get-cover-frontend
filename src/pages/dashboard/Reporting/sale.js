@@ -57,7 +57,7 @@ function Sale() {
 
   useEffect(() => {
     if (activeButton === "dealer") {
-      getDatasetAtEvent();
+      getDatasetAtEvent({});
     } else {
       getDatasetAtEvent({
         dealerId: "",
@@ -102,74 +102,40 @@ function Sale() {
   };
 
   const handleFilterChange = (name, value) => {
-    if (name === "dealerId") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        dealerId: value,
-        categoryId: "",
-        priceBookId: [],
-      }));
-      setSelected([]);
-      getDatasetAtEvent({
-        dealerId: value,
-        categoryId: "",
-        priceBookId: [],
-      });
-    } else if (name === "categoryId") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        categoryId: value,
-      }));
+    let updatedFilters = { ...filter };
 
-      getDatasetAtEvent({
-        ...filter,
-        categoryId: value,
-      });
+    if (name === "dealerId") {
+      updatedFilters = { dealerId: value, categoryId: "", priceBookId: [] };
+      setSelected([]);
+    } else if (name === "categoryId") {
+      updatedFilters.categoryId = value;
       setSelected([]);
     } else if (name === "priceBookId") {
-      const priceBookLabels = value.map((item) => item.label);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        priceBookId: priceBookLabels,
-      }));
-
-      getDatasetAtEvent({
-        ...filter,
-        priceBookId: priceBookLabels,
-      });
+      updatedFilters.priceBookId = value.map((item) => item.label);
     }
+
+    setFilters(updatedFilters);
+    getDatasetAtEvent(updatedFilters);
   };
 
   const handleFilterChangeforCategory = (name, value) => {
-    if (name === "categoryId") {
-      setFiltersCategory((prevFilters) => ({
-        ...prevFilters,
-        categoryId: value,
-        priceBookId: [],
-      }));
+    let updatedFilters = { ...filterCategory };
 
-      getDatasetAtEvent({
-        ...filterCategory,
-        categoryId: value,
-        priceBookId: [],
-      });
+    if (name === "categoryId") {
+      updatedFilters = { categoryId: value, priceBookId: [], dealerId: "" };
       setSelectedCat([]);
     } else if (name === "priceBookId") {
-      const priceBookLabels = value.map((item) => item.label);
-      setFiltersCategory((prevFilters) => ({
-        ...prevFilters,
-        priceBookId: priceBookLabels,
-      }));
-
-      getDatasetAtEvent({
-        ...filterCategory,
-        priceBookId: priceBookLabels,
-      });
+      updatedFilters.priceBookId = value.map((item) => item.label);
     }
+
+    setFiltersCategory(updatedFilters);
+    getDatasetAtEvent(updatedFilters);
   };
+
   const handleRadioChange = (event) => {
     setActiveButton(event.target.value);
   };
+
   const handleApplyFilters = () => {
     activeButton === "category"
       ? setFiltersForCategory(filterCategory)

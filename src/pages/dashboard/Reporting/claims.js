@@ -14,7 +14,7 @@ import { cityData } from "../../../stateCityJson";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
 import ClaimContent from "./Claim-Tab/ClaimContent";
-import { getFilterList } from "../../../services/reportingServices";
+import { getFilterListForClaim } from "../../../services/reportingServices";
 
 function Claims() {
   const getInitialActiveTab = () => {
@@ -27,9 +27,14 @@ function Claims() {
   const [dealerList, setDealerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [priceBookList, setPriceBookList] = useState([]);
+  const [servicerList, setServicerList] = useState([]);
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
+  const [categoryListServicer, setCategoryListServicer] = useState([]);
+  const [priceBookListServicer, setPriceBookListServicer] = useState([]);
+  const [servicerListServicer, setServicerListServicer] = useState([]);
+  const [selectedSer, setSelectedSer] = useState([]);
   const [activeButton, setActiveButton] = useState("dealer");
 
   const [filter, setFilters] = useState({
@@ -39,6 +44,12 @@ function Claims() {
     categoryId: "",
   });
   const [filterCategory, setFiltersCategory] = useState({
+    dealerId: "",
+    priceBookId: [],
+    servicerId: "",
+    categoryId: "",
+  });
+  const [filterServicer, setFiltersServicer] = useState({
     dealerId: "",
     priceBookId: [],
     servicerId: "",
@@ -87,63 +98,119 @@ function Claims() {
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
   };
+
   const getDatasetAtEvent = async (data) => {
+    console.log(data);
     try {
-      const res = await getFilterList(data);
+      const res = await getFilterListForClaim(data);
+      const { dealers, categories, priceBooks, servicers } = res.result;
+
+      const getName = (obj) => obj.name;
+      const mapToLabelValue = (value) =>
+        value.map((obj) => ({ label: getName(obj), value: obj._id }));
+      const mapPriceBooks = (value) =>
+        value.map((obj) => ({ label: obj.name, value: obj.name }));
+
       if (activeButton === "dealer") {
-        setDealerList(res.result.getDealers);
-        setCategoryList(res.result.getCategories);
-        setPriceBookList(res.result.getPriceBooks);
+        setDealerList(mapToLabelValue(dealers));
+        setCategoryList(mapToLabelValue(categories));
+        setPriceBookList(mapPriceBooks(priceBooks));
+        setServicerList(mapToLabelValue(servicers));
+      } else if (activeButton === "category") {
+        setCategoryListCat(mapToLabelValue(categories));
+        setPriceBookListCat(mapPriceBooks(priceBooks));
       } else {
-        setCategoryListCat(res.result.getCategories);
-        setPriceBookListCat(res.result.getPriceBooks);
+        setServicerListServicer(mapToLabelValue(servicers));
+        setCategoryListServicer(mapToLabelValue(categories));
+        setPriceBookListServicer(mapPriceBooks(priceBooks));
       }
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
   };
+
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
 
   const handleFilterChange = (name, value) => {
-    if (name === "dealerId") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        dealerId: value,
-        categoryId: "",
-        priceBookId: [],
-      }));
-      setSelected([]);
-      getDatasetAtEvent({
-        dealerId: value,
-        categoryId: "",
-        priceBookId: [],
-      });
-    } else if (name === "categoryId") {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        categoryId: value,
-      }));
+    let updatedFilters = { ...filter };
+    const commonUpdates = { categoryId: "", priceBookId: [], servicerId: "" };
+    switch (name) {
+      case "dealerId":
+        updatedFilters = { dealerId: value, ...commonUpdates };
+        setSelected([]);
+        break;
+      case "servicerId":
+        updatedFilters = { ...updatedFilters, servicerId: value };
+        setSelected([]);
+        break;
+      case "categoryId":
+        updatedFilters.categoryId = value;
+        setSelected([]);
+        break;
+      case "priceBookId":
+        updatedFilters.priceBookId = value.map((item) => item.label);
+        break;
+      default:
+        return;
+    }
+    setFilters(updatedFilters);
+    getDatasetAtEvent(updatedFilters);
+  };
 
-      getDatasetAtEvent({
-        ...filter,
-        categoryId: value,
-      });
-      setSelected([]);
-    } else if (name === "priceBookId") {
-      const priceBookLabels = value.map((item) => item.label);
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        priceBookId: priceBookLabels,
-      }));
+  const handleFilterChangeCat = (name, value) => {
+    let updatedFilters = { ...filterCategory };
+    switch (name) {
+      case "categoryId":
+        updatedFilters.categoryId = value;
+        updatedFilters.priceBookId = [];
+        setSelectedCat([]);
+        break;
+      case "priceBookId":
+        updatedFilters.priceBookId = value.map((item) => item.label);
+        break;
+      default:
+        return;
+    }
+    setFiltersCategory(updatedFilters);
+    getDatasetAtEvent(updatedFilters);
+  };
 
+  const handleFilterChangeServicer = (name, value) => {
+    let updatedFilters = { ...filterServicer };
+    switch (name) {
+      case "servicerId":
+        updatedFilters = { ...updatedFilters, servicerId: value };
+        setSelectedSer([]);
+        break;
+      case "categoryId":
+        updatedFilters.categoryId = value;
+        setSelectedSer([]);
+        break;
+      case "priceBookId":
+        updatedFilters.priceBookId = value.map((item) => item.label);
+        break;
+      default:
+        return;
+    }
+    setFiltersServicer(updatedFilters);
+    getDatasetAtEvent(updatedFilters);
+  };
+
+  useEffect(() => {
+    if (activeButton === "dealer") {
+      getDatasetAtEvent({});
+    } else {
       getDatasetAtEvent({
-        ...filter,
-        priceBookId: priceBookLabels,
+        dealerId: "",
+        priceBookId: [],
+        categoryId: "",
+        servicerId: "",
       });
     }
-  };
+  }, [activeButton]);
+
   return (
     <>
       <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-grayf9 min-h-[90vh]">
@@ -213,42 +280,57 @@ function Claims() {
                 <>
                   <div className="col-span-2 self-center">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Dealer Name"
+                      name="dealerId"
+                      value={filter.dealerId}
+                      onChange={handleFilterChange}
                       placeholder="Dealer Name"
                       className="!bg-white"
+                      required={true}
                       className1="filter"
-                      options={state}
                       pName="Dealer Name"
+                      options={dealerList}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-1">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Servicer Name"
+                      name="servicerId"
+                      value={filter.servicerId}
+                      onChange={handleFilterChange}
                       placeholder="Servicer Name"
                       className="!bg-white"
+                      required={true}
                       className1="filter"
-                      options={state}
                       pName="Servicer Name"
+                      options={servicerList}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-1">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Category Name"
+                      name="categoryId"
                       placeholder="Category Name"
+                      value={filter.categoryId}
                       className="!bg-white"
                       className1="filter"
-                      options={state}
-                      pName="Enter Category Name"
+                      options={categoryList}
+                      pName="Category Name"
+                      onChange={handleFilterChange}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-1">
                     <MultiSelect
-                      options={options}
+                      label="Product SKU"
+                      name="priceBookId"
+                      placeholder="Product SKU"
                       value={selected}
-                      onChange={setSelected}
+                      options={priceBookList}
+                      pName="Product SKU"
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
                       labelledBy="Select"
                       overrideStrings={{
                         selectSomeItems: "Select Product SKU",
@@ -268,20 +350,29 @@ function Claims() {
                 <>
                   <div className="col-span-2 self-center pl-3">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Category Name"
+                      name="categoryId"
                       placeholder="Category Name"
+                      value={filterCategory.categoryId}
                       className="!bg-white"
                       className1="filter"
-                      options={state}
-                      pName="Enter Category"
+                      options={categoryListCat}
+                      pName="Category Name"
+                      onChange={handleFilterChangeCat}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-3">
                     <MultiSelect
-                      options={options}
-                      value={selected}
-                      onChange={setSelected}
+                      label="Product SKU"
+                      name="priceBookId"
+                      placeholder="Product SKU"
+                      value={selectedCat}
+                      options={priceBookListCat}
+                      pName="Product SKU"
+                      onChange={(value) => {
+                        setSelectedCat(value);
+                        handleFilterChangeCat("priceBookId", value);
+                      }}
                       labelledBy="Select"
                       overrideStrings={{
                         selectSomeItems: "Select Product SKU",
@@ -301,24 +392,29 @@ function Claims() {
                 <>
                   <div className="col-span-2 self-center pl-3">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Servicer Name"
+                      name="servicerId"
+                      value={filterServicer.servicerId}
+                      onChange={handleFilterChangeServicer}
                       placeholder="Servicer Name"
                       className="!bg-white"
+                      required={true}
                       className1="filter"
-                      options={state}
                       pName="Servicer Name"
+                      options={servicerListServicer}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-3">
                     <SelectBoxWithSearch
-                      label=""
-                      name="state"
+                      label="Category Name"
+                      name="categoryId"
                       placeholder="Category Name"
+                      value={filterServicer.categoryId}
                       className="!bg-white"
                       className1="filter"
-                      options={state}
-                      pName="Enter Category"
+                      options={categoryListServicer}
+                      pName="Category Name"
+                      onChange={handleFilterChangeServicer}
                     />
                   </div>
                   <div className="col-span-2 self-center pl-1">
@@ -326,12 +422,12 @@ function Claims() {
                       label="Product SKU"
                       name="priceBookId"
                       placeholder="Product SKU"
-                      value={selected}
-                      options={priceBookList}
+                      value={selectedSer}
+                      options={priceBookListServicer}
                       pName="Product SKU"
                       onChange={(value) => {
-                        setSelected(value);
-                        handleFilterChange("priceBookId", value);
+                        setSelectedSer(value);
+                        handleFilterChangeServicer("priceBookId", value);
                       }}
                       labelledBy="Select"
                       overrideStrings={{

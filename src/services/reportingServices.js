@@ -61,3 +61,20 @@ export const getFilterList = async (data) => {
     throw error;
   }
 };
+
+export const getFilterListForClaim = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/reporting/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
