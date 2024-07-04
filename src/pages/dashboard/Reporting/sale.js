@@ -44,12 +44,7 @@ function Sale() {
   const state = cityData;
   const containerRef = useRef(null);
 
-  const {
-    filters,
-    setAppliedFilters,
-    setFiltersForCategory,
-    filtersCategoryTab1,
-  } = useMyContext();
+  const { setAppliedFilters, setFiltersForCategory } = useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
@@ -140,6 +135,24 @@ function Sale() {
     activeButton === "category"
       ? setFiltersForCategory(filterCategory)
       : setAppliedFilters(filter);
+  };
+
+  const handleResetFilters = () => {
+    let data = {
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+    };
+
+    if (activeButton === "category") {
+      setFiltersForCategory(data);
+      setFiltersCategory(data);
+      setSelectedCat([]);
+    } else {
+      setAppliedFilters(data);
+      setFilters(data);
+      setSelected([]);
+    }
   };
 
   return (
@@ -257,7 +270,10 @@ function Sale() {
               )}
               <div className="col-span-3 self-center ml-auto pl-3 flex">
                 <Button onClick={handleApplyFilters}>Filter</Button>
-                <Button className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]">
+                <Button
+                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                  onClick={handleResetFilters}
+                >
                   Reset
                 </Button>
               </div>
@@ -305,7 +321,10 @@ function Sale() {
               )}
               <div className="col-span-1 self-center mx-auto pl-3">
                 <Button onClick={handleApplyFilters}>Filter</Button>
-                <Button className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]">
+                <Button
+                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                  onClick={handleResetFilters}
+                >
                   Reset
                 </Button>
               </div>

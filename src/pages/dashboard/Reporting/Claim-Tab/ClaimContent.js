@@ -6,15 +6,28 @@ import LineChart from "../../../../common/lineChart";
 import Modal from "../../../../common/model";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
 import { getAllClaims } from "../../../../services/reportingServices";
+import { useMyContext } from "../../../../context/context";
 
-function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
+function ClaimContent({
+  activeTab,
+  selectedRange,
+  setSelectedRange,
+  activeButton,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphData, setGraphData] = useState([]);
+  const [flag, setFlag] = useState("daily");
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+  const {
+    filtersClaimCategory,
+    filtersClaimServicer,
+    filtersClaimDealer,
+    flag1,
+    toggleFilterFlag,
+  } = useMyContext();
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -39,19 +52,41 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     let flag = "daily";
-    console.log(diffDays < 30);
     if (diffDays < 30) {
       flag = "daily";
     } else {
       flag = "weekly";
     }
+    setFlag(flag);
+
+    let dealerId = "";
+    let categoryId = "";
+    let servicerId = "";
+    let priceBookId = [];
+
+    if (activeButton === "dealer") {
+      dealerId = filtersClaimDealer.dealerId;
+      categoryId = filtersClaimDealer.categoryId;
+      priceBookId = filtersClaimDealer.priceBookId;
+      servicerId = filtersClaimDealer.servicerId;
+    } else if (activeButton === "servicer") {
+      dealerId = filtersClaimServicer.dealerId;
+      categoryId = filtersClaimServicer.categoryId;
+      priceBookId = filtersClaimServicer.priceBookId;
+      servicerId = filtersClaimServicer.servicerId;
+    } else if (activeButton === "category") {
+      dealerId = filtersClaimCategory.dealerId;
+      categoryId = filtersClaimCategory.categoryId;
+      priceBookId = filtersClaimCategory.priceBookId;
+      servicerId = filtersClaimCategory.servicerId;
+    }
 
     let data = {
       startDate: startDateStr,
       endDate: endDateStr,
-      dealerId: "",
-      priceBookId: [],
-      categoryId: [],
+      dealerId: dealerId,
+      priceBookId: priceBookId,
+      categoryId: categoryId,
       flag: flag,
     };
 
@@ -60,26 +95,66 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
   };
 
   useEffect(() => {
-    // setLoading(true);
     getDatasetAtEvent({
       startDate: selectedRange.startDate.toISOString().split("T")[0],
       endDate: selectedRange.endDate.toISOString().split("T")[0],
       dealerId: "",
       priceBookId: [],
       categoryId: [],
-      flag: "daily",
+      flag: flag,
     });
-    // setLoading(false);
   }, [selectedRange, activeTab]);
 
-  const getDatasetAtEvent = async (data) => {
-    console.log(activeTab);
+  useEffect(() => {
+    console.log("flag1", flag1);
+    if (flag1) {
+      getDatasetAtEvent({
+        startDate: selectedRange.startDate.toISOString().split("T")[0],
+        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        primary: activeButton,
+        flag: flag,
+      });
+    }
+  }, [flag1]);
 
+  const getDatasetAtEvent = async (value) => {
+    let dealerId = "";
+    let categoryId = "";
+    let servicerId = "";
+    let priceBookId = [];
+
+    if (activeButton === "dealer") {
+      dealerId = filtersClaimDealer.dealerId;
+      categoryId = filtersClaimDealer.categoryId;
+      priceBookId = filtersClaimDealer.priceBookId;
+      servicerId = filtersClaimDealer.servicerId;
+    } else if (activeButton === "servicer") {
+      dealerId = filtersClaimServicer.dealerId;
+      categoryId = filtersClaimServicer.categoryId;
+      priceBookId = filtersClaimServicer.priceBookId;
+      servicerId = filtersClaimServicer.servicerId;
+    } else if (activeButton === "category") {
+      dealerId = filtersClaimCategory.dealerId;
+      categoryId = filtersClaimCategory.categoryId;
+      priceBookId = filtersClaimCategory.priceBookId;
+      servicerId = filtersClaimCategory.servicerId;
+    }
+
+    let data = {
+      startDate: value.startDate,
+      endDate: value.endDate,
+      dealerId: dealerId,
+      priceBookId: priceBookId,
+      categoryId: categoryId,
+      servicerId: servicerId,
+      primary: activeButton,
+      flag: flag,
+    };
     try {
       const res = await getAllClaims(data);
       let filteredGraphData;
       if (activeTab === "Amount") {
-        filteredGraphData = res.result.graphData.map((item) => {
+        filteredGraphData = res?.result?.graphData?.map((item) => {
           const {
             total_claim,
             total_paid_claim,
@@ -87,11 +162,10 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
             total_rejected_claim,
             ...rest
           } = item;
-          console.log(rest);
           return rest;
         });
       } else {
-        filteredGraphData = res.result.graphData.map((item) => {
+        filteredGraphData = res?.result?.graphData?.map((item) => {
           return {
             weekStart: item.weekStart,
             total_claim: item.total_claim,
@@ -101,12 +175,13 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
           };
         });
       }
-      console.log(filteredGraphData);
+      toggleFilterFlag();
       setGraphData(filteredGraphData);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
   };
+
   const isValidDateRange = (startDate, endDate) => {
     const oneYear = 365 * 24 * 60 * 60 * 1000;
     return endDate - startDate <= oneYear;
@@ -119,6 +194,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
       alert("Date range cannot exceed one year.");
     }
   };
+
   const handleRangeChange = (ranges) => {
     const { startDate, endDate } = ranges.selection;
 
@@ -131,6 +207,7 @@ function ClaimContent({ activeTab, selectedRange, setSelectedRange }) {
       alert("Date range cannot exceed one year.");
     }
   };
+
   return (
     <>
       <Grid className="mt-3">
