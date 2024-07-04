@@ -959,12 +959,12 @@ function Account() {
                         /> */}
 
                         <MultiSelect
-                          label="Product SKU"
-                          name="priceBookId"
-                          placeholder="Product SKU"
+                          label="Email"
+                          name="Email"
+                          placeholder="Email"
                           value={selectedEmail}
                           options={emails}
-                          pName="Product SKU"
+                          pName="Email"
                           onChange={(value) => {
                             console.log("value", value);
                             setSelectedEmail(value);
@@ -973,7 +973,7 @@ function Account() {
                           }}
                           labelledBy="Select"
                           overrideStrings={{
-                            selectSomeItems: "Select Product SKU",
+                            selectSomeItems: "Select Email",
                           }}
                           className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
                         />

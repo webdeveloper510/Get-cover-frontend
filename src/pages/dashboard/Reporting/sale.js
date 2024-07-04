@@ -179,7 +179,7 @@ function Sale() {
               Category
             </Button>
           </div>
-          <div className="flex">
+          {/* <div className="flex">
             <RadioButton
               id="dealer-radio"
               label="Dealer"
@@ -194,7 +194,7 @@ function Sale() {
               checked={activeButton === "category"}
               onChange={handleRadioChange}
             />
-          </div>
+          </div> */}
         </div>
         <Grid
           className={`${

@@ -234,11 +234,9 @@ function Claims() {
             </ul>
           </div>
         </div>
-        <Grid className="mt-2">
-          <div className="col-span-4 flex">
-            <div className="self-center px-3 py-1">
-              <small className="p-0">Filter By :</small>
-            </div>
+        <div className="p-3 bg-white mt-4">
+          <div className="flex w-full mb-3">
+            <p className="p-0 self-center font-bold mr-4">Filter By :</p>
             <div className="self-center">
               <Button
                 onClick={() => handleButtonClick("dealer")}
@@ -249,204 +247,202 @@ function Claims() {
                 Dealer
               </Button>
               <Button
-                onClick={() => handleButtonClick("category")}
-                className={`!rounded-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
-                  activeButton !== "category" && "!bg-[white] !text-[#333] "
-                }`}
-              >
-                Category
-              </Button>
-              <Button
                 onClick={() => handleButtonClick("servicer")}
-                className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
+                className={`!rounded-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
                   activeButton !== "servicer" && "!bg-[white] !text-[#333] "
                 }`}
               >
                 Servicer
               </Button>
+              <Button
+                onClick={() => handleButtonClick("category")}
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
+                  activeButton !== "category" && "!bg-[white] !text-[#333] "
+                }`}
+              >
+                Category
+              </Button>
             </div>
           </div>
-          <div className="col-span-8">
-            <Grid
-              className={`${
-                activeButton === "dealer"
-                  ? "grid-cols-9"
-                  : activeButton === "category"
-                  ? "grid-cols-5"
-                  : "grid-cols-7"
-              } !gap-0`}
-            >
-              {activeButton === "dealer" && (
-                <>
-                  <div className="col-span-2 self-center">
-                    <SelectBoxWithSearch
-                      label="Dealer Name"
-                      name="dealerId"
-                      value={filter.dealerId}
-                      onChange={handleFilterChange}
-                      placeholder="Dealer Name"
-                      className="!bg-white"
-                      required={true}
-                      className1="filter"
-                      pName="Dealer Name"
-                      options={dealerList}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-1">
-                    <SelectBoxWithSearch
-                      label="Servicer Name"
-                      name="servicerId"
-                      value={filter.servicerId}
-                      onChange={handleFilterChange}
-                      placeholder="Servicer Name"
-                      className="!bg-white"
-                      required={true}
-                      className1="filter"
-                      pName="Servicer Name"
-                      options={servicerList}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-1">
-                    <SelectBoxWithSearch
-                      label="Category Name"
-                      name="categoryId"
-                      placeholder="Category Name"
-                      value={filter.categoryId}
-                      className="!bg-white"
-                      className1="filter"
-                      options={categoryList}
-                      pName="Category Name"
-                      onChange={handleFilterChange}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-1">
-                    <MultiSelect
-                      label="Product SKU"
-                      name="priceBookId"
-                      placeholder="Product SKU"
-                      value={selected}
-                      options={priceBookList}
-                      pName="Product SKU"
-                      onChange={(value) => {
-                        setSelected(value);
-                        handleFilterChange("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select Product SKU",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
-                  </div>
-                  <div className="col-span-1 self-center mx-auto pl-3">
-                    <Button>Filter</Button>
-                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
-                      Reset
-                    </Button>
-                  </div>
-                </>
-              )}
-              {activeButton === "category" && (
-                <>
-                  <div className="col-span-2 self-center pl-3">
-                    <SelectBoxWithSearch
-                      label="Category Name"
-                      name="categoryId"
-                      placeholder="Category Name"
-                      value={filterCategory.categoryId}
-                      className="!bg-white"
-                      className1="filter"
-                      options={categoryListCat}
-                      pName="Category Name"
-                      onChange={handleFilterChangeCat}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-3">
-                    <MultiSelect
-                      label="Product SKU"
-                      name="priceBookId"
-                      placeholder="Product SKU"
-                      value={selectedCat}
-                      options={priceBookListCat}
-                      pName="Product SKU"
-                      onChange={(value) => {
-                        setSelectedCat(value);
-                        handleFilterChangeCat("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select Product SKU",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
-                  </div>
-                  <div className="col-span-1 self-center mx-auto pl-3">
-                    <Button>Filter</Button>
-                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
-                      Reset
-                    </Button>
-                  </div>
-                </>
-              )}
-              {activeButton === "servicer" && (
-                <>
-                  <div className="col-span-2 self-center pl-3">
-                    <SelectBoxWithSearch
-                      label="Servicer Name"
-                      name="servicerId"
-                      value={filterServicer.servicerId}
-                      onChange={handleFilterChangeServicer}
-                      placeholder="Servicer Name"
-                      className="!bg-white"
-                      required={true}
-                      className1="filter"
-                      pName="Servicer Name"
-                      options={servicerListServicer}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-3">
-                    <SelectBoxWithSearch
-                      label="Category Name"
-                      name="categoryId"
-                      placeholder="Category Name"
-                      value={filterServicer.categoryId}
-                      className="!bg-white"
-                      className1="filter"
-                      options={categoryListServicer}
-                      pName="Category Name"
-                      onChange={handleFilterChangeServicer}
-                    />
-                  </div>
-                  <div className="col-span-2 self-center pl-1">
-                    <MultiSelect
-                      label="Product SKU"
-                      name="priceBookId"
-                      placeholder="Product SKU"
-                      value={selectedSer}
-                      options={priceBookListServicer}
-                      pName="Product SKU"
-                      onChange={(value) => {
-                        setSelectedSer(value);
-                        handleFilterChangeServicer("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select Product SKU",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
-                  </div>
-                  <div className="col-span-1 self-center mx-auto pl-3">
-                    <Button>Filter</Button>
-                    <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
-                      Reset
-                    </Button>
-                  </div>
-                </>
-              )}
-            </Grid>
-          </div>
-        </Grid>
+          <Grid
+            className={`${
+              activeButton === "dealer"
+                ? "!grid-cols-10"
+                : activeButton === "category"
+                ? "!grid-cols-6"
+                : "!grid-cols-8"
+            } !gap-0`}
+          >
+            {activeButton === "dealer" && (
+              <>
+                <div className="col-span-2 self-center">
+                  <SelectBoxWithSearch
+                    label="Dealer Name"
+                    name="dealerId"
+                    value={filter.dealerId}
+                    onChange={handleFilterChange}
+                    placeholder="Dealer Name"
+                    className="!bg-white"
+                    required={true}
+                    className1="filter"
+                    pName="Dealer Name"
+                    options={dealerList}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-1">
+                  <SelectBoxWithSearch
+                    label="Servicer Name"
+                    name="servicerId"
+                    value={filter.servicerId}
+                    onChange={handleFilterChange}
+                    placeholder="Servicer Name"
+                    className="!bg-white"
+                    className1="filter"
+                    pName="Servicer Name"
+                    options={servicerList}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-1">
+                  <SelectBoxWithSearch
+                    label="Category Name"
+                    name="categoryId"
+                    placeholder="Category Name"
+                    value={filter.categoryId}
+                    className="!bg-white"
+                    className1="filter"
+                    options={categoryList}
+                    pName="Category Name"
+                    onChange={handleFilterChange}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-1">
+                  <MultiSelect
+                    label="Product SKU"
+                    name="priceBookId"
+                    placeholder="Product SKU"
+                    value={selected}
+                    options={priceBookList}
+                    pName="Product SKU"
+                    onChange={(value) => {
+                      setSelected(value);
+                      handleFilterChange("priceBookId", value);
+                    }}
+                    labelledBy="Select"
+                    overrideStrings={{
+                      selectSomeItems: "Select Product SKU",
+                    }}
+                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                  />
+                </div>
+                <div className="col-span-2 self-center ml-auto pl-3">
+                  <Button className="mr-2">Filter</Button>
+                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                    Reset
+                  </Button>
+                </div>
+              </>
+            )}
+            {activeButton === "category" && (
+              <>
+                <div className="col-span-2 self-center pl-3">
+                  <SelectBoxWithSearch
+                    label="Category Name"
+                    name="categoryId"
+                    placeholder="Category Name"
+                    value={filterCategory.categoryId}
+                    className="!bg-white"
+                    className1="filter"
+                    options={categoryListCat}
+                    pName="Category Name"
+                    onChange={handleFilterChangeCat}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-3">
+                  <MultiSelect
+                    label="Product SKU"
+                    name="priceBookId"
+                    placeholder="Product SKU"
+                    value={selectedCat}
+                    options={priceBookListCat}
+                    pName="Product SKU"
+                    onChange={(value) => {
+                      setSelectedCat(value);
+                      handleFilterChangeCat("priceBookId", value);
+                    }}
+                    labelledBy="Select"
+                    overrideStrings={{
+                      selectSomeItems: "Select Product SKU",
+                    }}
+                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                  />
+                </div>
+                <div className="col-span-2 self-center ml-auto pl-3">
+                  <Button className="mr-2">Filter</Button>
+                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                    Reset
+                  </Button>
+                </div>
+              </>
+            )}
+            {activeButton === "servicer" && (
+              <>
+                <div className="col-span-2 self-center pl-3">
+                  <SelectBoxWithSearch
+                    label="Servicer Name"
+                    name="servicerId"
+                    value={filterServicer.servicerId}
+                    onChange={handleFilterChangeServicer}
+                    placeholder="Servicer Name"
+                    className="!bg-white"
+                    required={true}
+                    className1="filter"
+                    pName="Servicer Name"
+                    options={servicerListServicer}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-3">
+                  <SelectBoxWithSearch
+                    label="Category Name"
+                    name="categoryId"
+                    placeholder="Category Name"
+                    value={filterServicer.categoryId}
+                    className="!bg-white"
+                    className1="filter"
+                    options={categoryListServicer}
+                    pName="Category Name"
+                    onChange={handleFilterChangeServicer}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-1">
+                  <MultiSelect
+                    label="Product SKU"
+                    name="priceBookId"
+                    placeholder="Product SKU"
+                    value={selectedSer}
+                    options={priceBookListServicer}
+                    pName="Product SKU"
+                    onChange={(value) => {
+                      setSelectedSer(value);
+                      handleFilterChangeServicer("priceBookId", value);
+                    }}
+                    labelledBy="Select"
+                    overrideStrings={{
+                      selectSomeItems: "Select Product SKU",
+                    }}
+                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                  />
+                </div>
+                <div className="col-span-2 self-center ml-auto pl-3">
+                  <Button className="mr-2">Filter</Button>
+                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                    Reset
+                  </Button>
+                </div>
+              </>
+            )}
+          </Grid>
+        </div>
+
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
             <Grid className="mt-2">
