@@ -22,6 +22,7 @@ function All({ activeTab, activeButton }) {
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
   });
+  const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
   const [totalFees, setTotalFees] = useState({});
   const { filters, flag1, toggleFilterFlag, filtersCategoryTab1 } =
@@ -99,7 +100,7 @@ function All({ activeTab, activeButton }) {
       flag: flag,
     });
     setLoading(false);
-  }, [selectedRange, activeTab]);
+  }, [selectedRange]);
 
   useEffect(() => {
     if (flag1) {
@@ -127,23 +128,36 @@ function All({ activeTab, activeButton }) {
     try {
       const res = await getAllSales(data);
 
-      let filteredGraphData;
-      if (activeTab === "Amount") {
-        filteredGraphData = res.result.graphData.map((item) => {
-          const { total_orders, total_contracts, ...rest } = item;
-          return rest;
-        });
-      } else {
-        filteredGraphData = res.result.graphData.map((item) => {
-          return {
-            weekStart: item.weekStart,
-            total_orders: item.total_orders,
-            total_contracts: item.total_contracts,
-          };
-        });
-      }
-      console.log(filteredGraphData);
-      setGraphData(filteredGraphData);
+      const amountData = res.result.graphData.map((item) => {
+        const { total_orders, total_contracts, ...rest } = item;
+        return rest;
+      });
+
+      const countData = res.result.graphData.map((item) => {
+        return {
+          weekStart: item.weekStart,
+          total_orders: item.total_orders,
+          total_contracts: item.total_contracts,
+        };
+      });
+      // if (activeTab === "Amount") {
+      //   filteredGraphData = res.result.graphData.map((item) => {
+      //     const { total_orders, total_contracts, ...rest } = item;
+      //     return rest;
+      //   });
+      // } else {
+      //   console.log("herrrrrrrrrrrrrrrrrr");
+      //   filteredGraphData = res.result.graphData.map((item) => {
+      //     return {
+      //       weekStart: item.weekStart,
+      //       total_orders: item.total_orders,
+      //       total_contracts: item.total_contracts,
+      //     };
+      //   });
+      // }
+      console.log(amountData, countData);
+      setGraphData(amountData);
+      setGraphDataCount(countData);
       setTotalFees(res.result.totalFees);
       toggleFilterFlag();
     } catch (error) {
@@ -197,7 +211,11 @@ function All({ activeTab, activeButton }) {
                 </div>
 
                 <div className="col-span-12">
-                  <LineChart graphData={graphData} />
+                  <LineChart
+                    graphData={
+                      activeTab == "Amount" ? graphData : graphDataCount
+                    }
+                  />
                 </div>
               </Grid>
             </div>

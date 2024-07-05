@@ -35,6 +35,7 @@ function Claims() {
   const [categoryListServicer, setCategoryListServicer] = useState([]);
   const [priceBookListServicer, setPriceBookListServicer] = useState([]);
   const [servicerListServicer, setServicerListServicer] = useState([]);
+  const [dealerListServicer, setDealerListServicer] = useState([]);
   const [selectedSer, setSelectedSer] = useState([]);
   const [activeButton, setActiveButton] = useState("dealer");
 
@@ -121,6 +122,7 @@ function Claims() {
         setServicerListServicer(mapToLabelValue(servicers));
         setCategoryListServicer(mapToLabelValue(categories));
         setPriceBookListServicer(mapPriceBooks(priceBooks));
+        setDealerListServicer(mapToLabelValue(dealers));
       }
     } catch (error) {
       console.error("Error fetching sales data:", error);
@@ -153,7 +155,7 @@ function Claims() {
         setSelected([]);
         break;
       case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
+        updatedFilters.priceBookId = value.map((item) => item.value);
         break;
       default:
         return;
@@ -188,6 +190,10 @@ function Claims() {
         updatedFilters = { ...updatedFilters, servicerId: value };
         setSelectedSer([]);
         break;
+      case "dealerId":
+        updatedFilters.dealerId = value;
+        setSelectedSer([]);
+        break;
       case "categoryId":
         updatedFilters.categoryId = value;
         setSelectedSer([]);
@@ -213,7 +219,6 @@ function Claims() {
   }, [activeButton]);
 
   const handleApplyFilters = () => {
-    console.log("i am hit this button", activeButton);
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "dealer") {
@@ -456,13 +461,13 @@ function Claims() {
                   <SelectBoxWithSearch
                     label="Dealer Name"
                     name="dealerId"
-                    value={filter.dealerId}
-                    onChange={handleFilterChange}
+                    value={filterServicer.dealerId}
+                    onChange={handleFilterChangeServicer}
                     placeholder="Dealer Name"
                     className="!bg-white"
                     className1="filter"
                     pName="Dealer Name"
-                    options={dealerList}
+                    options={dealerListServicer}
                   />
                 </div>
                 <div className="col-span-2 self-center pl-3">
