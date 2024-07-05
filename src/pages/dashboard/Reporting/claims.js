@@ -14,6 +14,7 @@ import { cityData } from "../../../stateCityJson";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
 import ClaimContent from "./Claim-Tab/ClaimContent";
+import { useMyContext } from "./../../../context/context";
 import { getFilterListForClaim } from "../../../services/reportingServices";
 
 function Claims() {
@@ -42,18 +43,21 @@ function Claims() {
     priceBookId: [],
     servicerId: "",
     categoryId: "",
+    primary: "dealer",
   });
   const [filterCategory, setFiltersCategory] = useState({
     dealerId: "",
     priceBookId: [],
     servicerId: "",
     categoryId: "",
+    primary: "category",
   });
   const [filterServicer, setFiltersServicer] = useState({
     dealerId: "",
     priceBookId: [],
     servicerId: "",
     categoryId: "",
+    primary: "servicer",
   });
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
@@ -66,17 +70,12 @@ function Claims() {
     localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
 
-  const options = [
-    { label: "Grapes ", value: "grapes" },
-    { label: "Mango ", value: "mango" },
-    { label: "Strawberry ", value: "strawberry" },
-    { label: "Watermelon ", value: "watermelon" },
-    { label: "Pear ", value: "pear" },
-    { label: "Apple ", value: "apple" },
-    { label: "Tangerine ", value: "tangerine" },
-    { label: "Pineapple ", value: "pineapple" },
-    { label: "Peach ", value: "peach" },
-  ];
+  const {
+    setFiltersForClaimServicer,
+    setFiltersForClaimDealer,
+    setFiltersForClaimCategory,
+    toggleFilterFlag,
+  } = useMyContext();
 
   const tabs = [
     {
@@ -100,7 +99,6 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
-    console.log(data);
     try {
       const res = await getFilterListForClaim(data);
       const { dealers, categories, priceBooks, servicers } = res.result;
@@ -135,7 +133,12 @@ function Claims() {
 
   const handleFilterChange = (name, value) => {
     let updatedFilters = { ...filter };
-    const commonUpdates = { categoryId: "", priceBookId: [], servicerId: "" };
+    const commonUpdates = {
+      categoryId: "",
+      priceBookId: [],
+      servicerId: "",
+      primary: activeButton,
+    };
     switch (name) {
       case "dealerId":
         updatedFilters = { dealerId: value, ...commonUpdates };
@@ -155,6 +158,7 @@ function Claims() {
       default:
         return;
     }
+    console.log(updatedFilters);
     setFilters(updatedFilters);
     getDatasetAtEvent(updatedFilters);
   };
@@ -199,17 +203,49 @@ function Claims() {
   };
 
   useEffect(() => {
-    if (activeButton === "dealer") {
-      getDatasetAtEvent({});
-    } else {
-      getDatasetAtEvent({
-        dealerId: "",
-        priceBookId: [],
-        categoryId: "",
-        servicerId: "",
-      });
-    }
+    getDatasetAtEvent({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+      servicerId: "",
+      primary: activeButton,
+    });
   }, [activeButton]);
+
+  const handleApplyFilters = () => {
+    console.log("i am hit this button", activeButton);
+    if (activeButton == "category") {
+      setFiltersForClaimCategory(filterCategory);
+    } else if (activeButton == "dealer") {
+      setFiltersForClaimDealer(filter);
+    } else if (activeButton == "servicer") {
+      setFiltersForClaimServicer(filterServicer);
+    }
+  };
+
+  const handleResetFilters = () => {
+    let data = {
+      dealerId: "",
+      priceBookId: [],
+      servicerId: "",
+      categoryId: "",
+      primary: activeButton,
+    };
+    if (activeButton === "category") {
+      setFiltersCategory(data);
+      setFiltersForClaimCategory(data);
+    } else if (activeButton === "dealer") {
+      setFilters(data);
+      setFiltersForClaimDealer(data);
+    } else if (activeButton === "servicer") {
+      setFiltersServicer(data);
+      setFiltersForClaimServicer(data);
+    }
+    setSelected([]);
+    setSelectedCat([]);
+    setSelectedSer([]);
+    getDatasetAtEvent(data);
+  };
 
   return (
     <>
@@ -316,7 +352,7 @@ function Claims() {
                   />
                 </div>
                 <div className="col-span-2 self-center pl-1">
-                  <MultiSelect
+                  {/* <MultiSelect
                     label="Product SKU"
                     name="priceBookId"
                     placeholder="Product SKU"
@@ -332,11 +368,33 @@ function Claims() {
                       selectSomeItems: "Select Product SKU",
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                  />
+                  /> */}
+                    <MultiSelect
+                      label="Product SKU"
+                      name="priceBookId"
+                      placeholder="Product SKU"
+                      value={selected}
+                      options={priceBookList}
+                      pName="Product SKU"
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select Product SKU",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
-                  <Button className="mr-2">Filter</Button>
-                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                  <Button className="mr-2" onClick={handleApplyFilters}>
+                    Filter
+                  </Button>
+                  <Button
+                    className="!bg-white !text-[#333] border-[1px] border-[#333]"
+                    onClick={handleResetFilters}
+                  >
                     Reset
                   </Button>
                 </div>
@@ -377,8 +435,13 @@ function Claims() {
                   />
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
-                  <Button className="mr-2">Filter</Button>
-                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                  <Button className="mr-2" onClick={handleApplyFilters}>
+                    Filter
+                  </Button>
+                  <Button
+                    className="!bg-white !text-[#333] border-[1px] border-[#333]"
+                    onClick={handleResetFilters}
+                  >
                     Reset
                   </Button>
                 </div>
@@ -433,8 +496,13 @@ function Claims() {
                   />
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
-                  <Button className="mr-2">Filter</Button>
-                  <Button className="!bg-white !text-[#333] border-[1px] border-[#333]">
+                  <Button className="mr-2" onClick={handleApplyFilters}>
+                    Filter
+                  </Button>
+                  <Button
+                    className="!bg-white !text-[#333] border-[1px] border-[#333]"
+                    onClick={handleResetFilters}
+                  >
                     Reset
                   </Button>
                 </div>
@@ -485,6 +553,7 @@ function Claims() {
             <ClaimContent
               activeTab={activeTab}
               selectedRange={selectedRange}
+              activeButton={activeButton}
               setSelectedRange={setSelectedRange}
             />
           </div>

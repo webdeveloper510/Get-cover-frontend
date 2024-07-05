@@ -15,6 +15,27 @@ export const MyContextProvider = ({ children }) => {
     priceBookId: [],
     categoryId: "",
   });
+  const [filtersClaimCategory, setFiltersClaimCategory] = useState({
+    dealerId: "",
+    priceBookId: [],
+    categoryId: "",
+    servicer: "",
+    primary: "category",
+  });
+  const [filtersClaimServicer, setFiltersClaimServicer] = useState({
+    dealerId: "",
+    priceBookId: [],
+    categoryId: "",
+    servicer: "",
+    primary: "servicer",
+  });
+  const [filtersClaimDealer, setFiltersClaimDealer] = useState({
+    dealerId: "",
+    priceBookId: [],
+    categoryId: "",
+    servicer: "",
+    primary: "dealer",
+  });
 
   const toggleFlag = () => {
     setFlag((prevFlag) => !prevFlag);
@@ -32,6 +53,20 @@ export const MyContextProvider = ({ children }) => {
     setFlag1(true);
     setFiltersCategoryTab(newFilters);
   };
+  const setFiltersForClaimCategory = (newFilters) => {
+    setFlag1(true);
+    setFiltersClaimCategory(newFilters);
+  };
+  const setFiltersForClaimDealer = (newFilters) => {
+    console.log("ssssss");
+    setFiltersClaimDealer(newFilters);
+    setFlag1(true);
+  };
+  const setFiltersForClaimServicer = (newFilters) => {
+    setFlag1(true);
+    setFiltersClaimServicer(newFilters);
+  };
+
   return (
     <MyContext.Provider
       value={{
@@ -41,8 +76,14 @@ export const MyContextProvider = ({ children }) => {
         setAppliedFilters,
         flag1,
         filtersCategoryTab1,
+        filtersClaimCategory,
+        filtersClaimServicer,
+        filtersClaimDealer,
         toggleFilterFlag,
         setFiltersForCategory,
+        setFiltersForClaimServicer,
+        setFiltersForClaimDealer,
+        setFiltersForClaimCategory,
       }}
     >
       {children}

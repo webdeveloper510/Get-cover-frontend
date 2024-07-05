@@ -2,7 +2,7 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 
 const LineChart = ({ graphData, flag }) => {
-  console.log(graphData, flag);
+  // console.log(graphData, flag);
   if (!graphData || graphData.length === 0) {
     return <div>No data available for the selected range.</div>;
   }
