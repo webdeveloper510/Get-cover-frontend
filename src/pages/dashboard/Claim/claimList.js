@@ -994,6 +994,17 @@ function ClaimList(props) {
     },
   ];
 
+  const claimPaid = [
+    {
+      value: "Unpaid Claims",
+      label: "Unpaid Claims",
+    },
+    {
+      value: "Paid Claims",
+      label: "Paid Claims",
+    },
+  ];
+
   const repairValue = [
     {
       value: "Request Sent",
@@ -2808,6 +2819,16 @@ function ClaimList(props) {
                   options={repairValue}
                   name="repairStatus"
                   label="Repair Status"
+                  className="!bg-white"
+                  onChange={handleSelectChange2}
+                  value={formik1.values.repairStatus}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  options={claimPaid}
+                  name="claimpaid"
+                  label="Paid Status"
                   className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.repairStatus}
