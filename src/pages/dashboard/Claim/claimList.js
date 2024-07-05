@@ -33,7 +33,7 @@ import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -125,6 +125,8 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const { claimIdValue } = useParams();
+  console.log("claimIdValue", claimIdValue);
   const excludedPaths = [
     "/customer/claimList",
     "/reseller/claimList",
@@ -215,7 +217,6 @@ function ClaimList(props) {
   const handleSelectChange = (selectedValue, value) => {
     setLoading1(true);
     if (selectedValue === "claimStatus") {
-      console.log(loading1, "------1--------------");
       if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
@@ -287,7 +288,6 @@ function ClaimList(props) {
     }, 3000);
   };
 
-  // console.log(coverage, "---------------------->>>>>");
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -296,6 +296,7 @@ function ClaimList(props) {
     });
     closeReject();
   };
+
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
@@ -471,6 +472,7 @@ function ClaimList(props) {
   const handleToggleDropdown2 = () => {
     setDropdownVisible2(!dropdownVisible2);
   };
+
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -478,6 +480,7 @@ function ClaimList(props) {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+
   const closeEdit = () => {
     formik.resetForm();
     setError("");
@@ -487,10 +490,12 @@ function ClaimList(props) {
   const openReject = () => {
     setIsRejectOpen(true);
   };
+
   const closeReject = () => {
     setIsRejectOpen(false);
     setShowForm(false); // Reset the form state
   };
+
   const handleYesClick = () => {
     setShowForm(true);
   };
@@ -498,9 +503,11 @@ function ClaimList(props) {
   const handleToggle = () => {
     setShowDetails(!showDetails);
   };
+
   const handleSetActiveIndex = (index) => {
     setActiveIndex(index); // Update active index based on user action
   };
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -607,6 +614,7 @@ function ClaimList(props) {
     setIsAttachmentsOpen(true);
     // setIsEditOpen(false);
   };
+
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
   };
@@ -740,6 +748,7 @@ function ClaimList(props) {
     type: "Admin",
     messageFile: {},
   };
+
   const formik2 = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -803,11 +812,6 @@ function ClaimList(props) {
       }
     },
   });
-
-  // const handleFileChange = (event) => {
-  //   // Handle file change and set it in formik2
-  //   formik2.setFieldValue("file", event.currentTarget.files[0]);
-  // };
 
   useEffect(() => {
     if (activeIndex != null) {
@@ -1064,7 +1068,7 @@ function ClaimList(props) {
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
-      claimId: "",
+      claimId: claimIdValue,
       venderOrder: "",
       serial: "",
       productName: "",
