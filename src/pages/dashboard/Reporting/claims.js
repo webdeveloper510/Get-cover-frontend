@@ -351,7 +351,7 @@ function Claims() {
                     onChange={handleFilterChange}
                   />
                 </div>
-                <div className="col-span-2 self-center pl-1">
+                <div className="col-span-2 self-center relative pl-1">
                   {/* <MultiSelect
                     label="Product SKU"
                     name="priceBookId"
@@ -369,23 +369,26 @@ function Claims() {
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
                   /> */}
-                    <MultiSelect
-                      label="Product SKU"
-                      name="priceBookId"
-                      placeholder="Product SKU"
-                      value={selected}
-                      options={priceBookList}
-                      pName="Product SKU"
-                      onChange={(value) => {
-                        setSelected(value);
-                        handleFilterChange("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select Product SKU",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
+                  <MultiSelect
+                    label="Product SKU"
+                    name="priceBookId"
+                    placeholder="Product SKU"
+                    value={selected}
+                    options={priceBookList}
+                    pName="Product SKU"
+                    onChange={(value) => {
+                      setSelected(value);
+                      handleFilterChange("priceBookId", value);
+                    }}
+                    labelledBy="Select"
+                    overrideStrings={{
+                      selectSomeItems: "Select ",
+                    }}
+                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                  />
+                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    Product SKU
+                  </small>
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
                   <Button className="mr-2" onClick={handleApplyFilters}>
@@ -415,7 +418,7 @@ function Claims() {
                     onChange={handleFilterChangeCat}
                   />
                 </div>
-                <div className="col-span-2 self-center pl-3">
+                <div className="col-span-2 self-center pl-3 relative">
                   <MultiSelect
                     label="Product SKU"
                     name="priceBookId"
@@ -429,10 +432,13 @@ function Claims() {
                     }}
                     labelledBy="Select"
                     overrideStrings={{
-                      selectSomeItems: "Select Product SKU",
+                      selectSomeItems: "Select",
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
                   />
+                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[25px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    Product SKU
+                  </small>
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
                   <Button className="mr-2" onClick={handleApplyFilters}>
@@ -476,7 +482,7 @@ function Claims() {
                     onChange={handleFilterChangeServicer}
                   />
                 </div>
-                <div className="col-span-2 self-center pl-1">
+                <div className="col-span-2 self-center pl-1 relative">
                   <MultiSelect
                     label="Product SKU"
                     name="priceBookId"
@@ -490,10 +496,13 @@ function Claims() {
                     }}
                     labelledBy="Select"
                     overrideStrings={{
-                      selectSomeItems: "Select Product SKU",
+                      selectSomeItems: "Select",
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
                   />
+                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    Product SKU
+                  </small>
                 </div>
                 <div className="col-span-2 self-center ml-auto pl-3">
                   <Button className="mr-2" onClick={handleApplyFilters}>
