@@ -1294,7 +1294,7 @@ function ClaimList(props) {
                       <CollapsibleDiv
                         index={index}
                         activeIndex={activeIndex}
-                        ShowData={showdata1}
+                        ShowData={showdata}
                         setActiveIndex={handleSetActiveIndex}
                         title={
                           <>

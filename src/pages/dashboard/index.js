@@ -16,28 +16,40 @@ import Select from "../../common/select";
 import { getDashboardDetails } from "../../services/dashboardServices";
 import { RotateLoader } from "react-spinners";
 import CommonTooltip from "../../common/toolTip";
+import DataTable from "react-data-table-component";
+import { getDealersList } from "../../services/dealerServices";
+import { getOrders } from "../../services/orderServices";
+import { addNewServicerRequest } from "../../services/servicerServices";
+import {
+  getClaimList,
+  getClaimListForDealer,
+} from "../../services/claimServices";
 
-function Dashboard ()  {
+function Dashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isRangeOpen, setIsRangeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dashboardDetail, setDashboardDetails] = useState({});
+  const [customerList, setCustomerList] = useState([]);
+  const [orderList, setOrderList] = useState([]);
+  const [servicerList, setServicerList] = useState([]);
+  const [claimList, setClaimList] = useState([]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  
+
   const toggleRange = () => {
     setIsRangeOpen(!isRangeOpen);
   };
 
   const dashboardDetails = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const result = await getDashboardDetails();
       console.log(result);
       setDashboardDetails(result.result);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -50,9 +62,69 @@ function Dashboard ()  {
 
   useEffect(() => {
     dashboardDetails();
+    getDealerList();
+    getOrderList();
+    getServicerList();
+    getAllClaims();
   }, []);
-  
+  const getAllClaims = async () => {
+    setLoading(true);
+    let data = {
+      claimId: "",
+      claimStatus: "",
+      contractId: "",
+      customerName: "",
+      customerStatusValue: "",
+      dealerName: "",
+      orderId: "",
+      pName: "",
+      page: 1,
+      pageLimit: 5,
+      productName: "",
+      repairStatus: "",
+      serial: "",
+      servicerName: "",
+      trackingNumber: "",
+      trackingType: "",
+      venderOrder: "",
+    };
+    getClaimList(data)
+      .then((res) => {
+        console.log(res.result);
+        setClaimList(res.result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+  const getDealerList = async () => {
+    try {
+      const result = await getDealersList();
+      console.log(result.data, "jjjjj");
 
+      const trimmedData = result.data.slice(0, 5);
+      setCustomerList(trimmedData);
+    } catch (error) {
+      console.error("Error fetching dealer list:", error);
+    }
+  };
+
+  const getOrderList = async (data = {}) => {
+    setLoading(true);
+    const result = await getOrders(data);
+    console.log(result.result);
+    const trimmedData = result.result.slice(0, 5);
+    setOrderList(trimmedData);
+  };
+
+  const getServicerList = async () => {
+    setLoading(true);
+    const result = await addNewServicerRequest("Approved", {});
+    setServicerList(result.data);
+    console.log(result.data);
+    setLoading(false);
+  };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -62,6 +134,137 @@ function Dashboard ()  {
         maximumFractionDigits: 2,
       });
     }
+  };
+
+  const columns = [
+    {
+      name: "Order ID",
+      selector: (row) => row?.unique_key,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Dealer P.O #",
+      selector: (row) => row?.venderOrder,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "# Contracts",
+      selector: (row) =>
+        row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2),
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Order Value",
+      selector: (row) =>
+        `$${
+          row?.orderAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        }`,
+      sortable: true,
+    },
+  ];
+
+  const Claim = [
+    {
+      name: "Claim ID",
+      selector: (row) => row.unique_key,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Customer Status",
+      selector: (row) => row.customerStatus?.[0]?.status,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Claim Status",
+      selector: (row) => row?.claimStatus?.[0]?.status,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Repair Status",
+      selector: (row) => row?.repairStatus?.[0]?.status,
+      sortable: true,
+    },
+  ];
+
+  const Dealer = [
+    {
+      name: "Name",
+      selector: (row) => row.firstName,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Phone #",
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "# of Orders",
+      selector: (row) => row?.ordersData?.noOfOrders ?? 0,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Order Value",
+      selector: (row) =>
+        `$${
+          row?.ordersData?.orderAmount === ""
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
+        }`,
+      sortable: true,
+    },
+  ];
+
+  const Servicer = [
+    {
+      name: "Name",
+      selector: (row) => row.firstName,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Phone #",
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "# of Claim",
+      selector: (row) => row?.claimNumber?.noOfOrders ?? 0,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Claim Value",
+      selector: (row) =>
+        `$${
+          row?.claimValue?.totalAmount === ""
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0))
+        }`,
+      sortable: true,
+    },
+  ];
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
   return (
@@ -74,294 +277,175 @@ function Dashboard ()  {
           </div>
         </div>
         {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
+          <div className="mt-5">
+            <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
+                <p className="text-2xl font-bold">
+                  {dashboardDetail?.orderData?.totalOrder
+                    ? dashboardDetail.orderData.totalOrder
+                    : 0}
+                </p>
+                <p className="text-neutral-grey text-sm">
+                  Total Number of Orders
+                </p>
+              </div>
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+                <p className="text-2xl font-bold">
+                  $
+                  {dashboardDetail?.orderData?.totalAmount === ""
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                        dashboardDetail?.orderData?.totalAmount ?? parseInt(0)
+                      )}
+                </p>
+                <p className="text-neutral-grey text-sm">
+                  Total Value of Orders
+                </p>
+              </div>
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+                <p className="text-2xl font-bold">
+                  {dashboardDetail?.claimData?.numberOfClaims
+                    ? dashboardDetail?.claimData?.numberOfClaims
+                    : 0}
+                </p>
+                <p className="text-neutral-grey text-sm">
+                  Total Completed Claims
+                </p>
+              </div>
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+                <p className="text-2xl font-bold">
+                  $
+                  {dashboardDetail?.claimData?.valueClaim === ""
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                        dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
+                      )}
+                </p>
+                <p className="text-neutral-grey text-sm">
+                  Total Value of Claims
+                </p>
+              </div>
+            </Grid>
+
+            <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+              <div className="col-span-6">
+                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                  <p className="font-lg font-bold text-white pl-2">
+                    Amount of Orders
+                  </p>
+                  <BarChart />
                 </div>
               </div>
-            ) : (
-            <div className="mt-5">
-              <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
-            
-                <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
-               
-                  <p className="text-2xl font-bold">
-                  {dashboardDetail?.orderData?.totalOrder ? (
-                    dashboardDetail.orderData.totalOrder
-                  ) : (
-                    0
-                  )}
+              <div className="col-span-6">
+                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                  <p className="font-lg font-bold text-white pl-2">
+                    Amount of Claim
                   </p>
-                  <p className="text-neutral-grey text-sm">Total Number of Orders</p>
-                 
+                  <BarChart />
                 </div>
-         
-                <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                  <p className="text-2xl font-bold">
-                  ${ dashboardDetail?.orderData?.totalAmount === ''
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dashboardDetail?.orderData?.totalAmount ?? parseInt(0))}
-                  </p>
-                  <p className="text-neutral-grey text-sm">Total Value of Orders</p>
+              </div>
+              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+                <p className="text-xl font-semibold pl-3 pt-2">
+                  Latest Five Order
+                </p>
+                <div className="">
+                  <DataTable
+                    columns={columns}
+                    data={orderList}
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </div>
-                <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                  <p className="text-2xl font-bold"> 
-                  {dashboardDetail?.claimData?.numberOfClaims ? (
-                        dashboardDetail?.claimData?.numberOfClaims
-                      ) : (
-                        0
-                      )}</p>
-                  <p className="text-neutral-grey text-sm">Total Completed Claims</p>
-                </div>
-                <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
-                  <p className="text-2xl font-bold">
-                  ${ dashboardDetail?.claimData?.valueClaim === ''
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dashboardDetail?.claimData?.valueClaim ?? parseInt(0))}
-                  </p>
-                  <p className="text-neutral-grey text-sm">Total Value of Claims</p>
-                </div>
-              </Grid>
+              </div>
 
-              {/* <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-                <div className="col-span-6 border-2 rounded-xl">
-                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
-                    <p className="text-xl font-semibold">Latest Five Order</p>
-                  </div>
-                  <div className="px-3 py-2">
-                    <p><b>1.</b> </p>
-                    <p><b>2.</b> </p>
-                    <p><b>3.</b> </p>
-                    <p><b>4.</b> </p>
-                    <p><b>5.</b> </p>
-                  </div>
+              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+                <p className="text-xl font-semibold pl-3 pt-2">
+                  Latest Five Claim
+                </p>
+                <div className="">
+                  <DataTable
+                    columns={Claim}
+                    data={claimList}
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </div>
-                <div className="col-span-6 border-2 rounded-xl">
-                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
-                    <p className="text-xl font-semibold">Latest Five Claim</p>
-                  </div>
-                  <div className="px-3 py-2">
-                    <p><b>1.</b> </p>
-                    <p><b>2.</b> </p>
-                    <p><b>3.</b> </p>
-                    <p><b>4.</b> </p>
-                    <p><b>5.</b> </p>
-                  </div>
-                </div>
-              </Grid>
+              </div>
+            </Grid>
 
-              <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-                <div className="col-span-6 border-2 rounded-xl">
-                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
-                    <p className="text-xl font-semibold">Top Five Dealer</p>
-                  </div>
-                  <div className="px-3 py-2">
-                    <p><b>1.</b> </p>
-                    <p><b>2.</b> </p>
-                    <p><b>3.</b> </p>
-                    <p><b>4.</b> </p>
-                    <p><b>5.</b> </p>
-                  </div>
+            <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+                <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
+                  Top 5 Dealer
+                </p>
+                <div className="">
+                  <DataTable
+                    columns={Dealer}
+                    data={customerList}
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </div>
-                <div className="col-span-6 border-2 rounded-xl">
-                  <div className="bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-2">
-                    <p className="text-xl font-semibold">Top Five Servicer</p>
-                  </div>
-                  <div className="px-3 py-2">
-                    <p><b>1.</b> </p>
-                    <p><b>2.</b> </p>
-                    <p><b>3.</b> </p>
-                    <p><b>4.</b> </p>
-                    <p><b>5.</b> </p>
-                  </div>
+              </div>
+              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+                <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
+                  Top Five Servicer
+                </p>
+                <div className="">
+                  <DataTable
+                    columns={Servicer}
+                    data={servicerList}
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </div>
-              </Grid> */}
-              
-              {/* <Grid className="s:hidden md:block ">
-                <div className="col-span-12">
-                  <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
-                    <Grid>
-                      <div className="col-span-3 self-center">
-                        <p className="text-xl font-bold">
-                          Total Order Value{" "}
-                          <span className="text-sm font-normal"> Monthly </span>
-                        </p>
-                      </div>
-                      <div className="col-span-9 self-center">
-                        <Grid className="!grid-cols-9 !gap-1">
-                          <div className="col-span-3 text-right">
-                            <Button className="!bg-[#FFFFFF2B] !text-white !text-[11px] !rounded-xl">
-                              Compare Years by Month
-                            </Button>
-                          </div>
-                          <div className="col-span-2 text-center">
-                            <Button className="!bg-[#FFFFFF2B] !text-white !text-[11px] ml-1 !rounded-xl">
-                              Year To Date
-                            </Button>
-                          </div>
-                          <div className="col-span-2">
-                            <div className="flex border border-white px-2 py-1 h-full rounded-xl justify-between relative">
-                              <div
-                                className="flex justify-between w-full cursor-pointer"
-                                onClick={toggleDropdown}
-                              >
-                                <p className="self-center text-[13px]">Period</p>
-                                <img
-                                  src={drop}
-                                  className="w-4 h-4 self-center justify-end"
-                                  alt="drop"
-                                />
-                              </div>
-                              {isDropdownOpen && (
-                                <div className="absolute top-8 w-full text-center ">
-                                  <div className="bg-white text-light-black border rounded-xl py-2 px-4">
-                                    <p className="font-semibold border-b">Period</p>
-                                    <p className="border-b">Days</p>
-                                    <p>Monthly</p>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          <div className="col-span-2">
-                            <div className="flex border border-white px-2 py-1 h-full rounded-xl justify-between relative">
-                              <div
-                                className="flex justify-between w-full cursor-pointer "
-                                onClick={toggleRange}
-                              >
-                                <p className="self-center text-[13px] ">
-                                  Date Range
-                                </p>
-                                <img
-                                  src={drop}
-                                  className="w-4 h-4 self-center"
-                                  alt="drop"
-                                />
-                              </div>
-                              {isRangeOpen && (
-                                <div className="absolute top-10 w-full right-[100%]">
-                                  <div className="bg-white w-[350px] p-3 text-light-black border rounded-xl py-2 px-4">
-                                    <p className="font-semibold text-base border-b pb-2 mb-3">
-                                      Date Range
-                                    </p>
-                                    <Grid>
-                                      <div className="col-span-6">
-                                        <Input type="date" className1='!pt-2.5' />
-                                      </div>
-                                      <div className="col-span-6">
-                                        <Input type="date" className1='!pt-2.5' />
-                                      </div>
-                                    </Grid>
-                                    <div className="mt-4">
-                                      <Button>Show Results</Button>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </Grid>
-                      </div>
-                    </Grid>
+              </div>
+            </Grid>
 
-                    <BarChart />
+            <Grid className="s:hidden md:block px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
+              <div className="col-span-12">
+                <p className="text-xl font-semibold pl-1 pr-1 pt-2 inline-block">
+                  Top Five Performing SKU's Based on # of Sales
+                </p>
+                <hr />
+                <Grid>
+                  <div className="col-span-6">
+                    <div className="">
+                      <p className="text-xl font-semibold pl-1 pr-1 pt-2 inline-block">
+                        30 Days
+                      </p>
+                    </div>
+                    <DataTable
+                      columns={Servicer}
+                      data={servicerList}
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
                   </div>
-                </div>
-              </Grid>
-              <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
-                <Grid className="s:grid-cols-2 md:grid-cols-12 xl:grid-cols-12">
-                  <div className="col-span-2 my-3">
-                    <Select
-                      label=""
-                      name="state"
-                      placeholder=""
-                      className="!bg-white"
-                      className1="!p-1"
-                      options={time}
+                  <div className="col-span-6">
+                    <div className="">
+                      <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
+                        One Years
+                      </p>
+                    </div>
+                    <DataTable
+                      columns={Servicer}
+                      data={servicerList}
+                      highlightOnHover
+                      draggableColumns={false}
                     />
                   </div>
                 </Grid>
-                <Grid className="  s:grid-cols-1 md:grid-cols-3 xl:grid-cols-5">
-                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
-                    <div className="bg-white pl-2">
-                      <div className="flex mb-4">
-                        <img src={Administration} alt="Administration" />
-                        <p className="text-sm font-bold self-center pl-3">
-                          Breakdown for Administration
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl font-bold">$5,666,159.00</p>
-                        <p className="text-base opacity-50 font-normal">
-                          $10,000.00
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border-r s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
-                    <div className="bg-white pl-4">
-                      <div className="flex mb-4">
-                        <img src={Fronting} alt="Administration" />
-                        <p className="text-sm font-bold self-center pl-3">
-                          Fronting <br /> Fees
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl font-bold">$232,159.00</p>
-                        <p className="text-base opacity-50 font-normal">
-                          $10,000.00
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
-                    <div className="bg-white pl-4">
-                      <div className="flex mb-4">
-                        <img src={insurance} alt="Administration" />
-                        <p className="text-sm font-bold self-center pl-3">
-                          Re-insurance Premium
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl font-bold">$1,523,239.00</p>
-                        <p className="text-base opacity-50 font-normal">
-                          $10,000.00
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-1 s:border-0 md:border-r xl:border-r s:bg-[none] md:bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] s:pr-0 md:pr-[1px] xl:pr-[1px]">
-                    <div className="bg-white pl-3">
-                      <div className="flex mb-4">
-                        <img src={Reserves} alt="Administration" />
-                        <p className="text-sm font-bold self-center pl-3">
-                          Reserves Future Claims
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl font-bold">$123,259.00</p>
-                        <p className="text-base opacity-50 font-normal">
-                          $10,000.00
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-span-1 pl-5">
-                    <div className="flex mb-4">
-                      <img src={Broker} alt="Administration" />
-                      <p className="text-sm font-bold self-center pl-3">
-                        Broker <br /> Fees
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-3xl font-bold">$1,552,369.00</p>
-                      <p className="text-base opacity-50 font-normal">$10,000.00</p>
-                    </div>
-                  </div>
-                </Grid>
-              </div> */}
-            </div>
-            )}
+              </div>
+            </Grid>
+          </div>
+        )}
       </div>
     </>
   );

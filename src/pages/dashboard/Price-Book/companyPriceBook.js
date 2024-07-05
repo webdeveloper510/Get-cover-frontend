@@ -8,7 +8,7 @@ import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Headbar from "../../../common/headBar";
-import Edit from '../../../assets/images/Dealer/EditIcon.svg';
+import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -36,7 +36,7 @@ function CompanyPriceBook() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
-  const [loading1, setLoading1] =useState(false)
+  const [loading1, setLoading1] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,6 @@ function CompanyPriceBook() {
   // color="text-Black-Russian opacity-50"
   // className="!text-[14px] !bg-white"
   // value={formik.values.pricetype}
- 
 
   useEffect(() => {
     getPriceBookListData();
@@ -122,7 +121,6 @@ function CompanyPriceBook() {
       console.error("Error in handleStatusChange:", error);
     }
   };
-  
 
   const truncateText = (text, maxLength) => {
     return text.length > maxLength
@@ -156,21 +154,21 @@ function CompanyPriceBook() {
   ];
 
   const getCompanyPriceBook = (id) => {
-    getcompanyPriceBookData(id)
-  }
+    getcompanyPriceBookData(id);
+  };
   const getcompanyPriceBookData = async (id) => {
     try {
       setLoading1(true);
       const result = await getCompanyPriceBookById(id);
       console.log(result.result);
-      setData(result.result)
+      setData(result.result);
       setSelectedAction(null);
       setLoading1(false);
     } catch (error) {
       console.error(error);
       setLoading1(false);
     }
-  }
+  };
 
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
@@ -186,7 +184,12 @@ function CompanyPriceBook() {
       maxWidth: "80px",
     },
     {
-      name: (<div>Price <br/>Type </div>),
+      name: (
+        <div>
+          Price <br />
+          Type{" "}
+        </div>
+      ),
       selector: (row) => row.priceType,
       sortable: true,
       minWidth: "auto",
@@ -200,7 +203,11 @@ function CompanyPriceBook() {
       maxWidth: "300px",
     },
     {
-      name: (<div>Product <br/> SKU</div>),
+      name: (
+        <div>
+          Product <br /> SKU
+        </div>
+      ),
       selector: (row) => row.name,
       sortable: true,
     },
@@ -244,8 +251,9 @@ function CompanyPriceBook() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${
+              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -291,15 +299,15 @@ function CompanyPriceBook() {
                 <div
                   onClick={() => navigate(`/editCompanyPriceBook/${row._id}`)}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
                 <hr />
                 <div
                   onClick={() => openView(row._id)}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -378,13 +386,15 @@ function CompanyPriceBook() {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
-    formik.values = {name: "",
-    status: "",
-    category: "",
-    priceType: "",
-    term: "",
-    coverageType:"",
-    range:"",};
+    formik.values = {
+      name: "",
+      status: "",
+      category: "",
+      priceType: "",
+      term: "",
+      coverageType: "",
+      range: "",
+    };
     console.log(formik.values);
     getPriceBookListData();
   };
@@ -393,12 +403,12 @@ function CompanyPriceBook() {
     initialValues: {
       name: "",
       status: "",
-      pName:"",
+      pName: "",
       category: "",
       priceType: "",
       term: "",
-      range:"",
-      coverageType:"",
+      range: "",
+      coverageType: "",
     },
 
     validationSchema: Yup.object({
@@ -480,7 +490,7 @@ function CompanyPriceBook() {
                     </div>
 
                     <div className="col-span-2 self-center">
-                    {/* <Input
+                      {/* <Input
                       type="text"
                       name="category"
                       className="!text-[14px] !bg-White-Smoke"
@@ -528,7 +538,7 @@ function CompanyPriceBook() {
                         type="button"
                         className="!bg-transparent !p-0 mr-3"
                         onClick={() => {
-                          handleFilterIconClick ()
+                          handleFilterIconClick();
                         }}
                       >
                         <img
@@ -557,7 +567,9 @@ function CompanyPriceBook() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 sortIcon={
                   <>
                     {" "}
@@ -575,142 +587,229 @@ function CompanyPriceBook() {
           </div>
 
           <Modal isOpen={isViewOpen} onClose={closeView}>
-            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
-              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+            <Button
+              onClick={closeView}
+              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+            >
+              <img
+                src={Cross}
+                className="w-full h-full text-black rounded-full p-0"
+              />
             </Button>
-            <Button onClick={() => { navigate(`/editCompanyPriceBook/${data._id}`) }} className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] !bg-gradient-to-t !from-Granite-Gray !to-[#575757] mt-[-9px] !rounded-full">
-              <img src={Edit} className="w-full h-full text-black rounded-full p-0" />
+            <Button
+              onClick={() => {
+                navigate(`/editCompanyPriceBook/${data._id}`);
+              }}
+              className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] !bg-gradient-to-t !from-Granite-Gray !to-[#575757] mt-[-9px] !rounded-full"
+            >
+              <img
+                src={Edit}
+                className="w-full h-full text-black rounded-full p-0"
+              />
             </Button>
-            {loading1 ? (<>
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div></>) : (
+            {loading1 ? (
               <>
-              <div className="py-3">
-                <p className='text-center text-3xl font-semibold '>
-                  View Company Price Book
-                </p>
-                <Grid className='mt-5 px-6'>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Product Category</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data?.category?.name}</p>
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
                   </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Product SKU</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.name}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Product Name</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.pName}</p>
-                  </div>
-                  <div className='col-span-12'>
-                    <p className="text-lg text-light-black font-semibold">Description</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.description}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Price Type</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.priceType}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Coverage Type</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.coverageType}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Term</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.term} Months</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Fronting fee</p>
-                    <p className="text-base text-neutral-grey font-semibold">
-                    ${ data?.frontingFee === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(data?.frontingFee ?? parseInt(0))}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Re-insurance fee</p>
-                    <p className="text-base text-neutral-grey font-semibold">
-                    ${ data?.reinsuranceFee === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(data?.reinsuranceFee ?? parseInt(0))} </p>
-                  </div>
-                  <div className='col-span-6'>
-                    <p className="text-lg text-light-black font-semibold">Reserve for future claims</p>
-                    <p className="text-base text-neutral-grey font-semibold">
-                     ${ data?.reserveFutureFee === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(data?.reserveFutureFee ?? parseInt(0))} </p>
-                  </div>
-                  <div className='col-span-6'>
-                    <p className="text-lg text-light-black font-semibold">Administration fee</p>
-                    <p className="text-base text-neutral-grey font-semibold">
-                    ${ data?.adminFee === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(data?.adminFee ?? parseInt(0))} </p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Wholesale Cost</p>
-                    <p className="text-base text-neutral-grey font-semibold">
-                    { formattedCost === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(formattedCost ?? parseInt(0))}</p>
-                  </div>
-                  <div className='col-span-4'>
-                    <p className="text-lg text-light-black font-semibold">Status</p>
-                    <p className="text-base text-neutral-grey font-semibold"> {data.status === true ? 'Active' : "inActive"}</p>
-                  </div>
-                 
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="py-3">
+                  <p className="text-center text-3xl font-semibold ">
+                    View Company Price Book
+                  </p>
+                  <Grid className="mt-5 px-6">
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Product Category
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data?.category?.name}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Product SKU
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.name}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Product Name
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.pName}
+                      </p>
+                    </div>
+                    <div className="col-span-12">
+                      <p className="text-lg text-light-black font-semibold">
+                        Description
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.description}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Price Type
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.priceType}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Coverage Type
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.coverageType}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Term
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.term} Months
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Fronting fee
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        $
+                        {data?.frontingFee === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(data?.frontingFee ?? parseInt(0))}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Re-insurance fee
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        $
+                        {data?.reinsuranceFee === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              data?.reinsuranceFee ?? parseInt(0)
+                            )}{" "}
+                      </p>
+                    </div>
+                    <div className="col-span-6">
+                      <p className="text-lg text-light-black font-semibold">
+                        Reserve for future claims
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        $
+                        {data?.reserveFutureFee === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              data?.reserveFutureFee ?? parseInt(0)
+                            )}{" "}
+                      </p>
+                    </div>
+                    <div className="col-span-6">
+                      <p className="text-lg text-light-black font-semibold">
+                        Administration fee
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        $
+                        {data?.adminFee === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
+                              data?.adminFee ?? parseInt(0)
+                            )}{" "}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Wholesale Cost
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {formattedCost === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(formattedCost ?? parseInt(0))}
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg text-light-black font-semibold">
+                        Status
+                      </p>
+                      <p className="text-base text-neutral-grey font-semibold">
+                        {" "}
+                        {data.status === true ? "Active" : "Inactive"}
+                      </p>
+                    </div>
 
-                  {
-                    data.priceType == "Flat Pricing" && (
+                    {data.priceType == "Flat Pricing" && (
                       <>
-                        <div className='col-span-4'> 
-                          <p className="text-lg text-light-black font-semibold">Range Start</p>
-                          <p className="text-base text-neutral-grey font-semibold"> 
-                          ${ data?.rangeStart === undefined
-                          ? parseInt(0).toLocaleString(2)
-                          : formatOrderValue(data?.rangeStart ?? parseInt(0))}</p>
+                        <div className="col-span-4">
+                          <p className="text-lg text-light-black font-semibold">
+                            Range Start
+                          </p>
+                          <p className="text-base text-neutral-grey font-semibold">
+                            $
+                            {data?.rangeStart === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                  data?.rangeStart ?? parseInt(0)
+                                )}
+                          </p>
                         </div>
-                        <div className='col-span-4'>
-                          <p className="text-lg text-light-black font-semibold">Range End</p>
-                          <p className="text-base text-neutral-grey font-semibold"> ${ data?.rangeEnd === undefined
-                          ? parseInt(0).toLocaleString(2)
-                          : formatOrderValue(data?.rangeEnd ?? parseInt(0))}</p>
-                        </div></>
-                    )
-                  }
-                  {
-                    data.priceType == "Quantity Pricing" && (
+                        <div className="col-span-4">
+                          <p className="text-lg text-light-black font-semibold">
+                            Range End
+                          </p>
+                          <p className="text-base text-neutral-grey font-semibold">
+                            {" "}
+                            $
+                            {data?.rangeEnd === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(data?.rangeEnd ?? parseInt(0))}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {data.priceType == "Quantity Pricing" && (
                       <>
-                        <div className='col-span-12'>
+                        <div className="col-span-12">
                           <table className="w-full border text-center">
                             <tr className="border bg-[#9999]">
-                              <th colSpan={'2'}>Quantity Pricing List </th>
+                              <th colSpan={"2"}>Quantity Pricing List </th>
                             </tr>
                             <tr className="border bg-[#9999]">
                               <th className="w-[50%]">Name</th>
                               <th>Max Quantity</th>
                             </tr>
-                            {
-                              data.quantityPriceDetail.length !== 0 &&
+                            {data.quantityPriceDetail.length !== 0 &&
                               data.quantityPriceDetail.map((item, index) => (
                                 <tr key={index} className="border">
                                   <td>{item.name}</td>
                                   <td>{item.quantity}</td>
                                 </tr>
-                              ))
-                            }
+                              ))}
                           </table>
                         </div>
                       </>
-                    )
-                  }
-                </Grid>
-              </div>
+                    )}
+                  </Grid>
+                </div>
               </>
             )}
-            
           </Modal>
 
           <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
@@ -737,8 +836,8 @@ function CompanyPriceBook() {
                       label="Product SKU"
                       placeholder=""
                       value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
                   <div className="col-span-6">
@@ -749,85 +848,87 @@ function CompanyPriceBook() {
                       label="Product Name"
                       placeholder=""
                       value={formik.values.pName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                   </div>
-                      <div className="col-span-6">
-                      <Select
+                  <div className="col-span-6">
+                    <Select
                       type="text"
                       name="category"
-                        options={categoryList}
-                        OptionName="Category"
+                      options={categoryList}
+                      OptionName="Category"
                       className="!bg-white"
                       label="Category"
                       placeholder=""
                       value={formik.values.category}
-                        onChange={formik.setFieldValue}
-                        onBlur={formik.handleBlur}
+                      onChange={formik.setFieldValue}
+                      onBlur={formik.handleBlur}
                     />
-                      </div>
-                      <div className="col-span-6">
-                      <Select
-                        name="priceType"
-                        label="Price Type"
-                        options={pricetype}
-                        OptionName="Price Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.priceType}
-                        onChange={formik.setFieldValue}
-                      />
-                      </div>
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      name="priceType"
+                      label="Price Type"
+                      options={pricetype}
+                      OptionName="Price Type"
+                      color="text-Black-Russian opacity-50"
+                      className="!text-[14px] !bg-white"
+                      value={formik.values.priceType}
+                      onChange={formik.setFieldValue}
+                    />
+                  </div>
 
                   <div className="col-span-6">
-                  <Select
-                        name="term"
-                        label="Term"
-                        options={termList}
-                        OptionName="Term"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.term}
-                        onChange={formik.setFieldValue}
-                      />
+                    <Select
+                      name="term"
+                      label="Term"
+                      options={termList}
+                      OptionName="Term"
+                      color="text-Black-Russian opacity-50"
+                      className="!text-[14px] !bg-white"
+                      value={formik.values.term}
+                      onChange={formik.setFieldValue}
+                    />
                   </div>
-                 
-                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="range"
-                      className="!bg-white"
-                      label="Product Retail Price"
-                      placeholder=""
-                      value={formik.values.range}
+
+                  {formik.values.priceType == "Flat Pricing" && (
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="range"
+                        className="!bg-white"
+                        label="Product Retail Price"
+                        placeholder=""
+                        value={formik.values.range}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                    />
-                  </div>}
-                  <div className="col-span-6">
-                  <Select
-                        name="coverageType"
-                        label="Coverage Type"
-                        options={coverage}
-                        OptionName="Coverage Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.coverageType}
-                        onChange={formik.setFieldValue}
                       />
+                    </div>
+                  )}
+                  <div className="col-span-6">
+                    <Select
+                      name="coverageType"
+                      label="Coverage Type"
+                      options={coverage}
+                      OptionName="Coverage Type"
+                      color="text-Black-Russian opacity-50"
+                      className="!text-[14px] !bg-white"
+                      value={formik.values.coverageType}
+                      onChange={formik.setFieldValue}
+                    />
                   </div>
                   <div className="col-span-6">
-                  <Select
-                        name="status"
-                        label="Status"
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
+                    <Select
+                      name="status"
+                      label="Status"
+                      options={status}
+                      OptionName="Status"
+                      color="text-Black-Russian opacity-50"
+                      // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                      className="!text-[14px] !bg-white"
+                      value={formik.values.status}
+                      onChange={formik.setFieldValue}
                     />
                   </div>
                   <div className="col-span-12">
