@@ -192,22 +192,6 @@ function Sale() {
               Category
             </Button>
           </div>
-          {/* <div className="flex">
-            <RadioButton
-              id="dealer-radio"
-              label="Dealer"
-              value="dealer"
-              checked={activeButton === "dealer"}
-              onChange={handleRadioChange}
-            />
-            <RadioButton
-              id="category-radio"
-              label="Category"
-              value="category"
-              checked={activeButton === "category"}
-              onChange={handleRadioChange}
-            />
-          </div> */}
         </div>
         <Grid
           className={`${

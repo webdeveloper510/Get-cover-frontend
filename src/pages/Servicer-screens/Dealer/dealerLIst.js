@@ -99,7 +99,7 @@ function ServicerDealerList() {
   const filterDealerListGet = async (data) => {
     try {
       setLoading(true);
-      const res = await getDealersList(data);
+      const res = await getDealersListServicerPortal(data);
       console.log(res.data);
       setDealerList(res.data);
     } catch (error) {

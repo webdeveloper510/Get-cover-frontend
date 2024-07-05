@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -36,15 +36,25 @@ export const getDashboardDetails = async () => {
   }
 };
 
+export const getDashboardList = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/getDashboardInfo`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCustomerDashboardDetails = async () => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(
-      `${url}/customerPortal/getDashboardData`,
-      {
-        headers,
-      }
-    );
+    const response = await axios.get(`${url}/customerPortal/getDashboardData`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {

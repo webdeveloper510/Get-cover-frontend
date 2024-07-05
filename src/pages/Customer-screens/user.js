@@ -622,8 +622,8 @@ function CustomerUser() {
       const res = await changePasswordbyToken(value);
       console.log(res);
       if (res.code == 200) {
-        setFirstMessage("Updated  Successfully ");
-        setSecondMessage("User Password updated  successfully ");
+        SetPrimaryText("Updated  Successfully ");
+        SetSecondaryText("User Password updated  successfully ");
         SetIsModalOpen(true);
         setTimer(3);
       } else {

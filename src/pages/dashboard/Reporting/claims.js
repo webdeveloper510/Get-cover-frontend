@@ -306,7 +306,7 @@ function Claims() {
                 ? "!grid-cols-10"
                 : activeButton === "category"
                 ? "!grid-cols-6"
-                : "!grid-cols-8"
+                : "!grid-cols-10"
             } !gap-0`}
           >
             {activeButton === "dealer" && (
@@ -352,23 +352,6 @@ function Claims() {
                   />
                 </div>
                 <div className="col-span-2 self-center relative pl-1">
-                  {/* <MultiSelect
-                    label="Product SKU"
-                    name="priceBookId"
-                    placeholder="Product SKU"
-                    value={selected}
-                    options={priceBookList}
-                    pName="Product SKU"
-                    onChange={(value) => {
-                      setSelected(value);
-                      handleFilterChange("priceBookId", value);
-                    }}
-                    labelledBy="Select"
-                    overrideStrings={{
-                      selectSomeItems: "Select Product SKU",
-                    }}
-                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                  /> */}
                   <MultiSelect
                     label="Product SKU"
                     name="priceBookId"
@@ -467,6 +450,19 @@ function Claims() {
                     className1="filter"
                     pName="Servicer Name"
                     options={servicerListServicer}
+                  />
+                </div>
+                <div className="col-span-2 self-center pl-3">
+                  <SelectBoxWithSearch
+                    label="Dealer Name"
+                    name="dealerId"
+                    value={filter.dealerId}
+                    onChange={handleFilterChange}
+                    placeholder="Dealer Name"
+                    className="!bg-white"
+                    className1="filter"
+                    pName="Dealer Name"
+                    options={dealerList}
                   />
                 </div>
                 <div className="col-span-2 self-center pl-3">
