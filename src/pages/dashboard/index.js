@@ -2,45 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../common/headBar";
 import { Link } from "react-router-dom";
 import Grid from "../../common/grid";
-import ChartComponent from "../../common/chart";
-import Button from "../../common/button";
-import Input from "../../common/input";
 import BarChart from "../../common/barChart";
 import view from "../../assets/images/eye.png";
-import edit from "../../assets/images/edit-text.png";
-import remove from "../../assets/images/delete.png";
-import mark from "../../assets/images/pay.png";
-import process from "../../assets/images/return.png";
-import drop from "../../assets/images/icons/dropwhite.svg";
-import Administration from "../../assets/images/Reporting/Breakdown.svg";
-import Fronting from "../../assets/images/Reporting/Fronting.svg";
-import insurance from "../../assets/images/Reporting/insurance.svg";
-import Reserves from "../../assets/images/Reporting/Reserves.svg";
-import Broker from "../../assets/images/Reporting/Broker.svg";
-import Select from "../../common/select";
 import {
   getDashboardDetails,
   getDashboardList,
 } from "../../services/dashboardServices";
 import { RotateLoader } from "react-spinners";
-import CommonTooltip from "../../common/toolTip";
 import DataTable from "react-data-table-component";
 import {
   getDealerPriceBook,
   getDealersList,
 } from "../../services/dealerServices";
-import { getOrders } from "../../services/orderServices";
-import { addNewServicerRequest } from "../../services/servicerServices";
-import {
-  getClaimList,
-  getClaimListForDealer,
-} from "../../services/claimServices";
 import PdfGenerator from "../pdfViewer";
 
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 function Dashboard() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isRangeOpen, setIsRangeOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dashboardDetail, setDashboardDetails] = useState({});
   const [dealerList, setDealerList] = useState([]);
@@ -50,13 +27,6 @@ function Dashboard() {
   const [claimList, setClaimList] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const toggleRange = () => {
-    setIsRangeOpen(!isRangeOpen);
-  };
 
   const dashboardDetails = async () => {
     try {
@@ -69,16 +39,21 @@ function Dashboard() {
       console.error(error);
     }
   };
-
-  const time = [
-    { label: "march 2024", value: true },
-    { label: "April 2024", value: false },
-  ];
+  const getDealerList = async () => {
+    setLoading(true);
+    const result = await getDealerPriceBook();
+    const trimmedData = result.result.slice(0, 5);
+    setDealerPriceBook(trimmedData);
+    console.log(result.result);
+    setLoading(false);
+  };
 
   useEffect(() => {
     dashboardDetails();
     getDashboardData();
+    getDealerList();
   }, []);
+
   const getDashboardData = async () => {
     try {
       const result = await getDashboardList();
@@ -91,6 +66,19 @@ function Dashboard() {
       console.error("Error fetching dealer list:", error);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectedAction(null);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -186,7 +174,7 @@ function Dashboard() {
     },
     {
       name: "Contract ID",
-      selector: (row) => row.contracts?.unique_key,
+      selector: (row) => row.contract?.unique_key,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
@@ -244,13 +232,13 @@ function Dashboard() {
   const Dealer = [
     {
       name: "Name",
-      selector: (row) => row.users.firstName,
+      selector: (row) => row.name,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "# of Orders",
-      selector: (row) => row?.order?.totalOrder ?? 0,
+      selector: (row) => row?.totalOrder ?? 0,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
@@ -258,9 +246,9 @@ function Dashboard() {
       name: "Order Value",
       selector: (row) =>
         `$${
-          row?.order?.totalAmount === ""
+          row?.totalAmount === ""
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.order?.totalAmount ?? parseInt(0))
+            : formatOrderValue(row?.totalAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -272,14 +260,14 @@ function Dashboard() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div onClick={() => setSelectedAction(row._id)}>
               <img
                 src={ActiveIcon}
                 className="cursor-pointer	w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row._id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
@@ -395,17 +383,6 @@ function Dashboard() {
       sortable: true,
     },
   ];
-
-  const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
-    }
-
-    return phoneNumber; // Return original phone number if it couldn't be formatted
-  };
 
   return (
     <>
@@ -548,40 +525,32 @@ function Dashboard() {
               </div>
             </Grid>
 
-            <Grid className="s:hidden md:block px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
-              <div className="col-span-12">
-                <p className="text-xl font-semibold pl-1 pr-1 pt-2 inline-block">
-                  Top 5 Performing SKU's
-                </p>
-                <hr />
-                <Grid>
-                  <div className="col-span-6">
-                    <div className="">
-                      <p className="text-xl font-semibold pl-1 pr-1 pt-2 inline-block">
-                        30 Days
-                      </p>
-                    </div>
-                    <DataTable
-                      columns={Product}
-                      data={dealerPriceBook}
-                      highlightOnHover
-                      draggableColumns={false}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <div className="">
-                      <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                        One Years
-                      </p>
-                    </div>
-                    <DataTable
-                      columns={Product}
-                      data={dealerPriceBook}
-                      highlightOnHover
-                      draggableColumns={false}
-                    />
-                  </div>
-                </Grid>
+            <Grid>
+              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
+                <div className="">
+                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                    Top 5 Performing SKU's 30 Days
+                  </p>
+                </div>
+                <DataTable
+                  columns={Product}
+                  data={dealerPriceBook}
+                  highlightOnHover
+                  draggableColumns={false}
+                />
+              </div>
+              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
+                <div className="">
+                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                    Top 5 Performing SKU's 1 Years
+                  </p>
+                </div>
+                <DataTable
+                  columns={Product}
+                  data={dealerPriceBook}
+                  highlightOnHover
+                  draggableColumns={false}
+                />
               </div>
             </Grid>
           </div>
