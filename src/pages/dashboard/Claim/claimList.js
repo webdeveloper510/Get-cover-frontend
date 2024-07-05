@@ -139,10 +139,12 @@ function ClaimList(props) {
   const isExcludedPath = excludedPaths.some((path) =>
     location.pathname.includes(path)
   );
+
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
   }, [location.pathname]);
+
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
@@ -213,6 +215,14 @@ function ClaimList(props) {
   const handleSelectChange21 = (selectedValue, value) => {
     Shipment.setFieldValue(selectedValue, value);
   };
+
+  useEffect(() => {
+    if (claimIdValue != undefined) {
+      formik1.setFieldValue("claimId", claimIdValue);
+    } else {
+      handleFilterIconClick();
+    }
+  }, [location]);
 
   const handleSelectChange = (selectedValue, value) => {
     setLoading1(true);
@@ -400,7 +410,15 @@ function ClaimList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      getClaimListPromise = getClaimList(data);
+      if (claimIdValue == undefined) {
+        getClaimListPromise = getClaimList(data);
+      } else {
+        let newData = {
+          ...data,
+          claimId: claimIdValue,
+        };
+        getClaimListPromise = getClaimList(newData);
+      }
     }
 
     getClaimListPromise
@@ -854,13 +872,11 @@ function ClaimList(props) {
         value: res?._id,
       }));
 
-      console.log(claimList?.result[activeIndex]?.contracts?.allServicer);
       setServicerList(filterServicer);
       if (
         filterServicer.length !== 0 &&
         claimList.result[activeIndex].servicerId !== null
       ) {
-        console.log(claimList.result[activeIndex].servicerId);
         setServicer(claimList.result[activeIndex].servicerId);
       } else {
         setServicer("");
@@ -1068,7 +1084,7 @@ function ClaimList(props) {
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
-      claimId: claimIdValue,
+      claimId: "",
       venderOrder: "",
       serial: "",
       productName: "",
