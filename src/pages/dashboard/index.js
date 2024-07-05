@@ -359,7 +359,11 @@ function Dashboard() {
 
   const Product = [
     {
-      name: "Product SKU",
+      name: (
+        <div>
+          Product <br /> SKU
+        </div>
+      ),
       selector: (row) => row.priceBooks?.name,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
@@ -377,7 +381,11 @@ function Dashboard() {
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Retail Cost",
+      name: (
+        <div>
+          Wholesale <br /> Cost{" "}
+        </div>
+      ),
       selector: (row) =>
         `$${
           row?.retailPrice === undefined
@@ -484,7 +492,7 @@ function Dashboard() {
               </div>
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-3 pt-2">
-                  Last Five Completed Order
+                  Last 5 Completed Order
                 </p>
                 <div className="">
                   <DataTable
@@ -498,7 +506,7 @@ function Dashboard() {
 
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-3 pt-2">
-                  Last Five Completed Claim
+                  Last 5 Completed Claim
                 </p>
                 <div className="">
                   <DataTable
@@ -527,7 +535,7 @@ function Dashboard() {
               </div>
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                  Top Five Servicer
+                  Top 5 Servicer
                 </p>
                 <div className="">
                   <DataTable
@@ -543,7 +551,7 @@ function Dashboard() {
             <Grid className="s:hidden md:block px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
               <div className="col-span-12">
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2 inline-block">
-                  Top Five Performing SKU's Based on # of Sales
+                  Top 5 Performing SKU's
                 </p>
                 <hr />
                 <Grid>
