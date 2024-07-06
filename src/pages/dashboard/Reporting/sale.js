@@ -156,7 +156,7 @@ function Sale() {
   };
 
   return (
-    <div className="pb-8 mt-2 px-3 relative overflow-x-hidden bg-grayf9">
+    <div className="pb-8 mt-2 px-3 bg-grayf9">
       <Headbar />
       <div className="flex">
         <div className="pl-3">

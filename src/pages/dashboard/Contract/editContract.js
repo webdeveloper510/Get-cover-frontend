@@ -372,7 +372,7 @@ function EditContract() {
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
-                        Labour Warranty Start Date
+                        Labour Warranty <br /> Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {new Date(
@@ -393,7 +393,7 @@ function EditContract() {
                     </div>
                     <div className="self-center">
                       <p className="text-white text-base font-medium leading-5	">
-                        Part Warranty Start Date
+                        Part Warranty <br /> Start Date
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {new Date(

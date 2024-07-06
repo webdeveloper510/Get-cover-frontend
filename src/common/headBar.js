@@ -119,7 +119,11 @@ function Headbar({ className = "" }) {
         <></>
       ) : (
         <Grid
-          className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  md:top-[24px]  xl:top-[24px]  ${className}`}
+          className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  ${className} ${
+            Location.pathname !== "/Reporting/sale"
+              ? "md:top-[24px]  xl:top-[24px]"
+              : "md:top-0  xl:top-0"
+          }`}
         >
           <div className="col-span-4"></div>
           <div className="col-span-1"></div>
