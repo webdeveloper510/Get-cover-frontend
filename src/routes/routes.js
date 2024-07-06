@@ -398,14 +398,8 @@ const routes = [
         ),
       },
       {
-        path: "/claimList",
-        element: (
-          <PrivateRoute
-            element={<ClaimList />}
-            role={"admin"}
-            path="/claimList"
-          />
-        ),
+        path: "/claimList/:claimIdValue?",
+        element: <PrivateRoute element={<ClaimList />} role={"admin"} />,
       },
 
       {

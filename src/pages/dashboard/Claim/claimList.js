@@ -33,7 +33,7 @@ import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Search from "../../../assets/images/icons/SerachWhite.svg";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -126,6 +126,8 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const { claimIdValue } = useParams();
+  console.log("claimIdValue", claimIdValue);
   const excludedPaths = [
     "/customer/claimList",
     "/reseller/claimList",
@@ -138,10 +140,12 @@ function ClaimList(props) {
   const isExcludedPath = excludedPaths.some((path) =>
     location.pathname.includes(path)
   );
+
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
   }, [location.pathname]);
+
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
     setDropdownVisible(!dropdownVisible);
@@ -213,10 +217,17 @@ function ClaimList(props) {
     Shipment.setFieldValue(selectedValue, value);
   };
 
+  useEffect(() => {
+    if (claimIdValue != undefined) {
+      formik1.setFieldValue("claimId", claimIdValue);
+    } else {
+      handleFilterIconClick();
+    }
+  }, [location]);
+
   const handleSelectChange = (selectedValue, value) => {
     setLoading1(true);
     if (selectedValue === "claimStatus") {
-      console.log(loading1, "------1--------------");
       if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
@@ -288,7 +299,6 @@ function ClaimList(props) {
     }, 3000);
   };
 
-  // console.log(coverage, "---------------------->>>>>");
   const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
@@ -297,6 +307,7 @@ function ClaimList(props) {
     });
     closeReject();
   };
+
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
       const resultData = res.result || {};
@@ -401,7 +412,15 @@ function ClaimList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      getClaimListPromise = getClaimList(data);
+      if (claimIdValue == undefined) {
+        getClaimListPromise = getClaimList(data);
+      } else {
+        let newData = {
+          ...data,
+          claimId: claimIdValue,
+        };
+        getClaimListPromise = getClaimList(newData);
+      }
     }
 
     getClaimListPromise
@@ -475,6 +494,7 @@ function ClaimList(props) {
   const handleToggleDropdown2 = () => {
     setDropdownVisible2(!dropdownVisible2);
   };
+
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -482,6 +502,7 @@ function ClaimList(props) {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+
   const closeEdit = () => {
     formik.resetForm();
     setError("");
@@ -491,10 +512,12 @@ function ClaimList(props) {
   const openReject = () => {
     setIsRejectOpen(true);
   };
+
   const closeReject = () => {
     setIsRejectOpen(false);
     setShowForm(false); // Reset the form state
   };
+
   const handleYesClick = () => {
     setShowForm(true);
   };
@@ -502,9 +525,11 @@ function ClaimList(props) {
   const handleToggle = () => {
     setShowDetails(!showDetails);
   };
+
   const handleSetActiveIndex = (index) => {
     setActiveIndex(index); // Update active index based on user action
   };
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -611,6 +636,7 @@ function ClaimList(props) {
     setIsAttachmentsOpen(true);
     // setIsEditOpen(false);
   };
+
   const closeAttachments = () => {
     setIsAttachmentsOpen(false);
   };
@@ -744,6 +770,7 @@ function ClaimList(props) {
     type: "Admin",
     messageFile: {},
   };
+
   const formik2 = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -808,11 +835,6 @@ function ClaimList(props) {
     },
   });
 
-  // const handleFileChange = (event) => {
-  //   // Handle file change and set it in formik2
-  //   formik2.setFieldValue("file", event.currentTarget.files[0]);
-  // };
-
   useEffect(() => {
     if (activeIndex != null) {
       const coverageType =
@@ -854,13 +876,11 @@ function ClaimList(props) {
         value: res?._id,
       }));
 
-      console.log(claimList?.result[activeIndex]?.contracts?.allServicer);
       setServicerList(filterServicer);
       if (
         filterServicer.length !== 0 &&
         claimList.result[activeIndex].servicerId !== null
       ) {
-        console.log(claimList.result[activeIndex].servicerId);
         setServicer(claimList.result[activeIndex].servicerId);
       } else {
         setServicer("");

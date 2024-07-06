@@ -15,6 +15,7 @@ function ClaimContent({
   activeButton,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
   const [flag, setFlag] = useState("daily");
 
@@ -103,10 +104,9 @@ function ClaimContent({
       categoryId: [],
       flag: flag,
     });
-  }, [selectedRange, activeTab]);
+  }, [selectedRange]);
 
   useEffect(() => {
-    console.log("flag1", flag1);
     if (flag1) {
       getDatasetAtEvent({
         startDate: selectedRange.startDate.toISOString().split("T")[0],
@@ -152,31 +152,30 @@ function ClaimContent({
     };
     try {
       const res = await getAllClaims(data);
-      let filteredGraphData;
-      if (activeTab === "Amount") {
-        filteredGraphData = res?.result?.graphData?.map((item) => {
-          const {
-            total_claim,
-            total_paid_claim,
-            total_unpaid_claim,
-            total_rejected_claim,
-            ...rest
-          } = item;
-          return rest;
-        });
-      } else {
-        filteredGraphData = res?.result?.graphData?.map((item) => {
-          return {
-            weekStart: item.weekStart,
-            total_claim: item.total_claim,
-            total_paid_claim: item.total_paid_claim,
-            total_unpaid_claim: item.total_unpaid_claim,
-            total_rejected_claim: item.total_rejected_claim,
-          };
-        });
-      }
+      const amountData = res?.result?.graphData?.map((item) => {
+        const {
+          total_claim,
+          total_paid_claim,
+          total_unpaid_claim,
+          total_rejected_claim,
+          ...rest
+        } = item;
+        return rest;
+      });
+
+      const countData = res?.result?.graphData?.map((item) => {
+        return {
+          weekStart: item.weekStart,
+          total_claim: item.total_claim,
+          total_paid_claim: item.total_paid_claim,
+          total_unpaid_claim: item.total_unpaid_claim,
+          total_rejected_claim: item.total_rejected_claim,
+        };
+      });
+
       toggleFilterFlag();
-      setGraphData(filteredGraphData);
+      setGraphData(amountData);
+      setGraphDataCount(countData);
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
@@ -185,14 +184,6 @@ function ClaimContent({
   const isValidDateRange = (startDate, endDate) => {
     const oneYear = 365 * 24 * 60 * 60 * 1000;
     return endDate - startDate <= oneYear;
-  };
-
-  const handleDateChange = (startDate, endDate) => {
-    if (isValidDateRange(startDate, endDate)) {
-      setSelectedRange({ startDate, endDate });
-    } else {
-      alert("Date range cannot exceed one year.");
-    }
   };
 
   const handleRangeChange = (ranges) => {
@@ -233,7 +224,9 @@ function ClaimContent({
                 </Button>
               </div>
               <div className="col-span-12">
-                <LineChart graphData={graphData} />
+                <LineChart
+                  graphData={activeTab == "Amount" ? graphData : graphDataCount}
+                />
               </div>
             </Grid>
           </div>

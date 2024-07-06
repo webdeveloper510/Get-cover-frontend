@@ -214,7 +214,7 @@ function Dashboard() {
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
-                      to={`/claimList/${row._id}`}
+                      to={`/claimList/${row.unique_key}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
