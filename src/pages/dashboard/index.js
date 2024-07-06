@@ -8,6 +8,7 @@ import {
   getDashboardDetails,
   getDashboardList,
 } from "../../services/dashboardServices";
+import shorting from "../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import {
@@ -140,7 +141,7 @@ function Dashboard() {
               <div
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
 
@@ -214,7 +215,7 @@ function Dashboard() {
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
-                      to={`/claimList/${row.unique_key}`}
+                      to={`/claimList`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
                       <img src={view} className="w-4 h-4 mr-2" /> View
@@ -275,7 +276,7 @@ function Dashboard() {
               >
                 <Link
                   to={`/dealerDetails/${row?._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </Link>
@@ -333,7 +334,7 @@ function Dashboard() {
               >
                 <Link
                   to={`/servicerDetails/${row?._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </Link>
@@ -475,6 +476,16 @@ function Dashboard() {
                   <DataTable
                     columns={columns}
                     data={orderList}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
                     highlightOnHover
                     draggableColumns={false}
                   />
@@ -489,6 +500,16 @@ function Dashboard() {
                   <DataTable
                     columns={Claim}
                     data={claimList}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
                     highlightOnHover
                     draggableColumns={false}
                   />
@@ -505,6 +526,16 @@ function Dashboard() {
                   <DataTable
                     columns={Dealer}
                     data={dealerList}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
                     highlightOnHover
                     draggableColumns={false}
                   />
@@ -518,6 +549,16 @@ function Dashboard() {
                   <DataTable
                     columns={Servicer}
                     data={servicerList}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
                     highlightOnHover
                     draggableColumns={false}
                   />
@@ -535,6 +576,16 @@ function Dashboard() {
                 <DataTable
                   columns={Product}
                   data={dealerPriceBook}
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img
+                        src={shorting}
+                        className="ml-2"
+                        alt="shorting"
+                      />{" "}
+                    </>
+                  }
                   highlightOnHover
                   draggableColumns={false}
                 />
@@ -548,6 +599,16 @@ function Dashboard() {
                 <DataTable
                   columns={Product}
                   data={dealerPriceBook}
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img
+                        src={shorting}
+                        className="ml-2"
+                        alt="shorting"
+                      />{" "}
+                    </>
+                  }
                   highlightOnHover
                   draggableColumns={false}
                 />
