@@ -46,10 +46,8 @@ import DealerContract from "../pages/Dealer-screens/Contract/contractList";
 import DealerPriceBook from "../pages/Dealer-screens/priceBook";
 import DealerSale from "../pages/Dealer-screens/Reporting/sale";
 import DealerClaims from "../pages/Dealer-screens/Reporting/claims";
-import DealerClaimList from "../pages/Dealer-screens/Claim/claimList";
 import ServicerUser from "../pages/Servicer-screens/user";
 import ServicerDashboard from "../pages/Servicer-screens/dashboard";
-import ServicerClaimList from "../pages/Servicer-screens/Claim/claimList";
 import ServicerClaims from "../pages/Servicer-screens/Reporting/claims";
 import ServicerAddClaim from "../pages/Servicer-screens/Claim/addClaim";
 import ServicerAddBulkClaim from "../pages/Servicer-screens/Claim/addBulkClaim";
@@ -68,7 +66,6 @@ import ArchiveOrderList from "../pages/dashboard/Order/order-archive";
 import ServicerDealerList from "../pages/Servicer-screens/Dealer/dealerLIst";
 import DealerResellerDetails from "../pages/Dealer-screens/Reseller/resellerDetails";
 import DealerCustomerDetails from "../pages/Dealer-screens/Customer/customerDetails";
-import ResellerAddBulkClaim from "../pages/Reseller-screens/Claim/addBulkClaim";
 
 import ResellerSale from "../pages/Reseller-screens/Reporting/sale";
 import ResellerContractList from "../pages/Reseller-screens/Contract/contractList";
@@ -85,20 +82,15 @@ import ResellerUser from "../pages/Reseller-screens/user";
 import ResellerDashboard from "../pages/Reseller-screens/dashboard";
 import CustomerDashboard from "../pages/Customer-screens/dashboard";
 import CustomerUser from "../pages/Customer-screens/user";
-import CustomerAddClaim from "../pages/Customer-screens/Claim/addClaim";
-import CustomerClaimList from "../pages/Customer-screens/Claim/claimList";
 import CustomerContractList from "../pages/Customer-screens/Contract/contractList";
-import CustomerAddBulkClaim from "../pages/Customer-screens/Claim/addBulkClaim";
 import CustomerOrderList from "../pages/Customer-screens/Order/orderList";
 import CustomerAddOrder from "../pages/Customer-screens/Order/addOrder";
 import CustomerOrderDetails from "../pages/Customer-screens/Order/order-details";
 import CustomerAddDealerBook from "../pages/Dealer-screens/Price-Book/addDealerBook";
-import ResellerOrderDetails from "../pages/Reseller-screens/Order/order-details";
 import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 import AllList from "../pages/Servicer-screens/Reporting/claims";
-// import DealerArchiveOrderList from "../pages/Dealer-screens/Order/order-archive";
 
 const routes = [
   {

@@ -11,13 +11,10 @@ import {
 import shorting from "../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
-import {
-  getDealerPriceBook,
-  getDealersList,
-} from "../../services/dealerServices";
+import { getDealerPriceBook } from "../../services/dealerServices";
 import PdfGenerator from "../pdfViewer";
-
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
+
 function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [dashboardDetail, setDashboardDetails] = useState({});
@@ -151,7 +148,12 @@ function Dashboard() {
                       to={`/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
                     >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
+                      <img
+                        src={view}
+                        className="w-4 h-4 mr-2"
+                        alt="eye Image"
+                      />{" "}
+                      View
                     </Link>
                   </div>
                   <div className="">
@@ -218,7 +220,12 @@ function Dashboard() {
                       to={`/claimList`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
+                      <img
+                        src={view}
+                        className="w-4 h-4 mr-2"
+                        alt="eye Image"
+                      />{" "}
+                      View
                     </Link>
                   </div>
                 </>
@@ -278,7 +285,8 @@ function Dashboard() {
                   to={`/dealerDetails/${row?._id}`}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
+                  View
                 </Link>
               </div>
             )}
@@ -336,7 +344,8 @@ function Dashboard() {
                   to={`/servicerDetails/${row?._id}`}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
+                  View
                 </Link>
               </div>
             )}
