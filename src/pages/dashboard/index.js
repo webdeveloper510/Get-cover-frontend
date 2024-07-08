@@ -378,13 +378,13 @@ function Dashboard() {
           Product <br /> SKU
         </div>
       ),
-      selector: (row) => row?.priceBookName,
+      selector: (row) => row?.name,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "Category",
-      selector: (row) => row?.category,
+      selector: (row) => row?.category.name,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
@@ -402,9 +402,18 @@ function Dashboard() {
       ),
       selector: (row) =>
         `$${
-          row?.totalPrice === undefined
+          row?.reinsuranceFee +
+            row?.frontingFee +
+            row?.adminFee +
+            row?.reserveFutureFee ===
+          undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.totalPrice ?? parseInt(0))
+            : formatOrderValue(
+                row?.reinsuranceFee +
+                  row?.frontingFee +
+                  row?.adminFee +
+                  row?.reserveFutureFee ?? parseInt(0)
+              )
         } `,
       sortable: true,
     },
