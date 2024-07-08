@@ -234,7 +234,7 @@ function Dashboard() {
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
-                      to={`/claimList`}
+                      to={`/claimList/${row.unique_key}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
                       <img
@@ -282,7 +282,6 @@ function Dashboard() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row._id)}>

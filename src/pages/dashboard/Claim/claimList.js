@@ -14,6 +14,7 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 // Media Includes
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../assets/images/icons/Delete.svg";
+import Search from "../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../assets/images/icons/productName1.svg";
 import pen from "../../../assets/images/pencil.png";
 import Sendto from "../../../assets/images/double-arrow.png";
@@ -31,7 +32,6 @@ import checkIcon from "../../../assets/images/check-mark.png";
 import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
-import Search from "../../../assets/images/icons/SerachWhite.svg";
 import Headbar from "../../../common/headBar";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../common/model";
@@ -74,7 +74,6 @@ function ClaimList(props) {
   const [loading1, setLoading1] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [disable, setDisable] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -392,7 +391,6 @@ function ClaimList(props) {
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
-    setDisable(true);
     setPageValue(page);
     let data = {
       page,
@@ -435,12 +433,10 @@ function ClaimList(props) {
         setTimeout(function () {
           setShowdata(true);
         }, 1000);
-        setDisable(false);
       })
       .catch(() => {
         setLoaderType(false);
         setShowdata(false);
-        setDisable(false);
       });
   };
 
@@ -1020,12 +1016,12 @@ function ClaimList(props) {
 
   const claimPaid = [
     {
-      value: "Unpaid ",
-      label: "Unpaid ",
+      value: "Unpaid Claims",
+      label: "Unpaid Claims",
     },
     {
-      value: "Paid ",
-      label: "Paid ",
+      value: "Paid Claims",
+      label: "Paid Claims",
     },
   ];
 
@@ -1097,7 +1093,6 @@ function ClaimList(props) {
       customerName: "",
       servicerName: "",
       repairStatus: "",
-      claimPaidStatus: "",
       customerStatusValue: "",
       claimStatus: "",
       orderId: "",
@@ -1281,12 +1276,7 @@ function ClaimList(props) {
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button
-                        type="submit"
-                        className={`${
-                          disable ? "!bg-[#817878] !p-2" : " !p-2"
-                        }`}
-                      >
+                      <Button type="submit" className="!p-0 !bg-transparent">
                         <img
                           src={Search}
                           className="cursor-pointer "
@@ -1307,10 +1297,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        disabled={disable}
-                        className={`ml-2 !text-[14px] !px-2 ${
-                          disable ? "!bg-[#817878]" : ""
-                        }`}
+                        className="ml-2 !text-[14px] !px-2"
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
@@ -2837,42 +2824,36 @@ function ClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ? (
-                <div className="col-span-6">
-                  <Select
-                    options={claimPaid}
-                    name="claimPaidStatus"
-                    label="Paid Status"
-                    className="!bg-white"
-                    onChange={handleSelectChange2}
-                    value={formik1.values.claimPaidStatus}
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="col-span-6">
-                    <Select
-                      options={customerValue}
-                      name="customerStatusValue"
-                      label="Customer Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.customerStatusValue}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      options={repairValue}
-                      name="repairStatus"
-                      label="Repair Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.repairStatus}
-                    />
-                  </div>
-                </>
-              )}
-
+              <div className="col-span-6">
+                <Select
+                  options={customerValue}
+                  name="customerStatusValue"
+                  label="Customer Status"
+                  className="!bg-white"
+                  onChange={handleSelectChange2}
+                  value={formik1.values.customerStatusValue}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  options={repairValue}
+                  name="repairStatus"
+                  label="Repair Status"
+                  className="!bg-white"
+                  onChange={handleSelectChange2}
+                  value={formik1.values.repairStatus}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  options={claimPaid}
+                  name="claimpaid"
+                  label="Paid Status"
+                  className="!bg-white"
+                  onChange={handleSelectChange2}
+                  value={formik1.values.repairStatus}
+                />
+              </div>
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
