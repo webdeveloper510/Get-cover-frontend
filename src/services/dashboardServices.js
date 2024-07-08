@@ -49,6 +49,19 @@ export const getDashboardList = async () => {
   }
 };
 
+export const getDashboard = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/getDashboardGraph`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCustomerDashboardDetails = async () => {
   const headers = createHeaders();
   try {

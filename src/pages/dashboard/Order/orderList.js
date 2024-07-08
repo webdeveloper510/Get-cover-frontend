@@ -238,7 +238,9 @@ function OrderList() {
 
   const markasPaid = async (row) => {
     setMessage(
-      `Would you prefer to make the full payment $${row.orderAmount - row.paidAmount} ?`
+      `Would you prefer to make the full payment $${
+        row.orderAmount - row.paidAmount
+      } ?`
     );
     SetOrderId(row._id);
     setIsArchiveOpen(true);
@@ -259,7 +261,13 @@ function OrderList() {
 
   const columns = [
     {
-      name: "Order ID",
+      name: (
+        <div>
+          Order
+          <br />
+          ID
+        </div>
+      ),
       selector: (row) => row?.unique_key,
       sortable: true,
       minWidth: "auto",
@@ -289,7 +297,11 @@ function OrderList() {
       minWidth: "100px",
     },
     {
-      name: "Order Value",
+      name: (
+        <div>
+          Order <br /> Value
+        </div>
+      ),
       selector: (row) =>
         `$${
           row?.orderAmount === undefined
@@ -318,7 +330,6 @@ function OrderList() {
       minWidth: "auto",
       maxWidth: "80px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div
@@ -381,14 +392,14 @@ function OrderList() {
                   </>
                 ) : (
                   <>
-                  <div onClick={()=> localStorage.removeItem("orderMenu")}>
-                    <Link
-                      to={`/orderDetails/${row._id}`}
-                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
-                    >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
-                    </Link>
-                  </div>
+                    <div onClick={() => localStorage.removeItem("orderMenu")}>
+                      <Link
+                        to={`/orderDetails/${row._id}`}
+                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
+                      >
+                        <img src={view} className="w-4 h-4 mr-2" /> View
+                      </Link>
+                    </div>
                     <div className="">
                       <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
@@ -523,7 +534,9 @@ function OrderList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={orderList}
                 highlightOnHover
                 sortIcon={

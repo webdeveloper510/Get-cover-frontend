@@ -47,7 +47,7 @@ const LineChart = ({ graphData, flag }) => {
     {
       key: "total_rejected_claim",
       label: "Rejected Claim",
-      borderColor: "#fff700",
+      borderColor: "#808080",
     },
     {
       key: "total_order_amount",

@@ -5,13 +5,13 @@ import Grid from "../../common/grid";
 import BarChart from "../../common/barChart";
 import view from "../../assets/images/eye.png";
 import {
+  getDashboard,
   getDashboardDetails,
   getDashboardList,
 } from "../../services/dashboardServices";
 import shorting from "../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
-import { getDealerPriceBook } from "../../services/dealerServices";
 import PdfGenerator from "../pdfViewer";
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 
@@ -22,7 +22,10 @@ function Dashboard() {
   const [orderList, setOrderList] = useState([]);
   const [servicerList, setServicerList] = useState([]);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [dealerPriceBookYear, setDealerPriceBookYear] = useState([]);
   const [claimList, setClaimList] = useState([]);
+  const [orderAmount, setOrderAmount] = useState([]);
+  const [claimAmount, setClaimAmount] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -37,19 +40,33 @@ function Dashboard() {
       console.error(error);
     }
   };
-  const getDealerList = async () => {
+  const getDashboardCart = async () => {
     setLoading(true);
-    const result = await getDealerPriceBook();
-    const trimmedData = result.result.slice(0, 5);
+    const result = await getDashboard();
+    const countData = result.order_result.map((item) => {
+      return {
+        weekStart: item.weekStart,
+        total_orders: item.order_amount,
+      };
+    });
+    const claimData = result.claim_result.map((item) => {
+      return {
+        weekStart: item.weekStart,
+        total_orders: item.total_amount,
+      };
+    });
+    setOrderAmount(countData);
+    setClaimAmount(claimData);
+    const trimmedData = result.monthly_sku.slice(0, 5);
+    const trimmedData1 = result.yealy_sku.slice(0, 5);
     setDealerPriceBook(trimmedData);
-    console.log(result.result);
+    setDealerPriceBookYear(trimmedData1);
     setLoading(false);
   };
-
   useEffect(() => {
+    getDashboardCart();
     dashboardDetails();
     getDashboardData();
-    getDealerList();
   }, []);
 
   const getDashboardData = async () => {
@@ -362,19 +379,19 @@ function Dashboard() {
           Product <br /> SKU
         </div>
       ),
-      selector: (row) => row.priceBooks?.name,
+      selector: (row) => row?.priceBookName,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "Category",
-      selector: (row) => row.category[0]?.name,
+      selector: (row) => row?.category,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
       name: "Term",
-      selector: (row) => row.priceBooks?.term + " Months",
+      selector: (row) => row?.term + " Months",
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
@@ -386,9 +403,9 @@ function Dashboard() {
       ),
       selector: (row) =>
         `$${
-          row?.retailPrice === undefined
+          row?.totalPrice === undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.retailPrice ?? parseInt(0))
+            : formatOrderValue(row?.totalPrice ?? parseInt(0))
         } `,
       sortable: true,
     },
@@ -463,23 +480,23 @@ function Dashboard() {
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6">
                 <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
-                  <p className="font-lg font-bold text-white pl-2">
+                  <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Orders
                   </p>
-                  <BarChart />
+                  <BarChart graphData={orderAmount} />
                 </div>
               </div>
               <div className="col-span-6">
                 <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
-                  <p className="font-lg font-bold text-white pl-2">
-                    Amount of Claim
+                  <p className="font-lg font-bold text-white pl-2 mb-3">
+                    Amount of Claims
                   </p>
-                  <BarChart />
+                  <BarChart graphData={claimAmount} />
                 </div>
               </div>
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Order
+                  Last 5 Completed Orders
                 </p>
                 <div className="">
                   <DataTable
@@ -503,7 +520,7 @@ function Dashboard() {
 
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Claim
+                  Last 5 Completed Claims
                 </p>
                 <div className="">
                   <DataTable
@@ -529,7 +546,7 @@ function Dashboard() {
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                  Top 5 Dealer
+                  Top 5 Dealers
                 </p>
                 <div className="">
                   <DataTable
@@ -552,7 +569,7 @@ function Dashboard() {
               </div>
               <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                  Top 5 Servicer
+                  Top 5 Servicers
                 </p>
                 <div className="">
                   <DataTable
@@ -602,12 +619,12 @@ function Dashboard() {
               <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
                 <div className="">
                   <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                    Top 5 Performing SKU's 1 Years
+                    Top 5 Performing SKU's 1 Year
                   </p>
                 </div>
                 <DataTable
                   columns={Product}
-                  data={dealerPriceBook}
+                  data={dealerPriceBookYear}
                   sortIcon={
                     <>
                       {" "}
