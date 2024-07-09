@@ -49,10 +49,36 @@ export const getDashboardList = async () => {
   }
 };
 
+export const getDealerDashboardList = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/dealerPortal/getDashboardInfo`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDashboard = async () => {
   const headers = createHeaders();
   try {
     const response = await axios.get(`${url}/user/getDashboardGraph`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getDashboardForDealer = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/dealerPortal/getDashboardGraph`, {
       headers,
     });
 
