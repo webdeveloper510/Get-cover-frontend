@@ -203,7 +203,7 @@ function ClaimContent({
     <>
       <Grid className="mt-3">
         <div className="col-span-12">
-          <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+          <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
             <Grid className="!gap-4">
               <div className="col-span-5 flex pl-3">
                 <h3 className="text-base self-center font-semibold">

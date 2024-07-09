@@ -70,7 +70,7 @@ function CustomerOrderSummary(props) {
                 <div className="px-3 mt-5">
                   <div>
                     <div>
-                      <Grid className="bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl">
+                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
@@ -89,7 +89,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Category
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res.catName}
                             </p>
                           </div>
@@ -99,7 +99,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price Type
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res.priceType}
                             </p>
                           </div>
@@ -109,7 +109,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res.description}
                             </p>
                           </div>
@@ -120,7 +120,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Term
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res.term} Months
                             </p>
                           </div>
@@ -130,7 +130,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               ADH (Waiting Days)
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res?.adh === "" ? 0 : res?.adh}
                             </p>
                           </div>
@@ -141,7 +141,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                                # of Products
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {res.checkNumberProducts}
                             </p>
                           </div>
@@ -151,7 +151,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               ${
                                 res.price === undefined
                                   ? parseInt(0).toLocaleString(2)
@@ -165,7 +165,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {format(
                                 new Date(res.coverageStartDate),
                                 "MM/dd/yyyy"
@@ -178,7 +178,7 @@ function CustomerOrderSummary(props) {
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
                             </p>
-                            <p className="text-[#333333] text-base font-semibold">
+                            <p className="text-light-black text-base font-semibold">
                               {format(
                                 new Date(res.coverageEndDate),
                                 "MM/dd/yyyy"
@@ -193,7 +193,7 @@ function CustomerOrderSummary(props) {
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Start Range
                                 </p>
-                                <p className="text-[#333333] text-base font-semibold">
+                                <p className="text-light-black text-base font-semibold">
                                   ${res.rangeStart.toLocaleString(2)}
                                 </p>
                               </div>
@@ -203,7 +203,7 @@ function CustomerOrderSummary(props) {
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   End Range
                                 </p>
-                                <p className="text-[#333333] text-base font-semibold">
+                                <p className="text-light-black text-base font-semibold">
                                   ${res.rangeEnd.toLocaleString(2)}
                                 </p>
                               </div>
@@ -264,7 +264,7 @@ function CustomerOrderSummary(props) {
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Note
                                 </p>
-                                <p className="text-[#333333] text-base font-semibold">
+                                <p className="text-light-black text-base font-semibold">
                                   {res.additionalNotes}
                                 </p>
                               </div>

@@ -71,14 +71,14 @@ function DealerDashboard() {
         ) : (
           <div className="mt-5">
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {" "}
                   {dashboardDetail?.orderData?.totalOrder}
                 </p>
                 <p className="text-neutral-grey text-sm">Total Number of Orders</p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {" "}
                   ${dashboardDetail?.orderData?.totalAmount === undefined
@@ -89,11 +89,11 @@ function DealerDashboard() {
                 </p>
                 <p className="text-neutral-grey text-sm">Total Value of Orders</p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold"> {dashboardDetail?.claimData?.numberOfClaims}</p>
                 <p className="text-neutral-grey text-sm">Total Number of Claims</p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold"> ${dashboardDetail?.claimData?.valueClaim === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
@@ -105,7 +105,7 @@ function DealerDashboard() {
 
             {/* <Grid className="s:hidden md:block xl:block">
               <div className="col-span-12">
-                <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+                <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
                   <Grid>
                     <div className="col-span-3 self-center">
                       <p className="text-xl font-bold">

@@ -25,7 +25,7 @@ function DealerOrderSummary() {
         <div className='px-3 mt-5'>
           <div>
             <div>
-                <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+                <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
                 <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                     <p className='text-white py-2 font-Regular'>Product Name :    <b> Laptop </b></p>
                 </div>
@@ -36,38 +36,38 @@ function DealerOrderSummary() {
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
-                    <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
+                    <p className='text-light-black text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
                 <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
-                    <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
+                    <p className='text-light-black text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
-                    <p className='text-[#333333] text-base font-semibold'>18 Months</p>
+                    <p className='text-light-black text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$20.00</p>
+                    <p className='text-light-black text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'># of Products</p>
-                    <p className='text-[#333333] text-base font-semibold'>5</p>
+                    <p className='text-light-black text-base font-semibold'>5</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$100.00</p>
+                    <p className='text-light-black text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
                 <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
@@ -75,7 +75,7 @@ function DealerOrderSummary() {
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Note</p>
-                    <p className='text-[#333333] text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p className='text-light-black text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>
@@ -87,7 +87,7 @@ function DealerOrderSummary() {
                 </Grid>
             </div>
             <div>
-                <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+                <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
                 <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                     <p className='text-white py-2 font-Regular'>Product Name :    <b> Laptop </b></p>
                 </div>
@@ -98,38 +98,38 @@ function DealerOrderSummary() {
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
-                    <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
+                    <p className='text-light-black text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
                 <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
-                    <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
+                    <p className='text-light-black text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
-                    <p className='text-[#333333] text-base font-semibold'>18 Months</p>
+                    <p className='text-light-black text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$20.00</p>
+                    <p className='text-light-black text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>No. of Products</p>
-                    <p className='text-[#333333] text-base font-semibold'>5</p>
+                    <p className='text-light-black text-base font-semibold'>5</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$100.00</p>
+                    <p className='text-light-black text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
                 <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
@@ -137,7 +137,7 @@ function DealerOrderSummary() {
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Note</p>
-                    <p className='text-[#333333] text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p className='text-light-black text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>
@@ -149,7 +149,7 @@ function DealerOrderSummary() {
                 </Grid>
             </div>
             <div>
-                <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+                <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
                 <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                     <p className='text-white py-2 font-Regular'>Product Name :    <b> Laptop </b></p>
                 </div>
@@ -160,38 +160,38 @@ function DealerOrderSummary() {
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Category</p>
-                    <p className='text-[#333333] text-base font-semibold'>Electronic Gadget</p>
+                    <p className='text-light-black text-base font-semibold'>Electronic Gadget</p>
                     </div>
                 </div>
                 <div className='col-span-9 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Product Description</p>
-                    <p className='text-[#333333] text-base font-semibold'>Laptops are designed to be portable computers.</p>
+                    <p className='text-light-black text-base font-semibold'>Laptops are designed to be portable computers.</p>
                     </div>
                 </div>
                 
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Term</p>
-                    <p className='text-[#333333] text-base font-semibold'>18 Months</p>
+                    <p className='text-light-black text-base font-semibold'>18 Months</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Unit Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$20.00</p>
+                    <p className='text-light-black text-base font-semibold'>$20.00</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>No. of Products</p>
-                    <p className='text-[#333333] text-base font-semibold'>5</p>
+                    <p className='text-light-black text-base font-semibold'>5</p>
                     </div>
                 </div>
                 <div className='col-span-3 border border-Light-Grey'>
                     <div className='py-4 pl-3'>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Price</p>
-                    <p className='text-[#333333] text-base font-semibold'>$100.00</p>
+                    <p className='text-light-black text-base font-semibold'>$100.00</p>
                     </div>
                 </div>
                 <div className='col-span-12 border rounded-b-xl	 border-Light-Grey'>
@@ -199,7 +199,7 @@ function DealerOrderSummary() {
                     <div className='col-span-9 py-4 pl-3'>
                     <div className=''>
                     <p className='text-[#5D6E66] text-sm font-Regular'>Note</p>
-                    <p className='text-[#333333] text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p className='text-light-black text-base font-semibold'>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
                     </div>
                     </div>
                     <div className='col-span-3 self-center justify-end flex pr-4'>

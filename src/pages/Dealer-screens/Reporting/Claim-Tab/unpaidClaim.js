@@ -11,7 +11,7 @@ function DealerUnpaidClaim() {
   };
   return (
     <div>
-      <div className="bg-[#333333] text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
+      <div className="bg-light-black text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
               <Grid>
                 <div className='col-span-7 self-center'>
                     <p className='text-xl font-bold'>Total Claims Unpaid</p>

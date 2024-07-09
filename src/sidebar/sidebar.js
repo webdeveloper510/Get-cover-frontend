@@ -756,25 +756,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/reseller/servicerList",
     },
-    // {
-    //   name: "Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   items: [
-    //     {
-    //       name: "Sale",
-    //       url: "/reseller/sale",
-    //       image: Dropdown1,
-    //       active: Actives,
-    //     },
-    //     {
-    //       name: "Claims",
-    //       url: "/reseller/claim",
-    //       image: Dropdown2,
-    //       active: SeacondActive,
-    //     },
-    //   ],
-    // },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/reseller/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/reseller/claim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
     {
       name: "Manage Account",
       image: CustomerImage,

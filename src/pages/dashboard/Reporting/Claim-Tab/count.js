@@ -82,7 +82,7 @@ function PaidClaim() {
     <>
       <Grid className="mt-3">
         <div className="col-span-12">
-          <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+          <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
             <Grid className="!gap-1">
               <div className="col-span-6 self-center">
                 <p className="text-xl font-bold">Total Claims Count</p>

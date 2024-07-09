@@ -43,13 +43,13 @@ const CustomPagination = ({
 
   return (
     <div
-      className={`flex items-center justify-between bg-[#333] rounded-[17px] p-[11px] mx-3 mb-3 ${className}`}
+      className={`flex items-center justify-between bg-light-black rounded-[17px] p-[11px] mx-3 mb-3 ${className}`}
     >
       <div>
         <label className="text-white pr-3">Rows per page:</label>
         <select
           value={rowsPerPage}
-          className=" bg-[#333] text-white"
+          className=" bg-light-black text-white"
           onChange={handleRowsPerPageChange}
         >
           {rowsPerPageOptions.map((option) => (

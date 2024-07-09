@@ -1292,7 +1292,7 @@ function ClaimList12(props) {
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Product SKU
                                         </p>
-                                        <p className="text-[#333333] text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.productName}
                                         </p>
                                       </div>
@@ -1307,7 +1307,7 @@ function ClaimList12(props) {
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Product Manufacturer
                                         </p>
-                                        <p className="text-[#333333] text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.manufacture}
                                         </p>
                                       </div>
@@ -1322,7 +1322,7 @@ function ClaimList12(props) {
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Product Model
                                         </p>
-                                        <p className="text-[#333333] text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.model}
                                         </p>
                                       </div>
@@ -1337,7 +1337,7 @@ function ClaimList12(props) {
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Product Serial
                                         </p>
-                                        <p className="text-[#333333] text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.serial}
                                         </p>
                                       </div>
@@ -1352,7 +1352,7 @@ function ClaimList12(props) {
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Claim Amount
                                         </p>
-                                        <p className="text-[#333333] text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold">
                                           ${calculateTotalCost(res.repairParts)}
                                         </p>
                                       </div>
@@ -1362,11 +1362,11 @@ function ClaimList12(props) {
                               }
                             >
                               {showdata && (
-                                <Grid className="!gap-0 bg-[#333333] rounded-b-[22px] mb-5 border-Gray28 border-x">
+                                <Grid className="!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x">
                                   {res?.repairParts.length > 0 &&
                                     res?.repairParts.map((part, index) => (
                                       <>
-                                        <div className="col-span-2 bg-[#333333] border-r border-b border-Gray28">
+                                        <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
                                           <div className="py-4 pl-3">
                                             <p className="text-white text-sm font-Regular">
                                               Service Type
@@ -1376,7 +1376,7 @@ function ClaimList12(props) {
                                             </p>
                                           </div>
                                         </div>
-                                        <div className="col-span-8 bg-[#333333] border-r border-b border-Gray28">
+                                        <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
                                           <div className="py-4 pl-3">
                                             <p className="text-white text-sm font-Regular">
                                               Description
@@ -1386,7 +1386,7 @@ function ClaimList12(props) {
                                             </p>
                                           </div>
                                         </div>
-                                        <div className="col-span-2 bg-[#333333] border-b border-Gray28">
+                                        <div className="col-span-2 bg-light-black border-b border-Gray28">
                                           <div className="py-4 pl-3">
                                             <p className="text-white text-sm font-Regular">
                                               Price
@@ -1537,7 +1537,7 @@ function ClaimList12(props) {
                                          claimStatus.status == "Completed"
                                        }
                                        white
-                                       className1="!border-0 !text-[#333333]"
+                                       className1="!border-0 !text-light-black"
                                        options={customerValue}
                                        visible={dropdownVisible}
                                      />
@@ -1583,7 +1583,7 @@ function ClaimList12(props) {
                                        }
                                        onChange={handleSelectChange}
                                        white
-                                       className1="!border-0 !text-[#333333]"
+                                       className1="!border-0 !text-light-black"
                                        options={claimvalues}
                                        visible={dropdownVisible}
                                      />
@@ -1628,7 +1628,7 @@ function ClaimList12(props) {
                                          claimStatus.status == "Completed"
                                        }
                                        white
-                                       className1="!border-0 !text-[#333333]"
+                                       className1="!border-0 !text-light-black"
                                        options={repairValue}
                                        visible={dropdownVisible}
                                      />
@@ -1931,7 +1931,7 @@ function ClaimList12(props) {
                   messageList.map((msg, key) => (
                     <Grid className="my-3">
                       <div className="col-span-1">
-                        <div className="bg-[#333333] border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full">
+                        <div className="bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full">
                           <p className="text-white text-2xl self-center">A</p>
                         </div>
                       </div>

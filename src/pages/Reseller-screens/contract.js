@@ -92,7 +92,7 @@ function ResellerContract() {
 
         <div className='px-3 mt-5'>
           <div>
-            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+            <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
@@ -113,56 +113,56 @@ function ResellerContract() {
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Model</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Serial</p>
-                  <p className='text-[#333333] text-base font-semibold'>GG7W212JHLF12</p>
+                  <p className='text-light-black text-base font-semibold'>GG7W212JHLF12</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Retail Price</p>
-                  <p className='text-[#333333] text-base font-semibold'>$182</p>
+                  <p className='text-light-black text-base font-semibold'>$182</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
-                  <p className='text-[#333333] text-base font-semibold'>Used</p>
+                  <p className='text-light-black text-base font-semibold'>Used</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
+                  <p className='text-light-black text-base font-semibold'>Edward Wilson</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
              
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-2 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                  <p className='text-light-black text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
               
@@ -170,31 +170,31 @@ function ResellerContract() {
               <div className='col-span-1 border border-Light-Grey rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
+                  <p className='text-light-black text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
+                  <p className='text-light-black text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
-                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                  <p className='text-light-black text-base font-semibold'>$0.00</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
-                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                  <p className='text-light-black text-base font-semibold'>Waiting</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
-                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                  <p className='text-light-black text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
               
@@ -202,7 +202,7 @@ function ResellerContract() {
           </div>
 
           <div>
-            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+            <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
@@ -223,86 +223,86 @@ function ResellerContract() {
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Model</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Serial</p>
-                  <p className='text-[#333333] text-base font-semibold'>GG7W212JHLF12</p>
+                  <p className='text-light-black text-base font-semibold'>GG7W212JHLF12</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Retail Price</p>
-                  <p className='text-[#333333] text-base font-semibold'>$182</p>
+                  <p className='text-light-black text-base font-semibold'>$182</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
-                  <p className='text-[#333333] text-base font-semibold'>Used</p>
+                  <p className='text-light-black text-base font-semibold'>Used</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
+                  <p className='text-light-black text-base font-semibold'>Edward Wilson</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
               <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-2 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                  <p className='text-light-black text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
              
               <div className='col-span-1 border border-Light-Grey rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
+                  <p className='text-light-black text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
+                  <p className='text-light-black text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
-                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                  <p className='text-light-black text-base font-semibold'>$0.00</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
-                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                  <p className='text-light-black text-base font-semibold'>Waiting</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
-                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                  <p className='text-light-black text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
               
@@ -310,7 +310,7 @@ function ResellerContract() {
           </div>
 
           <div>
-            <Grid className='bg-[#333333] !gap-2 !grid-cols-9 rounded-t-xl'>
+            <Grid className='bg-light-black !gap-2 !grid-cols-9 rounded-t-xl'>
               <div className='col-span-2 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl'>
                 <p className='text-white py-2 font-Regular'>Contract ID :  <b> 861910 </b></p>
               </div>
@@ -331,87 +331,87 @@ function ResellerContract() {
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Manufacturer</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Model</p>
-                  <p className='text-[#333333] text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
+                  <p className='text-light-black text-base font-semibold'>Apple iPad 5th Gen, 30GB</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Serial</p>
-                  <p className='text-[#333333] text-base font-semibold'>GG7W212JHLF12</p>
+                  <p className='text-light-black text-base font-semibold'>GG7W212JHLF12</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Retail Price</p>
-                  <p className='text-[#333333] text-base font-semibold'>$182</p>
+                  <p className='text-light-black text-base font-semibold'>$182</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Condition</p>
-                  <p className='text-[#333333] text-base font-semibold'>Used</p>
+                  <p className='text-light-black text-base font-semibold'>Used</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Dealer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Edward Wilson</p>
+                  <p className='text-light-black text-base font-semibold'>Edward Wilson</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Reseller Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Customer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Ankush Grover</p>
+                  <p className='text-light-black text-base font-semibold'>Ankush Grover</p>
                 </div>
               </div>
               <div className='col-span-2 border border-Light-Grey'>
                 
                  <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Servicer Name</p>
-                  <p className='text-[#333333] text-base font-semibold'>Jameson Wills</p>
+                  <p className='text-light-black text-base font-semibold'>Jameson Wills</p>
                 </div>
               </div>
              
               <div className='col-span-1 border border-Light-Grey rounded-es-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage Start Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>11/09/2026</p>
+                  <p className='text-light-black text-base font-semibold'>11/09/2026</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Coverage End Date</p>
-                  <p className='text-[#333333] text-base font-semibold'>09/11/2030</p>
+                  <p className='text-light-black text-base font-semibold'>09/11/2030</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Claim Amount</p>
-                  <p className='text-[#333333] text-base font-semibold'>$0.00</p>
+                  <p className='text-light-black text-base font-semibold'>$0.00</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Status</p>
-                  <p className='text-[#333333] text-base font-semibold'>Waiting</p>
+                  <p className='text-light-black text-base font-semibold'>Waiting</p>
                 </div>
               </div>
               <div className='col-span-1 border border-Light-Grey rounded-ee-xl'>
                 <div className='py-4 pl-3'>
                   <p className='text-[#5D6E66] text-sm font-Regular'>Eligibility</p>
-                  <p className='text-[#333333] text-base font-semibold'>Not Eligible</p>
+                  <p className='text-light-black text-base font-semibold'>Not Eligible</p>
                 </div>
               </div>
             </Grid>

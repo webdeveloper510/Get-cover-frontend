@@ -200,7 +200,12 @@ function Dashboard() {
     },
     {
       name: "Claim Amount",
-      selector: (row) => row?.totalAmount,
+      selector: (row) =>
+        `$${
+          row?.totalAmount === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.totalAmount ?? parseInt(0))
+        } `,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
@@ -437,7 +442,7 @@ function Dashboard() {
         ) : (
           <div className="mt-5">
             <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-light-black text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {dashboardDetail?.orderData?.totalOrder
                     ? dashboardDetail.orderData.totalOrder
@@ -447,7 +452,7 @@ function Dashboard() {
                   Total Number of Orders
                 </p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   $
                   {dashboardDetail?.orderData?.totalAmount === ""
@@ -460,7 +465,7 @@ function Dashboard() {
                   Total Value of Orders
                 </p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {dashboardDetail?.claimData?.numberOfClaims
                     ? dashboardDetail?.claimData?.numberOfClaims
@@ -470,7 +475,7 @@ function Dashboard() {
                   Total Completed Claims
                 </p>
               </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   $
                   {dashboardDetail?.claimData?.valueClaim === ""
@@ -487,7 +492,7 @@ function Dashboard() {
 
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6">
-                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                <div className="bg-gradient-to-r from-[#000000] to-light-black p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Orders
                   </p>
@@ -495,7 +500,7 @@ function Dashboard() {
                 </div>
               </div>
               <div className="col-span-6">
-                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                <div className="bg-gradient-to-r from-[#000000] to-light-black p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Claims
                   </p>

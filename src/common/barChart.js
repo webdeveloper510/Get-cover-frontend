@@ -27,7 +27,7 @@ const BarChart = ({ graphData }) => {
       label: label,
       data: graphData.map((data) => (data[key] !== undefined ? data[key] : 0)),
       backgroundColor: "white",
-      borderColor: "rgba(75,192,192,1)",
+      borderColor: borderColor,
       borderWidth: 1,
     }));
 
@@ -45,11 +45,28 @@ const BarChart = ({ graphData }) => {
         type: "linear",
         position: "left",
         beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return `$${value}`;
+          },
+        },
       },
     },
     plugins: {
       legend: {
         display: false, // Set display to false to remove the top label
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            let label = context.dataset.label || "";
+            if (label) {
+              label += ": ";
+            }
+            label += `$${context.raw}`;
+            return label;
+          },
+        },
       },
     },
     layout: {

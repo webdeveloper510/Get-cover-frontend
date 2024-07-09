@@ -302,7 +302,7 @@ function CustomerContractList(props) {
                   return (
                     <div className="px-3 mt-5">
                       <div>
-                        <Grid className="bg-[#333333] !gap-2 !grid-cols-11 rounded-t-xl">
+                        <Grid className="bg-light-black !gap-2 !grid-cols-11 rounded-t-xl">
                           <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
                             <p className="text-white py-2 font-Regular">
                               Contract ID : <b> {res.unique_key} </b>
@@ -340,7 +340,7 @@ function CustomerContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Manufacturer
                               </p>
-                              <p className="text-[#333333] text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold">
                                 {res.manufacture}
                               </p>
                             </div>
@@ -350,7 +350,7 @@ function CustomerContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Model
                               </p>
-                              <p className="text-[#333333] text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold">
                                 {res.model}
                               </p>
                             </div>
@@ -360,7 +360,7 @@ function CustomerContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Serial
                               </p>
-                              <p className="text-[#333333] text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold">
                                 {res.serial}
                               </p>
                             </div>
@@ -370,7 +370,7 @@ function CustomerContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Status
                               </p>
-                              <p className="text-[#333333] text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold">
                                 {res.status}
                               </p>
                             </div>
@@ -387,13 +387,13 @@ function CustomerContractList(props) {
                                     id={`tooltip-${index}`}
                                     content={res?.reason}
                                   >
-                                    <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                                    <p className="text-light-black cursor-pointer text-base font-semibold">
                                       Not Eligible
                                     </p>
                                   </CommonTooltip>
                                 </>
                               ) : (
-                                <p className="text-[#333333] text-base font-semibold">
+                                <p className="text-light-black text-base font-semibold">
                                   Eligible
                                 </p>
                               )}
@@ -586,7 +586,7 @@ function CustomerContractList(props) {
               </div>
             ) : (
               <>
-                <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
+                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                     <p className="text-white py-2 font-Regular">
                       Contract ID : <b> {contractDetails?.unique_key} </b>
@@ -614,7 +614,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Manufacturer
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.manufacture}
                       </p>
                     </div>
@@ -624,7 +624,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Model
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.model}
                       </p>
                     </div>
@@ -634,7 +634,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial #
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.serial}
                       </p>
                     </div>
@@ -644,7 +644,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Condition
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.condition}
                       </p>
                     </div>
@@ -654,7 +654,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         $
                         {contractDetails?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -670,7 +670,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.order?.[0]?.servicer?.[0]?.name}
                       </p>
                     </div>
@@ -680,7 +680,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Status
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.status}
                       </p>
                     </div>
@@ -690,7 +690,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Category
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetails?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
@@ -703,7 +703,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetails?.productName}
                       </p>
                     </div>
@@ -713,7 +713,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetails?.order?.[0]?.productsArray?.[0]
                             ?.description
@@ -726,7 +726,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Price Type
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetails?.order?.[0]?.productsArray?.[0]
                             ?.priceType
@@ -739,7 +739,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      {/* <p className="text-[#333333] text-base font-semibold">
+                      {/* <p className="text-light-black text-base font-semibold">
                             {contractDetails?.eligibilty === true
                               ? "Eligible"
                               : "Not Eligible "}
@@ -751,13 +751,13 @@ function CustomerContractList(props) {
                             id={`tooltip`}
                             content={contractDetails?.reason}
                           >
-                            <p className="text-[#333333] cursor-pointer text-base font-semibold">
+                            <p className="text-light-black cursor-pointer text-base font-semibold">
                               Not Eligible
                             </p>
                           </CommonTooltip>
                         </>
                       ) : (
-                        <p className="text-[#333333] text-base font-semibold">
+                        <p className="text-light-black text-base font-semibold">
                           Eligible
                         </p>
                       )}
@@ -768,7 +768,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Claim Amount
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         $
                         {contractDetails?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -786,7 +786,7 @@ function CustomerContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Start Range
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          <p className="text-light-black text-base font-semibold">
                             $
                             {contractDetails?.order?.[0]?.productsArray?.[0]
                               ?.rangeStart === undefined
@@ -804,7 +804,7 @@ function CustomerContractList(props) {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             End Range
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          <p className="text-light-black text-base font-semibold">
                             $
                             {contractDetails?.order?.[0]?.productsArray?.[0]
                               ?.rangeEnd === undefined
@@ -827,7 +827,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
                         ).toLocaleDateString("en-US", {
@@ -843,7 +843,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
                         ).toLocaleDateString("en-US", {
@@ -859,7 +859,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Labour Warranty Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetails?.labourWarranty
                         ).toLocaleDateString("en-US", {
@@ -875,7 +875,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Part Warranty Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetails?.partsWarranty
                         ).toLocaleDateString("en-US", {
@@ -891,7 +891,7 @@ function CustomerContractList(props) {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Purchase Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetails?.purchaseDate
                         ).toLocaleDateString("en-US", {

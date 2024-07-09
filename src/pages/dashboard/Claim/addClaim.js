@@ -1166,7 +1166,7 @@ function AddClaim() {
               </div>
             ) : (
               <>
-                <Grid className="bg-[#333333] !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
+                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                     <p className="text-white py-2 font-Regular">
                       Contract ID : <b> {contractDetail?.unique_key} </b>
@@ -1203,7 +1203,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Manufacturer
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.manufacture}
                       </p>
                     </div>
@@ -1213,7 +1213,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Model
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.model}
                       </p>
                     </div>
@@ -1223,7 +1223,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.serial}
                       </p>
                     </div>
@@ -1233,7 +1233,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Condition
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.condition}
                       </p>
                     </div>
@@ -1243,7 +1243,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Retail Price
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {/* ${contractDetail?.productValue} */}$
                         {contractDetail?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -1263,7 +1263,7 @@ function AddClaim() {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Dealer Name
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          <p className="text-light-black text-base font-semibold">
                             {contractDetail?.order?.[0]?.dealer?.[0]?.name}
                           </p>
                         </div>
@@ -1276,7 +1276,7 @@ function AddClaim() {
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Reseller Name
                         </p>
-                        <p className="text-[#333333] text-base font-semibold">
+                        <p className="text-light-black text-base font-semibold">
                           {contractDetail?.order?.[0]?.reseller?.[0]?.name}
                         </p>
                       </div>
@@ -1289,7 +1289,7 @@ function AddClaim() {
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Customer Name
                         </p>
-                        <p className="text-[#333333] text-base font-semibold">
+                        <p className="text-light-black text-base font-semibold">
                           {contractDetail?.order?.[0]?.customer?.[0]?.username}
                         </p>
                       </div>
@@ -1301,7 +1301,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.order?.[0]?.servicer?.[0]?.name}
                       </p>
                     </div>
@@ -1311,7 +1311,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Status
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.status}
                       </p>
                     </div>
@@ -1321,7 +1321,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Category
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.category?.name
@@ -1334,7 +1334,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product SKU
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.name
@@ -1347,7 +1347,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.pName
@@ -1360,7 +1360,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Description
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.description
@@ -1373,7 +1373,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Price Type
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceType
@@ -1386,7 +1386,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Eligibility
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {contractDetail?.eligibilty === true
                           ? "Eligible"
                           : "Not Eligible "}
@@ -1398,7 +1398,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Claim Amount
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         $
                         {contractDetail?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -1417,7 +1417,7 @@ function AddClaim() {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Start Range
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          <p className="text-light-black text-base font-semibold">
                             $
                             {contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.rangeStart === undefined
@@ -1434,7 +1434,7 @@ function AddClaim() {
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             End Range
                           </p>
-                          <p className="text-[#333333] text-base font-semibold">
+                          <p className="text-light-black text-base font-semibold">
                             $
                             {contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.rangeEnd === undefined
@@ -1455,7 +1455,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate
                         ).toLocaleDateString("en-US", {
@@ -1471,7 +1471,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Coverage End Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate
                         ).toLocaleDateString("en-US", {
@@ -1487,7 +1487,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Labour Warranty Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetail?.labourWarranty
                         ).toLocaleDateString("en-US", {
@@ -1503,7 +1503,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Part Warranty Start Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetail?.partsWarranty
                         ).toLocaleDateString("en-US", {
@@ -1519,7 +1519,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Purchase Date
                       </p>
-                      <p className="text-[#333333] text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold">
                         {new Date(
                           contractDetail?.purchaseDate
                         ).toLocaleDateString("en-US", {

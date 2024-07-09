@@ -41,7 +41,7 @@ function Fronting() {
       <>
         <Grid>
           <div className="col-span-12">
-            <div className="bg-[#333333] text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
               <Grid>
                 <div className="col-span-3 self-center">
                   <p className="text-xl font-bold">

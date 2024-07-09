@@ -1,62 +1,51 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --neutral-grey: 153 153 153;
+    --light-grey: 235 228 228;
+    --light-black: 51 51 51;
+    --light-white: 93 110 102;
+    --light-green: 193 197 195;
+    --Gray28: 71 71 71;
+    --grayf9: 249 249 249;
+    --Eclipse: 60 60 60;
+    --Light-Grey: 209 209 209;
+    --white: 255 255 255;
+    --Black-Russian: 27 29 33;
+    --White-Smoke: 247 247 247;
+    --Smoke: 235 235 235;
+    --Granite-Gray: 95 95 95;
+    --red: 255 0 0;
+    --Onyx: 56 56 56;
+    --Bright-Grey: 83 84 86;
+    --red-500: 255 0 0;
+  }
+}
+
 body {
-  font-family:  'Gilroy', sans-serif;
+  font-family: 'Gilroy', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .dealer-detail .rdt_TableCol {
-font-size: 11px !important;
-  /* font-family: 'Gilroy-Bold' !important; */
+  font-size: 11px !important;
   font-weight: 700;
 }
-.dealer-detail .rdt_TableBody .rdt_TableCell{
+
+.dealer-detail .rdt_TableBody .rdt_TableCell {
   font-size: 11px !important;
   font-weight: 400;
-  /* font-family: 'Gilroy-Regular' !important; */
 }
 
 
-/* .font-light {
-  font-family: 'Gilroy-Light';
-  font-weight: 300;
-}
-.font-thin {
-  font-family: 'Gilroy-Thin';
-  font-weight: 100;
-} */
 .dYHiBl {
-  padding:0px !important;
+  padding: 0px !important;
 }
-/* .font-Regular {
-  font-family: 'Gilroy-Regular';
-  font-weight: 400;
-}
-
-.font-medium {
-  font-family: 'Gilroy-Medium';
-  font-weight: 500;
-}
-
-.font-semibold {
-  font-family: 'Gilroy-Medium';
-  font-weight: 600;
-}
-
-.font-bold {
-  font-family: 'Gilroy-Bold';
-  font-weight: 700;
-}
-
-.font-ExtraBold {
-  font-family: 'Gilroy-ExtraBold';
-  font-weight: 800;
-} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -71,9 +60,11 @@ code {
   font-size: 14px;
   border-top: 1px solid #dbdbdb;
 }
+
 .scroll-transition {
-  transition: transform 0.3s ease; /* Adjust the duration and easing function as needed */
+  transition: transform 0.3s ease;
 }
+
 .rdt_TableRow {
   color: #727378 !important;
 }
@@ -87,16 +78,15 @@ code {
   background: #333333;
 }
 
-/* Handle */
 .Diagnosis::-webkit-scrollbar-thumb {
   background: #cfcfcf;
   border-radius: 5px;
 }
 
-/* Handle on hover */
 .Diagnosis::-webkit-scrollbar-thumb:hover {
   background: #dfdfdf;
 }
+
 .rdt_Pagination {
   position: absolute;
   margin-top: 38px;
@@ -117,57 +107,22 @@ code {
   font-size: 16px !important;
 }
 
-/* @font-face {
-  font-family: 'Gilroy-Bold';
-  src: local('Gilroy-Bold'), url(./assets/fonts/Gilroy-Bold.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-Medium';
-  src: local('Gilroy-Medium'), url(./assets/fonts/Gilroy-Medium.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-Light';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Light.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-Thin';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Thin.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-Regular';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Regular.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-SemiBold';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-SemiBold.ttf) format('truetype');
-}
-
-@font-face {
-  font-family: 'Gilroy-ExtraBold';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-ExtraBold.ttf) format('truetype');
-} */
-
 @layer utilities {
   @variants responsive {
-    /* Hide scrollbar for Chrome, Safari and Opera */
+
     .no-scrollbar::-webkit-scrollbar {
-        display: none;
+      display: none;
     }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
     .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
 }
 
 @layer base {
+
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -181,40 +136,40 @@ code {
   flex-wrap: wrap;
 }
 
-.ReactTags__tagInput, input.ReactTags__tagInputField:focus {
+.ReactTags__tagInput,
+input.ReactTags__tagInputField:focus {
 
-&::-webkit-input-placeholder {
+  &::-webkit-input-placeholder {
 
-color: transparent;
+    color: transparent;
 
--webkit-transition: color 0.2s ease;
+    -webkit-transition: color 0.2s ease;
 
-transition: color 0.2s ease;
+    transition: color 0.2s ease;
 
+  }
+
+  &:-moz-placeholder {
+
+    color: transparent;
+
+    -webkit-transition: color 0.2s ease;
+
+    transition: color 0.2s ease;
+
+  }
+
+  &:-ms-input-placeholder {
+
+    color: transparent;
+
+    -webkit-transition: color 0.2s ease;
+
+    transition: color 0.2s ease;
+
+  }
 }
 
-&:-moz-placeholder { /* Firefox 18- */
-
-color: transparent;
-
--webkit-transition: color 0.2s ease;
-
-transition: color 0.2s ease;
-
-}
-
-&:-ms-input-placeholder {
-
-color: transparent;
-
--webkit-transition: color 0.2s ease;
-
-transition: color 0.2s ease;
-
-}
-}
-
-/* width */
 .react-tags-wrapper::-webkit-scrollbar {
   width: 0px;
 }
@@ -243,9 +198,10 @@ span.tag-wrapper.ReactTags__tag button {
 }
 
 .rdt_TableCell div {
-  white-space: normal !important;  
-    flex-wrap: wrap;
+  white-space: normal !important;
+  flex-wrap: wrap;
 }
+
 .rdt_TableCell span {
   white-space: normal !important;
   flex-wrap: wrap;
@@ -254,9 +210,11 @@ span.tag-wrapper.ReactTags__tag button {
 .ReactTags__tagInput {
   width: 50%;
 }
+
 input.ReactTags__tagInputField {
   width: 100%;
 }
+
 input:focus,
 textarea:focus,
 select:focus,
@@ -286,13 +244,13 @@ a:focus {
 
 .rdt_TableHeadRow .rdt_TableCol_Sortable {
   display: flex !important;
-  justify-content: left!important;
+  justify-content: left !important;
   /* padding-left: 15px; */
 }
 
 .rdt_TableCell {
   display: flex !important;
-  justify-content: left!important;
+  justify-content: left !important;
   padding-top: 10px;
   padding-bottom: 10px;
   flex-wrap: wrap;
