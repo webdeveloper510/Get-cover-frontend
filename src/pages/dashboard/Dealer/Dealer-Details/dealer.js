@@ -313,7 +313,7 @@ function DealerDetailList(props) {
                 <div
                   className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
-                    navigate(`/dealerDetails/${row.accountId}`);
+                    navigate(`/dealerDetails/${row.dealerId}`);
                   }}
                 >
                   View
