@@ -215,11 +215,14 @@ export const getSuperAdminMembers = async (data) => {
   }
 };
 
-export const getSetting = async (data) => {
+export const uploadFile = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(`https://api.codewarranty.com/api-v1/user/setting/uploadLogo`, data, {
-      headers,
+      headers: {
+        ...headers,
+        "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
+      },
     });
 
     return response.data;
@@ -228,6 +231,36 @@ export const getSetting = async (data) => {
   }
 };
 
+export const saveSetting = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`https://api.codewarranty.com/api-v1/user/setting`, data, {
+      headers: {
+        ...headers,
+       
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getSetting = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`https://api.codewarranty.com/api-v1/user/setting/getSetting`, {
+      headers: {
+        ...headers,
+       // Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const sendNotifications = async (data, id) => {
   const headers = createHeaders();
   try {

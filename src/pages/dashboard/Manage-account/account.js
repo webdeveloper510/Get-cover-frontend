@@ -26,6 +26,8 @@ import {
   changePrimaryById,
   editUserDetailsbyToken,
   getSuperAdminMembers,
+  uploadFile,
+  saveSetting,
   getSetting,
   sendNotifications,
 } from "../../../services/extraServices";
@@ -64,7 +66,8 @@ function Account() {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [email, setEmail] = useState("");
   const [selectedFile2, setSelectedFile2] = useState(null);
-  const inputRef = useRef(null);
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -103,13 +106,13 @@ function Account() {
   useEffect(() => {
     setLoading(true);
     fetchUserDetails();
+    fetchUserDetails12();
     setTimeout(() => {
       fetchUserMembers();
     }, 2000);
   }, []);
 
-  useEffect(() => {}, []);
-
+ 
   const fetchUserDetails = async () => {
     try {
       const userDetails = await getSuperAdminMembers();
@@ -464,7 +467,6 @@ function Account() {
     phoneNumber: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
-    // position: Yup.string().required("Position is required"),
   });
 
   const KeyCodes = {
@@ -530,7 +532,7 @@ function Account() {
             disabled={row.isPrimary}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -653,7 +655,7 @@ function Account() {
             disabled={true}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -765,46 +767,177 @@ function Account() {
     setActiveButton(button);
   };
   const [activeButton, setActiveButton] = useState("myAccount");
-
-  const handleFileChange = (event) => {
+  const [selectedFile1, setSelectedFile1] = useState(null);
+  const handleFileChange = (event, setterFunction, fieldName) => {
     const file = event.target.files[0];
-    const maxSize = 10485760; // 10MB in bytes
-
-   
-      setSelectedFile2(file);
-      siteChange.setFieldValue("file", file);
-      console.log("Selected file:", file);
-      uploadFile(file);
-  };
-  const uploadFile = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    console.log('File uploaded successfully:', formData);
-    try {
-      const result = await getSetting(formData);
-    } catch (error) {
-      console.error('Error uploading file:', error);
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      uploadFile(formData).then((res) => {
+        console.log("API response:", res);
+        if (res && res.result) {
+          siteChange.setFieldValue(fieldName, res.result);
+          setterFunction(res.result);
+        } else {
+          console.error("Unexpected response format:", res);
+        }
+      }).catch((error) => {
+        console.error("Error uploading file:", error);
+      });
     }
   };
-  const handleRemoveFile = () => {
-    if (inputRef.current) {
-      inputRef.current.value = null;
-      siteChange.setFieldValue("file", null);
-      setSelectedFile2(null);
+  const handleRemoveFile = (setterFunction,fieldName) => {
+    if (inputRef1.current) {
+      inputRef1.current.value = null;
+      siteChange.setFieldValue(fieldName, "");
+      setterFunction(null);
+    }
+  };
+
+ 
+
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+  const [buttonColor, setButtonColor] = useState('');
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+  const [textColor, setTextColor] = useState('');
+  const [titleColor, setTitleColor] = useState('');
+  const handleColorChange = (event) => {
+    setSideBarColor(event.target.value);
+    siteChange.setFieldValue('sideBarColor' , sideBarColor)
+  };
+  const handleColorChange1 = (event) => {
+    setSideBarTextColor(event.target.value);
+    siteChange.setFieldValue('sideBarTextColor' , sideBarTextColor)
+  };
+  const handleColorChange2 = (event) => {
+    setSideBarButtonColor(event.target.value);
+    siteChange.setFieldValue('sideBarButtonColor' , sideBarButtonColor)
+  };
+  const handleColorChange3 = (event) => {
+    setSideBarButtonTextColor(event.target.value);
+    siteChange.setFieldValue('sideBarButtonTextColor' , sideBarButtonTextColor)
+  };
+  const handleColorChange4 = (event) => {
+    setButtonColor(event.target.value);
+    siteChange.setFieldValue('buttonColor' , buttonColor)
+  };
+  const handleColorChange5 = (event) => {
+    setButtonTextColor(event.target.value);
+    siteChange.setFieldValue('buttonTextColor' , buttonTextColor)
+  };
+  const handleColorChange6 = (event) => {
+    setBackGroundColor(event.target.value);
+    siteChange.setFieldValue('backGroundColor' , backGroundColor)
+  };
+  const handleColorChange7 = (event) => {
+    setTextColor(event.target.value);
+    siteChange.setFieldValue('textColor' , textColor)
+  };
+  const handleColorChange8 = (event) => {
+    setTitleColor(event.target.value);
+    siteChange.setFieldValue('titleColor' , titleColor)
+  };
+
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      console.log(userDetails);
+
+      if (userDetails.result && userDetails.result[0].colorScheme) {
+        const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'sideBarColor':
+              setSideBarColor(color.colorCode);
+              break;
+            case 'sideBarTextColor':
+              setSideBarTextColor(color.colorCode);
+              break;
+            case 'sideBarButtonColor':
+              setSideBarButtonColor(color.colorCode);
+              break;
+            case 'sideBarButtonTextColor':
+              setSideBarButtonTextColor(color.colorCode);
+              break;
+            case 'buttonColor':
+              setButtonColor(color.colorCode);
+              break;
+            case 'buttonTextColor':
+              setButtonTextColor(color.colorCode);
+              break;
+            case 'backGroundColor':
+              setBackGroundColor(color.colorCode);
+              break;
+            case 'textColor':
+              setTextColor(color.colorCode);
+              break;
+            case 'titleColor':
+              setTitleColor(color.colorCode);
+              break;
+            default:
+              break;
+          }
+        });
+      }
+      if (userDetails && userDetails.result) {
+        setSelectedFile1(userDetails.result[0].favIcon || null);
+        setSelectedFile2(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage : null);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
     }
   };
 
   const siteChange = useFormik({
     initialValues: {
-      file: null,
+      favIcon: selectedFile1,
+      logoImage: selectedFile2,
+      sideBarColor: sideBarColor,
+      sideBarTextColor: sideBarTextColor,
+      sideBarButtonColor: sideBarButtonColor,
+      sideBarButtonTextColor: sideBarButtonTextColor,
+      buttonColor: buttonColor,
+      buttonTextColor: buttonTextColor,
+      backGroundColor: backGroundColor,
+      textColor: textColor,
+      titleColor: titleColor,
     },
     validationSchema: Yup.object({
-      file: Yup.mixed().nullable(),
+      favIcon: Yup.mixed().nullable(),
     }),
     onSubmit: async (values) => {
+      
       try {
         setLoading(true);
-        const result = await getSetting(values); // Define getSetting function as needed
+        const colorScheme = [
+          { colorCode: values.sideBarColor, colorType: "sideBarColor" },
+          { colorCode: values.sideBarTextColor, colorType: "sideBarTextColor" },
+          { colorCode: values.sideBarButtonColor, colorType: "sideBarButtonColor" },
+          { colorCode: values.sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
+          { colorCode: values.buttonColor, colorType: "buttonColor" },
+          { colorCode: values.buttonTextColor, colorType: "buttonTextColor" },
+          { colorCode: values.backGroundColor, colorType: "backGroundColor" },
+          { colorCode: values.textColor, colorType: "textColor" },
+          { colorCode: values.titleColor, colorType: "titleColor" }
+        ];
+        const apiData = {
+          favIcon: values.favIcon || selectedFile1 ,
+          colorScheme: colorScheme,
+          logos: [
+            {
+              logoImage:values.logoImage || selectedFile2,
+              logoType: "grey" // Adjust logoType as needed
+            }
+          ]
+        };
+        console.log(apiData);
+        const result = await saveSetting(apiData); 
+        console.log(result);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -812,32 +945,6 @@ function Account() {
       }
     },
   });
-
-  const [selectedColor, setSelectedColor] = useState('#33333');
-  const [selectedColor1, setSelectedColor1] = useState('#ffffff');
-  const [selectedColor2, setSelectedColor2] = useState('#33333');
-  const [selectedColor3, setSelectedColor3] = useState('#efefef');
-  const [selectedColor4, setSelectedColor4] = useState('#000000');
-  const [selectedColor5, setSelectedColor5] = useState('#999');
-  console.log(selectedColor, selectedColor1, selectedColor2, selectedColor3, selectedColor4, selectedColor5);
-  const handleColorChange = (event) => {
-    setSelectedColor(event.target.value);
-  };
-  const handleColorChange1 = (event) => {
-    setSelectedColor1(event.target.value);
-  };
-  const handleColorChange2 = (event) => {
-    setSelectedColor2(event.target.value);
-  };
-  const handleColorChange3 = (event) => {
-    setSelectedColor3(event.target.value);
-  };
-  const handleColorChange4 = (event) => {
-    setSelectedColor4(event.target.value);
-  };
-  const handleColorChange5 = (event) => {
-    setSelectedColor5(event.target.value);
-  };
   return (
     <>
       {loading ? (
@@ -1191,166 +1298,183 @@ function Account() {
                   <Grid container spacing={2}>
                     <div className="col-span-12 mb-2">
                       <p className="mb-3 text-light-black font-bold">Logo Setting</p>
-                      <div className="relative">
-                        <label
-                          htmlFor="logo-upload"
-                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                        >
-                          Logo Upload
-                        </label>
-                        <input
-                          type="file"
-                          id="logo-upload"
-                          name="logo"
-                          className="hidden"
-                          onChange={handleFileChange}
-                          ref={inputRef}
-                        />
-                        <div
-                          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                        >
-                          {selectedFile2 && (
-                            <button
-                              type="button"
-                              onClick={handleRemoveFile}
-                              className="absolute -right-2 -top-2 mx-auto mb-3"
-                            >
-                              <img
-                                src={Cross1}
-                                className="w-6 h-6"
-                                alt="Remove"
-                              />
-                            </button>
-                          )}
-                          {selectedFile2 ? (
-                            <p className="w-full break-words">
-                              {selectedFile2.name}
-                            </p>
-                          ) : (
-                            <p
-                              className="w-full cursor-pointer"
-                              onClick={() => inputRef.current.click()}
-                            >
-                              Select File
-                            </p>
-                          )}
+                        <div className="relative">
+                          <label
+                            htmlFor="logo-upload"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Logo Upload
+                          </label>
+                          <input
+                            type="file"
+                            id="logo-upload"
+                            name="logoImage"
+                            className="hidden"
+                            onChange={(event) => handleFileChange(event, setSelectedFile1, "logoImage")}
+                            ref={inputRef1}
+                          />
+                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                            {selectedFile1 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveFile(setSelectedFile1, "logoImage")}
+                                className="absolute -right-2 -top-2 mx-auto mb-3"
+                              >
+                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                              </button>
+                            )}
+                            {selectedFile1 ? (
+                              <p className="w-full break-words">{selectedFile1.name}</p>
+                            ) : (
+                              <p
+                                className="w-full cursor-pointer"
+                                onClick={() => inputRef1.current.click()}
+                              >
+                                Select File
+                              </p>
+                            )}
+                          </div>
+                      </div>
+                      </div>
+                      <div className="col-span-12">
+                        <div className="relative">
+                          <label
+                            htmlFor="favicon-upload"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Favicon Upload
+                          </label>
+                          <input
+                            type="file"
+                            id="favicon-upload"
+                            name="favIcon"
+                            className="hidden"
+                            onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
+                            ref={inputRef2}
+                          />
+                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                            {selectedFile2 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveFile(setSelectedFile2, "favIcon")}
+                                className="absolute -right-2 -top-2 mx-auto mb-3"
+                              >
+                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                              </button>
+                            )}
+                            {selectedFile2 ? (
+                              <p className="w-full break-words">{selectedFile2.name}</p>
+                            ) : (
+                              <p
+                                className="w-full cursor-pointer"
+                                onClick={() => inputRef2.current.click()}
+                              >
+                                Select File
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="col-span-12">
-                      <div className="relative">
-                        <label
-                          htmlFor="logo-upload"
-                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                        >
-                          Favicon Upload
-                        </label>
-                        <input
-                          type="file"
-                          id="logo-upload"
-                          name="logo"
-                          className="hidden"
-                          onChange={handleFileChange}
-                          ref={inputRef}
-                        />
-                        <div
-                          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                        >
-                          {selectedFile2 && (
-                            <button
-                              type="button"
-                              onClick={handleRemoveFile}
-                              className="absolute -right-2 -top-2 mx-auto mb-3"
-                            >
-                              <img
-                                src={Cross1}
-                                className="w-6 h-6"
-                                alt="Remove"
-                              />
-                            </button>
-                          )}
-                          {selectedFile2 ? (
-                            <p className="w-full break-words">
-                              {selectedFile2.name}
-                            </p>
-                          ) : (
-                            <p
-                              className="w-full cursor-pointer"
-                              onClick={() => inputRef.current.click()}
-                            >
-                              Select File
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
                     <div className="col-span-12">
                     <p className="mb-3 text-light-black font-bold">Color Setting</p>
                         <Grid>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`sideBarColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="SideBar Color"
                                       placeholder=""
-                                      value={selectedColor} onChange={handleColorChange}
+                                      value={sideBarColor} onChange={handleColorChange}
                                     />
                           </div>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`sideBarTextColor`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="SideBar text Color"
+                                      placeholder=""
+                                      value={sideBarTextColor} onChange={handleColorChange1}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`sideBarButtonColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="SideBar Button "
                                       placeholder=""
-                                      value={selectedColor1} onChange={handleColorChange1}
+                                      value={sideBarButtonColor} onChange={handleColorChange2}
                                     />
                           </div>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`sideBarButtonTextColor`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="SideBar text Button "
+                                      placeholder=""
+                                      value={sideBarButtonTextColor} onChange={handleColorChange3}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`buttonColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="Button Color"
                                       placeholder=""
-                                      value={selectedColor2} onChange={handleColorChange2}
+                                      value={buttonColor} onChange={handleColorChange4}
                                     />
                           </div>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`buttonTextColor`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="Button text Color"
+                                      placeholder=""
+                                      value={buttonTextColor} onChange={handleColorChange5}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`backGroundColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="Background Color"
                                       placeholder=""
-                                      value={selectedColor3} onChange={handleColorChange3}
+                                      value={backGroundColor} onChange={handleColorChange6}
                                     />
                           </div>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`textColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="Tittle Color"
                                       placeholder=""
-                                      value={selectedColor4} onChange={handleColorChange4}
+                                      value={textColor} onChange={handleColorChange7}
                                     />
                           </div>
                           <div className="col-span-2">
                                 <Input
                                       type="color"
-                                      name={`color`}
+                                      name={`titleColor`}
                                       className="!bg-white"
                                       className1="h-11"
                                       label="Text Color"
                                       placeholder=""
-                                      value={selectedColor5} onChange={handleColorChange5}
+                                      value={titleColor} onChange={handleColorChange8}
                                     />
                           </div>
                         </Grid>
