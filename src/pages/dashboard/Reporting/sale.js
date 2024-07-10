@@ -195,7 +195,7 @@ function Sale() {
         </div>
         <Grid
           className={`${
-            activeButton === "dealer" ? "grid-cols-10" : "!grid-cols-5"
+            activeButton === "dealer" ? "grid-cols-12" : "!grid-cols-5"
           } !gap-0`}
         >
           {activeButton === "dealer" && (
