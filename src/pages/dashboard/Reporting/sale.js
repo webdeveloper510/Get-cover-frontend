@@ -301,7 +301,7 @@ function Sale() {
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
                     />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
                       Product SKU
                     </small>
                   </div>
