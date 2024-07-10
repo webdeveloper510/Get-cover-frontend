@@ -652,13 +652,7 @@ const routes = [
       },
       {
         path: "/dealer/sale",
-        element: (
-          <PrivateRoute
-            element={<DealerSale />}
-            role={"dealer"}
-            path="/dealer/sale"
-          />
-        ),
+        element: <PrivateRoute element={<DealerSale />} role={"dealer"} />,
       },
       {
         path: "/dealer/claim",
@@ -671,7 +665,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/claimList",
+        path: "/dealer/claimList/:claimIdValue?",
         element: (
           <PrivateRoute
             element={<ClaimList12 />}

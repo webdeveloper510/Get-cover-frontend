@@ -979,28 +979,25 @@ function Account() {
                         />
                       </div>
                     </div>
-                    {formikEmail.errors.notificationTo && (
+                    {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
                       <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
                         {(() => {
                           const uniqueErrors = new Set();
-                          return formikEmail.errors.notificationTo.map(
-                            (error, index) => {
-                              if (!uniqueErrors.has(error)) {
-                                uniqueErrors.add(error);
-
-                                return (
-                                  <span key={index}>
-                                    {index > 0 && " "}{" "}
-                                    <span className="font-semibold">
-                                      {" "}
-                                      {error}{" "}
-                                    </span>
+                          return formikEmail.errors.notificationTo.map((error, index) => {
+                            if (!uniqueErrors.has(error)) {
+                              uniqueErrors.add(error);
+                              return (
+                                <span key={index}>
+                                  {index > 0 && " "}{" "}
+                                  <span className="font-semibold">
+                                    {" "}
+                                    {error}{" "}
                                   </span>
-                                );
-                              }
-                              return null;
+                                </span>
+                              );
                             }
-                          );
+                            return null;
+                          });
                         })()}
                       </p>
                     )}

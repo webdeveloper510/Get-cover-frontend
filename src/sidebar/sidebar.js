@@ -635,25 +635,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    // {
-    //   name: "Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   items: [
-    //     {
-    //       name: "Sale",
-    //       url: "/dealer/sale",
-    //       image: Dropdown1,
-    //       active: Actives,
-    //     },
-    //     {
-    //       name: "Claims",
-    //       url: "/dealer/claim",
-    //       image: Dropdown2,
-    //       active: SeacondActive,
-    //     },
-    //   ],
-    // },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/dealer/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/dealer/claim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
     {
       name: "Manage Account",
       image: CustomerImage,

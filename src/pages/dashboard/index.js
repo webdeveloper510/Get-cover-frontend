@@ -21,7 +21,7 @@ function Dashboard() {
   const [dealerList, setDealerList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [servicerList, setServicerList] = useState([]);
-  const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [dealerPriceBook, setDealerPriceBook] = useState([]); 
   const [dealerPriceBookYear, setDealerPriceBookYear] = useState([]);
   const [claimList, setClaimList] = useState([]);
   const [orderAmount, setOrderAmount] = useState([]);
