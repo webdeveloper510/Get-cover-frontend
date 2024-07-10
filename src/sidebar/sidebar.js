@@ -898,8 +898,8 @@ function SideBar() {
           className="mx-auto py-6 w-[160px] h-[80px]"
           alt="logo"
         />
-        <hr className=" border-Gray28 border-[1px]" />
-        <div className="shadow-sm h-full ">
+        <hr className="border-Gray28 border-[1px]"/>
+        <div className="shadow-sm h-full">
           <div className="mx-auto h-full mt-6">
             <ul className="pb-5">
               {renderSidebarItems}

@@ -98,8 +98,6 @@ function Dealer() {
   const navigate = useNavigate();
   const { id } = useParams();
   const handleDropdownClick = () => {
-    // setSelectedFile(null)
-    // formik.setFieldValue("file", "")
     if (fileInputRef) {
       fileInputRef.current.click();
       setSelectedFile(null);

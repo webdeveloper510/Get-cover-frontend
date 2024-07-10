@@ -19,13 +19,14 @@ import edit from "../../../assets/images/edit-text.png";
 import Cross from "../../../assets/images/Cross.png";
 import delete1 from "../../../assets/images/delete.png";
 import assign from "../../../assets/images/Unassign.png";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import {
   addSuperAdminMembers,
   changePasswordbyToken,
   changePrimaryById,
   editUserDetailsbyToken,
   getSuperAdminMembers,
-  getUserDetailsbyToken,
+  getSetting,
   sendNotifications,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
@@ -62,7 +63,8 @@ function Account() {
   const [mainStatus, setMainStatus] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [email, setEmail] = useState("");
-
+  const [selectedFile2, setSelectedFile2] = useState(null);
+  const inputRef = useRef(null);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -224,17 +226,6 @@ function Account() {
     setIsUserModalOpen(false);
     setModalOpen(false);
   };
-
-  // const makeUserPrimary = async (row) => {
-  //   console.log(row._id);
-  //   const result = await changePrimaryById(row._id);
-  //   console.log(result);
-  //   if (result.code == 200) {
-  //     setFirstMessage("It's set to Primary");
-  //     setSecondMessage("We have successfully made this user primary");
-  //     setModalOpen(true);
-  //   }
-  // };
 
   const editUser = async (id) => {
     // console.log(id);
@@ -770,7 +761,83 @@ function Account() {
   };
   const [selectedEmail, setSelectedEmail] = useState([]);
   const [emails, setEmails] = useState([]);
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+  };
+  const [activeButton, setActiveButton] = useState("myAccount");
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 10485760; // 10MB in bytes
+
+   
+      setSelectedFile2(file);
+      siteChange.setFieldValue("file", file);
+      console.log("Selected file:", file);
+      uploadFile(file);
+  };
+  const uploadFile = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log('File uploaded successfully:', formData);
+    try {
+      const result = await getSetting(formData);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+  const handleRemoveFile = () => {
+    if (inputRef.current) {
+      inputRef.current.value = null;
+      siteChange.setFieldValue("file", null);
+      setSelectedFile2(null);
+    }
+  };
+
+  const siteChange = useFormik({
+    initialValues: {
+      file: null,
+    },
+    validationSchema: Yup.object({
+      file: Yup.mixed().nullable(),
+    }),
+    onSubmit: async (values) => {
+      try {
+        setLoading(true);
+        const result = await getSetting(values); // Define getSetting function as needed
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    },
+  });
+
+  const [selectedColor, setSelectedColor] = useState('#33333');
+  const [selectedColor1, setSelectedColor1] = useState('#ffffff');
+  const [selectedColor2, setSelectedColor2] = useState('#33333');
+  const [selectedColor3, setSelectedColor3] = useState('#efefef');
+  const [selectedColor4, setSelectedColor4] = useState('#000000');
+  const [selectedColor5, setSelectedColor5] = useState('#999');
+  console.log(selectedColor, selectedColor1, selectedColor2, selectedColor3, selectedColor4, selectedColor5);
+  const handleColorChange = (event) => {
+    setSelectedColor(event.target.value);
+  };
+  const handleColorChange1 = (event) => {
+    setSelectedColor1(event.target.value);
+  };
+  const handleColorChange2 = (event) => {
+    setSelectedColor2(event.target.value);
+  };
+  const handleColorChange3 = (event) => {
+    setSelectedColor3(event.target.value);
+  };
+  const handleColorChange4 = (event) => {
+    setSelectedColor4(event.target.value);
+  };
+  const handleColorChange5 = (event) => {
+    setSelectedColor5(event.target.value);
+  };
   return (
     <>
       {loading ? (
@@ -807,305 +874,522 @@ function Account() {
               </ul>
             </div>
           </div>
+          <div className="mt-5">
+            <Button
+             onClick={() => handleButtonClick("myAccount")}
+             className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] !border-light-black ${
+               activeButton !== "myAccount" && "!bg-[white] !text-[#333] "
+             }`}>
+              My Account 
+            </Button>
+            <Button
+             onClick={() => handleButtonClick("siteSetting")}
+             className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                  activeButton !== "siteSetting" && "!bg-[white] !text-[#333] "
+                }`}>
+              Site Setting 
+            </Button>
+            <Button
+             onClick={() => handleButtonClick("CoverageType")}
+             className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                  activeButton !== "CoverageType" && "!bg-[white] !text-[#333] "
+                }`}>
+              Add Coverage Type  
+            </Button>
+          </div>
+          {activeButton === "myAccount" && (
+           <>
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <p className="text-xl font-semibold mb-3">My Account</p>
 
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-            <p className="text-xl font-semibold mb-3">My Account</p>
-
-            <>
-              <Grid>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  onSubmit={(values, { setSubmitting }) => {
-                    editDetail(values);
-                    setSubmitting(false);
-                    fetchUserDetails();
-                  }}
-                >
-                  {({ isSubmitting }) => (
-                    <Form className="col-span-12">
-                      <Grid>
-                        <div className="col-span-4">
-                          <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                            <p className="text-sm m-0 p-0">Email</p>
-                            <p className="font-semibold">{email}</p>
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="First Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              First Name
-                            </label>
-
-                            <Field
-                              type="text"
-                              name="firstName"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="firstName"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Last Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Last Name
-                            </label>
-                            <Field
-                              type="text"
-                              name="lastName"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="lastName"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Phone #"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Phone #
-                            </label>
-                            <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                              +1
+              <>
+                <Grid>
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={(values, { setSubmitting }) => {
+                      editDetail(values);
+                      setSubmitting(false);
+                      fetchUserDetails();
+                    }}
+                  >
+                    {({ isSubmitting }) => (
+                      <Form className="col-span-12">
+                        <Grid>
+                          <div className="col-span-4">
+                            <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                              <p className="text-sm m-0 p-0">Email</p>
+                              <p className="font-semibold">{email}</p>
                             </div>
-                            <Field
-                              type="tel"
-                              name="phoneNumber"
-                              placeholder=""
-                              minLength={10}
-                              maxLength={10}
-                              className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="phoneNumber"
-                              component="div"
-                              className="text-red-500"
-                            />
                           </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Position"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Position
-                            </label>
-                            <Field
-                              type="text"
-                              name="position"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="position"
-                              component="div"
-                              className="text-red-500"
-                            />
+                          <div className="col-span-4">
+                            <div className="relative">
+                              <label
+                                htmlFor="First Name"
+                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                              >
+                                First Name
+                              </label>
+
+                              <Field
+                                type="text"
+                                name="firstName"
+                                placeholder=""
+                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              />
+                              <ErrorMessage
+                                name="firstName"
+                                component="div"
+                                className="text-red-500"
+                              />
+                            </div>
                           </div>
-                        </div>
+                          <div className="col-span-4">
+                            <div className="relative">
+                              <label
+                                htmlFor="Last Name"
+                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                              >
+                                Last Name
+                              </label>
+                              <Field
+                                type="text"
+                                name="lastName"
+                                placeholder=""
+                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              />
+                              <ErrorMessage
+                                name="lastName"
+                                component="div"
+                                className="text-red-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="col-span-4">
+                            <div className="relative">
+                              <label
+                                htmlFor="Phone #"
+                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                              >
+                                Phone #
+                              </label>
+                              <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                                +1
+                              </div>
+                              <Field
+                                type="tel"
+                                name="phoneNumber"
+                                placeholder=""
+                                minLength={10}
+                                maxLength={10}
+                                className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              />
+                              <ErrorMessage
+                                name="phoneNumber"
+                                component="div"
+                                className="text-red-500"
+                              />
+                            </div>
+                          </div>
+                          <div className="col-span-4">
+                            <div className="relative">
+                              <label
+                                htmlFor="Position"
+                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                              >
+                                Position
+                              </label>
+                              <Field
+                                type="text"
+                                name="position"
+                                placeholder=""
+                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              />
+                              <ErrorMessage
+                                name="position"
+                                component="div"
+                                className="text-red-500"
+                              />
+                            </div>
+                          </div>
 
-                        <div className="col-span-4 text-right">
-                          <Button type="submit" disabled={isSubmitting}>
-                            Save Changes
-                          </Button>
+                          <div className="col-span-4 text-right">
+                            <Button type="submit" disabled={isSubmitting}>
+                              Save Changes
+                            </Button>
+                          </div>
+                        </Grid>
+                      </Form>
+                    )}
+                  </Formik>
+                  <div className="col-span-12">
+                    <form onSubmit={formikEmail.handleSubmit}>
+                      <p className="text-xl font-semibold mb-4">
+                        Send Notification
+                      </p>
+                      <div className="relative">
+                        <label
+                          htmlFor="email"
+                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Send Notification to
+                        </label>
+                        <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
+                          <MultiSelect
+                            label="Email"
+                            name="Email"
+                            placeholder="Email"
+                            value={selectedEmail}
+                            options={emails}
+                            pName="Email"
+                            onChange={(value) => {
+                              console.log("value", value);
+                              setSelectedEmail(value);
+                              handleAddition(value);
+                              // handleFilterChange("priceBookId", value);
+                            }}
+                            labelledBy="Select"
+                            overrideStrings={{
+                              selectSomeItems: "Select Email",
+                            }}
+                            className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                          />
                         </div>
-                      </Grid>
-                    </Form>
-                  )}
-                </Formik>
-                <div className="col-span-12">
-                  <form onSubmit={formikEmail.handleSubmit}>
-                    <p className="text-xl font-semibold mb-4">
-                      Send Notification
-                    </p>
-                    <div className="relative">
-                      <label
-                        htmlFor="email"
-                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Send Notification to
-                      </label>
-                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
-                        {/* <ReactTags
-                          tags={tags}
-                          delimiters={delimiters}
-                          name="email"
-                          handleDelete={handleDelete}
-                          handleAddition={handleAddition}
-                          handleDrag={handleDrag}
-                          handleTagClick={handleTagClick}
-                          inputFieldPosition="bottom"
-                          autocomplete
-                          editable
-                          placeholder=""
-                        /> */}
-
-                        <MultiSelect
-                          label="Email"
-                          name="Email"
-                          placeholder="Email"
-                          value={selectedEmail}
-                          options={emails}
-                          pName="Email"
-                          onChange={(value) => {
-                            console.log("value", value);
-                            setSelectedEmail(value);
-                            handleAddition(value);
-                            // handleFilterChange("priceBookId", value);
-                          }}
-                          labelledBy="Select"
-                          overrideStrings={{
-                            selectSomeItems: "Select Email",
-                          }}
-                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                        />
                       </div>
-                    </div>
-                    {formikEmail.errors.notificationTo && (
+                      {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
                       <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
                         {(() => {
                           const uniqueErrors = new Set();
-                          return formikEmail.errors.notificationTo.map(
-                            (error, index) => {
-                              if (!uniqueErrors.has(error)) {
-                                uniqueErrors.add(error);
-
-                                return (
-                                  <span key={index}>
-                                    {index > 0 && " "}{" "}
-                                    <span className="font-semibold">
-                                      {" "}
-                                      {error}{" "}
-                                    </span>
+                          return formikEmail.errors.notificationTo.map((error, index) => {
+                            if (!uniqueErrors.has(error)) {
+                              uniqueErrors.add(error);
+                              return (
+                                <span key={index}>
+                                  {index > 0 && " "}{" "}
+                                  <span className="font-semibold">
+                                    {" "}
+                                    {error}{" "}
                                   </span>
-                                );
-                              }
-                              return null;
+                                </span>
+                              );
                             }
-                          );
+                            return null;
+                          });
                         })()}
-                      </p>
-                    )}
+                        </p>
+                      )}
 
-                    <div className="col-span-12 text-right mt-5">
-                      <Button type="submit">Save</Button>
-                    </div>
-                  </form>
-                </div>
-              </Grid>
-            </>
-
-            <p className="text-xl font-semibold mb-3">Change Password</p>
-
-            <form onSubmit={passwordChnageForm.handleSubmit}>
-              <Grid>
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="oldPassword"
-                    label="Old Password"
-                    value={passwordChnageForm.values.oldPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                    isPassword
-                    className="!bg-white"
-                  />
-                  {passwordChnageForm.touched.oldPassword &&
-                    passwordChnageForm.errors.oldPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.oldPassword}
+                      <div className="col-span-12 text-right mt-5">
+                        <Button type="submit">Save</Button>
                       </div>
-                    )}
-                </div>
+                    </form>
+                  </div>
+                </Grid>
+              </>
 
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="newPassword"
-                    label="New Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChnageForm.values.newPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                  />
-                  {passwordChnageForm.touched.newPassword &&
-                    passwordChnageForm.errors.newPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.newPassword}
-                      </div>
-                    )}
+              <p className="text-xl font-semibold mb-3">Change Password</p>
+
+              <form onSubmit={passwordChnageForm.handleSubmit}>
+                <Grid>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="oldPassword"
+                      label="Old Password"
+                      value={passwordChnageForm.values.oldPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                      isPassword
+                      className="!bg-white"
+                    />
+                    {passwordChnageForm.touched.oldPassword &&
+                      passwordChnageForm.errors.oldPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.oldPassword}
+                        </div>
+                      )}
+                  </div>
+
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="newPassword"
+                      label="New Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.newPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.newPassword &&
+                      passwordChnageForm.errors.newPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.newPassword}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <PasswordInput
+                      type="password"
+                      name="confirmPassword"
+                      label="Confirm Password"
+                      isPassword
+                      className="!bg-white"
+                      value={passwordChnageForm.values.confirmPassword}
+                      onChange={passwordChnageForm.handleChange}
+                      onBlur={passwordChnageForm.handleBlur}
+                    />
+                    {passwordChnageForm.touched.confirmPassword &&
+                      passwordChnageForm.errors.confirmPassword && (
+                        <div className="text-red-500">
+                          {passwordChnageForm.errors.confirmPassword}
+                        </div>
+                      )}
+                  </div>
+                </Grid>
+                <div className="mt-4 text-right">
+                  <Button type="submit">Change Password</Button>
                 </div>
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChnageForm.values.confirmPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                  />
-                  {passwordChnageForm.touched.confirmPassword &&
-                    passwordChnageForm.errors.confirmPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.confirmPassword}
-                      </div>
-                    )}
-                </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button type="submit">Change Password</Button>
-              </div>
-            </form>
-          </div>
-          {loading ? (
-            <div className="h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
-              </div>
+              </form>
             </div>
-          ) : (
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
-              {isPrimary && (
-                <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                  <Button onClick={() => openUserModal()}>+ Add Member</Button>
+            {loading ? (
+              <div className="h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
                 </div>
-              )}
+              </div>
+            ) : (
+              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+                {isPrimary && (
+                  <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                    <Button onClick={() => openUserModal()}>+ Add Member</Button>
+                  </div>
+                )}
 
-              <p className="text-xl font-semibold mb-3">
-                Other Super admin details
-              </p>
+                <p className="text-xl font-semibold mb-3">
+                  Other Super admin details
+                </p>
 
-              <DataTable
-                draggableColumns={false}
-                columns={isPrimary ? columns : columns1}
-                data={memberList}
-                highlightOnHover
-                sortIcon={
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                }
-                noDataComponent={<CustomNoDataComponent />}
-              />
+                <DataTable
+                  draggableColumns={false}
+                  columns={isPrimary ? columns : columns1}
+                  data={memberList}
+                  highlightOnHover
+                  sortIcon={
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  }
+                  noDataComponent={<CustomNoDataComponent />}
+                />
+              </div>
+            )}
+           </>
+          )}
+
+          {activeButton === "siteSetting" && (
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+               <form onSubmit={siteChange.handleSubmit}>
+                  <Grid container spacing={2}>
+                    <div className="col-span-12 mb-2">
+                      <p className="mb-3 text-light-black font-bold">Logo Setting</p>
+                      <div className="relative">
+                        <label
+                          htmlFor="logo-upload"
+                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Logo Upload
+                        </label>
+                        <input
+                          type="file"
+                          id="logo-upload"
+                          name="logo"
+                          className="hidden"
+                          onChange={handleFileChange}
+                          ref={inputRef}
+                        />
+                        <div
+                          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        >
+                          {selectedFile2 && (
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="absolute -right-2 -top-2 mx-auto mb-3"
+                            >
+                              <img
+                                src={Cross1}
+                                className="w-6 h-6"
+                                alt="Remove"
+                              />
+                            </button>
+                          )}
+                          {selectedFile2 ? (
+                            <p className="w-full break-words">
+                              {selectedFile2.name}
+                            </p>
+                          ) : (
+                            <p
+                              className="w-full cursor-pointer"
+                              onClick={() => inputRef.current.click()}
+                            >
+                              Select File
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-12">
+                      <div className="relative">
+                        <label
+                          htmlFor="logo-upload"
+                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Favicon Upload
+                        </label>
+                        <input
+                          type="file"
+                          id="logo-upload"
+                          name="logo"
+                          className="hidden"
+                          onChange={handleFileChange}
+                          ref={inputRef}
+                        />
+                        <div
+                          className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        >
+                          {selectedFile2 && (
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="absolute -right-2 -top-2 mx-auto mb-3"
+                            >
+                              <img
+                                src={Cross1}
+                                className="w-6 h-6"
+                                alt="Remove"
+                              />
+                            </button>
+                          )}
+                          {selectedFile2 ? (
+                            <p className="w-full break-words">
+                              {selectedFile2.name}
+                            </p>
+                          ) : (
+                            <p
+                              className="w-full cursor-pointer"
+                              onClick={() => inputRef.current.click()}
+                            >
+                              Select File
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-12">
+                    <p className="mb-3 text-light-black font-bold">Color Setting</p>
+                        <Grid>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="SideBar Color"
+                                      placeholder=""
+                                      value={selectedColor} onChange={handleColorChange}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="SideBar Button "
+                                      placeholder=""
+                                      value={selectedColor1} onChange={handleColorChange1}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="Button Color"
+                                      placeholder=""
+                                      value={selectedColor2} onChange={handleColorChange2}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="Background Color"
+                                      placeholder=""
+                                      value={selectedColor3} onChange={handleColorChange3}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="Tittle Color"
+                                      placeholder=""
+                                      value={selectedColor4} onChange={handleColorChange4}
+                                    />
+                          </div>
+                          <div className="col-span-2">
+                                <Input
+                                      type="color"
+                                      name={`color`}
+                                      className="!bg-white"
+                                      className1="h-11"
+                                      label="Text Color"
+                                      placeholder=""
+                                      value={selectedColor5} onChange={handleColorChange5}
+                                    />
+                          </div>
+                        </Grid>
+                    </div>
+                  </Grid>
+                  <div className="text-right">
+                  <Button className="mt-3" type="submit">Submit</Button>
+                  </div>
+               </form>
+            </div>
+          )}
+           {activeButton === "CoverageType" && (
+            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+               <form onSubmit={siteChange.handleSubmit}>
+                  <Grid container spacing={2}>
+                    <div className="col-span-12 mb-2">
+                      <p className="mb-3 text-light-black font-bold">Add Coverage Type</p>
+                      <Input
+                        type="text"
+                        name="coverage_type"
+                        label="Coverage Type"
+                        placeholder=""
+                        className="!bg-white"
+                        maxLength={"30"}
+                        // value={userValues.values.firstName}
+                        // onBlur={userValues.handleBlur}
+                        // onChange={userValues.handleChange}
+                        // error={
+                        //   userValues.touched.firstName &&
+                        //   userValues.errors.firstName
+                        // }
+                      />
+                    </div>
+                    
+                  </Grid>
+                  <div className="text-right">
+                  <Button className="mt-3" type="submit">Submit</Button>
+                  </div>
+               </form>
             </div>
           )}
         </div>

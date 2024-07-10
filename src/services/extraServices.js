@@ -215,6 +215,19 @@ export const getSuperAdminMembers = async (data) => {
   }
 };
 
+export const getSetting = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`https://api.codewarranty.com/api-v1/user/setting/uploadLogo`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const sendNotifications = async (data, id) => {
   const headers = createHeaders();
   try {
