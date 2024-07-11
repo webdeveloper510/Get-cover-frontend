@@ -24,7 +24,7 @@ function App() {
             document.getElementsByTagName('head')[0].appendChild(link);
           }
           link.href = `https://api.codewarranty.com/uploads/logo/${userDetails.result[0].favIcon.fileName}`;
-          console.log("Favicon updated:", link);
+          document.title = userDetails.result[0].title || 'Default Title';
         } else {
           console.log("User details are invalid or empty.");
         }
@@ -33,8 +33,8 @@ function App() {
       }
     };
 
-    fetchUserDetails(); // Call the function correctly
-  }, []); // Dependency array to ensure it runs only once
+    fetchUserDetails();
+  }, []);
 
 
   return (

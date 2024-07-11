@@ -514,8 +514,7 @@ function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
   const [expandedItem, setExpandedItem] = useState(active);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage the visibility of the sidebar
-  // other state and functions...
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); 
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
 
@@ -533,7 +532,7 @@ function SideBar() {
       const userDetails = await getSetting();
       
       if (userDetails && userDetails.result) {
-        setSelectedFile2(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage.fileName : null);
+        setSelectedFile2(userDetails.result[0].logoLight && userDetails.result[0].logoLight ? userDetails.result[0].logoLight.fileName : null);
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme.forEach(color => {
           switch (color.colorType) {

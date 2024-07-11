@@ -68,6 +68,7 @@ function Account() {
   const [selectedFile2, setSelectedFile2] = useState(null);
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
+  const inputRef3 = useRef(null);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -469,12 +470,6 @@ function Account() {
       .required("Phone number is required"),
   });
 
-  const KeyCodes = {
-    comma: 188,
-    space: 32,
-    enter: 13,
-  };
-
   const handleAddition = (tag) => {
     const newTags = [...tag];
     setSelectedEmail(tag);
@@ -806,6 +801,7 @@ function Account() {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
   const [textColor, setTextColor] = useState('');
+  const [title, setTitle] = useState('');
   const [titleColor, setTitleColor] = useState('');
   const handleColorChange = (event) => {
     setSideBarColor(event.target.value);
@@ -834,10 +830,6 @@ function Account() {
   const handleColorChange6 = (event) => {
     setBackGroundColor(event.target.value);
     siteChange.setFieldValue('backGroundColor' , backGroundColor)
-  };
-  const handleColorChange7 = (event) => {
-    setTextColor(event.target.value);
-    siteChange.setFieldValue('textColor' , textColor)
   };
   const handleColorChange8 = (event) => {
     setTitleColor(event.target.value);
@@ -886,19 +878,22 @@ function Account() {
         });
       }
       if (userDetails && userDetails.result) {
+        setTitle(userDetails.result[0].title);
         setSelectedFile2(userDetails.result[0].favIcon || null);
         setSelectedFile1(userDetails.result[0].logoLight ? userDetails.result[0].logoLight : null);
         setSelectedFile(userDetails.result[0].logoDark ? userDetails.result[0].logoDark : null);
+        
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
   };
-
+  console.log(title, '------>>><<<');
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile2,
       logoImage: selectedFile1,
+      title: title,
       sideBarColor: sideBarColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -930,12 +925,10 @@ function Account() {
         const apiData = {
           favIcon: values.favIcon || selectedFile2 ,
           colorScheme: colorScheme,
-          logos: [
-            {
-              logoImage:values.logoImage || selectedFile1,
-              logoType: "grey" // Adjust logoType as needed
-            }
-          ]
+          title: values.title || title,
+          logoLight:values.logoLight || selectedFile1,
+          logoDark:values.logoDark || selectedFile,
+         
         };
         console.log(apiData);
         const result = await saveSetting(apiData); 
@@ -994,17 +987,10 @@ function Account() {
             </Button>
             <Button
              onClick={() => handleButtonClick("siteSetting")}
-             className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+             className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
                   activeButton !== "siteSetting" && "!bg-[white] !text-[#333] "
                 }`}>
               Site Setting 
-            </Button>
-            <Button
-             onClick={() => handleButtonClick("CoverageType")}
-             className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                  activeButton !== "CoverageType" && "!bg-[white] !text-[#333] "
-                }`}>
-              Add Coverage Type  
             </Button>
           </div>
           {activeButton === "myAccount" && (
@@ -1353,24 +1339,24 @@ function Account() {
                             name="favIcon"
                             className="hidden"
                             onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
-                            ref={inputRef2}
+                            ref={inputRef3}
                           />
                           <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
-                            {selectedFile2 && (
+                            {selectedFile && (
                               <button
                                 type="button"
-                                onClick={() => handleRemoveFile(setSelectedFile2, "logoDark")}
+                                onClick={() => handleRemoveFile(setSelectedFile, "logoDark")}
                                 className="absolute -right-2 -top-2 mx-auto mb-3"
                               >
                                 <img src={Cross1} className="w-6 h-6" alt="Remove" />
                               </button>
                             )}
-                            {selectedFile2 ? (
-                              <p className="w-full break-words">{selectedFile2.name}</p>
+                            {selectedFile ? (
+                              <p className="w-full break-words">{selectedFile.name}</p>
                             ) : (
                               <p
                                 className="w-full cursor-pointer"
-                                onClick={() => inputRef2.current.click()}
+                                onClick={() => inputRef3.current.click()}
                               >
                                 Select File
                               </p>
@@ -1417,6 +1403,24 @@ function Account() {
                           </div>
                         </div>
                       </div>
+                      <div className="col-span-12">
+                        <Input
+                          type="text"
+                          name={`title`}
+                          className="!bg-white"
+                          className1="h-11"
+                          label="Website Name"
+                          placeholder=""
+                          value={siteChange.values.title || title}
+                          onBlur={siteChange.handleBlur}
+                          onChange={siteChange.handleChange}
+                          error={
+                            siteChange.touched.title &&
+                            siteChange.errors.title
+                          }
+                        />
+                        </div>
+                      
                     <div className="col-span-12">
                     <p className="mb-3 text-light-black font-bold">Color Setting</p>
                         <Grid>
