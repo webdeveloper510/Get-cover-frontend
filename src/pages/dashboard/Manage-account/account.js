@@ -768,6 +768,7 @@ function Account() {
   };
   const [activeButton, setActiveButton] = useState("myAccount");
   const [selectedFile1, setSelectedFile1] = useState();
+  const [selectedFile, setSelectedFile] = useState();
   const handleFileChange = (event, setterFunction, fieldName) => {
     const file = event.target.files[0];
     if (file) {
@@ -886,7 +887,8 @@ function Account() {
       }
       if (userDetails && userDetails.result) {
         setSelectedFile2(userDetails.result[0].favIcon || null);
-        setSelectedFile1(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage : null);
+        setSelectedFile1(userDetails.result[0].logoLight ? userDetails.result[0].logoLight : null);
+        setSelectedFile(userDetails.result[0].logoDark ? userDetails.result[0].logoDark : null);
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -1304,21 +1306,21 @@ function Account() {
                             htmlFor="logo-upload"
                             className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                           >
-                            Logo Upload
+                            Light Logo Upload
                           </label>
                           <input
                             type="file"
                             id="logo-upload"
                             name="logoImage"
                             className="hidden"
-                            onChange={(event) => handleFileChange(event, setSelectedFile1, "logoImage")}
+                            onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
                             ref={inputRef1}
                           />
                           <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
                             {selectedFile1 && (
                               <button
                                 type="button"
-                                onClick={() => handleRemoveFile(setSelectedFile1, "logoImage")}
+                                onClick={() => handleRemoveFile(setSelectedFile1, "logoLight")}
                                 className="absolute -right-2 -top-2 mx-auto mb-3"
                               >
                                 <img src={Cross1} className="w-6 h-6" alt="Remove" />
@@ -1336,6 +1338,45 @@ function Account() {
                             )}
                           </div>
                       </div>
+                      </div>
+                      <div className="col-span-12">
+                        <div className="relative">
+                          <label
+                            htmlFor="favicon-upload"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Dark Logo Upload
+                          </label>
+                          <input
+                            type="file"
+                            id="favicon-upload"
+                            name="favIcon"
+                            className="hidden"
+                            onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
+                            ref={inputRef2}
+                          />
+                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                            {selectedFile2 && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveFile(setSelectedFile2, "logoDark")}
+                                className="absolute -right-2 -top-2 mx-auto mb-3"
+                              >
+                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                              </button>
+                            )}
+                            {selectedFile2 ? (
+                              <p className="w-full break-words">{selectedFile2.name}</p>
+                            ) : (
+                              <p
+                                className="w-full cursor-pointer"
+                                onClick={() => inputRef2.current.click()}
+                              >
+                                Select File
+                              </p>
+                            )}
+                          </div>
+                        </div>
                       </div>
                       <div className="col-span-12">
                         <div className="relative">
