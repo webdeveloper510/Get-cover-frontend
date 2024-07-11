@@ -32,10 +32,10 @@ export const getAllSales = async (data) => {
   }
 };
 
-export const getAllClaims = async (data) => {
+export const getAllClaims = async (data,type) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/user/claimReporting`, data, {
+    const response = await axios.post(`${url}/${type}/claimReporting`, data, {
       headers,
     });
 
@@ -95,6 +95,24 @@ export const getFilterListForDealerClaim = async (data) => {
     throw error;
   }
 };
+
+export const getFilterListForServicerClaim = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/servicerPortal/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const getAllSalesForDealer = async (data) => {
   const headers = createHeaders();

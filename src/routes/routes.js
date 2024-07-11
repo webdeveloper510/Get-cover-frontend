@@ -775,7 +775,7 @@ const routes = [
         path: "/servicer/claims",
         element: (
           <PrivateRoute
-            element={<ServicerClaims />}
+            element={<Claims />}
             role={"servicer"}
             path="/servicer/claims"
           />
