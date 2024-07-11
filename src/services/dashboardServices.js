@@ -62,6 +62,19 @@ export const getDealerDashboardList = async () => {
   }
 };
 
+export const getDealerDashboardListReseller = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/resellerPortal/getDashboardInfo`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDashboard = async () => {
   const headers = createHeaders();
   try {
@@ -88,6 +101,18 @@ export const getDashboardForDealer = async () => {
   }
 };
 
+export const getDashboardForReseller = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/resellerPortal/getDashboardGraph`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const getCustomerDashboardDetails = async () => {
   const headers = createHeaders();
   try {

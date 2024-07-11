@@ -5,11 +5,17 @@ import SelectedDateRangeComponent from "../../../../common/dateFilter";
 import Modal from "../../../../common/model";
 import Cross from "../../../../assets/images/Cross.png";
 import LineChart from "../../../../common/lineChart";
-import { getAllSalesForDealer } from "../../../../services/reportingServices";
+import {
+  getAllSalesForDealer,
+  getAllSalesForReporting,
+} from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
+import { useLocation } from "react-router-dom";
 
 function DealerAll({ activeTab, activeButton }) {
+  const location = useLocation();
+  const isResellerReporting = location.pathname.includes("/reseller/sale");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState("daily");
@@ -91,7 +97,10 @@ function DealerAll({ activeTab, activeButton }) {
   const getDatasetAtEvent = async (data) => {
     setLoading(true);
     try {
-      const res = await getAllSalesForDealer(data);
+      const res = await getAllSalesForReporting(
+        data,
+        isResellerReporting ? "resellerPortal" : "dealerPortal"
+      );
       const amountData = res.result.graphData.map((item) => {
         const {
           total_orders,
@@ -102,9 +111,18 @@ function DealerAll({ activeTab, activeButton }) {
           total_reserve_future_fee,
           total_fronting_fee,
           total_broker_fee,
+          wholesale_price,
+          total_broker_fee1,
           ...rest
         } = item;
-        return rest;
+        console.log(rest);
+        return {
+          ...rest,
+          ...(!isResellerReporting && {
+            total_broker_fee1,
+            wholesale_price,
+          }),
+        };
       });
 
       const countData = res.result.graphData.map((item) => {

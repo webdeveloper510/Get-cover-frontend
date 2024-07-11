@@ -21,6 +21,7 @@ function ClaimContent({
   const [flag, setFlag] = useState("daily");
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
+  const isResellerClaims = location.pathname.includes("/reseller/claim");
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -144,7 +145,14 @@ function ClaimContent({
       flag: flag,
     };
     try {
-      const res = await getAllClaims(data, isServicerClaims ? "servicerPortal" :"user");
+      const res = await getAllClaims(
+        data,
+        isResellerClaims
+          ? "resellerPortal"
+          : isServicerClaims
+          ? "servicerPortal"
+          : "user"
+      );
       const amountData = res?.result?.graphData?.map((item) => {
         const {
           total_claim,

@@ -24,6 +24,7 @@ import {
 function Claims() {
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
+  const isResellerClaims = location.pathname.includes("/reseller/claim");
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
     return storedTab ? storedTab : "Amount";
@@ -107,9 +108,13 @@ function Claims() {
 
   const getDatasetAtEvent = async (data) => {
     try {
-      const res = isServicerClaims
-        ? await getFilterListForServicerClaim(data)
-        : await getFilterListForClaim(data);
+      const res =
+        isServicerClaims || isResellerClaims
+          ? await getFilterListForServicerClaim(
+              data,
+              !isResellerClaims ? "servicerPortal" : "resellerPortal"
+            )
+          : await getFilterListForClaim(data);
       const { dealers, categories, priceBooks, servicers } = res.result;
 
       const getName = (obj) => obj.name;

@@ -961,7 +961,7 @@ const routes = [
         path: "/reseller/sale",
         element: (
           <PrivateRoute
-            element={<ResellerSale />}
+            element={<DealerSale />}
             role={"reseller"}
             path="/reseller/sale"
           />
@@ -969,7 +969,7 @@ const routes = [
       },
       {
         path: "/reseller/claim",
-        element: <PrivateRoute element={<ClaimList />} role={"reseller"} />,
+        element: <PrivateRoute element={<Claims />} role={"reseller"} />,
       },
       {
         path: "/reseller/claimList",

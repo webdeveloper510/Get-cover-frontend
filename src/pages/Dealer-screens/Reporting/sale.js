@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 import all from "../../../assets/images/AciveAmount.svg";
@@ -11,10 +11,13 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 
 import All from "./Sale-Tab/all";
 import { MultiSelect } from "react-multi-select-component";
-import { getFilterListForClaim } from "../../../services/reportingServices";
+import { getFilterListDropdown } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
 
 function Sale() {
+  const location = useLocation();
+  const isResellerReporting = location.pathname.includes("/reseller/sale");
+
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("SaleMenu");
     return storedTab ? storedTab : "Amount";
@@ -49,7 +52,10 @@ function Sale() {
 
   const getDatasetAtEvent = async (data) => {
     try {
-      const res = await getFilterListForClaim(data);
+      const res = await getFilterListDropdown(
+        data,
+        isResellerReporting ? "resellerPortal" : "dealerPortal"
+      );
       const { categories, priceBooks } = res.result;
 
       const getName = (obj) => obj.name;
