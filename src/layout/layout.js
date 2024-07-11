@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation, useParams } from "react-router";
 import SideBar from "../sidebar/sidebar";
+import { getSetting } from "../services/extraServices";
 
 function Layout() {
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
@@ -16,17 +17,40 @@ function Layout() {
   const Location = useLocation();
   const { id, customerId, servicerId, resellerId, orderId } = useParams();
   const checkUrl = Location.pathname + "/" + id;
-
+  const [backgroundColor, setBackgroundColor] = useState('');
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'backGroundColor':
+              setBackgroundColor(color.colorCode);
+              break;
+              default:
+                break;
+            }
+          });
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  
+} ,[]);
   return (
-    <div
-      className={`w-full flex bg-grayf9 dark bg-cover h-full ${
+    <div style={{ backgroundColor: backgroundColor}}
+      className={`w-full flex bg-[${backgroundColor}] bg-cover h-full ${
         Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&
         Location.pathname !== "/servicerDetails/" + servicerId &&

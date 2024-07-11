@@ -37,6 +37,7 @@ import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
 import { useLocation } from "react-router-dom";
 import { checkWordsExist } from "../utils/helper";
+import { getSetting } from "../services/extraServices";
 
 function SidebarItem({
   item,
@@ -115,6 +116,7 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
+  
   // console.log('location.pathname', location.pathname)
   return (
     <li
@@ -482,7 +484,10 @@ function SideBar() {
   const [expandedItem, setExpandedItem] = useState(active);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage the visibility of the sidebar
   // other state and functions...
-
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle the state when the button is clicked
   };
@@ -490,6 +495,42 @@ function SideBar() {
   const [userType, setUserType] = useState(
     JSON.parse(localStorage.getItem("userDetails"))
   );
+  const [selectedFile2 ,setSelectedFile2] =useState('');
+  console.log(selectedFile2, '--selectedFile2');
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        setSelectedFile2(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage.fileName : null);
+        const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'sideBarColor':
+              setSideBarColor(color.colorCode);
+              break;
+            case 'sideBarTextColor':
+              setSideBarTextColor(color.colorCode);
+              break;
+            case 'sideBarButtonColor':
+              setSideBarButtonColor(color.colorCode);
+              break;
+            case 'sideBarButtonTextColor':
+              setSideBarButtonTextColor(color.colorCode);
+              break;
+              default:
+                break;
+            }
+          });
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  
+} ,[]);
   const navigate = useNavigate();
   // console.log('active---------------->>', active )
 
@@ -503,7 +544,7 @@ function SideBar() {
     );
     setIsSidebarOpen(true);
   };
-
+ 
   const handleLogOut = () => {
     localStorage.clear();
     navigate("/");
@@ -892,12 +933,12 @@ function SideBar() {
 
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
-      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
-        <img
-          src={Logo}
-          className="mx-auto py-6 w-[160px] h-[80px]"
-          alt="logo"
-        />
+      <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
+      <img
+        src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}`}
+        className="mx-auto py-6 w-[160px] h-[80px]"
+        alt="logo"
+      />
         <hr className="border-Gray28 border-[1px]"/>
         <div className="shadow-sm h-full">
           <div className="mx-auto h-full mt-6">

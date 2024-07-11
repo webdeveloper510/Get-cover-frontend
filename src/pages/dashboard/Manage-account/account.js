@@ -767,7 +767,7 @@ function Account() {
     setActiveButton(button);
   };
   const [activeButton, setActiveButton] = useState("myAccount");
-  const [selectedFile1, setSelectedFile1] = useState(null);
+  const [selectedFile1, setSelectedFile1] = useState();
   const handleFileChange = (event, setterFunction, fieldName) => {
     const file = event.target.files[0];
     if (file) {
@@ -885,8 +885,8 @@ function Account() {
         });
       }
       if (userDetails && userDetails.result) {
-        setSelectedFile1(userDetails.result[0].favIcon || null);
-        setSelectedFile2(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage : null);
+        setSelectedFile2(userDetails.result[0].favIcon || null);
+        setSelectedFile1(userDetails.result[0].logos && userDetails.result[0].logos[0] ? userDetails.result[0].logos[0].logoImage : null);
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -895,8 +895,8 @@ function Account() {
 
   const siteChange = useFormik({
     initialValues: {
-      favIcon: selectedFile1,
-      logoImage: selectedFile2,
+      favIcon: selectedFile2,
+      logoImage: selectedFile1,
       sideBarColor: sideBarColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -915,22 +915,22 @@ function Account() {
       try {
         setLoading(true);
         const colorScheme = [
-          { colorCode: values.sideBarColor, colorType: "sideBarColor" },
-          { colorCode: values.sideBarTextColor, colorType: "sideBarTextColor" },
-          { colorCode: values.sideBarButtonColor, colorType: "sideBarButtonColor" },
-          { colorCode: values.sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
-          { colorCode: values.buttonColor, colorType: "buttonColor" },
-          { colorCode: values.buttonTextColor, colorType: "buttonTextColor" },
-          { colorCode: values.backGroundColor, colorType: "backGroundColor" },
-          { colorCode: values.textColor, colorType: "textColor" },
-          { colorCode: values.titleColor, colorType: "titleColor" }
+          { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
+          { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
+          { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
+          { colorCode: values.sideBarButtonTextColor || sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
+          { colorCode: values.buttonColor || buttonColor, colorType: "buttonColor" },
+          { colorCode: values.buttonTextColor || buttonTextColor, colorType: "buttonTextColor" },
+          { colorCode: values.backGroundColor || backGroundColor, colorType: "backGroundColor" },
+          { colorCode: values.textColor || textColor, colorType: "textColor" },
+          { colorCode: values.titleColor || titleColor, colorType: "titleColor" }
         ];
         const apiData = {
-          favIcon: values.favIcon || selectedFile1 ,
+          favIcon: values.favIcon || selectedFile2 ,
           colorScheme: colorScheme,
           logos: [
             {
-              logoImage:values.logoImage || selectedFile2,
+              logoImage:values.logoImage || selectedFile1,
               logoType: "grey" // Adjust logoType as needed
             }
           ]
@@ -938,6 +938,7 @@ function Account() {
         console.log(apiData);
         const result = await saveSetting(apiData); 
         console.log(result);
+        fetchUserDetails12();
         setLoading(false);
       } catch (error) {
         console.error(error);

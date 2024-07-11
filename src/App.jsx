@@ -1,20 +1,42 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { useRoutes } from 'react-router-dom';
-import { Outlet, useNavigate } from "react-router";
 import { MyContextProvider } from './context/context';
 import routes from './routes/routes';
-import 'react-date-range/dist/styles.css';
+import { getSetting } from './services/extraServices';
+
 function App() {
   const routing = useRoutes(routes);
-  const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     navigate("/login");
-  //   } else {
-  //     navigate("/dashboard/*");
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        console.log("Fetching user details...");
+        const userDetails = await getSetting();
+        console.log("User details fetched:", userDetails);
+
+        if (userDetails && userDetails.result && userDetails.result.length > 0) {
+          console.log("User details are valid, updating favicon...");
+          let link = document.querySelector("link[rel~='icon']");
+          if (!link) {
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.getElementsByTagName('head')[0].appendChild(link);
+          }
+          link.href = `https://api.codewarranty.com/uploads/logo/${userDetails.result[0].favIcon.fileName}`;
+          console.log("Favicon updated:", link);
+        } else {
+          console.log("User details are invalid or empty.");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails(); // Call the function correctly
+  }, []); // Dependency array to ensure it runs only once
+
+
   return (
     <MyContextProvider>
       <div>
