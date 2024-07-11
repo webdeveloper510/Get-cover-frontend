@@ -115,7 +115,38 @@ function SidebarItem({
 
     onLinkClick(item.url);
   };
-
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'sideBarTextColor':
+              setSideBarTextColor(color.colorCode);
+              break;
+            case 'sideBarButtonColor':
+              setSideBarButtonColor(color.colorCode);
+              break;
+              case 'sideBarButtonTextColor':
+                setSideBarButtonTextColor(color.colorCode);
+                break;
+              default:
+                break;
+            }
+          });
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+} ,[]);
   
   // console.log('location.pathname', location.pathname)
   return (
@@ -126,10 +157,11 @@ function SidebarItem({
     >
       <Link
         to={hasItems ? window.location.href : item.url}
+        style={{backgroundColor : activeUrl ? sideBarButtonColor : null , color: activeUrl ? sideBarButtonTextColor : sideBarTextColor }}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
           activeUrl
-            ? "bg-white text-[#000] rounded-s-[30px]"
-            : "text-light-grey"
+            ? `!bg-[${sideBarButtonColor}] !text-[${sideBarButtonTextColor}]  rounded-s-[30px]`
+            : `text-[${sideBarTextColor}]`
         }`}
         onClick={handleClick}
       >
@@ -486,8 +518,7 @@ function SideBar() {
   // other state and functions...
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
-  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
-  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle the state when the button is clicked
   };
@@ -511,12 +542,6 @@ function SideBar() {
               break;
             case 'sideBarTextColor':
               setSideBarTextColor(color.colorCode);
-              break;
-            case 'sideBarButtonColor':
-              setSideBarButtonColor(color.colorCode);
-              break;
-            case 'sideBarButtonTextColor':
-              setSideBarButtonTextColor(color.colorCode);
               break;
               default:
                 break;
@@ -945,7 +970,7 @@ function SideBar() {
             <ul className="pb-5">
               {renderSidebarItems}
               <li
-                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-white"
+                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
@@ -954,7 +979,7 @@ function SideBar() {
                     className="w-[22px] h-[22px] text-black"
                     alt={LogoutImage}
                   />
-                  <span className="self-center text-[14px] font-light text-left w-full pl-[12px] text-light-grey ml-1">
+                  <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
                     Logout
                   </span>
                 </div>

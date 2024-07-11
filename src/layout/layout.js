@@ -18,6 +18,7 @@ function Layout() {
   const { id, customerId, servicerId, resellerId, orderId } = useParams();
   const checkUrl = Location.pathname + "/" + id;
   const [backgroundColor, setBackgroundColor] = useState('');
+  const [textColor, setTextColor] = useState('');
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -35,6 +36,9 @@ function Layout() {
             case 'backGroundColor':
               setBackgroundColor(color.colorCode);
               break;
+              case 'titleColor':
+                setTextColor(color.colorCode);
+                break;
               default:
                 break;
             }
@@ -49,7 +53,7 @@ function Layout() {
   
 } ,[]);
   return (
-    <div style={{ backgroundColor: backgroundColor}}
+    <div style={{ backgroundColor: backgroundColor, color: textColor}}
       className={`w-full flex bg-[${backgroundColor}] bg-cover h-full ${
         Location.pathname !== "/dealerDetails/" + id &&
         Location.pathname !== "/customerDetails/" + customerId &&

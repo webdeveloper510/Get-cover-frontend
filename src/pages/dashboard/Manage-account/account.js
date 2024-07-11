@@ -1456,7 +1456,7 @@ function Account() {
                                       value={backGroundColor} onChange={handleColorChange6}
                                     />
                           </div>
-                          <div className="col-span-2">
+                          {/* <div className="col-span-2">
                                 <Input
                                       type="color"
                                       name={`textColor`}
@@ -1466,7 +1466,7 @@ function Account() {
                                       placeholder=""
                                       value={textColor} onChange={handleColorChange7}
                                     />
-                          </div>
+                          </div> */}
                           <div className="col-span-2">
                                 <Input
                                       type="color"
