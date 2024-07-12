@@ -208,18 +208,6 @@ function ArchiveOrderList() {
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
-          {" "}
-          <Link to={"/addOrder"} className="flex">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
-              {" "}
-              Add New Order{" "}
-            </span>{" "}
-          </Link>
-        </Button>
-
         <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
