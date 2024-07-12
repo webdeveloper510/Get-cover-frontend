@@ -218,7 +218,7 @@ export const getSuperAdminMembers = async (data) => {
 export const uploadFile = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`https://api.codewarranty.com/api-v1/user/setting/uploadLogo`, data, {
+    const response = await axios.post(`${url}/user/setting/uploadLogo`, data, {
       headers: {
         ...headers,
         "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
@@ -234,7 +234,7 @@ export const uploadFile = async (data) => {
 export const saveSetting = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`https://api.codewarranty.com/api-v1/user/setting`, data, {
+    const response = await axios.post(`${url}/user/setting`, data, {
       headers: {
         ...headers,
        
@@ -249,7 +249,7 @@ export const saveSetting = async (data) => {
 export const getSetting = async () => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`https://api.codewarranty.com/api-v1/user/setting/getSetting`, {
+    const response = await axios.get(`${url}/user/setting/getSetting`, {
       headers: {
         ...headers,
        // Set the content type to multipart/form-data
