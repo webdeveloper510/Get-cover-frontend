@@ -84,11 +84,11 @@ const LineChart = ({ graphData, flag }) => {
       label: "Reserve Future Fee",
       borderColor: "rgba(153,102,255,1)",
     },
-    {
-      key: "total_reinsurance_fee",
-      label: "Reinsurance Fee",
-      borderColor: "rgba(255,159,64,1)",
-    },
+    // {
+    //   key: "total_reinsurance_fee",
+    //   label: "Reinsurance Fee",
+    //   borderColor: "rgba(255,159,64,1)",
+    // },
     {
       key: "total_orders",
       label: "Total Orders",

@@ -130,6 +130,7 @@ function All({ activeTab, activeButton }) {
 
       const amountData = res.result.graphData.map((item) => {
         const { total_orders, total_contracts, ...rest } = item;
+        console.log(data);
         return rest;
       });
 
