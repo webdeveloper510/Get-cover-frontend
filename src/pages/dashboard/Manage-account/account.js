@@ -52,6 +52,7 @@ function Account() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
+  const [lastMessage, setLastMessage] = useState("");
   const [tags, setTags] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
@@ -933,7 +934,15 @@ function Account() {
         console.log(apiData);
         const result = await saveSetting(apiData); 
         console.log(result);
+        setFirstMessage("Site Setting Updated Successfully ");
+        setSecondMessage("site setting updated successfully ");
+        setLastMessage("site will be reloaded after setting has been updated successfully");
+        setModalOpen(true);
+        setTimer(3);
         fetchUserDetails12();
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -1896,7 +1905,8 @@ function Account() {
             {firstMessage}
           </p>
           <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
+            {secondMessage} {""} <br/>
+            {lastMessage == null ? '' : lastMessage} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>
         </div>

@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import html2pdf from "html2pdf.js";
-import logo from "../assets/images/Get-Cover.png";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
 import { useState } from "react";
 import { ToWords } from "to-words";
+import { getSetting } from "../services/extraServices";
 function PdfGenerator(props, className) {
   const { setLoading } = props;
-
+  const [selectedFile2 ,setSelectedFile2] =useState('');
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        setSelectedFile2(userDetails.result[0].logoDark && userDetails.result[0].logoDark ? userDetails.result[0].logoDark.fileName : null);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  
+} ,[]);
   const toWords = new ToWords({
     localeCode: "en-IN",
     converterOptions: {
@@ -96,7 +111,7 @@ function PdfGenerator(props, className) {
             <tbody>
                 <tr>
                     <td style="text-align: left; width: 50%;">
-                        <img src=${logo} style="margin-bottom: 20px; width:200px"/>
+                        <img src='https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}'style="margin-bottom: 20px; width:200px"/>
                         <h1 style="margin: 0; padding: 0; font-size:20px"><b>Get Cover </b></h1>
                         <p style="margin: 0; padding: 0;">9701 Wilshire Blvd., Suite 930 <br/> Beverly Hills, CA 90212 </p>
                     </td>
