@@ -960,7 +960,7 @@ function SideBar() {
       <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
       <img
         src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}`}
-        className="mx-auto py-6 w-[160px] h-[80px]"
+        className="mx-auto py-6 w-full px-5"
         alt="logo"
       />
         <hr className="border-Gray28 border-[1px]"/>
