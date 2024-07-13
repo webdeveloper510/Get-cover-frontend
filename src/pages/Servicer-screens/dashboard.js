@@ -5,8 +5,8 @@ import Grid from "../../common/grid";
 import BarChart from "../../common/barChart";
 import view from "../../assets/images/eye.png";
 import {
-  getDashboardForDealer,
-  getDealerDashboardList,
+  getDashboardForServicer,
+  getServicerDashboardList,
 } from "../../services/dashboardServices";
 import shorting from "../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
@@ -42,26 +42,15 @@ function ServicerDashboard() {
 
   const getDashboardCart = async () => {
     setLoading(true);
-    const result = await getDashboardForDealer();
-    const countData = result.order_result.map((item) => {
-      return {
-        weekStart: item.weekStart,
-        total_orders: item.order_amount,
-      };
-    });
+    const result = await getDashboardForServicer();
+
     const claimData = result.claim_result.map((item) => {
       return {
         weekStart: item.weekStart,
         total_orders: item.total_amount,
       };
     });
-    console.log(countData);
-    setOrderAmount(countData);
     setClaimAmount(claimData);
-    const trimmedData = result.monthly_sku.slice(0, 5);
-    const trimmedData1 = result.yealy_sku.slice(0, 5);
-    setDealerPriceBook(trimmedData);
-    setDealerPriceBookYear(trimmedData1);
     setLoading(false);
   };
 
@@ -73,7 +62,7 @@ function ServicerDashboard() {
 
   const getDashboardData = async () => {
     try {
-      const result = await getDealerDashboardList();
+      const result = await getServicerDashboardList();
       console.log(result, "---------------------------------");
       setClaimList(result.result.lastFiveClaims);
       setOrderList(result.result.lastFiveOrder);
@@ -155,7 +144,7 @@ function ServicerDashboard() {
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
-                      to={`/dealer/claimList/${row.unique_key}`}
+                      to={`/servicer/claimList/${row.unique_key}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
                       <img
@@ -174,52 +163,82 @@ function ServicerDashboard() {
       },
     },
   ];
-
-  const Product = [
+  const columns = [
     {
-      name: (
-        <div>
-          Product <br /> SKU
-        </div>
-      ),
-      selector: (row) => row?.name,
+      name: "Order ID",
+      selector: (row) => row?.unique_key,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Category",
-      selector: (row) => row?.category.name,
+      name: "# Contracts",
+      selector: (row) =>
+        row?.noOfProducts == null ? 0 : row.noOfProducts.toLocaleString(2),
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Term",
-      selector: (row) => row?.term + " Months",
-      sortable: true,
-      style: { whiteSpace: "pre-wrap" },
-    },
-    {
-      name: (
-        <div>
-          Wholesale <br /> Cost{" "}
-        </div>
-      ),
+      name: "Order Value",
       selector: (row) =>
         `$${
-          row?.reinsuranceFee +
-            row?.frontingFee +
-            row?.adminFee +
-            row?.reserveFutureFee ===
-          undefined
+          row?.orderAmount === undefined
             ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(
-                row?.reinsuranceFee +
-                  row?.frontingFee +
-                  row?.adminFee +
-                  row?.reserveFutureFee ?? parseInt(0)
-              )
-        } `,
+            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        }`,
       sortable: true,
+    },
+    {
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "80px",
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.unique_key ? null : row.unique_key
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.unique_key && (
+              <div
+                ref={dropdownRef}
+                onClick={() => setSelectedAction(null)}
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+              >
+                {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+
+                <>
+                  <div onClick={() => localStorage.removeItem("orderMenu")}>
+                    <Link
+                      to={`/dealer/orderDetails/${row._id}`}
+                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
+                    >
+                      <img
+                        src={view}
+                        className="w-4 h-4 mr-2"
+                        alt="eye Image"
+                      />{" "}
+                      View
+                    </Link>
+                  </div>
+                  <div className="">
+                    <PdfGenerator data={row._id} setLoading={setLoading} />
+                  </div>
+                </>
+              </div>
+            )}
+          </div>
+        );
+      },
     },
   ];
 
@@ -323,17 +342,14 @@ function ServicerDashboard() {
                 </div>
               </div>
             </Grid>
-
-            <Grid>
-              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
-                <div className="">
-                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                    Top 5 Performing SKU's 30 Days
-                  </p>
-                </div>
+            <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+              <p className="text-xl font-semibold pl-3 pt-2">
+                Last 5 Completed Orders
+              </p>
+              <div className="">
                 <DataTable
-                  columns={Product}
-                  data={dealerPriceBook}
+                  columns={columns}
+                  data={orderList}
                   sortIcon={
                     <>
                       {" "}
@@ -348,30 +364,7 @@ function ServicerDashboard() {
                   draggableColumns={false}
                 />
               </div>
-              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
-                <div className="">
-                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                    Top 5 Performing SKU's 1 Year
-                  </p>
-                </div>
-                <DataTable
-                  columns={Product}
-                  data={dealerPriceBookYear}
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img
-                        src={shorting}
-                        className="ml-2"
-                        alt="shorting"
-                      />{" "}
-                    </>
-                  }
-                  highlightOnHover
-                  draggableColumns={false}
-                />
-              </div>
-            </Grid>
+            </div>
           </div>
         )}
       </div>
