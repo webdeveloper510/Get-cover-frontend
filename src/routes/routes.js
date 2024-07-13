@@ -966,7 +966,7 @@ const routes = [
         element: <PrivateRoute element={<Claims />} role={"reseller"} />,
       },
       {
-        path: "/reseller/claimList",
+        path: "/reseller/claimList/:claimIdValue?",
         element: (
           <PrivateRoute element={<ResellerClaimList />} role={"reseller"} />
         ),

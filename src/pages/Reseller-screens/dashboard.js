@@ -233,13 +233,17 @@ function ResellerDashboard() {
               >
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
-                    {/* <Link
+                    <Link
                       to={`/reseller/claimList/${row.unique_key}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
-                    > */}
-                    <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
-                    View
-                    {/* </Link> */}
+                    >
+                      <img
+                        src={view}
+                        className="w-4 h-4 mr-2"
+                        alt="eye Image"
+                      />{" "}
+                      View
+                    </Link>
                   </div>
                 </>
               </div>
