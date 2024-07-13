@@ -201,6 +201,7 @@ function ResellerDashboard() {
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
+
     {
       name: "Action",
       minWidth: "auto",
