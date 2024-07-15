@@ -959,7 +959,7 @@ function AddClaim() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Diagonsis <span className="text-red-500">*</span>
+                        Diagnosis <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         id="description"
@@ -978,11 +978,6 @@ function AddClaim() {
                           {formikStep2.errors.diagnosis}
                         </div>
                       )}
-                    {/* <p className="text-[10px] text-neutral-grey">
-                    {" "}
-                    <span className="text-red-500"> Note : </span> Max Claim
-                    amount is $123.00
-                  </p> */}
                   </div>
                   <div className="col-span-6">
                     <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">

@@ -16,6 +16,7 @@ function App() {
         console.log("User details fetched:", userDetails);
 
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
+
           console.log("User details are valid, updating favicon...");
           let link = document.querySelector("link[rel~='icon']");
           if (!link) {

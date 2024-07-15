@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate, useLocation, useParams } from "react-router";
+import { Outlet, useLocation, useParams } from "react-router";
 import SideBar from "../sidebar/sidebar";
 import { getSetting } from "../services/extraServices";
+import { RotateLoader } from "react-spinners";
 
 function Layout() {
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const [textColor, setTextColor] = useState('');
 
   const scrollThreshold = 200;
 
   const handleScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
-
     setIsSidebarSticky(scrollY > scrollThreshold);
   };
 
-  const Location = useLocation();
+  const location = useLocation();
   const { id, customerId, servicerId, resellerId, orderId } = useParams();
-  const checkUrl = Location.pathname + "/" + id;
-  const [backgroundColor, setBackgroundColor] = useState('');
-  const [textColor, setTextColor] = useState('');
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const fetchUserDetails12 = async () => {
+
+  const fetchUserDetails = async () => {
     try {
       const userDetails = await getSetting();
-      
       if (userDetails && userDetails.result) {
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme.forEach(color => {
@@ -36,82 +37,73 @@ function Layout() {
             case 'backGroundColor':
               setBackgroundColor(color.colorCode);
               break;
-              case 'titleColor':
-                setTextColor(color.colorCode);
-                break;
-              default:
-                break;
-            }
-          });
+            case 'titleColor':
+              setTextColor(color.colorCode);
+              break;
+            default:
+              break;
+          }
+        });
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
   useEffect(() => {
-    fetchUserDetails12();
-  
-} ,[]);
+    fetchUserDetails();
+  }, []);
+
+  const shouldShowSidebar = () => {
+    const excludedPaths = [
+      `/dealerDetails/${id}`,
+      `/customerDetails/${customerId}`,
+      `/servicerDetails/${servicerId}`,
+      `/orderDetails/${orderId}`,
+      `/resellerDetails/${resellerId}`,
+      `/dealer/customerDetails/${customerId}`,
+      `/reseller/customerDetails/${customerId}`,
+      `/dealer/resellerDetails/${resellerId}`,
+      `/reseller/orderDetails/${orderId}`,
+      `/customer/orderDetails/${orderId}`,
+      `/dealer/orderDetails/${orderId}`,
+    ];
+
+    return !excludedPaths.includes(location.pathname);
+  };
+
   return (
-    <div style={{ backgroundColor: backgroundColor, color: textColor}}
-      className={`w-full flex bg-[${backgroundColor}] bg-cover h-full ${
-        Location.pathname !== "/dealerDetails/" + id &&
-        Location.pathname !== "/customerDetails/" + customerId &&
-        Location.pathname !== "/servicerDetails/" + servicerId &&
-        Location.pathname !== "/orderDetails/" + orderId &&
-        Location.pathname !== "/resellerDetails/" + resellerId &&
-        Location.pathname !== "/dealer/customerDetails/" + customerId &&
-        Location.pathname !== "/reseller/customerDetails/" + customerId &&
-        Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-        // Location.pathname !== "/notifications" &&  
-        Location.pathname !== "/reseller/orderDetails/" + orderId &&
-        Location.pathname !== "/customer/orderDetails/" + orderId &&
-        Location.pathname !== "/dealer/orderDetails/" + orderId
-          ? "p-4 "
-          : "p-0 max-h-[100vh] overflow-hidden"
-      } pl-0 relative w-full`}
-    >
-      {Location.pathname !== "/dealerDetails/" + id &&
-      Location.pathname !== "/customerDetails/" + customerId &&
-      Location.pathname !== "/servicerDetails/" + servicerId &&
-      Location.pathname !== "/orderDetails/" + orderId &&
-      Location.pathname !== "/resellerDetails/" + resellerId &&
-      Location.pathname !== "/dealer/customerDetails/" + customerId &&
-      Location.pathname !== "/reseller/customerDetails/" + customerId &&
-      Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-      // Location.pathname !== "/notifications" &&
-      Location.pathname !== "/reseller/orderDetails/" + orderId &&
-      Location.pathname !== "/customer/orderDetails/" + orderId &&
-      Location.pathname !== "/dealer/orderDetails/" + orderId ? (
-        <div
-          className={`xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:block xl:block `}
-        >
-          <SideBar />
+    <>
+      {loading ? (
+        <div className="h-[500px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
         </div>
       ) : (
-        <></>
+        <div
+          style={{ backgroundColor, color: textColor }}
+          className={`w-full flex bg-cover h-full ${
+            shouldShowSidebar() ? "p-4" : "p-0 max-h-[100vh] overflow-hidden"
+          } pl-0 relative w-full`}
+        >
+          {shouldShowSidebar() && (
+            <div className="xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:block xl:block">
+              <SideBar />
+            </div>
+          )}
+          <div
+            className={`${
+              shouldShowSidebar() ? "w-[calc(100%-10px)] pl-3" : "w-[100%]"
+            } h-full min-h-[94vh]`}
+          >
+            <Outlet />
+          </div>
+        </div>
       )}
-      <div
-        className={`${
-          Location.pathname !== "/dealerDetails/" + id &&
-          Location.pathname !== "/customerDetails/" + customerId &&
-          Location.pathname !== "/servicerDetails/" + servicerId &&
-          Location.pathname !== "/dealer/customerDetails/" + customerId &&
-          Location.pathname !== "/dealer/resellerDetails/" + resellerId &&
-          Location.pathname !== "/orderDetails/" + orderId &&
-          Location.pathname !== "/reseller/customerDetails/" + customerId &&
-          Location.pathname !== "/resellerDetails/" + resellerId &&
-          // Location.pathname !== "/notifications" &&
-          Location.pathname !== "/reseller/orderDetails/"+ orderId &&
-          Location.pathname !== "/customer/orderDetails/" + orderId &&
-          Location.pathname !== "/dealer/orderDetails/" + orderId
-            ? "w-[calc(100%-10px)] pl-3"
-            : "w-[100%]"
-        } h-full min-h-[94vh]`}
-      >
-        <Outlet />
-      </div>
-    </div>
+    </>
   );
 }
 

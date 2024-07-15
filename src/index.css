@@ -32,6 +32,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.img-filter {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg);
+}
+
 .dealer-detail .rdt_TableCol {
   font-size: 11px !important;
   font-weight: 700;

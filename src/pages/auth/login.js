@@ -14,12 +14,27 @@ import PasswordInput from "../../common/passwordInput";
 
 //Importing services
 import { authlogin } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const [details, setDetails] = useState();
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+} ,[]);
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
   const formik = useFormik({
@@ -73,10 +88,10 @@ function Login() {
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={Logo} className="w-[224px]" alt="Logo " />
+                <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
-                  GetCover
+                  {details?.title}
                 </p>
                 <p className="text-neutral-grey text-xl font-medium mb-5">
                   <span className="font-semibold"> Sign in </span> to your

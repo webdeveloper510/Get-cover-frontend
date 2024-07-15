@@ -2,39 +2,39 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // Project Imports
 import Logo from "../assets/images/Get-Cover-REV-svg.png";
-import DashboardImage from "../assets/images/side-bar/Dashboard.svg";
-import CustomerImage from "../assets/images/side-bar/Customer.svg";
-import resellerImage from "../assets/images/side-bar/Dealer.svg";
-import DealerImage from "../assets/images/Dealer.svg";
-import OrderImage from "../assets/images/side-bar/Order.svg";
-import ServicerImage from "../assets/images/side-bar/Servicer.svg";
-import ClaimImage from "../assets/images/side-bar/claim.svg";
-import PriceImage from "../assets/images/side-bar/Price.svg";
-import LogoutImage from "../assets/images/side-bar/Logout.svg";
-import ProductImage from "../assets/images/side-bar/product.svg";
-import ReportImage from "../assets/images/side-bar/report.svg";
-import Actives from "../assets/images/side-bar/activess.svg";
-import Down from "../assets/images/icons/Drop.svg";
-import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg";
-import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg";
-import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg";
+import { ReactComponent as DashboardImage } from '../assets/images/side-bar/Dashboard.svg';
+import { ReactComponent as CustomerImage } from "../assets/images/side-bar/Customer.svg";
+import { ReactComponent as resellerImage } from "../assets/images/side-bar/Dealer.svg";
+import { ReactComponent as DealerImage } from "../assets/images/Dealer.svg";
+import { ReactComponent as OrderImage } from "../assets/images/side-bar/Order.svg";
+import { ReactComponent as ServicerImage } from "../assets/images/side-bar/Servicer.svg";
+import { ReactComponent as ClaimImage } from "../assets/images/side-bar/claim.svg";
+import { ReactComponent as PriceImage } from "../assets/images/side-bar/Price.svg";
+import { ReactComponent as LogoutImage } from "../assets/images/side-bar/Logout.svg";
+import { ReactComponent as ProductImage } from "../assets/images/side-bar/product.svg";
+import { ReactComponent as ReportImage } from "../assets/images/side-bar/report.svg";
+import { ReactComponent as Actives } from "../assets/images/side-bar/activess.svg";
+import { ReactComponent as Down } from "../assets/images/icons/Drop.svg";
+import { ReactComponent as DropdownArrowImage } from "../assets/images/side-bar/downarrow.svg";
+import { ReactComponent as Dropdown1 } from "../assets/images/side-bar/dropdownsecond.svg";
+import { ReactComponent as Dropdown2 } from "../assets/images/side-bar/dropdown-2.svg";
 import ActiveDropdown from "../assets/images/side-bar/firstActive.svg";
 
-// Active Images icons
+//Active Images icons
 
-import ActiveProduct from "../assets/images/side-bar/activeProduct.svg";
-import ActiveDashboard from "../assets/images/side-bar/activeDashboard.svg";
-import ActiveReport from "../assets/images/side-bar/activeReporting.svg";
-import ActivePriceBook from "../assets/images/side-bar/activePrize.svg";
-import ActiveCustomer from "../assets/images/side-bar/activeCustomer.svg";
-import ActiveOrder from "../assets/images/side-bar/activeOrder.svg";
-import ActiveClaim from "../assets/images/side-bar/activeClaim.svg";
-import ActiveReseller from "../assets/images/side-bar/activeDealer.svg";
-import ActiveDealer from "../assets/images/ActiveDealer.svg";
-import ActiveServicer from "../assets/images/side-bar/activeServicer.svg";
-import ForthActive from "../assets/images/side-bar/fourthDropdown.svg";
-import SeacondActive from "../assets/images/side-bar/220Active.svg";
-import lastActive from "../assets/images/side-bar/250active.svg";
+import{ ReactComponent as ActiveDashboard }  from "../assets/images/side-bar/activeDashboard.svg";
+import{ ReactComponent as ActiveProduct }  from "../assets/images/side-bar/activeProduct.svg";
+import{ ReactComponent as ActiveReport }  from "../assets/images/side-bar/activeReporting.svg";
+import{ ReactComponent as ActivePriceBook }  from "../assets/images/side-bar/activePrize.svg";
+import{ ReactComponent as ActiveCustomer }  from "../assets/images/side-bar/activeCustomer.svg";
+import{ ReactComponent as ActiveOrder }  from "../assets/images/side-bar/activeOrder.svg";
+import{ ReactComponent as ActiveClaim }  from "../assets/images/side-bar/activeClaim.svg";
+import{ ReactComponent as ActiveReseller }  from "../assets/images/side-bar/activeDealer.svg";
+import{ ReactComponent as ActiveDealer }  from "../assets/images/ActiveDealer.svg";
+import{ ReactComponent as ActiveServicer }  from "../assets/images/side-bar/activeServicer.svg";
+import{ ReactComponent as ForthActive }  from "../assets/images/side-bar/fourthDropdown.svg";
+import{ ReactComponent as SeacondActive }  from "../assets/images/side-bar/220Active.svg";
+import{ ReactComponent as lastActive }  from "../assets/images/side-bar/250active.svg";
 import { useLocation } from "react-router-dom";
 import { checkWordsExist } from "../utils/helper";
 import { getSetting } from "../services/extraServices";
@@ -87,7 +87,6 @@ function SidebarItem({
 
   const [activeUrl, setActiveUrl] = useState(false);
 
-  // console.log('activeUrl---------------->>', activeUrl )
 
   useEffect(() => {
     let urls = [item.url];
@@ -95,7 +94,6 @@ function SidebarItem({
       const urlsItem = item?.items?.map((i) => i.url) || [];
       urls = [...urls, ...urlsItem];
     }
-    // console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname, urls);
     if (itHasUrl) console.log("item=======>", item);
@@ -172,11 +170,7 @@ function SidebarItem({
             alt={item.image}
           />
         ) : (
-          <img
-            src={item.image}
-            className="w-[22px] h-[22px]"
-            alt={item.image}
-          />
+          <DashboardImage style={{color:'red'}} className="fill-orange-600"/>
         )}
         <span
           className={`self-center text-left w-full pl-[12px] ${
@@ -555,6 +549,7 @@ function SideBar() {
     fetchUserDetails12();
   
 } ,[]);
+
   const navigate = useNavigate();
   // console.log('active---------------->>', active )
 
@@ -973,10 +968,8 @@ function SideBar() {
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
-                  <img
-                    src={LogoutImage}
-                    className="w-[22px] h-[22px] text-black"
-                    alt={LogoutImage}
+                  <LogoutImage
+                    className="w-[22px] h-[22px] "
                   />
                   <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
                     Logout
