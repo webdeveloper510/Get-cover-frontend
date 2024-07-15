@@ -55,7 +55,6 @@ function DealerDashboard() {
         total_orders: item.total_amount,
       };
     });
-    console.log(countData);
     setOrderAmount(countData);
     setClaimAmount(claimData);
     const trimmedData = result.monthly_sku.slice(0, 5);

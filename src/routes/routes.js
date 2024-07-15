@@ -762,14 +762,8 @@ const routes = [
         ),
       },
       {
-        path: "/servicer/claimList",
-        element: (
-          <PrivateRoute
-            element={<AllList />}
-            role={"servicer"}
-            path="/servicer/claimList"
-          />
-        ),
+        path: "/servicer/claimList/:claimIdValue?",
+        element: <PrivateRoute element={<AllList />} role={"servicer"} />,
       },
       {
         path: "/servicer/claims",
