@@ -124,7 +124,6 @@ function ServicerUser() {
     setUserDetails(result.message);
     SetIsprimary(result.message.isPrimary);
     let local = JSON.parse(localStorage.getItem("userDetails"));
-    // localStorage.removeItem('userDetails')
     local.userInfo = {
       lastName: result?.message?.lastName,
       firstName: result?.message?.firstName,
@@ -147,7 +146,6 @@ function ServicerUser() {
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Cleanup the event listener on component unmount
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
@@ -207,6 +205,7 @@ function ServicerUser() {
       if (res.code === 200) {
         SetPrimaryText("Updated Successfully");
         SetSecondaryText("User Password updated successfully");
+        
         SetIsModalOpen(true);
         setTimer(3);
         console.log("Resetting form after success");

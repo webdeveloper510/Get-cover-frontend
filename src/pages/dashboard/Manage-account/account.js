@@ -745,7 +745,6 @@ function Account() {
   const passwordChange = async (value) => {
     setLoading(true);
     delete value.confirmPassword;
-
     try {
       const res = await changePasswordbyToken(value);
       if (res.code == 200) {
@@ -810,7 +809,6 @@ function Account() {
 
           <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
             <p className="text-xl font-semibold mb-3">My Account</p>
-
             <>
               <Grid>
                 <Formik
