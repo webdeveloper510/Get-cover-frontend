@@ -60,7 +60,7 @@ function PdfGenerator(props, className) {
   const convertToPDF = async () => {
     setLoading(true);
     const result = await orderDetailsById(props.data);
-    // console.log(result, '-----Invoice--------------')
+    console.log(result, '-----Invoice--------------')
     let value = {
       dealerName: result.orderUserData.dealerData,
       customerName: result.orderUserData.customerData,
@@ -69,6 +69,7 @@ function PdfGenerator(props, className) {
       customerUserData: result.orderUserData.customerUserData,
       username: result.orderUserData.username,
       resellerUsername: result.orderUserData.resellerUsername,
+      websiteSetting:result.orderUserData.websiteSetting,
       ...result.result,
     };
 

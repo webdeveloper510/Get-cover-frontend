@@ -148,7 +148,7 @@ function DealerRegister() {
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
             <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
-                <span className="text-neutral-grey"> Welcome to </span> {details.title}
+                <span className="text-neutral-grey"> Welcome to </span> {details?.title}
               </p>
               <p className="text-neutral-grey text-xl font-medium mb-4 mt-2">
                 {" "}
