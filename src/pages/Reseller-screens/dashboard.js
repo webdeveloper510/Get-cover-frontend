@@ -229,14 +229,18 @@ function ResellerDashboard() {
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
                 <>
-                  <div onClick={() => localStorage.removeItem("orderMenu")} className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start">
-                    {/* <Link
+                  <div onClick={() => localStorage.removeItem("orderMenu")}>
+                    <Link
                       to={`/reseller/claimList/${row.unique_key}`}
                       className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
-                    > */}
-                    <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
-                    View
-                    {/* </Link> */}
+                    >
+                      <img
+                        src={view}
+                        className="w-4 h-4 mr-2"
+                        alt="eye Image"
+                      />{" "}
+                      View
+                    </Link>
                   </div>
                 </>
               </div>
