@@ -72,7 +72,7 @@ const LineChart = ({ graphData, flag }) => {
     {
       key: "total_reinsurance_fee",
       label: "Reinsurance Fee",
-      borderColor: "rgba(255,159,64,1)",
+      borderColor: "rgba(255,255,255,1)",
     },
     {
       key: "total_fronting_fee",
