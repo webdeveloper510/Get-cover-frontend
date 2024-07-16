@@ -33,7 +33,7 @@ import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -43,12 +43,7 @@ import {
   editClaimServicerValue,
   editClaimStatus,
   editClaimTypeValue,
-  getClaimList,
-  getClaimListForCustomer,
-  getClaimListForDealer,
-  getClaimListForReseller,
   getClaimListForResellerPortal,
-  getClaimListForServicer,
   getClaimMessages,
   getContractPrice,
 } from "../../../services/claimServices";
@@ -138,6 +133,7 @@ function ResellerClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const { claimIdValue } = useParams();
 
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -326,6 +322,13 @@ function ResellerClaimList(props) {
     }
   };
 
+  useEffect(() => {
+    if (claimIdValue != undefined) {
+      formik1.setFieldValue("claimId", claimIdValue);
+    } else {
+      handleFilterIconClick();
+    }
+  }, [location]);
   const editClaimValue = (claimId, statusType, statusValue) => {
     let data = {
       [statusType]: statusValue,
@@ -391,7 +394,18 @@ function ResellerClaimList(props) {
       ...formik1.values,
     };
     let getClaimListPromise;
-    getClaimListPromise = getClaimListForResellerPortal(props.id, data);
+
+    if (claimIdValue == undefined) {
+      getClaimListPromise = getClaimListForResellerPortal(props.id, data);
+    } else {
+      let newData = {
+        ...data,
+        claimId: claimIdValue,
+      };
+      console.log(newData);
+      getClaimListPromise = getClaimListForResellerPortal(props.id, newData);
+    }
+    // getClaimListPromise = getClaimListForResellerPortal(props.id, data);
 
     getClaimListPromise
       .then((res) => {

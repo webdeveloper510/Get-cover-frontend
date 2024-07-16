@@ -652,13 +652,7 @@ const routes = [
       },
       {
         path: "/dealer/sale",
-        element: (
-          <PrivateRoute
-            element={<DealerSale />}
-            role={"dealer"}
-            path="/dealer/sale"
-          />
-        ),
+        element: <PrivateRoute element={<DealerSale />} role={"dealer"} />,
       },
       {
         path: "/dealer/claim",
@@ -671,7 +665,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/claimList",
+        path: "/dealer/claimList/:claimIdValue?",
         element: (
           <PrivateRoute
             element={<ClaimList12 />}
@@ -768,20 +762,14 @@ const routes = [
         ),
       },
       {
-        path: "/servicer/claimList",
-        element: (
-          <PrivateRoute
-            element={<AllList />}
-            role={"servicer"}
-            path="/servicer/claimList"
-          />
-        ),
+        path: "/servicer/claimList/:claimIdValue?",
+        element: <PrivateRoute element={<AllList />} role={"servicer"} />,
       },
       {
         path: "/servicer/claims",
         element: (
           <PrivateRoute
-            element={<ServicerClaims />}
+            element={<Claims />}
             role={"servicer"}
             path="/servicer/claims"
           />
@@ -967,7 +955,7 @@ const routes = [
         path: "/reseller/sale",
         element: (
           <PrivateRoute
-            element={<ResellerSale />}
+            element={<DealerSale />}
             role={"reseller"}
             path="/reseller/sale"
           />
@@ -975,10 +963,10 @@ const routes = [
       },
       {
         path: "/reseller/claim",
-        element: <PrivateRoute element={<ClaimList />} role={"reseller"} />,
+        element: <PrivateRoute element={<Claims />} role={"reseller"} />,
       },
       {
-        path: "/reseller/claimList",
+        path: "/reseller/claimList/:claimIdValue?",
         element: (
           <PrivateRoute element={<ResellerClaimList />} role={"reseller"} />
         ),

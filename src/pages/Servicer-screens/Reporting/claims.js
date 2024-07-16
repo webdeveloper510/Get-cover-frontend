@@ -33,7 +33,7 @@ import upload from "../../../assets/images/icons/upload.svg";
 import Select from "../../../common/select";
 import Cross from "../../../assets/images/Cross.png";
 import Headbar from "../../../common/headBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "../../../common/model";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import {
@@ -71,9 +71,7 @@ import {
 } from "../../../services/userServices";
 
 function AllList(props) {
-  // console.log(props);
   const baseUrl = apiUrl();
-  // console.log(baseUrl, '----------------------------');
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -137,6 +135,7 @@ function AllList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const { claimIdValue } = useParams();
 
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -294,6 +293,15 @@ function AllList(props) {
       setLoading1(false);
     }, 3000);
   };
+
+  useEffect(() => {
+    if (claimIdValue != undefined) {
+      formik1.setFieldValue("claimId", claimIdValue);
+    } else {
+      handleFilterIconClick();
+    }
+  }, [location]);
+
   const [activeTab, setActiveTab] = useState("All Claims");
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -432,7 +440,15 @@ function AllList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      getClaimListPromise = getClaimList(data);
+      if (claimIdValue == undefined) {
+        getClaimListPromise = getClaimList(data);
+      } else {
+        let newData = {
+          ...data,
+          claimId: claimIdValue,
+        };
+        getClaimListPromise = getClaimList(newData);
+      }
     }
 
     getClaimListPromise

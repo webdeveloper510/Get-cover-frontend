@@ -60,9 +60,19 @@ const LineChart = ({ graphData, flag }) => {
       borderColor: "rgba(255,99,132,1)",
     },
     {
-      key: "total_admin_fee",
-      label: "Admin Fee",
+      key: "total_broker_fee1",
+      label: "Total Income",
+      borderColor: "rgba(255,99,132,1)",
+    },
+    {
+      key: "wholesale_price",
+      label: "Wholesale Price",
       borderColor: "rgba(255,206,86,1)",
+    },
+    {
+      key: "total_reinsurance_fee",
+      label: "Reinsurance Fee",
+      borderColor: "rgba(255,255,255,1)",
     },
     {
       key: "total_fronting_fee",
@@ -74,11 +84,11 @@ const LineChart = ({ graphData, flag }) => {
       label: "Reserve Future Fee",
       borderColor: "rgba(153,102,255,1)",
     },
-    {
-      key: "total_reinsurance_fee",
-      label: "Reinsurance Fee",
-      borderColor: "rgba(255,159,64,1)",
-    },
+    // {
+    //   key: "total_reinsurance_fee",
+    //   label: "Reinsurance Fee",
+    //   borderColor: "rgba(255,159,64,1)",
+    // },
     {
       key: "total_orders",
       label: "Total Orders",

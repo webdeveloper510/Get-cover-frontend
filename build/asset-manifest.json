@@ -1,7 +1,12 @@
 {
   "files": {
+<<<<<<< HEAD
     "main.css": "/static/css/main.7e1408e5.css",
     "main.js": "/static/js/main.98cb72f9.js",
+=======
+    "main.css": "/static/css/main.8be427f3.css",
+    "main.js": "/static/js/main.3bde809c.js",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -62,7 +67,10 @@
     "static/media/AciveCount.svg": "/static/media/AciveCount.c868be7f303949a66e9d4d794e5167db.svg",
     "static/media/Count.svg": "/static/media/Count.1594883c9aa9c0c23b7180a7721b21a2.svg",
     "static/media/iconAction.svg": "/static/media/iconAction.dbb4868a70a6f33672a6050c170bd864.svg",
+<<<<<<< HEAD
     "static/media/requestServices.svg": "/static/media/requestServices.c3e2e2eae61914b35b2ba253735641cf.svg",
+=======
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/servicerNumber.svg": "/static/media/servicerNumber.37c27afbfc0065d0a0b8bca5e5821f20.svg",
     "static/media/ProductN.svg": "/static/media/ProductN.527713f7eebfbdfae34b264173008b70.svg",
     "static/media/orderSummary.svg": "/static/media/orderSummary.bc4afe6809bacca1e3989aa0fcdd3506.svg",
@@ -73,16 +81,22 @@
     "static/media/ContractsActive.svg": "/static/media/ContractsActive.72afc3bcf9363a42ef3a77815ec69a1e.svg",
     "static/media/Customer.svg": "/static/media/Customer.ef02071ed576cf6e3a2a65aeb4db5d6e.svg",
     "static/media/Reserves.svg": "/static/media/Reserves.28bfcefafce622c0a3366f5bb3d955c4.svg",
+<<<<<<< HEAD
     "static/media/ReservesFutureClaims.svg": "/static/media/ReservesFutureClaims.6b921a39cef480c51f94678f9928b8d4.svg",
     "static/media/activeReservesFutureClaims.svg": "/static/media/activeReservesFutureClaims.f7da535283e2ca36036df00124b7b9c2.svg",
+=======
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/chatIcon.svg": "/static/media/chatIcon.d21d867f57377d4001242750df27c006.svg",
     "static/media/activeServicer.svg": "/static/media/activeServicer.0cddad817951615a74c970b32f19eaaf.svg",
     "static/media/Servicer-active.svg": "/static/media/Servicer-active.9d8bc4a1bbfadc536e1034c755be26c6.svg",
     "static/media/ContractID.svg": "/static/media/ContractID.8a94faa2c5a33ef1161205d7a2eecbc1.svg",
     "static/media/Fronting.svg": "/static/media/Fronting.607936e2cd6a3225f41e58dace757df8.svg",
     "static/media/Name.svg": "/static/media/Name.313e4ba34a72cdd285e81f547f5a391f.svg",
+<<<<<<< HEAD
     "static/media/frontingFees.svg": "/static/media/frontingFees.47219d20ac0ebcec8e0c5153d9c4f4f8.svg",
     "static/media/activeFrontingFees.svg": "/static/media/activeFrontingFees.915e6ce07a5d749719bfe259de17231a.svg",
+=======
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/OrderID.svg": "/static/media/OrderID.633a0d135c653a7a5793c8b0eda73461.svg",
     "static/media/Dealer.svg": "/static/media/Dealer.9ff4b04cf4d950ddb9818cc76f035fce.svg",
     "static/media/dealer.svg": "/static/media/dealer.9e5c029e883c265081f012e1ce6d9271.svg",
@@ -96,8 +110,11 @@
     "static/media/Order.svg": "/static/media/Order.d6c514cb718d6941075437850819cf70.svg",
     "static/media/Contract.svg": "/static/media/Contract.2792e14f2fa8c6fd93b0bc06a8e3fdd7.svg",
     "static/media/Contract-active.svg": "/static/media/Contract-active.c90d167813bb3a313b60323ad2d49a05.svg",
+<<<<<<< HEAD
     "static/media/activeAccount.svg": "/static/media/activeAccount.d4766d08faee416de13c5149c3bdca07.svg",
     "static/media/manageAccount.svg": "/static/media/manageAccount.627219a73f13c5283d7ca6516b4e6713.svg",
+=======
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/DealerIcons.svg": "/static/media/DealerIcons.2d1319946184992cadea2ce9498dd79f.svg",
     "static/media/Orders.svg": "/static/media/Orders.a5e41eec3ec741cac83df85a2673744f.svg",
     "static/media/activeOrder.svg": "/static/media/activeOrder.486d7f7721b5836411825b4e56aaac98.svg",
@@ -113,6 +130,7 @@
     "static/media/ProductManufacturer.svg": "/static/media/ProductManufacturer.06e82000e1294eed2fab97fb06057610.svg",
     "static/media/Breakdown.svg": "/static/media/Breakdown.da7f298ce043ebeb01278eea4b3a8d99.svg",
     "static/media/ProductC.svg": "/static/media/ProductC.052f974f7427f9aa34fcf293dc8bd7dc.svg",
+<<<<<<< HEAD
     "static/media/activeAdministration.svg": "/static/media/activeAdministration.3072281f1761ee04466c0f5ef0b8b534.svg",
     "static/media/Administration.svg": "/static/media/Administration.9b61fd11b770387e44313f6af0424c0c.svg",
     "static/media/activePrize.svg": "/static/media/activePrize.23c08c7c6ef38c359a6fb6065a6b4b09.svg",
@@ -120,6 +138,13 @@
     "static/media/Activeall.svg": "/static/media/Activeall.fbdcd13ae8cda3f26cae4352b658f677.svg",
     "static/media/ActiveDealer.svg": "/static/media/ActiveDealer.0b6ddaeac684dc928633d297d0db2a26.svg",
     "static/media/Dashboard.svg": "/static/media/Dashboard.91e01e87905e7c9ea0fe51e95d938879.svg",
+=======
+    "static/media/activePrize.svg": "/static/media/activePrize.23c08c7c6ef38c359a6fb6065a6b4b09.svg",
+    "static/media/ActiveDealer.svg": "/static/media/ActiveDealer.bf2f5a6a7d29cd0b9b6b07a284097a3e.svg",
+    "static/media/all.svg": "/static/media/all.095aac20d2a98d5e7bf34cde42b4acf9.svg",
+    "static/media/Activeall.svg": "/static/media/Activeall.fbdcd13ae8cda3f26cae4352b658f677.svg",
+    "static/media/Dashboard.svg": "/static/media/Dashboard.e03f60ba1be90d26667d9a441d51dab9.svg",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/PriceBook-active.svg": "/static/media/PriceBook-active.e6ae5b4ce67d32004c06bede78444782.svg",
     "static/media/PriceBook.svg": "/static/media/PriceBook.4b82a7e95d43a1ba4d188396f88d6825.svg",
     "static/media/Email.svg": "/static/media/Email.42b4c96558d33e625cfc72ddec0364d2.svg",
@@ -139,7 +164,11 @@
     "static/media/Clear-Filter-Icon-White.svg": "/static/media/Clear-Filter-Icon-White.8163e6d2bf46c51647fdc0a37b1019c2.svg",
     "static/media/AciveAmount.svg": "/static/media/AciveAmount.d9b9484e1487a9a0108b63c337e0b8da.svg",
     "static/media/Amount.svg": "/static/media/Amount.3aedc9b0dad1539afa1eab1070299a01.svg",
+<<<<<<< HEAD
     "static/media/Wholesale.svg": "/static/media/Wholesale.5a2a1e4184c9838587bff3b30ce033b6.svg",
+=======
+    "static/media/Wholesale.svg": "/static/media/Wholesale.c40d17c2185522d685984fc9582a9359.svg",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/Part Warranty.svg": "/static/media/Part Warranty.d67468f2d35fcf5de93d50a2add09768.svg",
     "static/media/insurance.svg": "/static/media/insurance.9c2be3de87554c11e1302e00e2b6e7cf.svg",
     "static/media/Logout.svg": "/static/media/Logout.99397e7b8fb60afa2fda246f9c0450ac.svg",
@@ -160,12 +189,18 @@
     "static/media/activeReporting.svg": "/static/media/activeReporting.96af81026d89b5cad478eb2f46a0ed90.svg",
     "static/media/productName.svg": "/static/media/productName.53f94dce91468b9b520a9f08fad18a03.svg",
     "static/media/wholePrice.svg": "/static/media/wholePrice.2eaa1c208d2540012a904e8ce008f109.svg",
+<<<<<<< HEAD
     "static/media/Re-insurance.svg": "/static/media/Re-insurance.6df3faaa4d76ca86bbc0e2d4db812584.svg",
     "static/media/activeRe-insurance.svg": "/static/media/activeRe-insurance.ceb8d3719de00783ce663ce8e57a8c53.svg",
     "static/media/SearchIcon.svg": "/static/media/SearchIcon.e3cc0340f26faaa39b836eefc6086e31.svg",
     "index.html": "/index.html",
     "static/media/Notification-icon.svg": "/static/media/Notification-icon.676b7930c991dd4c3e0f1879420717ff.svg",
     "static/media/completeClaim.svg": "/static/media/completeClaim.329031b8975a60807f2fffff86e03dd0.svg",
+=======
+    "index.html": "/index.html",
+    "static/media/SearchIcon.svg": "/static/media/SearchIcon.e3cc0340f26faaa39b836eefc6086e31.svg",
+    "static/media/Notification-icon.svg": "/static/media/Notification-icon.676b7930c991dd4c3e0f1879420717ff.svg",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/activeClaim.svg": "/static/media/activeClaim.228584133579369b6fa95e419969fe04.svg",
     "static/media/claim.svg": "/static/media/claim.d33290289acdfbd6b60fb692d3bb8b66.svg",
     "static/media/SerachWhite.svg": "/static/media/SerachWhite.7c1a2019d42923ddd4b9f92d7fa8635d.svg",
@@ -173,11 +208,18 @@
     "static/media/dealerList.svg": "/static/media/dealerList.260b4c25d60198f3809d6f6a2c40611c.svg",
     "static/media/CrossButton.svg": "/static/media/CrossButton.ecb5e863761211c69de3b1ad24d75099.svg",
     "static/media/arrows.svg": "/static/media/arrows.ff0e614a7927de42b322390bb99375fd.svg",
+<<<<<<< HEAD
     "static/media/activeWholesale.svg": "/static/media/activeWholesale.3ad3c050d01d484473b59592172bef28.svg",
+=======
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/Msg-Black.svg": "/static/media/Msg-Black.d734143fbe1342bee5aed5ed90c8c563.svg",
     "static/media/contract-head.svg": "/static/media/contract-head.a2f8f08228ae1e97a39c.svg",
     "static/media/250active.svg": "/static/media/250active.b634aee9ffc34ee6fe93f84f27f8cf0a.svg",
     "static/media/dropdown-2.svg": "/static/media/dropdown-2.6132c17d799e2cda98e4f2c25424a1c4.svg",
+<<<<<<< HEAD
+=======
+    "static/media/firstActive.svg": "/static/media/firstActive.df03dfc37b9a1382d023b63aa1cb7c9f.svg",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "static/media/activess.svg": "/static/media/activess.cb5d17a7fbb3d999d01b40a362d4f0fb.svg",
     "static/media/dropdownsecond.svg": "/static/media/dropdownsecond.d493b70072ec5ba6845a09dba2f0abb8.svg",
     "static/media/fourthDropdown.svg": "/static/media/fourthDropdown.e549d464eec5eb16d1c922ae24a32a55.svg",
@@ -191,14 +233,24 @@
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
+<<<<<<< HEAD
     "main.7e1408e5.css.map": "/static/css/main.7e1408e5.css.map",
     "main.98cb72f9.js.map": "/static/js/main.98cb72f9.js.map",
+=======
+    "main.8be427f3.css.map": "/static/css/main.8be427f3.css.map",
+    "main.3bde809c.js.map": "/static/js/main.3bde809c.js.map",
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
+<<<<<<< HEAD
     "static/css/main.7e1408e5.css",
     "static/js/main.98cb72f9.js"
+=======
+    "static/css/main.8be427f3.css",
+    "static/js/main.3bde809c.js"
+>>>>>>> c82eec61ff92595d54b876b4f1147cb009ad382a
   ]
 }

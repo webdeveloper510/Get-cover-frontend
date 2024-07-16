@@ -126,7 +126,7 @@ function ClaimList(props) {
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { claimIdValue } = useParams();
-  console.log("claimIdValue", claimIdValue);
+
   const excludedPaths = [
     "/customer/claimList",
     "/reseller/claimList",

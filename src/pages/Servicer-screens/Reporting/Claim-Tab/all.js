@@ -52,76 +52,76 @@ function ServicerAll() {
             </div>
        </div>
        <div className='col-span-6'>
-       <div className="bg-light-black text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
-              <Grid>
-                <div className='col-span-7 self-center'>
-                    <p className='text-xl font-bold'>Total Claims Paid</p>
-                </div>
-                <div className='col-span-2 self-center'></div>
-                <div className='col-span-3 self-center'>
+          <div className="bg-light-black text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
+            <Grid>
+              <div className='col-span-7 self-center'>
+                  <p className='text-xl font-bold'>Total Claims Paid</p>
+              </div>
+              <div className='col-span-2 self-center'></div>
+              <div className='col-span-3 self-center'>
+                
+                    <div className='col-span-2'>
+                    <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
+                          <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown1}>
+                          <p className='self-center text-[13px]'>
+                      Period
+                      </p>
+                      <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
+                          </div>  
+                          {isDropdownOpen1 && (
+                          <div className='absolute top-8 w-full text-center '>
+                              <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
+                                  <p className='font-semibold border-b'>Period</p>
+                                  <p className='border-b'>Days</p>
+                                  <p>Monthly</p>
+                              </div>
+                          </div>
+                          )}
+                      </div>
+                  </div>
+                  </div>
                   
-                     <div className='col-span-2'>
-                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown1}>
-                            <p className='self-center text-[13px]'>
-                        Period
-                        </p>
-                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                            </div>  
-                            {isDropdownOpen1 && (
-                            <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
-                                    <p className='font-semibold border-b'>Period</p>
-                                    <p className='border-b'>Days</p>
-                                    <p>Monthly</p>
-                                </div>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    </div>
-                    
-                  
-              </Grid>
+                
+            </Grid>
 
-              <BarChart/>
+            <BarChart/>
             </div>
        </div>
        <div className='col-span-6'>
-       <div className="bg-light-black text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
-              <Grid>
-                <div className='col-span-7 self-center'>
-                    <p className='text-xl font-bold'>Total Claims Pending</p>
-                </div>
-                <div className='col-span-2 self-center'></div>
-                <div className='col-span-3 self-center'>
+          <div className="bg-light-black text-white rounded-[20px] p-3 my-2 border-[1px] border-Light-Grey">
+            <Grid>
+              <div className='col-span-7 self-center'>
+                  <p className='text-xl font-bold'>Total Claims Pending</p>
+              </div>
+              <div className='col-span-2 self-center'></div>
+              <div className='col-span-3 self-center'>
+                
+                    <div className='col-span-2'>
+                    <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
+                          <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown}>
+                          <p className='self-center text-[13px]'>
+                      Period
+                      </p>
+                      <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
+                          </div>  
+                          {isDropdownOpen && (
+                          <div className='absolute top-8 w-full text-center '>
+                              <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
+                                  <p className='font-semibold border-b'>Period</p>
+                                  <p className='border-b'>Days</p>
+                                  <p>Monthly</p>
+                              </div>
+                          </div>
+                          )}
+                      </div>
+                  </div>
+                  </div>
                   
-                     <div className='col-span-2'>
-                     <div className='flex border border-white px-2 py-1 h-full rounded-xl justify-between relative'>
-                            <div className='flex justify-between w-full cursor-pointer' onClick={toggleDropdown}>
-                            <p className='self-center text-[13px]'>
-                        Period
-                        </p>
-                        <img src={drop} className='w-4 h-4 self-center justify-end' alt='drop'/>
-                            </div>  
-                            {isDropdownOpen && (
-                            <div className='absolute top-8 w-full text-center '>
-                                <div className='bg-white text-light-black border rounded-xl py-2 px-4'>
-                                    <p className='font-semibold border-b'>Period</p>
-                                    <p className='border-b'>Days</p>
-                                    <p>Monthly</p>
-                                </div>
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    </div>
-                    
-                  
-              </Grid>
+                
+            </Grid>
 
-              <BarChart/>
-            </div>
+            <BarChart/>
+          </div>
        </div>
     </Grid>
     </>

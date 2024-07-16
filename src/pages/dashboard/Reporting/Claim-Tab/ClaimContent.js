@@ -7,6 +7,7 @@ import Modal from "../../../../common/model";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
 import { getAllClaims } from "../../../../services/reportingServices";
 import { useMyContext } from "../../../../context/context";
+import { useLocation } from "react-router-dom";
 
 function ClaimContent({
   activeTab,
@@ -18,6 +19,9 @@ function ClaimContent({
   const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
   const [flag, setFlag] = useState("daily");
+  const location = useLocation();
+  const isServicerClaims = location.pathname.includes("/servicer/claims");
+  const isResellerClaims = location.pathname.includes("/reseller/claim");
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -29,19 +33,9 @@ function ClaimContent({
     flag1,
     toggleFilterFlag,
   } = useMyContext();
+
   const openModal = () => {
     setIsModalOpen(true);
-  };
-
-  const formatOrderValue = (orderValue) => {
-    if (Math.abs(orderValue) >= 1e6) {
-      return (orderValue / 1e6).toFixed(2) + "M";
-    } else {
-      return orderValue?.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    }
   };
 
   const handleApply = () => {
@@ -151,7 +145,14 @@ function ClaimContent({
       flag: flag,
     };
     try {
-      const res = await getAllClaims(data);
+      const res = await getAllClaims(
+        data,
+        isResellerClaims
+          ? "resellerPortal"
+          : isServicerClaims
+          ? "servicerPortal"
+          : "user"
+      );
       const amountData = res?.result?.graphData?.map((item) => {
         const {
           total_claim,

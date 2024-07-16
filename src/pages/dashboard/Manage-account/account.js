@@ -43,6 +43,7 @@ import Select from "../../../common/select";
 import PasswordInput from "../../../common/passwordInput";
 import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
+import CommonTooltip from "../../../common/toolTip";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -734,7 +735,6 @@ function Account() {
   const passwordChange = async (value) => {
     setLoading(true);
     delete value.confirmPassword;
-
     try {
       const res = await changePasswordbyToken(value);
       if (res.code == 200) {
@@ -1491,9 +1491,15 @@ function Account() {
                         </div>
                       </div>
                       <div className="col-span-12">
-                        <p className="mb-3 text-light-black font-bold">Color Setting</p>
+                        <p className="mb-3 text-light-black font-bold">Color Setting </p>
                           <Grid>
                             <div className="col-span-2">
+                            <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-1`}
+                                        content='you can change the sideBar Background color here'
+                                      >
+                                     
                                   <Input
                                         type="color"
                                         name={`sideBarColor`}
@@ -1503,8 +1509,14 @@ function Account() {
                                         placeholder=""
                                         value={sideBarColor} onChange={handleColorChange}
                                       />
+                                       </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                                <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-2`}
+                                        content='you can change the sideBar text color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`sideBarTextColor`}
@@ -1514,8 +1526,14 @@ function Account() {
                                         placeholder=""
                                         value={sideBarTextColor} onChange={handleColorChange1}
                                       />
+                                      </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                                <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-3`}
+                                        content='you can change the sideBar active page button color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`sideBarButtonColor`}
@@ -1525,8 +1543,14 @@ function Account() {
                                         placeholder=""
                                         value={sideBarButtonColor} onChange={handleColorChange2}
                                       />
+                                      </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                                <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-4`}
+                                        content='you can change the sideBar active page button text color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`sideBarButtonTextColor`}
@@ -1536,8 +1560,14 @@ function Account() {
                                         placeholder=""
                                         value={sideBarButtonTextColor} onChange={handleColorChange3}
                                       />
+                                      </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                            <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-5`}
+                                        content='you can change all button background color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`buttonColor`}
@@ -1547,8 +1577,14 @@ function Account() {
                                         placeholder=""
                                         value={buttonColor} onChange={handleColorChange4}
                                       />
+                                      </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                            <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-6`}
+                                        content='you can change all button text color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`buttonTextColor`}
@@ -1558,8 +1594,14 @@ function Account() {
                                         placeholder=""
                                         value={buttonTextColor} onChange={handleColorChange5}
                                       />
+                                      </CommonTooltip>
                             </div>
                             <div className="col-span-2">
+                            <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-7`}
+                                        content='you can change background color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`backGroundColor`}
@@ -1569,6 +1611,7 @@ function Account() {
                                         placeholder=""
                                         value={backGroundColor} onChange={handleColorChange6}
                                       />
+                                      </CommonTooltip>
                             </div>
                             {/* <div className="col-span-2">
                                   <Input
@@ -1582,6 +1625,11 @@ function Account() {
                                       />
                             </div> */}
                             <div className="col-span-2">
+                            <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      >
                                   <Input
                                         type="color"
                                         name={`titleColor`}
@@ -1591,6 +1639,7 @@ function Account() {
                                         placeholder=""
                                         value={titleColor} onChange={handleColorChange8}
                                       />
+                                      </CommonTooltip>
                             </div>
                           </Grid>
                       </div>

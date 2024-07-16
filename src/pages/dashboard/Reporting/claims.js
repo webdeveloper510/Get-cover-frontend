@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
@@ -15,9 +15,16 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
 import ClaimContent from "./Claim-Tab/ClaimContent";
 import { useMyContext } from "./../../../context/context";
-import { getFilterListForClaim } from "../../../services/reportingServices";
+import {
+  getFilterListForClaim,
+  getFilterListForDealerClaim,
+  getFilterListForServicerClaim,
+} from "../../../services/reportingServices";
 
 function Claims() {
+  const location = useLocation();
+  const isServicerClaims = location.pathname.includes("/servicer/claims");
+  const isResellerClaims = location.pathname.includes("/reseller/claim");
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
     return storedTab ? storedTab : "Amount";
@@ -101,14 +108,23 @@ function Claims() {
 
   const getDatasetAtEvent = async (data) => {
     try {
-      const res = await getFilterListForClaim(data);
+      const res =
+        isServicerClaims || isResellerClaims
+          ? await getFilterListForServicerClaim(
+              data,
+              !isResellerClaims ? "servicerPortal" : "resellerPortal"
+            )
+          : await getFilterListForClaim(data);
       const { dealers, categories, priceBooks, servicers } = res.result;
 
       const getName = (obj) => obj.name;
       const mapToLabelValue = (value) =>
         value.map((obj) => ({ label: getName(obj), value: obj._id }));
       const mapPriceBooks = (value) =>
-        value.map((obj) => ({ label: obj.name, value: obj.name }));
+        value.map((obj) => ({
+          label: obj.name,
+          value: obj.name,
+        }));
 
       if (activeButton === "dealer") {
         setDealerList(mapToLabelValue(dealers));
@@ -160,7 +176,6 @@ function Claims() {
       default:
         return;
     }
-    console.log(updatedFilters);
     setFilters(updatedFilters);
     getDatasetAtEvent(updatedFilters);
   };
@@ -287,14 +302,16 @@ function Claims() {
               >
                 Dealer
               </Button>
-              <Button
-                onClick={() => handleButtonClick("servicer")}
-                className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                  activeButton !== "servicer" && "!bg-[white] !text-[#333] "
-                }`}
-              >
-                Servicer
-              </Button>
+              {!isServicerClaims && (
+                <Button
+                  onClick={() => handleButtonClick("servicer")}
+                  className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                    activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                  }`}
+                >
+                  Servicer
+                </Button>
+              )}
               <Button
                 onClick={() => handleButtonClick("category")}
                 className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
@@ -330,7 +347,10 @@ function Claims() {
                     options={dealerList}
                   />
                 </div>
-                <div className="col-span-2 self-center pl-1">
+                <div
+                  className="col-span-2 self-center pl-1"
+                  style={{ display: isServicerClaims ? "none" : "block" }}
+                >
                   <SelectBoxWithSearch
                     label="Servicer Name"
                     name="servicerId"
@@ -374,7 +394,7 @@ function Claims() {
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
                   />
-                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white]">
+                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white ">
                     Product SKU
                   </small>
                 </div>
@@ -501,7 +521,7 @@ function Claims() {
                     }}
                     className="SearchSelect css-b62m3t-container p-[0.425rem]"
                   />
-                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                  <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white ">
                     Product SKU
                   </small>
                 </div>

@@ -99,7 +99,7 @@ function PdfGenerator(props, className) {
                 <tr>
                     <td style="text-align: left; width: 50%;">
                         <img src=${logo} style="margin-bottom: 20px; width:200px"/>
-                        <h1 style="margin: 0; padding: 0; font-size:20px"><b>Get Cover </b></h1>
+                        <h1 style="margin: 0; padding: 0; font-size:20px"><b>${data.websiteSetting.title}</b></h1>
                         <p style="margin: 0; padding: 0; width:50%">${data.websiteSetting.address}</p>
                     </td>
                     <td style=" width: 50%;">

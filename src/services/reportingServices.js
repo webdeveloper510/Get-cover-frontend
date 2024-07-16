@@ -32,10 +32,10 @@ export const getAllSales = async (data) => {
   }
 };
 
-export const getAllClaims = async (data) => {
+export const getAllClaims = async (data, type) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(`${url}/user/claimReporting`, data, {
+    const response = await axios.post(`${url}/${type}/claimReporting`, data, {
       headers,
     });
 
@@ -67,6 +67,91 @@ export const getFilterListForClaim = async (data) => {
   try {
     const response = await axios.post(
       `${url}/reporting/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFilterListDropdown = async (data, type) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/${type}/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFilterListForDealerClaim = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getFilterListForServicerClaim = async (data,type) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/${type}/claimReportinDropdown`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllSalesForReporting = async (data,type) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/${type}/saleReporting`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllClaimsForDealer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealerPortal/claimReporting`,
       data,
       {
         headers,
