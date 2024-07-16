@@ -92,7 +92,7 @@ function Layout() {
           } pl-0 relative w-full`}
         >
           {shouldShowSidebar() && (
-            <div className="xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:block xl:block">
+            <div className="xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:hidden xl:block">
               <SideBar />
             </div>
           )}
