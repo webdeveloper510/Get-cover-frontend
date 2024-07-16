@@ -12,12 +12,12 @@ const BarChart = ({ graphData }) => {
     {
       key: "total_orders",
       label: "Total Order Amount",
-      borderColor: "rgba(255,99,132,1)",
+      borderColor: "#ffff",
     },
     {
       key: "total_claims",
       label: "Total Claim Amount",
-      borderColor: "rgba(54,162,235,1)",
+      borderColor: "#ffff",
     },
   ];
 
