@@ -48,7 +48,9 @@ function Layout() {
     } catch (error) {
       console.error("Error fetching user details:", error);
     } finally {
-      setLoading(false);
+      setTimeout(() =>{ 
+    setLoading(false);}, 4000)
+      // setLoading(false);
     }
   };
 

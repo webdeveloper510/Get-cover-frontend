@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // Project Imports
 import Logo from "../assets/images/Get-Cover-REV-svg.png";
-import { ReactComponent as DashboardImage } from '../assets/images/side-bar/Dashboard.svg';
+import DashboardImage from "../assets/images/side-bar/Dashboard.svg";
 import CustomerImage from "../assets/images/side-bar/Customer.svg";
 import resellerImage from "../assets/images/side-bar/Dealer.svg";
 import DealerImage from "../assets/images/Dealer.svg";
@@ -18,7 +18,8 @@ import Down from "../assets/images/icons/Drop.svg";
 import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg";
 import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg";
 import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg";
-import ActiveDropdown from "../assets/images/side-bar/firstActive.svg";
+import manageAccount from "../assets/images/side-bar/activeAccount.svg";
+import activeAccount from "../assets/images/side-bar/manageAccount.svg";
 
 // Active Images icons
 
@@ -148,7 +149,6 @@ function SidebarItem({
     fetchUserDetails12();
 } ,[]);
   
-  // console.log('location.pathname', location.pathname)
   return (
     <li
       className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
@@ -168,13 +168,15 @@ function SidebarItem({
         {activeUrl ? (
           <img
             src={item.active}
-            className="w-[22px]  h-[22px]"
+            className="w-[22px] h-[22px]"
+            style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
             alt={item.image}
           />
         ) : (
           <img
             src={item.image}
             className="w-[22px] h-[22px]"
+            style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
             alt={item.image}
           />
         )}
@@ -198,6 +200,7 @@ function SidebarItem({
                       ? "rotate-180 dropdown-expanded"
                       : "dropdown-collapsed"
                   }`}
+                  style={{filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                   alt="Dropdown Arrow"
                 />
               </>
@@ -210,6 +213,7 @@ function SidebarItem({
                       ? "rotate-180 dropdown-expanded"
                       : "dropdown-collapsed"
                   }`}
+                  style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
                   alt="Dropdown Arrow"
                 />
               </>
@@ -251,6 +255,7 @@ function SidebarItem({
                           ? "mt-[-95%]"
                           : "mt-[-115%]"
                       } w-[24px]`}
+                      style={{filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                       alt={subItem.active}
                     />
                   </>
@@ -505,8 +510,8 @@ const Lists = [
   {
     name: "Manage Account",
     url: "/manageAccount",
-    image: DashboardImage,
-    active: ActiveDashboard,
+    image: manageAccount,
+    active: activeAccount,
   },
 ];
 
@@ -555,7 +560,6 @@ function SideBar() {
     fetchUserDetails12();
   
 } ,[]);
-
   const navigate = useNavigate();
   // console.log('active---------------->>', active )
 
@@ -976,7 +980,9 @@ function SideBar() {
                 <div className="py-[22px] pe-3 ps-[10px] flex">
                   <img
                     src={LogoutImage}
-                    className="w-[22px] h-[22px]  img-filter"
+                    className="w-[22px] h-[22px] fill-red"
+                    style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
+                    fill="red"
                     alt={LogoutImage}
                   />
                   <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
