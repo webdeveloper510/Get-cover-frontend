@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.8be427f3.css",
-    "main.js": "/static/js/main.3bde809c.js",
+    "main.css": "/static/css/main.87805b75.css",
+    "main.js": "/static/js/main.3f292378.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -91,6 +91,8 @@
     "static/media/Order.svg": "/static/media/Order.d6c514cb718d6941075437850819cf70.svg",
     "static/media/Contract.svg": "/static/media/Contract.2792e14f2fa8c6fd93b0bc06a8e3fdd7.svg",
     "static/media/Contract-active.svg": "/static/media/Contract-active.c90d167813bb3a313b60323ad2d49a05.svg",
+    "static/media/activeAccount.svg": "/static/media/activeAccount.05ceae4d1c05555beb76e750785d228e.svg",
+    "static/media/manageAccount.svg": "/static/media/manageAccount.39f33d312dfa5abfff2b2653f3953e80.svg",
     "static/media/DealerIcons.svg": "/static/media/DealerIcons.2d1319946184992cadea2ce9498dd79f.svg",
     "static/media/Orders.svg": "/static/media/Orders.a5e41eec3ec741cac83df85a2673744f.svg",
     "static/media/activeOrder.svg": "/static/media/activeOrder.486d7f7721b5836411825b4e56aaac98.svg",
@@ -165,7 +167,6 @@
     "static/media/contract-head.svg": "/static/media/contract-head.a2f8f08228ae1e97a39c.svg",
     "static/media/250active.svg": "/static/media/250active.b634aee9ffc34ee6fe93f84f27f8cf0a.svg",
     "static/media/dropdown-2.svg": "/static/media/dropdown-2.6132c17d799e2cda98e4f2c25424a1c4.svg",
-    "static/media/firstActive.svg": "/static/media/firstActive.df03dfc37b9a1382d023b63aa1cb7c9f.svg",
     "static/media/activess.svg": "/static/media/activess.cb5d17a7fbb3d999d01b40a362d4f0fb.svg",
     "static/media/dropdownsecond.svg": "/static/media/dropdownsecond.d493b70072ec5ba6845a09dba2f0abb8.svg",
     "static/media/fourthDropdown.svg": "/static/media/fourthDropdown.e549d464eec5eb16d1c922ae24a32a55.svg",
@@ -179,14 +180,14 @@
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
-    "main.8be427f3.css.map": "/static/css/main.8be427f3.css.map",
-    "main.3bde809c.js.map": "/static/js/main.3bde809c.js.map",
+    "main.87805b75.css.map": "/static/css/main.87805b75.css.map",
+    "main.3f292378.js.map": "/static/js/main.3f292378.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8be427f3.css",
-    "static/js/main.3bde809c.js"
+    "static/css/main.87805b75.css",
+    "static/js/main.3f292378.js"
   ]
 }
