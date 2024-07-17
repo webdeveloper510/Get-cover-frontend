@@ -152,7 +152,7 @@ function SidebarItem({
   return (
     <li
       className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
-        activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+        activeUrl ? `relative bg-[${sideBarButtonColor}] rounded-s-[30px]` : ""
       } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link

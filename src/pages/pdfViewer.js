@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
 import { orderDetailsById } from "../services/orderServices";
-import { useState } from "react";
 import { ToWords } from "to-words";
-import { getSetting } from "../services/extraServices";
+
 function PdfGenerator(props, className) {
   const { setLoading } = props;
 
@@ -18,7 +17,7 @@ function PdfGenerator(props, className) {
       doNotAddOnly: false,
       currencyOptions: {
         name: "Dollar",
-        plural: "Dollar",
+        plural: "Dollars",
         symbol: "$",
         fractionalUnit: {
           name: "",
@@ -30,43 +29,41 @@ function PdfGenerator(props, className) {
   });
 
   const formatPhoneNumber = (phoneNumber) => {
-    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-
+    const cleaned = ("" + phoneNumber).replace(/\D/g, "");
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-
-    return phoneNumber; // Return original phone number if it couldn't be formatted
+    return phoneNumber;
   };
+
   const [data, setData] = useState({});
-  console.log("props", props);
 
   const convertToPDF = async () => {
     setLoading(true);
-    const result = await orderDetailsById(props.data);
-    console.log(result, '-----Invoice--------------')
-    let value = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      customerUserData: result.orderUserData.customerUserData,
-      username: result.orderUserData.username,
-      resellerUsername: result.orderUserData.resellerUsername,
-      websiteSetting:result.orderUserData.websiteSetting,
-      ...result.result,
-    };
-
-    const opt = {
-      margin: 0,
-      filename: `${value.unique_key}-Invoice.pdf`,
-      image: { type: "jpeg", quality: 1 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-    };
-
     try {
+      const result = await orderDetailsById(props.data);
+      console.log(result, '-----Invoice--------------')
+      let value = {
+        dealerName: result.orderUserData.dealerData,
+        customerName: result.orderUserData.customerData,
+        resellerName: result.orderUserData.resellerData,
+        totalOrderAmount: result.result.orderAmount,
+        customerUserData: result.orderUserData.customerUserData,
+        username: result.orderUserData.username,
+        resellerUsername: result.orderUserData.resellerUsername,
+        websiteSetting: result.orderUserData.websiteSetting,
+        ...result.result,
+      };
+
+      const opt = {
+        margin: 0,
+        filename: `${value.unique_key}-Invoice.pdf`,
+        image: { type: "jpeg", quality: 1 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      };
+
       const pdf = html2pdf().from(generateHTML(value)).set(opt);
       pdf.save();
     } catch (error) {
@@ -74,6 +71,7 @@ function PdfGenerator(props, className) {
     }
     setLoading(false);
   };
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -84,64 +82,57 @@ function PdfGenerator(props, className) {
       });
     }
   };
+
   const generateHTML = (data) => {
-    const logo = data.websiteSetting.darkLogo
+    const logo = data.websiteSetting.darkLogo;
+    console.log(logo);
     return `
       <style>
-      * {
-        text-shadow: none !important;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-    </style>
+        * {
+          text-shadow: none !important;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+      </style>
       <div style="max-width: 100%; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px;">
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-            <tbody>
-                <tr>
-                    <td style="text-align: left; width: 50%;">
-                        <img src=${logo} style="margin-bottom: 20px; width:200px"/>
-                        <h1 style="margin: 0; padding: 0; font-size:20px"><b>${data.websiteSetting.title}</b></h1>
-                        <p style="margin: 0; padding: 0; width:50%">${data.websiteSetting.address}</p>
-                    </td>
-                    <td style=" width: 50%;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <thead>
-                                <tr>
-                                    <td colspan="2" style="text-align: right; padding-right: 20px; padding-bottom: 40px;"> <b style="margin: 0; padding-bottom: 40px; font-size:30px">Invoice</b></td>
-                                </tr>
-                                <tr>
-                                    <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                                    <td style="border: none; padding: 4px;">${format(
-                                      new Date(data?.createdAt),
-                                      "MM/dd/yyyy"
-                                    )}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                                    <td style="border: none; padding: 4px;"> ${
-                                      data?.unique_key
-                                    }</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                                    <td style="border: none; padding: 4px;">$${
-                                      data?.totalOrderAmount === undefined
-                                        ? parseInt(0).toLocaleString(2)
-                                        : formatOrderValue(
-                                            data?.totalOrderAmount
-                                          )
-                                    }</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: none; padding: 4px;">Currency Type:</td>
-                                    <td style="border: none; padding: 4px;">USD</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
+          <tbody>
+            <tr>
+              <td style="text-align: left; width: 50%;">
+                <img src="${logo}" style="margin-bottom: 20px; width: 200px; height: 150px;" alt="logo Image"/>
+                <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
+                <p style="margin: 0; padding: 0; width: 50%;">${data.websiteSetting.address}</p>
+              </td>
+              <td style="width: 50%;">
+                <table style="width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <td colspan="2" style="text-align: right; padding-right: 20px; padding-bottom: 40px;">
+                        <b style="margin: 0; padding-bottom: 40px; font-size: 30px;">Invoice</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
+                      <td style="border: none; padding: 4px;">${format(new Date(data?.createdAt), "MM/dd/yyyy")}</td>
+                    </tr>
+                    <tr>
+                      <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
+                      <td style="border: none; padding: 4px;">${data?.unique_key}</td>
+                    </tr>
+                    <tr>
+                      <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
+                      <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined ? parseInt(0).toLocaleString(2) : formatOrderValue(data?.totalOrderAmount)}</td>
+                    </tr>
+                    <tr>
+                      <td style="border: none; padding: 4px;">Currency Type:</td>
+                      <td style="border: none; padding: 4px;">USD</td>
+                    </tr>
+                  </thead>
+                </table>
+              </td>
+            </tr>
+          </tbody>
         </table>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <tbody>
                 <tr>
                     <td style="text-align: left; width: 50%;">
@@ -368,13 +359,11 @@ function PdfGenerator(props, className) {
   };
 
   return (
-    <div
-      className={`text-left flex py-1 px-2  ${className}`}
-      onClick={convertToPDF}
-    >
-      <img src={download} className="w-4 h-4 mr-2" />
+    <div className={`text-left flex py-1 px-2 ${className}`} onClick={convertToPDF}>
+      <img src={download} className="w-4 h-4 mr-2" alt="Download" />
       <button className="">Invoice</button>
     </div>
   );
 }
+
 export default PdfGenerator;

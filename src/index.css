@@ -283,4 +283,8 @@ a:focus {
   input[type=number] {
     -moz-appearance: textfield;
   }
+
+  select.bg-light-black.text-white {
+    background-color: transparent !important;
+  }
 }
