@@ -248,16 +248,25 @@ function OrderList(props) {
       selector: (row) => row.venderOrder,
       sortable: true,
     },
-    {
-      name: "Reseller Name",
-      selector: (row) => row.resellerName.name,
-      sortable: true,
-    },
-    {
-      name: "Customer Name",
-      selector: (row) => row.customerName.username,
-      sortable: true,
-    },
+    ...(props.flag !== 'customer'
+      ? [
+          {
+            name: "Reseller Name",
+            selector: (row) => row.resellerName.name,
+            sortable: true,
+          },
+        ]
+      : []),
+      ...(props.flag !== 'customer' && props.flag !== 'reseller'
+        ? [
+          {
+            name: "Customer Name",
+            selector: (row) => row.customerName.username,
+            sortable: true,
+          },
+          ]
+        : []),
+    
     {
       name: "# of Contracts",
       selector: (row) => row.noOfProducts.toLocaleString(2),

@@ -12,22 +12,19 @@ const BarChart = ({ graphData }) => {
     {
       key: "total_orders",
       label: "Total Order Amount",
-      borderColor: "#ffff",
     },
     {
       key: "total_claims",
       label: "Total Claim Amount",
-      borderColor: "#ffff",
     },
   ];
 
   const datasets = keys
     .filter(({ key }) => graphData.some((data) => data[key] !== undefined))
-    .map(({ key, label, borderColor }) => ({
+    .map(({ key, label }) => ({
       label: label,
       data: graphData.map((data) => (data[key] !== undefined ? data[key] : 0)),
       backgroundColor: "white",
-      borderColor: borderColor,
       borderWidth: 1,
     }));
 

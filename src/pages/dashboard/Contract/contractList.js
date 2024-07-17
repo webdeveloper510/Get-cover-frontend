@@ -866,7 +866,7 @@ function ContractList(props) {
                           <b> {contractDetails?.order?.[0]?.venderOrder} </b>
                         </p>
                       </div>
-                      <div className="col-span-1 self-center justify-end self-center"></div>
+                      <div className="col-span-1 self-center justify-end"></div>
                     </Grid>
 
                     <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">

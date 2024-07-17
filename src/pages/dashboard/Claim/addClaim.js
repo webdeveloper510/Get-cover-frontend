@@ -1540,7 +1540,7 @@ function AddClaim() {
                               <th colSpan={4}>Quantity Pricing List</th>
                             </tr>
                             <tr>
-                              <th>S.#</th>
+                              <th>Sr.#</th>
                               <th>Name</th>
                               <th>Max Quantity Per Unit</th>
                               <th>Quantity</th>
