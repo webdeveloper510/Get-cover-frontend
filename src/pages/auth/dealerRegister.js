@@ -129,10 +129,10 @@ function DealerRegister() {
     <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
-          <div className="col-span-7 self-center min-h-screen flex">
-            <div className="mx-auto mx-auto md:w-4/6	s:w-full py-5 self-center  ">
+          <div className="col-span-7 self-center min-h-screen flex relative">
+            <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
               <img src={Logo} className="w-[224px]" alt="Logo " />
-              <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
+              <p className="text-3xl mb-0 mt-1 font-bold text-light-black">
                 <span className="text-neutral-grey"> Welcome to </span> GetCover
               </p>
               <p className="text-neutral-grey text-xl font-medium mb-4 mt-2">
@@ -391,8 +391,12 @@ function DealerRegister() {
                     Sign In
                   </Link>{" "}
                 </p>
+                <div>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
+                  </div>
               </div>
             </div>
+          
           </div>
           <div className="col-span-5">
             <img
