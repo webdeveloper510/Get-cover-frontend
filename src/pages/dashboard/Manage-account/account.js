@@ -1338,6 +1338,7 @@ function Account() {
                             onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
                             ref={inputRef2}
                           />
+                          
                           <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
                             {selectedFile2 && (
                               <button
@@ -1359,6 +1360,7 @@ function Account() {
                               </p>
                             )}
                           </div>
+                          <small>The image size should be 50x50 px for the best display.</small>
                         </div>
                         <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon"/>
                       </div>
@@ -1399,6 +1401,7 @@ function Account() {
                               </p>
                             )}
                           </div>
+                          <small>The image size should be 150x50 px for the best display.</small>
                       </div>
                       <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} className="upload w-[100px] bg-[#232323] mt-2 mr-auto object-contain	" alt="favicon"/>
                       </div>
@@ -1439,6 +1442,7 @@ function Account() {
                               </p>
                             )}
                           </div>
+                          <small>The image size should be 150x50 px for the best display.</small>
                         </div>
                         <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon"/>
                       </div>

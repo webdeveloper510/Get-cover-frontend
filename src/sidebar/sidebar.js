@@ -123,7 +123,6 @@ function SidebarItem({
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
-      // setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {

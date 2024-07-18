@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { getSetting } from "../services/extraServices";
+import { getSetting, getUserDetailsFromLocalStorage } from "../services/extraServices";
 
 const Button = ({ onClick, type, children, className, disabled }) => {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
-  const fetchUserDetails12 = async () => {
-    try {
-      const userDetails = await getSetting();
-      
-      if (userDetails && userDetails.result) {
-        const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
-          switch (color.colorType) {
-            case 'buttonColor':
-              setBackGroundColor(color.colorCode);
-              break;
-              case 'buttonTextColor':
-                setButtonTextColor(color.colorCode);
-                break;
-              default:
-                break;
-            }
-          });
+
+useEffect(() => {
+  const storedUserDetails = getUserDetailsFromLocalStorage();
+
+  if (storedUserDetails) {
+    const colorScheme = storedUserDetails.colorScheme;
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'buttonColor':
+          setBackGroundColor(color.colorCode);
+          break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
       }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserDetails12();
-  
-} ,[]);
+    });
+  }
+}, []);
+
   return (
     <button
       onClick={onClick}

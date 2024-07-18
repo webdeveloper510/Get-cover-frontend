@@ -119,7 +119,7 @@ function PdfGenerator(props, className) {
               <td style="text-align: left; width: 50%;">
                 <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
                 <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
-                <p style="margin: 0; padding: 0; width: 50%;">${data.websiteSetting.address}</p>
+                <pre style="margin: 0; padding: 0; width: 50%;font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address}</pre>
               </td>
               <td style="width: 50%;">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -367,7 +367,7 @@ function PdfGenerator(props, className) {
           <th></th>
          </tr>
          <tr>
-            <td colspan="2">${data?.websiteSetting?.paymentDetail}</td>
+            <td colspan="2"><pre style="font-family: Arial, Helvetica, sans-serif;">${data?.websiteSetting?.paymentDetail} </pre></td>
          </tr>
         
         

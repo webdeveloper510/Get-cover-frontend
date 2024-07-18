@@ -27,13 +27,25 @@ function Layout() {
     };
   }, []);
 
-  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
     const storedUserDetails = getUserDetailsFromLocalStorage();
-    setUserDetails(storedUserDetails);
-    setBackgroundColor(storedUserDetails.colorScheme.colorType ==="backGroundColor" ? storedUserDetails.colorScheme.colorCode : null)
-    setTextColor(storedUserDetails.colorScheme.colorType ==="textColor" ? storedUserDetails.colorScheme.colorCode : null)
+  
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'backGroundColor':
+            setBackgroundColor(color.colorCode);
+            break;
+            case 'textColor':
+              setTextColor(color.colorCode);
+              break;
+            default:
+              break;
+        }
+      });
+    }
   }, []);
 
   const shouldShowSidebar = () => {

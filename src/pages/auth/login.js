@@ -21,13 +21,32 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [details, setDetails] = useState();
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
   const fetchUserDetails12 = async () => {
     try {
       const userDetails = await getSetting();
       
       if (userDetails && userDetails.result) {
         setDetails(userDetails.result[0]);
-      }
+        const fetchedData = userDetails.result[0];
+        localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
+        if (userDetails.result && userDetails.result[0].colorScheme) {
+          const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'buttonColor':
+              setBackGroundColor(color.colorCode);
+              break;
+              case 'buttonTextColor':
+                setButtonTextColor(color.colorCode);
+                break;
+                default:
+                  break;
+              }
+            });
+          }
+        }
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
@@ -35,6 +54,7 @@ function Login() {
   useEffect(() => {
     fetchUserDetails12();
 } ,[]);
+
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
   const formik = useFormik({
@@ -154,6 +174,7 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
+                    style={{ backgroundColor: backGroundColor, color: buttonTextColor}}
                     className="w-full  h-[50px] text-xl font-semibold"
                   >
                     Sign in
@@ -166,7 +187,7 @@ function Login() {
                     </Link>{" "}
                   </p>
                   <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Designed, Developed & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad.net </a></p>
                   </div>
                 </div>
               </div>

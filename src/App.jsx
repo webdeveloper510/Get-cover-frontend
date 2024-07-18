@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { useRoutes } from 'react-router-dom';
 import { MyContextProvider } from './context/context';
@@ -7,14 +7,16 @@ import { getSetting } from './services/extraServices';
 
 function App() {
   const routing = useRoutes(routes);
-
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         console.log("Fetching user details...");
         const userDetails = await getSetting();
         console.log("User details fetched:", userDetails);
-        localStorage.setItem('siteSettings', JSON.stringify(userDetails.result[0]))
+        const fetchedData = userDetails.result[0];
+        localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
+
+        // localStorage.setItem('siteSettings', JSON.stringify(userDetails.result[0]))
 
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
 
