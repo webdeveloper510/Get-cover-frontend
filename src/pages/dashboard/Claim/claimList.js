@@ -2795,7 +2795,7 @@ function ClaimList(props) {
                 </div>
               )}
 
-              <div className="col-span-6">
+           {window.location.pathname.includes("/customer/claimList") ?  '' : <div className="col-span-6">
                 <Input
                   type="text"
                   name="customerName"
@@ -2804,7 +2804,7 @@ function ClaimList(props) {
                   placeholder=""
                   {...formik1.getFieldProps("customerName")}
                 />
-              </div>
+              </div> }
               <div className="col-span-6">
                 <Input
                   type="text"
