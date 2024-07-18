@@ -622,7 +622,10 @@ function CustomerDetails() {
                 </div>
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">$0.00</p>
+                    <p className="text-white text-lg  !font-[600]">${formatOrderValue(
+                        customerDetail?.claimData?.valueClaim ??
+                          parseInt(0)
+                      )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>

@@ -89,12 +89,20 @@ function DealerPriceBook(props) {
       maxWidth: "70px", // Set a custom maximum width
     },
     {
-      name: "SKU",
+      name: ( <div>
+        Product
+        <br />
+        SKU
+      </div>),
       selector: (row) => row?.priceBooks?.name,
       sortable: true,
     },
     {
-      name: "Name",
+      name: ( <div>
+        Product
+        <br />
+        Name
+      </div>),
       selector: (row) => row?.priceBooks?.pName,
       sortable: true,
     },
@@ -104,7 +112,7 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
-      name: "Price Type",
+      name: (<div>Price <br/> Type </div>),
       selector: (row) => row?.priceBooks?.priceType,
       sortable: true,
     },
@@ -114,7 +122,11 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
-      name: "Retail Cost",
+      name: ( <div>
+        Retail
+        <br />
+        Cost
+      </div>),
       selector: (row) =>
         `$${
           row.retailPrice === undefined
@@ -692,7 +704,7 @@ function DealerPriceBook(props) {
                     />
                   </div>}
                   
-                  <div className="col-span-6">
+                  {/* <div className="col-span-6">
                   <Select
                         name="status"
                         label="Status"
@@ -704,7 +716,7 @@ function DealerPriceBook(props) {
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-span-12">
                     <Button type="submit" className={"w-full"}>
                       Search
