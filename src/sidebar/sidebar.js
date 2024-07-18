@@ -38,7 +38,7 @@ import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
 import { useLocation } from "react-router-dom";
 import { checkWordsExist } from "../utils/helper";
-import { getSetting } from "../services/extraServices";
+import { getSetting, getUserDetailsFromLocalStorage } from "../services/extraServices";
 
 function SidebarItem({
   item,
@@ -119,35 +119,30 @@ function SidebarItem({
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
-  const fetchUserDetails12 = async () => {
-    try {
-      const userDetails = await getSetting();
-      
-      if (userDetails && userDetails.result) {
-        const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
-          switch (color.colorType) {
-            case 'sideBarTextColor':
-              setSideBarTextColor(color.colorCode);
-              break;
-            case 'sideBarButtonColor':
-              setSideBarButtonColor(color.colorCode);
-              break;
-              case 'sideBarButtonTextColor':
-                setSideBarButtonTextColor(color.colorCode);
-                break;
-              default:
-                break;
-            }
-          });
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
   useEffect(() => {
-    fetchUserDetails12();
-} ,[]);
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      // setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+          case 'sideBarButtonColor':
+            setSideBarButtonColor(color.colorCode);
+            break;
+            case 'sideBarButtonTextColor':
+              setSideBarButtonTextColor(color.colorCode);
+              break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
+
   
   return (
     <li
@@ -532,36 +527,28 @@ function SideBar() {
   );
   const [selectedFile2 ,setSelectedFile2] =useState('');
   console.log(selectedFile2, '--selectedFile2');
-  const fetchUserDetails12 = async () => {
-    try {
-      const userDetails = await getSetting();
-      
-      if (userDetails && userDetails.result) {
-        setSelectedFile2(userDetails.result[0].logoLight && userDetails.result[0].logoLight ? userDetails.result[0].logoLight.fileName : null);
-        const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
-          switch (color.colorType) {
-            case 'sideBarColor':
-              setSideBarColor(color.colorCode);
-              break;
-            case 'sideBarTextColor':
-              setSideBarTextColor(color.colorCode);
-              break;
-              default:
-                break;
-            }
-          });
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserDetails12();
   
-} ,[]);
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarColor':
+            setSideBarColor(color.colorCode);
+            break;
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   const navigate = useNavigate();
-  // console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);

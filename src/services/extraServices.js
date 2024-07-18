@@ -290,3 +290,9 @@ export const changePrimaryById = async (id) => {
     throw error;
   }
 };
+
+
+export const getUserDetailsFromLocalStorage = () => {
+  const userDetails = localStorage.getItem("siteSettings");
+  return userDetails ? JSON.parse(userDetails) : null;
+};

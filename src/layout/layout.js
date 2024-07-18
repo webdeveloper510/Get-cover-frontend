@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useLocation, useParams } from "react-router";
 import SideBar from "../sidebar/sidebar";
-import { getSetting } from "../services/extraServices";
+import { getSetting, getUserDetailsFromLocalStorage } from "../services/extraServices";
 import { RotateLoader } from "react-spinners";
 
 function Layout() {
   const [isSidebarSticky, setIsSidebarSticky] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [backgroundColor, setBackgroundColor] = useState('');
   const [textColor, setTextColor] = useState('');
 
@@ -27,35 +27,13 @@ function Layout() {
     };
   }, []);
 
-  const fetchUserDetails = async () => {
-    try {
-      const userDetails = await getSetting();
-      if (userDetails && userDetails.result) {
-        const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
-          switch (color.colorType) {
-            case 'backGroundColor':
-              setBackgroundColor(color.colorCode);
-              break;
-            case 'titleColor':
-              setTextColor(color.colorCode);
-              break;
-            default:
-              break;
-          }
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    } finally {
-      setTimeout(() =>{ 
-    setLoading(false);}, 4000)
-      // setLoading(false);
-    }
-  };
+  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
-    fetchUserDetails();
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+    setUserDetails(storedUserDetails);
+    setBackgroundColor(storedUserDetails.colorScheme.colorType ==="backGroundColor" ? storedUserDetails.colorScheme.colorCode : null)
+    setTextColor(storedUserDetails.colorScheme.colorType ==="textColor" ? storedUserDetails.colorScheme.colorCode : null)
   }, []);
 
   const shouldShowSidebar = () => {

@@ -14,6 +14,7 @@ function App() {
         console.log("Fetching user details...");
         const userDetails = await getSetting();
         console.log("User details fetched:", userDetails);
+        localStorage.setItem('siteSettings', JSON.stringify(userDetails.result[0]))
 
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
 

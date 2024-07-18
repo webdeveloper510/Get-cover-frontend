@@ -38,7 +38,22 @@ function PdfGenerator(props, className) {
   };
 
   const [data, setData] = useState({});
-
+  const getBase64ImageFromUrl = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error("Error fetching the image:", error);
+      return null;
+    }
+  };
+  
   const convertToPDF = async () => {
     setLoading(true);
     try {
@@ -55,7 +70,11 @@ function PdfGenerator(props, className) {
         websiteSetting: result.orderUserData.websiteSetting,
         ...result.result,
       };
-
+      const logoBase64 = await getBase64ImageFromUrl(value.websiteSetting.darkLogo);
+      if (!logoBase64) {
+        throw new Error("Failed to convert logo to base64");
+      }
+      value.logoBase64 = logoBase64;
       const opt = {
         margin: 0,
         filename: `${value.unique_key}-Invoice.pdf`,
@@ -84,7 +103,7 @@ function PdfGenerator(props, className) {
   };
 
   const generateHTML = (data) => {
-    const logo = data.websiteSetting.darkLogo;
+    const logo = data.logoBase64;
     console.log(logo);
     return `
       <style>
@@ -98,7 +117,7 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src="${logo}" style="margin-bottom: 20px; width: 200px; height: 150px;" alt="logo Image"/>
+                <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
                 <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
                 <p style="margin: 0; padding: 0; width: 50%;">${data.websiteSetting.address}</p>
               </td>
