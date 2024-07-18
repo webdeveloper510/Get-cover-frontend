@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
 import { Link, useParams } from "react-router-dom";
 import Button from "../../common/button";
@@ -13,6 +13,7 @@ import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
 import Modal from "../../common/model";
 import { resetPassword } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 const NewPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -27,7 +28,7 @@ function NewPassword() {
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [details, setDetails] = useState();
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -48,7 +49,20 @@ function NewPassword() {
     },
   });
   // console.log(id, token);
-
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  } ,[]);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -66,7 +80,7 @@ function NewPassword() {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={Logo} className="w-[224px]" alt="Logo " />
+            <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Enter </span> New Password
               </p>

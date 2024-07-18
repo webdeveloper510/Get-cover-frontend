@@ -14,7 +14,7 @@ import { RotateLoader } from "react-spinners";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import deleteUser10 from "../../../assets/images/deleteUser.svg";
 import deleteUser123 from "../../../assets/images/Disapproved.png";
-import make from "../../../assets/images/star.png";
+import info from "../../../assets/images/info.svg";
 import edit from "../../../assets/images/edit-text.png";
 import Cross from "../../../assets/images/Cross.png";
 import delete1 from "../../../assets/images/delete.png";
@@ -886,8 +886,8 @@ function Account() {
       if (userDetails && userDetails.result) {
         setTitle(userDetails.result[0].title);
         setSelectedFile2(userDetails.result[0].favIcon || null);
-        setSelectedFile1(userDetails.result[0].logoLight ? userDetails.result[0].logoLight : null);
-        setSelectedFile(userDetails.result[0].logoDark ? userDetails.result[0].logoDark : null);
+        setSelectedFile1(userDetails.result[0].logoLight || null);
+        setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
         
@@ -1017,7 +1017,6 @@ function Account() {
            <>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-3">My Account</p>
-
               <>
                 <Grid>
                   <Formik
@@ -1323,7 +1322,7 @@ function Account() {
                           }
                         />
                       </div>
-                      <div className="col-span-12">
+                      <div className="col-span-4">
                         <div className="relative">
                           <label
                             htmlFor="favicon-upload"
@@ -1361,8 +1360,9 @@ function Account() {
                             )}
                           </div>
                         </div>
+                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1)}`} className="upload" alt="favicon"/>
                       </div>
-                      <div className="col-span-6 mb-2">
+                      <div className="col-span-4 mb-2">
                         <div className="relative">
                           <label
                             htmlFor="logo-upload"
@@ -1400,8 +1400,9 @@ function Account() {
                             )}
                           </div>
                       </div>
+                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}`} className="upload" alt="favicon"/>
                       </div>
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <div className="relative">
                           <label
                             htmlFor="favicon-upload"
@@ -1439,6 +1440,7 @@ function Account() {
                             )}
                           </div>
                         </div>
+                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile)}`} className="upload" alt="favicon"/>
                       </div>
                       <div className="col-span-6">
                         <div className="relative">
@@ -1492,154 +1494,147 @@ function Account() {
                       </div>
                       <div className="col-span-12">
                         <p className="mb-3 text-light-black font-bold">Color Setting </p>
-                          <Grid>
-                            <div className="col-span-2">
-                            <CommonTooltip
-                                        place="top"
+                          <Grid >
+                            <div className="col-span-2 relative">
+                                      {/* <CommonTooltip
+                                        place="right"
                                         id={`tooltip-1`}
-                                        content='you can change the sideBar Background color here'
-                                      >
-                                     
+                                        content=''
+                                        >
+                                        <p className="absolute bg-[#F0F0F0] right-0 top-[-5px] z-[2]"><img src={info} className="h-4 w-5" alt="Info"/></p>
+                                        </CommonTooltip> */}
                                   <Input
                                         type="color"
                                         name={`sideBarColor`}
-                                        className="!bg-white"
                                         className1="h-11"
+                                        tooltip="1"
+                                        className="!bg-white  flex"
+                                        content='you can change the sideBar Background color here'
                                         label="SideBar Color"
                                         placeholder=""
                                         value={sideBarColor} onChange={handleColorChange}
                                       />
-                                       </CommonTooltip>
                             </div>
-                            <div className="col-span-2">
-                                <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-2`}
-                                        content='you can change the sideBar text color here'
-                                      >
+                            <div className="col-span-2 relative">
                                   <Input
                                         type="color"
                                         name={`sideBarTextColor`}
-                                        className="!bg-white"
                                         className1="h-11"
+                                        tooltip="2"
+                                        className="!bg-white flex !w-[111%]"
+                                        content='you can change the sideBar text color here'
                                         label="SideBar text Color"
                                         placeholder=""
                                         value={sideBarTextColor} onChange={handleColorChange1}
                                       />
-                                      </CommonTooltip>
                             </div>
-                            <div className="col-span-2">
-                                <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-3`}
-                                        content='you can change the sideBar active page button color here'
-                                      >
+                            <div className="col-span-2 relative">
                                   <Input
                                         type="color"
                                         name={`sideBarButtonColor`}
-                                        className="!bg-white"
+                                        tooltip="3"
+                                        className="!bg-white flex"
+                                        content='you can change the sideBar active page button color here'
                                         className1="h-11"
                                         label="SideBar Button "
                                         placeholder=""
                                         value={sideBarButtonColor} onChange={handleColorChange2}
                                       />
-                                      </CommonTooltip>
                             </div>
-                            <div className="col-span-2">
-                                <CommonTooltip
+                            <div className="col-span-2 relative">
+                                {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-4`}
                                         content='you can change the sideBar active page button text color here'
-                                      >
+                                      > */}
                                   <Input
                                         type="color"
                                         name={`sideBarButtonTextColor`}
-                                        className="!bg-white"
+                                        tooltip="4"
+                                        className="!bg-white flex !w-[111%]"
+                                        content='you can change the sideBar text color here'
                                         className1="h-11"
                                         label="SideBar text Button "
                                         placeholder=""
                                         value={sideBarButtonTextColor} onChange={handleColorChange3}
                                       />
-                                      </CommonTooltip>
+                                      {/* </CommonTooltip> */}
                             </div>
-                            <div className="col-span-2">
-                            <CommonTooltip
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-5`}
                                         content='you can change all button background color here'
-                                      >
+                                      > */}
                                   <Input
                                         type="color"
                                         name={`buttonColor`}
-                                        className="!bg-white"
+                                        tooltip="5"
+                                        className="!bg-white flex"
+                                        content='you can change all button background color here'
                                         className1="h-11"
                                         label="Button Color"
                                         placeholder=""
                                         value={buttonColor} onChange={handleColorChange4}
                                       />
-                                      </CommonTooltip>
+                                      {/* </CommonTooltip> */}
                             </div>
-                            <div className="col-span-2">
-                            <CommonTooltip
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-6`}
                                         content='you can change all button text color here'
-                                      >
+                                      > */}
                                   <Input
                                         type="color"
                                         name={`buttonTextColor`}
-                                        className="!bg-white"
+                                        tooltip="6"
+                                        className="!bg-white flex !w-[111%]"
+                                        content='you can change all button text color here'
                                         className1="h-11"
                                         label="Button text Color"
                                         placeholder=""
                                         value={buttonTextColor} onChange={handleColorChange5}
                                       />
-                                      </CommonTooltip>
+                                      {/* </CommonTooltip> */}
                             </div>
-                            <div className="col-span-2">
-                            <CommonTooltip
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-7`}
                                         content='you can change background color here'
-                                      >
+                                      > */}
                                   <Input
                                         type="color"
                                         name={`backGroundColor`}
-                                        className="!bg-white"
+                                        tooltip="7"
+                                        className="!bg-white flex !w-[111%]"
+                                        content='you can change all button text color here'
                                         className1="h-11"
                                         label="Background Color"
                                         placeholder=""
                                         value={backGroundColor} onChange={handleColorChange6}
                                       />
-                                      </CommonTooltip>
+                                      {/* </CommonTooltip> */}
                             </div>
-                            {/* <div className="col-span-2">
-                                  <Input
-                                        type="color"
-                                        name={`textColor`}
-                                        className="!bg-white"
-                                        className1="h-11"
-                                        label="Tittle Color"
-                                        placeholder=""
-                                        value={textColor} onChange={handleColorChange7}
-                                      />
-                            </div> */}
-                            <div className="col-span-2">
-                            <CommonTooltip
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-8`}
                                         content='you can change website text color here'
-                                      >
+                                      > */}
                                   <Input
                                         type="color"
                                         name={`titleColor`}
-                                        className="!bg-white"
+                                        tooltip="8"
+                                        className="!bg-white flex"
+                                        content='you can change website text color here'
                                         className1="h-11"
                                         label="Text Color"
                                         placeholder=""
                                         value={titleColor} onChange={handleColorChange8}
                                       />
-                                      </CommonTooltip>
+                                      {/* </CommonTooltip> */}
                             </div>
                           </Grid>
                       </div>

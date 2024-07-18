@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropbox from "../assets/images/icons/dropBox.svg";
+import info from "../assets/images/info.svg";
 import csvFile from "../assets/images/icons/csvFile.svg";
+import CommonTooltip from "./toolTip";
 
 const Input = ({
   type,
@@ -16,9 +18,11 @@ const Input = ({
   maxLength,
   required,
   className,
+  tooltip,
   className1,
   disabled,
   placeholder,
+  content,
   classBox,
   nonumber,
   maxDate,
@@ -143,9 +147,16 @@ const Input = ({
       )}
       <label
         htmlFor={name}
-        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 ${className}`}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 self-center ${className}`}
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label} {required && <span className="text-red-500">*</span>} {type === "color" &&   
+          <CommonTooltip
+            place="top"
+            id={`tooltip-${tooltip}`}
+            content={content}
+            >
+            <img src={info} className="h-5 w-5 ml-1 self-center" alt="Info"/>
+          </CommonTooltip>}
       </label>
     </div>
   );

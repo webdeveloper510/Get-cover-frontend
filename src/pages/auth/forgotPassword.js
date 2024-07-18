@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
 import Input from "../../common/input";
 import { Link } from "react-router-dom";
@@ -14,11 +14,26 @@ import email from "../../assets/images/email.png";
 
 //Importing services
 import { sendResetPasswordLink } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 function ForgotPassword() {
+  const [details, setDetails] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState();
-
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+} ,[]);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -59,7 +74,7 @@ function ForgotPassword() {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={Logo} className="w-[224px]" alt="Logo " />
+            <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
                 Password?
