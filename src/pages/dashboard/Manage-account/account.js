@@ -1360,7 +1360,7 @@ function Account() {
                             )}
                           </div>
                         </div>
-                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1)}`} className="upload" alt="favicon"/>
+                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon"/>
                       </div>
                       <div className="col-span-4 mb-2">
                         <div className="relative">
@@ -1400,7 +1400,7 @@ function Account() {
                             )}
                           </div>
                       </div>
-                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}`} className="upload" alt="favicon"/>
+                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} className="upload w-[100px] bg-[#232323] mt-2 mr-auto object-contain	" alt="favicon"/>
                       </div>
                       <div className="col-span-4">
                         <div className="relative">
@@ -1440,7 +1440,7 @@ function Account() {
                             )}
                           </div>
                         </div>
-                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile)}`} className="upload" alt="favicon"/>
+                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon"/>
                       </div>
                       <div className="col-span-6">
                         <div className="relative">

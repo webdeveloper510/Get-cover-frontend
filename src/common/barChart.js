@@ -23,11 +23,10 @@ const BarChart = ({ graphData }) => {
 
   const datasets = keys
     .filter(({ key }) => graphData.some((data) => data[key] !== undefined))
-    .map(({ key, label, borderColor }) => ({
+    .map(({ key, label }) => ({
       label: label,
       data: graphData.map((data) => (data[key] !== undefined ? data[key] : 0)),
       backgroundColor: "white",
-      borderColor: borderColor,
       borderWidth: 1,
     }));
 

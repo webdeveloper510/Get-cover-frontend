@@ -212,7 +212,7 @@ function ServicerDashboard() {
               <div
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
 
@@ -220,7 +220,7 @@ function ServicerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/orderDetails/${row._id}`}
-                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
                     >
                       <img
                         src={view}
@@ -230,9 +230,9 @@ function ServicerDashboard() {
                       View
                     </Link>
                   </div>
-                  <div className="">
+                  {/* <div className="">
                     <PdfGenerator data={row._id} setLoading={setLoading} />
-                  </div>
+                  </div> */}
                 </>
               </div>
             )}
@@ -309,7 +309,7 @@ function ServicerDashboard() {
             </Grid>
 
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-              <div className="col-span-6">
+              <div className="col-span-12">
                 <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Claims
@@ -341,7 +341,6 @@ function ServicerDashboard() {
                   />
                 </div>
               </div>
-            </Grid>
             <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
               <p className="text-xl font-semibold pl-3 pt-2">
                 Last 5 Completed Orders
@@ -365,6 +364,7 @@ function ServicerDashboard() {
                 />
               </div>
             </div>
+            </Grid>
           </div>
         )}
       </div>

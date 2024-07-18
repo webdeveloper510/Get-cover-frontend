@@ -1068,6 +1068,17 @@ function ClaimList(props) {
     },
   ];
 
+  const claimPaid = [
+    {
+      value: "Unpaid",
+      label: "Unpaid",
+    },
+    {
+      value: "Paid",
+      label: "Paid",
+    },
+  ];
+
   const claimvalues = [
     {
       value: "Open",
@@ -1102,6 +1113,7 @@ function ClaimList(props) {
       orderId: "",
       trackingNumber: "",
       trackingType: "",
+      claimPaidStatus:"",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -2843,6 +2855,18 @@ function ClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
+              {formik1.values.claimStatus == "Completed" ? 
+               <div className="col-span-6">
+               <Select
+                 options={claimPaid}
+                 name="claimPaidStatus"
+                 label="Paid Status"
+                 className="!bg-white"
+                 onChange={handleSelectChange2}
+                 value={formik1.values.claimPaidStatus}
+               />
+             </div> : 
+             <>
               <div className="col-span-6">
                 <Select
                   options={customerValue}
@@ -2863,6 +2887,8 @@ function ClaimList(props) {
                   value={formik1.values.repairStatus}
                 />
               </div>
+             </> 
+             }
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

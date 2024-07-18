@@ -406,8 +406,12 @@ function DealerRegister() {
                     Sign In
                   </Link>{" "}
                 </p>
+                <div>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
+                  </div>
               </div>
             </div>
+          
           </div>
           <div className="col-span-5">
             <img

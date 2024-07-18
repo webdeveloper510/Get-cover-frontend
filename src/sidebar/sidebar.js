@@ -19,7 +19,7 @@ import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg";
 import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg";
 import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg";
 import manageAccount from "../assets/images/side-bar/activeAccount.svg";
-import activeAccount from "../assets/images/side-bar/manageAccount.svg";
+import ActiveAccount from "../assets/images/side-bar/manageAccount.svg";
 
 // Active Images icons
 
@@ -511,7 +511,7 @@ const Lists = [
     name: "Manage Account",
     url: "/manageAccount",
     image: manageAccount,
-    active: activeAccount,
+    active: ActiveAccount,
   },
 ];
 
@@ -726,8 +726,8 @@ function SideBar() {
     },
     {
       name: "Manage Account",
-      image: CustomerImage,
-      active: ActiveCustomer,
+      image: manageAccount,
+      active: ActiveAccount,
       url: "/dealer/user",
     },
   ];
@@ -847,8 +847,8 @@ function SideBar() {
     },
     {
       name: "Manage Account",
-      image: CustomerImage,
-      active: ActiveCustomer,
+      image: manageAccount,
+      active: ActiveAccount,
       url: "/reseller/user",
     },
   ];
@@ -879,8 +879,8 @@ function SideBar() {
     },
     {
       name: "Manage Account",
-      image: CustomerImage,
-      active: ActiveCustomer,
+      image: manageAccount,
+      active: ActiveAccount,
       url: "/servicer/user",
     },
   ];
@@ -930,8 +930,8 @@ function SideBar() {
     },
     {
       name: "Manage Account",
-      image: CustomerImage,
-      active: ActiveCustomer,
+      image: manageAccount,
+      active: ActiveAccount,
       url: "/customer/user",
     },
   ];

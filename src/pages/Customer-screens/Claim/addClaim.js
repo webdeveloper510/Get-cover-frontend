@@ -505,7 +505,7 @@ function CustomerAddClaim() {
                       </th>
                     </tr>
                     <tr>
-                      <th>S.#</th>
+                      <th>Sr.#</th>
                       <th>Name</th>
                       <th>Max Quantity Per Unit</th>
                       <th>Quantity</th>

@@ -86,7 +86,7 @@ function Login() {
                 alt="Logo "
               />
             </div>
-            <div className="col-span-6 self-center h-screen md:h-full flex relative">
+            <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
                 <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
@@ -165,7 +165,6 @@ function Login() {
                       <b> Register </b>
                     </Link>{" "}
                   </p>
-
                   <div>
                     <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
                   </div>

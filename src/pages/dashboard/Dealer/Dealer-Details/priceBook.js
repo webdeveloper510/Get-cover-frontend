@@ -194,12 +194,20 @@ function PriceBookList(props) {
             maxWidth: "70px", // Set a custom maximum width
           },
           {
-            name: "SKU",
+            name: ( <div>
+              Product
+              <br />
+              SKU
+            </div>),
             selector: (row) => row?.priceBooks?.name,
             sortable: true,
           },
           {
-            name: "Name",
+            name: ( <div>
+              Product
+              <br />
+              Name
+            </div>),
             selector: (row) => row?.priceBooks?.pName,
             sortable: true,
           },
@@ -214,7 +222,7 @@ function PriceBookList(props) {
             sortable: true,
           },
           {
-            name: "WholeSale Cost",
+            name: (<div>Wholesale <br/> Cost </div>),
             selector: (row) => `$${
               row?.wholesalePrice === undefined
                 ? parseInt(0).toLocaleString(2)
@@ -223,7 +231,7 @@ function PriceBookList(props) {
             sortable: true,
           },
           {
-            name: "Retail Cost",
+            name: (<div>Retail<br/>Cost</div>) ,
             selector: (row) => `$${
               row?.retailPrice === undefined
                 ? parseInt(0).toLocaleString(2)
@@ -251,7 +259,7 @@ function PriceBookList(props) {
                     row.priceBooks?.status === false
                   }
                   onChange={(e) => handleStatusChange(row, e.target.value)}
-                  className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                  className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
@@ -553,9 +561,15 @@ function PriceBookList(props) {
   });
   const handleFilterIconClick = () => {
     formik.resetForm();
-    console.log(formik.values);
-    priceBookData();
   };
+  
+  // useEffect hook to monitor changes to formik.values
+  useEffect(() => {
+    if (JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)) {
+      console.log(formik.values, '================123');
+      priceBookData();
+    }
+  }, [formik.values]);
 
   const getTermListData = async () => {
     try {
@@ -654,7 +668,7 @@ function PriceBookList(props) {
                       <Button
                         type="button"
                         className="!bg-transparent !p-0 mr-3"
-                        onClick={handleFilterIconClick}
+                        onClick={()=> handleFilterIconClick()}
                       >
                         <img
                           src={clearFilter}
