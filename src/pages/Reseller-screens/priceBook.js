@@ -21,19 +21,21 @@ import {
   getPriceBookListByResellerId,
   getResellerPortalPriceBook,
 } from "../../services/reSellerServices";
+import view from "../../assets/images/eye.png";
 import Headbar from "../../common/headBar";
 import {
+  getPriceBookDetailsForDealerPortal,
   getPriceBookForDealer,
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
 function ResellerPriceBook(props) {
   console.log(props);
-  const [dealerPriceBook, setDealerPriceBook] = useState([]);
+  const [dealerPriceBook, setDealerPriceBook] = useState();
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
+  const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState();
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -84,6 +86,17 @@ function ResellerPriceBook(props) {
       <p>No records found.</p>
     </div>
   );
+  const [isViewOpen, setIsViewOpen] = useState(false);
+
+  const closeView = () => {
+    setIsViewOpen(false);
+  };
+  const openView = async (id) => {
+    const result = await getPriceBookDetailsForDealerPortal(id);
+    setDealerPriceBook(result?.result[0]);
+    console.log(result?.result,'----->>>>><<<<<<<');
+    setIsViewOpen(true);
+  };
 
   const columns = [
     {
@@ -94,12 +107,18 @@ function ResellerPriceBook(props) {
       maxWidth: "70px",
     },
     {
-      name: "SKU",
+      name: (<div>
+        Product <br/>
+        SKU
+      </div>),
       selector: (row) => row?.priceBooks?.name,
       sortable: true,
     },
     {
-      name: "Name",
+      name: (<div>
+        Product <br/>
+        Name
+      </div>),
       selector: (row) => row?.priceBooks?.pName,
       sortable: true,
     },
@@ -113,15 +132,51 @@ function ResellerPriceBook(props) {
       selector: (row) => row?.priceBooks.term + " " + "Months",
       sortable: true,
     },
+    // {
+    //   name: "WholeSale Cost",
+    //   selector: (row) => `$${row.wholesalePrice.toFixed(2)} `,
+    //   sortable: true,
+    // },
     {
-      name: "WholeSale Cost",
-      selector: (row) => `$${row.wholesalePrice.toFixed(2)} `,
+      name: (<div>
+        Retail <br/>
+        Cost
+      </div>),
+      selector: (row) => `$${row.retailPrice.toFixed(2)} `,
       sortable: true,
     },
     {
-      name: "Retail Cost",
-      selector: (row) => `$${row.retailPrice.toFixed(2)} `,
-      sortable: true,
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "100px",
+      cell: (row, index) => {
+        return (
+          <div className="relative">
+            <div onClick={() => setSelectedAction(row.unique_key)}>
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer	w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === row.unique_key && (
+              <div
+                ref={dropdownRef}
+                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  index
+                )}`}
+              >
+                <div
+                  className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                  onClick={() => openView(row._id)}
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      },
     },
   ];
 
@@ -137,6 +192,17 @@ function ResellerPriceBook(props) {
       setCategoryList(arr);
     } catch (error) {
       console.error("Error fetching category list:", error);
+    }
+  };
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     }
   };
   useEffect(() => {
@@ -446,7 +512,7 @@ function ResellerPriceBook(props) {
                     />
                   </div>}
                   
-                  <div className="col-span-6">
+                  {/* <div className="col-span-6">
                   <Select
                         name="status"
                         label="Status"
@@ -458,7 +524,7 @@ function ResellerPriceBook(props) {
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-span-12">
                     <Button type="submit" className={"w-full"}>
                       Search
@@ -468,6 +534,144 @@ function ResellerPriceBook(props) {
               </div>
             </form>
           </Modal>
+
+          <Modal isOpen={isViewOpen} onClose={closeView}>
+        <Button
+          onClick={closeView}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          <p className="text-center text-3xl font-semibold ">
+            {dealerPriceBook?.priceBooks?.name}
+          </p>
+          <Grid className="mt-5 px-6">
+          <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Product Name
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.pName}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Price Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.priceType}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Product Category
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.category[0].name}{" "}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Retail Price
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                $
+                {dealerPriceBook?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                    dealerPriceBook?.retailPrice ?? parseInt(0)
+                    )}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">Term</p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.term} Months
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Coverage Type
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.coverageType}{" "}
+              </p>
+            </div>
+            <div className="col-span-12">
+              <p className="text-lg text-light-black font-semibold">
+                Description
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.category[0].description}
+              </p>
+            </div>
+            
+            {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
+              <>
+                <div className="col-span-4">
+                  <p className="text-lg text-light-black font-semibold">
+                    Start Range
+                  </p>
+                  <p className="text-base text-neutral-grey font-semibold">
+                    {" "}
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeStart ??
+                            parseInt(0)
+                        )}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg text-light-black font-semibold">
+                    End Range
+                  </p>
+                  <p className="text-base text-neutral-grey font-semibold">
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeEnd ??
+                            parseInt(0)
+                        )}
+                  </p>
+                </div>
+              </>
+            )}
+            {dealerPriceBook?.priceBooks?.priceType ==
+              "Quantity Pricing" && (
+              <>
+                <div className="col-span-12">
+                  <table className="w-full border text-center">
+                    <tr className="border bg-[#9999]">
+                      <th colSpan={"2"}>Quantity Pricing List </th>
+                    </tr>
+                    <tr className="border bg-[#9999]">
+                      <th className="w-[50%]">Name</th>
+                      <th className="w-[50%]">Max Quantity</th>
+                    </tr>
+                    {dealerPriceBook?.priceBooks?.quantityPriceDetail
+                      .length !== 0 &&
+                      dealerPriceBook?.priceBooks?.quantityPriceDetail.map(
+                        (item, index) => (
+                          <tr key={index} className="border">
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                          </tr>
+                        )
+                      )}
+                  </table>
+                </div>
+              </>
+            )}
+          </Grid>
+        </div>
+      </Modal>
     </>
   );
 }

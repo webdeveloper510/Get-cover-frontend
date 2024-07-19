@@ -119,7 +119,11 @@ function ForgotPassword() {
                     Back to Login
                   </Link>{" "}
                 </p>
+
               </div>
+                <div>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad.net </a></p>
+                  </div>
             </div>
           </div>
           <div className="col-span-1"></div>

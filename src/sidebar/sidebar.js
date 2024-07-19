@@ -791,7 +791,7 @@ function SideBar() {
         },
         {
           name: "Claims",
-          url: "/dealer/claim",
+          url: "/dealer/reportingclaim",
           image: Dropdown2,
           active: SeacondActive,
         },

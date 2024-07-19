@@ -655,12 +655,12 @@ const routes = [
         element: <PrivateRoute element={<DealerSale />} role={"dealer"} />,
       },
       {
-        path: "/dealer/claim",
+        path: "/dealer/reportingclaim",
         element: (
           <PrivateRoute
             element={<DealerClaims />}
             role={"dealer"}
-            path="/dealer/claim"
+            path="/dealer/reportingclaim"
           />
         ),
       },

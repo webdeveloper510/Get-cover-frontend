@@ -156,3 +156,32 @@ export const getCustomerDashboardDetails = async () => {
     throw error;
   }
 };
+
+export const getDashboardForCustomer = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/customerPortal/getDashboardGraph`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCustomerDashboardList = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/customerPortal/getDashboardInfo`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -248,7 +248,7 @@ function OrderList(props) {
       selector: (row) => row.venderOrder,
       sortable: true,
     },
-    ...(props.flag !== 'customer'
+    ...(props.flag !== 'customer' && props.flag !== 'reseller'
       ? [
           {
             name: "Reseller Name",
@@ -257,7 +257,7 @@ function OrderList(props) {
           },
         ]
       : []),
-      ...(props.flag !== 'customer' && props.flag !== 'reseller'
+      ...(props.flag !== 'customer' 
         ? [
           {
             name: "Customer Name",
