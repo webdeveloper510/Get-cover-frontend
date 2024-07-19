@@ -28,25 +28,40 @@ function Layout() {
   }, []);
 
 
+
   useEffect(() => {
-    const storedUserDetails = getUserDetailsFromLocalStorage();
-  
-    if (storedUserDetails) {
-      const colorScheme = storedUserDetails.colorScheme;
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      console.log("Fetching user details...");
+      const userDetails = await getSetting();
+      console.log("User details fetched:---****-->", userDetails.result[0]);
+      const fetchedData = userDetails.result[0];
+      let local = JSON.parse(localStorage.getItem("siteSettings"));
+      // localStorage.removeItem('userDetails')
+      local.siteSettings = fetchedData
+      localStorage.setItem("siteSettings", JSON.stringify(local));
+
+
+      const colorScheme = fetchedData.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'backGroundColor':
             setBackgroundColor(color.colorCode);
             break;
-            case 'textColor':
+            case 'titleColor':
               setTextColor(color.colorCode);
               break;
             default:
               break;
         }
       });
+    } catch (error) {
+      console.error("Error fetching user details:", error);
     }
-  }, []);
+  };
 
   const shouldShowSidebar = () => {
     const excludedPaths = [

@@ -846,7 +846,7 @@ function Account() {
     try {
       const userDetails = await getSetting();
       console.log(userDetails);
-
+      
       if (userDetails.result && userDetails.result[0].colorScheme) {
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme.forEach(color => {
@@ -945,6 +945,10 @@ function Account() {
         console.log(apiData);
         const result = await saveSetting(apiData); 
         console.log(result);
+        let local = JSON.parse(localStorage.getItem("siteSettings"));
+          // localStorage.removeItem('userDetails')
+        local.siteSettings = result
+        localStorage.setItem("siteSettings", JSON.stringify(local));
         setFirstMessage("Site Setting Updated Successfully ");
         setSecondMessage("site setting updated successfully ");
         setLastMessage("site will be reloaded after setting has been updated successfully");
@@ -953,7 +957,7 @@ function Account() {
         fetchUserDetails12();
         setTimeout(() => {
           window.location.href = '/';
-        }, 3000);
+        }, 3000);       
         // setLoading(false);
       } catch (error) {
         console.error(error);
@@ -1613,7 +1617,7 @@ function Account() {
                                         name={`backGroundColor`}
                                         tooltip="7"
                                         className="!bg-white flex !w-[111%]"
-                                        content='you can change all button text color here'
+                                        content='you can change all backGround Color here'
                                         className1="h-11"
                                         label="Background Color"
                                         placeholder=""

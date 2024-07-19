@@ -141,7 +141,41 @@ function SidebarItem({
       });
     }
   }, []);
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
 
+  const fetchUserDetails = async () => {
+    try {
+      console.log("Fetching user details...");
+      const userDetails = await getSetting();
+      console.log("User details fetched:---****-->", userDetails.result[0]);
+      const fetchedData = userDetails.result[0];
+      let local = JSON.parse(localStorage.getItem("siteSettings"));
+      // localStorage.removeItem('userDetails')
+      local.siteSettings = fetchedData
+      localStorage.setItem("siteSettings", JSON.stringify(local));
+
+      const colorScheme = fetchedData.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+          case 'sideBarButtonColor':
+            setSideBarButtonColor(color.colorCode);
+            break;
+            case 'sideBarButtonTextColor':
+              setSideBarButtonTextColor(color.colorCode);
+              break;
+            default:
+              break;
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
   
   return (
     <li
@@ -159,21 +193,38 @@ function SidebarItem({
         }`}
         onClick={handleClick}
       >
-        {activeUrl ? (
-          <img
-            src={item.active}
-            className="w-[22px] h-[22px]"
-            style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
-            alt={item.image}
-          />
-        ) : (
-          <img
-            src={item.image}
-            className="w-[22px] h-[22px]"
-            style={{filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
-            alt={item.image}
-          />
-        )}
+      {activeUrl ? (
+  <div
+    className="w-[22px] h-[22px]"
+    style={{
+      maskImage: `url(${item.active})`,
+      WebkitMaskImage: `url(${item.active})`,
+      backgroundColor: sideBarButtonTextColor,
+      maskRepeat: 'no-repeat',
+      WebkitMaskRepeat: 'no-repeat',
+      maskPosition: 'center',
+      WebkitMaskPosition: 'center',
+      maskSize: 'contain',
+      WebkitMaskSize: 'contain'
+    }}
+  />
+) : (
+  <div
+    className="w-[22px] h-[22px]"
+    style={{
+      maskImage: `url(${item.image})`,
+      WebkitMaskImage: `url(${item.image})`,
+      backgroundColor: sideBarTextColor,
+      maskRepeat: 'no-repeat',
+      WebkitMaskRepeat: 'no-repeat',
+      maskPosition: 'center',
+      WebkitMaskPosition: 'center',
+      maskSize: 'contain',
+      WebkitMaskSize: 'contain'
+    }}
+  />
+)}
+
         <span
           className={`self-center text-left w-full pl-[12px] ${
             activeUrl
@@ -547,6 +598,42 @@ function SideBar() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      console.log("Fetching user details...");
+      const userDetails = await getSetting();
+      console.log("User details fetched:---****-->", userDetails.result[0]);
+      const fetchedData = userDetails.result[0];
+      let local = JSON.parse(localStorage.getItem("siteSettings"));
+      // localStorage.removeItem('userDetails')
+      local.siteSettings = fetchedData
+      localStorage.setItem("siteSettings", JSON.stringify(local));
+
+      setSelectedFile2(fetchedData.logoLight ? fetchedData.logoLight.fileName : null);
+      const colorScheme = fetchedData.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarColor':
+            setSideBarColor(color.colorCode);
+            break;
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+            default:
+              break;
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+  
   const navigate = useNavigate();
 
   const handleLinkClick = (url, dropdownItem) => {

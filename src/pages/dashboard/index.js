@@ -14,6 +14,7 @@ import { RotateLoader } from "react-spinners";
 import DataTable from "react-data-table-component";
 import PdfGenerator from "../pdfViewer";
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
+import { getSetting } from "../../services/extraServices";
 
 function Dashboard() {
   const [loading, setLoading] = useState(false);
@@ -94,6 +95,40 @@ function Dashboard() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+
+  // useEffect(()=>{
+  //   if('caches' in window){
+  //     caches.keys().then((names) => {
+  //             // Delete all the cache files
+  //             names.forEach(name => {
+  //                 caches.delete(name);
+  //             })
+  //         });
+  
+  //         // Makes sure the page reloads. Changes are only visible after you refresh.
+  //         window.location.reload(true);
+  //     }
+  // }, [])
+  
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      console.log("Fetching user details...");
+      const userDetails = await getSetting();
+      console.log("User details fetched:----->", userDetails.result[0]);
+      const fetchedData = userDetails.result[0];
+      let local = JSON.parse(localStorage.getItem("siteSettings"));
+      // localStorage.removeItem('userDetails')
+      local.siteSettings = fetchedData
+      localStorage.setItem("siteSettings", JSON.stringify(local));
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
