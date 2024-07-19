@@ -1030,6 +1030,10 @@ const routes = [
         element: <PrivateRoute element={<ClaimList />} role={"customer"} />,
       },
       {
+        path: "/customer/claimList/:claimIdValue?",
+        element: <PrivateRoute element={<ClaimList />} role={"customer"} />,
+      },
+      {
         path: "/customer/addBulkClaim",
         element: <PrivateRoute element={<AddBulkClaim />} role={"customer"} />,
       },
