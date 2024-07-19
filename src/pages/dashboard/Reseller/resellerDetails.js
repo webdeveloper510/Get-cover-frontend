@@ -1195,7 +1195,7 @@ function ResellerDetails() {
                     id="no"
                     label="No"
                     value={false}
-                    disabled={createServicerAccountOption === true}
+                    disabled={resellerDetail?.resellerData?.isServicer === true}
                     checked={createServicerAccountOption === false}
                     onChange={handleServiceChange}
                   />

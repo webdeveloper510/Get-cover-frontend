@@ -512,7 +512,7 @@ function ResellerPriceBook(props) {
                     />
                   </div>}
                   
-                  <div className="col-span-6">
+                  {/* <div className="col-span-6">
                   <Select
                         name="status"
                         label="Status"
@@ -524,7 +524,7 @@ function ResellerPriceBook(props) {
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                     />
-                  </div>
+                  </div> */}
                   <div className="col-span-12">
                     <Button type="submit" className={"w-full"}>
                       Search
