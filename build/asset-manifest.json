@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.43b50249.css",
-    "main.js": "/static/js/main.693bd1b7.js",
+    "main.js": "/static/js/main.75a8412f.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -88,7 +88,7 @@
     "static/media/Status.svg": "/static/media/Status.31bf234554ed2f8d28458492fc0e4d39.svg",
     "static/media/terms.svg": "/static/media/terms.f4c588a107f03518d10089d763a1582d.svg",
     "static/media/claimAmount.svg": "/static/media/claimAmount.8d852738be08beac018d86926dd13848.svg",
-    "static/media/activeAccount.svg": "/static/media/activeAccount.e75f6667d19549aa39e1e8440983fd3e.svg",
+    "static/media/activeAccount.svg": "/static/media/activeAccount.eeacd73f12944b1e247ba23824b44904.svg",
     "static/media/Order.svg": "/static/media/Order.d6c514cb718d6941075437850819cf70.svg",
     "static/media/Contract.svg": "/static/media/Contract.2792e14f2fa8c6fd93b0bc06a8e3fdd7.svg",
     "static/media/Contract-active.svg": "/static/media/Contract-active.c90d167813bb3a313b60323ad2d49a05.svg",
@@ -181,13 +181,13 @@
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
     "main.43b50249.css.map": "/static/css/main.43b50249.css.map",
-    "main.693bd1b7.js.map": "/static/js/main.693bd1b7.js.map",
+    "main.75a8412f.js.map": "/static/js/main.75a8412f.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.43b50249.css",
-    "static/js/main.693bd1b7.js"
+    "static/js/main.75a8412f.js"
   ]
 }
