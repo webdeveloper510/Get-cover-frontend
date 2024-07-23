@@ -1407,7 +1407,7 @@ function Account() {
                           </div>
                           <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                       </div>
-                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} className="upload w-[100px] bg-[#232323] mt-2 mr-auto object-contain	" alt="favicon"/>
+                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{backgroundColor:sideBarColor}} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon"/>
                       </div>
                       <div className="col-span-4">
                         <div className="relative">

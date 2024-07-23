@@ -154,10 +154,11 @@ function NewPassword() {
           <p className="text-neutral-grey text-base font-medium mt-4">
             Your password has been changed. Now you can{" "}
           </p>
-          <Link to={"/"} className="font-medium text-base text-neutral-grey">
+          <Link to={"/"} className="font-medium text-base text-light-black">
             {" "}
-            <b> login </b> with your new password.
-          </Link>
+            <b> login </b> 
+          </Link> 
+          <p className="text-neutral-grey text-base font-medium"> with your new password. </p>
         </div>
       </Modal>
     </div>
