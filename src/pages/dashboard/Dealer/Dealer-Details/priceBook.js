@@ -620,7 +620,7 @@ function PriceBookList(props) {
 
                     <div className={`${props.flag === "reseller" ? ('col-span-3 self-center') : ('col-span-3 self-center')}`}>
 
-                    <Input
+                    {/* <Input
                         name="category"
                         type="text"
                         placeholder="Category"
@@ -630,8 +630,8 @@ function PriceBookList(props) {
                         value={formik.values.category}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                      />
-                      {/* <Select
+                      /> */}
+                      <Select
                         name="category"
                         label=""
                         options={categoryList}
@@ -641,7 +641,7 @@ function PriceBookList(props) {
                         className="!text-[14px]  !bg-White-Smoke"
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
-                      /> */}
+                      />
                     </div>
                     {/* {props.flag === "reseller" ? (<></>) : ( <div className="col-span-2 self-center">
                       <Select
