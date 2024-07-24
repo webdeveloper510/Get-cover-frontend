@@ -49,7 +49,7 @@ function CustomerDashboard() {
     const getDashboardData = async () => {
       try {
         const result = await getCustomerDashboardList();
-        console.log(result, "---------------------------------");
+        console.log(result, "-------------------");
         setClaimList(result.result.lastFiveClaims);
         setOrderList(result.result.lastFiveOrder);
       } catch (error) {
