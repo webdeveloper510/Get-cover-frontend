@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleAuthError } from "./authErrorHandler";
 
 // Declare the base URL of the API
 const url = process.env.REACT_APP_API_KEY_LOCAL
@@ -22,6 +23,7 @@ const createHeaders = () => {
 export const getUserListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
+   
     const response = await axios.post(
       `${url}/dealer/getUserByDealerId/${id}`,
       data,
@@ -29,6 +31,7 @@ export const getUserListByDealerId = async (id, data) => {
         headers,
       }
     );
+    //  handleAuthError(response.data);
 
     return response.data;
   } catch (error) {

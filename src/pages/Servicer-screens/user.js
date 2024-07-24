@@ -519,8 +519,8 @@ function ServicerUser() {
     },
     {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "90px", // Set a custom maximum width
+      // minWidth: "auto", // Set a custom minimum width
+      // maxWidth: "90px", // Set a custom maximum width
       cell: (row, index) => {
         // console.log(index, index % 10 == 9)
         return (
@@ -628,7 +628,7 @@ function ServicerUser() {
             disabled={true}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -638,10 +638,7 @@ function ServicerUser() {
     },
     {
       name: "Action",
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "90px", // Set a custom maximum width
-      cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
+      cell: (row) => {
         return (
           <div className="relative">
             {isprimary && (
@@ -747,12 +744,12 @@ function ServicerUser() {
               </div>
             </Grid>
 
-            <Grid className="mx-8 mx-auto">
+            <Grid className="mx-8">
               <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
               <div className="col-span-3 border-r border-[#4e4e4e]">
-                <div className="flex">
-                  <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                    <img src={dealer} alt="dealer" />
+                <div className="flex justify-center">
+                <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                    <img src={dealer} className="" alt="terms" />
                   </div>
                   <div className="self-center">
                     <p className="text-white text-base font-medium leading-5	">
@@ -784,34 +781,6 @@ function ServicerUser() {
               <div className="col-span-2"></div>
             </Grid>
           </div>
-          {/* <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-              <p className='text-xl font-semibold mb-5'>My Details</p>
-              <Grid>
-                <div className="col-span-4">
-                  <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                    <p className="text-sm m-0 p-0">Email</p>
-                    <p className="font-semibold">Super@codenomad.net</p>
-                  </div>
-                </div>
-
-                <div className="col-span-4">
-                  <Input type="text" label="First Name" className="!bg-white" />
-                </div>
-                <div className="col-span-4">
-                  <Input type="text" label="Last Name" className="!bg-white" />
-                </div>
-                <div className="col-span-4">
-                  <Input type="tel" label="Phone #" className="!bg-white" />
-                </div>
-                <div className="col-span-4">
-                  <Input type="text" label="Postion" className="!bg-white" />
-                </div>
-                <div className="col-span-4 text-right"></div>
-                <div className="col-span-12 text-right">
-                  <Button> Save Changes</Button>
-                </div>
-              </Grid>
-          </div> */}
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
             <p className="text-xl font-semibold mb-5">Change Password</p>
             <form onSubmit={passwordChangeForm.handleSubmit}>

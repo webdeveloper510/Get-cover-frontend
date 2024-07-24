@@ -126,7 +126,7 @@ function ForgotPassword() {
             We emailed a <b> magic link </b> to{" "}
             <span className="text-light-black">{formik.values.email} </span>
           </p>
-          <Link to={"/"} className="font-semibold text-base text-light-black">
+          <Link to={"/"} className="font-bold text-base text-light-black">
             Click the link to Sign In
           </Link>
         </div>

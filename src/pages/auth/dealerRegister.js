@@ -418,9 +418,9 @@ function DealerRegister() {
               will be executed{" "}
             </p>
             <p className="font-medium text-base text-neutral-grey">
-              as soon as the approver will validate the action.
+              as soon as the approver will validate the action. 
             </p>
-            <Link to={"/"} className="font-semibold text-base text-light-black">
+            <Link to={"/"} className="font-bold text-base text-light-black">
               Click the link to Sign In
             </Link>
           </div>
