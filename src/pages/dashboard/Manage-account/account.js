@@ -1021,255 +1021,253 @@ function Account() {
            <>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-3">My Account</p>
-              <>
-                <Grid>
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={(values, { setSubmitting }) => {
-                      editDetail(values);
-                      setSubmitting(false);
-                      fetchUserDetails();
-                    }}
-                  >
-                    {({ isSubmitting }) => (
-                      <Form className="col-span-12">
-                        <Grid>
-                          <div className="col-span-4">
-                            <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                              <p className="text-sm m-0 p-0">Email</p>
-                              <p className="font-semibold">{email}</p>
-                            </div>
-                          </div>
-                          <div className="col-span-4">
-                            <div className="relative">
-                              <label
-                                htmlFor="First Name"
-                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                              >
-                                First Name
-                              </label>
-
-                              <Field
-                                type="text"
-                                name="firstName"
-                                placeholder=""
-                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                              />
-                              <ErrorMessage
-                                name="firstName"
-                                component="div"
-                                className="text-red-500"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-span-4">
-                            <div className="relative">
-                              <label
-                                htmlFor="Last Name"
-                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                              >
-                                Last Name
-                              </label>
-                              <Field
-                                type="text"
-                                name="lastName"
-                                placeholder=""
-                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                              />
-                              <ErrorMessage
-                                name="lastName"
-                                component="div"
-                                className="text-red-500"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-span-4">
-                            <div className="relative">
-                              <label
-                                htmlFor="Phone #"
-                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                              >
-                                Phone #
-                              </label>
-                              <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                                +1
+                <>
+                  <Grid>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={(values, { setSubmitting }) => {
+                        editDetail(values);
+                        setSubmitting(false);
+                        fetchUserDetails();
+                      }}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form className="col-span-12">
+                          <Grid>
+                            <div className="col-span-4">
+                              <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                                <p className="text-sm m-0 p-0">Email</p>
+                                <p className="font-semibold">{email}</p>
                               </div>
-                              <Field
-                                type="tel"
-                                name="phoneNumber"
-                                placeholder=""
-                                minLength={10}
-                                maxLength={10}
-                                className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                              />
-                              <ErrorMessage
-                                name="phoneNumber"
-                                component="div"
-                                className="text-red-500"
-                              />
                             </div>
-                          </div>
-                          <div className="col-span-4">
-                            <div className="relative">
-                              <label
-                                htmlFor="Position"
-                                className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                              >
-                                Position
-                              </label>
-                              <Field
-                                type="text"
-                                name="position"
-                                placeholder=""
-                                className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                              />
-                              <ErrorMessage
-                                name="position"
-                                component="div"
-                                className="text-red-500"
-                              />
-                            </div>
-                          </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="First Name"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  First Name
+                                </label>
 
-                          <div className="col-span-4 text-right">
-                            <Button type="submit" disabled={isSubmitting}>
-                              Save Changes
-                            </Button>
-                          </div>
-                        </Grid>
-                      </Form>
-                    )}
-                  </Formik>
-                  <div className="col-span-12">
-                    <form onSubmit={formikEmail.handleSubmit}>
-                      <p className="text-xl font-semibold mb-4">
-                        Send Notification
-                      </p>
-                      <div className="relative">
-                        <label
-                          htmlFor="email"
-                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                        >
-                          Send Notification to
-                        </label>
-                        <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
-                          <MultiSelect
-                            label="Email"
-                            name="Email"
-                            placeholder="Email"
-                            value={selectedEmail}
-                            options={emails}
-                            pName="Email"
-                            onChange={(value) => {
-                              console.log("value", value);
-                              setSelectedEmail(value);
-                              handleAddition(value);
-                              // handleFilterChange("priceBookId", value);
-                            }}
-                            labelledBy="Select"
-                            overrideStrings={{
-                              selectSomeItems: "Select Email",
-                            }}
-                            className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                          />
-                        </div>
-                      </div>
-                      {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
-                      <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                        {(() => {
-                          const uniqueErrors = new Set();
-                          return formikEmail.errors.notificationTo.map((error, index) => {
-                            if (!uniqueErrors.has(error)) {
-                              uniqueErrors.add(error);
-                              return (
-                                <span key={index}>
-                                  {index > 0 && " "}{" "}
-                                  <span className="font-semibold">
-                                    {" "}
-                                    {error}{" "}
-                                  </span>
-                                </span>
-                              );
-                            }
-                            return null;
-                          });
-                        })()}
+                                <Field
+                                  type="text"
+                                  name="firstName"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="firstName"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Last Name"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Last Name
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="lastName"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="lastName"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Phone #"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Phone #
+                                </label>
+                                <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                                  +1
+                                </div>
+                                <Field
+                                  type="tel"
+                                  name="phoneNumber"
+                                  placeholder=""
+                                  minLength={10}
+                                  maxLength={10}
+                                  className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="phoneNumber"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Position"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Position
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="position"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="position"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-span-4 text-right">
+                              <Button type="submit" disabled={isSubmitting}>
+                                Save Changes
+                              </Button>
+                            </div>
+                          </Grid>
+                        </Form>
+                      )}
+                    </Formik>
+                    <div className="col-span-12">
+                      <form onSubmit={formikEmail.handleSubmit}>
+                        <p className="text-xl font-semibold mb-4">
+                          Send Notification
                         </p>
-                      )}
+                        <div className="relative">
+                          <label
+                            htmlFor="email"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Send Notification to
+                          </label>
+                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
+                            <MultiSelect
+                              label="Email"
+                              name="Email"
+                              placeholder="Email"
+                              value={selectedEmail}
+                              options={emails}
+                              pName="Email"
+                              onChange={(value) => {
+                                console.log("value", value);
+                                setSelectedEmail(value);
+                                handleAddition(value);
+                                // handleFilterChange("priceBookId", value);
+                              }}
+                              labelledBy="Select"
+                              overrideStrings={{
+                                selectSomeItems: "Select Email",
+                              }}
+                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                            />
+                          </div>
+                        </div>
+                        {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
+                        <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                          {(() => {
+                            const uniqueErrors = new Set();
+                            return formikEmail.errors.notificationTo.map((error, index) => {
+                              if (!uniqueErrors.has(error)) {
+                                uniqueErrors.add(error);
+                                return (
+                                  <span key={index}>
+                                    {index > 0 && " "}{" "}
+                                    <span className="font-semibold">
+                                      {" "}
+                                      {error}{" "}
+                                    </span>
+                                  </span>
+                                );
+                              }
+                              return null;
+                            });
+                          })()}
+                          </p>
+                        )}
 
-                      <div className="col-span-12 text-right mt-5">
-                        <Button type="submit">Save</Button>
-                      </div>
-                    </form>
-                  </div>
-                </Grid>
-              </>
-
+                        <div className="col-span-12 text-right mt-5">
+                          <Button type="submit">Save</Button>
+                        </div>
+                      </form>
+                    </div>
+                  </Grid>
+                </>
               <p className="text-xl font-semibold mb-3">Change Password</p>
+                <form onSubmit={passwordChnageForm.handleSubmit}>
+                  <Grid>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="oldPassword"
+                        label="Old Password"
+                        value={passwordChnageForm.values.oldPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                        isPassword
+                        className="!bg-white"
+                      />
+                      {passwordChnageForm.touched.oldPassword &&
+                        passwordChnageForm.errors.oldPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.oldPassword}
+                          </div>
+                        )}
+                    </div>
 
-              <form onSubmit={passwordChnageForm.handleSubmit}>
-                <Grid>
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="oldPassword"
-                      label="Old Password"
-                      value={passwordChnageForm.values.oldPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                      isPassword
-                      className="!bg-white"
-                    />
-                    {passwordChnageForm.touched.oldPassword &&
-                      passwordChnageForm.errors.oldPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.oldPassword}
-                        </div>
-                      )}
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="newPassword"
+                        label="New Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.newPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.newPassword &&
+                        passwordChnageForm.errors.newPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.newPassword}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.confirmPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.confirmPassword &&
+                        passwordChnageForm.errors.confirmPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.confirmPassword}
+                          </div>
+                        )}
+                    </div>
+                  </Grid>
+                  <div className="mt-4 text-right">
+                    <Button type="submit">Change Password</Button>
                   </div>
-
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="newPassword"
-                      label="New Password"
-                      isPassword
-                      className="!bg-white"
-                      value={passwordChnageForm.values.newPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                    />
-                    {passwordChnageForm.touched.newPassword &&
-                      passwordChnageForm.errors.newPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.newPassword}
-                        </div>
-                      )}
-                  </div>
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="confirmPassword"
-                      label="Confirm Password"
-                      isPassword
-                      className="!bg-white"
-                      value={passwordChnageForm.values.confirmPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                    />
-                    {passwordChnageForm.touched.confirmPassword &&
-                      passwordChnageForm.errors.confirmPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.confirmPassword}
-                        </div>
-                      )}
-                  </div>
-                </Grid>
-                <div className="mt-4 text-right">
-                  <Button type="submit">Change Password</Button>
-                </div>
-              </form>
+                </form>
             </div>
             {loading ? (
               <div className="h-[400px] w-full flex py-5">

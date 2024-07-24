@@ -146,7 +146,7 @@ function DealerRegister() {
         <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
           <div className="col-span-7 self-center min-h-screen flex">
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-            <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+            <img loading="lazy" src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
                 <span className="text-neutral-grey"> Welcome to </span> {details?.title}
               </p>
@@ -416,6 +416,7 @@ function DealerRegister() {
           <div className="col-span-5">
             <img
               src={Logi}
+              loading="lazy"
               className="py-5  h-screen mx-auto hidden md:block"
               alt="Logo "
             />
@@ -423,7 +424,7 @@ function DealerRegister() {
         </Grid>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
-            <img src={email} alt="email Image" className="mx-auto w-1/2 py-8" />
+            <img src={email} alt="email Image" loading="lazy" className="mx-auto w-1/2 py-8" />
             <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
               Please wait it will take time for{" "}
               <span className="text-light-black"> Approval </span>
