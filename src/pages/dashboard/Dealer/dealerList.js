@@ -218,7 +218,7 @@ function DealerList() {
               row.dealerData.accountStatus === true ? "active" : "inactive"
             }
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -363,7 +363,7 @@ function DealerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto"

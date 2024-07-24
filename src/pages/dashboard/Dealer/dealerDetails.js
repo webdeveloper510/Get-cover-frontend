@@ -228,7 +228,7 @@ function DealerDetails() {
   };
 
   const closeModal1 = () => {
-    setActiveTab("Servicer");
+    // setActiveTab("Servicer");
     setIsModalOpen1(false);
   };
 
@@ -498,14 +498,14 @@ function DealerDetails() {
         setLoading(false);
         closeUserModal();
         setTimer(3);
-        // window.location.reload();
-        // setIsModalOpen(false);
+        setActiveTab("Users");
       } else {
         if (result.code === 401) {
           setFieldError("email", "Email already in use");
         }
         setLoading(false);
       }
+      localStorage.setItem("menu", "Users");
     },
   });
 

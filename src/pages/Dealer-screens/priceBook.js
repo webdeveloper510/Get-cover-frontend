@@ -395,13 +395,13 @@ function DealerPriceBook(props) {
                       />
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
-                      <button type="submit">
+                      <Button type="submit" className='!p-2'>
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
                           alt="Search"
                         />
-                      </button>
+                      </Button>
                       <Button
                         type="button"
                         className="!bg-transparent !p-0 mr-3"

@@ -237,7 +237,7 @@ function CustomerList(props) {
             <div className="col-span-8">
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-10">
+                  <Grid className={`${props.flag === "reseller" ? '!grid-cols-8' : '!grid-cols-10' }`}>
                     <div className="col-span-2 self-center">
                       <Input
                         name="firstName"
@@ -289,6 +289,7 @@ function CustomerList(props) {
                         onBlur={formik.handleBlur}
                       />
                     </div>
+                    {props.flag === "reseller" ? '' :
                     <div className="col-span-2 self-center">
                       <Input
                         name="resellerName"
@@ -301,9 +302,9 @@ function CustomerList(props) {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
-                    </div>
+                    </div> }
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer "

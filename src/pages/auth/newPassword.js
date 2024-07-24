@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -25,6 +25,7 @@ const NewPasswordSchema = Yup.object().shape({
 });
 
 function NewPassword() {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,6 +46,9 @@ function NewPassword() {
       } else {
         setError(result.message);
         setIsModalOpen(true);
+        setTimeout(() => {
+          navigate('/'); // redirect to the login page after 3 seconds
+        }, 3000); 
       }
     },
   });
@@ -125,7 +129,7 @@ function NewPassword() {
                   className="w-full h-[50px] text-lg mt-3 font-semibold"
                   type="submit"
                 >
-                  Reset Password
+                  Set New Password
                 </Button>
               </div>
             </div>
@@ -136,17 +140,8 @@ function NewPassword() {
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-          onClick={closeModal}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button> */}
         <div className="text-center py-3">
-          <img src={NewPasswordEmail} alt="email Image" className="mx-auto" />
+          <img src={NewPasswordEmail} alt="email Image" className="mx-auto"/>
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
             Password{" "}
             <span className="text-light-black"> Reset Successfully </span>
@@ -154,11 +149,11 @@ function NewPassword() {
           <p className="text-neutral-grey text-base font-medium mt-4">
             Your password has been changed. Now you can{" "}
           </p>
-          <Link to={"/"} className="font-medium text-base text-light-black">
+           
+          <p className="text-neutral-grey text-base font-medium"><Link to={"/"} className="font-bold text-base text-light-black">
             {" "}
-            <b> login </b> 
-          </Link> 
-          <p className="text-neutral-grey text-base font-medium"> with your new password. </p>
+            login 
+          </Link> with your new password. </p>
         </div>
       </Modal>
     </div>

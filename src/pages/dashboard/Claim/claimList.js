@@ -1218,8 +1218,8 @@ function ClaimList(props) {
             </div>
 
             <button
-              onClick={handleAddClaim} // Call handleAddClaim function onClick
-              className="w-[150px] bg-white font-semibold py-2 px-4 flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
+              onClick={handleAddClaim}
+              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
             >
               <img src={AddItem} className="self-center" alt="AddItem" />
               <span className="text-black ml-3 text-[14px] font-Regular">
@@ -1277,7 +1277,7 @@ function ClaimList(props) {
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-0 !bg-transparent">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer "

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleAuthError } from "./authErrorHandler";
 // Declare the base URL of the API
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
@@ -27,6 +28,7 @@ export const getContractList = async (data = {}) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -40,6 +42,7 @@ export const getContractPrice = async (id) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -53,6 +56,7 @@ export const getContractValues = async (id) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -74,6 +78,7 @@ export const uploadClaimEvidence = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -88,6 +93,7 @@ export const addClaim = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -102,6 +108,7 @@ export const getClaimList = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -120,6 +127,7 @@ export const getClaimListForDealer = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -138,6 +146,7 @@ export const getUnpaidClaims = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -155,6 +164,7 @@ export const getPaidClaims = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -173,6 +183,7 @@ export const getClaimListForReseller = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -191,6 +202,7 @@ export const getClaimListForResellerPortal = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -209,6 +221,7 @@ export const getClaimListForCustomer = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -227,6 +240,7 @@ export const getClaimListForServicer = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -241,6 +255,7 @@ export const addClaimsRepairParts = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -259,6 +274,7 @@ export const editClaimStatus = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -273,6 +289,7 @@ export const editClaimServicerValue = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -287,6 +304,7 @@ export const editClaimTypeValue = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -306,6 +324,7 @@ export const markasPaidClaims = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -324,6 +343,7 @@ export const getClaimMessages = async (id) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -342,6 +362,7 @@ export const getClaimUnpaid = async (claimIds) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -356,6 +377,7 @@ export const addClaimMessages = async (id, data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -373,6 +395,7 @@ export const addUploadCommentImage = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };
@@ -394,6 +417,7 @@ export const uploadClaimInBulk = async (data) => {
 
     return response.data;
   } catch (error) {
+    handleAuthError(error);
     throw error;
   }
 };

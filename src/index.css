@@ -263,6 +263,7 @@ a:focus {
 @-moz-document url-prefix() {
 
   html,
+  .bg-grayf9.overflow-y-scroll,
   .overflow-y-auto,
   .appearance-none.peer {
     overflow-y: scroll;
@@ -270,7 +271,7 @@ a:focus {
     scrollbar-width: thin;
   }
 
-  select {
+  .rdt_Table select {
     background: white !important;
   }
 
