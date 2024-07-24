@@ -338,7 +338,7 @@ function DealerCustomerList() {
                       />
                     </div>
                     <div className="col-span-1 self-center flex">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	"

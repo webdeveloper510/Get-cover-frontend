@@ -1243,7 +1243,7 @@ function AllList(props) {
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-0 !bg-transparent">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer "

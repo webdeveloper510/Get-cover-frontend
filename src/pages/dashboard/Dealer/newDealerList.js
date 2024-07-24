@@ -357,7 +357,7 @@ function NewDealerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto"
