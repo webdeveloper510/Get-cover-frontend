@@ -184,13 +184,13 @@ function Notification() {
                             </div>
                             <div className="col-span-3">
                               <div className="flex justify-end">
-                                <p className="flex text-sm mr-3">
+                                <p className="flex text-sm mr-3 w-1/2">
                                   <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
-                                <p className="mr-3 flex text-sm">
+                                <p className="mr-3 flex text-sm w-1/2">
                                   <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
@@ -212,7 +212,7 @@ function Notification() {
                                 className="mr-2 w-[18px] h-[18px] mt-[3px]"
                                 alt="Read icon"
                               />
-                              <p className="text-light-black text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold ">
                                 {data?.title}: {data?.userId?.firstName}
                               </p>
                               <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
@@ -221,13 +221,13 @@ function Notification() {
                             </div>
                             <div className="col-span-3">
                               <div className="flex justify-end">
-                                <p className="flex text-sm mr-3">
+                                <p className="flex text-sm mr-3 w-1/2">
                                   <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
-                                <p className="mr-3 flex text-sm">
+                                <p className="mr-3 flex text-sm w-1/2">
                                   <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
@@ -279,11 +279,11 @@ function Notification() {
                           </div>
                           <div className="col-span-3">
                             <div className="flex justify-end">
-                              <p className="flex text-sm mr-3">
+                              <p className="flex text-sm mr-3 w-1/2">
                                 <img src={time} className="mr-2" alt="Time" />{" "}
                                 {new Date(data.createdAt).toLocaleTimeString()}{" "}
                               </p>
-                              <p className="mr-3 flex text-sm">
+                              <p className="mr-3 flex text-sm w-1/2">
                                 <img src={date} className="mr-2" alt="Date" />{" "}
                                 {new Date(data?.createdAt).toLocaleDateString()}{" "}
                               </p>

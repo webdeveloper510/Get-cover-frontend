@@ -193,23 +193,22 @@ function ServicerUser() {
     newPassword: "",
     confirmPassword: "",
   };
-
+  
   const passwordChangeApi = async (values, resetForm) => {
     setLoading1(true);
-
+  
     const { confirmPassword, ...passwordValues } = values;
-
+  
     try {
       const res = await changePasswordbyToken(passwordValues);
       console.log("API Response:", res);
       if (res.code === 200) {
         SetPrimaryText("Updated Successfully");
         SetSecondaryText("User Password updated successfully");
-        
         SetIsModalOpen(true);
         setTimer(3);
         console.log("Resetting form after success");
-        resetForm(); // Reset the form after successful response
+        resetForm({ values: initialValues2 }); // Reset the form after successful response
       } else {
         SetPrimaryText("Error");
         SetSecondaryText(res.message);
@@ -222,13 +221,13 @@ function ServicerUser() {
     }
     console.log("Password values:", passwordValues);
   };
-
+  
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     console.log("Form values on submit:", values);
     passwordChangeApi(values, resetForm);
     setSubmitting(false);
   };
-
+  
   const passwordChangeForm = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -509,7 +508,7 @@ function ServicerUser() {
             disabled={row.isPrimary || !servicerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -784,67 +783,59 @@ function ServicerUser() {
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
             <p className="text-xl font-semibold mb-5">Change Password</p>
             <form onSubmit={passwordChangeForm.handleSubmit}>
-              <Grid>
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="oldPassword"
-                    label="Old Password"
-                    value={passwordChangeForm.values.oldPassword}
-                    onChange={passwordChangeForm.handleChange}
-                    onBlur={passwordChangeForm.handleBlur}
-                    isPassword
-                    className="!bg-white"
-                  />
-                  {passwordChangeForm.touched.oldPassword &&
-                    passwordChangeForm.errors.oldPassword && (
-                      <div className="text-red-500">
-                        {passwordChangeForm.errors.oldPassword}
-                      </div>
-                    )}
-                </div>
+      <Grid className='!grid-cols-3' spacing={2}>
+      <div>
 
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="newPassword"
-                    label="New Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChangeForm.values.newPassword}
-                    onChange={passwordChangeForm.handleChange}
-                    onBlur={passwordChangeForm.handleBlur}
-                  />
-                  {passwordChangeForm.touched.newPassword &&
-                    passwordChangeForm.errors.newPassword && (
-                      <div className="text-red-500">
-                        {passwordChangeForm.errors.newPassword}
-                      </div>
-                    )}
-                </div>
+          <PasswordInput
+            type="password"
+            name="oldPassword"
+            label="Old Password"
+            value={passwordChangeForm.values.oldPassword}
+            onChange={passwordChangeForm.handleChange}
+            onBlur={passwordChangeForm.handleBlur}
+            className="!bg-white"
+          />
+          {passwordChangeForm.touched.oldPassword && passwordChangeForm.errors.oldPassword && (
+            <div className="text-red-500">{passwordChangeForm.errors.oldPassword}</div>
+          )}
+      </div>
+ 
+<div>
 
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChangeForm.values.confirmPassword}
-                    onChange={passwordChangeForm.handleChange}
-                    onBlur={passwordChangeForm.handleBlur}
-                  />
-                  {passwordChangeForm.touched.confirmPassword &&
-                    passwordChangeForm.errors.confirmPassword && (
-                      <div className="text-red-500">
-                        {passwordChangeForm.errors.confirmPassword}
-                      </div>
-                    )}
-                </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button type="submit">Change Password</Button>
-              </div>
+          <PasswordInput
+            type="password"
+            name="newPassword"
+            label="New Password"
+            value={passwordChangeForm.values.newPassword}
+            onChange={passwordChangeForm.handleChange}
+            onBlur={passwordChangeForm.handleBlur}
+            className="!bg-white"
+          />
+          {passwordChangeForm.touched.newPassword && passwordChangeForm.errors.newPassword && (
+            <div className="text-red-500">{passwordChangeForm.errors.newPassword}</div>
+          )}
+        
+</div>
+<div>
+
+          <PasswordInput
+            type="password"
+            name="confirmPassword"
+            label="Confirm Password"
+            value={passwordChangeForm.values.confirmPassword}
+            onChange={passwordChangeForm.handleChange}
+            onBlur={passwordChangeForm.handleBlur}
+            className="!bg-white"
+          />
+          {passwordChangeForm.touched.confirmPassword && passwordChangeForm.errors.confirmPassword && (
+            <div className="text-red-500">{passwordChangeForm.errors.confirmPassword}</div>
+          )}
+</div>
+      </Grid>
+
+      <div className="mt-4 text-right">
+        <Button type="submit">Change Password</Button>
+      </div>
             </form>
           </div>
           {loading ? (

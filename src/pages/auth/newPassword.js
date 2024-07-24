@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../common/button";
@@ -12,7 +12,7 @@ import NewPasswordEmail from "../../assets/images/reset-password.png";
 import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
 import Modal from "../../common/model";
-import { resetPassword } from "../../services/authServices";
+import { checkLink, resetPassword } from "../../services/authServices";
 
 const NewPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -28,7 +28,7 @@ function NewPassword() {
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+console.log(id, token);
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -56,7 +56,16 @@ function NewPassword() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+useEffect(()=>{
+  checkValidLink()
+},[])
+const checkValidLink = () => {
+ checkLink(id,token).then((res) => {
+  if(res.code != 200){
+    navigate('/login')
+  }
+  })
+}
   return (
     <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
       <form onSubmit={formik.handleSubmit}>
