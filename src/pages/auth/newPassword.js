@@ -12,7 +12,7 @@ import NewPasswordEmail from "../../assets/images/reset-password.png";
 import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
 import Modal from "../../common/model";
-import { resetPassword } from "../../services/authServices";
+import { checkLink, resetPassword } from "../../services/authServices";
 import { getSetting } from "../../services/extraServices";
 
 const NewPasswordSchema = Yup.object().shape({
@@ -70,7 +70,16 @@ function NewPassword() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+useEffect(()=>{
+  checkValidLink()
+},[])
+const checkValidLink = () => {
+ checkLink(id,token).then((res) => {
+  if(res.code != 200){
+    navigate('/login')
+  }
+  })
+}
   return (
     <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
       <form onSubmit={formik.handleSubmit}>

@@ -94,3 +94,14 @@ export const resetPassword = async (resetPasswordData, id, token) => {
     throw error;
   }
 };
+
+export const checkLink = async (userId, code) => {
+  try {
+    const response = await axios.get(
+      `${url}/user/checkIdAndToken/${userId}/${code}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
