@@ -296,7 +296,7 @@ function Claims() {
             <div className="self-center">
               <Button
                 onClick={() => handleButtonClick("dealer")}
-                className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] !border-light-black ${
+                className={`!rounded-e-[0px] !py-1 !px-2 ${
                   activeButton !== "dealer" && "!bg-[white] !text-[#333] "
                 }`}
               >

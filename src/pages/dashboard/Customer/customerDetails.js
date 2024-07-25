@@ -678,7 +678,7 @@ function CustomerDetails() {
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
                             activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
+                              ? ""
                               : "!bg-grayf9 !text-black"
                           }`}
                           onClick={() => handleTabClick(tab.id)}
