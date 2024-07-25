@@ -53,13 +53,14 @@ function ForgotPassword() {
           <div className="col-span-5">
             <img
               src={forgot}
+              loading="lazy"
               className="h-screen object-contain py-5 w-full"
               alt="Logo "
             />
           </div>
           <div className="col-span-6 self-center flex relative min-h-screen">
             <div className="mx-auto max-w-md py-5 self-center">
-              <img src={Logo} className="w-[224px]" alt="Logo " />
+              <img src={Logo} loading="lazy" className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
                 Password?
@@ -118,7 +119,7 @@ function ForgotPassword() {
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
-          <img src={email} alt="email Image" className="mx-auto" />
+          <img src={email} loading="lazy" alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
             Check your <span className="text-light-black"> Email </span>
           </p>

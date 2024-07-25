@@ -67,13 +67,14 @@ function Login() {
             <div className="col-span-5 hidden md:block">
               <img
                 src={Logi}
+                loading="lazy"
                 className="py-5 lg:h-screen h-full md:mx-auto"
                 alt="Logo "
               />
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={Logo} className="w-[224px]" alt="Logo " />
+                <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
                   GetCover

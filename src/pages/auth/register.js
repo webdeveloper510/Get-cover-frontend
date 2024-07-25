@@ -22,11 +22,12 @@ function Register() {
             to={"/"}
             className="absolute bg-grayf9 top-0 rounded-full p-[19px] left-0"
           >
-            <img src={Back} className="w-[40px] h-[40px]" alt=" Back Image" />{" "}
+            <img src={Back} className="w-[40px] h-[40px]" loading="lazy" alt=" Back Image" />{" "}
           </Link>
 
           <img
             src={ImageRegister}
+            loading="lazy"
             className="mx-auto 2xl:w-full xl:w-[65%] w-full "
             alt="Register Image"
           />
@@ -50,10 +51,10 @@ function Register() {
                     Dealer
                   </p>
                   <div className="group-hover:block hidden">
-                    <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
+                    <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerDealer"}>
                         {" "}
-                        <img src={RegisterButton} alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>
@@ -68,9 +69,9 @@ function Register() {
                     Servicer
                   </p>
                   <div className="group-hover:block hidden">
-                    <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
+                    <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerProvider"}>
-                        <img src={RegisterButton} alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>

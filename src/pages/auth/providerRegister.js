@@ -65,7 +65,7 @@ function DealerRegister() {
       <Grid className="px-8">
         <div className="col-span-6 self-center">
           <div className="mx-auto max-w-md">
-            <img src={Logo} className="w-[224px]" alt="Logo " />
+            <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
             <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
               <span className="text-neutral-grey"> Welcome to </span> GetCover
             </p>
@@ -184,12 +184,12 @@ function DealerRegister() {
         </div>
         <div className="col-span-1"></div>
         <div className="col-span-5">
-          <img src={Logi} className="py-5  h-full md:mx-auto" alt="Logo " />
+          <img src={Logi} className="py-5  h-full md:mx-auto" loading="lazy" alt="Logo " />
         </div>
       </Grid>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-1">
-          <img src={email} alt="email Image" className="mx-auto py-3" />
+          <img src={email} alt="email Image" loading="lazy" className="mx-auto py-3" />
           <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
             Please wait it will take time for{" "}
             <span className="text-light-black"> Approval </span>
