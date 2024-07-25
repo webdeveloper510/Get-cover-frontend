@@ -1004,19 +1004,20 @@ function Account() {
           <div className="mt-5">
             <Button
              onClick={() => handleButtonClick("myAccount")}
-             className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] !border-light-black ${
-               activeButton !== "myAccount" && "!bg-[white] !text-[#333] "
+             className={`!rounded-e-[0px] !py-1 !px-2 ${
+               activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
              }`}>
               My Account 
             </Button>
             <Button
              onClick={() => handleButtonClick("siteSetting")}
-             className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                  activeButton !== "siteSetting" && "!bg-[white] !text-[#333] "
+             className={`!rounded-s-[0px] !px-2 !py-1 ${
+                  activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
                 }`}>
               Site Setting 
             </Button>
           </div>
+
           {activeButton === "myAccount" && (
            <>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
@@ -1651,6 +1652,7 @@ function Account() {
                </form>
             </div>
           )}
+
            {activeButton === "CoverageType" && (
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
                <form onSubmit={siteChange.handleSubmit}>
@@ -1681,6 +1683,7 @@ function Account() {
                </form>
             </div>
           )}
+
         </div>
       )}
 
@@ -2021,6 +2024,7 @@ function Account() {
           </p>
         </div>
       </Modal>
+
       {/* Modal Delete Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
@@ -2084,6 +2088,7 @@ function Account() {
           </p>
         </div>
       </Modal>
+
     </>
   );
 }

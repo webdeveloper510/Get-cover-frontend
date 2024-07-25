@@ -72,6 +72,7 @@ import Unpaid from "../../../assets/images/icons/Unpaid.svg";
 import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -811,6 +812,29 @@ function DealerDetails() {
     { label: "Labor ", value: "Labour" },
     { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
+
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+
+useEffect(() => {
+  const storedUserDetails = getUserDetailsFromLocalStorage();
+
+  if (storedUserDetails) {
+    const colorScheme = storedUserDetails.colorScheme;
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'buttonColor':
+          setBackGroundColor(color.colorCode);
+          break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+      }
+    });
+  }
+}, []);
   return (
     <>
       {loading && (
@@ -1026,18 +1050,25 @@ function DealerDetails() {
                         }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
-                        <img
-                          src={
-                            activeTab === tab.id ? tab.Activeicons : tab.icons
-                          }
-                          className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                          alt={tab.label}
-                        />
+                        <div
+                              style={{
+                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskPosition: 'center',
+                                WebkitMaskPosition: 'center',
+                                maskSize: 'contain',
+                                WebkitMaskSize: 'contain'
+                              }}
+                              className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                            />
                         <span
-                          className={`ml-1 py-1 text-sm font-Regular ${
-                            activeTab === tab.id ? "text-white" : "text-black"
-                          }`}
-                        >
+                            className={`pl-1 ml-1 py-1 text-sm font-Regular border-Light-Grey border-l-[1px] ${
+                              activeTab === tab.id ? "" : "text-black"
+                            }`}
+                          >
                           {tab.label}
                         </span>
                       </Button>

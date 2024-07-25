@@ -1,16 +1,7 @@
 {
   "files": {
-<<<<<<< HEAD
     "main.css": "/static/css/main.abd17532.css",
-    "main.js": "/static/js/main.a0e3db24.js",
-=======
-    "main.css": "/static/css/main.8c83bcdd.css",
-<<<<<<< HEAD
-    "main.js": "/static/js/main.73e352dd.js",
->>>>>>> 7e23094c9d7714d44b85dce5b07f249e5d1a077e
-=======
-    "main.js": "/static/js/main.58cbbc6a.js",
->>>>>>> 6881165aa2ec98a214875d24e69abe8a9bc73180
+    "main.js": "/static/js/main.d66b92c3.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -190,32 +181,14 @@
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
-<<<<<<< HEAD
     "main.abd17532.css.map": "/static/css/main.abd17532.css.map",
-    "main.a0e3db24.js.map": "/static/js/main.a0e3db24.js.map",
-=======
-    "main.8c83bcdd.css.map": "/static/css/main.8c83bcdd.css.map",
-<<<<<<< HEAD
-    "main.73e352dd.js.map": "/static/js/main.73e352dd.js.map",
->>>>>>> 7e23094c9d7714d44b85dce5b07f249e5d1a077e
-=======
-    "main.58cbbc6a.js.map": "/static/js/main.58cbbc6a.js.map",
->>>>>>> 6881165aa2ec98a214875d24e69abe8a9bc73180
+    "main.d66b92c3.js.map": "/static/js/main.d66b92c3.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-<<<<<<< HEAD
     "static/css/main.abd17532.css",
-    "static/js/main.a0e3db24.js"
-=======
-    "static/css/main.8c83bcdd.css",
-<<<<<<< HEAD
-    "static/js/main.73e352dd.js"
->>>>>>> 7e23094c9d7714d44b85dce5b07f249e5d1a077e
-=======
-    "static/js/main.58cbbc6a.js"
->>>>>>> 6881165aa2ec98a214875d24e69abe8a9bc73180
+    "static/js/main.d66b92c3.js"
   ]
 }

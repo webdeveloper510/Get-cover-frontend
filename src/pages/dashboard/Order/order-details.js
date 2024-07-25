@@ -35,6 +35,7 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -216,7 +217,28 @@ function OrderDetails() {
         console.error("Error fetching the file:", error);
       });
   };
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+useEffect(() => {
+  const storedUserDetails = getUserDetailsFromLocalStorage();
+
+  if (storedUserDetails) {
+    const colorScheme = storedUserDetails.colorScheme;
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'buttonColor':
+          setBackGroundColor(color.colorCode);
+          break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+      }
+    });
+  }
+}, []);
   return (
     <>
       {loading1 && (
@@ -497,21 +519,35 @@ function OrderDetails() {
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
                             activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
+                              ? ""
                               : "!bg-grayf9 !text-black"
                           }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
-                          <img
+                           <div
+                              style={{
+                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskPosition: 'center',
+                                WebkitMaskPosition: 'center',
+                                maskSize: 'contain',
+                                WebkitMaskSize: 'contain'
+                              }}
+                              className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                            />
+                          {/* <img
                             src={
                               activeTab === tab.id ? tab.Activeicons : tab.icons
                             }
                             className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
                             alt={tab.label}
-                          />
+                          /> */}
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
+                            className={`pl-1 ml-1 py-1 text-sm font-Regular border-Light-Grey border-l-[1px] ${
+                              activeTab === tab.id ? "" : "text-black"
                             }`}
                           >
                             {tab.label}
