@@ -87,6 +87,7 @@ const checkValidLink = () => {
           <div className="col-span-5">
             <img
               src={NewPasswordImage}
+              loading="lazy"
               className="h-screen object-contain py-5 w-full"
               alt="Logo "
             />
@@ -150,7 +151,7 @@ const checkValidLink = () => {
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
-          <img src={NewPasswordEmail} alt="email Image" className="mx-auto"/>
+          <img src={NewPasswordEmail} alt="email Image" loading="lazy" className="mx-auto"/>
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
             Password{" "}
             <span className="text-light-black"> Reset Successfully </span>

@@ -102,6 +102,7 @@ function Login() {
             <div className="col-span-5 hidden md:block">
               <img
                 src={Logi}
+                loading="lazy"
                 className="py-5 lg:h-screen h-full md:mx-auto"
                 alt="Logo "
               />
