@@ -154,7 +154,7 @@ function CustomerList() {
       style: { whiteSpace: 'pre-wrap' },
     },
     {
-      name: "Order Value",
+      name: "Orders Value",
       selector: (row) =>
         `$${
           row?.order?.orderAmount === undefined
@@ -199,7 +199,7 @@ function CustomerList() {
                   onClick={() => {
                     navigate(`/customerDetails/${row.customerData._id}`);
                   }}
-                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold py-1"
+                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold"
                 >
                  <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
@@ -267,7 +267,7 @@ function CustomerList() {
 
         <Link
           to={"/addCustomer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}

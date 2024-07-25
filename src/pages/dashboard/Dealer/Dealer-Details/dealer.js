@@ -14,6 +14,8 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../../common/model";
+import view from "../../../../assets/images/eye.png";
+import paper from "../../../../assets/images/paper.png";
 
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -306,23 +308,25 @@ function DealerDetailList(props) {
             {selectedAction === row.dealerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer py-1 px-2"
+                  className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
                   onClick={() => {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
                 >
-                  View
+                 <img src={view} className="w-4 h-4 mr-2" />{" "}
+                 <span className="self-center"> View </span>
                 </div>
                 <div
-                  className="text-center py-1 px-2 cursor-pointer"
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   onClick={() => openModal(row)}
                 >
-                  Unassigned
+                   <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                   <span className="self-center">Unassigned </span>
                 </div>
               </div>
             )}
@@ -370,11 +374,6 @@ function DealerDetailList(props) {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
-                        {/* {formik.touched.email && formik.errors.email && (
-                          <div className="text-red-500">
-                            {formik.errors.email}
-                          </div>
-                        )} */}
                       </div>
                     </div>
                     <div className="col-span-3 self-center">

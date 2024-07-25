@@ -474,7 +474,7 @@ function CustomerUser() {
             disabled={row.isPrimary || !servicerStatus}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -592,7 +592,7 @@ function CustomerUser() {
             disabled={true}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -746,7 +746,7 @@ function CustomerUser() {
                   <hr />
                 </div>
               </Grid>
-              <Grid className="mx-8 mx-auto ">
+              <Grid className="mx-auto ">
                 <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex">
@@ -798,7 +798,7 @@ function CustomerUser() {
                       <hr />
                     </div>
                   </Grid>
-                  <Grid className="mx-8 mx-auto ">
+                  <Grid className="mx-auto ">
                     <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
                     <div className="col-span-3 border-r border-[#4e4e4e]">
                       <div className="flex">
@@ -851,7 +851,7 @@ function CustomerUser() {
                   <hr />
                 </div>
               </Grid>
-              <Grid className="mx-8 mx-auto mt-4">
+              <Grid className="mx-auto mt-4">
                 <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex">

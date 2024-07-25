@@ -189,7 +189,7 @@ function DealerList() {
       sortable: true,
     },
     {
-      name: "Order Values",
+      name: "Orders Values",
       selector: (row) =>
         `$${
           row?.ordersData?.orderAmount === undefined

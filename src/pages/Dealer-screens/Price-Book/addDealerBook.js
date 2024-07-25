@@ -291,7 +291,7 @@ function CustomerAddDealerBook() {
           )} */}
           {type === "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-              <Grid className="mx-8 mx-auto ">
+              <Grid className="mx-auto ">
                 <div className="col-span-4 self-center ">
                   <div className="flex">
                     <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">

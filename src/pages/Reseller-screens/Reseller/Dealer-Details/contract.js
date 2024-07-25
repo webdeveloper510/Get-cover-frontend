@@ -437,7 +437,7 @@ function ContractList(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center ">
+                  <div className="col-span-1 self-center justify-end ">
                     {/* <Link to={`/editContract/${singleContract._id}`}>
                               {" "}
                               <img

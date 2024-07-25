@@ -605,7 +605,7 @@ function CustomerContractList(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center"></div>
+                  <div className="col-span-1 self-center justify-end"></div>
                 </Grid>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">

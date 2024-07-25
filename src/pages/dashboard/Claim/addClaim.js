@@ -1185,7 +1185,7 @@ function AddClaim() {
                     </p>
                   </div>
                   {/* <div className="col-span-1"></div> */}
-                  <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center">
+                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center">
                     <Button
                       className="!bg-[#817f7f] !text-white !py-[5px] !px-[20px] !rounded-[30px] !my-[4px] !font-Regular"
                       onClick={() => {

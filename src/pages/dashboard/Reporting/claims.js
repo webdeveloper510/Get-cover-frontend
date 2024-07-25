@@ -297,7 +297,7 @@ function Claims() {
               <Button
                 onClick={() => handleButtonClick("dealer")}
                 className={`!rounded-e-[0px] !py-1 !px-2 ${
-                  activeButton !== "dealer" && "!bg-[white] !text-[#333] "
+                  activeButton !== "dealer" && "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
                 }`}
               >
                 Dealer
@@ -305,8 +305,8 @@ function Claims() {
               {!isServicerClaims && (
                 <Button
                   onClick={() => handleButtonClick("servicer")}
-                  className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                    activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                  className={`!rounded-[0px] !px-2 !py-1 ${
+                    activeButton !== "servicer" && "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
                   }`}
                 >
                   Servicer
@@ -314,8 +314,8 @@ function Claims() {
               )}
               <Button
                 onClick={() => handleButtonClick("category")}
-                className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                  activeButton !== "category" && "!bg-[white] !text-[#333] "
+                className={`!rounded-s-[0px] !px-2 !py-1  ${
+                  activeButton !== "category" && "!bg-[white] !text-[#333] !border-light-black !border-[1px] "
                 }`}
               >
                 Category

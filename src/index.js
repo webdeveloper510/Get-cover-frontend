@@ -7,9 +7,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import 'react-date-range/dist/styles.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-if(process.env.NODE_ENV !== "development") {
-  console.log = () => {};
-}
+// if(process.env.NODE_ENV !== "development") {
+//   console.log = () => {};
+// }
 root.render(
   <Router>
     <App />

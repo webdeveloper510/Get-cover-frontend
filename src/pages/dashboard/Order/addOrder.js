@@ -1755,8 +1755,8 @@ function AddOrder() {
                     <div className="flex justify-between w-full">
                       <p className="text-2xl font-bold mb-4">Order Details</p>
                       <Button
-                        className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
-                        onClick={handleReload}
+                        className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                        onClick={handleInputClickResetStep1}
                       >
                         Reset
                       </Button>
@@ -2120,7 +2120,7 @@ function AddOrder() {
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <Button
-                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
@@ -3113,7 +3113,7 @@ function AddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                  <div className="flex block  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
+                  <div className="flex  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer undefined text-light-black">
                     <p className="self-center w-[40%] text-sm px-3">
                       Payment Status
                     </p>

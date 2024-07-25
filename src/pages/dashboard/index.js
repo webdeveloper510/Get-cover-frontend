@@ -121,7 +121,7 @@ function Dashboard() {
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Order Value",
+      name: "Orders Value",
       selector: (row) =>
         `$${
           row?.orderAmount === undefined
@@ -270,7 +270,7 @@ function Dashboard() {
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Order Value",
+      name: "Orders Value",
       selector: (row) =>
         `$${
           row?.totalAmount === ""
@@ -322,13 +322,13 @@ function Dashboard() {
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "# of Claim",
+      name: "# of Claims",
       selector: (row) => row?.totalClaim ?? 0,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Claim Value",
+      name: "Claims Value",
       selector: (row) =>
         `$${
           row?.totalClaimAmount === ""

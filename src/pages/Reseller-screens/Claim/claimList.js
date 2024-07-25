@@ -2089,7 +2089,7 @@ function ResellerClaimList(props) {
 
             <button
               onClick={handleAddClaim} // Call handleAddClaim function onClick
-              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
+              className="w-[150px] bg-white font-semibold py-2 px-4 flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
             >
               <img src={AddItem} className="self-center" alt="AddItem" />
               <span className="text-black ml-3 text-[14px] font-Regular">

@@ -285,7 +285,7 @@ function DealerClaims() {
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
                     />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[25px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    <small className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-[12px] left-[25px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
                       Product SKU
                     </small>
                   </div>
@@ -350,7 +350,7 @@ function DealerClaims() {
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
                     />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white ">
                       Product SKU
                     </small>
                   </div>

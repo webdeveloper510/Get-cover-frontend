@@ -401,7 +401,7 @@ function Contracts(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
                 </Grid>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
