@@ -1222,6 +1222,12 @@ function DealerAddOrder() {
           }
         });
     }
+    if (value === "Custom") {
+      formik.setFieldValue("name", "");
+      formik.setFieldValue("email", "");
+      formik.setFieldValue("phoneNumber", "");
+      formik.setFieldValue("address", "");
+    }
   };
 
   const handleSelectChange12 = (name, value) => {

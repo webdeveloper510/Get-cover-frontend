@@ -1565,6 +1565,13 @@ function AddOrder() {
 
       setCustomerEmail(customerEmail);
     }
+
+    if (value === "Custom") {
+      formik.setFieldValue("name", "");
+      formik.setFieldValue("email", "");
+      formik.setFieldValue("phoneNumber", "");
+      formik.setFieldValue("address", "");
+    }
   };
 
   const getCategoryList = async (value, data, index) => {

@@ -36,6 +36,7 @@ function Sale() {
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [activeButton, setActiveButton] = useState("dealer");
   const [loading, setLoading] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
   const [selected, setSelected] = useState([]);
   const [dealerList, setDealerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -140,11 +141,12 @@ function Sale() {
   };
 
   const handleApplyFilters = () => {
-    setLoading(true);
+    setFilterLoading(true);
     activeButton === "category"
-      ? setFiltersForCategory(filterCategory)
-      : setAppliedFilters(filter);
-      setLoading(false);
+    ? setFiltersForCategory(filterCategory)
+    : setAppliedFilters(filter);
+    console.log('hello', loading)
+    setFilterLoading(false);
   };
 
   const handleResetFilters = () => {
@@ -167,7 +169,7 @@ function Sale() {
 
   return (
     <>
-    {loading ? <>
+    {loading || filterLoading ? <>
       <div className=" h-[400px] w-full flex py-5">
                   <div className="self-center mx-auto">
                     <RotateLoader color="#333" />

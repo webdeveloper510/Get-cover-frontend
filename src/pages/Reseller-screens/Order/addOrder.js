@@ -1035,6 +1035,12 @@ function ResellerAddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
+    if (value === "Custom") {
+      formik.setFieldValue("name", "");
+      formik.setFieldValue("email", "");
+      formik.setFieldValue("phoneNumber", "");
+      formik.setFieldValue("address", "");
+    }
   };
 
   const getServiceCoverage = async (value, type = "Add") => {

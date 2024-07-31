@@ -8,13 +8,6 @@ import 'react-date-range/dist/styles.css';
 function App() {
   const routing = useRoutes(routes);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (!localStorage.getItem("token")) {
-  //     navigate("/login");
-  //   } else {
-  //     navigate("/dashboard/*");
-  //   }
-  // }, []);
   return (
     <MyContextProvider>
       <div>
