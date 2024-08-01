@@ -22,6 +22,7 @@ import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getArchiveOrdersForDealerPortal, getArchiveOrdersForResellerPortal } from "../../../services/dealerServices/orderListServices";
+import Card from "../../../common/card";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -208,7 +209,7 @@ function ArchiveOrderList() {
           </div>
         </div>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Archive Order List</p>
@@ -299,7 +300,7 @@ function ArchiveOrderList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">

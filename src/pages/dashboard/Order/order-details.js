@@ -36,6 +36,7 @@ import DocMakeOrderContainer from "../../docMakeOrder";
 import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import Card from "../../../common/card";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -512,7 +513,7 @@ useEffect(() => {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-4">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <Card className="!rounded-[30px] border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
@@ -556,7 +557,7 @@ useEffect(() => {
                       </div>
                     ))}
                   </Grid>
-                </div>
+                </Card>
               </div>
             </Grid>
 

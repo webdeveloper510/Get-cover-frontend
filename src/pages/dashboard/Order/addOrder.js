@@ -50,6 +50,7 @@ import {
 import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import Card from "../../../common/card";
 
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1749,13 +1750,13 @@ function AddOrder() {
         ) : (
           <>
             <form onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+              <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
                 <Grid>
                   <div className="col-span-8">
                     <div className="flex justify-between w-full">
                       <p className="text-2xl font-bold mb-4">Order Details</p>
                       <Button
-                        className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                        className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                         onClick={handleReload}
                       >
                         Reset
@@ -1967,7 +1968,8 @@ function AddOrder() {
                     </Grid>
                   </div>
                 )}
-              </div>
+              </Card>
+
               <div className="flex">
                 {dataLoading ? (
                   <Button
@@ -1995,7 +1997,7 @@ function AddOrder() {
     // Step 2 content
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -2089,7 +2091,7 @@ function AddOrder() {
               </Grid>
             </div>
           </Grid>
-        </div>
+        </Card>
 
         <div className="flex">
           <Button onClick={prevStep} className="!bg-[transparent] !text-black">
@@ -2113,14 +2115,14 @@ function AddOrder() {
         ) : (
           <div className="mb-3">
             {formikStep3?.values?.productsArray.map((data, index) => (
-              <div
+              <Card
                 key={index}
                 className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
               >
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <Button
-                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
@@ -2809,7 +2811,7 @@ function AddOrder() {
                   </div>
                   <div className="col-span-12"></div>
                 </Grid>
-              </div>
+              </Card>
             ))}
             <Button
               className="!bg-[transparent] !text-black"
@@ -2837,7 +2839,7 @@ function AddOrder() {
           </div>
         ) : (
           <form onSubmit={formik4.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
                   <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
@@ -3113,7 +3115,7 @@ function AddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                  <div className="flex block  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer undefined  border-gray-300  text-light-black">
+                  <div className="flex  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer text-light-black">
                     <p className="self-center w-[40%] text-sm px-3">
                       Payment Status
                     </p>
@@ -3242,7 +3244,7 @@ function AddOrder() {
                 </div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
-            </div>
+            </Card>
 
             <Button
               className="!bg-[transparent] !text-black"

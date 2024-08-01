@@ -15,6 +15,7 @@ import DataTable from "react-data-table-component";
 import PdfGenerator from "../pdfViewer";
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import { getSetting } from "../../services/extraServices";
+import Card from "../../common/card";
 
 function Dashboard() {
   const [loading, setLoading] = useState(false);
@@ -539,7 +540,8 @@ function Dashboard() {
                   <BarChart graphData={claimAmount} />
                 </div>
               </div>
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+              <div className="col-span-6 border-2 rounded-xl">
+                <Card>
                 <p className="text-xl font-semibold pl-3 pt-2">
                   Last 5 Completed Orders
                 </p>
@@ -561,9 +563,11 @@ function Dashboard() {
                     draggableColumns={false}
                   />
                 </div>
+                </Card>
               </div>
 
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+              <div className="col-span-6 border-2 rounded-xl">
+              <Card>
                 <p className="text-xl font-semibold pl-3 pt-2">
                   Last 5 Completed Claims
                 </p>
@@ -585,11 +589,13 @@ function Dashboard() {
                     draggableColumns={false}
                   />
                 </div>
+                </Card>
               </div>
             </Grid>
 
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+              <div className="col-span-6 border-2 rounded-xl">
+              <Card>
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
                   Top 5 Dealers
                 </p>
@@ -611,8 +617,10 @@ function Dashboard() {
                     draggableColumns={false}
                   />
                 </div>
+                </Card>
               </div>
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
+              <div className="col-span-6 border-2 rounded-xl">
+                <Card>
                 <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
                   Top 5 Servicers
                 </p>
@@ -634,11 +642,13 @@ function Dashboard() {
                     draggableColumns={false}
                   />
                 </div>
+                </Card>
               </div>
             </Grid>
 
             <Grid>
-              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
+              <div className="col-span-6 mt-4 border-2 rounded-xl">
+              <Card>
                 <div className="">
                   <p className="text-xl font-semibold pl-1 pr-1 pt-2">
                     Top 5 Performing SKU's 30 Days
@@ -660,8 +670,10 @@ function Dashboard() {
                   highlightOnHover
                   draggableColumns={false}
                 />
+                </Card>
               </div>
-              <div className="col-span-6 px-2 pb-2 mt-4 border-2  bg-white rounded-xl">
+              <div className="col-span-6 mt-4 border-2 rounded-xl">
+                <Card>
                 <div className="">
                   <p className="text-xl font-semibold pl-1 pr-1 pt-2">
                     Top 5 Performing SKU's 1 Year
@@ -683,6 +695,7 @@ function Dashboard() {
                   highlightOnHover
                   draggableColumns={false}
                 />
+                </Card>
               </div>
             </Grid>
           </div>

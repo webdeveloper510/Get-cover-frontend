@@ -18,6 +18,7 @@ import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
+import Card from "../../../common/card";
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -213,7 +214,7 @@ function AddBulkClaim() {
           {/* Form Start */}
 
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -311,7 +312,7 @@ function AddBulkClaim() {
               >
                 Submit
               </Button>
-            </div>
+            </Card>
           </form>
         </>
       )}

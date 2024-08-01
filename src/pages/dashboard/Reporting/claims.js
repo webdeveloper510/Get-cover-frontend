@@ -20,6 +20,7 @@ import {
   getFilterListForDealerClaim,
   getFilterListForServicerClaim,
 } from "../../../services/reportingServices";
+import Card from "../../../common/card";
 
 function Claims() {
   const location = useLocation();
@@ -290,14 +291,14 @@ function Claims() {
             </ul>
           </div>
         </div>
-        <div className="p-3 bg-white mt-4">
+        <Card className="!p-3 mt-4">
           <div className="flex w-full mb-3">
             <p className="p-0 self-center font-bold mr-4">Filter By :</p>
             <div className="self-center">
               <Button
                 onClick={() => handleButtonClick("dealer")}
-                className={`!rounded-e-[0px] !py-1 !px-2 ${
-                  activeButton !== "dealer" && "!bg-[white] !text-[#333] "
+                className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] ${
+                  activeButton !== "dealer" && "!bg-[white] !border-light-black !text-[#333] "
                 }`}
               >
                 Dealer
@@ -305,8 +306,8 @@ function Claims() {
               {!isServicerClaims && (
                 <Button
                   onClick={() => handleButtonClick("servicer")}
-                  className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                    activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                  className={`!rounded-[0px] !px-2 !py-1 !border-[1px] ${
+                    activeButton !== "servicer" && "!bg-[white] !border-light-black !text-[#333]"
                   }`}
                 >
                   Servicer
@@ -314,8 +315,8 @@ function Claims() {
               )}
               <Button
                 onClick={() => handleButtonClick("category")}
-                className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                  activeButton !== "category" && "!bg-[white] !text-[#333] "
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-[1px] ${
+                  activeButton !== "category" && "!bg-[white] !border-light-black !text-[#333] "
                 }`}
               >
                 Category
@@ -539,42 +540,44 @@ function Claims() {
               </>
             )}
           </Grid>
-        </div>
+        </Card>
 
         <Grid className="!grid-cols-3">
           <div className="col-span-3">
             <Grid className="mt-2">
               <div className="col-span-5">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!gap-1">
-                    {tabs.map((tab) => (
-                      <div className={tab.className} key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? ""
-                              : "!bg-grayf9 !text-black"
-                          }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                            alt={tab.label}
-                          />
-                          <span
-                            className={`ml-1 py-1 text-[12px] font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
+                <div className="rounded-[30px] border-[1px] border-Light-Grey">
+                  <Card className="!rounded-[30px]">
+                    <Grid className="!gap-1">
+                      {tabs.map((tab) => (
+                        <div className={tab.className} key={tab.id}>
+                          <Button
+                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                              activeTab === tab.id
+                                ? ""
+                                : "!bg-grayf9 !text-black"
                             }`}
+                            onClick={() => handleTabClick(tab.id)}
                           >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
-                  </Grid>
+                            <img
+                              src={
+                                activeTab === tab.id ? tab.Activeicons : tab.icons
+                              }
+                              className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
+                              alt={tab.label}
+                            />
+                            <span
+                              className={`ml-1 py-1 text-[12px] font-normal ${
+                                activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
+                            >
+                              {tab.label}
+                            </span>
+                          </Button>
+                        </div>
+                      ))}
+                    </Grid>
+                  </Card>
                 </div>
               </div>
               <div className="col-span-1 self-center"></div>

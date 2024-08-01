@@ -30,6 +30,7 @@ import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -778,7 +779,7 @@ function Dealer() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
+          <Card className="bg-white p-8 drop-shadow-4xl rounded-xl">
             <Grid>
               <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
                 <p className="text-light-black text-lg mb-3 font-semibold">
@@ -1231,10 +1232,10 @@ function Dealer() {
                 </Grid>
               </div>
             </Grid>
-          </div>
+          </Card>
 
           {formik.values.dealers.map((dealer, index) => (
-            <div
+            <Card
               key={index}
               className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
             >
@@ -1445,10 +1446,10 @@ function Dealer() {
                   </div>
                 </Grid>
               </div>
-            </div>
+            </Card>
           ))}
 
-          <div className="bg-white p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+          <Card className=" p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-2">
                 <p className="text-light-black text-lg mb-3 font-semibold">
@@ -1808,7 +1809,7 @@ function Dealer() {
                 </p>
               </div>
             )}
-          </div>
+          </Card>
           <Button type="submit" className="mt-4">
             Submit
           </Button>
