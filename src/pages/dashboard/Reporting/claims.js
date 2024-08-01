@@ -67,23 +67,31 @@ function Claims() {
     categoryId: "",
     primary: "servicer",
   });
+  
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
   });
 
-  const state = cityData;
+ 
 
   useEffect(() => {
     localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
+
+ 
 
   const {
     setFiltersForClaimServicer,
     setFiltersForClaimDealer,
     setFiltersForClaimCategory,
     toggleFilterFlag,
+    resetAllFilters
   } = useMyContext();
+
+  useEffect(()=>{
+    resetAllFilters()
+ },[])
 
   const tabs = [
     {
@@ -232,6 +240,7 @@ function Claims() {
       primary: activeButton,
     });
   }, [activeButton]);
+
 
   const handleApplyFilters = () => {
     if (activeButton == "category") {

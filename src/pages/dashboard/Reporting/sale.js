@@ -13,7 +13,6 @@ import All from "./Sale-Tab/all";
 import { MultiSelect } from "react-multi-select-component";
 import { getFilterList } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
-import RadioButton from "../../../common/radio";
 import { RotateLoader } from "react-spinners";
 
 function Sale() {
@@ -44,10 +43,10 @@ function Sale() {
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
-  const state = cityData;
+
   const containerRef = useRef(null);
 
-  const { setAppliedFilters, setFiltersForCategory } = useMyContext();
+  const { setAppliedFilters, setFiltersForCategory,resetAllFilters } = useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
@@ -64,6 +63,10 @@ function Sale() {
       });
     }
   }, [activeButton]);
+
+  useEffect(()=>{
+    resetAllFilters()
+ },[])
 
   const getDatasetAtEvent = async (data) => {
     try {
