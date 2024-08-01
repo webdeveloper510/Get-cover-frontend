@@ -197,16 +197,16 @@ function Sale() {
          <div className="self-center">
            <Button
              onClick={() => handleButtonClick("dealer")}
-             className={`!rounded-e-[0px] !py-1 !px-2 ${
-               activeButton !== "dealer" && "!bg-[white] !text-[#333] "
+             className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${
+               activeButton !== "dealer" && "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
              }`}
            >
              Dealer
            </Button>
            <Button
              onClick={() => handleButtonClick("category")}
-             className={`!rounded-s-[0px] !px-2 !py-1 ${
-               activeButton === "dealer" && "!bg-[white] !text-[#333] "
+             className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+               activeButton === "dealer" && "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
              }`}
            >
              Category
