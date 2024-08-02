@@ -782,7 +782,7 @@ function DealerPriceList() {
                       </div>
 
                   <div className="col-span-6">
-                  <Select
+                      <Select
                         name="term"
                         label="Term"
                         options={termList}
