@@ -38,6 +38,7 @@ import {
 import PdfMake from "../../../pdfMakeOrder";
 import PdfGenerator from "../../../pdfViewer";
 import DocMakeOrderContainer from "../../../docMakeOrder";
+import Card from "../../../../common/card";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -415,7 +416,7 @@ function OrderList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Orders List</p>
@@ -515,7 +516,7 @@ function OrderList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         {markLoader ? (

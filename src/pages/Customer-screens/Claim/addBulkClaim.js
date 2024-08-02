@@ -334,15 +334,15 @@ function CustomerAddBulkClaim() {
       </Button> */}
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Uploaded & Saved
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             You have successfully uploaded & saved the <br /> <b> Claim </b>{" "}
             with the new data <br /> you have entered.{" "}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Claim List {timer} seconds.
           </p>
         </div>

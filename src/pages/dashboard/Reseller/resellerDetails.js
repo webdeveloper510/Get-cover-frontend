@@ -233,12 +233,6 @@ useEffect(() => {
     setServicerList(result.result);
     console.log(result.result);
   };
-  console.log(
-    isStatus,
-    resellerStatus,
-    createAccount,
-    "<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>"
-  );
   useEffect(() => {
     resellerDetails();
     getServicerList();
@@ -283,10 +277,6 @@ useEffect(() => {
     setResllerDetails(result.reseller[0]);
     setIsStatus(result?.dealerStatus);
     setResellerStatus(result?.reseller[0].status);
-    console.log(
-      result.reseller[0].resellerData.status,
-      "---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>"
-    );
     setResellerStatusMain(result.reseller[0].resellerData.status);
     setServicerCreateAccountOption(
       result?.reseller[0]?.resellerData?.isServicer
@@ -306,24 +296,6 @@ useEffect(() => {
     });
     setLoading(false);
   };
-  // const dealerData = async () => {
-  //   setLoading(true);
-  //   console.log(id);
-  //   const result = await getDealersDetailsByid(id?.id);
-  //   setDealerDetails(result.result[0]);
-  //   console.log(result.result[0].dealerData);
-  // setInitialFormValues({
-  //   accountName: result?.result[0]?.dealerData?.name,
-  //   oldName: result?.result[0]?.dealerData?.name,
-  //   dealerId: id.id,
-  //   street: result?.result[0]?.dealerData?.street,
-  //   city: result?.result[0]?.dealerData?.city,
-  //   zip: result?.result[0]?.dealerData?.zip,
-  //   state: result?.result[0]?.dealerData?.state,
-  //   country: "USA",
-  // });
-  //   setLoading(false);
-  // };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -723,13 +695,6 @@ useEffect(() => {
       });
     }
   };
-
-  // const handleTransitionEnd = () => {
-  //   if (containerRef.current) {
-  //     containerRef.current.classList.remove("scroll-transition");
-  //     setScrolling(false);
-  //   }
-  // };
 
   const containerRef = useRef(null);
   const handleGOBack = () => {
@@ -1196,7 +1161,7 @@ useEffect(() => {
                 </div>
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                <p className="flex text-[11px] mb-3 mt-2 font-semibold ">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1213,7 +1178,7 @@ useEffect(() => {
                     onChange={handleAccountChange}
                   />
                 </p>
-                <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
+                <p className="flex text-[11px] mb-7 font-semibold self-center">
                   {" "}
                   <span className="mr-[2px]">
                     {" "}
@@ -1262,7 +1227,7 @@ useEffect(() => {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold">
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
@@ -1303,7 +1268,7 @@ useEffect(() => {
       {/* Modal Add User Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+          <p className=" text-center text-3xl mb-5 mt-2 font-bold">
             Add New User
           </p>
           <form onSubmit={userValues.handleSubmit}>
@@ -1427,7 +1392,7 @@ useEffect(() => {
                 />
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className="flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1478,10 +1443,10 @@ useEffect(() => {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>

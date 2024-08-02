@@ -44,6 +44,7 @@ import PasswordInput from "../../../common/passwordInput";
 import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
 import CommonTooltip from "../../../common/toolTip";
+import Card from "../../../common/card";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -801,6 +802,10 @@ function Account() {
   const [buttonColor, setButtonColor] = useState('');
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
+  const [modelBackgroundColor, setModelBackgroundColor] = useState('');
+  const [modelColor, setModelColor] = useState('');
+  const [cardBackGroundColor, setCardBackGroundColor] = useState('');
+  const [cardColor, setCardColor] = useState('');
   const [textColor, setTextColor] = useState('');
   const [title, setTitle] = useState('');
   const [titleColor, setTitleColor] = useState('');
@@ -841,6 +846,22 @@ function Account() {
     setTitleColor(event.target.value);
     siteChange.setFieldValue('titleColor' , titleColor)
   };
+  const handleColorChange9 = (event) => {
+    setCardColor(event.target.value);
+    siteChange.setFieldValue('cardColor' , cardColor)
+  };
+  const handleColorChange10 = (event) => {
+    setCardBackGroundColor(event.target.value);
+    siteChange.setFieldValue('cardBackGroundColor' , cardBackGroundColor)
+  };
+  const handleColorChange11 = (event) => {
+    setModelBackgroundColor(event.target.value);
+    siteChange.setFieldValue('modelBackgroundColor' , modelBackgroundColor)
+  };
+  const handleColorChange12 = (event) => {
+    setModelColor(event.target.value);
+    siteChange.setFieldValue('modelColor' , modelColor)
+  };
 
   const fetchUserDetails12 = async () => {
     try {
@@ -878,6 +899,18 @@ function Account() {
             case 'titleColor':
               setTitleColor(color.colorCode);
               break;
+              case 'cardColor':
+              setCardColor(color.colorCode);
+              break;
+              case 'cardBackGroundColor':
+              setCardBackGroundColor(color.colorCode);
+              break;
+              case 'modelBackgroundColor':
+              setModelBackgroundColor(color.colorCode);
+              break;
+              case 'modelColor':
+              setModelColor(color.colorCode);
+              break;
             default:
               break;
           }
@@ -911,6 +944,10 @@ function Account() {
       backGroundColor: backGroundColor,
       textColor: textColor,
       titleColor: titleColor,
+      modelColor: modelColor,
+      modelBackgroundColor: modelBackgroundColor,
+      cardBackGroundColor: cardBackGroundColor,
+      cardColor: cardColor,
       paymentDetail:bankDetails,
       address:address,
       
@@ -931,7 +968,11 @@ function Account() {
           { colorCode: values.buttonTextColor || buttonTextColor, colorType: "buttonTextColor" },
           { colorCode: values.backGroundColor || backGroundColor, colorType: "backGroundColor" },
           { colorCode: values.textColor || textColor, colorType: "textColor" },
-          { colorCode: values.titleColor || titleColor, colorType: "titleColor" }
+          { colorCode: values.titleColor || titleColor, colorType: "titleColor" },
+          { colorCode: values.cardColor || cardColor, colorType: "cardColor" },
+          { colorCode: values.cardBackGroundColor || cardBackGroundColor, colorType: "cardBackGroundColor" },
+          { colorCode: values.modelBackgroundColor || modelBackgroundColor, colorType: "modelBackgroundColor" },
+          { colorCode: values.modelColor || modelColor, colorType: "modelColor" }
         ];
         const apiData = {
           favIcon: values.favIcon || selectedFile2 ,
@@ -1020,7 +1061,7 @@ function Account() {
 
           {activeButton === "myAccount" && (
            <>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-3">My Account</p>
                 <>
                   <Grid>
@@ -1143,39 +1184,53 @@ function Account() {
                       )}
                     </Formik>
                     <div className="col-span-12">
-                      <form onSubmit={formikEmail.handleSubmit}>
-                        <p className="text-xl font-semibold mb-4">
-                          Send Notification
-                        </p>
-                        <div className="relative">
-                          <label
-                            htmlFor="email"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Send Notification to
-                          </label>
-                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer">
-                            <MultiSelect
-                              label="Email"
-                              name="Email"
-                              placeholder="Email"
-                              value={selectedEmail}
-                              options={emails}
-                              pName="Email"
-                              onChange={(value) => {
-                                console.log("value", value);
-                                setSelectedEmail(value);
-                                handleAddition(value);
-                                // handleFilterChange("priceBookId", value);
-                              }}
-                              labelledBy="Select"
-                              overrideStrings={{
-                                selectSomeItems: "Select Email",
-                              }}
-                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                            />
-                          </div>
-                        </div>
+                  <form onSubmit={formikEmail.handleSubmit}>
+                    <p className="text-xl font-semibold mb-4">
+                      Send Notification
+                    </p>
+                    <div className="relative">
+                      <label
+                        htmlFor="email"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Send Notification to
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        {/* <ReactTags
+                          tags={tags}
+                          delimiters={delimiters}
+                          name="email"
+                          handleDelete={handleDelete}
+                          handleAddition={handleAddition}
+                          handleDrag={handleDrag}
+                          handleTagClick={handleTagClick}
+                          inputFieldPosition="bottom"
+                          autocomplete
+                          editable
+                          placeholder=""
+                        /> */}
+
+                        <MultiSelect
+                          label="Email"
+                          name="Email"
+                          placeholder="Email"
+                          value={selectedEmail}
+                          options={emails}
+                          pName="Email"
+                          onChange={(value) => {
+                            console.log("value", value);
+                            setSelectedEmail(value);
+                            handleAddition(value);
+                            // handleFilterChange("priceBookId", value);
+                          }}
+                          labelledBy="Select"
+                          overrideStrings={{
+                            selectSomeItems: "Select Email",
+                          }}
+                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                        />
+                      </div>
+                    </div>
                         {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
                         <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
                           {(() => {
@@ -1269,7 +1324,7 @@ function Account() {
                     <Button type="submit">Change Password</Button>
                   </div>
                 </form>
-            </div>
+            </Card>
             {loading ? (
               <div className="h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1277,7 +1332,7 @@ function Account() {
                 </div>
               </div>
             ) : (
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
                 {isPrimary && (
                   <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}>+ Add Member</Button>
@@ -1298,13 +1353,13 @@ function Account() {
                   }
                   noDataComponent={<CustomNoDataComponent />}
                 />
-              </div>
+              </Card>
             )}
            </>
           )}
 
           {activeButton === "siteSetting" && (
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
                <form onSubmit={siteChange.handleSubmit}>
                   <p className="mb-3 text-light-black font-bold">Logo Setting</p>
                   <Grid container spacing={2}>
@@ -1643,6 +1698,82 @@ function Account() {
                                       />
                                       {/* </CommonTooltip> */}
                             </div>
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                                  <Input
+                                        type="color"
+                                        name={`cardColor`}
+                                        tooltip="9"
+                                        className="!bg-white flex"
+                                        content='you can change website Card color here'
+                                        className1="h-11"
+                                        label="Card Text Color"
+                                        placeholder=""
+                                        value={cardColor} onChange={handleColorChange9}
+                                      />
+                                      {/* </CommonTooltip> */}
+                            </div>
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                                  <Input
+                                        type="color"
+                                        name={`cardBackGroundColor`}
+                                        tooltip="10"
+                                        className="!bg-white flex"
+                                        content='you can change website card backGround color here'
+                                        className1="h-11"
+                                        label="Card Color"
+                                        placeholder=""
+                                        value={cardBackGroundColor} onChange={handleColorChange10}
+                                      />
+                                      {/* </CommonTooltip> */}
+                            </div>
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                                  <Input
+                                        type="color"
+                                        name={`modelBackgroundColor`}
+                                        tooltip="11"
+                                        className="!bg-white flex "
+                                        content='you can change website model Background color here'
+                                        className1="h-11 "
+                                        label="Model Color"
+                                        placeholder=""
+                                        value={modelBackgroundColor} onChange={handleColorChange11}
+                                      />
+                                      {/* </CommonTooltip> */}
+                            </div>
+                            <div className="col-span-2 relative">
+                            {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                                  <Input
+                                        type="color"
+                                        name={`modelColor`}
+                                        tooltip="12"
+                                        className="!bg-white flex !w-[163px]"
+                                        content='you can change website model text color here'
+                                        className1="h-11"
+                                        label="Model text Color"
+                                        placeholder=""
+                                        value={modelColor} onChange={handleColorChange12}
+                                      />
+                                      {/* </CommonTooltip> */}
+                            </div>
                           </Grid>
                       </div>
                   </Grid>
@@ -1650,15 +1781,15 @@ function Account() {
                      <Button className="mt-3" type="submit">Submit</Button>
                   </div>
                </form>
-            </div>
+            </Card>
           )}
 
            {activeButton === "CoverageType" && (
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
                <form onSubmit={siteChange.handleSubmit}>
                   <Grid container spacing={2}>
                     <div className="col-span-12 mb-2">
-                      <p className="mb-3 text-light-black font-bold">Add Coverage Type</p>
+                      <p className="mb-3 font-bold">Add Coverage Type</p>
                       <Input
                         type="text"
                         name="coverage_type"
@@ -1681,7 +1812,7 @@ function Account() {
                   <Button className="mt-3" type="submit">Submit</Button>
                   </div>
                </form>
-            </div>
+            </Card>
           )}
 
         </div>
@@ -1696,7 +1827,7 @@ function Account() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -1822,7 +1953,7 @@ function Account() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1871,7 +2002,7 @@ function Account() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Edit User
             </p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
@@ -2014,10 +2145,10 @@ function Account() {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className=" text-base font-medium mt-4">
             {secondMessage} {""} <br/>
             {lastMessage == null ? '' : lastMessage} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
@@ -2029,7 +2160,7 @@ function Account() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -2056,13 +2187,13 @@ function Account() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>

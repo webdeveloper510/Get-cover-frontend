@@ -59,6 +59,7 @@ import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import SelectSearch from "../../../common/selectSearch";
 import { apiUrl } from "../../../services/authServices";
+import Card from "../../../common/card";
 
 function ClaimList(props) {
   // console.log(props);
@@ -1229,7 +1230,7 @@ function ClaimList(props) {
           </>
         )}
 
-        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
@@ -1827,6 +1828,7 @@ function ClaimList(props) {
                                             disableFirstOption={true}
                                             value={customerStatus.status}
                                             onChange={handleSelectChange}
+                                            classBox='!bg-transparent'
                                             disabled={
                                               claimStatus.status ==
                                                 "Rejected" ||
@@ -1881,6 +1883,7 @@ function ClaimList(props) {
                                                 label=""
                                                 disableFirstOption={true}
                                                 value={claimStatus.status}
+                                                classBox='!bg-transparent'
                                                 disabled={
                                                   claimStatus.status ==
                                                     "Rejected" ||
@@ -1971,6 +1974,7 @@ function ClaimList(props) {
                                                   name="repairStatus"
                                                   label=""
                                                   disableFirstOption={true}
+                                                  classBox='!bg-transparent'
                                                   value={repairStatus.status}
                                                   onChange={handleSelectChange}
                                                   disabled={
@@ -2107,7 +2111,7 @@ function ClaimList(props) {
               // />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
@@ -2125,11 +2129,11 @@ function ClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -2221,7 +2225,7 @@ function ClaimList(props) {
           <p className="text-center text-3xl font-semibold ">
             Comments Details
           </p>
-          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey bg-[#F0F0F0] border rounded-xl">
+          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey  border rounded-xl">
             {modelLoading ? (
               <div className=" h-[350px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -2239,7 +2243,7 @@ function ClaimList(props) {
                         </div>
                       </div>
                       <div className="col-span-11">
-                        <div className="bg-white rounded-md relative p-1">
+                        <div className="bg-white text-light-black rounded-md relative p-1">
                           <img
                             src={arrowImage}
                             className="absolute -left-3 rotate-[270deg] top-2"
@@ -2247,7 +2251,7 @@ function ClaimList(props) {
                           />
                           <Grid>
                             <div className="col-span-6">
-                              <p className="text-xl font-semibold">
+                              <p className="text-xl text-light-black font-semibold">
                                 {msg?.commentBy?.firstName} {"  "}
                                 {msg?.commentBy?.lastName}
                                 <span className="text-[12px] pl-1">
@@ -2319,14 +2323,14 @@ function ClaimList(props) {
             </div>
             <Grid>
               <div className="col-span-1">
-                <div className="border flex h-full justify-center relative">
+                <div className="border bg-white flex h-full justify-center relative">
                   {previewImage ? (
                     <>
                       <div className="absolute -top-2 -right-2">
                         <img
                           src={Cross}
                           alt="Preview"
-                          className="cursor-pointer"
+                          className="cursor-pointer "
                           style={{
                             width: "20px",
                             height: "20px",
@@ -2367,7 +2371,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center"
+                      className="self-center bg-white"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -2390,7 +2394,7 @@ function ClaimList(props) {
                   rows="2"
                   name="content"
                   maxLength={150}
-                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] bg-white border-gray-300 appearance-none peer resize-none focus:text-sm`}
                   value={formik2.values.content}
                   onChange={formik2.handleChange}
                   onBlur={formik2.handleBlur}
@@ -2448,7 +2452,7 @@ function ClaimList(props) {
             </div>
           ) : (
             <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
+              <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
                   <p className="pb-5 text-lg font-semibold">
@@ -2629,7 +2633,7 @@ function ClaimList(props) {
                     </Button>
                   </div>
                 </Grid>
-              </div>
+              </Card>
               <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
                 <div className="relative">
                   <label
@@ -2665,14 +2669,14 @@ function ClaimList(props) {
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Submitted
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Edit Claim Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
         </div>
@@ -2681,11 +2685,11 @@ function ClaimList(props) {
       <Modal isOpen={isComplete} onClose={closeComplete}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Are you
-            <span className="text-light-black"> sure ? </span>
+            <span className=""> sure ? </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You want to complete this Claim ?
           </p>
           <div className="mt-3">

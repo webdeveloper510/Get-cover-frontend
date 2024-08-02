@@ -24,6 +24,7 @@ import {
   unAssignedServicerForDealer,
 } from "../../../../services/dealerServices";
 import Primary from "../../../../assets/images/SetPrimary.png";
+import Card from "../../../../common/card";
 
 function DealerDetailList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -335,7 +336,7 @@ function DealerDetailList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealer List</p>
@@ -456,7 +457,7 @@ function DealerDetailList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

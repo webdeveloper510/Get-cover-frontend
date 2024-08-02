@@ -70,7 +70,7 @@ const Input = ({
   };
 
   return (
-    <div className={`relative ${classBox}`}>
+    <div className={`relative ${classBox} bg-white rounded-lg`}>
       {type === "date" ? (
         <DatePicker
           selected={inputValue ? new Date(inputValue) : null}

@@ -18,6 +18,7 @@ import {
   getResellerListByDealerId,
   changeResellerStatus,
 } from "../../../../services/reSellerServices";
+import Card from "../../../../common/card";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [resellerList, setResellerList] = useState([]);
@@ -132,7 +133,7 @@ function Reseller(props) {
           <select
             value={row.resellerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -270,7 +271,7 @@ function Reseller(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Resellers List</p>
@@ -384,7 +385,7 @@ function Reseller(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

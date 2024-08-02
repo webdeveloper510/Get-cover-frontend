@@ -13,6 +13,7 @@ import LineChart from "../../../../common/lineChart";
 import { getAllSales } from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
+import Card from "../../../../common/card";
 
 function All({ activeTab, activeButton }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -224,7 +225,7 @@ function All({ activeTab, activeButton }) {
         </Grid>
       )}
 
-      <div className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+      <Card className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
         <Grid className="!grid-cols-5">
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
             <div className="bg-white h-full px-2">
@@ -351,7 +352,7 @@ function All({ activeTab, activeButton }) {
             </div>
           </div>
         </Grid>
-      </div>
+      </Card>
 
       <Modal isOpen={isModalOpen} className="w-[72vw]" onClose={closeModal}>
         <Button

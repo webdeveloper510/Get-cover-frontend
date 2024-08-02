@@ -135,14 +135,14 @@ function ForgotPassword() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={email} loading="lazy" alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Check your <span className="text-light-black"> Email </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             We emailed a <b> magic link </b> to{" "}
-            <span className="text-light-black">{formik.values.email} </span>
+            <span className="font-bold">{formik.values.email} </span>
           </p>
-          <Link to={"/"} className="font-bold text-base text-light-black">
+          <Link to={"/"} className="font-bold text-base">
             Click the link to Sign In
           </Link>
         </div>

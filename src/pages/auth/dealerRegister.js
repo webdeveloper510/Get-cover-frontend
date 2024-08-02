@@ -425,18 +425,18 @@ function DealerRegister() {
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
             <img src={email} alt="email Image" loading="lazy" className="mx-auto w-1/2 py-8" />
-            <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-2 font-semibold ">
               Please wait it will take time for{" "}
-              <span className="text-light-black"> Approval </span>
+              <span className=""> Approval </span>
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
+            <p className="text-base font-medium mt-4">
               For some security reasons you <b> require an approval. </b> It
               will be executed{" "}
             </p>
-            <p className="font-medium text-base text-neutral-grey">
+            <p className="font-medium text-base">
               as soon as the approver will validate the action. 
             </p>
-            <Link to={"/"} className="font-bold text-base text-light-black">
+            <Link to={"/"} className="font-bold text-base">
               Click the link to Sign In
             </Link>
           </div>

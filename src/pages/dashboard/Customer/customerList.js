@@ -21,6 +21,7 @@ import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Card from "../../../common/card";
 // Declare the base URL of the API
 function CustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -199,7 +200,7 @@ function CustomerList() {
                   onClick={() => {
                     navigate(`/customerDetails/${row.customerData._id}`);
                   }}
-                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold py-1"
+                  className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold"
                 >
                  <img src={view} className="w-4 h-4 mr-2"/> View
                 </div>
@@ -267,7 +268,7 @@ function CustomerList() {
 
         <Link
           to={"/addCustomer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -277,7 +278,7 @@ function CustomerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Customers List</p>
@@ -406,7 +407,7 @@ function CustomerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

@@ -26,6 +26,7 @@ import {
   getTermList,
 } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -474,7 +475,7 @@ function AddCompanyPriceBook() {
           )} */}
           {type == "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-              <Grid className="mx-8 mx-auto !grid-cols-12">
+              <Grid className="mx-auto !grid-cols-12">
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
                     <div className="self-center mr-4">
@@ -539,7 +540,7 @@ function AddCompanyPriceBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+            <Card className="px-8 pb-8 pt-6 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -1079,7 +1080,7 @@ function AddCompanyPriceBook() {
               >
                 Submit
               </Button>
-            </div>
+            </Card>
           </form>
         </>
       )}

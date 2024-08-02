@@ -21,6 +21,7 @@ import {
   getResellerList,
   changeResellerStatus,
 } from "../../../services/reSellerServices";
+import Card from "../../../common/card";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -195,7 +196,7 @@ function ResellerList() {
           <select
             value={row.resellerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -306,7 +307,7 @@ function ResellerList() {
 
         <Link
           to={"/addReseller"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -316,7 +317,7 @@ function ResellerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Resellers List</p>
@@ -443,7 +444,7 @@ function ResellerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

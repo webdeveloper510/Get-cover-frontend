@@ -152,15 +152,15 @@ const checkValidLink = () => {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={NewPasswordEmail} alt="email Image" loading="lazy" className="mx-auto"/>
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Password{" "}
-            <span className="text-light-black"> Reset Successfully </span>
+            <span className=""> Reset Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             Your password has been changed. Now you can{" "}
           </p>
            
-          <p className="text-neutral-grey text-base font-medium"><Link to={"/"} className="font-bold text-base text-light-black">
+          <p className=" text-base font-medium"><Link to={"/"} className="font-bold text-base">
             {" "}
             login 
           </Link> with your new password. </p>

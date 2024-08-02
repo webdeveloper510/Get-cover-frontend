@@ -36,6 +36,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import DocMakeOrderContainer from "../../docMakeOrder";
+import Card from "../../../common/card";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -445,7 +446,7 @@ function OrderList() {
           </Link>
         </Button>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Order List</p>
@@ -553,7 +554,7 @@ function OrderList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {orderType == "Process" ? (
@@ -581,11 +582,11 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black">Error</span>{" "}
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className="">Error</span>{" "}
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {errorLine} : <br />
             <span>{errorList} . </span>
           </p>
@@ -605,7 +606,7 @@ function OrderList() {
           <>
             <div className="text-center py-3">
               <img src={unassign} alt="email Image" className="mx-auto my-4" />
-              <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
+              <p className="text-3xl mb-0 mt-2 font-[800] px-10">
                 {message}
               </p>
               <Grid className="!grid-cols-4 my-5 ">
@@ -627,13 +628,13 @@ function OrderList() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             {primaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {secondaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>

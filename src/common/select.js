@@ -45,7 +45,7 @@ const Select = ({
   }, [value]);
 
   return (
-    <div className={`relative ${classBox}`}>
+    <div className={`relative ${classBox} bg-white rounded-lg`}>
       <div className="select-container relative">
         <select
           id={label}

@@ -18,6 +18,7 @@ import CustomPagination from "../../../pagination";
 import { getContractsforCustomer } from "../../../../services/customerServices";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
+import Card from "../../../../common/card";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
@@ -127,7 +128,7 @@ function ContractList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
@@ -333,7 +334,7 @@ function ContractList(props) {
               />
             </div>
           )}
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
@@ -376,7 +377,7 @@ function ContractList(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center ">
+                  <div className="col-span-1 self-center justify-end">
                     <Link to={`/editContract/${singleContract._id}`}>
                       {" "}
                       <img

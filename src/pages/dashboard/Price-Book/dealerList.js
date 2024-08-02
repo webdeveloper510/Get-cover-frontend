@@ -410,7 +410,7 @@ function DealerPriceList() {
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Price Book </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm font-bold ml-2 pt-[1px]">
                 {" "}
                 Dealer Book{" "}
               </li>
@@ -568,50 +568,50 @@ function DealerPriceList() {
           </p>
           <Grid className="mt-5 px-6">
           <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Product Name
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.pName}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Product Category
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Price Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
               Coverage Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.coverageType}
               </p>
             </div>
             <div className="col-span-8">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Description
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.description}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Wholesale Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
               ${
                   dealerPriceBookDetail?.wholesalePrice === undefined
                       ? parseInt(0).toLocaleString(2)
@@ -620,10 +620,10 @@ function DealerPriceList() {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Retail Price 
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
               ${
                   dealerPriceBookDetail?.retailPrice === undefined
                       ? parseInt(0).toLocaleString(2)
@@ -631,14 +631,14 @@ function DealerPriceList() {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Term</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-semibold">Term</p>
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Status</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-semibold">Status</p>
+              <p className="text-base font-bold">
                 {" "}
                 {dealerPriceBookDetail?.status === true
                   ? "Active"
@@ -649,10 +649,10 @@ function DealerPriceList() {
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-semibold">
                     Range Start
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-bold">
                   ${
                   dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
@@ -660,10 +660,10 @@ function DealerPriceList() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-semibold">
                     Range End
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-bold">
                   ${
                   dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)

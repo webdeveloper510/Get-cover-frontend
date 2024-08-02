@@ -55,6 +55,7 @@ import CustomPagination from "../../../pagination";
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
 import { checkUserToken } from "../../../../services/userServices";
+import Card from "../../../../common/card";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -853,21 +854,6 @@ function ClaimList(props) {
     },
   ];
 
-  const claimvalues = [
-    {
-      value: "Open",
-      label: "Open",
-    },
-    {
-      value: "Completed",
-      label: "Completed",
-    },
-    {
-      value: "Rejected",
-      label: "Rejected",
-    },
-  ];
-
   const validationSchema = Yup.object().shape({});
 
   const formik1 = useFormik({
@@ -1024,7 +1010,7 @@ function ClaimList(props) {
 
             <Link
               to={"/addClaim"}
-              className=" w-[150px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
+              className=" w-[150px] !bg-white font-semibold py-2 px-4 flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
             >
               {" "}
               <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -1043,7 +1029,7 @@ function ClaimList(props) {
             </div>
           </>
         ) : (
-          <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
               <div className="col-span-2 self-center">
                 <p className="text-xl font-semibold">Claims List</p>
@@ -1739,7 +1725,7 @@ function ClaimList(props) {
                 />
               )}
             </div>
-          </div>
+          </Card>
         )}
       </div>
 

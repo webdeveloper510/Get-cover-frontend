@@ -1084,10 +1084,10 @@ function CustomerUser() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {primaryText}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
@@ -1098,7 +1098,7 @@ function CustomerUser() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -1125,13 +1125,13 @@ function CustomerUser() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -1146,7 +1146,7 @@ function CustomerUser() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Edit User
             </p>
             <form className="mt-8" onSubmit={formik1.handleSubmit}>
@@ -1298,7 +1298,7 @@ function CustomerUser() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Add New User
             </p>
             <form className="mt-8" onSubmit={userValues.handleSubmit}>
@@ -1434,7 +1434,7 @@ function CustomerUser() {
               )} */}
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1488,10 +1488,10 @@ function CustomerUser() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>

@@ -1449,7 +1449,7 @@ function Dealer() {
             </Card>
           ))}
 
-          <Card className=" p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+          <Card className="p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-2">
                 <p className="text-light-black text-lg mb-3 font-semibold">

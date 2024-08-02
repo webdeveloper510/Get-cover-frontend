@@ -337,7 +337,7 @@ function CustomerContractList(props) {
                         <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className="font-bold text-sm font-Regular">
                                 Manufacturer
                               </p>
                               <p className="text-light-black text-base font-semibold">
@@ -347,7 +347,7 @@ function CustomerContractList(props) {
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className="font-bold text-sm font-Regular">
                                 Model
                               </p>
                               <p className="text-light-black text-base font-semibold">
@@ -357,7 +357,7 @@ function CustomerContractList(props) {
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className="font-bold text-sm font-Regular">
                                 Serial
                               </p>
                               <p className="text-light-black text-base font-semibold">
@@ -367,7 +367,7 @@ function CustomerContractList(props) {
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className="font-bold text-sm font-Regular">
                                 Status
                               </p>
                               <p className="text-light-black text-base font-semibold">
@@ -377,7 +377,7 @@ function CustomerContractList(props) {
                           </div>
                           <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                             <div className="py-4 pl-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className="font-bold text-sm font-Regular">
                                 Eligibility
                               </p>
                               {res?.eligibilty === false ? (
@@ -605,56 +605,56 @@ function CustomerContractList(props) {
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center"></div>
+                  <div className="col-span-1 self-center justify-end"></div>
                 </Grid>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Manufacturer
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className=" text-base font-semibold">
                         {contractDetails?.manufacture}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Model
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className=" text-base font-semibold">
                         {contractDetails?.model}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Serial #
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className=" text-base font-semibold">
                         {contractDetails?.serial}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Condition
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className=" text-base font-semibold">
                         {contractDetails?.condition}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Retail Price
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-semibold">
                         $
                         {contractDetails?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -667,17 +667,17 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className=" text-base font-semibold">
                         {contractDetails?.order?.[0]?.servicer?.[0]?.name}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Status
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -687,7 +687,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Product Category
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -700,7 +700,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Product SKU
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -710,7 +710,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Product Name
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -720,7 +720,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Product Description
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -733,7 +733,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Price Type
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -746,7 +746,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Eligibility
                       </p>
                       {/* <p className="text-light-black text-base font-semibold">
@@ -775,7 +775,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Claim Amount
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -793,7 +793,7 @@ function CustomerContractList(props) {
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className="font-bold text-sm font-Regular">
                             Start Range
                           </p>
                           <p className="text-light-black text-base font-semibold">
@@ -811,7 +811,7 @@ function CustomerContractList(props) {
                       </div>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className="font-bold text-sm font-Regular">
                             End Range
                           </p>
                           <p className="text-light-black text-base font-semibold">
@@ -834,7 +834,7 @@ function CustomerContractList(props) {
 
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Coverage Start Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -850,7 +850,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Coverage End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -866,7 +866,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Labour Warranty Start Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -882,7 +882,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Part Warranty Start Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
@@ -898,7 +898,7 @@ function CustomerContractList(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="font-bold text-sm font-Regular">
                         Purchase Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
