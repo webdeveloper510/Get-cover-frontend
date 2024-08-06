@@ -19,6 +19,7 @@ const Input = ({
   className1,
   disabled,
   placeholder,
+  zipcode,
   classBox,
   nonumber,
   maxDate,
@@ -51,6 +52,10 @@ const Input = ({
     if (type === "text") {
       inputValue = inputValue.replace(/[|&;$%*"<>()+,]/g, "");
       inputValue = inputValue.replace(/\s+/g, " ");
+    }
+
+    if (zipcode) {
+      inputValue = inputValue.replace(/\D/g, ""); // Remove any non-digit characters
     }
 
     setInputValue(inputValue);
@@ -121,6 +126,7 @@ const Input = ({
                 minLength={minLength}
                 maxLength={maxLength}
                 pattern={type === "number" ? "[0-9]*" : undefined}
+                step={type === "number" ? "1" : undefined} // Ensure step is set to 1 for number type
                 className={`${
                   type === "tel" || (nonumber && "pl-[30px]")
                 } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${

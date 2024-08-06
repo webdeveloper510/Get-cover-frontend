@@ -620,6 +620,7 @@ function AddCustomer() {
                         label="Customer Zipcode"
                         className="!bg-white"
                         required={true}
+                        zipcode={true}
                         placeholder=""
                         value={formik.values.zip}
                         onChange={formik.handleChange}
