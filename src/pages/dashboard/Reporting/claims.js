@@ -120,24 +120,24 @@ function Claims() {
       const getName = (obj) => obj.name;
       const mapToLabelValue = (value) =>
         value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      const mapPriceBooks = (value) =>
-        value.map((obj) => ({
-          label: obj.name,
-          value: obj.name,
-        }));
+      // const mapPriceBooks = (value) =>
+      //   value.map((obj) => ({
+      //     label: obj.name,
+      //     value: obj.name,
+      //   }));
 
       if (activeButton === "dealer") {
         setDealerList(mapToLabelValue(dealers));
         setCategoryList(mapToLabelValue(categories));
-        setPriceBookList(mapPriceBooks(priceBooks));
+        setPriceBookList(mapToLabelValue(priceBooks));
         setServicerList(mapToLabelValue(servicers));
       } else if (activeButton === "category") {
         setCategoryListCat(mapToLabelValue(categories));
-        setPriceBookListCat(mapPriceBooks(priceBooks));
+        setPriceBookListCat(mapToLabelValue(priceBooks));
       } else {
         setServicerListServicer(mapToLabelValue(servicers));
         setCategoryListServicer(mapToLabelValue(categories));
-        setPriceBookListServicer(mapPriceBooks(priceBooks));
+        setPriceBookListServicer(mapToLabelValue(priceBooks));
         setDealerListServicer(mapToLabelValue(dealers));
       }
     } catch (error) {
@@ -150,6 +150,7 @@ function Claims() {
   };
 
   const handleFilterChange = (name, value) => {
+    console.log(value);
     let updatedFilters = { ...filter };
     const commonUpdates = {
       categoryId: "",
@@ -189,7 +190,7 @@ function Claims() {
         setSelectedCat([]);
         break;
       case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
+        updatedFilters.priceBookId = value.map((item) => item.value);
         break;
       default:
         return;
@@ -214,7 +215,7 @@ function Claims() {
         setSelectedSer([]);
         break;
       case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
+        updatedFilters.priceBookId = value.map((item) => item.value);
         break;
       default:
         return;
@@ -297,7 +298,8 @@ function Claims() {
               <Button
                 onClick={() => handleButtonClick("dealer")}
                 className={`!rounded-e-[0px] !py-1 !px-2 ${
-                  activeButton !== "dealer" && "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
+                  activeButton !== "dealer" &&
+                  "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
                 }`}
               >
                 Dealer
@@ -306,7 +308,8 @@ function Claims() {
                 <Button
                   onClick={() => handleButtonClick("servicer")}
                   className={`!rounded-[0px] !px-2 !py-1 ${
-                    activeButton !== "servicer" && "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
+                    activeButton !== "servicer" &&
+                    "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
                   }`}
                 >
                   Servicer
@@ -315,7 +318,8 @@ function Claims() {
               <Button
                 onClick={() => handleButtonClick("category")}
                 className={`!rounded-s-[0px] !px-2 !py-1  ${
-                  activeButton !== "category" && "!bg-[white] !text-[#333] !border-light-black !border-[1px] "
+                  activeButton !== "category" &&
+                  "!bg-[white] !text-[#333] !border-light-black !border-[1px] "
                 }`}
               >
                 Category

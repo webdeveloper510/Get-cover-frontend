@@ -870,6 +870,7 @@ function AddOrder() {
       : []),
     { label: "Custom", value: "Custom" },
   ];
+  console.log(formik.values);
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
     const arr = [];
@@ -1603,7 +1604,7 @@ function AddOrder() {
 
         const priceBookDetails = result?.result?.priceBookDetail;
         const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
-        
+
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
