@@ -356,13 +356,13 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2" /> Process
@@ -370,7 +370,7 @@ function OrderList() {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 px-2 border-b flex cursor-pointer"
+                        className="text-center py-1 px-2 border-b text-black flex cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
@@ -385,7 +385,7 @@ function OrderList() {
                       />
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
+                      className="text-left py-1 px-2 flex cursor-pointer text-black hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
@@ -396,7 +396,7 @@ function OrderList() {
                     <div onClick={() => localStorage.removeItem("orderMenu")}>
                       <Link
                         to={`/orderDetails/${row._id}`}
-                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
+                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold text-black border-b w-full flex justify-start"
                       >
                         <img src={view} className="w-4 h-4 mr-2" /> View
                       </Link>

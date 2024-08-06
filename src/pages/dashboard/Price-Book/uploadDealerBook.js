@@ -273,7 +273,7 @@ function UploadDealerBook() {
                   </div>
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black text-base mb-2 font-semibold">
+                  <p className="text-base mb-2 font-semibold">
                     Upload In Bulk
                   </p>
                   <div className="relative">
@@ -299,7 +299,7 @@ function UploadDealerBook() {
                             className="mx-auto mb-3"
                             alt="Dropbox"
                           />
-                          <p className="text-[#5D6E66]">
+                          <p className="">
                             Accepted file types: csv, xlsx, xls Max. file size:
                             50 MB.
                           </p>
@@ -319,7 +319,7 @@ function UploadDealerBook() {
                       <span className="font-semibold">{formik.errors.file} </span>
                     </p>
                   )}
-                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                  <p className="text-[12px] mt-1 font-medium">
                     Please click on file option and make a copy. Upload the list
                     of Product Name and Price using our provided Google Sheets
                     template, by{" "}

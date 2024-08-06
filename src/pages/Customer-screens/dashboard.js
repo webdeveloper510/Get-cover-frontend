@@ -126,7 +126,7 @@ function CustomerDashboard() {
                 <div
                   ref={dropdownRef}
                   onClick={() => setSelectedAction(null)}
-                  className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                  className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white text-white border rounded-lg shadow-md top-[1rem]`}
                 >
                   {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
   

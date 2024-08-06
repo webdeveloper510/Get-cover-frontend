@@ -613,10 +613,10 @@ useEffect(() => {
       <Modal isOpen={modalOpen} onClose={closeModel}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             Servicer Updated Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             Redirecting Back to Order Detail page in {timer} Seconds
           </p>
         </div>

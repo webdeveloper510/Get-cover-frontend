@@ -22,6 +22,7 @@ import Select from "../../../common/select";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 
 function Category() {
@@ -141,7 +142,7 @@ function Category() {
           <select
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -172,7 +173,7 @@ function Category() {
               >
                 <div
                   onClick={() => navigate(`/editCategory/${row._id}`)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
                   >
                    <img src={edit} className="w-4 h-4 mr-2"/> Edit
                 </div>
@@ -235,7 +236,7 @@ function Category() {
         </div>
         <Link
           to={"/addCategory"}
-          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -244,7 +245,7 @@ function Category() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white  border-[1px] border-Light-Grey rounded-xl ">
+        <Card className="bg-white  border-[1px] border-Light-Grey rounded-xl ">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Categories List</p>
@@ -331,7 +332,7 @@ function Category() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

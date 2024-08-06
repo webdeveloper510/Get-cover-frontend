@@ -1333,21 +1333,21 @@ function ClaimList(props) {
                           <>
                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-black text-lg">
                                   {" "}
                                   {res.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Claim ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-black text-lg">
                                   {" "}
                                   {res?.contracts?.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-black text-lg">
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                 </p>
@@ -2656,7 +2656,7 @@ function ClaimList(props) {
               </div>
 
               <div className="mt-3">
-                <Button className="!bg-white !text-black" onClick={closeEdit}>
+                <Button className="!bg-white !text-black mr-2" onClick={closeEdit}>
                   Cancel
                 </Button>
                 <Button type="submit">Update</Button>

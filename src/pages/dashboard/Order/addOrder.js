@@ -1756,7 +1756,7 @@ function AddOrder() {
                     <div className="flex justify-between w-full">
                       <p className="text-2xl font-bold mb-4">Order Details</p>
                       <Button
-                        className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                        className="text-sm !py-0 h-[30px] self-center !bg-white !text-light-black !font-semibold !border-light-black !border-[1px]"
                         onClick={handleReload}
                       >
                         Reset
@@ -2122,7 +2122,7 @@ function AddOrder() {
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <Button
-                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    className="text-sm !py-0 h-[30px] self-center !bg-white !text-light-black !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
@@ -2705,7 +2705,7 @@ function AddOrder() {
                             }
                             onChange={formikStep3.handleChange}
                             onBlur={formikStep3.handleBlur}
-                            className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] bg-white border-gray-300 appearance-none peer"
                           ></textarea>
                           {formikStep3.errors.productsArray &&
                             formikStep3.errors.productsArray[index] &&
@@ -2745,11 +2745,11 @@ function AddOrder() {
                                 alt="Dropbox"
                               />
                               <div className="flex justify-between w-full">
-                                <p className="self-center text-sm pr-3">
+                                <p className="self-center text-sm pr-3 text-black">
                                   {" "}
                                   {fileValues[index].name}
                                 </p>
-                                <p className="self-center text-sm">
+                                <p className="self-center text-sm text-black">
                                   {(fileValues[index].size / 1000).toFixed(2)}{" "}
                                   kb
                                 </p>
@@ -2762,7 +2762,7 @@ function AddOrder() {
                                 className="mx-auto mb-3"
                                 alt="Dropbox"
                               />
-                              <p className="text-[#5D6E66]">
+                              <p className="">
                                 Accepted file types: csv, xlsx, xls Max. file
                                 size: 50 MB.
                               </p>
@@ -2787,7 +2787,7 @@ function AddOrder() {
                         />
                       </div>
                     </div>
-                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    <p className="text-[12px] mt-1 font-medium">
                       Please click on file option and make a copy. Upload the
                       list of Product Name and Price using our provided Google
                       Sheets template, by{" "}
@@ -2842,10 +2842,10 @@ function AddOrder() {
             <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Order Details
                   </p>
-                  <Grid className="bg-grayf9 border-Light-Grey border rounded-xl px-4 ">
+                  <Grid className=" border-Light-Grey border rounded-xl px-4 ">
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Dealer Name</p>
                       <p className="font-bold text-sm break-words">
@@ -2873,10 +2873,10 @@ function AddOrder() {
                   </Grid>
                 </div>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
-                  <Grid className="bg-grayf9 !gap-2 border-Light-Grey border rounded-xl px-2 ">
+                  <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Dealer Purchase Order</p>
                       <p className="font-bold text-sm">
@@ -2906,10 +2906,10 @@ function AddOrder() {
                   return (
                     <>
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Product Details
                         </p>
-                        <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
+                        <div className=" border-Light-Grey border rounded-xl ">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -3085,14 +3085,14 @@ function AddOrder() {
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Uploaded Data
                         </p>
-                        <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
+                        <div className="border border-dashed w-full h-[83%] relative flex">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
-                              <p className="self-center">
+                              <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
@@ -3224,7 +3224,7 @@ function AddOrder() {
                   </p>
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -3412,16 +3412,16 @@ function AddOrder() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold ">
             {type == "Edit" ? "Update" : "Add"} Order
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             <b> {type == "Edit" ? "" : "New Order"} </b>{" "}
             {type == "Edit" ? "Updated" : "Added"} Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
@@ -3440,11 +3440,11 @@ function AddOrder() {
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Error </span>
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            <span className=""> Error </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Some Errors Please Check Form Validations
           </p>
         </div>

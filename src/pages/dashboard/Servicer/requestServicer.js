@@ -22,6 +22,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Card from "../../../common/card";
 
 function RequestServicer() {
   const [list, setList] = useState([]);
@@ -288,7 +289,7 @@ function RequestServicer() {
           </div>
         </div>
 
-        <div className="bg-white mt-10 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-10 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Request List</p>
@@ -400,7 +401,7 @@ function RequestServicer() {
               />
             )}
           </div>
-        </div>
+        </Card>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
             <img src={request} alt="email Image" className="mx-auto" />

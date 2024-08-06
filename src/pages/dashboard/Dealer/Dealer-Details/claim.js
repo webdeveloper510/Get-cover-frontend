@@ -1177,14 +1177,14 @@ function ClaimList(props) {
                                 <>
                                   <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                                     <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                      <p className="font-semibold leading-5 text-lg">
+                                      <p className="font-semibold text-black leading-5 text-lg">
                                         {" "}
                                         {res.unique_key}{" "}
                                       </p>
                                       <p className="text-[#A3A3A3]">Claim ID</p>
                                     </div>
                                     <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                      <p className="font-semibold leading-5 text-lg">
+                                      <p className="font-semibold text-black leading-5 text-lg">
                                         {" "}
                                         {res?.contracts?.unique_key}{" "}
                                       </p>
@@ -1193,7 +1193,7 @@ function ClaimList(props) {
                                       </p>
                                     </div>
                                     <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                      <p className="font-semibold leading-5 text-lg">
+                                      <p className="font-semibold text-black leading-5 text-lg">
                                         {" "}
                                         {format(
                                           new Date(res.lossDate),
@@ -1909,7 +1909,7 @@ function ClaimList(props) {
           <p className="text-center text-3xl font-semibold ">
             Comments Details
           </p>
-          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey bg-[#F0F0F0] border rounded-xl">
+          <div className="h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey border rounded-xl">
             {modelLoading ? (
               <div className=" h-[350px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1935,7 +1935,7 @@ function ClaimList(props) {
                           />
                           <Grid>
                             <div className="col-span-6">
-                              <p className="text-xl font-semibold">
+                              <p className="text-xl text-light-black font-semibold">
                                 {msg.commentBy.firstName}{" "}
                                 {msg.commentBy.lastName}
                                 <span className="text-[12px] pl-1">
@@ -1950,14 +1950,14 @@ function ClaimList(props) {
                                   : "col-span-6 text-right"
                               }`}
                             >
-                              <p className="text-sm pr-3">
+                              <p className="text-sm text-light-black pr-3">
                                 {" "}
                                 {format(
                                   new Date(msg.date ? msg?.date : new Date()),
                                   "hh:mm aaaaa'm'"
                                 )}
                               </p>
-                              <p className="text-sm">
+                              <p className="text-sm text-light-black">
                                 {format(
                                   new Date(msg.date ? msg?.date : new Date()),
                                   "MM/dd/yyyy"
@@ -1978,8 +1978,8 @@ function ClaimList(props) {
                             )}
                           </Grid>
                           <hr className="my-2" />
-                          <p className="text-sm">{msg.content}</p>
-                          <p className="text-right">
+                          <p className="text-sm text-light-black">{msg.content}</p>
+                          <p className="text-right text-light-black">
                             <span className="text-[11px]">(To {msg.type})</span>
                           </p>
                         </div>
@@ -2007,10 +2007,10 @@ function ClaimList(props) {
             </div>
             <Grid>
               <div className="col-span-1">
-                <div className="border flex h-full justify-center relative">
+                <div className="border flex h-full justify-center relative bg-white">
                   {previewImage ? (
                     <>
-                      <div className="absolute -top-2 -right-2">
+                      <div className="absolute -top-2 -right-2 ">
                         <img
                           src={Cross}
                           alt="Preview"
@@ -2055,7 +2055,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center"
+                      className="self-center bg-white"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -2078,7 +2078,7 @@ function ClaimList(props) {
                   rows="2"
                   name="content"
                   maxLength={150}
-                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] bg-white border-gray-300 appearance-none peer resize-none focus:text-sm`}
                   value={formik2.values.content}
                   onChange={formik2.handleChange}
                   onBlur={formik2.handleBlur}

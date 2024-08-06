@@ -199,7 +199,7 @@ function Dashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/orderDetails/${row._id}`}
-                      className="text-left py-2 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-2 px-2 cursor-pointer hover:font-semibold text-black w-full flex justify-start"
                     >
                       <img
                         src={view}
@@ -273,7 +273,7 @@ function Dashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/claimList/${row.unique_key}`}
-                      className="text-left py-2 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-2 px-2 cursor-pointer hover:font-semibold w-full text-black flex justify-start"
                     >
                       <img
                         src={view}
@@ -337,7 +337,7 @@ function Dashboard() {
               >
                 <Link
                   to={`/dealerDetails/${row?._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer flex text-black hover:font-semibold py-2 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
                   View
@@ -396,7 +396,7 @@ function Dashboard() {
               >
                 <Link
                   to={`/servicerDetails/${row?._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer flex text-black hover:font-semibold py-2 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" alt="eye Image" />{" "}
                   View

@@ -252,7 +252,7 @@ function DealerList() {
               >
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-left cursor-pointer flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-2 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </Link>

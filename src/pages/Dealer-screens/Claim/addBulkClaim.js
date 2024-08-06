@@ -16,6 +16,7 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Button from "../../../common/button";
+import Card from "../../../common/card";
 
 function DealerAddBulkClaim() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -210,7 +211,7 @@ function DealerAddBulkClaim() {
             </p>
           )} */}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -315,7 +316,7 @@ function DealerAddBulkClaim() {
               >
                 Submit
               </Button>
-            </div>
+            </Card>
           </form>
 
           {/* Modal Email Popop */}

@@ -30,6 +30,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { getUserListByDealerId } from "../../../services/userServices";
+import Card from "../../../common/card";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -515,10 +516,10 @@ function AddCustomer() {
                 </div>
               )}
             </Grid>
-            <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+            <Card className="bg-white p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
-                  <p className="text-light-black text-lg font-bold">
+                  <p className="text-lg font-bold">
                     Create Account
                   </p>
                   <Grid>
@@ -550,7 +551,7 @@ function AddCustomer() {
                     </div>
                     <div className="col-span-12">
                       <div className="flex">
-                        <p className="text-neutral-grey">Address</p>
+                        <p className="">Address</p>
                         <hr className="self-center ml-3 border-Light-Grey w-full" />
                       </div>
                     </div>
@@ -637,7 +638,7 @@ function AddCustomer() {
                   </Grid>
                 </div>
                 <div className="col-span-8">
-                  <p className="text-light-black text-lg font-bold mb-4">
+                  <p className="text-lg font-bold mb-4">
                     Contact Information
                   </p>
 
@@ -776,7 +777,7 @@ function AddCustomer() {
                       />
                     </div>
                     <div className="col-span-6 self-center">
-                      <p className="text-light-black flex text-[13px]  font-semibold self-center">
+                      <p className="flex text-[13px]  font-semibold self-center">
                         {" "}
                         Do you want to create an account?
                         <RadioButton
@@ -817,7 +818,7 @@ function AddCustomer() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </Card>
 
             {formik.values.members.map((dealer, index) => (
               <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">

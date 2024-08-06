@@ -240,7 +240,7 @@ function ResellerList() {
                     localStorage.removeItem("Resellermenu");
                     navigate(`/resellerDetails/${row?.accountId}`);
                   }}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer flex text-black hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>

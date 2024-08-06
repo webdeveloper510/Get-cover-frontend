@@ -145,7 +145,7 @@ function ServicerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/servicer/claimList/${row.unique_key}`}
-                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer text-black hover:font-semibold w-full flex justify-start"
                     >
                       <img
                         src={view}
@@ -220,7 +220,7 @@ function ServicerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/orderDetails/${row._id}`}
-                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer text-black hover:font-semibold w-full flex justify-start"
                     >
                       <img
                         src={view}

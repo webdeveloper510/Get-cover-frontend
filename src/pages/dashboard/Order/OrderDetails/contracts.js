@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import Select from "../../../../common/select";
+import Card from "../../../../common/card";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -122,7 +123,7 @@ function Contracts(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
@@ -358,7 +359,7 @@ function Contracts(props) {
             onPageChange={handlePageChange}
             setRecordsPerPage={setRecordsPerPage}
           />
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
@@ -384,73 +385,73 @@ function Contracts(props) {
               <>
                 <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="text-white py-2 font-Regular">
+                    <p className="py-2 font-Regular">
                       Contract ID : <b> {singleContract?.unique_key} </b>
                     </p>
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
+                    <p className="py-2 font-Regular">
                       Order ID :{" "}
                       <b> {singleContract?.order?.[0]?.unique_key} </b>
                     </p>
                   </div>
                   <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
+                    <p className="py-2 font-Regular">
                       Dealer P.O. # :{" "}
                       <b> {singleContract?.order?.[0]?.venderOrder} </b>
                     </p>
                   </div>
                   <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end self-center rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
                 </Grid>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Dealer Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract?.order?.[0]?.customer?.[0]?.dealerName}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract?.order?.[0]?.reseller?.[0]?.name}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Customer Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract?.order?.[0]?.customer?.[0]?.username}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract?.order?.[0]?.servicer?.[0]?.username}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Claim Amount
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {singleContract?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -462,10 +463,10 @@ function Contracts(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Product Category
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {
                           singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0].category.name
@@ -475,20 +476,20 @@ function Contracts(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Product Name
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract?.productName}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Product Description
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {
                           singleContract?.order?.[0]?.productsArray?.[0]
                             ?.description
@@ -498,10 +499,10 @@ function Contracts(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Price Type
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {
                           singleContract?.order?.[0]?.productsArray?.[0]
                             ?.priceType
@@ -511,20 +512,20 @@ function Contracts(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Condition
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {singleContract.condition}
                       </p>
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-es-xl">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Retail Price
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {singleContract.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -539,10 +540,10 @@ function Contracts(props) {
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className="text-sm font-Regular">
                             Start Range
                           </p>
-                          <p className="text-light-black text-base font-semibold">
+                          <p className="text-base font-bold">
                             $
                             {singleContract?.order?.[0]?.productsArray?.[0]
                               ?.rangeStart === undefined
@@ -556,10 +557,10 @@ function Contracts(props) {
                       </div>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className="text-sm font-Regular">
                             End Range
                           </p>
-                          <p className="text-light-black text-base font-semibold">
+                          <p className="text-base font-bold">
                             $
                             {singleContract?.order?.[0]?.productsArray?.[0]
                               ?.rangeEnd === undefined
@@ -578,10 +579,10 @@ function Contracts(props) {
 
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Coverage Start Date
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {new Date(
                           singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate
                         ).toLocaleDateString("en-US", {
@@ -594,10 +595,10 @@ function Contracts(props) {
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                     <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
+                      <p className="text-sm font-Regular">
                         Coverage End Date
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-base font-bold">
                         {new Date(
                           singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate
                         ).toLocaleDateString("en-US", {

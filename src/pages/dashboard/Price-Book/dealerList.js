@@ -32,6 +32,7 @@ import { getTermList } from "../../../services/dealerServices";
 import axios from "axios";
 import Modal from "../../../common/model";
 import { getCategoryList } from "../../../services/priceBookService";
+import Card from "../../../common/card";
 const url = process.env.REACT_APP_API_KEY_LOCAL
 
 function DealerPriceList() {
@@ -287,7 +288,7 @@ function DealerPriceList() {
               row.priceBooks[0]?.category[0]?.status === false
             }
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -322,13 +323,13 @@ function DealerPriceList() {
               >
                 <div
                   onClick={() => editScreen(row)}
-                  className="text-left cursor-pointer border-b flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer border-b text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
                 <div
                   onClick={() => openView(row._id)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
@@ -419,7 +420,7 @@ function DealerPriceList() {
         </div>
         <Link
           to={"/addDealerBook"}
-          className=" w-[190px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[190px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -428,7 +429,7 @@ function DealerPriceList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white  border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white  border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
@@ -537,7 +538,7 @@ function DealerPriceList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>

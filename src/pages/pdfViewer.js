@@ -380,7 +380,7 @@ function PdfGenerator(props, className) {
   return (
     <div className={`text-left flex py-1 px-2 ${className}`} onClick={convertToPDF}>
       <img src={download} className="w-4 h-4 mr-2" alt="Download" />
-      <button className="">Invoice</button>
+      <button className="text-black">Invoice</button>
     </div>
   );
 }

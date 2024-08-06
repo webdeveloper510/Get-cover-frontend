@@ -154,7 +154,7 @@ function DealerDashboard() {
               <div
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl text-white -right-3 mt-2 bg-white border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
 
@@ -162,7 +162,7 @@ function DealerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/orderDetails/${row._id}`}
-                      className="text-left py-2 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-2 px-2 cursor-pointer text-white hover:font-semibold w-full flex justify-start"
                     >
                       <img
                         src={view}
@@ -231,7 +231,7 @@ function DealerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/claimList/${row.unique_key}`}
-                      className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer text-white hover:font-semibold w-full flex justify-start"
                     >
                       <img
                         src={view}
