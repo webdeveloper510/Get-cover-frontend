@@ -233,136 +233,136 @@ function ServicerList(props) {
   const columns =
     props.flag === "reseller"
       ? [
-          {
-            name: "ID",
-            selector: (row) => row.servicerData.unique_key,
-            sortable: true,
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-          },
-          {
-            name: "Name",
-            selector: (row) => row.servicerData.name,
-            sortable: true,
-          },
-          {
-            name: "Email",
-            selector: (row) => row.email,
-            sortable: true,
-          },
-          {
-            name: "Phone #",
-            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
-            sortable: true,
-          },
-          {
-            name: "# of Claims",
-            selector: (row) => row.claimNumber?.noOfOrders ?? 0,
-            sortable: true,
-          },
-          {
-            name: "Total Claims Value",
-            selector: (row) =>
-              `$${formatOrderValue(
-                row?.claimValue?.totalAmount ?? parseInt(0)
-              )}`,
-            sortable: true,
-          },
-        ]
+        {
+          name: "ID",
+          selector: (row) => row.servicerData.unique_key,
+          sortable: true,
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "70px", // Set a custom maximum width
+        },
+        {
+          name: "Name",
+          selector: (row) => row.servicerData.name,
+          sortable: true,
+        },
+        {
+          name: "Email",
+          selector: (row) => row.email,
+          sortable: true,
+        },
+        {
+          name: "Phone #",
+          selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
+          sortable: true,
+        },
+        {
+          name: "# of Claims",
+          selector: (row) => row.claimNumber?.noOfOrders ?? 0,
+          sortable: true,
+        },
+        {
+          name: "Total Claims Value",
+          selector: (row) =>
+            `$${formatOrderValue(
+              row?.claimValue?.totalAmount ?? parseInt(0)
+            )}`,
+          sortable: true,
+        },
+      ]
       : [
-          {
-            name: "ID",
-            selector: (row) => row.servicerData.unique_key,
-            sortable: true,
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-          },
-          {
-            name: "Name",
-            selector: (row) => row.servicerData.name,
-            sortable: true,
-          },
-          {
-            name: "Email",
-            selector: (row) => row.email,
-            sortable: true,
-          },
-          {
-            name: "Phone #",
-            selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
-            sortable: true,
-          },
-          {
-            name: "# of Claims",
-            selector: (row) => row.claimNumber?.noOfOrders ?? 0,
-            sortable: true,
-          },
-          {
-            name: "Total Claims Value",
-            selector: (row) =>
-              `$${formatOrderValue(
-                row?.claimValue?.totalAmount ?? parseInt(0)
-              )}`,
-            sortable: true,
-          },
+        {
+          name: "Sr.#",
+          selector: (row, index) => index + 1,
+          sortable: true,
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "90px", // Set a custom maximum width
+        },
+        {
+          name: "Name",
+          selector: (row) => row.servicerData.name,
+          sortable: true,
+        },
+        {
+          name: "Email",
+          selector: (row) => row.email,
+          sortable: true,
+        },
+        {
+          name: "Phone #",
+          selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
+          sortable: true,
+        },
+        {
+          name: "# of Claims",
+          selector: (row) => row.claimNumber?.noOfOrders ?? 0,
+          sortable: true,
+        },
+        {
+          name: "Total Claims Value",
+          selector: (row) =>
+            `$${formatOrderValue(
+              row?.claimValue?.totalAmount ?? parseInt(0)
+            )}`,
+          sortable: true,
+        },
 
-          {
-            name: "Action",
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-            cell: (row, index) => {
-              // console.log(index, index % 10 == 9)
-              if (row.servicerData.isServicer) {
-                return null;
-              } else {
-                return (
-                  <div className="relative">
-                    <div
-                      onClick={() =>
-                        setSelectedAction(
-                          selectedAction === row.servicerData.unique_key
-                            ? null
-                            : row.servicerData.unique_key
-                        )
-                      }
-                    >
-                      <img
-                        src={ActiveIcon}
-                        className="cursor-pointer	w-[35px]"
-                        alt="Active Icon"
-                      />
-                    </div>
-                    {selectedAction === row.servicerData.unique_key && (
-                      <div
-                        ref={dropdownRef}
-                        className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                          index
-                        )}`}
-                      >
-                        <div
-                          onClick={() => {
-                            navigate(`/servicerDetails/${row.accountId}`);
-                          }}
-                          className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
-                        >
-                          <img src={view} className="w-4 h-4 mr-2" />{" "}
-                          <span className="self-center"> View </span>
-                        </div>
-                        <div
-                          onClick={() => openModal(row)}
-                          className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                        >
-                          <img src={paper} className="w-4 h-4 mr-2" />{" "}
-                          <span className="self-center">Unassigned </span>
-                        </div>
-                      </div>
-                    )}
+        {
+          name: "Action",
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "70px", // Set a custom maximum width
+          cell: (row, index) => {
+            // console.log(index, index % 10 == 9)
+            if (row.servicerData.isServicer) {
+              return null;
+            } else {
+              return (
+                <div className="relative">
+                  <div
+                    onClick={() =>
+                      setSelectedAction(
+                        selectedAction === row.servicerData.unique_key
+                          ? null
+                          : row.servicerData.unique_key
+                      )
+                    }
+                  >
+                    <img
+                      src={ActiveIcon}
+                      className="cursor-pointer	w-[35px]"
+                      alt="Active Icon"
+                    />
                   </div>
-                );
-              }
-            },
+                  {selectedAction === row.servicerData.unique_key && (
+                    <div
+                      ref={dropdownRef}
+                      className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                    >
+                      <div
+                        onClick={() => {
+                          navigate(`/servicerDetails/${row.accountId}`);
+                        }}
+                        className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
+                      >
+                        <img src={view} className="w-4 h-4 mr-2" />{" "}
+                        <span className="self-center"> View </span>
+                      </div>
+                      <div
+                        onClick={() => openModal(row)}
+                        className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                      >
+                        <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                        <span className="self-center">Unassigned </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
           },
-        ];
+        },
+      ];
 
   return (
     <>
@@ -463,7 +463,7 @@ function ServicerList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={servicerData}
                 highlightOnHover
                 sortIcon={

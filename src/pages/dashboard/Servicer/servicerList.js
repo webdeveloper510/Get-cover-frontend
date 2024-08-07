@@ -126,21 +126,21 @@ function ServicerList() {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.servicerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "80px",
+      maxWidth: "90px",
     },
     {
       name: "Servicer Name",
@@ -166,7 +166,7 @@ function ServicerList() {
     },
     {
       name: "Total Claims Value",
-      selector: (row) =>`$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
+      selector: (row) => `$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
       sortable: true,
       minWidth: "180px",
     },
@@ -175,9 +175,8 @@ function ServicerList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.servicerData.status === true ? "active" : "inactive"}
@@ -227,8 +226,8 @@ function ServicerList() {
                     navigate(`/servicerDetails/${row.accountId}`);
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -384,7 +383,7 @@ function ServicerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={servicerList}
                 highlightOnHover
                 sortIcon={

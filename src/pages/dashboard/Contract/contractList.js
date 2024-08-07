@@ -113,12 +113,12 @@ function ContractList(props) {
           ? getContractsforResellerPortal(data)
           : getAllContractsForAdmin(data)
         : props?.flag == "dealer" && props?.id
-        ? getContractsforDealer(props.id, data)
-        : props?.flag == "customer" && props?.id
-        ? getContractsforCustomer(props.id, data)
-        : props?.flag == "reseller" && props?.id
-        ? getContractsforReseller(props.id, data)
-        : getContracts(orderId, data));
+          ? getContractsforDealer(props.id, data)
+          : props?.flag == "customer" && props?.id
+            ? getContractsforCustomer(props.id, data)
+            : props?.flag == "reseller" && props?.id
+              ? getContractsforReseller(props.id, data)
+              : getContracts(orderId, data));
 
       setContractCount(result.contractCount);
       setContractList(result.result);
@@ -315,9 +315,8 @@ function ContractList(props) {
                       <Button
                         type="submit"
                         disabled={disable}
-                        className={`${
-                          disable ? "!bg-[#817878] !p-2" : " !p-2"
-                        }`}
+                        className={`${disable ? "!bg-[#817878] !p-2" : " !p-2"
+                          }`}
                       >
                         <img
                           src={Search}
@@ -341,14 +340,12 @@ function ContractList(props) {
                       </Button>
                     </div>
                     <div
-                      className={`${
-                        props.orderId == null ? "" : "text-center"
-                      } col-span-2 self-center`}
+                      className={`${props.orderId == null ? "" : "text-center"
+                        } col-span-2 self-center`}
                     >
                       <Button
-                        className={`${
-                          disable ? "!bg-[#817878]" : ""
-                        } !text-[13px]`}
+                        className={`${disable ? "!bg-[#817878]" : ""
+                          } !text-[13px]`}
                         disabled={disable}
                         onClick={() => openDisapproved()}
                       >
@@ -419,10 +416,10 @@ function ContractList(props) {
                                   />{" "}
                                 </div>
                                 {!window.location.pathname.includes(
-                                  "/reseller"
+                                  "/reseller/"
                                 ) &&
                                   (props.shownEdit ||
-                                  props.shownEdit === undefined ? (
+                                    props.shownEdit === undefined ? (
                                     <Link to={`/editContract/${res._id}`}>
                                       <img
                                         src={Edit}
@@ -629,8 +626,8 @@ function ContractList(props) {
                       ) : (
                         <>
                           {props.flag === "reseller" ||
-                          location.pathname.includes("/reseller") ||
-                          location.pathname.includes("/reseller/") ? (
+                            location.pathname.includes("/reseller") ||
+                            location.pathname.includes("/reseller/") ? (
                             <>
                               {/* Hide dealerName and resellerName for reseller */}
                               <div className="col-span-6">
@@ -803,7 +800,7 @@ function ContractList(props) {
             onClose={closeView}
             className="!w-[1100px]"
           >
-            {}
+            { }
             {window.location.pathname.includes(
               "/reseller"
             ) ? null : props.shownEdit || props.shownEdit === undefined ? ( // Check if location includes "/reseller"
@@ -811,11 +808,10 @@ function ContractList(props) {
                 onClick={() => {
                   navigate(`/editContract/${contractDetails._id}`);
                 }}
-                className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
-                  props?.orderId == null && props?.flag == undefined
+                className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
                     ? "!bg-[#343434]"
                     : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
-                } `}
+                  } `}
               >
                 <img
                   src={Edit}
@@ -826,11 +822,10 @@ function ContractList(props) {
 
             <Button
               onClick={closeView}
-              className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
-                props?.orderId == null && props?.flag == undefined
+              className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
                   ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
                   : "!bg-Granite-Gray"
-              } `}
+                } `}
             >
               <img
                 src={Cross}
@@ -920,9 +915,9 @@ function ContractList(props) {
                             {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  Number(contractDetails.productValue) ??
-                                    parseInt(0)
-                                )}
+                                Number(contractDetails.productValue) ??
+                                parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -933,7 +928,7 @@ function ContractList(props) {
                               "/customerDetails"
                             ) &&
                             (props.shownEdit ||
-                            props.shownEdit === undefined ? (
+                              props.shownEdit === undefined ? (
                               <div className="col-span-1 border border-Light-Grey">
                                 <div className="py-4 pl3">
                                   <p className="text-[#5D6E66] text-sm font-Regular">
@@ -972,7 +967,7 @@ function ContractList(props) {
                         ) : null)}
 
                       {!window.location.pathname.includes("/customerDetails") &&
-                      (props.type != "customer" || props.type == undefined) ? (
+                        (props.type != "customer" || props.type == undefined) ? (
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1100,8 +1095,8 @@ function ContractList(props) {
                             {contractDetails.claimAmount === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails.claimAmount ?? parseInt(0)
-                                )}
+                                contractDetails.claimAmount ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -1119,10 +1114,10 @@ function ContractList(props) {
                                   ?.rangeStart === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      contractDetails?.order?.[0]
-                                        ?.productsArray?.[0]?.rangeStart ??
-                                        parseInt(0)
-                                    )}
+                                    contractDetails?.order?.[0]
+                                      ?.productsArray?.[0]?.rangeStart ??
+                                    parseInt(0)
+                                  )}
                               </p>
                             </div>
                           </div>
@@ -1137,10 +1132,10 @@ function ContractList(props) {
                                   ?.rangeEnd === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      contractDetails?.order?.[0]
-                                        ?.productsArray?.[0]?.rangeEnd ??
-                                        parseInt(0)
-                                    )}{" "}
+                                    contractDetails?.order?.[0]
+                                      ?.productsArray?.[0]?.rangeEnd ??
+                                    parseInt(0)
+                                  )}{" "}
                               </p>
                             </div>
                           </div>

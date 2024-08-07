@@ -140,11 +140,11 @@ function ResellerList() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.resellerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -174,10 +174,9 @@ function ResellerList() {
     {
       name: "Orders Value",
       selector: (row) =>
-        `$${
-          row?.orders?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orders?.orderAmount)
+        `$${row?.orders?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orders?.orderAmount)
         }`,
       sortable: true,
     },
@@ -188,9 +187,8 @@ function ResellerList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.resellerData.status === true ? "active" : "inactive"}
@@ -427,7 +425,7 @@ function ResellerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={resellerList}
                 highlightOnHover
                 sortIcon={

@@ -76,21 +76,21 @@ function ResellerCustomerList() {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row?.customerData?.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -151,7 +151,7 @@ function ResellerCustomerList() {
                   }}
                   className="text-left cursor-pointer flex px-2 hover:font-semibold py-1"
                 >
-                 <img src={view} className="w-4 h-4 mr-2"/> View
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -299,7 +299,7 @@ function ResellerCustomerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={customerList}
                 highlightOnHover
                 sortIcon={

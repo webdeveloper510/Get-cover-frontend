@@ -34,11 +34,11 @@ function CustomerList(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -295,7 +295,7 @@ function CustomerList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={customerList}
                 highlightOnHover
                 sortIcon={

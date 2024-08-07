@@ -287,6 +287,7 @@ function AddOrder() {
     setResllerList(arr);
     formik.setFieldValue("resellerId", resellerId);
   };
+
   useEffect(() => {
     if (orderId != undefined) {
       orderDetails();
@@ -512,6 +513,7 @@ function AddOrder() {
   const handleReload = () => {
     window.location.reload();
   };
+
   const orderDetails = async () => {
     setLoading(true);
 
@@ -870,6 +872,7 @@ function AddOrder() {
       : []),
     { label: "Custom", value: "Custom" },
   ];
+
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
     const arr = [];
@@ -1831,7 +1834,6 @@ function AddOrder() {
                           placeholder=""
                           className={`!bg-white`}
                           onChange={handleSelectChange}
-                          // onChange={handleSelectChange}
                           options={servicerData}
                           value={
                             servicerData.length == 0
@@ -1921,15 +1923,12 @@ function AddOrder() {
                           type="tel"
                           name="phoneNumber"
                           label="Phone"
-                          // required={true}
                           className="!bg-white"
                           placeholder=""
                           value={formik.values.phoneNumber}
                           onChange={(e) => {
                             const sanitizedValue = e.target.value.replace(
-                              /[^0-9]/g,
-                              ""
-                            );
+                              /[^0-9]/g, "");
                             formik.handleChange({
                               target: {
                                 name: "phoneNumber",

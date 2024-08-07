@@ -219,11 +219,11 @@ function DealerDetailList(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Dealer Name",
@@ -252,10 +252,9 @@ function DealerDetailList(props) {
     {
       name: "Claims Values",
       selector: (row) =>
-        `$${
-          row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
+        `$${row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
         }`,
       sortable: true,
     },
@@ -318,15 +317,15 @@ function DealerDetailList(props) {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
                 >
-                 <img src={view} className="w-4 h-4 mr-2" />{" "}
-                 <span className="self-center"> View </span>
+                  <img src={view} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center"> View </span>
                 </div>
                 <div
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   onClick={() => openModal(row)}
                 >
-                   <img src={paper} className="w-4 h-4 mr-2" />{" "}
-                   <span className="self-center">Unassigned </span>
+                  <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Unassigned </span>
                 </div>
               </div>
             )}

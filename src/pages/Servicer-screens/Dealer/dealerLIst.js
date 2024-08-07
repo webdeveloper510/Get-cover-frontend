@@ -154,11 +154,11 @@ function ServicerDealerList() {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Dealer Name",
@@ -187,10 +187,9 @@ function ServicerDealerList() {
     {
       name: "Claims Values",
       selector: (row) =>
-        `$${
-          row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
+        `$${row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
         }`,
       sortable: true,
     },

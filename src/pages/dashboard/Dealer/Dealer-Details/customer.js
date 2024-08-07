@@ -58,11 +58,11 @@ function CustomerList(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -237,7 +237,7 @@ function CustomerList(props) {
             <div className="col-span-8">
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className={`${props.flag === "reseller" ? '!grid-cols-8' : '!grid-cols-10' }`}>
+                  <Grid className={`${props.flag === "reseller" ? '!grid-cols-8' : '!grid-cols-10'}`}>
                     <div className="col-span-2 self-center">
                       <Input
                         name="firstName"
@@ -290,19 +290,19 @@ function CustomerList(props) {
                       />
                     </div>
                     {props.flag === "reseller" ? '' :
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="resellerName"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Reseller Name"
-                        value={formik.values.resellerName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                    </div> }
+                      <div className="col-span-2 self-center">
+                        <Input
+                          name="resellerName"
+                          type="text"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                          label=""
+                          placeholder="Reseller Name"
+                          value={formik.values.resellerName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                        />
+                      </div>}
                     <div className="col-span-2 self-center flex justify-center">
                       <Button type="submit" className="!p-2">
                         <img

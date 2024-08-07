@@ -161,11 +161,11 @@ function DealerList() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row?.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -191,10 +191,9 @@ function DealerList() {
     {
       name: "Orders Values",
       selector: (row) =>
-        `$${
-          row?.ordersData?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
+        `$${row?.ordersData?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.ordersData?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
       minWidth: "auto",
@@ -207,11 +206,10 @@ function DealerList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.dealerData.accountStatus === true
-                ? "bg-[#6BD133]"
-                : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.dealerData.accountStatus === true
+              ? "bg-[#6BD133]"
+              : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={
@@ -402,7 +400,7 @@ function DealerList() {
                 columns={columns}
                 data={dealerList}
                 highlightOnHover
-                draggableColumns={false} 
+                draggableColumns={false}
                 sortIcon={
                   <>
                     {" "}

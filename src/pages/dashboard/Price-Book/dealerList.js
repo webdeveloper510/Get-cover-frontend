@@ -168,14 +168,14 @@ function DealerPriceList() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      pName:"",
+      pName: "",
       dealerName: "",
       status: "",
       category: "",
       priceType: "",
       term: "",
-      range:"",
-      coverageType:"",
+      range: "",
+      coverageType: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -209,11 +209,11 @@ function DealerPriceList() {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row, index) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: (
@@ -226,18 +226,18 @@ function DealerPriceList() {
       selector: (row) => row.dealer[0]?.name,
       sortable: true,
       minWidth: "100px",
-      
+
       style: {
         whiteSpace: 'pre-wrap',
         textAlign: 'center'
       }
     },
     {
-      name: ( <div>
-              Product
-              <br />
-              SKU
-            </div>),
+      name: (<div>
+        Product
+        <br />
+        SKU
+      </div>),
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
       minWidth: "150px",
@@ -255,7 +255,7 @@ function DealerPriceList() {
       minWidth: "90px",
     },
     {
-      name: (<div>Wholesale <br/> Cost </div>),
+      name: (<div>Wholesale <br /> Cost </div>),
       selector: (row) => `$${row?.wholesalePrice === undefined
         ? parseInt(0).toLocaleString(2)
         : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} `,
@@ -263,7 +263,7 @@ function DealerPriceList() {
       minWidth: "160px",
     },
     {
-      name: (<div>Retail<br/>Cost</div>) ,
+      name: (<div>Retail<br />Cost</div>),
       selector: (row) => `$${row?.retailPrice === undefined
         ? parseInt(0).toLocaleString(2)
         : formatOrderValue(row?.retailPrice ?? parseInt(0))} `,
@@ -287,7 +287,7 @@ function DealerPriceList() {
               row.priceBooks[0]?.category[0]?.status === false
             }
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -339,7 +339,7 @@ function DealerPriceList() {
       },
     },
   ];
-  
+
 
   const [isViewOpen, setIsViewOpen] = useState(false);
 
@@ -398,7 +398,7 @@ function DealerPriceList() {
 
   return (
     <>
-    
+
       <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
@@ -419,7 +419,7 @@ function DealerPriceList() {
         </div>
         <Link
           to={"/addDealerBook"}
-          className=" w-[190px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[190px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -521,7 +521,7 @@ function DealerPriceList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={dealerPriceBook}
                 highlightOnHover
                 sortIcon={
@@ -567,7 +567,7 @@ function DealerPriceList() {
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>
           <Grid className="mt-5 px-6">
-          <div className="col-span-4">
+            <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
                 Product Name
               </p>
@@ -593,7 +593,7 @@ function DealerPriceList() {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-              Coverage Type
+                Coverage Type
               </p>
               <p className="text-base text-neutral-grey font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.coverageType}
@@ -612,22 +612,22 @@ function DealerPriceList() {
                 Wholesale Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-              ${
+                ${
                   dealerPriceBookDetail?.wholesalePrice === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0))}
-              
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0))}
+
               </p>
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-                Retail Price 
+                Retail Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-              ${
+                ${
                   dealerPriceBookDetail?.retailPrice === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))}
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))}
               </p>
             </div>
             <div className="col-span-4">
@@ -645,7 +645,7 @@ function DealerPriceList() {
                   : "Inactive"}
               </p>
             </div>
-           
+
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
@@ -653,10 +653,10 @@ function DealerPriceList() {
                     Range Start
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                  ${
-                  dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))}
+                    ${
+                      dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -664,181 +664,181 @@ function DealerPriceList() {
                     Range End
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-                  ${
-                  dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))}
+                    ${
+                      dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))}
                   </p>
                 </div>
               </>
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-              <>
-                <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
-                      <th colSpan={"2"}>Quantity Pricing List </th>
-                    </tr>
-                    <tr className="border bg-[#9999]">
-                      <th>Name</th>
-                      <th>Max Quantity</th>
-                    </tr>
-                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                      .length !== 0 &&
-                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                        (item, index) => (
-                          <tr key={index} className="border">
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                          </tr>
-                        )
-                      )}
-                  </table>
-                </div>
-              </>
-            )}
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th>Name</th>
+                        <th>Max Quantity</th>
+                      </tr>
+                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-            <Button
-              onClick={closeDisapproved}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-            >
-              <img
-                src={Cross}
-                className="w-full h-full text-black rounded-full p-0"
-              />
-            </Button>
-            <form onSubmit={formik.handleSubmit}>
-              <div className="py-3">
-                <p className="text-center text-3xl font-semibold ">
-                  Advance Search
-                </p>
-                <Grid className="mt-5 px-6">
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="name"
-                      className="!bg-white"
-                      label="Product SKU"
-                      placeholder=""
-                      value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="pName"
-                      className="!bg-white"
-                      label="Product Name"
-                      placeholder=""
-                      value={formik.values.pName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>
-                      <div className="col-span-6">
-                      <Select
-                      type="text"
-                      name="category"
-                      className="!bg-white"
-                      label="Category"
-                      options={categoryList}
-                      OptionName="Category"
-                      placeholder=""
-                      value={formik.values.category}
-                        onChange={formik.setFieldValue}
-                        onBlur={formik.handleBlur}
-                    />
-                    </div>
-                    <div className="col-span-6">
-                      <Input
-                      type="text"
-                      name="dealerName"
-                      className="!bg-white"
-                      label="Dealer Name"
-                      placeholder=""
-                      value={formik.values.dealerName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                      </div>
-                      <div className="col-span-6">
-                      <Select
-                        name="priceType"
-                        label="Price Type"
-                        options={pricetype}
-                        OptionName="Price Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.priceType}
-                        onChange={formik.setFieldValue}
-                      />
-                      </div>
-
-                  <div className="col-span-6">
-                      <Select
-                        name="term"
-                        label="Term"
-                        options={termList}
-                        OptionName="Term"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.term}
-                        onChange={formik.setFieldValue}
-                      />
-                  </div>
-                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="range"
-                      className="!bg-white"
-                      label="Product Retail Price"
-                      placeholder=""
-                      value={formik.values.range}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>}
-                  <div className="col-span-6">
-                      <Select
-                        name="coverageType"
-                        label="Coverage Type"
-                        options={coverage}
-                        OptionName="Coverage Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.coverageType}
-                        onChange={formik.setFieldValue}
-                      />
-                  </div>
-                  <div className="col-span-6">
-                  <Select
-                        name="status"
-                        label="Status"
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
-                    />
-                  </div>
-                  <div className="col-span-12">
-                    <Button type="submit" className={"w-full"}>
-                      Search
-                    </Button>
-                  </div>
-                </Grid>
+        <Button
+          onClick={closeDisapproved}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="py-3">
+            <p className="text-center text-3xl font-semibold ">
+              Advance Search
+            </p>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="name"
+                  className="!bg-white"
+                  label="Product SKU"
+                  placeholder=""
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
               </div>
-            </form>
-          </Modal>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="pName"
+                  className="!bg-white"
+                  label="Product Name"
+                  placeholder=""
+                  value={formik.values.pName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  type="text"
+                  name="category"
+                  className="!bg-white"
+                  label="Category"
+                  options={categoryList}
+                  OptionName="Category"
+                  placeholder=""
+                  value={formik.values.category}
+                  onChange={formik.setFieldValue}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerName"
+                  className="!bg-white"
+                  label="Dealer Name"
+                  placeholder=""
+                  value={formik.values.dealerName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  name="priceType"
+                  label="Price Type"
+                  options={pricetype}
+                  OptionName="Price Type"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.priceType}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+
+              <div className="col-span-6">
+                <Select
+                  name="term"
+                  label="Term"
+                  options={termList}
+                  OptionName="Term"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.term}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+              {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="range"
+                  className="!bg-white"
+                  label="Product Retail Price"
+                  placeholder=""
+                  value={formik.values.range}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>}
+              <div className="col-span-6">
+                <Select
+                  name="coverageType"
+                  label="Coverage Type"
+                  options={coverage}
+                  OptionName="Coverage Type"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.coverageType}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  name="status"
+                  label="Status"
+                  options={status}
+                  OptionName="Status"
+                  color="text-Black-Russian opacity-50"
+                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.status}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button type="submit" className={"w-full"}>
+                  Search
+                </Button>
+              </div>
+            </Grid>
+          </div>
+        </form>
+      </Modal>
     </>
   );
 }
