@@ -13,7 +13,6 @@ import All from "./Sale-Tab/all";
 import { MultiSelect } from "react-multi-select-component";
 import { getFilterList } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
-import RadioButton from "../../../common/radio";
 import { RotateLoader } from "react-spinners";
 
 function Sale() {
@@ -36,6 +35,7 @@ function Sale() {
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [activeButton, setActiveButton] = useState("dealer");
   const [loading, setLoading] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
   const [selected, setSelected] = useState([]);
   const [dealerList, setDealerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
@@ -43,10 +43,11 @@ function Sale() {
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
-  const state = cityData;
+
   const containerRef = useRef(null);
 
-  const { setAppliedFilters, setFiltersForCategory } = useMyContext();
+  const { setAppliedFilters, setFiltersForCategory, resetAllFilters } =
+    useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
@@ -63,6 +64,10 @@ function Sale() {
       });
     }
   }, [activeButton]);
+
+  useEffect(() => {
+    resetAllFilters();
+  }, []);
 
   const getDatasetAtEvent = async (data) => {
     console.log(data);
@@ -135,11 +140,12 @@ function Sale() {
   };
 
   const handleApplyFilters = () => {
-    setLoading(true);
+    setFilterLoading(true);
     activeButton === "category"
       ? setFiltersForCategory(filterCategory)
       : setAppliedFilters(filter);
-    setLoading(false);
+    console.log("hello", loading);
+    setFilterLoading(false);
   };
 
   const handleResetFilters = () => {
@@ -162,7 +168,7 @@ function Sale() {
 
   return (
     <>
-      {loading ? (
+      {loading || filterLoading ? (
         <>
           <div className=" h-[400px] w-full flex py-5">
             <div className="self-center mx-auto">
@@ -194,16 +200,18 @@ function Sale() {
               <div className="self-center">
                 <Button
                   onClick={() => handleButtonClick("dealer")}
-                  className={`!rounded-e-[0px] !py-1 !px-2 ${
-                    activeButton !== "dealer" && "!bg-[white] !text-[#333] "
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${
+                    activeButton !== "dealer" &&
+                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
                   }`}
                 >
                   Dealer
                 </Button>
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 ${
-                    activeButton === "dealer" && "!bg-[white] !text-[#333] "
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                    activeButton === "dealer" &&
+                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
                   }`}
                 >
                   Category
@@ -253,6 +261,7 @@ function Sale() {
                       options={priceBookList}
                       pName="Product SKU"
                       onChange={(value) => {
+                        setSelected(value);
                         handleFilterChange("priceBookId", value);
                       }}
                       labelledBy="Select"
@@ -300,6 +309,7 @@ function Sale() {
                       options={priceBookListCat}
                       pName="Category Name"
                       onChange={(value) => {
+                        setSelectedCat(value);
                         handleFilterChangeforCategory("priceBookId", value);
                       }}
                       labelledBy="Select"

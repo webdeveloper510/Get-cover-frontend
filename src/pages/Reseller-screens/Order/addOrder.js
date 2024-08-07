@@ -412,6 +412,7 @@ function ResellerAddOrder() {
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
           term: Yup.string().required("Required"),
+          pName: Yup.string().required("Required"),
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -953,7 +954,6 @@ function ResellerAddOrder() {
       // console.log(name,selectedValue)
     }
     if (name.includes("pName")) {
-      updateProductFields(selectedValue);
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
@@ -1035,6 +1035,12 @@ function ResellerAddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
+    if (value === "Custom") {
+      formik.setFieldValue("name", "");
+      formik.setFieldValue("email", "");
+      formik.setFieldValue("phoneNumber", "");
+      formik.setFieldValue("address", "");
+    }
   };
 
   const getServiceCoverage = async (value, type = "Add") => {

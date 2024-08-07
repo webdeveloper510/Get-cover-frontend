@@ -44,7 +44,9 @@ function Claims() {
   const [servicerListServicer, setServicerListServicer] = useState([]);
   const [dealerListServicer, setDealerListServicer] = useState([]);
   const [selectedSer, setSelectedSer] = useState([]);
-  const [activeButton, setActiveButton] = useState("dealer");
+  const [activeButton, setActiveButton] = useState(
+    isResellerClaims ? "servicer" : "dealer"
+  );
 
   const [filter, setFilters] = useState({
     dealerId: "",
@@ -67,12 +69,11 @@ function Claims() {
     categoryId: "",
     primary: "servicer",
   });
+
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
     endDate: new Date(),
   });
-
-  const state = cityData;
 
   useEffect(() => {
     localStorage.setItem("ClaimMenu", activeTab);
@@ -83,7 +84,12 @@ function Claims() {
     setFiltersForClaimDealer,
     setFiltersForClaimCategory,
     toggleFilterFlag,
+    resetAllFilters,
   } = useMyContext();
+
+  useEffect(() => {
+    resetAllFilters();
+  }, []);
 
   const tabs = [
     {
@@ -295,21 +301,21 @@ function Claims() {
           <div className="flex w-full mb-3">
             <p className="p-0 self-center font-bold mr-4">Filter By :</p>
             <div className="self-center">
-              <Button
-                onClick={() => handleButtonClick("dealer")}
-                className={`!rounded-e-[0px] !py-1 !px-2 ${
-                  activeButton !== "dealer" &&
-                  "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
-                }`}
-              >
-                Dealer
-              </Button>
+              {!isResellerClaims && (
+                <Button
+                  onClick={() => handleButtonClick("dealer")}
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${
+                    activeButton !== "dealer" && "!bg-[white] !text-[#333]"
+                  }`}
+                >
+                  Dealer
+                </Button>
+              )}
               {!isServicerClaims && (
                 <Button
                   onClick={() => handleButtonClick("servicer")}
-                  className={`!rounded-[0px] !px-2 !py-1 ${
-                    activeButton !== "servicer" &&
-                    "!bg-[white] !text-[#333] !border-light-black !border-[1px]"
+                  className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                    activeButton !== "servicer" && "!bg-[white] !text-[#333]"
                   }`}
                 >
                   Servicer
@@ -317,9 +323,8 @@ function Claims() {
               )}
               <Button
                 onClick={() => handleButtonClick("category")}
-                className={`!rounded-s-[0px] !px-2 !py-1  ${
-                  activeButton !== "category" &&
-                  "!bg-[white] !text-[#333] !border-light-black !border-[1px] "
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                  activeButton !== "category" && "!bg-[white] !text-[#333]"
                 }`}
               >
                 Category

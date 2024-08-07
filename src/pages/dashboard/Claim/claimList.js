@@ -347,6 +347,8 @@ function ClaimList(props) {
         if (updatedClaimListCopy.result) {
           updatedClaimListCopy.result[activeIndex]["servicerId"] =
             res.result.servicerId;
+          updatedClaimListCopy.result[activeIndex].selfServicer =
+            res.result.isPureServicer;
         }
         setClaimList(updatedClaimListCopy);
       })
@@ -1098,7 +1100,7 @@ function ClaimList(props) {
       orderId: "",
       trackingNumber: "",
       trackingType: "",
-      claimPaidStatus:"",
+      claimPaidStatus: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -2795,16 +2797,20 @@ function ClaimList(props) {
                 </div>
               )}
 
-           {window.location.pathname.includes("/customer/claimList") ?  '' : <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="customerName"
-                  className="!bg-white"
-                  label="Customer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("customerName")}
-                />
-              </div> }
+              {window.location.pathname.includes("/customer/claimList") ? (
+                ""
+              ) : (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="customerName"
+                    className="!bg-white"
+                    label="Customer Name"
+                    placeholder=""
+                    {...formik1.getFieldProps("customerName")}
+                  />
+                </div>
+              )}
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -2825,40 +2831,41 @@ function ClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ? 
-               <div className="col-span-6">
-               <Select
-                 options={claimPaid}
-                 name="claimPaidStatus"
-                 label="Paid Status"
-                 className="!bg-white"
-                 onChange={handleSelectChange2}
-                 value={formik1.values.claimPaidStatus}
-               />
-             </div> : 
-             <>
-              <div className="col-span-6">
-                <Select
-                  options={customerValue}
-                  name="customerStatusValue"
-                  label="Customer Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.customerStatusValue}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  options={repairValue}
-                  name="repairStatus"
-                  label="Repair Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.repairStatus}
-                />
-              </div>
-             </>
-}
+              {formik1.values.claimStatus == "Completed" ? (
+                <div className="col-span-6">
+                  <Select
+                    options={claimPaid}
+                    name="claimPaidStatus"
+                    label="Paid Status"
+                    className="!bg-white"
+                    onChange={handleSelectChange2}
+                    value={formik1.values.claimPaidStatus}
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="col-span-6">
+                    <Select
+                      options={customerValue}
+                      name="customerStatusValue"
+                      label="Customer Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.customerStatusValue}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      options={repairValue}
+                      name="repairStatus"
+                      label="Repair Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.repairStatus}
+                    />
+                  </div>
+                </>
+              )}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
