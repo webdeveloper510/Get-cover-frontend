@@ -61,17 +61,26 @@ function Notification() {
           case "servicer":
             navigate("/servicerList");
             break;
-          case "Customer":
+          case "customer":
             navigate("/customerList");
             break;
-          case "Order":
+          case "order":
             navigate("/orderList");
             break;
           case "claim":
             navigate("/claimList");
             break;
-          case "pricebook":
+          case "Dealer Price Book":
             navigate("/dealerPriceList");
+            break;
+          case "priceBook":
+            navigate("/companyPriceBook");
+            break;
+          case "Super Admin":
+            navigate("/manageAccount");
+            break;
+          case "reseller":
+            navigate("/resellerList");
             break;
           default:
             navigate("/contractList");
@@ -113,21 +122,19 @@ function Notification() {
             </p>
             <div className="flex">
               <button
-                className={`tab-button ${
-                  activeTab === "all"
-                    ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                    : "border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                }`}
+                className={`tab-button ${activeTab === "all"
+                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
+                  : "border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded"
+                  }`}
                 onClick={() => handleTabClick("all")}
               >
                 All
               </button>
               <button
-                className={`tab-button ${
-                  activeTab === "unread"
-                    ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                    : "border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                }`}
+                className={`tab-button ${activeTab === "unread"
+                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
+                  : "border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded"
+                  }`}
                 onClick={() => handleTabClick("unread")}
               >
                 Unread
@@ -167,7 +174,7 @@ function Notification() {
                             <div className="col-span-9 self-center flex w-full">
                               <img
                                 src={unReadDot}
-                                className="mr-2 w-[10px] h-[10px] my-auto self-center" 
+                                className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                 alt="Unread dot"
                               />
                               <img
