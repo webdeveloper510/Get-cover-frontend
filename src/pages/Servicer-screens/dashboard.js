@@ -160,6 +160,18 @@ function ServicerDashboard() {
       },
     },
   ];
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const columns = [
     {
       name: "Name",
@@ -169,7 +181,7 @@ function ServicerDashboard() {
     },
     {
       name: "Phone #",
-      selector: (row) => row?.phone,
+      selector: (row) => "+1" + formatPhoneNumber(row?.phone),
       sortable: true,
     },
     {
@@ -182,10 +194,9 @@ function ServicerDashboard() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${
-          row?.totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.totalAmount ?? parseInt(0))
+        `$${row?.totalAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.totalAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -223,8 +234,8 @@ function ServicerDashboard() {
                   {dashboardDetail?.claimData?.valueClaim === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
-                      )}
+                      dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
+                    )}
                 </p>
                 <p className="text-neutral-grey text-sm">
                   Total Value of Claims
@@ -236,9 +247,9 @@ function ServicerDashboard() {
                   {dashboardDetail?.claimData?.paidClaimValue === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail?.claimData?.paidClaimValue ??
-                          parseInt(0)
-                      )}
+                      dashboardDetail?.claimData?.paidClaimValue ??
+                      parseInt(0)
+                    )}
                 </p>
                 <p className="text-neutral-grey text-sm">
                   Total Value of Paid Claims
@@ -250,9 +261,9 @@ function ServicerDashboard() {
                   {dashboardDetail?.claimData?.unPaidClaimValue === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail?.claimData?.unPaidClaimValue ??
-                          parseInt(0)
-                      )}
+                      dashboardDetail?.claimData?.unPaidClaimValue ??
+                      parseInt(0)
+                    )}
                 </p>
                 <p className="text-neutral-grey text-sm">
                   Total Value of Unpaid Claims
