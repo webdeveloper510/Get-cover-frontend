@@ -193,12 +193,12 @@ function ServicerUser() {
     newPassword: "",
     confirmPassword: "",
   };
-  
+
   const passwordChangeApi = async (values, resetForm) => {
     setLoading1(true);
-  
+
     const { confirmPassword, ...passwordValues } = values;
-  
+
     try {
       const res = await changePasswordbyToken(passwordValues);
       console.log("API Response:", res);
@@ -221,13 +221,13 @@ function ServicerUser() {
     }
     console.log("Password values:", passwordValues);
   };
-  
+
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
     console.log("Form values on submit:", values);
     passwordChangeApi(values, resetForm);
     setSubmitting(false);
   };
-  
+
   const passwordChangeForm = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -397,7 +397,16 @@ function ServicerUser() {
   const closePassword = () => {
     setIsPasswordOpen(false);
   };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
 
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const editUser = async (id) => {
     console.log(id);
     const result = await userDetailsById(id);
@@ -485,7 +494,7 @@ function ServicerUser() {
     },
     {
       name: "Phone Number",
-      selector: (row) => row.phoneNumber,
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -500,9 +509,8 @@ function ServicerUser() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={row.isPrimary || !servicerStatus}
@@ -543,9 +551,8 @@ function ServicerUser() {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
+                className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
               >
                 {!row?.isPrimary && row.status && (
                   <div
@@ -619,9 +626,8 @@ function ServicerUser() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={true}
@@ -659,9 +665,8 @@ function ServicerUser() {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
+                className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
               >
                 {!row?.isPrimary && row.status && (
                   <div
@@ -747,7 +752,7 @@ function ServicerUser() {
               <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
               <div className="col-span-3 border-r border-[#4e4e4e]">
                 <div className="flex justify-center">
-                <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                  <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
                     <img src={dealer} className="" alt="terms" />
                   </div>
                   <div className="self-center">
@@ -783,59 +788,59 @@ function ServicerUser() {
           <div className="px-8 pb-4 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
             <p className="text-xl font-semibold mb-5">Change Password</p>
             <form onSubmit={passwordChangeForm.handleSubmit}>
-      <Grid className='!grid-cols-3' spacing={2}>
-      <div>
+              <Grid className='!grid-cols-3' spacing={2}>
+                <div>
 
-          <PasswordInput
-            type="password"
-            name="oldPassword"
-            label="Old Password"
-            value={passwordChangeForm.values.oldPassword}
-            onChange={passwordChangeForm.handleChange}
-            onBlur={passwordChangeForm.handleBlur}
-            className="!bg-white"
-          />
-          {passwordChangeForm.touched.oldPassword && passwordChangeForm.errors.oldPassword && (
-            <div className="text-red-500">{passwordChangeForm.errors.oldPassword}</div>
-          )}
-      </div>
- 
-<div>
+                  <PasswordInput
+                    type="password"
+                    name="oldPassword"
+                    label="Old Password"
+                    value={passwordChangeForm.values.oldPassword}
+                    onChange={passwordChangeForm.handleChange}
+                    onBlur={passwordChangeForm.handleBlur}
+                    className="!bg-white"
+                  />
+                  {passwordChangeForm.touched.oldPassword && passwordChangeForm.errors.oldPassword && (
+                    <div className="text-red-500">{passwordChangeForm.errors.oldPassword}</div>
+                  )}
+                </div>
 
-          <PasswordInput
-            type="password"
-            name="newPassword"
-            label="New Password"
-            value={passwordChangeForm.values.newPassword}
-            onChange={passwordChangeForm.handleChange}
-            onBlur={passwordChangeForm.handleBlur}
-            className="!bg-white"
-          />
-          {passwordChangeForm.touched.newPassword && passwordChangeForm.errors.newPassword && (
-            <div className="text-red-500">{passwordChangeForm.errors.newPassword}</div>
-          )}
-        
-</div>
-<div>
+                <div>
 
-          <PasswordInput
-            type="password"
-            name="confirmPassword"
-            label="Confirm Password"
-            value={passwordChangeForm.values.confirmPassword}
-            onChange={passwordChangeForm.handleChange}
-            onBlur={passwordChangeForm.handleBlur}
-            className="!bg-white"
-          />
-          {passwordChangeForm.touched.confirmPassword && passwordChangeForm.errors.confirmPassword && (
-            <div className="text-red-500">{passwordChangeForm.errors.confirmPassword}</div>
-          )}
-</div>
-      </Grid>
+                  <PasswordInput
+                    type="password"
+                    name="newPassword"
+                    label="New Password"
+                    value={passwordChangeForm.values.newPassword}
+                    onChange={passwordChangeForm.handleChange}
+                    onBlur={passwordChangeForm.handleBlur}
+                    className="!bg-white"
+                  />
+                  {passwordChangeForm.touched.newPassword && passwordChangeForm.errors.newPassword && (
+                    <div className="text-red-500">{passwordChangeForm.errors.newPassword}</div>
+                  )}
 
-      <div className="mt-4 text-right">
-        <Button type="submit">Change Password</Button>
-      </div>
+                </div>
+                <div>
+
+                  <PasswordInput
+                    type="password"
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    value={passwordChangeForm.values.confirmPassword}
+                    onChange={passwordChangeForm.handleChange}
+                    onBlur={passwordChangeForm.handleBlur}
+                    className="!bg-white"
+                  />
+                  {passwordChangeForm.touched.confirmPassword && passwordChangeForm.errors.confirmPassword && (
+                    <div className="text-red-500">{passwordChangeForm.errors.confirmPassword}</div>
+                  )}
+                </div>
+              </Grid>
+
+              <div className="mt-4 text-right">
+                <Button type="submit">Change Password</Button>
+              </div>
             </form>
           </div>
           {loading ? (

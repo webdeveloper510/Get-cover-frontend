@@ -37,6 +37,7 @@ function Sale() {
   const [priceBookListCat, setPriceBookListCat] = useState([]);
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const { setAppliedFilters, setFiltersForCategory } = useMyContext();
 
   useEffect(() => {
@@ -89,7 +90,7 @@ function Sale() {
   };
 
   const handleFilterChangeforCategory = (name, value) => {
-    setLoading(true);
+    setLoading1(true);
 
     let updatedFilters = { ...filterCategory };
 
@@ -102,7 +103,7 @@ function Sale() {
 
     setFiltersCategory(updatedFilters);
     getDatasetAtEvent(updatedFilters);
-    setLoading(false);
+    setLoading1(false);
   };
 
   const handleApplyFilters = () => {
@@ -122,14 +123,14 @@ function Sale() {
 
   return (
     <>
-    {loading ?
-      <div className=" h-[400px] w-full flex py-5">
-        <div className="self-center mx-auto">
-          <RotateLoader color="#333" />
+      {loading || loading1 ?
+        <div className=" h-[400px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
         </div>
-      </div>  
-      :
-      <div className="pb-8 mt-2 px-3 bg-grayf9">
+        :
+        <div className="pb-8 mt-2 px-3 bg-grayf9">
           <Headbar />
           <div className="flex">
             <div className="pl-3">
@@ -145,52 +146,52 @@ function Sale() {
             </div>
           </div>
           <div className="p-3 bg-white mt-4">
-          <p className="p-0 self-center font-bold mr-4 mb-2">Filter by  </p>
+            <p className="p-0 self-center font-bold mr-4 mb-2">Filter by  </p>
             <Grid className={`${"!grid-cols-5"} !gap-0`}>
-                <div className={`self-center pl-1 col-span-2`}>
-                  <SelectBoxWithSearch
-                    label="Category Name"
-                    name="categoryId"
-                    placeholder="Category Name"
-                    value={filterCategory.categoryId}
-                    className="!bg-white"
-                    className1="filter"
-                    options={categoryListCat}
-                    pName="Category Name"
-                    onChange={handleFilterChangeforCategory}
-                  />
-                </div>
-                <div className="col-span-2 self-center pl-1 relative">
-                  <MultiSelect
-                    label=""
-                    name="priceBookId"
-                    placeholder="Category Name"
-                    value={selectedCat}
-                    options={priceBookListCat}
-                    pName="Category Name"
-                    onChange={(value) => {
-                      setSelectedCat(value);
-                      handleFilterChangeforCategory("priceBookId", value);
-                    }}
-                    labelledBy="Select"
-                    overrideStrings={{
-                      selectSomeItems: "Select ",
-                    }}
-                    className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                  />
-                  <small className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
-                    Product SKU
-                  </small>
-                </div>
-                <div className="col-span-1 self-center mx-auto pl-3">
-                  <Button onClick={handleApplyFilters}>Filter</Button>
-                  <Button
-                    className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
-                    onClick={handleResetFilters}
-                  >
-                    Reset
-                  </Button>
-                </div>
+              <div className={`self-center pl-1 col-span-2`}>
+                <SelectBoxWithSearch
+                  label="Category Name"
+                  name="categoryId"
+                  placeholder="Category Name"
+                  value={filterCategory.categoryId}
+                  className="!bg-white"
+                  className1="filter"
+                  options={categoryListCat}
+                  pName="Category Name"
+                  onChange={handleFilterChangeforCategory}
+                />
+              </div>
+              <div className="col-span-2 self-center pl-1 relative">
+                <MultiSelect
+                  label=""
+                  name="priceBookId"
+                  placeholder="Category Name"
+                  value={selectedCat}
+                  options={priceBookListCat}
+                  pName="Category Name"
+                  onChange={(value) => {
+                    setSelectedCat(value);
+                    handleFilterChangeforCategory("priceBookId", value);
+                  }}
+                  labelledBy="Select"
+                  overrideStrings={{
+                    selectSomeItems: "Select ",
+                  }}
+                  className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                />
+                <small className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                  Product SKU
+                </small>
+              </div>
+              <div className="col-span-1 self-center mx-auto pl-3">
+                <Button onClick={handleApplyFilters}>Filter</Button>
+                <Button
+                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                  onClick={handleResetFilters}
+                >
+                  Reset
+                </Button>
+              </div>
             </Grid>
           </div>
           <Grid className="mt-4 !gap-0">
@@ -204,11 +205,10 @@ function Sale() {
                     {tabs.map((tab) => (
                       <Button
                         key={tab.id}
-                        className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                          activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-grayf9 !text-black"
-                        }`}
+                        className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                          ? "!bg-[#2A2A2A] !text-white"
+                          : "!bg-grayf9 !text-black"
+                          }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <img
@@ -217,9 +217,8 @@ function Sale() {
                           alt={tab.label}
                         />
                         <span
-                          className={`ml-1 py-1 text-[12px] font-normal ${
-                            activeTab === tab.id ? "text-white" : "text-black"
-                          }`}
+                          className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
                         >
                           {tab.label}
                         </span>
@@ -231,8 +230,8 @@ function Sale() {
               <All activeTab={activeTab} activeButton={activeButton} />
             </div>
           </Grid>
-      </div>
-     }
+        </div>
+      }
     </>
   );
 }
