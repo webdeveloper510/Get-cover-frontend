@@ -872,7 +872,7 @@ function AddOrder() {
       : []),
     { label: "Custom", value: "Custom" },
   ];
-
+  console.log(formik.values);
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
     const arr = [];

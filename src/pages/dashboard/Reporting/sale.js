@@ -47,7 +47,8 @@ function Sale() {
 
   const containerRef = useRef(null);
 
-  const { setAppliedFilters, setFiltersForCategory, resetAllFilters } = useMyContext();
+  const { setAppliedFilters, setFiltersForCategory, resetAllFilters } =
+    useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
@@ -66,10 +67,11 @@ function Sale() {
   }, [activeButton]);
 
   useEffect(() => {
-    resetAllFilters()
-  }, [])
+    resetAllFilters();
+  }, []);
 
   const getDatasetAtEvent = async (data) => {
+    console.log(data);
     try {
       setLoading(true);
       const res = await getFilterList(data);
@@ -119,13 +121,11 @@ function Sale() {
       updatedFilters.priceBookId = value.map((item) => item.label);
     }
 
-    ;
     setFilters(updatedFilters);
     getDatasetAtEvent(updatedFilters);
   };
 
   const handleFilterChangeforCategory = (name, value) => {
-
     let updatedFilters = { ...filterCategory };
 
     if (name === "categoryId") {
@@ -133,15 +133,11 @@ function Sale() {
       setSelectedCat([]);
     } else if (name === "priceBookId") {
       updatedFilters.priceBookId = value.map((item) => item.label);
+      setSelectedCat(value);
     }
 
     setFiltersCategory(updatedFilters);
     getDatasetAtEvent(updatedFilters);
-
-  };
-
-  const handleRadioChange = (event) => {
-    setActiveButton(event.target.value);
   };
 
   const handleApplyFilters = () => {
@@ -149,6 +145,7 @@ function Sale() {
     activeButton === "category"
       ? setFiltersForCategory(filterCategory)
       : setAppliedFilters(filter);
+    console.log("hello", loading);
     setFilterLoading(false);
   };
 
@@ -172,18 +169,22 @@ function Sale() {
 
   return (
     <>
-      {loading || filterLoading ? <>
-        <div className=" h-[400px] w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#333" />
-          </div>
-        </div> </> :
-
+      {loading || filterLoading ? (
+        <>
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>{" "}
+        </>
+      ) : (
         <div className="pb-8 mt-2 px-3 bg-grayf9">
           <Headbar />
           <div className="flex">
             <div className="pl-3">
-              <p className="font-bold text-[36px] leading-9 mb-[3px]">Reporting</p>
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                Reporting
+              </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
                   <Link to={"/"}>Reporting / </Link>
@@ -192,22 +193,24 @@ function Sale() {
                   Sale ({activeTab})
                 </li>
               </ul>
-            </div>
-          </div>
+            </div >
+          </div >
           <div className="p-3 bg-white mt-4">
             <div className="flex w-full mb-3">
               <p className="p-0 font-bold self-center mr-4">Filter By :</p>{" "}
               <div className="self-center">
                 <Button
                   onClick={() => handleButtonClick("dealer")}
-                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer" && "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer" &&
+                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
                     }`}
                 >
                   Dealer
                 </Button>
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton === "dealer" && "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton === "dealer" &&
+                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
                     }`}
                 >
                   Category
@@ -342,14 +345,14 @@ function Sale() {
                     {tabs.map((tab) => (
                       <Button
                         key={tab.id}
-                        className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? ""
-                          : "!bg-grayf9 !text-black"
+                        className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
                           }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <img
-                          src={activeTab === tab.id ? tab.Activeicons : tab.icons}
+                          src={
+                            activeTab === tab.id ? tab.Activeicons : tab.icons
+                          }
                           className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
                           alt={tab.label}
                         />
@@ -367,9 +370,8 @@ function Sale() {
               <All activeTab={activeTab} activeButton={activeButton} />
             </div>
           </Grid>
-        </div>
-      }
-
+        </div >
+      )}
     </>
   );
 }

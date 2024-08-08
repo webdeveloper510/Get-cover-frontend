@@ -46,7 +46,9 @@ function Claims() {
   const [servicerListServicer, setServicerListServicer] = useState([]);
   const [dealerListServicer, setDealerListServicer] = useState([]);
   const [selectedSer, setSelectedSer] = useState([]);
-  const [activeButton, setActiveButton] = useState("dealer");
+  const [activeButton, setActiveButton] = useState(
+    isResellerClaims ? "servicer" : "dealer"
+  );
 
   const [filter, setFilters] = useState({
     dealerId: "",
@@ -75,25 +77,21 @@ function Claims() {
     endDate: new Date(),
   });
 
-
-
   useEffect(() => {
     localStorage.setItem("ClaimMenu", activeTab);
   }, [activeTab]);
-
-
 
   const {
     setFiltersForClaimServicer,
     setFiltersForClaimDealer,
     setFiltersForClaimCategory,
     toggleFilterFlag,
-    resetAllFilters
+    resetAllFilters,
   } = useMyContext();
 
   useEffect(() => {
-    resetAllFilters()
-  }, [])
+    resetAllFilters();
+  }, []);
 
   const tabs = [
     {
@@ -131,24 +129,24 @@ function Claims() {
       const getName = (obj) => obj.name;
       const mapToLabelValue = (value) =>
         value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      const mapPriceBooks = (value) =>
-        value.map((obj) => ({
-          label: obj.name,
-          value: obj.name,
-        }));
+      // const mapPriceBooks = (value) =>
+      //   value.map((obj) => ({
+      //     label: obj.name,
+      //     value: obj.name,
+      //   }));
 
       if (activeButton === "dealer") {
         setDealerList(mapToLabelValue(dealers));
         setCategoryList(mapToLabelValue(categories));
-        setPriceBookList(mapPriceBooks(priceBooks));
+        setPriceBookList(mapToLabelValue(priceBooks));
         setServicerList(mapToLabelValue(servicers));
       } else if (activeButton === "category") {
         setCategoryListCat(mapToLabelValue(categories));
-        setPriceBookListCat(mapPriceBooks(priceBooks));
+        setPriceBookListCat(mapToLabelValue(priceBooks));
       } else {
         setServicerListServicer(mapToLabelValue(servicers));
         setCategoryListServicer(mapToLabelValue(categories));
-        setPriceBookListServicer(mapPriceBooks(priceBooks));
+        setPriceBookListServicer(mapToLabelValue(priceBooks));
         setDealerListServicer(mapToLabelValue(dealers));
       }
       setLoading(false);
@@ -163,6 +161,7 @@ function Claims() {
   };
 
   const handleFilterChange = (name, value) => {
+    console.log(value);
     let updatedFilters = { ...filter };
     const commonUpdates = {
       categoryId: "",
@@ -202,7 +201,7 @@ function Claims() {
         setSelectedCat([]);
         break;
       case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
+        updatedFilters.priceBookId = value.map((item) => item.value);
         break;
       default:
         return;
@@ -227,7 +226,7 @@ function Claims() {
         setSelectedSer([]);
         break;
       case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
+        updatedFilters.priceBookId = value.map((item) => item.value);
         break;
       default:
         return;
@@ -245,7 +244,6 @@ function Claims() {
       primary: activeButton,
     });
   }, [activeButton]);
-
 
   const handleApplyFilters = () => {
     setLoading(true);
@@ -290,26 +288,38 @@ function Claims() {
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />
           </div>
-        </div> </> :
-        <div className="pb-8 mt-2 px-3 bg-grayf9">
-          <Headbar />
-
-          <div className="flex">
-            <div className="pl-3 mb-4">
-              <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Reporting
-              </p>
-              <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Reporting / </Link>{" "}
-                </li>
-                <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Claims / </Link>{" "}
-                </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                  {activeTab}
-                </li>
-              </ul>
+        </div>
+      </>
+        :
+        <div className="p-3 bg-white mt-4">
+          <div className="flex w-full mb-3">
+            <p className="p-0 self-center font-bold mr-4">Filter By :</p>
+            <div className="self-center">
+              {!isResellerClaims && (
+                <Button
+                  onClick={() => handleButtonClick("dealer")}
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer" && "!bg-[white] !text-[#333]"
+                    }`}
+                >
+                  Dealer
+                </Button>
+              )}
+              {!isServicerClaims && (
+                <Button
+                  onClick={() => handleButtonClick("servicer")}
+                  className={`!rounded-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                    }`}
+                >
+                  Servicer
+                </Button>
+              )}
+              <Button
+                onClick={() => handleButtonClick("category")}
+                className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "category" && "!bg-[white] !text-[#333]"
+                  }`}
+              >
+                Category
+              </Button>
             </div>
           </div>
           <div className="p-3 bg-white mt-4">

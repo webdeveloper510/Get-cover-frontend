@@ -5,7 +5,6 @@ import Input from "../../../common/input";
 
 // Media Includes
 import Search from "../../../assets/images/icons/SerachWhite.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
 import Cross from "../../../assets/images/Cross.png";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import view from "../../../assets/images/whiteView.png";
