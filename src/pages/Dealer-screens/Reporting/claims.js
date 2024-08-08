@@ -194,7 +194,7 @@ function DealerClaims() {
 
   return (
     <>
-     {loading || loading1 ? <>
+      {loading || loading1 ? <>
         <div className=" h-[400px] w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#333" />
@@ -227,30 +227,27 @@ function DealerClaims() {
               <div className="self-center">
                 <Button
                   onClick={() => handleButtonClick("servicer")}
-                  className={`!rounded-e-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
-                    activeButton !== "servicer" && "!bg-[white] !text-[#333] "
-                  }`}
+                  className={`!rounded-e-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !text-[#333] "
+                    }`}
                 >
                   Servicer
                 </Button>
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${
-                    activeButton !== "category" && "!bg-[white] !text-[#333] "
-                  }`}
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${activeButton !== "category" && "!bg-[white] !text-[#333] "
+                    }`}
                 >
                   Category
                 </Button>
               </div>
             </div>
             <Grid
-              className={`${
-                activeButton === "dealer"
+              className={`${activeButton === "dealer"
                   ? "!grid-cols-10"
                   : activeButton === "category"
-                  ? "!grid-cols-6"
-                  : "!grid-cols-8"
-              } !gap-0`}
+                    ? "!grid-cols-6"
+                    : "!grid-cols-8"
+                } !gap-0`}
             >
               {activeButton === "category" && (
                 <>
@@ -285,7 +282,7 @@ function DealerClaims() {
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
                     />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[25px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    <small className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-[12px] left-[25px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
                       Product SKU
                     </small>
                   </div>
@@ -350,7 +347,7 @@ function DealerClaims() {
                       }}
                       className="SearchSelect css-b62m3t-container p-[0.425rem]"
                     />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] bg-grayf9 left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white text-[#5D6E66]">
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white ">
                       Product SKU
                     </small>
                   </div>
@@ -379,11 +376,10 @@ function DealerClaims() {
                       {tabs.map((tab) => (
                         <div className={tab.className} key={tab.id}>
                           <Button
-                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                              activeTab === tab.id
+                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
                                 ? "!bg-[#2A2A2A] !text-white"
                                 : "!bg-grayf9 !text-black"
-                            }`}
+                              }`}
                             onClick={() => handleTabClick(tab.id)}
                           >
                             <img
@@ -394,9 +390,8 @@ function DealerClaims() {
                               alt={tab.label}
                             />
                             <span
-                              className={`ml-1 py-1 text-[12px] font-normal ${
-                                activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
+                              className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                                }`}
                             >
                               {tab.label}
                             </span>
@@ -418,7 +413,7 @@ function DealerClaims() {
             </div>
           </Grid>
         </div>
-        }
+      }
     </>
   );
 }

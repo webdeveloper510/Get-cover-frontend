@@ -76,7 +76,7 @@ function DealerDetailList(props) {
     setIsModalOpen1(true);
   };
   useEffect(() => {
-    if (props.flag && props.activeTab==='Dealer') {
+    if (props.flag && props.activeTab === 'Dealer') {
       servicerDealers();
     }
   }, [props?.flag]);
@@ -193,11 +193,11 @@ function DealerDetailList(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Dealer Name",
@@ -404,7 +404,7 @@ function DealerDetailList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={servicerDealersList}
                 highlightOnHover
                 sortIcon={

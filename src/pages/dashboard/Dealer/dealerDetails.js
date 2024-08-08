@@ -373,8 +373,8 @@ function DealerDetails() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const maxSize = 10048576; // 10MB in bytes
-    if (file.size > maxSize) {
+    const maxSize = 10048576; 
+    if (file?.size > maxSize) {
       formik.setFieldError(
         "termCondition",
         "File is too large. Please upload a file smaller than 10MB."
@@ -384,7 +384,7 @@ function DealerDetails() {
       const formData = new FormData();
       formData.append("file", file);
       const result = uploadTermsandCondition(formData).then((res) => {
-        // console.log(res?.file);
+         console.log(result);
         formik.setFieldValue("termCondition", {
           fileName: res?.file?.filename,
           name: res?.file?.originalname,

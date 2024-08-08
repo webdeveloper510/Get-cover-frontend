@@ -14,6 +14,8 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
 import Modal from "../../../../common/model";
+import view from "../../../../assets/images/eye.png";
+import paper from "../../../../assets/images/paper.png";
 
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -218,11 +220,11 @@ function DealerDetailList(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Dealer Name",
@@ -251,10 +253,9 @@ function DealerDetailList(props) {
     {
       name: "Claims Values",
       selector: (row) =>
-        `$${
-          row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
+        `$${row?.dealerData?.claimsData?.[0]?.totalAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.dealerData?.claimsData?.[0]?.totalAmount)
         }`,
       sortable: true,
     },
@@ -307,7 +308,7 @@ function DealerDetailList(props) {
             {selectedAction === row.dealerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -317,13 +318,15 @@ function DealerDetailList(props) {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
                 >
-                  View
+                  <img src={view} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center"> View </span>
                 </div>
                 <div
                   className="text-center py-1 px-2 cursor-pointer text-black"
                   onClick={() => openModal(row)}
                 >
-                  Unassigned
+                  <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                  <span className="self-center">Unassigned </span>
                 </div>
               </div>
             )}
@@ -371,11 +374,6 @@ function DealerDetailList(props) {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                         />
-                        {/* {formik.touched.email && formik.errors.email && (
-                          <div className="text-red-500">
-                            {formik.errors.email}
-                          </div>
-                        )} */}
                       </div>
                     </div>
                     <div className="col-span-3 self-center">

@@ -22,9 +22,10 @@ const Input = ({
   className1,
   disabled,
   placeholder,
-  content,
+  zipcode,
   classBox,
   nonumber,
+  content,
   maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(value);
@@ -57,6 +58,10 @@ const Input = ({
       inputValue = inputValue.replace(/\s+/g, " ");
     }
 
+    if (zipcode) {
+      inputValue = inputValue.replace(/\D/g, ""); // Remove any non-digit characters
+    }
+
     setInputValue(inputValue);
 
     if (onChange) {
@@ -78,9 +83,8 @@ const Input = ({
           dateFormat="MM/dd/yyyy"
           maxDate={maxDate ? new Date() : null}
           placeholderText="mm/dd/yyyy"
-          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-            error ? "border-[red]" : "border-gray-300"
-          } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
+            } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
         />
       ) : (
         <>
@@ -125,11 +129,10 @@ const Input = ({
                 minLength={minLength}
                 maxLength={maxLength}
                 pattern={type === "number" ? "[0-9]*" : undefined}
-                className={`${
-                  type === "tel" || (nonumber && "pl-[30px]")
-                } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-                  error ? "border-[red]" : "border-gray-300"
-                } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                step={type === "number" ? "1" : undefined} // Ensure step is set to 1 for number type
+                className={`${type === "tel" || (nonumber && "pl-[30px]")
+                  } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
+                  } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
                 onChange={handleInput}
                 disabled={disabled}
                 required={required}
@@ -149,13 +152,13 @@ const Input = ({
         htmlFor={name}
         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 self-center ${className}`}
       >
-        {label} {required && <span className="text-red-500">*</span>} {type === "color" &&   
+        {label} {required && <span className="text-red-500">*</span>} {type === "color" &&
           <CommonTooltip
             place="top"
             id={`tooltip-${tooltip}`}
             content={content}
-            >
-            <img src={info} className="h-5 w-5 ml-1 self-center" alt="Info"/>
+          >
+            <img src={info} className="h-5 w-5 ml-1 self-center" alt="Info" />
           </CommonTooltip>}
       </label>
     </div>

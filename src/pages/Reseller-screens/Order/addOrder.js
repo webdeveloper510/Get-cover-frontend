@@ -412,6 +412,7 @@ function ResellerAddOrder() {
           categoryId: Yup.string().required("Required"),
           priceBookId: Yup.string().required("Required"),
           term: Yup.string().required("Required"),
+          pName: Yup.string().required("Required"),
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -953,7 +954,6 @@ function ResellerAddOrder() {
       // console.log(name,selectedValue)
     }
     if (name.includes("pName")) {
-      updateProductFields(selectedValue);
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
@@ -1035,6 +1035,12 @@ function ResellerAddOrder() {
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
     console.log(name, value, "onchange------------------->>");
+    if (value === "Custom") {
+      formik.setFieldValue("name", "");
+      formik.setFieldValue("email", "");
+      formik.setFieldValue("phoneNumber", "");
+      formik.setFieldValue("address", "");
+    }
   };
 
   const getServiceCoverage = async (value, type = "Add") => {
@@ -1276,7 +1282,7 @@ function ResellerAddOrder() {
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
-                      className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
@@ -1621,7 +1627,7 @@ function ResellerAddOrder() {
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <Button
-                    className="text-sm !py-0 !font-light h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}

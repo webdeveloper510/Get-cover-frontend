@@ -63,7 +63,7 @@ function ResellerEditContract() {
                 </div>
 
                 <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
-                    <Grid className="mx-8 mx-auto ">
+                    <Grid className="mx-auto">
                         <div className="col-span-3 self-center border-r border-[#4e4e4e]">
                             <div className="flex">
                                 <div className="self-center backdrop-blur mr-4">
@@ -125,7 +125,7 @@ function ResellerEditContract() {
                             </div>
                         </div>
                     </Grid>
-                    <Grid className="mx-8 mt-2  mx-auto ">
+                    <Grid className=" mt-2  mx-auto ">
                         <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                             <div className="flex w-full border-r border-[#4e4e4e]">
                                 <div className="self-center backdrop-blur  mr-4">

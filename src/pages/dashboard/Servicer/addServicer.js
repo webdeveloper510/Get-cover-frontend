@@ -482,6 +482,7 @@ function AddServicer() {
                         className="!bg-white"
                         required={true}
                         placeholder=""
+                        zipcode={true}
                         value={formik.values.zip}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}

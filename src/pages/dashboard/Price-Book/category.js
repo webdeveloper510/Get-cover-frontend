@@ -106,8 +106,8 @@ function Category() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -135,9 +135,8 @@ function Category() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -174,8 +173,8 @@ function Category() {
                 <div
                   onClick={() => navigate(`/editCategory/${row._id}`)}
                   className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={edit} className="w-4 h-4 mr-2"/> Edit
+                >
+                  <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
               </div>
             )}
@@ -315,7 +314,7 @@ function Category() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={categoryList}
                 highlightOnHover
                 sortIcon={

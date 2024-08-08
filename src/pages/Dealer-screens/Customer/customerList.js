@@ -33,10 +33,12 @@ function DealerCustomerList() {
     formik.setFieldValue(name, value);
   };
 
-  const getCustomer = async (value = {name: "",
+  const getCustomer = async (value = {
+    name: "",
     email: "",
     resellerName: "",
-    phone: "",}) => {
+    phone: "",
+  }) => {
     try {
       setLoading(true);
       const result = await getDealerCustomers(value);
@@ -120,20 +122,20 @@ function DealerCustomerList() {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
-   
+
     {
-      name: (<div>Customer <br/> Name </div>),
+      name: (<div>Customer <br /> Name </div>),
       selector: (row) => row.customerData.username,
       sortable: true,
     },
     {
-      name: (<div>Reseller <br/> Name </div>),
+      name: (<div>Reseller <br /> Name </div>),
       selector: (row) => row?.resellerInfo?.name,
       sortable: true,
     },
@@ -153,12 +155,11 @@ function DealerCustomerList() {
       sortable: true,
     },
     {
-      name: (<div>Order <br/> Value </div>),
+      name: (<div>Order <br /> Value </div>),
       selector: (row) =>
-        `$${
-          row?.order?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
+        `$${row?.order?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -199,7 +200,7 @@ function DealerCustomerList() {
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
-                 <img src={view} className="w-4 h-4 mr-2"/> View
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -253,7 +254,7 @@ function DealerCustomerList() {
 
         <Link
           to={"/dealer/addCustomer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -372,7 +373,7 @@ function DealerCustomerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={customerList}
                 highlightOnHover
                 sortIcon={

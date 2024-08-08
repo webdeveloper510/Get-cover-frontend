@@ -42,14 +42,14 @@ function CustomerList(props) {
       });
     }
   };
-  
+
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -74,8 +74,7 @@ function CustomerList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-      `$${
-        row?.orderData?.orderAmount === undefined
+        `$${row?.orderData?.orderAmount === undefined
           ? parseInt(0).toFixed(2)
           : formatOrderValue(row?.orderData?.orderAmount ?? parseInt(0))}`,
 
@@ -117,8 +116,8 @@ function CustomerList(props) {
                   className="text-center py-1 cursor-pointer"
                 >
                   <Link to={`/dealer/customerDetails/${row.customerData._id}`} className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start self-center"
-                    >
-                      <img src={view} className="w-4 h-4 mr-2" /> <span className="self-center"> View </span> 
+                  >
+                    <img src={view} className="w-4 h-4 mr-2" /> <span className="self-center"> View </span>
                   </Link>
                 </div>
               </div>
@@ -132,13 +131,13 @@ function CustomerList(props) {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
@@ -321,7 +320,7 @@ function CustomerList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={customerList}
                 highlightOnHover
                 sortIcon={

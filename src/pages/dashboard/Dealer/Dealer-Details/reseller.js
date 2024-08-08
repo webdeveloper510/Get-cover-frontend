@@ -85,11 +85,11 @@ function Reseller(props) {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row?.resellerData?.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -125,9 +125,8 @@ function Reseller(props) {
         <div className="relative">
           <div
             className={` 
-            ${
-              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            }
+            ${row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              }
              absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
@@ -182,7 +181,7 @@ function Reseller(props) {
                     className="self-center flex"
                     to={`/resellerDetails/${row.resellerData._id}`}
                   >
-                  <img src={view} className="w-4 h-4 mr-2" />
+                    <img src={view} className="w-4 h-4 mr-2" />
                     View
                   </Link>
                 </div>
@@ -370,7 +369,7 @@ function Reseller(props) {
                 columns={columns}
                 data={resellerList}
                 highlightOnHover
-                draggableColumns={false} 
+                draggableColumns={false}
                 sortIcon={
                   <>
                     {" "}

@@ -134,11 +134,11 @@ function DealerResellerList() {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.resellerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -163,10 +163,9 @@ function DealerResellerList() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${
-          row?.orders?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orders?.orderAmount)
+        `$${row?.orders?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orders?.orderAmount)
         }`,
       sortable: true,
     },
@@ -177,14 +176,13 @@ function DealerResellerList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.resellerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.resellerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -229,8 +227,8 @@ function DealerResellerList() {
                     navigate(`/dealer/resellerDetails/${row?.accountId}`);
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                  >
-                   <img src={view} className="w-4 h-4 mr-2"/> View
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -298,7 +296,7 @@ function DealerResellerList() {
 
         <Link
           to={"/dealer/addReseller"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
           <span className="text-black ml-3 text-[14px] font-Regular">
@@ -416,7 +414,7 @@ function DealerResellerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={resellerList}
                 highlightOnHover
                 sortIcon={

@@ -178,11 +178,11 @@ function CompanyPriceBook() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "80px",
+      maxWidth: "90px",
     },
     {
       name: (
@@ -252,9 +252,8 @@ function CompanyPriceBook() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -706,8 +705,8 @@ function CompanyPriceBook() {
                         {data?.reinsuranceFee === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              data?.reinsuranceFee ?? parseInt(0)
-                            )}{" "}
+                            data?.reinsuranceFee ?? parseInt(0)
+                          )}{" "}
                       </p>
                     </div>
                     <div className="col-span-6">
@@ -719,8 +718,8 @@ function CompanyPriceBook() {
                         {data?.reserveFutureFee === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              data?.reserveFutureFee ?? parseInt(0)
-                            )}{" "}
+                            data?.reserveFutureFee ?? parseInt(0)
+                          )}{" "}
                       </p>
                     </div>
                     <div className="col-span-6">
@@ -732,8 +731,8 @@ function CompanyPriceBook() {
                         {data?.adminFee === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              data?.adminFee ?? parseInt(0)
-                            )}{" "}
+                            data?.adminFee ?? parseInt(0)
+                          )}{" "}
                       </p>
                     </div>
                     <div className="col-span-4">
@@ -767,8 +766,8 @@ function CompanyPriceBook() {
                             {data?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  data?.rangeStart ?? parseInt(0)
-                                )}
+                                data?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                         <div className="col-span-4">

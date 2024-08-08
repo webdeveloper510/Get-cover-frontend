@@ -12,6 +12,7 @@ const SelectBoxWithSearch = ({
   className1,
   name,
   isDisabled,
+  disableFirstOption,
   emailKey,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -33,7 +34,7 @@ const SelectBoxWithSearch = ({
 
   // Adding an "unselect" option
   const extendedOptions = [
-    { value: "", label: "Select" }, // Change the label as per your preference
+    { value: "", label: "Select", isDisabled: disableFirstOption }, // Change the label as per your preference
     ...options.map((option) => ({
       value: option.value,
       label: option.emailKey

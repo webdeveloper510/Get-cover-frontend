@@ -96,13 +96,13 @@ function CustomerList() {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  };  
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -117,11 +117,11 @@ function CustomerList() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.customerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "70px",
+      maxWidth: "90px",
       style: { whiteSpace: 'pre-wrap' },
     },
     {
@@ -155,12 +155,11 @@ function CustomerList() {
       style: { whiteSpace: 'pre-wrap' },
     },
     {
-      name: "Order Value",
+      name: "Orders Value",
       selector: (row) =>
-        `$${
-          row?.order?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
+        `$${row?.order?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.order?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -190,7 +189,7 @@ function CustomerList() {
             {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
-                onClick={()=> localStorage.removeItem("customer")}
+                onClick={() => localStorage.removeItem("customer")}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
@@ -202,7 +201,7 @@ function CustomerList() {
                   }}
                   className="text-left cursor-pointer flex py-1 px-2 hover:font-semibold"
                 >
-                 <img src={view} className="w-4 h-4 mr-2"/> View
+                  <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
               </div>
             )}
@@ -402,7 +401,7 @@ function CustomerList() {
                 pagination
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
-                draggableColumns={false} 
+                draggableColumns={false}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
               />
             )}

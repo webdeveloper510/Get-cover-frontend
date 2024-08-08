@@ -61,17 +61,26 @@ function Notification() {
           case "servicer":
             navigate("/servicerList");
             break;
-          case "Customer":
+          case "customer":
             navigate("/customerList");
             break;
-          case "Order":
+          case "order":
             navigate("/orderList");
             break;
           case "claim":
             navigate("/claimList");
             break;
-          case "pricebook":
+          case "Dealer Price Book":
             navigate("/dealerPriceList");
+            break;
+          case "priceBook":
+            navigate("/companyPriceBook");
+            break;
+          case "Super Admin":
+            navigate("/manageAccount");
+            break;
+          case "reseller":
+            navigate("/resellerList");
             break;
           default:
             navigate("/contractList");
@@ -113,21 +122,19 @@ function Notification() {
             </p>
             <div className="flex">
               <button
-                className={`tab-button ${
-                  activeTab === "all"
-                    ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                    : "border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                }`}
+                className={`tab-button ${activeTab === "all"
+                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
+                  : "border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded"
+                  }`}
                 onClick={() => handleTabClick("all")}
               >
                 All
               </button>
               <button
-                className={`tab-button ${
-                  activeTab === "unread"
-                    ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                    : "border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                }`}
+                className={`tab-button ${activeTab === "unread"
+                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
+                  : "border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded"
+                  }`}
                 onClick={() => handleTabClick("unread")}
               >
                 Unread
@@ -167,12 +174,12 @@ function Notification() {
                             <div className="col-span-9 self-center flex w-full">
                               <img
                                 src={unReadDot}
-                                className="mr-2 w-[10px] h-[10px] my-auto"
+                                className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                 alt="Unread dot"
                               />
                               <img
                                 src={unRead}
-                                className="mr-2 w-[18px] h-[24px]"
+                                className="mr-2 w-[18px] h-[24px] self-center"
                                 alt="Unread icon"
                               />
                               <p className="text-light-black text-base font-semibold">
@@ -183,14 +190,14 @@ function Notification() {
                               </p>
                             </div>
                             <div className="col-span-3">
-                              <div className="flex justify-end">
-                                <p className="flex text-sm mr-3 w-1/2">
+                              <div className="flex justify-end h-full">
+                                <p className="flex text-sm mr-3 w-1/2 self-center">
                                   <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
-                                <p className="mr-3 flex text-sm w-1/2">
+                                <p className="mr-3 flex text-sm w-1/2 self-center">
                                   <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
@@ -204,12 +211,12 @@ function Notification() {
                             <div className="col-span-9 self-center flex w-full">
                               <img
                                 src={ReadDot}
-                                className="mr-2 w-[10px] h-[10px] my-auto"
+                                className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                 alt="Read dot"
                               />
                               <img
                                 src={Read}
-                                className="mr-2 w-[18px] h-[18px] mt-[3px]"
+                                className="mr-2 w-[18px] h-[18px] mt-[3px] self-center"
                                 alt="Read icon"
                               />
                               <p className="text-light-black text-base font-semibold ">
@@ -220,14 +227,14 @@ function Notification() {
                               </p>
                             </div>
                             <div className="col-span-3">
-                              <div className="flex justify-end">
-                                <p className="flex text-sm mr-3 w-1/2">
+                              <div className="flex justify-end h-full">
+                                <p className="flex text-sm mr-3 w-1/2  self-center">
                                   <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
-                                <p className="mr-3 flex text-sm w-1/2">
+                                <p className="mr-3 flex text-sm w-1/2  self-center">
                                   <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
@@ -262,12 +269,12 @@ function Notification() {
                           <div className="col-span-9 self-center flex w-full">
                             <img
                               src={unReadDot}
-                              className="mr-2 w-[10px] h-[10px] my-auto"
+                              className="mr-2 w-[10px] h-[10px] my-auto self-center"
                               alt="Unread dot"
                             />
                             <img
                               src={unRead}
-                              className="mr-2 w-[18px] h-[24px]"
+                              className="mr-2 w-[18px] h-[24px] self-center"
                               alt="Unread icon"
                             />
                             <p className="text-light-black text-base font-semibold">
@@ -278,12 +285,12 @@ function Notification() {
                             </p>
                           </div>
                           <div className="col-span-3">
-                            <div className="flex justify-end">
-                              <p className="flex text-sm mr-3 w-1/2">
+                            <div className="flex justify-end h-full">
+                              <p className="flex text-sm mr-3 w-1/2 self-center">
                                 <img src={time} className="mr-2" alt="Time" />{" "}
                                 {new Date(data.createdAt).toLocaleTimeString()}{" "}
                               </p>
-                              <p className="mr-3 flex text-sm w-1/2">
+                              <p className="mr-3 flex text-sm w-1/2  self-center">
                                 <img src={date} className="mr-2" alt="Date" />{" "}
                                 {new Date(data?.createdAt).toLocaleDateString()}{" "}
                               </p>

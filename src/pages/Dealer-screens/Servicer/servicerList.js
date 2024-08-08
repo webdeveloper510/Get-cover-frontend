@@ -110,11 +110,11 @@ function DealerServicerList() {
   };
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.servicerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "80px",
+      maxWidth: "90px",
     },
     {
       name: "Servicer Name",
@@ -141,8 +141,8 @@ function DealerServicerList() {
     {
       name: "Total Claims Value",
       selector: (row) => `$${row?.claimValue?.totalAmount === undefined
-          ? parseInt(0).toFixed(2)
-          : formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0))}`,
+        ? parseInt(0).toFixed(2)
+        : formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0))}`,
       sortable: true,
       minWidth: "180px",
     },
@@ -355,7 +355,7 @@ function DealerServicerList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={servicerList}
                 highlightOnHover
                 sortIcon={

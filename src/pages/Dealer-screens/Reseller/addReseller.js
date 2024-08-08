@@ -512,6 +512,7 @@ function DealerAddReseller() {
                     name="zip"
                     label="Reseller Zipcode"
                     className="!bg-white"
+                    zipcode={true}
                     required={true}
                     placeholder=""
                     value={formik.values.zip}

@@ -67,6 +67,42 @@ export const MyContextProvider = ({ children }) => {
     setFiltersClaimServicer(newFilters);
   };
 
+  const resetAllFilters = () => {
+    setFilters({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+    });
+    setFiltersCategoryTab({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+    });
+    setFiltersClaimCategory({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+      servicer: "",
+      primary: "category",
+    });
+    setFiltersClaimServicer({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+      servicer: "",
+      primary: "servicer",
+    });
+    setFiltersClaimDealer({
+      dealerId: "",
+      priceBookId: [],
+      categoryId: "",
+      servicer: "",
+      primary: "dealer",
+    });
+    setFlag1(false);
+  };
+
+
   return (
     <MyContext.Provider
       value={{
@@ -84,6 +120,7 @@ export const MyContextProvider = ({ children }) => {
         setFiltersForClaimServicer,
         setFiltersForClaimDealer,
         setFiltersForClaimCategory,
+        resetAllFilters
       }}
     >
       {children}

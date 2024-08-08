@@ -481,6 +481,7 @@ function ResellerAddCustomer() {
                         type="number"
                         name="zip"
                         label="Customer Zipcode"
+                        zipcode={true}
                         className="!bg-white"
                         required={true}
                         placeholder=""

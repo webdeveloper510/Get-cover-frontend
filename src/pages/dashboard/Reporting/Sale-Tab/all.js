@@ -28,7 +28,7 @@ function All({ activeTab, activeButton }) {
   const [totalFees, setTotalFees] = useState({});
   const { filters, flag1, toggleFilterFlag, filtersCategoryTab1 } =
     useMyContext();
-
+  console.log(toggleFilterFlag);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -36,7 +36,6 @@ function All({ activeTab, activeButton }) {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  console.log(flag1, activeButton);
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -58,7 +57,6 @@ function All({ activeTab, activeButton }) {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     let flag = "daily";
-    console.log(diffDays < 30);
     if (diffDays < 30) {
       flag = "daily";
     } else {
@@ -80,7 +78,7 @@ function All({ activeTab, activeButton }) {
       flag: flag,
     };
 
-    getDatasetAtEvent(data);
+    // getDatasetAtEvent(data);
     setIsModalOpen(false);
   };
 
@@ -101,7 +99,7 @@ function All({ activeTab, activeButton }) {
       flag: flag,
     });
     setLoading(false);
-  }, [selectedRange]);
+  }, []);
 
   useEffect(() => {
     if (flag1) {

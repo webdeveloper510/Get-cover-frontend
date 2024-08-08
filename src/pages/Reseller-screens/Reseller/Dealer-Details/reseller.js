@@ -32,11 +32,11 @@ function Reseller(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row?.resellerData?.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: "Name",
@@ -65,8 +65,8 @@ function Reseller(props) {
     },
     {
       name: "Action",
-      minWidth: "auto", 
-      maxWidth: "70px", 
+      minWidth: "auto",
+      maxWidth: "70px",
       cell: (row, index) => {
         console.log(row);
         return (
@@ -119,17 +119,17 @@ function Reseller(props) {
   );
 
   const getResellerList = async () => {
-    const result = await getResellerListByDealerId({},props.id);
+    const result = await getResellerListByDealerId({}, props.id);
     setResellerList(result.result);
     console.log(result.result);
   };
-  useEffect(()=>{
-    if(props.activeTab==='Reseller'){
-      getResellerList();
-      }
-  },[props])
   useEffect(() => {
-    
+    if (props.activeTab === 'Reseller') {
+      getResellerList();
+    }
+  }, [props])
+  useEffect(() => {
+
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -148,7 +148,7 @@ function Reseller(props) {
   const filterDealerCustomer = async (data) => {
     try {
       setLoading(true);
-      const res = await getResellerListByDealerId(data,props.id);
+      const res = await getResellerListByDealerId(data, props.id);
       console.log(res.result);
       setResellerList(res.result);
     } catch (error) {
@@ -283,7 +283,7 @@ function Reseller(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={resellerList}
                 highlightOnHover
                 sortIcon={
