@@ -1,55 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ element, path, withoutLogin, role }) => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation();
   useEffect(() => {
     const checkAuthentication = async () => {
       const userToken = JSON.parse(localStorage.getItem("userDetails"));
-      const isUserLoggedIn = !!userToken;
-      setIsLoggedIn(isUserLoggedIn);
+      setIsLoggedIn(!!userToken);
       setLoading(false);
+      console.log(role, userToken);
 
-      if (!isUserLoggedIn && withoutLogin) {
+      if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
-        return;
-      }
-
-      if (isUserLoggedIn && withoutLogin) {
+      } else if (withoutLogin && !!userToken === true) {
         navigate("/dashboard", { replace: true });
-        return;
-      }
-
-      if (!isUserLoggedIn && !withoutLogin) {
+      } else if (!withoutLogin && !!userToken === false) {
         navigate("/", { replace: true });
-        return;
+      } else {
+        navigate(path, { replace: true });
       }
 
-      if (role && userToken?.role !== role) {
+      console.log(userToken?.role);
+      if (
+        role &&
+        userToken?.role !== role.charAt(0).toUpperCase() + role.slice(1)
+      ) {
         const rolePaths = {
           Dealer: "/dealer/dashboard",
           Servicer: "/servicer/dashboard",
           Reseller: "/reseller/dashboard",
           Customer: "/customer/dashboard",
         };
-        const redirectionPath = rolePaths[userToken?.role] || "/dashboard";
-        navigate(redirectionPath, { replace: true });
-        return;
-      }
 
-      navigate(path, { replace: true });
+        const redirectionPath = rolePaths[userToken?.role] || "/dashboard";
+        console.log(redirectionPath);
+        navigate(redirectionPath, { replace: true });
+      }
     };
 
     checkAuthentication();
-  }, [navigate, path, role, withoutLogin]);
+  }, [withoutLogin]);
 
   if (loading) {
     return null;
   }
-
   return <>{element}</>;
 };
 

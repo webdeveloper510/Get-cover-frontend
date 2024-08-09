@@ -166,7 +166,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<Dashboard />}
-            role={"admin"}
+            role={"Super Admin"}
             exact
             path="/dashboard"
           />
@@ -179,7 +179,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<Notification />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/notifications"
           />
         ),
@@ -187,59 +187,59 @@ const routes = [
       {
         path: "/editContract/:id",
         index: true,
-        element: <PrivateRoute element={<EditContract />} role={"admin"} />,
+        element: <PrivateRoute element={<EditContract />} role={"Super Admin"} />,
       },
       {
         path: "/orderDetails/:orderId",
         index: true,
-        element: <PrivateRoute element={<OrderDetails />} role={"admin"} />,
+        element: <PrivateRoute element={<OrderDetails />} role={"Super Admin"} />,
       },
       {
         path: "/servicerDetails/:servicerId",
         index: true,
-        element: <PrivateRoute element={<ServicerDetails />} role={"admin"} />,
+        element: <PrivateRoute element={<ServicerDetails />} role={"Super Admin"} />,
       },
       {
         path: "/resellerDetails/:resellerId",
         index: true,
-        element: <PrivateRoute element={<ResellerDetails />} role={"admin"} />,
+        element: <PrivateRoute element={<ResellerDetails />} role={"Super Admin"} />,
       },
       {
         path: "/dealerDetails/:id",
         index: true,
-        element: <PrivateRoute element={<DealerDetails />} role={"admin"} />,
+        element: <PrivateRoute element={<DealerDetails />} role={"Super Admin"} />,
       },
 
       {
         path: "/addDealer/:id?",
-        element: <PrivateRoute element={<Dealer />} role={"admin"} />,
+        element: <PrivateRoute element={<Dealer />} role={"Super Admin"} />,
       },
       {
         path: "/addCustomer/:dealerValueId?/:typeofUser?",
-        element: <PrivateRoute element={<AddCustomer />} role={"admin"} />,
+        element: <PrivateRoute element={<AddCustomer />} role={"Super Admin"} />,
       },
       {
         path: "/addDealerBook/:dealerIdValue?",
-        element: <PrivateRoute element={<AddDealerBook />} role={"admin"} />,
+        element: <PrivateRoute element={<AddDealerBook />} role={"Super Admin"} />,
       },
       {
         path: "/addOrderforReseller/:resellerId?/:dealerValue?",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/addOrderforCustomer/:customerId?/:dealerValue?/:resellerId?",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/editDealerBook/:id/:dealerIdValue?",
-        element: <PrivateRoute element={<AddDealerBook />} role={"admin"} />,
+        element: <PrivateRoute element={<AddDealerBook />} role={"Super Admin"} />,
       },
       {
         path: "/addCompanyPriceBook",
         element: (
           <PrivateRoute
             element={<AddCompanyPriceBook />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/addCompanyPriceBook"
           />
         ),
@@ -253,7 +253,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<UploadDealerBook />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/uploadDealerBook"
           />
         ),
@@ -263,29 +263,29 @@ const routes = [
         element: (
           <PrivateRoute
             element={<AddCategory />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/addCategory"
           />
         ),
       },
       {
         path: "/editCategory/:id",
-        element: <PrivateRoute element={<AddCategory />} role={"admin"} />,
+        element: <PrivateRoute element={<AddCategory />} role={"Super Admin"} />,
       },
       {
         path: "/dealerList",
-        element: <PrivateRoute element={<DealerList />} role={"admin"} />,
+        element: <PrivateRoute element={<DealerList />} role={"Super Admin"} />,
       },
       {
         path: "/dealerPriceList/:dealerName?",
-        element: <PrivateRoute element={<DealerPriceList />} role={"admin"} />,
+        element: <PrivateRoute element={<DealerPriceList />} role={"Super Admin"} />,
       },
       {
         path: "/category",
         element: (
           <PrivateRoute
             element={<Category />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/category"
           />
         ),
@@ -295,7 +295,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CompanyPriceBook />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/companyPriceBook"
           />
         ),
@@ -305,7 +305,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<NewDealerList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/newDealerList"
           />
         ),
@@ -315,21 +315,21 @@ const routes = [
         element: (
           <PrivateRoute
             element={<CustomerList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/customerList"
           />
         ),
       },
       {
         path: "/addServicer/:id?",
-        element: <PrivateRoute element={<AddServicer />} role={"admin"} />,
+        element: <PrivateRoute element={<AddServicer />} role={"Super Admin"} />,
       },
       {
         path: "/servicerList",
         element: (
           <PrivateRoute
             element={<ServicerList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/servicerList"
           />
         ),
@@ -337,44 +337,44 @@ const routes = [
       {
         path: "/customerDetails/:customerId",
         index: true,
-        element: <PrivateRoute element={<CustomerDetails />} role={"admin"} />,
+        element: <PrivateRoute element={<CustomerDetails />} role={"Super Admin"} />,
       },
       {
         path: "/servicerRequestList",
         element: (
           <PrivateRoute
             element={<RequestServicer />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/servicerRequestList"
           />
         ),
       },
       {
         path: "/addOrder/:dealerId?",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/editOrder/:orderId",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/editOrder/:orderId?/:customerId?/customer",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/editOrder/:orderId?/:dealerId?/dealer",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/editOrder/:orderId?/:resellerId?/reseller",
-        element: <PrivateRoute element={<AddOrder />} role={"admin"} />,
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
         path: "/orderList",
         element: (
           <PrivateRoute
             element={<OrderList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/orderList"
           />
         ),
@@ -384,14 +384,14 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ContractList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/contractList"
           />
         ),
       },
       {
         path: "/claimList/:claimIdValue?",
-        element: <PrivateRoute element={<ClaimList />} role={"admin"} />,
+        element: <PrivateRoute element={<ClaimList />} role={"Super Admin"} />,
       },
 
       {
@@ -399,39 +399,39 @@ const routes = [
         element: (
           <PrivateRoute
             element={<AddClaim />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/addClaim"
           />
         ),
       },
       {
         path: "/customer/addClaim/:username",
-        element: <PrivateRoute element={<AddClaim />} role={"admin"} />,
+        element: <PrivateRoute element={<AddClaim />} role={"Super Admin"} />,
       },
       {
         path: "/resellerList",
         element: (
           <PrivateRoute
             element={<ResellerList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/resellerList"
           />
         ),
       },
       {
         path: "/addReseller/:dealerValueId?",
-        element: <PrivateRoute element={<AddReseller />} role={"admin"} />,
+        element: <PrivateRoute element={<AddReseller />} role={"Super Admin"} />,
       },
       {
         path: "/addBulkClaim",
-        element: <PrivateRoute element={<AddBulkClaim />} role={"admin"} />,
+        element: <PrivateRoute element={<AddBulkClaim />} role={"Super Admin"} />,
       },
       {
         path: "/Reporting/sale",
         element: (
           <PrivateRoute
             element={<Sale />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/Reporting/sale"
           />
         ),
@@ -445,7 +445,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ArchiveOrderList />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/archiveOrder"
           />
         ),
@@ -455,7 +455,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<Account />}
-            role={"admin"}
+            role={"Super Admin"}
             path="/manageAccount"
           />
         ),
