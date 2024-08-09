@@ -21,7 +21,7 @@ const PasswordInput = ({
 
   return (
     <>
-      <div className="relative">
+      <div className="relative bg-white">
         <input
           type={showPassword ? "text" : type}
           name={name}

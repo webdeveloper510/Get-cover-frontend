@@ -44,6 +44,7 @@ function DealerPriceList() {
   const [termList, setTermList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [categoryList, setCategoryList] = useState([]);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -341,7 +342,7 @@ function DealerPriceList() {
   ];
 
 
-  const [isViewOpen, setIsViewOpen] = useState(false);
+
 
   const closeView = () => {
     setIsViewOpen(false);
@@ -839,6 +840,7 @@ function DealerPriceList() {
           </div>
         </form>
       </Modal>
+
     </>
   );
 }
