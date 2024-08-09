@@ -2,17 +2,17 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 
 const NotFoundPage = () => {
-  let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
-  let redirectionPath;
+  const rolePaths = {
+    Dealer: "/dealer/dashboard",
+    Servicer: "/servicer/dashboard",
+    Reseller: "/reseller/dashboard",
+    Customer: "/customer/dashboard",
+  };
 
-  switch (userDetails?.role) {
-    case "Dealer":
-      redirectionPath = "/dealer/dashboard";
-      break;
-    default:
-      redirectionPath = "/dashboard";
-  }
+  const redirectionPath = rolePaths[userDetails?.role] || "/dashboard";
+
   return <Navigate to={redirectionPath} />;
 };
 
