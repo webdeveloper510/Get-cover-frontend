@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
@@ -17,6 +17,8 @@ import { getFilterListForDealerClaim } from "../../../services/reportingServices
 import { RotateLoader } from "react-spinners";
 
 function DealerClaims() {
+  const location = useLocation();
+  const isResellerReporting = location.pathname.includes("/reseller/sale");
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
     return storedTab ? storedTab : "Amount";
@@ -210,10 +212,10 @@ function DealerClaims() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Reporting / </Link>{" "}
+                  <Link to={` ${isResellerReporting ? '/reseller' : '/dealer'}`}>Reporting / </Link>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Claims / </Link>{" "}
+                  <Link to={` ${isResellerReporting ? '/reseller' : '/dealer'}`}>Claims / </Link>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                   {activeTab}
@@ -243,10 +245,10 @@ function DealerClaims() {
             </div>
             <Grid
               className={`${activeButton === "dealer"
-                  ? "!grid-cols-10"
-                  : activeButton === "category"
-                    ? "!grid-cols-6"
-                    : "!grid-cols-8"
+                ? "!grid-cols-10"
+                : activeButton === "category"
+                  ? "!grid-cols-6"
+                  : "!grid-cols-8"
                 } !gap-0`}
             >
               {activeButton === "category" && (
@@ -377,8 +379,8 @@ function DealerClaims() {
                         <div className={tab.className} key={tab.id}>
                           <Button
                             className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                                ? "!bg-[#2A2A2A] !text-white"
-                                : "!bg-grayf9 !text-black"
+                              ? "!bg-[#2A2A2A] !text-white"
+                              : "!bg-grayf9 !text-black"
                               }`}
                             onClick={() => handleTabClick(tab.id)}
                           >
