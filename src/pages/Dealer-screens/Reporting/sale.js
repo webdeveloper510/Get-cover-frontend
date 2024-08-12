@@ -137,7 +137,7 @@ function Sale() {
               <p className="font-bold text-[36px] leading-9 mb-[3px]">Reporting</p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Reporting / </Link>
+                  <Link to={"/dealer"}>Reporting / </Link>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                   Sale ({activeTab})
@@ -146,7 +146,7 @@ function Sale() {
             </div>
           </div>
           <div className="p-3 bg-white mt-4">
-            <p className="p-0 self-center font-bold mr-4 mb-2">Filter by  </p>
+            <p className="p-0 self-center font-bold mr-4 mb-2">Filter by </p>
             <Grid className={`${"!grid-cols-5"} !gap-0`}>
               <div className={`self-center pl-1 col-span-2`}>
                 <SelectBoxWithSearch
