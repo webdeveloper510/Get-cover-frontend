@@ -116,7 +116,7 @@ function Account() {
     }, 2000);
   }, []);
 
- 
+
   const fetchUserDetails = async () => {
     try {
       const userDetails = await getSuperAdminMembers();
@@ -522,9 +522,8 @@ function Account() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={row.isPrimary}
@@ -564,11 +563,10 @@ function Account() {
                 {selectedAction === row.email && (
                   <div
                     ref={dropdownRef}
-                    className={`absolute z-[9999] ${
-                      !row.isPrimary ? "w-[130px]" : "w-[80px]"
-                    } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                      index
-                    )}`}
+                    className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[80px]"
+                      } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
                   >
                     {/* {!row.isPrimary && row.status && (
                       <div
@@ -645,9 +643,8 @@ function Account() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={true}
@@ -771,7 +768,7 @@ function Account() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-  
+
       uploadFile(formData).then((res) => {
         console.log("API response:", res);
         if (res && res.result) {
@@ -785,7 +782,7 @@ function Account() {
       });
     }
   };
-  const handleRemoveFile = (setterFunction,fieldName) => {
+  const handleRemoveFile = (setterFunction, fieldName) => {
     if (inputRef1.current) {
       inputRef1.current.value = null;
       siteChange.setFieldValue(fieldName, "");
@@ -793,7 +790,7 @@ function Account() {
     }
   };
 
- 
+
 
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
@@ -816,58 +813,58 @@ function Account() {
   const [zipCode, setZipCode] = useState('');
   const handleColorChange = (event) => {
     setSideBarColor(event.target.value);
-    siteChange.setFieldValue('sideBarColor' , sideBarColor)
+    siteChange.setFieldValue('sideBarColor', sideBarColor)
   };
   const handleColorChange1 = (event) => {
     setSideBarTextColor(event.target.value);
-    siteChange.setFieldValue('sideBarTextColor' , sideBarTextColor)
+    siteChange.setFieldValue('sideBarTextColor', sideBarTextColor)
   };
   const handleColorChange2 = (event) => {
     setSideBarButtonColor(event.target.value);
-    siteChange.setFieldValue('sideBarButtonColor' , sideBarButtonColor)
+    siteChange.setFieldValue('sideBarButtonColor', sideBarButtonColor)
   };
   const handleColorChange3 = (event) => {
     setSideBarButtonTextColor(event.target.value);
-    siteChange.setFieldValue('sideBarButtonTextColor' , sideBarButtonTextColor)
+    siteChange.setFieldValue('sideBarButtonTextColor', sideBarButtonTextColor)
   };
   const handleColorChange4 = (event) => {
     setButtonColor(event.target.value);
-    siteChange.setFieldValue('buttonColor' , buttonColor)
+    siteChange.setFieldValue('buttonColor', buttonColor)
   };
   const handleColorChange5 = (event) => {
     setButtonTextColor(event.target.value);
-    siteChange.setFieldValue('buttonTextColor' , buttonTextColor)
+    siteChange.setFieldValue('buttonTextColor', buttonTextColor)
   };
   const handleColorChange6 = (event) => {
     setBackGroundColor(event.target.value);
-    siteChange.setFieldValue('backGroundColor' , backGroundColor)
+    siteChange.setFieldValue('backGroundColor', backGroundColor)
   };
   const handleColorChange8 = (event) => {
     setTitleColor(event.target.value);
-    siteChange.setFieldValue('titleColor' , titleColor)
+    siteChange.setFieldValue('titleColor', titleColor)
   };
   const handleColorChange9 = (event) => {
     setCardColor(event.target.value);
-    siteChange.setFieldValue('cardColor' , cardColor)
+    siteChange.setFieldValue('cardColor', cardColor)
   };
   const handleColorChange10 = (event) => {
     setCardBackGroundColor(event.target.value);
-    siteChange.setFieldValue('cardBackGroundColor' , cardBackGroundColor)
+    siteChange.setFieldValue('cardBackGroundColor', cardBackGroundColor)
   };
   const handleColorChange11 = (event) => {
     setModelBackgroundColor(event.target.value);
-    siteChange.setFieldValue('modelBackgroundColor' , modelBackgroundColor)
+    siteChange.setFieldValue('modelBackgroundColor', modelBackgroundColor)
   };
   const handleColorChange12 = (event) => {
     setModelColor(event.target.value);
-    siteChange.setFieldValue('modelColor' , modelColor)
+    siteChange.setFieldValue('modelColor', modelColor)
   };
 
   const fetchUserDetails12 = async () => {
     try {
       const userDetails = await getSetting();
       console.log(userDetails);
-      
+
       if (userDetails.result && userDetails.result[0].colorScheme) {
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme.forEach(color => {
@@ -899,16 +896,16 @@ function Account() {
             case 'titleColor':
               setTitleColor(color.colorCode);
               break;
-              case 'cardColor':
+            case 'cardColor':
               setCardColor(color.colorCode);
               break;
-              case 'cardBackGroundColor':
+            case 'cardBackGroundColor':
               setCardBackGroundColor(color.colorCode);
               break;
-              case 'modelBackgroundColor':
+            case 'modelBackgroundColor':
               setModelBackgroundColor(color.colorCode);
               break;
-              case 'modelColor':
+            case 'modelColor':
               setModelColor(color.colorCode);
               break;
             default:
@@ -923,7 +920,7 @@ function Account() {
         setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
-        
+
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
@@ -948,15 +945,15 @@ function Account() {
       modelBackgroundColor: modelBackgroundColor,
       cardBackGroundColor: cardBackGroundColor,
       cardColor: cardColor,
-      paymentDetail:bankDetails,
-      address:address,
-      
+      paymentDetail: bankDetails,
+      address: address,
+
     },
     validationSchema: Yup.object({
       favIcon: Yup.mixed().nullable(),
     }),
     onSubmit: async (values) => {
-      
+
       try {
         setLoading(true);
         const colorScheme = [
@@ -975,19 +972,19 @@ function Account() {
           { colorCode: values.modelColor || modelColor, colorType: "modelColor" }
         ];
         const apiData = {
-          favIcon: values.favIcon || selectedFile2 ,
+          favIcon: values.favIcon || selectedFile2,
           colorScheme: colorScheme,
           title: values.title || title,
-          logoLight:values.logoLight || selectedFile1,
-          logoDark:values.logoDark || selectedFile,
-          address:values.address || address,
-          paymentDetail:values.bankDetails || bankDetails,
+          logoLight: values.logoLight || selectedFile1,
+          logoDark: values.logoDark || selectedFile,
+          address: values.address || address,
+          paymentDetail: values.bankDetails || bankDetails,
         };
         console.log(apiData);
-        const result = await saveSetting(apiData); 
+        const result = await saveSetting(apiData);
         console.log(result);
         let local = JSON.parse(localStorage.getItem("siteSettings"));
-          // localStorage.removeItem('userDetails')
+        // localStorage.removeItem('userDetails')
         local.siteSettings = result
         localStorage.setItem("siteSettings", JSON.stringify(local));
         setFirstMessage("Site Setting Updated Successfully ");
@@ -998,7 +995,7 @@ function Account() {
         fetchUserDetails12();
         setTimeout(() => {
           window.location.href = '/';
-        }, 3000);       
+        }, 3000);
         // setLoading(false);
       } catch (error) {
         console.error(error);
@@ -1044,25 +1041,23 @@ function Account() {
           </div>
           <div className="mt-5">
             <Button
-             onClick={() => handleButtonClick("myAccount")}
-             className={`!rounded-e-[0px] !py-1 !px-2 ${
-               activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
-             }`}>
-              My Account 
+              onClick={() => handleButtonClick("myAccount")}
+              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
+                }`}>
+              My Account
             </Button>
             <Button
-             onClick={() => handleButtonClick("siteSetting")}
-             className={`!rounded-s-[0px] !px-2 !py-1 ${
-                  activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
+              onClick={() => handleButtonClick("siteSetting")}
+              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
                 }`}>
-              Site Setting 
+              Site Setting
             </Button>
           </div>
 
           {activeButton === "myAccount" && (
-           <>
-            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-              <p className="text-xl font-semibold mb-3">My Account</p>
+            <>
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+                <p className="text-xl font-semibold mb-3">My Account</p>
                 <>
                   <Grid>
                     <Formik
@@ -1078,7 +1073,7 @@ function Account() {
                         <Form className="col-span-12">
                           <Grid>
                             <div className="col-span-4">
-                              <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: textColor }}>
                                 <p className="text-sm m-0 p-0">Email</p>
                                 <p className="font-semibold">{email}</p>
                               </div>
@@ -1184,19 +1179,19 @@ function Account() {
                       )}
                     </Formik>
                     <div className="col-span-12">
-                  <form onSubmit={formikEmail.handleSubmit}>
-                    <p className="text-xl font-semibold mb-4">
-                      Send Notification
-                    </p>
-                    <div className="relative">
-                      <label
-                        htmlFor="email"
-                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Send Notification to
-                      </label>
-                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                        {/* <ReactTags
+                      <form onSubmit={formikEmail.handleSubmit}>
+                        <p className="text-xl font-semibold mb-4">
+                          Send Notification
+                        </p>
+                        <div className="relative">
+                          <label
+                            htmlFor="email"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Send Notification to
+                          </label>
+                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                            {/* <ReactTags
                           tags={tags}
                           delimiters={delimiters}
                           name="email"
@@ -1210,47 +1205,47 @@ function Account() {
                           placeholder=""
                         /> */}
 
-                        <MultiSelect
-                          label="Email"
-                          name="Email"
-                          placeholder="Email"
-                          value={selectedEmail}
-                          options={emails}
-                          pName="Email"
-                          onChange={(value) => {
-                            console.log("value", value);
-                            setSelectedEmail(value);
-                            handleAddition(value);
-                            // handleFilterChange("priceBookId", value);
-                          }}
-                          labelledBy="Select"
-                          overrideStrings={{
-                            selectSomeItems: "Select Email",
-                          }}
-                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                        />
-                      </div>
-                    </div>
+                            <MultiSelect
+                              label="Email"
+                              name="Email"
+                              placeholder="Email"
+                              value={selectedEmail}
+                              options={emails}
+                              pName="Email"
+                              onChange={(value) => {
+                                console.log("value", value);
+                                setSelectedEmail(value);
+                                handleAddition(value);
+                                // handleFilterChange("priceBookId", value);
+                              }}
+                              labelledBy="Select"
+                              overrideStrings={{
+                                selectSomeItems: "Select Email",
+                              }}
+                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                            />
+                          </div>
+                        </div>
                         {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
-                        <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                          {(() => {
-                            const uniqueErrors = new Set();
-                            return formikEmail.errors.notificationTo.map((error, index) => {
-                              if (!uniqueErrors.has(error)) {
-                                uniqueErrors.add(error);
-                                return (
-                                  <span key={index}>
-                                    {index > 0 && " "}{" "}
-                                    <span className="font-semibold">
-                                      {" "}
-                                      {error}{" "}
+                          <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                            {(() => {
+                              const uniqueErrors = new Set();
+                              return formikEmail.errors.notificationTo.map((error, index) => {
+                                if (!uniqueErrors.has(error)) {
+                                  uniqueErrors.add(error);
+                                  return (
+                                    <span key={index}>
+                                      {index > 0 && " "}{" "}
+                                      <span className="font-semibold">
+                                        {" "}
+                                        {error}{" "}
+                                      </span>
                                     </span>
-                                  </span>
-                                );
-                              }
-                              return null;
-                            });
-                          })()}
+                                  );
+                                }
+                                return null;
+                              });
+                            })()}
                           </p>
                         )}
 
@@ -1261,7 +1256,7 @@ function Account() {
                     </div>
                   </Grid>
                 </>
-              <p className="text-xl font-semibold mb-3">Change Password</p>
+                <p className="text-xl font-semibold mb-3">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
                     <div className="col-span-4">
@@ -1324,499 +1319,493 @@ function Account() {
                     <Button type="submit">Change Password</Button>
                   </div>
                 </form>
-            </Card>
-            {loading ? (
-              <div className="h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
-                </div>
-              </div>
-            ) : (
-              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
-                {isPrimary && (
-                  <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                    <Button onClick={() => openUserModal()}>+ Add Member</Button>
-                  </div>
-                )}
-
-                <p className="text-xl font-semibold mb-3">
-                  Other Super admin details
-                </p>
-
-                <DataTable
-                  draggableColumns={false}
-                  columns={isPrimary ? columns : columns1}
-                  data={memberList}
-                  highlightOnHover
-                  sortIcon={
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
               </Card>
-            )}
-           </>
+              {loading ? (
+                <div className="h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
+                </div>
+              ) : (
+                <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+                  {isPrimary && (
+                    <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                      <Button onClick={() => openUserModal()}>+ Add Member</Button>
+                    </div>
+                  )}
+
+                  <p className="text-xl font-semibold mb-3">
+                    Other Super admin details
+                  </p>
+
+                  <DataTable
+                    draggableColumns={false}
+                    columns={isPrimary ? columns : columns1}
+                    data={memberList}
+                    highlightOnHover
+                    sortIcon={
+                      <img src={shorting} className="ml-2" alt="shorting" />
+                    }
+                    noDataComponent={<CustomNoDataComponent />}
+                  />
+                </Card>
+              )}
+            </>
           )}
 
           {activeButton === "siteSetting" && (
             <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
-               <form onSubmit={siteChange.handleSubmit}>
-                  <p className="mb-3 text-light-black font-bold">Logo Setting</p>
-                  <Grid container spacing={2}>
-                      <div className="col-span-12">
-                        <Input
-                          type="text"
-                          name={`title`}
-                          className="!bg-white"
-                          className1="h-11"
-                          label="Company Name"
-                          placeholder=""
-                          value={siteChange.values.title || title}
-                          onBlur={siteChange.handleBlur}
-                          onChange={siteChange.handleChange}
-                          error={
-                            siteChange.touched.title &&
-                            siteChange.errors.title
-                          }
-                        />
-                      </div>
-                      <div className="col-span-4">
-                        <div className="relative">
-                          <label
-                            htmlFor="favicon-upload"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+              <form onSubmit={siteChange.handleSubmit}>
+                <p className="mb-3 text-light-black font-bold">Logo Setting</p>
+                <Grid container spacing={2}>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`title`}
+                      className="!bg-white"
+                      className1="h-11"
+                      label="Company Name"
+                      placeholder=""
+                      value={siteChange.values.title || title}
+                      onBlur={siteChange.handleBlur}
+                      onChange={siteChange.handleChange}
+                      error={
+                        siteChange.touched.title &&
+                        siteChange.errors.title
+                      }
+                    />
+                  </div>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="favicon-upload"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Favicon Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="favicon-upload"
+                        name="favIcon"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
+                        ref={inputRef2}
+                      />
+
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                        {selectedFile2 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile2, "favIcon")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
                           >
-                            Favicon Upload
-                          </label>
-                          <input
-                            type="file"
-                            id="favicon-upload"
-                            name="favIcon"
-                            className="hidden"
-                            onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
-                            ref={inputRef2}
-                          />
-                          
-                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
-                            {selectedFile2 && (
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveFile(setSelectedFile2, "favIcon")}
-                                className="absolute -right-2 -top-2 mx-auto mb-3"
-                              >
-                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
-                              </button>
-                            )}
-                            {selectedFile2 ? (
-                              <p className="w-full break-words">{selectedFile2.name}</p>
-                            ) : (
-                              <p
-                                className="w-full cursor-pointer"
-                                onClick={() => inputRef2.current.click()}
-                              >
-                                Select File
-                              </p>
-                            )}
-                          </div>
-                          <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile2 ? (
+                          <p className="w-full break-words">{selectedFile2.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef2.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
+                    </div>
+                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
+                  </div>
+                  <div className="col-span-4 mb-2">
+                    <div className="relative">
+                      <label
+                        htmlFor="logo-upload"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Light Logo Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="logo-upload"
+                        name="logoImage"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
+                        ref={inputRef1}
+                      />
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                        {selectedFile1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile1, "logoLight")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile1 ? (
+                          <p className="w-full break-words">{selectedFile1.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef1.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
+                    </div>
+                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
+                  </div>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="favicon-upload"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Dark Logo Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="favicon-upload"
+                        name="favIcon"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
+                        ref={inputRef3}
+                      />
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                        {selectedFile && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile, "logoDark")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile ? (
+                          <p className="w-full break-words">{selectedFile.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef3.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
+                    </div>
+                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
+                  </div>
+                  <div className="col-span-6">
+                    <div className="relative">
+                      <label
+                        htmlFor="address"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Full Address
+                      </label>
+                      <textarea
+                        id="address"
+                        rows="4"
+                        name="address"
+                        value={siteChange.values.address || address}
+                        onChange={siteChange.handleChange}
+                        onBlur={siteChange.handleBlur}
+                        maxLength={150}
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                      ></textarea>
+                      {formik.touched.address && formik.errors.address && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.address}
                         </div>
-                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon"/>
-                      </div>
-                      <div className="col-span-4 mb-2">
-                        <div className="relative">
-                          <label
-                            htmlFor="logo-upload"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Light Logo Upload
-                          </label>
-                          <input
-                            type="file"
-                            id="logo-upload"
-                            name="logoImage"
-                            className="hidden"
-                            onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
-                            ref={inputRef1}
-                          />
-                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
-                            {selectedFile1 && (
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveFile(setSelectedFile1, "logoLight")}
-                                className="absolute -right-2 -top-2 mx-auto mb-3"
-                              >
-                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
-                              </button>
-                            )}
-                            {selectedFile1 ? (
-                              <p className="w-full break-words">{selectedFile1.name}</p>
-                            ) : (
-                              <p
-                                className="w-full cursor-pointer"
-                                onClick={() => inputRef1.current.click()}
-                              >
-                                Select File
-                              </p>
-                            )}
-                          </div>
-                          <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
-                      </div>
-                      <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{backgroundColor:sideBarColor}} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon"/>
-                      </div>
-                      <div className="col-span-4">
-                        <div className="relative">
-                          <label
-                            htmlFor="favicon-upload"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Dark Logo Upload
-                          </label>
-                          <input
-                            type="file"
-                            id="favicon-upload"
-                            name="favIcon"
-                            className="hidden"
-                            onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
-                            ref={inputRef3}
-                          />
-                          <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
-                            {selectedFile && (
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveFile(setSelectedFile, "logoDark")}
-                                className="absolute -right-2 -top-2 mx-auto mb-3"
-                              >
-                                <img src={Cross1} className="w-6 h-6" alt="Remove" />
-                              </button>
-                            )}
-                            {selectedFile ? (
-                              <p className="w-full break-words">{selectedFile.name}</p>
-                            ) : (
-                              <p
-                                className="w-full cursor-pointer"
-                                onClick={() => inputRef3.current.click()}
-                              >
-                                Select File
-                              </p>
-                            )}
-                          </div>
-                          <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-span-6">
+                    <div className="relative">
+                      <label
+                        htmlFor="bankDetails"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Bank Details
+                      </label>
+                      <textarea
+                        id="bankDetails"
+                        rows="4"
+                        name="bankDetails"
+                        value={siteChange.values.bankDetails || bankDetails}
+                        onChange={siteChange.handleChange}
+                        onBlur={siteChange.handleBlur}
+                        maxLength={150}
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                      ></textarea>
+                      {formik.touched.bankDetails && formik.errors.bankDetails && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.bankDetails}
                         </div>
-                        <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon"/>
-                      </div>
-                      <div className="col-span-6">
-                        <div className="relative">
-                          <label
-                            htmlFor="address"
-                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                          Full Address
-                          </label>
-                          <textarea
-                            id="address"
-                            rows="4"
-                            name="address"
-                            value={siteChange.values.address || address}
-                            onChange={siteChange.handleChange}
-                            onBlur={siteChange.handleBlur}
-                            maxLength={150}
-                            className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                          ></textarea>
-                          {formik.touched.address && formik.errors.address && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.address}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-span-6">
-                        <div className="relative">
-                          <label
-                            htmlFor="bankDetails"
-                            className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Bank Details 
-                          </label>
-                          <textarea
-                            id="bankDetails"
-                            rows="4"
-                            name="bankDetails"
-                            value={siteChange.values.bankDetails || bankDetails}
-                            onChange={siteChange.handleChange}
-                            onBlur={siteChange.handleBlur}
-                            maxLength={150}
-                            className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                          ></textarea>
-                          {formik.touched.bankDetails && formik.errors.bankDetails && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.bankDetails}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-span-12">
-                        <p className="mb-3 text-light-black font-bold">Color Setting </p>
-                          <Grid >
-                            <div className="col-span-2 relative">
-                                      {/* <CommonTooltip
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-span-12">
+                    <p className="mb-3 text-light-black font-bold">Color Setting </p>
+                    <Grid >
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
                                         place="right"
                                         id={`tooltip-1`}
                                         content=''
                                         >
                                         <p className="absolute bg-[#F0F0F0] right-0 top-[-5px] z-[2]"><img src={info} className="h-4 w-5" alt="Info"/></p>
                                         </CommonTooltip> */}
-                                  <Input
-                                        type="color"
-                                        name={`sideBarColor`}
-                                        className1="h-11"
-                                        tooltip="1"
-                                        className="!bg-white  flex"
-                                        content='you can change the sideBar Background color here'
-                                        label="SideBar Color"
-                                        placeholder=""
-                                        value={sideBarColor} onChange={handleColorChange}
-                                      />
-                            </div>
-                            <div className="col-span-2 relative">
-                                  <Input
-                                        type="color"
-                                        name={`sideBarTextColor`}
-                                        className1="h-11"
-                                        tooltip="2"
-                                        className="!bg-white flex !w-[111%]"
-                                        content='you can change the sideBar text color here'
-                                        label="SideBar text Color"
-                                        placeholder=""
-                                        value={sideBarTextColor} onChange={handleColorChange1}
-                                      />
-                            </div>
-                            <div className="col-span-2 relative">
-                                  <Input
-                                        type="color"
-                                        name={`sideBarButtonColor`}
-                                        tooltip="3"
-                                        className="!bg-white flex"
-                                        content='you can change the sideBar active page button color here'
-                                        className1="h-11"
-                                        label="SideBar Button "
-                                        placeholder=""
-                                        value={sideBarButtonColor} onChange={handleColorChange2}
-                                      />
-                            </div>
-                            <div className="col-span-2 relative">
-                                {/* <CommonTooltip
+                        <Input
+                          type="color"
+                          name={`sideBarColor`}
+                          className1="h-11"
+                          tooltip="1"
+                          className="!bg-white  flex"
+                          content='you can change the sideBar Background color here'
+                          label="SideBar Color"
+                          placeholder=""
+                          value={sideBarColor} onChange={handleColorChange}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarTextColor`}
+                          className1="h-11"
+                          tooltip="2"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar text color here'
+                          label="SideBar text Color"
+                          placeholder=""
+                          value={sideBarTextColor} onChange={handleColorChange1}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarButtonColor`}
+                          tooltip="3"
+                          className="!bg-white flex"
+                          content='you can change the sideBar active page button color here'
+                          className1="h-11"
+                          label="SideBar Button "
+                          placeholder=""
+                          value={sideBarButtonColor} onChange={handleColorChange2}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-4`}
                                         content='you can change the sideBar active page button text color here'
                                       > */}
-                                  <Input
-                                        type="color"
-                                        name={`sideBarButtonTextColor`}
-                                        tooltip="4"
-                                        className="!bg-white flex !w-[111%]"
-                                        content='you can change the sideBar text color here'
-                                        className1="h-11"
-                                        label="SideBar text Button "
-                                        placeholder=""
-                                        value={sideBarButtonTextColor} onChange={handleColorChange3}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
+                        <Input
+                          type="color"
+                          name={`sideBarButtonTextColor`}
+                          tooltip="4"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar text color here'
+                          className1="h-11"
+                          label="SideBar text Button "
+                          placeholder=""
+                          value={sideBarButtonTextColor} onChange={handleColorChange3}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-5`}
                                         content='you can change all button background color here'
                                       > */}
-                                  <Input
-                                        type="color"
-                                        name={`buttonColor`}
-                                        tooltip="5"
-                                        className="!bg-white flex"
-                                        content='you can change all button background color here'
-                                        className1="h-11"
-                                        label="Button Color"
-                                        placeholder=""
-                                        value={buttonColor} onChange={handleColorChange4}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
+                        <Input
+                          type="color"
+                          name={`buttonColor`}
+                          tooltip="5"
+                          className="!bg-white flex"
+                          content='you can change all button background color here'
+                          className1="h-11"
+                          label="Button Color"
+                          placeholder=""
+                          value={buttonColor} onChange={handleColorChange4}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-6`}
                                         content='you can change all button text color here'
                                       > */}
-                                  <Input
-                                        type="color"
-                                        name={`buttonTextColor`}
-                                        tooltip="6"
-                                        className="!bg-white flex !w-[111%]"
-                                        content='you can change all button text color here'
-                                        className1="h-11"
-                                        label="Button text Color"
-                                        placeholder=""
-                                        value={buttonTextColor} onChange={handleColorChange5}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
+                        <Input
+                          type="color"
+                          name={`buttonTextColor`}
+                          tooltip="6"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change all button text color here'
+                          className1="h-11"
+                          label="Button text Color"
+                          placeholder=""
+                          value={buttonTextColor} onChange={handleColorChange5}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
                                         place="top"
                                         id={`tooltip-7`}
                                         content='you can change background color here'
                                       > */}
-                                  <Input
-                                        type="color"
-                                        name={`backGroundColor`}
-                                        tooltip="7"
-                                        className="!bg-white flex !w-[111%]"
-                                        content='you can change all backGround Color here'
-                                        className1="h-11"
-                                        label="Background Color"
-                                        placeholder=""
-                                        value={backGroundColor} onChange={handleColorChange6}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                                  <Input
-                                        type="color"
-                                        name={`titleColor`}
-                                        tooltip="8"
-                                        className="!bg-white flex"
-                                        content='you can change website text color here'
-                                        className1="h-11"
-                                        label="Text Color"
-                                        placeholder=""
-                                        value={titleColor} onChange={handleColorChange8}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                                  <Input
-                                        type="color"
-                                        name={`cardColor`}
-                                        tooltip="9"
-                                        className="!bg-white flex"
-                                        content='you can change website Card color here'
-                                        className1="h-11"
-                                        label="Card Text Color"
-                                        placeholder=""
-                                        value={cardColor} onChange={handleColorChange9}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                                  <Input
-                                        type="color"
-                                        name={`cardBackGroundColor`}
-                                        tooltip="10"
-                                        className="!bg-white flex"
-                                        content='you can change website card backGround color here'
-                                        className1="h-11"
-                                        label="Card Color"
-                                        placeholder=""
-                                        value={cardBackGroundColor} onChange={handleColorChange10}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                                  <Input
-                                        type="color"
-                                        name={`modelBackgroundColor`}
-                                        tooltip="11"
-                                        className="!bg-white flex "
-                                        content='you can change website model Background color here'
-                                        className1="h-11 "
-                                        label="Model Color"
-                                        placeholder=""
-                                        value={modelBackgroundColor} onChange={handleColorChange11}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                            <div className="col-span-2 relative">
-                            {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                                  <Input
-                                        type="color"
-                                        name={`modelColor`}
-                                        tooltip="12"
-                                        className="!bg-white flex !w-[163px]"
-                                        content='you can change website model text color here'
-                                        className1="h-11"
-                                        label="Model text Color"
-                                        placeholder=""
-                                        value={modelColor} onChange={handleColorChange12}
-                                      />
-                                      {/* </CommonTooltip> */}
-                            </div>
-                          </Grid>
+                        <Input
+                          type="color"
+                          name={`backGroundColor`}
+                          tooltip="7"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change all backGround Color here'
+                          className1="h-11"
+                          label="Background Color"
+                          placeholder=""
+                          value={backGroundColor} onChange={handleColorChange6}
+                        />
+                        {/* </CommonTooltip> */}
                       </div>
-                  </Grid>
-                  <div className="text-right">
-                     <Button className="mt-3" type="submit">Submit</Button>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                        <Input
+                          type="color"
+                          name={`titleColor`}
+                          tooltip="8"
+                          className="!bg-white flex"
+                          content='you can change website text color here'
+                          className1="h-11"
+                          label="Text Color"
+                          placeholder=""
+                          value={titleColor} onChange={handleColorChange8}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                        <Input
+                          type="color"
+                          name={`cardColor`}
+                          tooltip="9"
+                          className="!bg-white flex"
+                          content='you can change website Card color here'
+                          className1="h-11"
+                          label="Card Text Color"
+                          placeholder=""
+                          value={cardColor} onChange={handleColorChange9}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                        <Input
+                          type="color"
+                          name={`cardBackGroundColor`}
+                          tooltip="10"
+                          className="!bg-white flex"
+                          content='you can change website card backGround color here'
+                          className1="h-11"
+                          label="Card Color"
+                          placeholder=""
+                          value={cardBackGroundColor} onChange={handleColorChange10}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                        <Input
+                          type="color"
+                          name={`modelBackgroundColor`}
+                          tooltip="11"
+                          className="!bg-white flex "
+                          content='you can change website model Background color here'
+                          className1="h-11 "
+                          label="Model Color"
+                          placeholder=""
+                          value={modelBackgroundColor} onChange={handleColorChange11}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                      <div className="col-span-2 relative">
+                        {/* <CommonTooltip
+                                        place="top"
+                                        id={`tooltip-8`}
+                                        content='you can change website text color here'
+                                      > */}
+                        <Input
+                          type="color"
+                          name={`modelColor`}
+                          tooltip="12"
+                          className="!bg-white flex !w-[163px]"
+                          content='you can change website model text color here'
+                          className1="h-11"
+                          label="Model text Color"
+                          placeholder=""
+                          value={modelColor} onChange={handleColorChange12}
+                        />
+                        {/* </CommonTooltip> */}
+                      </div>
+                    </Grid>
                   </div>
-               </form>
-            </Card>
-          )}
-
-           {activeButton === "CoverageType" && (
-            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
-               <form onSubmit={siteChange.handleSubmit}>
-                  <Grid container spacing={2}>
-                    <div className="col-span-12 mb-2">
-                      <p className="mb-3 font-bold">Add Coverage Type</p>
-                      <Input
-                        type="text"
-                        name="coverage_type"
-                        label="Coverage Type"
-                        placeholder=""
-                        className="!bg-white"
-                        maxLength={"30"}
-                        // value={userValues.values.firstName}
-                        // onBlur={userValues.handleBlur}
-                        // onChange={userValues.handleChange}
-                        // error={
-                        //   userValues.touched.firstName &&
-                        //   userValues.errors.firstName
-                        // }
-                      />
-                    </div>
-                    
-                  </Grid>
-                  <div className="text-right">
+                </Grid>
+                <div className="text-right">
                   <Button className="mt-3" type="submit">Submit</Button>
-                  </div>
-               </form>
+                </div>
+              </form>
             </Card>
           )}
 
-        </div>
-      )}
+          {activeButton === "CoverageType" && (
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
+              <form onSubmit={siteChange.handleSubmit}>
+                <Grid container spacing={2}>
+                  <div className="col-span-12 mb-2">
+                    <p className="mb-3 font-bold">Add Coverage Type</p>
+                    <Input
+                      type="text"
+                      name="coverage_type"
+                      label="Coverage Type"
+                      placeholder=""
+                      className="!bg-white"
+                      maxLength={"30"}
+                    />
+                  </div>
+
+                </Grid>
+                <div className="text-right">
+                  <Button className="mt-3" type="submit">Submit</Button>
+                </div>
+              </form>
+            </Card>
+          )}
+
+        </div >
+      )
+      }
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         {addLoading ? (
@@ -2149,7 +2138,7 @@ function Account() {
             {firstMessage}
           </p>
           <p className=" text-base font-medium mt-4">
-            {secondMessage} {""} <br/>
+            {secondMessage} {""} <br />
             {lastMessage == null ? '' : lastMessage} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>

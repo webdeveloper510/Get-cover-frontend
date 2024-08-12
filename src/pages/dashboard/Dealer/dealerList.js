@@ -230,7 +230,6 @@ function DealerList() {
       minWidth: "auto",
       maxWidth: "90px",
       cell: (row, index) => {
-        // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
             <div onClick={() => setSelectedAction(row.dealerData.unique_key)}>
@@ -283,14 +282,11 @@ function DealerList() {
         </div>
 
         <Button className="!bg-white flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey">
-          {" "}
           <Link to={"/addDealer"} className="flex">
-            {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+            <img src={AddItem} className="self-center" alt="AddItem" />
             <span className="text-black ml-3 text-[14px] font-Regular">
-              {" "}
-              Add New Dealer{" "}
-            </span>{" "}
+              Add New Dealer
+            </span>
           </Link>
         </Button>
 

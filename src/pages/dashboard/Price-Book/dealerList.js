@@ -211,7 +211,7 @@ function DealerPriceList() {
   const columns = [
     {
       name: "Sr.#",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
