@@ -137,7 +137,7 @@ function Sale() {
               <p className="font-bold text-[36px] leading-9 mb-[3px]">Reporting</p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/dealer"}>Reporting / </Link>
+                  <Link to={` ${isResellerReporting ? '/reseller' : '/dealer'}`}>Reporting / </Link>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
                   Sale ({activeTab})
