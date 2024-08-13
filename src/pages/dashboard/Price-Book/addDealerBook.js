@@ -300,8 +300,8 @@ function AddDealerBook() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link onClick={handleGOBack}>Price Book </Link>{" "}
-                  <span className="mx-2"> /</span>{" "}
+                  <Link to={'/'}>Home </Link>{" "}
+                  <span className=""> /</span>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-Regular ml-1">
                   <Link
@@ -310,7 +310,7 @@ function AddDealerBook() {
                   >
                     Dealer Book{" "}
                   </Link>{" "}
-                  <span className="mx-2"> /</span>{" "}
+                  <span className=""> /</span>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}

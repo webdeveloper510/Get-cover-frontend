@@ -224,7 +224,7 @@ function ContractList(props) {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Contracts /</Link>{" "}
+                  <Link to={"/"}>Home /</Link>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   Contracts List
@@ -808,8 +808,8 @@ function ContractList(props) {
                   navigate(`/editContract/${contractDetails._id}`);
                 }}
                 className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-                    ? "!bg-[#343434]"
-                    : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
+                  ? "!bg-[#343434]"
+                  : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
                   } `}
               >
                 <img
@@ -822,8 +822,8 @@ function ContractList(props) {
             <Button
               onClick={closeView}
               className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-                  ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-                  : "!bg-Granite-Gray"
+                ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+                : "!bg-Granite-Gray"
                 } `}
             >
               <img

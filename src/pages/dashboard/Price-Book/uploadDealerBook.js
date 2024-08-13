@@ -43,7 +43,7 @@ function UploadDealerBook() {
 
   const handleSelectChange = (name, selectedValue) => {
     console.log(name, selectedValue, "Checking here if exist");
- setDealerID(selectedValue)
+    setDealerID(selectedValue)
     activeDealers?.find((dealer) => {
       if (dealer.value === selectedValue) {
         setDealerName(dealer.label);
@@ -156,7 +156,7 @@ function UploadDealerBook() {
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-          
+
         ),
       file: Yup.mixed().test("file", "File is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
@@ -171,7 +171,7 @@ function UploadDealerBook() {
       formData.append("file", values.file);
       var data = { formData };
       console.log(formData);
-    
+
       try {
         const errors = await formik.validateForm(values);
         console.log("errors====>", errors)
@@ -225,8 +225,8 @@ function UploadDealerBook() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Price Book </Link>{" "}
-                  <span className="mx-2"> /</span>
+                  <Link to={"/"}>Home </Link>{" "}
+                  <span className=""> /</span>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
@@ -237,7 +237,7 @@ function UploadDealerBook() {
           </div>
 
           {/* Form Start */}
-          
+
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
               {error ? (
