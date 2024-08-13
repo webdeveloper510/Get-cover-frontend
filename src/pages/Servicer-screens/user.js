@@ -665,7 +665,7 @@ function ServicerUser() {
                 Manage Account
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>
@@ -678,16 +678,16 @@ function ServicerUser() {
                 Manage Users
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {" "}
-                  Users{" "}
+                  Edit Account{" "}
                 </li>
               </ul>
             </div>
           </div>
 
           {/* <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"> */}
-          <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
+          <div className="bg-Edit bg-cover mt-5 px-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">

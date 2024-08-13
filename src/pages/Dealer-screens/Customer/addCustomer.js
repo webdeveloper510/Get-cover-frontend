@@ -267,7 +267,7 @@ function DealerAddCustomer() {
   //   console.log(data.result._id);
   // };
   useEffect(() => {
-    if (resellerId || typeofUser ) {
+    if (resellerId || typeofUser) {
       setLoading1(true);
 
       const timer = setTimeout(() => {
@@ -408,9 +408,9 @@ function DealerAddCustomer() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Customer </Link> /{" "}
+              <Link to={"/dealer/dashboard"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
               {" "}
               Add Customer{" "}
             </li>

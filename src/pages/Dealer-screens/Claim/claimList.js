@@ -162,10 +162,12 @@ function ClaimList(props) {
     getLoginUser();
   }, [messageList, claimId]);
   const getLoginUser = async () => {
+    setLoading1(true);
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
     setServicerCreateAccountOption(result?.result?.isServicer);
+    setLoading1(false);
   };
   const downloadImage = (file) => {
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
@@ -589,28 +591,28 @@ function ClaimList(props) {
         case "Parts":
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "Parts", value: "Parts" }];
         case "Labour":
           return shipping
             ? [
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "Labor ", value: "Labour" }];
         default:
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-              ];
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+            ];
       }
     };
     setServiceType(
@@ -833,12 +835,12 @@ function ClaimList(props) {
       const type = pathname.includes("/dealer/claimList")
         ? "Dealer"
         : pathname.includes("/customer/claimList")
-        ? "Customer"
-        : pathname.includes("/reseller/claimList")
-        ? "Reseller"
-        : pathname.includes("/servicer/claimList")
-        ? "Servicer"
-        : null;
+          ? "Customer"
+          : pathname.includes("/reseller/claimList")
+            ? "Reseller"
+            : pathname.includes("/servicer/claimList")
+              ? "Servicer"
+              : null;
 
       if (type) {
         formik2.setFieldValue("type", type);
@@ -859,8 +861,8 @@ function ClaimList(props) {
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
           : coverageType === "Accidental"
-          ? [{ label: "Accidental", value: "Accidental" }]
-          : [
+            ? [{ label: "Accidental", value: "Accidental" }]
+            : [
               { label: "Breakdown", value: "Breakdown" },
               { label: "Accidental", value: "Accidental" },
             ];
@@ -1113,7 +1115,7 @@ function ClaimList(props) {
       orderId: "",
       trackingNumber: "",
       trackingType: "",
-      claimPaidStatus:"",
+      claimPaidStatus: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1215,7 +1217,7 @@ function ClaimList(props) {
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik1.handleSubmit}>
                   <Grid className="!gap-1">
-                    <div className="col-span-8 self-center">
+                    <div className="col-span-9 self-center">
                       <Grid className="!gap-2">
                         <div className="col-span-4 self-center">
                           <Input
@@ -1253,7 +1255,7 @@ function ClaimList(props) {
                         </div>
                       </Grid>
                     </div>
-                    <div className="col-span-4 self-center flex justify-center">
+                    <div className="col-span-3 self-center flex justify-center">
                       <Button type="submit" className="!p-2">
                         <img
                           src={Search}
@@ -1448,17 +1450,17 @@ function ClaimList(props) {
                                         $
                                         {part.price === undefined
                                           ? (0).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })
                                           : parseFloat(
-                                              part.price === undefined
-                                                ? 0
-                                                : part.price
-                                            ).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
+                                            part.price === undefined
+                                              ? 0
+                                              : part.price
+                                          ).toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}
                                       </p>
                                     </div>
                                   </div>
@@ -1493,12 +1495,12 @@ function ClaimList(props) {
                                         Servicer Name :{" "}
                                       </span>
                                       {userType !== "dealer" &&
-                                      !location.pathname.includes(
-                                        "customer/claimList"
-                                      ) &&
-                                      !location.pathname.includes(
-                                        "/reseller/claimList"
-                                      ) ? (
+                                        !location.pathname.includes(
+                                          "customer/claimList"
+                                        ) &&
+                                        !location.pathname.includes(
+                                          "/reseller/claimList"
+                                        ) ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1542,9 +1544,9 @@ function ClaimList(props) {
                                               disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ==
-                                                  "Rejected" ||
+                                                "Rejected" ||
                                                 claimStatus.status ==
-                                                  "Completed"
+                                                "Completed"
                                               }
                                               options={claim}
                                               OptionName="Claim Type"
@@ -1561,7 +1563,7 @@ function ClaimList(props) {
                                       {trackerView ? (
                                         <>
                                           {claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed" ? (
+                                            claimStatus.status == "Completed" ? (
                                             <></>
                                           ) : (
                                             <form
@@ -1594,9 +1596,9 @@ function ClaimList(props) {
                                                   }
                                                   disabled={
                                                     claimStatus.status ==
-                                                      "Rejected" ||
+                                                    "Rejected" ||
                                                     claimStatus.status ==
-                                                      "Completed"
+                                                    "Completed"
                                                   }
                                                   // options={state}
                                                   className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
@@ -1624,7 +1626,7 @@ function ClaimList(props) {
                                             <>
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                              claimStatus.status ==
+                                                claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1714,7 +1716,7 @@ function ClaimList(props) {
                                               )}
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                              claimStatus.status ==
+                                                claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1759,7 +1761,7 @@ function ClaimList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "Rejected" ||
-                                    claimStatus.status == "Completed" ? (
+                                      claimStatus.status == "Completed" ? (
                                       <></>
                                     ) : (
                                       <div
@@ -1814,7 +1816,7 @@ function ClaimList(props) {
                                     {role == "Super Admin" && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (
+                                          claimStatus.status == "Completed" ? (
                                           <></>
                                         ) : (
                                           <div
@@ -1828,9 +1830,9 @@ function ClaimList(props) {
                                               disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ==
-                                                  "Rejected" ||
+                                                "Rejected" ||
                                                 claimStatus.status ==
-                                                  "Completed"
+                                                "Completed"
                                               }
                                               onChange={handleSelectChange}
                                               white
@@ -1898,37 +1900,37 @@ function ClaimList(props) {
                                     {(role == "Super Admin" ||
                                       claimList.result[activeIndex]
                                         ?.selfServicer) && (
-                                      <>
-                                        {claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (
-                                          <></>
-                                        ) : (
-                                          <div
-                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                            ref={dropdownRef}
-                                            onClick={handleToggleDropdown1}
-                                          >
-                                            <Select
-                                              name="repairStatus"
-                                              label=""
-                                              value={repairStatus.status}
-                                              onChange={handleSelectChange}
-                                              disableFirstOption={true}
-                                              disabled={
-                                                claimStatus.status ==
+                                        <>
+                                          {claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed" ? (
+                                            <></>
+                                          ) : (
+                                            <div
+                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                              ref={dropdownRef}
+                                              onClick={handleToggleDropdown1}
+                                            >
+                                              <Select
+                                                name="repairStatus"
+                                                label=""
+                                                value={repairStatus.status}
+                                                onChange={handleSelectChange}
+                                                disableFirstOption={true}
+                                                disabled={
+                                                  claimStatus.status ==
                                                   "Rejected" ||
-                                                claimStatus.status ==
+                                                  claimStatus.status ==
                                                   "Completed"
-                                              }
-                                              white
-                                              className1="!border-0 !text-light-black"
-                                              options={repairValue}
-                                              visible={dropdownVisible}
-                                            />
-                                          </div>
-                                        )}
-                                      </>
-                                    )}
+                                                }
+                                                white
+                                                className1="!border-0 !text-light-black"
+                                                options={repairValue}
+                                                visible={dropdownVisible}
+                                              />
+                                            </div>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-2">
@@ -1937,11 +1939,10 @@ function ClaimList(props) {
                                       Diagnosis
                                     </p>
                                     <div
-                                      className={` overflow-y-scroll Diagnosis ${
-                                        res?.receiptImage != ""
-                                          ? "h-[130px] max-h-[130px]"
-                                          : "h-[164px] max-h-[164px]"
-                                      }`}
+                                      className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
+                                        ? "h-[130px] max-h-[130px]"
+                                        : "h-[164px] max-h-[164px]"
+                                        }`}
                                     >
                                       <p className="text-sm text-light-green">
                                         {res.diagnosis}
@@ -2101,7 +2102,7 @@ function ClaimList(props) {
                 </p>
                 <ul className="flex self-center">
                   <li className="text-sm text-neutral-grey font-Regular">
-                    <Link to={"/"}>Claim </Link> /
+                    <Link to={"/"}>Home </Link> /
                   </li>
                   <li className="text-sm text-neutral-grey font-semibold ml-1">
                     {" "}
@@ -2122,18 +2123,17 @@ function ClaimList(props) {
             </button>
           </>
         )}
+
         <div
-          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${
-            createServicerAccountOption ? "w-[45%]" : "w-[20%]"
-          }`}
+          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${createServicerAccountOption ? "w-[45%]" : "w-[15%]"
+            }`}
         >
           {tabs.map((tab) => (
             <Button
-              className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                activeTab === tab.id
-                  ? "!bg-[#2A2A2A] !text-white"
-                  : "!bg-grayf9 !text-black"
-              }`}
+              className={`flex self-center mx-1 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                ? "!bg-[#2A2A2A] !text-white"
+                : "!bg-grayf9 !text-black"
+                }`}
               onClick={() => handleTabClick(tab.id)}
             >
               <img
@@ -2142,15 +2142,15 @@ function ClaimList(props) {
                 alt={tab.label}
               />
               <span
-                className={`ml-1 py-1 text-sm font-Regular ${
-                  activeTab === tab.id ? "text-white" : "text-black"
-                }`}
+                className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                  }`}
               >
                 {tab.label}
               </span>
             </Button>
           ))}
         </div>
+
         {tabs.map((tab) => (
           <div
             key={tab.id}
@@ -2160,6 +2160,7 @@ function ClaimList(props) {
           </div>
         ))}
       </div>
+
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
@@ -2235,9 +2236,8 @@ function ClaimList(props) {
                         rows="4"
                         name="reason"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.reason && touched.reason && "border-red-500"
-                        }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
+                          }`}
                       />
                       <ErrorMessage
                         name="reason"
@@ -2307,11 +2307,10 @@ function ClaimList(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${
-                                msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
-                              }`}
+                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
+                                }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2406,8 +2405,8 @@ function ClaimList(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                        <FontAwesomeIcon icon={faFileImage} size="3x" />
-                      )}
+                          <FontAwesomeIcon icon={faFileImage} size="3x" />
+                        )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2476,6 +2475,7 @@ function ClaimList(props) {
           </form>
         </div>
       </Modal>
+
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
@@ -2546,8 +2546,8 @@ function ClaimList(props) {
                               options={
                                 index === 0
                                   ? serviceType.filter(
-                                      (option) => option.label !== "Shipping"
-                                    )
+                                    (option) => option.label !== "Shipping"
+                                  )
                                   : serviceType
                               }
                               required={true}
@@ -2607,9 +2607,8 @@ function ClaimList(props) {
                         </div>
 
                         <div
-                          className={`${
-                            index > 0 ? "col-span-2" : "col-span-3"
-                          }  `}
+                          className={`${index > 0 ? "col-span-2" : "col-span-3"
+                            }  `}
                         >
                           {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                           <Input
@@ -2712,6 +2711,7 @@ function ClaimList(props) {
           )}
         </div>
       </Modal>
+
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -2727,6 +2727,7 @@ function ClaimList(props) {
           </p>
         </div>
       </Modal>
+
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
@@ -2855,40 +2856,40 @@ function ClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ? 
-               <div className="col-span-6">
-               <Select
-                 options={claimPaid}
-                 name="claimPaidStatus"
-                 label="Paid Status"
-                 className="!bg-white"
-                 onChange={handleSelectChange2}
-                 value={formik1.values.claimPaidStatus}
-               />
-             </div> : 
-             <>
-              <div className="col-span-6">
-                <Select
-                  options={customerValue}
-                  name="customerStatusValue"
-                  label="Customer Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.customerStatusValue}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  options={repairValue}
-                  name="repairStatus"
-                  label="Repair Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.repairStatus}
-                />
-              </div>
-             </> 
-             }
+              {formik1.values.claimStatus == "Completed" ?
+                <div className="col-span-6">
+                  <Select
+                    options={claimPaid}
+                    name="claimPaidStatus"
+                    label="Paid Status"
+                    className="!bg-white"
+                    onChange={handleSelectChange2}
+                    value={formik1.values.claimPaidStatus}
+                  />
+                </div> :
+                <>
+                  <div className="col-span-6">
+                    <Select
+                      options={customerValue}
+                      name="customerStatusValue"
+                      label="Customer Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.customerStatusValue}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      options={repairValue}
+                      name="repairStatus"
+                      label="Repair Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.repairStatus}
+                    />
+                  </div>
+                </>
+              }
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

@@ -51,9 +51,8 @@ const CollapsibleDiv = ({
   return (
     <div className="my-8">
       <div
-        className={`w-full justify-between items-center relative ${
-          isCollapsed ? "border-b border-black" : ""
-        }`}
+        className={`w-full justify-between items-center relative ${isCollapsed ? "border-b border-black" : ""
+          }`}
       >
         {title}
         {ShowData && (

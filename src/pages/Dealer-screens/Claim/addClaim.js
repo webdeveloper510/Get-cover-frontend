@@ -105,7 +105,7 @@ function DealerAddClaim() {
                   name="ContractID"
                   placeholder=""
                   className="!bg-white"
-                  //  required={true}
+                //  required={true}
                 />
                 {/* <div className="ml-3 self-center">
                     <Checkbox />
@@ -117,7 +117,7 @@ function DealerAddClaim() {
                   name="CustomerName"
                   placeholder=""
                   className="!bg-white"
-                  //  required={true}
+                //  required={true}
                 />
               </div>
               <div className="col-span-4">
@@ -126,7 +126,7 @@ function DealerAddClaim() {
                   name="Serial"
                   placeholder=""
                   className="!bg-white"
-                  //  required={true}
+                //  required={true}
                 />
               </div>
               <div className="col-span-4">
@@ -135,7 +135,7 @@ function DealerAddClaim() {
                   name="OrderNumber"
                   placeholder=""
                   className="!bg-white"
-                  //  required={true}
+                //  required={true}
                 />
               </div>
               <div className="col-span-4">
@@ -144,7 +144,7 @@ function DealerAddClaim() {
                   name="ContractID"
                   placeholder=""
                   className="!bg-white"
-                  //  required={true}
+                //  required={true}
                 />
               </div>
               <div className="col-span-4 self-end justify-end flex">
@@ -306,7 +306,7 @@ function DealerAddClaim() {
                 template, by{" "}
                 <span
                   className="underline cursor-pointer"
-                  // onClick={downloadCSVTemplate}
+                // onClick={downloadCSVTemplate}
                 >
                   Clicking here
                 </span>
@@ -337,15 +337,15 @@ function DealerAddClaim() {
                   id="yes-create-account"
                   label="Yes"
                   value="yes"
-                  // checked={createAccountOption === "yes"}
-                  // onChange={handleRadioChange}
+                // checked={createAccountOption === "yes"}
+                // onChange={handleRadioChange}
                 />
                 <RadioButton
                   id="no-create-account"
                   label="No"
                   value="no"
-                  // checked={createAccountOption === "no"}
-                  // onChange={handleRadioChange}
+                // checked={createAccountOption === "no"}
+                // onChange={handleRadioChange}
                 />
               </p>
             </div>
@@ -377,9 +377,9 @@ function DealerAddClaim() {
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Claim </Link> /{" "}
+              <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
               {" "}
               Add Claim{" "}
             </li>
@@ -399,9 +399,8 @@ function DealerAddClaim() {
           )}
 
           <p
-            className={` ${
-              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 1
           </p>
@@ -412,20 +411,18 @@ function DealerAddClaim() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 1
+              className={`border ${currentStep > 1
                   ? "text-black border-black"
                   : "text-[#ADADAD] border-[#ADADAD]"
-              }  rounded-full mx-auto w-[26px]`}
+                }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
 
           <p
-            className={` ${
-              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 2
           </p>

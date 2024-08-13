@@ -181,7 +181,7 @@ function ResellerCustomerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Customer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Customer /</Link>{" "}
+                <Link to={"/"}>Home /</Link>{" "}
                 {/* <div>Customer / </div>{" "} */}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">

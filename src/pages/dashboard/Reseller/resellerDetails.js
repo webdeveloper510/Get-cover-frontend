@@ -750,7 +750,7 @@ function ResellerDetails() {
               <li className="text-sm text-neutral-grey ml-1 font-Regular">
                 <Link to={"/resellerList"}> Reseller List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Reseller Detail ({activeTab})
               </li>
@@ -931,8 +931,8 @@ function ResellerDetails() {
             <Grid className="">
               <div
                 className={`${isStatus == true && resellerStatusMain == true
-                    ? "col-span-10"
-                    : "col-span-10"
+                  ? "col-span-10"
+                  : "col-span-10"
                   }`}
               >
                 <div
@@ -949,8 +949,8 @@ function ResellerDetails() {
                     {tabs.map((tab) => (
                       <Button
                         className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
+                          ? ""
+                          : "!bg-grayf9 !text-black"
                           }`}
                         onClick={() => handleTabClick(tab.id)}
                       >

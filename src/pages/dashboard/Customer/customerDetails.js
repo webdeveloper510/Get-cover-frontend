@@ -462,7 +462,7 @@ function CustomerDetails() {
               <li className="text-sm text-neutral-grey ml-1 font-Regular">
                 <Link to={"/customerList"}> Customer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Customer Details ({activeTab})
               </li>

@@ -421,7 +421,7 @@ function OrderList() {
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Order List{" "}
               </li>

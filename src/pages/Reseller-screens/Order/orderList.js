@@ -87,15 +87,15 @@ function ResellerOrderList() {
   const openModal1 = () => {
     closeArchive();
     console.log(orderId);
-      setLoadingOrder(true);
-        archiveOrders(orderId).then((res) => {
-          setLoadingOrder(false);
-          setPrimaryMessage("Archive Order Successfully");
-          setSecondaryMessage("You have successfully archive the order");
-          setTimer(3);
-          setIsModalOpen1(true);
-        });
-    
+    setLoadingOrder(true);
+    archiveOrders(orderId).then((res) => {
+      setLoadingOrder(false);
+      setPrimaryMessage("Archive Order Successfully");
+      setSecondaryMessage("You have successfully archive the order");
+      setTimer(3);
+      setIsModalOpen1(true);
+    });
+
   };
 
   const closeArchive = () => {
@@ -112,8 +112,8 @@ function ResellerOrderList() {
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
       // console.log(res.result);
-  })
-};
+    })
+  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -245,9 +245,8 @@ function ResellerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`} ></div>
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`} ></div>
           <p className="self-center"> {row?.status} </p>
         </div>
       ),
@@ -339,152 +338,152 @@ function ResellerOrderList() {
 
   return (
     <>
-     {loadingOrder ?  <>
-              <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#fff" />
-                </div>
-              </div>
-     </> :
-      <div className="mb-8 ml-3">
-        <Headbar />
-
-        <div className="flex mt-2">
-          <div className="pl-3">
-            <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
-            <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order </Link> /{" "}
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
-                {" "}
-                Order List{" "}
-              </li>
-            </ul>
+      {loadingOrder ? <>
+        <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
           </div>
         </div>
+      </> :
+        <div className="mb-8 ml-3">
+          <Headbar />
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
-          {" "}
-          <Link to={"/reseller/addOrder"} className="flex">
+          <div className="flex mt-2">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-Regular">
+                  <Link to={"/"}>Home </Link> /{" "}
+                </li>
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                  {" "}
+                  Order List{" "}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
             {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
+            <Link to={"/reseller/addOrder"} className="flex">
               {" "}
-              Add New Order{" "}
-            </span>{" "}
-          </Link>
-        </Button>
+              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
+              <span className="text-black ml-3 text-[14px] font-Regular">
+                {" "}
+                Add New Order{" "}
+              </span>{" "}
+            </Link>
+          </Button>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
-          <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className="col-span-3 self-center">
-              <p className="text-xl font-semibold">Order List</p>
-            </div>
-            <div className="col-span-9">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                <form onSubmit={formik.handleSubmit}>
-                  <Grid className="!grid-cols-9">
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="Name"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Order ID"
-                        {...formik.getFieldProps("orderId")}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Input
-                        name="orderNo"
-                        type="text"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        placeholder="Dealer P.O #"
-                        {...formik.getFieldProps("venderOrder")}
-                      />
-                    </div>
-                    <div className="col-span-2 self-center">
-                      <Select
-                        label=""
-                        OptionName="Status"
-                        options={status}
-                        color="text-Black-Russian opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-White-Smoke"
-                        selectedValue={selectedProduct}
-                        onChange={handleSelectChange}
-                        name="status"
-                        value={formik.values.status}
-                      />
-                    </div>
-
-                    <div className="col-span-3 self-center flex">
-                      <Button type="submit" className="!p-2">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        type="button"
-                        className=" !bg-transparent !p-0"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                      <Button
-                        type="button"
-                        className="ml-2 !text-sm"
-                        onClick={() => openDisapproved()}
-                      >
-                        Advance Search
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
+          <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+            <Grid className="!p-[26px] !pt-[14px] !pb-0">
+              <div className="col-span-3 self-center">
+                <p className="text-xl font-semibold">Order List</p>
               </div>
-            </div>
-          </Grid>
-          <div className="mb-5 relative">
-            {loading ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+              <div className="col-span-9">
+                <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <form onSubmit={formik.handleSubmit}>
+                    <Grid className="!grid-cols-9">
+                      <div className="col-span-2 self-center">
+                        <Input
+                          name="Name"
+                          type="text"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                          label=""
+                          placeholder="Order ID"
+                          {...formik.getFieldProps("orderId")}
+                        />
+                      </div>
+                      <div className="col-span-2 self-center">
+                        <Input
+                          name="orderNo"
+                          type="text"
+                          className="!text-[14px] !bg-White-Smoke"
+                          className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                          label=""
+                          placeholder="Dealer P.O #"
+                          {...formik.getFieldProps("venderOrder")}
+                        />
+                      </div>
+                      <div className="col-span-2 self-center">
+                        <Select
+                          label=""
+                          OptionName="Status"
+                          options={status}
+                          color="text-Black-Russian opacity-50"
+                          className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          selectedValue={selectedProduct}
+                          onChange={handleSelectChange}
+                          name="status"
+                          value={formik.values.status}
+                        />
+                      </div>
+
+                      <div className="col-span-3 self-center flex">
+                        <Button type="submit" className="!p-2">
+                          <img
+                            src={Search}
+                            className="cursor-pointer "
+                            alt="Search"
+                          />
+                        </Button>
+                        <Button
+                          type="button"
+                          className=" !bg-transparent !p-0"
+                          onClick={() => {
+                            handleFilterIconClick();
+                          }}
+                        >
+                          <img
+                            src={clearFilter}
+                            className="cursor-pointer mx-auto"
+                            alt="clearFilter"
+                          />
+                        </Button>
+                        <Button
+                          type="button"
+                          className="ml-2 !text-sm"
+                          onClick={() => openDisapproved()}
+                        >
+                          Advance Search
+                        </Button>
+                      </div>
+                    </Grid>
+                  </form>
                 </div>
               </div>
-            ) : (
-              <DataTable draggableColumns={false}  columns={columns}
-                data={orderList}
-                highlightOnHover
-                sortIcon={
-                  <>
-                    {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
-                  </>
-                }
-                pagination
-                paginationPerPage={10}
-                noDataComponent={<CustomNoDataComponent />}
-                paginationComponentOptions={paginationOptions}
-                paginationRowsPerPageOptions={[10, 20, 50, 100]}
-              />
-            )}
+            </Grid>
+            <div className="mb-5 relative">
+              {loading ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
+                </div>
+              ) : (
+                <DataTable draggableColumns={false} columns={columns}
+                  data={orderList}
+                  highlightOnHover
+                  sortIcon={
+                    <>
+                      {" "}
+                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    </>
+                  }
+                  pagination
+                  paginationPerPage={10}
+                  noDataComponent={<CustomNoDataComponent />}
+                  paginationComponentOptions={paginationOptions}
+                  paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </div> }
+        </div>}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-      {orderType == "Process" ? (
+        {orderType == "Process" ? (
           <Button
             onClick={() => {
               navigate(`/reseller/editOrder/${data}`);
@@ -539,7 +538,7 @@ function ResellerOrderList() {
           </Grid>
         </div>
       </Modal>
-      
+
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />

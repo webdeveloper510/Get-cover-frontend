@@ -466,9 +466,8 @@ function CustomerUser() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={row.isPrimary || !servicerStatus}
@@ -506,11 +505,10 @@ function CustomerUser() {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[140px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                className={`absolute z-[9999] ${!row.isPrimary ? "w-[140px]" : "w-[80px]"
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                    index
+                  )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
@@ -584,9 +582,8 @@ function CustomerUser() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={true}
@@ -725,9 +722,9 @@ function CustomerUser() {
                 Manage Users
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {" "}
-                  Users{" "}
+                  Edit Account{" "}
                 </li>
               </ul>
             </div>

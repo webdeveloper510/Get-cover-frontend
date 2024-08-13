@@ -89,7 +89,7 @@ function DealerPriceBook(props) {
       maxWidth: "70px", // Set a custom maximum width
     },
     {
-      name: ( <div>
+      name: (<div>
         Product
         <br />
         SKU
@@ -98,7 +98,7 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
-      name: ( <div>
+      name: (<div>
         Product
         <br />
         Name
@@ -112,7 +112,7 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
-      name: (<div>Price <br/> Type </div>),
+      name: (<div>Price <br /> Type </div>),
       selector: (row) => row?.priceBooks?.priceType,
       sortable: true,
     },
@@ -122,16 +122,15 @@ function DealerPriceBook(props) {
       sortable: true,
     },
     {
-      name: ( <div>
+      name: (<div>
         Retail
         <br />
         Cost
       </div>),
       selector: (row) =>
-        `$${
-          row.retailPrice === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row.retailPrice ?? parseInt(0))
+        `$${row.retailPrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row.retailPrice ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -297,12 +296,12 @@ function DealerPriceBook(props) {
     initialValues: {
       name: "",
       status: "",
-      pName:"",
+      pName: "",
       category: "",
-      coverageType:"",
+      coverageType: "",
       priceType: "",
       term: "",
-      range:"",
+      range: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -326,7 +325,7 @@ function DealerPriceBook(props) {
     priceBookData();
   };
 
-  
+
 
   return (
     <>
@@ -338,7 +337,7 @@ function DealerPriceBook(props) {
               Price Book
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Price Book{" "}
               </li>
@@ -433,7 +432,7 @@ function DealerPriceBook(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={priceBookList}
                 highlightOnHover
                 sortIcon={
@@ -468,7 +467,7 @@ function DealerPriceBook(props) {
             {dealerPriceBookDetail?.priceBooks?.name}
           </p>
           <Grid className="mt-5 px-6">
-          <div className="col-span-4">
+            <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
                 Product Name
               </p>
@@ -501,8 +500,8 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
-                    )}
+                    dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
@@ -527,7 +526,7 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
-            
+
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
@@ -540,9 +539,9 @@ function DealerPriceBook(props) {
                     {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                            parseInt(0)
-                        )}
+                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -554,108 +553,108 @@ function DealerPriceBook(props) {
                     {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                            parseInt(0)
-                        )}
+                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
               </>
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-              <>
-                <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
-                      <th colSpan={"2"}>Quantity Pricing List </th>
-                    </tr>
-                    <tr className="border bg-[#9999]">
-                      <th className="w-[50%]">Name</th>
-                      <th className="w-[50%]">Max Quantity</th>
-                    </tr>
-                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                      .length !== 0 &&
-                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                        (item, index) => (
-                          <tr key={index} className="border">
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                          </tr>
-                        )
-                      )}
-                  </table>
-                </div>
-              </>
-            )}
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th className="w-[50%]">Name</th>
+                        <th className="w-[50%]">Max Quantity</th>
+                      </tr>
+                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-            <Button
-              onClick={closeDisapproved}
-              className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-            >
-              <img
-                src={Cross}
-                className="w-full h-full text-black rounded-full p-0"
-              />
-            </Button>
-            <form onSubmit={formik.handleSubmit}>
-              <div className="py-3">
-                <p className="text-center text-3xl font-semibold ">
-                  Advance Search
-                </p>
-                <Grid className="mt-5 px-6">
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="name"
-                      className="!bg-white"
-                      label="Product SKU"
-                      placeholder=""
-                      value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="pName"
-                      className="!bg-white"
-                      label="Product Name"
-                      placeholder=""
-                      value={formik.values.pName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                  <Select
-                        name="coverageType"
-                        label="Coverage Type"
-                        options={coverage}
-                        OptionName="Coverage Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.coverageType}
-                        onChange={formik.setFieldValue}
-                      />
-                  </div>
-                      <div className="col-span-6">
-                      <Input
-                      type="text"
-                      name="category"
-                      className="!bg-white"
-                      label="Category"
-                      placeholder=""
-                      value={formik.values.category}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                      {/* <Select
+        <Button
+          onClick={closeDisapproved}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="py-3">
+            <p className="text-center text-3xl font-semibold ">
+              Advance Search
+            </p>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="name"
+                  className="!bg-white"
+                  label="Product SKU"
+                  placeholder=""
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="pName"
+                  className="!bg-white"
+                  label="Product Name"
+                  placeholder=""
+                  value={formik.values.pName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  name="coverageType"
+                  label="Coverage Type"
+                  options={coverage}
+                  OptionName="Coverage Type"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.coverageType}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="category"
+                  className="!bg-white"
+                  label="Category"
+                  placeholder=""
+                  value={formik.values.category}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+                {/* <Select
                         name="category"
                         label="Category"
                         options={categoryList}
@@ -665,46 +664,46 @@ function DealerPriceBook(props) {
                         value={formik.values.category}
                         onChange={formik.setFieldValue}
                       /> */}
-                      </div>
-                      <div className="col-span-6">
-                      <Select
-                        name="priceType"
-                        label="Price Type"
-                        options={pricetype}
-                        OptionName="Price Type"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.priceType}
-                        onChange={formik.setFieldValue}
-                      />
-                      </div>
+              </div>
+              <div className="col-span-6">
+                <Select
+                  name="priceType"
+                  label="Price Type"
+                  options={pricetype}
+                  OptionName="Price Type"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.priceType}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
 
-                  <div className="col-span-6">
-                  <Select
-                        name="term"
-                        label="Term"
-                        options={termList}
-                        OptionName="Term"
-                        color="text-Black-Russian opacity-50"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.term}
-                        onChange={formik.setFieldValue}
-                      />
-                  </div>
-                  {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="range"
-                      className="!bg-white"
-                      label="Product Retail Price"
-                      placeholder=""
-                      value={formik.values.range}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    />
-                  </div>}
-                  
-                  {/* <div className="col-span-6">
+              <div className="col-span-6">
+                <Select
+                  name="term"
+                  label="Term"
+                  options={termList}
+                  OptionName="Term"
+                  color="text-Black-Russian opacity-50"
+                  className="!text-[14px] !bg-white"
+                  value={formik.values.term}
+                  onChange={formik.setFieldValue}
+                />
+              </div>
+              {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="range"
+                  className="!bg-white"
+                  label="Product Retail Price"
+                  placeholder=""
+                  value={formik.values.range}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>}
+
+              {/* <div className="col-span-6">
                   <Select
                         name="status"
                         label="Status"
@@ -717,15 +716,15 @@ function DealerPriceBook(props) {
                         onChange={formik.setFieldValue}
                     />
                   </div> */}
-                  <div className="col-span-12">
-                    <Button type="submit" className={"w-full"}>
-                      Search
-                    </Button>
-                  </div>
-                </Grid>
+              <div className="col-span-12">
+                <Button type="submit" className={"w-full"}>
+                  Search
+                </Button>
               </div>
-            </form>
-          </Modal>
+            </Grid>
+          </div>
+        </form>
+      </Modal>
 
     </>
   );

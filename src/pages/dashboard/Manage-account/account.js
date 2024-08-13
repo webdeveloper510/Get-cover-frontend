@@ -106,7 +106,7 @@ function Account() {
     }, 2000);
   }, []);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const fetchUserDetails = async () => {
     try {
@@ -531,9 +531,8 @@ function Account() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={row.isPrimary}
@@ -573,11 +572,10 @@ function Account() {
                 {selectedAction === row.email && (
                   <div
                     ref={dropdownRef}
-                    className={`absolute z-[9999] ${
-                      !row.isPrimary ? "w-[130px]" : "w-[80px]"
-                    } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                      index
-                    )}`}
+                    className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[80px]"
+                      } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
                   >
                     {/* {!row.isPrimary && row.status && (
                       <div
@@ -654,9 +652,8 @@ function Account() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={true}
@@ -799,7 +796,7 @@ function Account() {
                 Manage Account
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>

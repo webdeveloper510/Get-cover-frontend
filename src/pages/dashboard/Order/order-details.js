@@ -251,7 +251,7 @@ function OrderDetails() {
               <li className="text-sm text-neutral-grey font-Regular pl-2">
                 <Link to={"/orderList"}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>

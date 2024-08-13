@@ -1461,7 +1461,7 @@ function CustomerAddOrder() {
                         placeholder=""
                         disabled={
                           formikStep3.values.productsArray[index].priceType !==
-                          "Quantity Pricing"
+                            "Quantity Pricing"
                             ? false
                             : true
                         }
@@ -1537,15 +1537,15 @@ function CustomerAddOrder() {
                           formikStep3.values.productsArray[index]
                             .coverageStartDate == ""
                             ? formikStep3.values.productsArray[index]
-                                .coverageStartDate
+                              .coverageStartDate
                             : format(
-                                new Date(
-                                  formikStep3.values.productsArray[
-                                    index
-                                  ].coverageStartDate
-                                ),
-                                "yyyy-MM-dd"
-                              )
+                              new Date(
+                                formikStep3.values.productsArray[
+                                  index
+                                ].coverageStartDate
+                              ),
+                              "yyyy-MM-dd"
+                            )
                         }
                         onChange={(e) => {
                           formikStep3.handleChange(e);
@@ -1596,46 +1596,46 @@ function CustomerAddOrder() {
                     {(formikStep3.values.productsArray[index].priceType ===
                       "FlatPricing" ||
                       formikStep3.values.productsArray[index].priceType ===
-                        "Flat Pricing") && (
-                      <>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].rangeStart`}
-                            className="!bg-white"
-                            label="Start Range"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].rangeStart
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].rangeEnd`}
-                            className="!bg-white"
-                            label="End Range"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].rangeEnd
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                      </>
-                    )}
+                      "Flat Pricing") && (
+                        <>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`productsArray[${index}].rangeStart`}
+                              className="!bg-white"
+                              label="Start Range"
+                              placeholder=""
+                              value={
+                                formikStep3.values.productsArray[index].rangeStart
+                              }
+                              onChange={formikStep3.handleChange}
+                              onBlur={formikStep3.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`productsArray[${index}].rangeEnd`}
+                              className="!bg-white"
+                              label="End Range"
+                              placeholder=""
+                              value={
+                                formikStep3.values.productsArray[index].rangeEnd
+                              }
+                              onChange={formikStep3.handleChange}
+                              onBlur={formikStep3.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
                     <div className="col-span-12">
                       <Grid className="!grid-cols-3">
                         {formikStep3.values.productsArray[index].priceType ===
@@ -1724,7 +1724,7 @@ function CustomerAddOrder() {
                                       />
                                       {formikStep3.touched.productsArray &&
                                         formikStep3.touched.productsArray[
-                                          index
+                                        index
                                         ] &&
                                         formikStep3.touched.productsArray[index]
                                           .QuantityPricing &&
@@ -1736,7 +1736,7 @@ function CustomerAddOrder() {
                                           <div className="text-red-500 text-sm pl-2 pt-2">
                                             {formikStep3.errors.productsArray &&
                                               formikStep3.errors.productsArray[
-                                                index
+                                              index
                                               ] &&
                                               formikStep3.errors.productsArray[
                                                 index
@@ -2065,7 +2065,7 @@ function CustomerAddOrder() {
                                               1,
                                               Math.ceil(
                                                 value.enterQuantity /
-                                                  parseFloat(value.quantity)
+                                                parseFloat(value.quantity)
                                               )
                                             )}
                                           </td>
@@ -2105,7 +2105,7 @@ function CustomerAddOrder() {
                                 {data?.file === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
-                                    "kb"}
+                                  "kb"}
                               </p>
                             </div>
                           </div>
@@ -2230,13 +2230,13 @@ function CustomerAddOrder() {
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Order</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Order </Link> /{" "}
+              <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm text-neutral-grey ml-1 font-Regular">
               {" "}
               Add Order /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
               {" "}
               Order Details{" "}
             </li>
@@ -2256,9 +2256,8 @@ function CustomerAddOrder() {
           )}
 
           <p
-            className={` ${
-              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Order Details
           </p>
@@ -2269,69 +2268,61 @@ function CustomerAddOrder() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
-              }  rounded-full mx-auto w-[26px]`}
+              className={`border ${currentStep > 1
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
+                }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
           <p
-            className={` ${
-              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Dealer Order Details
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${
-            currentStep > 2 ? "border-black" : "border-[#ADADAD]"
-          } mt-3`}
+          className={`w-[150px]  ${currentStep > 2 ? "border-black" : "border-[#ADADAD]"
+            } mt-3`}
         />
         <div className="text-center">
           {currentStep > 3 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 2
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
-              } rounded-full mx-auto w-[26px]`}
+              className={`border ${currentStep > 2
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
+                } rounded-full mx-auto w-[26px]`}
             >
               3
             </p>
           )}
           <p
-            className={` ${
-              currentStep == 3 ? "text-black" : "text-[#ADADAD] "
-            }text-sm font-bold`}
+            className={` ${currentStep == 3 ? "text-black" : "text-[#ADADAD] "
+              }text-sm font-bold`}
           >
             Add Product
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${
-            currentStep > 3 ? "border-black" : "border-[#ADADAD]"
-          } mt-3`}
+          className={`w-[150px]  ${currentStep > 3 ? "border-black" : "border-[#ADADAD]"
+            } mt-3`}
         />
         <div className="text-center">
           <p
-            className={`border ${
-              currentStep > 3
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
-            } rounded-full mx-auto w-[26px]`}
+            className={`border ${currentStep > 3
+              ? "text-black border-black"
+              : "text-[#ADADAD] border-[#ADADAD]"
+              } rounded-full mx-auto w-[26px]`}
           >
             4
           </p>
           <p
-            className={` ${
-              currentStep == 4 ? "text-black" : "text-[#ADADAD] "
-            }text-sm font-bold`}
+            className={` ${currentStep == 4 ? "text-black" : "text-[#ADADAD] "
+              }text-sm font-bold`}
           >
             Order Details
           </p>

@@ -134,12 +134,12 @@ function OrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order Lists / </Link>
+                <Link to={`/`}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order Details / </Link>
+              <li className="text-sm text-neutral-grey font-Regular ml-1">
+                <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
