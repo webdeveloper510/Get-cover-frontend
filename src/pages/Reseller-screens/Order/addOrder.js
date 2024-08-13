@@ -105,22 +105,22 @@ function ResellerAddOrder() {
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
-  // useEffect(() => {
-  //   console.log(location);
-  //   if (location.pathname.includes("/editOrder")) {
-  //     // setLoading1(true);
-  //   }
-  //   if (location.pathname == "/dealer/addOrder") {
-  //     setType("Add");
-  //     setCurrentStep(1);
-  //     formik.resetForm();
-  //     setNumberOfOrders([]);
-  //     setFileValues([]);
-  //     formikStep2.resetForm();
-  //     formikStep3.resetForm();
-  //     formik4.resetForm();
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname.includes("/editOrder")) {
+      // setLoading1(true);
+    }
+    if (location.pathname == "/dealer/addOrder") {
+      setType("Add");
+      setCurrentStep(1);
+      formik.resetForm();
+      setNumberOfOrders([]);
+      setFileValues([]);
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
 
   const getServicerList = async (data) => {
     setLoading1(true);
@@ -274,7 +274,6 @@ function ResellerAddOrder() {
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
       })),
     });
-    console.log();
     orderDetail(result.result);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("customerId", result?.result?.customerId);
@@ -1217,6 +1216,9 @@ function ResellerAddOrder() {
     ...(formik.values.resellerId !== ""
       ? [{ label: "Self", value: "Reseller" }]
       : []),
+    ,
+    { label: "Dealer", value: "Dealer" },
+    { label: "Servicer", value: "Servicer" },
     { label: "Custom", value: "Custom" },
   ];
 

@@ -62,9 +62,7 @@ import { apiUrl } from "../../../services/authServices";
 import Card from "../../../common/card";
 
 function ClaimList(props) {
-  // console.log(props);
   const baseUrl = apiUrl();
-  // console.log(baseUrl, '----------------------------');
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -90,6 +88,7 @@ function ClaimList(props) {
   const [totalRecords, setTotalRecords] = useState(0);
   const [price, setPrice] = useState("");
   const [serviceType, setServiceType] = useState([]);
+  const isFormSubmittedRef = useRef(false);
   const [serviceType1, setServiceType1] = useState([
     { label: "Parts", value: "Parts" },
     { label: "labor", value: "Labour" },
@@ -151,7 +150,6 @@ function ClaimList(props) {
     setDropdownVisible(!dropdownVisible);
   };
 
-  // console.log(showdata1, showdata, "---------------{}{}{}{-----");
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -388,59 +386,6 @@ function ClaimList(props) {
     }
 
     navigate(newPath);
-  };
-
-  const getAllClaims = async (page = 1, rowsPerPage, loader) => {
-    if (loader) {
-      setLoaderType(false);
-    } else setLoaderType(true);
-    setPageValue(page);
-    let data = {
-      page,
-      pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...formik1.values,
-    };
-    let getClaimListPromise;
-
-    if (props.flag === "dealer") {
-      getClaimListPromise = getClaimListForDealer(props.id, data);
-    } else if (props.flag === "servicer") {
-      getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller") {
-      getClaimListPromise = getClaimListForReseller(props.id, data);
-    } else if (window.location.pathname.includes("/reseller/claimList")) {
-      getClaimListPromise = getClaimListForResellerPortal(props.id, data);
-    } else if (props.flag === "customer") {
-      getClaimListPromise = getClaimListForCustomer(props.id, data);
-    } else {
-      if (claimIdValue == undefined) {
-        getClaimListPromise = getClaimList(data);
-      } else {
-        let newData = {
-          ...data,
-          claimId: claimIdValue,
-        };
-        getClaimListPromise = getClaimList(newData);
-      }
-    }
-
-    getClaimListPromise
-      .then((res) => {
-        localStorage.removeItem("activeIndex");
-        setActiveIndex(null);
-        if (res) {
-          setClaimList(res);
-          setTotalRecords(res?.totalCount);
-        }
-        setLoaderType(false);
-        setTimeout(function () {
-          setShowdata(true);
-        }, 1000);
-      })
-      .catch(() => {
-        setLoaderType(false);
-        setShowdata(false);
-      });
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
@@ -865,8 +810,6 @@ function ClaimList(props) {
       const repairStatus = getLastItem(
         claimList.result[activeIndex]?.repairStatus
       );
-
-      // console.log(claimList.result[activeIndex].contracts.orders.coverageType);
       let arr = [];
       const filterServicer = claimList?.result[
         activeIndex
@@ -910,6 +853,7 @@ function ClaimList(props) {
     }),
     onSubmit: (values) => {
       setError("");
+
       let totalPrice = 0;
       values.repairParts.forEach((part) => {
         totalPrice += Number(part.price);
@@ -1105,6 +1049,8 @@ function ClaimList(props) {
     },
     validationSchema,
     onSubmit: (values) => {
+      isFormSubmittedRef.current = true;
+      console.log("Form submitted with values:", values);
       setIsDisapprovedOpen(false);
       getAllClaims();
       setShowdata(false);
@@ -1116,6 +1062,59 @@ function ClaimList(props) {
     },
   });
 
+  const getAllClaims = async (page = 1, rowsPerPage, loader) => {
+    console.log(isFormSubmittedRef.current);
+    if (loader) {
+      setLoaderType(false);
+    } else setLoaderType(true);
+    setPageValue(page);
+    let data = {
+      page,
+      pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
+      ...(isFormSubmittedRef.current ? formik1.values : {}),
+    };
+    let getClaimListPromise;
+
+    if (props.flag === "dealer") {
+      getClaimListPromise = getClaimListForDealer(props.id, data);
+    } else if (props.flag === "servicer") {
+      getClaimListPromise = getClaimListForServicer(props.id, data);
+    } else if (props.flag === "reseller") {
+      getClaimListPromise = getClaimListForReseller(props.id, data);
+    } else if (window.location.pathname.includes("/reseller/claimList")) {
+      getClaimListPromise = getClaimListForResellerPortal(props.id, data);
+    } else if (props.flag === "customer") {
+      getClaimListPromise = getClaimListForCustomer(props.id, data);
+    } else {
+      if (claimIdValue == undefined) {
+        getClaimListPromise = getClaimList(data);
+      } else {
+        let newData = {
+          ...data,
+          claimId: claimIdValue,
+        };
+        getClaimListPromise = getClaimList(newData);
+      }
+    }
+
+    getClaimListPromise
+      .then((res) => {
+        localStorage.removeItem("activeIndex");
+        setActiveIndex(null);
+        if (res) {
+          setClaimList(res);
+          setTotalRecords(res?.totalCount);
+        }
+        setLoaderType(false);
+        setTimeout(function () {
+          setShowdata(true);
+        }, 1000);
+      })
+      .catch(() => {
+        setLoaderType(false);
+        setShowdata(false);
+      });
+  };
   const handleChange = (name, value) => {
     formik.setFieldValue(name, value);
   };
@@ -1186,6 +1185,7 @@ function ClaimList(props) {
   const handleFilterIconClick = () => {
     formik1.values = {};
     formik1.resetForm();
+    isFormSubmittedRef.current = false;
     getAllClaims();
   };
   // console.log(activeIndex, "++++++++++++++++_-------------------");
