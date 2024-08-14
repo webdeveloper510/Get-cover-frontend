@@ -123,13 +123,13 @@ function RequestServicer() {
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
-  
+
     if (match) {
       return `(${match[1]}) ${match[2]}-${match[3]}`;
     }
-  
+
     return phoneNumber; // Return original phone number if it couldn't be formatted
-  }; 
+  };
 
   const columns = [
     {
@@ -279,9 +279,9 @@ function RequestServicer() {
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Servicer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/servicerList"}>Servicer </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 New Servicer Requests{" "}
               </li>
@@ -384,7 +384,7 @@ function RequestServicer() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={list}
                 highlightOnHover
                 sortIcon={

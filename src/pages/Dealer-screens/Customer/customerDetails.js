@@ -450,12 +450,12 @@ function CustomerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dealer/dashboard"}>Customer / </Link>{" "}
+                <Link to={"/dealer/dashboard"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm text-neutral-grey font-Regular ml-1">
                 <Link to={"/dealer/customerList"}> Customer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Customer Details ({activeTab})
               </li>
@@ -602,7 +602,7 @@ function CustomerDetails() {
                       $
                       {formatOrderValue(
                         customerDetail?.orderData?.[0]?.orderAmount ??
-                          parseInt(0)
+                        parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -623,9 +623,9 @@ function CustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg  !font-[600]">${formatOrderValue(
-                        customerDetail?.claimData?.valueClaim ??
-                          parseInt(0)
-                      )}</p>
+                      customerDetail?.claimData?.valueClaim ??
+                      parseInt(0)
+                    )}</p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total Value of Claims
                     </p>
@@ -642,11 +642,10 @@ function CustomerDetails() {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -657,9 +656,8 @@ function CustomerDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-Regular ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

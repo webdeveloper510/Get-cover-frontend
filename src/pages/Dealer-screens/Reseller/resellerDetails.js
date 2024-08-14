@@ -490,8 +490,8 @@ function DealerResellerDetails() {
                 const selectedItems = checked
                   ? [...servicerForm.values.selectedItems, itemId]
                   : servicerForm.values.selectedItems.filter(
-                      (id) => id !== itemId
-                    );
+                    (id) => id !== itemId
+                  );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -717,12 +717,12 @@ function DealerResellerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dealer/resellerList"}>Reseller / </Link>{" "}
+                <Link to={"/"}>Home / </Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-Regular">
                 <Link to={"/dealer/resellerList"}> Reseller List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Reseller Detail ({activeTab})
               </li>
@@ -863,7 +863,7 @@ function DealerResellerDetails() {
                       $
                       {formatOrderValue(
                         resellerDetail?.orderData?.orderAmount ??
-                          parseInt(0).toLocaleString(2)
+                        parseInt(0).toLocaleString(2)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -887,7 +887,7 @@ function DealerResellerDetails() {
                       $
                       {formatOrderValue(
                         resellerDetail?.claimData?.valueClaim ??
-                          parseInt(0).toLocaleString(2)
+                        parseInt(0).toLocaleString(2)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -901,14 +901,13 @@ function DealerResellerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div
-                className={`${
-                  isStatus && resellerStatusMain ? "col-span-10" : "col-span-12"
-                }`}
+                className={`${isStatus && resellerStatusMain ? "col-span-10" : "col-span-12"
+                  }`}
               >
                 <div
                   className={`relative rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
 
-                  // onTransitionEnd={handleTransitionEnd}
+                // onTransitionEnd={handleTransitionEnd}
                 >
                   <Carousel
                     className="!gap-1 reseller"
@@ -918,11 +917,10 @@ function DealerResellerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                          activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-grayf9 !text-black"
-                        }`}
+                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                          ? "!bg-[#2A2A2A] !text-white"
+                          : "!bg-grayf9 !text-black"
+                          }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <img
@@ -933,9 +931,8 @@ function DealerResellerDetails() {
                           alt={tab.label}
                         />
                         <span
-                          className={`ml-1 py-1 text-sm font-Regular ${
-                            activeTab === tab.id ? "text-white" : "text-black"
-                          }`}
+                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
                         >
                           {tab.label}
                         </span>
@@ -950,10 +947,10 @@ function DealerResellerDetails() {
               {isStatus && resellerStatusMain ? (
                 <>
                   {activeTab !== "Servicer" &&
-                  activeTab !== "PriceBook" &&
-                  activeTab !== "Contracts" &&
-                  activeTab !== "Unpaid Claims" &&
-                  activeTab !== "Paid Claims" ? (
+                    activeTab !== "PriceBook" &&
+                    activeTab !== "Contracts" &&
+                    activeTab !== "Unpaid Claims" &&
+                    activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}

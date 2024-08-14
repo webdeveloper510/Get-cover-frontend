@@ -45,7 +45,7 @@ function ResellerClaims() {
       id: "All",
       label: "All",
       icons: all,
-      className:'col-span-3',
+      className: 'col-span-3',
       Activeicons: AllActive,
       content: <DealerAll />,
     },
@@ -85,16 +85,13 @@ function ResellerClaims() {
         <div className="flex">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">
-             Reporting
+              Reporting
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Reporting / </Link>{" "}
+                <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Claims / </Link>{" "}
-              </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -110,11 +107,10 @@ function ResellerClaims() {
                     {tabs.map((tab) => (
                       <div className={tab.className} key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -125,9 +121,8 @@ function ResellerClaims() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-[12px] font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>
@@ -142,22 +137,22 @@ function ResellerClaims() {
               <div
                 className="col-span-2 self-center">
                 <Select
-                 label=""
-                 name="state"
-                 placeholder=""
-                 className="!bg-white"
-                 options={state}
-                  />
+                  label=""
+                  name="state"
+                  placeholder=""
+                  className="!bg-white"
+                  options={state}
+                />
               </div>
               <div
                 className="col-span-2 self-center">
                 <Select
-                 label=""
-                 name="state"
-                 placeholder=""
-                 className="!bg-white"
-                 options={state}
-                  />
+                  label=""
+                  name="state"
+                  placeholder=""
+                  className="!bg-white"
+                  options={state}
+                />
               </div>
             </Grid>
 

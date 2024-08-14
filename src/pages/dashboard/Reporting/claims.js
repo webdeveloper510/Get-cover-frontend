@@ -292,8 +292,24 @@ function Claims() {
         </div>
       </>
         :
-        <>
-          <Card className="!p-3 mt-4">
+        <div className="pb-8 mt-2 px-3 bg-grayf9">
+          <Headbar />
+          <div className="flex">
+            <div className="pl-3">
+              <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                Reporting
+              </p>
+              <ul className="flex self-center">
+                <li className="text-sm text-neutral-grey font-Regular">
+                  <Link to={"/"}>Home / </Link>
+                </li>
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                  {activeTab}
+                </li>
+              </ul>
+            </div >
+          </div >
+          <Card className="p-3 mt-4">
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
@@ -595,7 +611,8 @@ function Claims() {
               />
             </div >
           </Grid >
-        </>
+
+        </div>
       }
     </>
   );

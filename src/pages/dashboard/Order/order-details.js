@@ -221,25 +221,25 @@ function OrderDetails() {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
 
-useEffect(() => {
-  const storedUserDetails = getUserDetailsFromLocalStorage();
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
 
-  if (storedUserDetails) {
-    const colorScheme = storedUserDetails.colorScheme;
-    colorScheme.forEach(color => {
-      switch (color.colorType) {
-        case 'buttonColor':
-          setBackGroundColor(color.colorCode);
-          break;
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
           case 'buttonTextColor':
             setButtonTextColor(color.colorCode);
             break;
           default:
             break;
-      }
-    });
-  }
-}, []);
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading1 && (
@@ -269,12 +269,12 @@ useEffect(() => {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order Lists / </Link>
+                <Link to={"/"}>Home / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/"}>Order Details / </Link>
+                <Link to={"/orderList"}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -372,7 +372,7 @@ useEffect(() => {
                   </p>
                 </div>
               </div>
-              {userDetails?.resellerData?.name == null  ? (
+              {userDetails?.resellerData?.name == null ? (
                 <></>
               ) : (
                 <>
@@ -437,10 +437,10 @@ useEffect(() => {
                     alt="Name"
                   />
                   {userDetails?.servicerData?.name == null ||
-                  userDetails?.servicerData?.status == false ||
-                  userDetails?.servicerData?.resellerId != null ||
-                  userDetails?.servicerData?.dealerId != null ||
-                  userDetails?.servicerData?.status != true ? (
+                    userDetails?.servicerData?.status == false ||
+                    userDetails?.servicerData?.resellerId != null ||
+                    userDetails?.servicerData?.dealerId != null ||
+                    userDetails?.servicerData?.status != true ? (
                     <></>
                   ) : (
                     <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
@@ -518,27 +518,26 @@ useEffect(() => {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? ""
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
-                           <div
-                              style={{
-                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskRepeat: 'no-repeat',
-                                maskPosition: 'center',
-                                WebkitMaskPosition: 'center',
-                                maskSize: 'contain',
-                                WebkitMaskSize: 'contain'
-                              }}
-                              className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
-                            />
+                          <div
+                            style={{
+                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain'
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                          />
                           {/* <img
                             src={
                               activeTab === tab.id ? tab.Activeicons : tab.icons
@@ -547,9 +546,8 @@ useEffect(() => {
                             alt={tab.label}
                           /> */}
                           <span
-                            className={`pl-1 ml-1 py-1 text-sm font-Regular border-Light-Grey border-l-[1px] ${
-                              activeTab === tab.id ? "" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

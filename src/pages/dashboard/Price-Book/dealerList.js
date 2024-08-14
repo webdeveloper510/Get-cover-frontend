@@ -410,9 +410,9 @@ function DealerPriceList() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Price Book </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm font-bold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Dealer Book{" "}
               </li>

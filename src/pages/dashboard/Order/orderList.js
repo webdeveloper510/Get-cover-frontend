@@ -135,10 +135,9 @@ function OrderList() {
       }
     } catch (error) {
       console.error(
-        `Error while ${
-          message === "Would you like to Archive it?"
-            ? "archiving"
-            : "marking as paid"
+        `Error while ${message === "Would you like to Archive it?"
+          ? "archiving"
+          : "marking as paid"
         } order:`,
         error
       );
@@ -239,8 +238,7 @@ function OrderList() {
 
   const markasPaid = async (row) => {
     setMessage(
-      `Would you prefer to make the full payment $${
-        row.orderAmount - row.paidAmount
+      `Would you prefer to make the full payment $${row.orderAmount - row.paidAmount
       } ?`
     );
     SetOrderId(row._id);
@@ -304,10 +302,9 @@ function OrderList() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        `$${row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
       minWidth: "150px",
@@ -317,9 +314,8 @@ function OrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
         </div>
@@ -424,9 +420,9 @@ function OrderList() {
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Order</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Order List{" "}
               </li>

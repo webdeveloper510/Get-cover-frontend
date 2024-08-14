@@ -107,43 +107,43 @@ function AddCompanyPriceBook() {
         value !== "Flat Pricing"
           ? Yup.number().notRequired()
           : Yup.number()
-              .typeError("Required")
-              .required("Required")
-              .nullable()
-              .min(0, "Range Start cannot be negative"),
+            .typeError("Required")
+            .required("Required")
+            .nullable()
+            .min(0, "Range Start cannot be negative"),
       rangeEnd:
         value !== "Flat Pricing"
           ? Yup.number().notRequired()
           : Yup.number()
-              .typeError("Required")
-              .required("Required")
-              .nullable()
-              .min(0, "Range End cannot be negative")
-              .test(
-                "endRange",
-                "End Range should be greater than start range",
-                function (value) {
-                  const { rangeStart } = this.parent;
-                  return value > rangeStart;
-                }
-              ),
+            .typeError("Required")
+            .required("Required")
+            .nullable()
+            .min(0, "Range End cannot be negative")
+            .test(
+              "endRange",
+              "End Range should be greater than start range",
+              function (value) {
+                const { rangeStart } = this.parent;
+                return value > rangeStart;
+              }
+            ),
 
       quantityPriceDetail:
         value !== "Quantity Pricing"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                name: Yup.string()
-                  .required("Required")
-                  .transform((originalValue) => originalValue.trim()),
-                quantity: Yup.number()
-                  .typeError("Required")
-                  .integer("Quantity must be an integer")
-                  .required("Required")
-                  .nullable()
-                  .min(1, "quantity cannot be less then One"),
-              })
-            ),
+            Yup.object().shape({
+              name: Yup.string()
+                .required("Required")
+                .transform((originalValue) => originalValue.trim()),
+              quantity: Yup.number()
+                .typeError("Required")
+                .integer("Quantity must be an integer")
+                .required("Required")
+                .nullable()
+                .min(1, "quantity cannot be less then One"),
+            })
+          ),
     }),
 
     onSubmit: async (values) => {
@@ -441,8 +441,8 @@ function AddCompanyPriceBook() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link onClick={handleGOBack}>Price Book </Link>{" "}
-              <span className="mx-2"> /</span>{" "}
+              <Link to={'/'}>Home </Link>{" "}
+              <span className=""> /</span>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular ml-1">
               <Link
@@ -451,7 +451,7 @@ function AddCompanyPriceBook() {
               >
                 Company Price Book{" "}
               </Link>{" "}
-              <span className="mx-2"> /</span>{" "}
+              <span className=""> /</span>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-1">
               {" "}
@@ -551,9 +551,8 @@ function AddCompanyPriceBook() {
                 </p>
               )}
               <Grid
-                className={`${
-                  type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
-                } `}
+                className={`${type == "Edit" ? "!grid-cols-2" : "!grid-cols-4"
+                  } `}
               >
                 <div className="col-span-1">
                   <Select

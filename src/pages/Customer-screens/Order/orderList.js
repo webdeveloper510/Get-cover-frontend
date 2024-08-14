@@ -84,7 +84,7 @@ function CustomerOrderList() {
     }
   };
 
-  
+
   useEffect(() => {
     getOrderList();
 
@@ -95,7 +95,7 @@ function CustomerOrderList() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  
+
   const getOrderList = async (data = {}) => {
     setLoading(true);
     const result = await getOrderCustomer(data);
@@ -151,9 +151,8 @@ function CustomerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
         </div>
@@ -167,7 +166,7 @@ function CustomerOrderList() {
       cell: (row, index) => {
         return (
           <div className="relative">
-            {row.status == 'Active' &&  <div
+            {row.status == 'Active' && <div
               onClick={() =>
                 setSelectedAction(selectedAction === row.unique_key ? null : row.unique_key)
               }
@@ -178,20 +177,20 @@ function CustomerOrderList() {
                 alt="Active Icon"
               />
             </div>}
-            
+
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md bottom-1`}
                 onClick={() => localStorage.removeItem("orderMenu")}
               >
-                
+
                 <div className="text-center py-1 cursor-pointer">
                   <Link
                     to={`/customer/orderDetails/${row._id}`}
                     className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  >
+                    <img src={view} className="w-4 h-4 mr-2" /> View
                   </Link>
                 </div>
               </div>
@@ -238,9 +237,9 @@ function CustomerOrderList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Order List{" "}
               </li>
@@ -255,7 +254,7 @@ function CustomerOrderList() {
             </div>
             <div className="col-span-9">
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-              <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
@@ -352,7 +351,7 @@ function CustomerOrderList() {
                 paginationPerPage={10}
                 noDataComponent={<CustomNoDataComponent />}
                 paginationComponentOptions={paginationOptions}
-                draggableColumns={false} 
+                draggableColumns={false}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
               />
             )}
@@ -425,28 +424,28 @@ function CustomerOrderList() {
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">Advance Search</p>
           <form onSubmit={formik.handleSubmit}>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-6">
-              <Input
-                type="text"
-                id="orderId"
-                className="!bg-white"
-                label="Order ID"
-                placeholder=""
-                {...formik.getFieldProps("orderId")}
-              />
-            </div>
-            <div className="col-span-6">
-              <Input
-                 type="text"
-                 id="venderOrder"
-                 className="!bg-white"
-                 label="Dealer P.O. No."
-                 placeholder=""
-                 {...formik.getFieldProps("venderOrder")}
-              />
-            </div>
-            {/* <div className="col-span-6">
+            <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="orderId"
+                  className="!bg-white"
+                  label="Order ID"
+                  placeholder=""
+                  {...formik.getFieldProps("orderId")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="venderOrder"
+                  className="!bg-white"
+                  label="Dealer P.O. No."
+                  placeholder=""
+                  {...formik.getFieldProps("venderOrder")}
+                />
+              </div>
+              {/* <div className="col-span-6">
               <Input
                 type="text"
                 name="Serial No."
@@ -456,34 +455,34 @@ function CustomerOrderList() {
               />
             </div> */}
 
-            
-            <div className="col-span-6">
-              <Input
-                 type="text"
-                 id="servicerName"
-                 className="!bg-white"
-                 label="Servicer Name"
-                 placeholder=""
-                 {...formik.getFieldProps("servicerName")}
-              />
-            </div>
 
-            <div className="col-span-6">
-              <Select
-                id="status"
-                label="Status"
-                name="status"
-                options={status}
-                className="!bg-white"
-                placeholder=""
-                value={formik.values.status}
-                onChange={handleSelectChange}
-              />
-            </div>
-            <div className="col-span-12">
-              <Button className={"w-full"} type='submit'>Search</Button>
-            </div>
-          </Grid>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  id="servicerName"
+                  className="!bg-white"
+                  label="Servicer Name"
+                  placeholder=""
+                  {...formik.getFieldProps("servicerName")}
+                />
+              </div>
+
+              <div className="col-span-6">
+                <Select
+                  id="status"
+                  label="Status"
+                  name="status"
+                  options={status}
+                  className="!bg-white"
+                  placeholder=""
+                  value={formik.values.status}
+                  onChange={handleSelectChange}
+                />
+              </div>
+              <div className="col-span-12">
+                <Button className={"w-full"} type='submit'>Search</Button>
+              </div>
+            </Grid>
           </form>
         </div>
       </Modal>

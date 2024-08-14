@@ -433,25 +433,25 @@ function CustomerDetails() {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
 
-useEffect(() => {
-  const storedUserDetails = getUserDetailsFromLocalStorage();
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
 
-  if (storedUserDetails) {
-    const colorScheme = storedUserDetails.colorScheme;
-    colorScheme.forEach(color => {
-      switch (color.colorType) {
-        case 'buttonColor':
-          setBackGroundColor(color.colorCode);
-          break;
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
           case 'buttonTextColor':
             setButtonTextColor(color.colorCode);
             break;
           default:
             break;
-      }
-    });
-  }
-}, []);
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading && (
@@ -481,12 +481,12 @@ useEffect(() => {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/customerList"}>Customer / </Link>{" "}
+                <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm text-neutral-grey ml-1 font-Regular">
                 <Link to={"/customerList"}> Customer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Customer Details ({activeTab})
               </li>
@@ -658,7 +658,7 @@ useEffect(() => {
                       $
                       {formatOrderValue(
                         customerDetail?.orderData?.[0]?.orderAmount ??
-                          parseInt(0)
+                        parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -700,31 +700,29 @@ useEffect(() => {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? ""
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? ""
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <div
-                              style={{
-                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskRepeat: 'no-repeat',
-                                maskPosition: 'center',
-                                WebkitMaskPosition: 'center',
-                                maskSize: 'contain',
-                                WebkitMaskSize: 'contain'
-                              }}
-                              className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
-                            />
+                            style={{
+                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain'
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                          />
                           <span
-                            className={`pl-1 ml-1 py-1 text-sm font-Regular border-Light-Grey border-l-[1px] ${
-                              activeTab === tab.id ? "" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

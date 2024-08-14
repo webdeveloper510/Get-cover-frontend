@@ -468,9 +468,8 @@ function AddClaim() {
                     )}
 
                     <div
-                      className={`col-span-4 self-end justify-end flex ${
-                        isFormEmpty() == true ? "opacity-0" : "opacity-1"
-                      }`}
+                      className={`col-span-4 self-end justify-end flex ${isFormEmpty() == true ? "opacity-0" : "opacity-1"
+                        }`}
                     >
                       <Button type="submit" disabled={isFormEmpty()}>
                         Search
@@ -497,10 +496,10 @@ function AddClaim() {
                               {!location.pathname.includes(
                                 "/customer/addClaim"
                               ) && (
-                                <th className="font-semibold !py-3">
-                                  Customer Name
-                                </th>
-                              )}
+                                  <th className="font-semibold !py-3">
+                                    Customer Name
+                                  </th>
+                                )}
                               <th className="font-semibold">Serial #</th>
                               <th className="font-semibold">Order #</th>
                               <th className="font-semibold">Dealer P.O. #</th>
@@ -740,9 +739,9 @@ function AddClaim() {
                           {contractDetail?.productValue === undefined
                             ? parseInt(0).toLocaleString(2)
                             : formatOrderValue(
-                                Number(contractDetail?.productValue) ??
-                                  parseInt(0)
-                              )}
+                              Number(contractDetail?.productValue) ??
+                              parseInt(0)
+                            )}
                           {/* ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
                               contractDetail?.productValue ?? parseInt(0)
@@ -1029,9 +1028,9 @@ function AddClaim() {
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Claim </Link>/{" "}
+              <Link to={"/"}>Home </Link>/{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
               {" "}
               Add Claim{" "}
             </li>
@@ -1051,9 +1050,8 @@ function AddClaim() {
           )}
 
           <p
-            className={` ${
-              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 1
           </p>
@@ -1064,20 +1062,18 @@ function AddClaim() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 1
+              className={`border ${currentStep > 1
                   ? "text-black border-black"
                   : "text-[#ADADAD] border-[#ADADAD]"
-              }  rounded-full mx-auto w-[26px]`}
+                }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
 
           <p
-            className={` ${
-              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 2
           </p>
@@ -1243,9 +1239,9 @@ function AddClaim() {
                         {contractDetail?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail?.productValue) ??
-                                parseInt(0)
-                            )}
+                            Number(contractDetail?.productValue) ??
+                            parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -1398,14 +1394,14 @@ function AddClaim() {
                         {contractDetail?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail?.claimAmount) ?? parseInt(0)
-                            )}
+                            Number(contractDetail?.claimAmount) ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
 
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -1418,9 +1414,9 @@ function AddClaim() {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetail?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
-                                )}
+                                contractDetail?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -1435,9 +1431,9 @@ function AddClaim() {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetail?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
-                                )}{" "}
+                                contractDetail?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd ?? parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -1526,7 +1522,7 @@ function AddClaim() {
                     </div>
                   </div>
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5 border border-Light-Grey ">
                         <table className="w-full">

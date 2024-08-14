@@ -187,9 +187,9 @@ function Sale() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Reporting / </Link>
+                  <Link to={"/"}>Home / </Link>
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   Sale ({activeTab})
                 </li>
               </ul>

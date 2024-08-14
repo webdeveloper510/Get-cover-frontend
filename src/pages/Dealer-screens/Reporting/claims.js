@@ -212,12 +212,9 @@ function DealerClaims() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={` ${isResellerReporting ? '/reseller' : '/dealer'}`}>Reporting / </Link>{" "}
+                  <Link to={`${location.pathname.includes("/reseller/sale") ? '/reseller/dashboard' : '/dealer/dashboard'}`}>Home / </Link>{" "}
                 </li>
-                <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={` ${isResellerReporting ? '/reseller' : '/dealer'}`}>Claims / </Link>{" "}
-                </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {activeTab}
                 </li>
               </ul>

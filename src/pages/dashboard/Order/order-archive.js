@@ -124,10 +124,10 @@ function ArchiveOrderList() {
     closeDisapproved();
     setLoading(true);
     const result = location.pathname.includes("/dealer/archiveOrder")
-  ? await getArchiveOrdersForDealerPortal(data)
-  : location.pathname.includes("/reseller/archiveOrder")
-  ? await getArchiveOrdersForResellerPortal(data)
-  : await getArchiveOrders(data);
+      ? await getArchiveOrdersForDealerPortal(data)
+      : location.pathname.includes("/reseller/archiveOrder")
+        ? await getArchiveOrdersForResellerPortal(data)
+        : await getArchiveOrders(data);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -199,9 +199,9 @@ function ArchiveOrderList() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Archive Order List{" "}
               </li>
@@ -283,7 +283,7 @@ function ArchiveOrderList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={orderList}
                 highlightOnHover
                 sortIcon={
@@ -392,7 +392,7 @@ function ArchiveOrderList() {
                   {...formik.getFieldProps("venderOrder")}
                 />
               </div>
-              {location.pathname.includes("/dealer/archiveOrder") !== true ? ( <div className="col-span-6">
+              {location.pathname.includes("/dealer/archiveOrder") !== true ? (<div className="col-span-6">
                 <Input
                   type="text"
                   id="dealerName"
@@ -403,7 +403,7 @@ function ArchiveOrderList() {
                 />
               </div>) : (<>
               </>)}
-             
+
               <div className="col-span-6">
                 <Input
                   type="text"

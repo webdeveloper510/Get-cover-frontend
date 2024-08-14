@@ -116,6 +116,7 @@ function Account() {
     }, 2000);
   }, []);
 
+  useEffect(() => { }, []);
 
   const fetchUserDetails = async () => {
     try {
@@ -1032,7 +1033,7 @@ function Account() {
                 Manage Account
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>
