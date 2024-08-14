@@ -15,6 +15,7 @@ import ClaimContent from "./Sale-Tab/ClaimContent";
 import { useMyContext } from "./../../../context/context";
 import { getFilterListForDealerClaim } from "../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function DealerClaims() {
   const location = useLocation();
@@ -220,7 +221,7 @@ function DealerClaims() {
               </ul>
             </div>
           </div>
-          <div className="p-3 bg-white mt-4">
+          <Card className="p-3 mt-4">
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
@@ -364,13 +365,13 @@ function DealerClaims() {
                 </>
               )}
             </Grid>
-          </div>
+          </Card>
 
           <Grid className="!grid-cols-3">
             <div className="col-span-3">
               <Grid className="mt-2">
                 <div className="col-span-5">
-                  <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <Card className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
                     <Grid className="!gap-1">
                       {tabs.map((tab) => (
                         <div className={tab.className} key={tab.id}>
@@ -398,7 +399,7 @@ function DealerClaims() {
                         </div>
                       ))}
                     </Grid>
-                  </div>
+                  </Card>
                 </div>
                 <div className="col-span-1 self-center"></div>
               </Grid>

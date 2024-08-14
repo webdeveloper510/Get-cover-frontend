@@ -546,6 +546,11 @@ function OrderDetails() {
                             alt={tab.label}
                           /> */}
                           <span
+                            style={{
+                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              borderLeftWidth: '1px',
+                              paddingLeft: '7px'
+                            }}
                             className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
                               }`}
                           >

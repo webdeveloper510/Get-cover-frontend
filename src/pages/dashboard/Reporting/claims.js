@@ -24,10 +24,11 @@ import Card from "../../../common/card";
 import { RotateLoader } from "react-spinners";
 
 function Claims() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
   const isResellerClaims = location.pathname.includes("/reseller/claim");
+  const isCustomerClaims = location.pathname.includes("/customer/claims");
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("ClaimMenu");
     return storedTab ? storedTab : "Amount";
@@ -284,14 +285,15 @@ function Claims() {
 
   return (
     <>
-      {loading ? <>
-        <div className=" h-[400px] w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#333" />
+      {loading ? (
+        <>
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
           </div>
-        </div>
-      </>
-        :
+        </>
+      ) : (
         <div className="pb-8 mt-2 px-3 bg-grayf9">
           <Headbar />
           <div className="flex">
@@ -315,19 +317,11 @@ function Claims() {
               <div className="self-center">
                 <Button
                   onClick={() => handleButtonClick("dealer")}
-                  className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] ${activeButton !== "dealer" && "!bg-[white] !border-light-black !text-[#333] "
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer" && "!bg-[white] !border-light-black !text-[#333] "
                     }`}
                 >
                   Dealer
                 </Button>
-                {!isServicerClaims && (
-                  <Button
-                    onClick={() => handleButtonClick("servicer")}
-                    className={`!rounded-[0px] !px-2 !py-1 !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !border-light-black !text-[#333]"
-                      }`}
-                  >
-                    Dealer
-                  </Button>)}
                 {!isServicerClaims && (
                   <Button
                     onClick={() => handleButtonClick("servicer")}
@@ -599,7 +593,7 @@ function Claims() {
                       </Grid>
                     </Card >
                   </div>
-                </div>
+                </div >
                 <div className="col-span-1 self-center"></div>
               </Grid >
 
@@ -612,7 +606,8 @@ function Claims() {
             </div >
           </Grid >
 
-        </div>
+        </div >
+      )
       }
     </>
   );

@@ -721,6 +721,11 @@ function CustomerDetails() {
                             className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
                           />
                           <span
+                            style={{
+                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              borderLeftWidth: '1px',
+                              paddingLeft: '7px'
+                            }}
                             className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
                               }`}
                           >

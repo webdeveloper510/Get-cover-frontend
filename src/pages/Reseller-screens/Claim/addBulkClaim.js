@@ -16,6 +16,7 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Button from "../../../common/button";
+import Card from "../../../common/card";
 
 function ResellerAddBulkClaim() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -127,7 +128,7 @@ function ResellerAddBulkClaim() {
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-    
+
         ),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
@@ -203,14 +204,8 @@ function ResellerAddBulkClaim() {
             </div>
           </div>
 
-          {/* Form Start */}
-          {/* {error && (
-            <p className="text-red-500 text-sm pl-2">
-              <span className="font-semibold"> {error} </span>
-            </p>
-          )} */}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -270,11 +265,11 @@ function ResellerAddBulkClaim() {
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
-                                {index > 0 && " "}
-                                {error}
-                              </span>
-                            ))
+                            <span key={index}>
+                              {index > 0 && " "}
+                              {error}
+                            </span>
+                          ))
                           : formik.errors.email)}
                     </p>
                   )}
@@ -315,33 +310,24 @@ function ResellerAddBulkClaim() {
               >
                 Submit
               </Button>
-            </div>
+            </Card>
           </form>
 
           {/* Modal Email Popop */}
         </>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-        onClick={closeModal}
-        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-      >
-        <img
-          src={Cross}
-          className="w-full h-full text-black rounded-full p-0"
-        />
-      </Button> */}
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-bold">
             Uploaded & Saved
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully uploaded & saved the <br /> <b> Claim </b>{" "}
             with the new data <br /> you have entered.{" "}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim List {timer} seconds.
           </p>
         </div>

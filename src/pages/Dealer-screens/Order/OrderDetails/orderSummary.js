@@ -9,27 +9,28 @@ import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
+import Card from "../../../../common/card";
 function OrderSummary(props) {
-  
+
   const baseUrl = apiUrl();
 
   console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
 
-const handleDownloadClick = (file, apiUrlData) => {
+  const handleDownloadClick = (file, apiUrlData) => {
     const fileUrl = `${baseUrl.baseUrl}/uploads/orderFile/${file}`;
     const fileName = file;
 
     fetch(fileUrl, {
-        headers: baseUrl.headers
+      headers: baseUrl.headers
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+          throw new Error(`Failed to fetch the file. Status: ${response.status}`);
         }
         return response.blob();
-    })
-    .then((blob) => {
+      })
+      .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
         const anchor = document.createElement("a");
         anchor.href = blobUrl;
@@ -38,11 +39,11 @@ const handleDownloadClick = (file, apiUrlData) => {
         anchor.click();
         document.body.removeChild(anchor);
         URL.revokeObjectURL(blobUrl);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error fetching the file:", error);
-    });
-};
+      });
+  };
 
 
   const formatOrderValue = (orderValue) => {
@@ -59,7 +60,7 @@ const handleDownloadClick = (file, apiUrlData) => {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Orders Details</p>
@@ -135,7 +136,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                               Unit Price
                             </p>
                             <p className="text-light-black text-base font-semibold">
-                            
+
                               ${
                                 res.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
@@ -154,11 +155,11 @@ const handleDownloadClick = (file, apiUrlData) => {
                             </p>
                           </div>
                         </div>}
-                        
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
-                               # of Products
+                              # of Products
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {res.checkNumberProducts}
@@ -266,7 +267,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                                           1,
                                           Math.ceil(
                                             value.enterQuantity /
-                                              parseFloat(value.quantity)
+                                            parseFloat(value.quantity)
                                           )
                                         )}
                                       </td>
@@ -317,7 +318,7 @@ const handleDownloadClick = (file, apiUrlData) => {
           ) : (
             <></>
           )}
-        </div>
+        </Card>
       </div>
     </>
   );

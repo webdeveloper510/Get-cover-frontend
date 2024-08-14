@@ -23,6 +23,7 @@ import CustomPagination from "../../pagination";
 import { getAllContractsForDealerPortal } from "../../../services/dealerServices/orderListServices";
 import { getContractValues } from "../../../services/extraServices";
 import CommonTooltip from "../../../common/toolTip";
+import Card from "../../../common/card";
 function ContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -208,71 +209,11 @@ function ContractList(props) {
           </div>
         </div>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
             </div>
-            {/* <div className="col-span-9">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                <Grid className="!grid-cols-9">
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Name"
-                      type="text"
-                      className="!text-[14px] !bg-White-Smoke"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                      label=""
-                      placeholder="Contract ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="Email"
-                      type="text"
-                      className="!text-[14px] !bg-White-Smoke"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                      label=""
-                      placeholder=" Order ID"
-                    />
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Input
-                      name="PhoneNo."
-                      type="text"
-                      className="!text-[14px] !bg-White-Smoke"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                      label=""
-                      placeholder="Dealer P.O. No."
-                    />
-                  </div>
-                  <div className="col-span-1 self-center flex justify-center">
-                    <Button type="submit" className="!p-0">
-                      <img
-                        src={Search}
-                        className="cursor-pointer "
-                        alt="Search"
-                      />
-                    </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
-                      />
-                    </Button>
-                  </div>
-                  <div className="col-span-2 self-center">
-                    <Button
-                      className="!text-sm"
-                      onClick={() => openDisapproved()}
-                    >
-                      Advance Search
-                    </Button>
-                  </div>
-                </Grid>
-              </div>
-            </div> */}
             <div className="col-span-9">
               <form onSubmit={formik.handleSubmit}>
                 <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
@@ -662,7 +603,7 @@ function ContractList(props) {
               </div>
             </form>
           </Modal>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         {/* <Button
@@ -683,8 +624,8 @@ function ContractList(props) {
         <Button
           onClick={closeView}
           className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-              ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-              : "!bg-Granite-Gray"
+            ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+            : "!bg-Granite-Gray"
             } `}
         >
           <img

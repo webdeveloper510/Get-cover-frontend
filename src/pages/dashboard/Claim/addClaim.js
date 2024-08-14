@@ -47,6 +47,7 @@ import { getServicerListInOrders } from "../../../services/orderServices";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DataTable from "react-data-table-component";
+import Card from "../../../common/card";
 
 function AddClaim() {
   const [loading, setLoading] = useState(false);
@@ -385,7 +386,7 @@ function AddClaim() {
             </div>
           </div>
         ) : (
-          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+          <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
             <p className="text-xl font-bold mb-4">Step 1</p>
             <Grid>
               <div className="col-span-12">
@@ -613,7 +614,7 @@ function AddClaim() {
                 </>
               )}
             </Grid>
-          </div>
+          </Card>
         )}
       </>
     );
@@ -690,7 +691,7 @@ function AddClaim() {
   const renderStep2 = () => {
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
           <p className="text-2xl font-bold mb-4">Enter Required Info</p>
           {loading21 ? (
             <div className=" h-[400px] w-full flex py-5">
@@ -1005,7 +1006,7 @@ function AddClaim() {
               </div>
             </form>
           )}
-        </div>
+        </Card>
       </>
     );
   };
@@ -1063,8 +1064,8 @@ function AddClaim() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2

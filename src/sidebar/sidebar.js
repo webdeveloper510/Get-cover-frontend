@@ -993,6 +993,12 @@ function SideBar() {
       ],
     },
     {
+      name: "Claims Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      url: "/customer/claims",
+    },
+    {
       name: "Manage Account",
       image: manageAccount,
       active: ActiveAccount,
