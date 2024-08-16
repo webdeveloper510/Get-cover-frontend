@@ -16,8 +16,8 @@ function OrderSummary(props) {
   console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleDownloadClick = (file) => {
-    const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
+  const handleDownloadClick = (file, apiUrlData) => {
+    const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file}`;
     const fileName = file;
 
     fetch(fileUrl, {

@@ -188,8 +188,8 @@ function OrderDetails() {
   };
 
   const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
-
+    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
+    console.log(url)
     fetch(url, {
       headers: baseUrl.headers,
     })

@@ -23,10 +23,9 @@ function OrderSummary(props) {
 
 
   const handleDownloadClick = (file) => {
-    console.log(file)
-    const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
-    const fileName = file;
+    const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file}`;
 
+    const fileName = file;
     fetch(fileUrl, {
       headers: baseUrl.headers
     })
@@ -50,6 +49,7 @@ function OrderSummary(props) {
         console.error("Error fetching the file:", error);
       });
   };
+
 
   return (
     <>
