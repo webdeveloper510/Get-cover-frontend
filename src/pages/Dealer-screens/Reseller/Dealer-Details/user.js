@@ -402,14 +402,14 @@ function UserList(props) {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 p-2 text-light-black bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
                     onClick={() => makeUserPrimary(row)}
-                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                    className="text-left cursor-pointer flex text-light-black border-b hover:font-semibold py-1"
                   >
                     <img src={make} className="w-4 h-4 mr-2" />{" "}
                     <span className="self-center"> Make Primary </span>
@@ -418,7 +418,7 @@ function UserList(props) {
 
                 <div
                   onClick={() => editUser(row._id)}
-                  className="text-left cursor-pointer flex border-b hover:font-semibold py-1"
+                  className="text-left cursor-pointer flex text-light-black border-b hover:font-semibold py-1"
                 >
                   <img src={edit} className="w-4 h-4 mr-2" />{" "}
                   <span className="self-center">Edit </span>
@@ -426,7 +426,7 @@ function UserList(props) {
                 {!row.isPrimary && (
                   <div
                     onClick={() => openModal1(row._id)}
-                    className="text-left cursor-pointer flex hover:font-semibold py-1"
+                    className="text-left cursor-pointer text-light-black flex hover:font-semibold py-1"
                   >
                     <img src={delete1} className="w-4 h-4 mr-2" />{" "}
                     <span className="self-center"> Delete </span>

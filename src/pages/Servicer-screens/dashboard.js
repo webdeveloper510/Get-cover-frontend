@@ -14,6 +14,7 @@ import DataTable from "react-data-table-component";
 import PdfGenerator from "../pdfViewer";
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import { getDashboardDetailsforServicerPortal } from "../../services/dealerServices/resellerServices";
+import Card from "../../common/card";
 
 function ServicerDashboard() {
   const [loading, setLoading] = useState(false);
@@ -281,49 +282,53 @@ function ServicerDashboard() {
                 </div>
               </div>
 
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
-                <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Claims
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={Claim}
-                    data={claimList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+              <div className="col-span-6 border-2 rounded-xl">
+                <Card>
+                  <p className="text-xl font-semibold pl-3 pt-2">
+                    Last 5 Completed Claims
+                  </p>
+                  <div className="">
+                    <DataTable
+                      columns={Claim}
+                      data={claimList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
+                </Card>
               </div>
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
-                <p className="text-xl font-semibold pl-3 pt-2">Top 5 Dealer</p>
-                <div className="">
-                  <DataTable
-                    columns={columns}
-                    data={dealerList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+              <div className="col-span-6 border-2 rounded-xl">
+                <Card>
+                  <p className="text-xl font-semibold pl-3 pt-2">Top 5 Dealer</p>
+                  <div className="">
+                    <DataTable
+                      columns={columns}
+                      data={dealerList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
+                </Card>
               </div>
             </Grid>
           </div>

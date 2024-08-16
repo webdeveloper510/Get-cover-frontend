@@ -371,7 +371,7 @@ function DealerClaims() {
             <div className="col-span-3">
               <Grid className="mt-2">
                 <div className="col-span-5">
-                  <Card className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <div className="rounded-[30px] bg-white p-3 border-[1px] border-Light-Grey">
                     <Grid className="!gap-1">
                       {tabs.map((tab) => (
                         <div className={tab.className} key={tab.id}>
@@ -399,7 +399,7 @@ function DealerClaims() {
                         </div>
                       ))}
                     </Grid>
-                  </Card>
+                  </div>
                 </div>
                 <div className="col-span-1 self-center"></div>
               </Grid>

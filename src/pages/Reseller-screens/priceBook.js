@@ -28,6 +28,7 @@ import {
   getPriceBookForDealer,
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
+import Card from "../../common/card";
 function ResellerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState();
@@ -162,7 +163,7 @@ function ResellerPriceBook(props) {
             {selectedAction === row.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg text-light-black shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -319,7 +320,7 @@ function ResellerPriceBook(props) {
             </ul>
           </div>
         </div>
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-4 self-center">
               <p className="text-xl font-semibold">Price Book List</p>
@@ -411,7 +412,7 @@ function ResellerPriceBook(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
@@ -555,34 +556,34 @@ function ResellerPriceBook(props) {
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Product Name
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.pName}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Price Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Product Category
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Retail Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 $
                 {dealerPriceBook?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
@@ -592,24 +593,24 @@ function ResellerPriceBook(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Term</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-bold">Term</p>
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.term} Months
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Coverage Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.coverageType}{" "}
               </p>
             </div>
             <div className="col-span-12">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Description
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].description}
               </p>
             </div>
@@ -617,10 +618,10 @@ function ResellerPriceBook(props) {
             {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-bold">
                     Start Range
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-semibold">
                     {" "}
                     $
                     {dealerPriceBook?.priceBooks?.rangeStart === undefined
@@ -632,10 +633,10 @@ function ResellerPriceBook(props) {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-bold">
                     End Range
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-semibold">
                     $
                     {dealerPriceBook?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)

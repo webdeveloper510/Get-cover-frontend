@@ -14,6 +14,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { getFilterList } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function Sale() {
   const [loading, setLoading] = useState(false)
@@ -195,7 +196,7 @@ function Sale() {
               </ul>
             </div >
           </div >
-          <div className="p-3 bg-white mt-4">
+          <Card className="p-3 mt-4">
             <div className="flex w-full mb-3">
               <p className="p-0 font-bold self-center mr-4">Filter By :</p>{" "}
               <div className="self-center">
@@ -333,7 +334,7 @@ function Sale() {
                 </>
               )}
             </Grid>
-          </div>
+          </Card>
           <Grid className="mt-4 !gap-0">
             <div className="col-span-12">
               <Grid className=" grid-cols-9 !gap-0">

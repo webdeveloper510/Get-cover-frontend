@@ -307,7 +307,7 @@ function OrderList() {
               <div
                 onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl text-light-black -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >

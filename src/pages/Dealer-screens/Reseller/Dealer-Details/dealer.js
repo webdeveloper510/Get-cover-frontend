@@ -288,7 +288,7 @@ function DealerDetailList(props) {
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer py-1 px-2"
+                  className="text-center flex cursor-pointer py-1 px-2"
                   onClick={() => {
                     navigate(`/dealerDetails/${row.accountId}`);
                   }}
@@ -296,7 +296,7 @@ function DealerDetailList(props) {
                   View
                 </div>
                 <div
-                  className="text-center py-2 px-2 cursor-pointer"
+                  className="text-center flex py-2 px-2 cursor-pointer"
                   onClick={() => openModal(row)}
                 >
                   Unassigned

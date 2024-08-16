@@ -69,6 +69,7 @@ import {
   UserDetailAccount,
   checkUserToken,
 } from "../../../services/userServices";
+import Card from "../../../common/card";
 
 function AllList(props) {
   const baseUrl = apiUrl();
@@ -1195,7 +1196,7 @@ function AllList(props) {
       icons: Claim,
       Activeicons: ClaimActive,
       content: (
-        <div className="bg-white my-4 pb-4 border-[1px] mt-6 border-Light-Grey rounded-xl">
+        <Card className="my-4 pb-4 border-[1px] mt-6 border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
@@ -1298,21 +1299,21 @@ function AllList(props) {
                           <>
                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Claim ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res?.contracts?.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                 </p>
@@ -1939,7 +1940,7 @@ function AllList(props) {
               // />
             )}
           </div>
-        </div>
+        </Card>
       ),
     },
     {

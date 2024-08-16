@@ -1187,7 +1187,7 @@ function ResellerClaimList(props) {
       icons: Claim,
       Activeicons: ClaimActive,
       content: (
-        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
@@ -2022,7 +2022,7 @@ function ResellerClaimList(props) {
               // />
             )}
           </div>
-        </div>
+        </Card>
       ),
     },
   ];
@@ -2151,7 +2151,7 @@ function ResellerClaimList(props) {
               <div className="col-span-12">
                 <p className="text-3xl mb-0 mt-4 font-bold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
                 <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?

@@ -223,10 +223,10 @@ function All({ activeTab, activeButton }) {
         </Grid>
       )}
 
-      <Card className="bg-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+      <Card className=" rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey !h-auto">
         <Grid className="!grid-cols-5">
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -234,8 +234,8 @@ function All({ activeTab, activeButton }) {
                     {totalFees?.total_admin_fee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          totalFees?.total_admin_fee ?? parseInt(0)
-                        )}
+                        totalFees?.total_admin_fee ?? parseInt(0)
+                      )}
                   </p>
                   <p className="text-sm text-neutral-grey font-bold self-center">
                     Administration <br /> Fees
@@ -249,10 +249,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full  px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -260,8 +260,8 @@ function All({ activeTab, activeButton }) {
                     {totalFees?.total_fronting_fee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          totalFees?.total_fronting_fee ?? parseInt(0)
-                        )}
+                        totalFees?.total_fronting_fee ?? parseInt(0)
+                      )}
                   </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Fronting <br /> Fees
@@ -275,10 +275,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full  px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -286,8 +286,8 @@ function All({ activeTab, activeButton }) {
                     {totalFees?.total_reinsurance_fee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          totalFees?.total_reinsurance_fee ?? parseInt(0)
-                        )}
+                        totalFees?.total_reinsurance_fee ?? parseInt(0)
+                      )}
                   </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Re-insurance <br /> Fees
@@ -301,10 +301,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -312,8 +312,8 @@ function All({ activeTab, activeButton }) {
                     {totalFees?.total_reserve_future_fee === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          totalFees?.total_reserve_future_fee ?? parseInt(0)
-                        )}
+                        totalFees?.total_reserve_future_fee ?? parseInt(0)
+                      )}
                   </p>
                   <p className="text-sm font-bold text-neutral-grey self-center">
                     Reserves Future <br /> Claims
@@ -327,18 +327,18 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
-          <div className="col-span-1 h-full px-2">
-            <div className="flex w-full justify-between mb-4">
+          <div className="col-span-1 px-2">
+            <Card className="flex w-full justify-between mb-4">
               <div>
                 <p className="text-2xl font-bold">
                   $
                   {totalFees?.total_broker_fee === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        totalFees?.total_broker_fee ?? parseInt(0)
-                      )}
+                      totalFees?.total_broker_fee ?? parseInt(0)
+                    )}
                 </p>
                 <p className="text-sm font-bold text-neutral-grey self-center">
                   Broker <br /> Fees
@@ -347,7 +347,7 @@ function All({ activeTab, activeButton }) {
               <div>
                 <img src={Broker} className="w-[55px]" alt="Administration" />
               </div>
-            </div>
+            </Card>
           </div>
         </Grid>
       </Card>

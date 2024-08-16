@@ -1145,21 +1145,6 @@ function ClaimList12(props) {
             </Grid>
 
             <div className="px-3 mt-5">
-              {/* {totalRecords == 0 ? <></> :
-            <>
-            {props.activeTab == "Unpaid Claims" && (<>
-              {!isCheckBox &&  <div className="text-right mt-8">
-                      <Button
-                          className="mx-3 !text-[14px] !py-[4px]"
-                          onClick={() => setIsCheckbox(true)}
-                        >
-                          Pay Now
-                        </Button>
-            </div>}
-             </> ) }
-            </>
-            } */}
-
               {totalRecords == 0 ? (
                 <></>
               ) : (
@@ -1172,38 +1157,6 @@ function ClaimList12(props) {
                     </div>
                   ) : (
                     <>
-                      {/* {anyCheckboxChecked() && (
-                   <Grid>
-                     <div className="col-span-3">
-                       <p>
-                         {selectedCount} Of {totalCount}
-                       </p>
-                     </div>
-                     <div className="col-span-4"></div>
-                     <div className="col-span-5">
-                       <div className="flex justify-end">
-                         <Button
-                           className="!text-[14px] !py-[4px]"
-                           onClick={() => handleSelectAll(claimList)}
-                         >
-                           Select All
-                         </Button>
-                         <Button
-                           className="mx-3 !text-[14px] !py-[4px]"
-                           onClick={() => openPay()}
-                         >
-                           Mark As Paid
-                         </Button>
-                         <Button
-                           onClick={handleUnselectAll}
-                           className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
-                         >
-                           Unselect
-                         </Button>
-                       </div>
-                     </div>
-                   </Grid>
-                 )} */}
                       {claimList?.result &&
                         claimList?.result?.length !== 0 &&
                         claimList?.result?.map((res, index) => {
@@ -1219,14 +1172,14 @@ function ClaimList12(props) {
                                   {" "}
                                   <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                                     <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                      <p className="font-semibold leading-5 text-lg">
+                                      <p className="font-semibold text-light-black leading-5 text-lg">
                                         {" "}
                                         {res.unique_key}{" "}
                                       </p>
                                       <p className="text-[#A3A3A3]">Claim ID</p>
                                     </div>
                                     <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                      <p className="font-semibold leading-5 text-lg">
+                                      <p className="font-semibold leading-5 text-light-black text-lg">
                                         {" "}
                                         {res?.contracts?.unique_key}{" "}
                                       </p>

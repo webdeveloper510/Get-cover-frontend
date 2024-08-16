@@ -170,10 +170,9 @@ function OrderList(props) {
       }
     } catch (error) {
       console.error(
-        `Error while ${
-          message === "Would you like to Archive it?"
-            ? "archiving"
-            : "marking as paid"
+        `Error while ${message === "Would you like to Archive it?"
+          ? "archiving"
+          : "marking as paid"
         } order:`,
         error
       );
@@ -251,23 +250,23 @@ function OrderList(props) {
     },
     ...(props.flag !== 'customer' && props.flag !== 'reseller'
       ? [
-          {
-            name: "Reseller Name",
-            selector: (row) => row.resellerName.name,
-            sortable: true,
-          },
-        ]
+        {
+          name: "Reseller Name",
+          selector: (row) => row.resellerName.name,
+          sortable: true,
+        },
+      ]
       : []),
-      ...(props.flag !== 'customer' 
-        ? [
-          {
-            name: "Customer Name",
-            selector: (row) => row.customerName.username,
-            sortable: true,
-          },
-          ]
-        : []),
-    
+    ...(props.flag !== 'customer'
+      ? [
+        {
+          name: "Customer Name",
+          selector: (row) => row.customerName.username,
+          sortable: true,
+        },
+      ]
+      : []),
+
     {
       name: "# of Contracts",
       selector: (row) => row.noOfProducts.toLocaleString(2),
@@ -276,10 +275,9 @@ function OrderList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${
-          row?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        `$${row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -290,9 +288,8 @@ function OrderList(props) {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%]">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
         </div>
@@ -321,7 +318,7 @@ function OrderList(props) {
               <div
                 onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[130px] drop-shadow-5xl  py-1 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[130px] drop-shadow-5xl text-light-black py-1 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -500,7 +497,7 @@ function OrderList(props) {
               <DataTable
                 columns={columns}
                 data={orderList}
-                draggableColumns={false} 
+                draggableColumns={false}
                 highlightOnHover
                 sortIcon={
                   <>

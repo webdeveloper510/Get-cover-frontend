@@ -313,7 +313,7 @@ function DealerDetailList(props) {
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer py-1 px-2 text-black"
+                  className="text-center cursor-pointer flex py-1 border-b px-2 text-black"
                   onClick={() => {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
@@ -322,7 +322,7 @@ function DealerDetailList(props) {
                   <span className="self-center"> View </span>
                 </div>
                 <div
-                  className="text-center py-1 px-2 cursor-pointer text-black"
+                  className="text-center py-1 px-2 flex cursor-pointer text-black"
                   onClick={() => openModal(row)}
                 >
                   <img src={paper} className="w-4 h-4 mr-2" />{" "}
