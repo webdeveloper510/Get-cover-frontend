@@ -131,7 +131,7 @@ function ClaimList(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
 const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
       fetch(url, {
         headers: baseUrl.headers 
       })
@@ -575,7 +575,7 @@ const downloadImage = (file) => {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.bucket}/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
 
       fetch(url, {
         headers: baseUrl.headers 

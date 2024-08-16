@@ -14,7 +14,7 @@ function CustomerOrderSummary(props) {
   console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDownloadClick = (file, apiUrlData) => {
-      const fileUrl = `${baseUrl.bucket}/uploads/orderFile/${file}`;
+      const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
       const fileName = file;
 
       fetch(fileUrl, {

@@ -188,8 +188,8 @@ function OrderDetails() {
   };
 
   const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/claimFile/${file.messageFile.fileName}`;
-
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
+console.log(url)
     fetch(url, {
       headers: baseUrl.headers,
     })
