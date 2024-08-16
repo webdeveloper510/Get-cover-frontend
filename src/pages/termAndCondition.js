@@ -9,11 +9,9 @@ function FileDownloader(props) {
   const handleClick = async (apiUrlData) => {
     setLoading(true);
     try {
-      // Make an API request to fetch the file URL
       const response = await DownloadTC(props.data, apiUrlData);
 
       if (response.code === 200) {
-        // Create a link element
         console.log(response.result.fileName);
         const fileUrl = `${baseUrl.baseUrl}/uploads/mergedFile/${response.result.fileName}`;
         const fileName = "Term_And_Condition.pdf";
@@ -42,7 +40,7 @@ function FileDownloader(props) {
           .catch((error) => {
             console.error("Error fetching the file:", error);
           });
-       
+
       } else {
         console.error(
           "Failed to fetch file: Unexpected response status",

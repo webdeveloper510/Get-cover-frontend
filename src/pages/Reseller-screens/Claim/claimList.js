@@ -166,7 +166,7 @@ function ResellerClaimList(props) {
     setServicerCreateAccountOption(result?.result?.isServicer);
   };
   const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
 
     fetch(url, {
       headers: baseUrl.headers,
@@ -712,7 +712,7 @@ function ResellerClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.bucket}/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
       fetch(url, {
         headers: baseUrl.headers,
       })
@@ -1914,8 +1914,8 @@ function ResellerClaimList(props) {
                                     </p>
                                     <div
                                       className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                          ? "h-[130px] max-h-[130px]"
-                                          : "h-[164px] max-h-[164px]"
+                                        ? "h-[130px] max-h-[130px]"
+                                        : "h-[164px] max-h-[164px]"
                                         }`}
                                     >
                                       <p className="text-sm text-light-green">
@@ -2104,8 +2104,8 @@ function ResellerClaimList(props) {
           {tabs.map((tab) => (
             <Button
               className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                  ? "!bg-[#2A2A2A] !text-white"
-                  : "!bg-grayf9 !text-black"
+                ? "!bg-[#2A2A2A] !text-white"
+                : "!bg-grayf9 !text-black"
                 }`}
               onClick={() => handleTabClick(tab.id)}
             >
@@ -2279,8 +2279,8 @@ function ResellerClaimList(props) {
                             </div>
                             <div
                               className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
                                 }`}
                             >
                               <p className="text-sm pr-3">

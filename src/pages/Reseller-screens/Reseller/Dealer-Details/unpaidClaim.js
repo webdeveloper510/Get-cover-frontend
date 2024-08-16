@@ -138,7 +138,7 @@ function ClaimList12(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
     fetch(url, {
       headers: baseUrl.headers,
     })
@@ -580,7 +580,7 @@ function ClaimList12(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.bucket}/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
 
       fetch(url, {
         headers: baseUrl.headers,
@@ -1395,17 +1395,17 @@ function ClaimList12(props) {
                                               $
                                               {part.price === undefined
                                                 ? (0).toLocaleString("en-US", {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  })
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })
                                                 : parseFloat(
-                                                    part.price === undefined
-                                                      ? 0
-                                                      : part.price
-                                                  ).toLocaleString("en-US", {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  })}
+                                                  part.price === undefined
+                                                    ? 0
+                                                    : part.price
+                                                ).toLocaleString("en-US", {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
                                             </p>
                                           </div>
                                         </div>
@@ -1447,9 +1447,9 @@ function ClaimList12(props) {
                                                 value={servicer}
                                                 disabled={
                                                   claimStatus.status ==
-                                                    "Rejected" ||
+                                                  "Rejected" ||
                                                   claimStatus.status ==
-                                                    "Completed"
+                                                  "Completed"
                                                 }
                                                 onChange={handleSelectChange}
                                                 white
@@ -1641,11 +1641,10 @@ function ClaimList12(props) {
                                             Diagnosis
                                           </p>
                                           <div
-                                            className={` overflow-y-scroll Diagnosis ${
-                                              res?.receiptImage != ""
-                                                ? "h-[130px] max-h-[130px]"
-                                                : "h-[164px] max-h-[164px]"
-                                            }`}
+                                            className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
+                                              ? "h-[130px] max-h-[130px]"
+                                              : "h-[164px] max-h-[164px]"
+                                              }`}
                                           >
                                             <p className="text-sm text-light-green">
                                               {res.diagnosis}
@@ -1881,9 +1880,8 @@ function ClaimList12(props) {
                         rows="4"
                         name="content"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.content && touched.content && "border-red-500"
-                        }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.content && touched.content && "border-red-500"
+                          }`}
                       />
                       <ErrorMessage
                         name="content"
@@ -1953,11 +1951,10 @@ function ClaimList12(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${
-                                msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
-                              }`}
+                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
+                                }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2052,8 +2049,8 @@ function ClaimList12(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                        <FontAwesomeIcon icon={faFileImage} size="3x" />
-                      )}
+                          <FontAwesomeIcon icon={faFileImage} size="3x" />
+                        )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2202,9 +2199,8 @@ function ClaimList12(props) {
                       </div>
 
                       <div
-                        className={`${
-                          index > 0 ? "col-span-2" : "col-span-3"
-                        }  `}
+                        className={`${index > 0 ? "col-span-2" : "col-span-3"
+                          }  `}
                       >
                         {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                         <Input

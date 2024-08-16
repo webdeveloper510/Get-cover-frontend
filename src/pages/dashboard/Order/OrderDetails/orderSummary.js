@@ -21,22 +21,22 @@ function OrderSummary(props) {
     }
   };
 
-  
+
   const handleDownloadClick = (file) => {
     console.log(file)
-    const fileUrl = `${baseUrl.bucket}/uploads/orderFile/${file}`;
+    const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
     const fileName = file;
 
     fetch(fileUrl, {
-        headers: baseUrl.headers 
+      headers: baseUrl.headers
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+          throw new Error(`Failed to fetch the file. Status: ${response.status}`);
         }
         return response.blob();
-    })
-    .then((blob) => {
+      })
+      .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
         const anchor = document.createElement("a");
         anchor.href = blobUrl;
@@ -45,11 +45,11 @@ function OrderSummary(props) {
         anchor.click();
         document.body.removeChild(anchor);
         URL.revokeObjectURL(blobUrl);
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error fetching the file:", error);
-    });
-};
+      });
+  };
 
   return (
     <>
@@ -134,8 +134,8 @@ function OrderSummary(props) {
                               {res.unitPrice === undefined
                                 ? parseInt(0).toLocaleString(2)
                                 : formatOrderValue(
-                                    res.unitPrice ?? parseInt(0)
-                                  )}
+                                  res.unitPrice ?? parseInt(0)
+                                )}
                             </p>
                           </div>
                         </div>
@@ -173,7 +173,7 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>}
-                       
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -212,8 +212,8 @@ function OrderSummary(props) {
                                   {res.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        res.rangeStart ?? parseInt(0)
-                                      )}
+                                      res.rangeStart ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </div>
@@ -227,8 +227,8 @@ function OrderSummary(props) {
                                   {res.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        res.rangeEnd ?? parseInt(0)
-                                      )}
+                                      res.rangeEnd ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </div>
@@ -271,7 +271,7 @@ function OrderSummary(props) {
                                           1,
                                           Math.ceil(
                                             value.enterQuantity /
-                                              parseFloat(value.quantity)
+                                            parseFloat(value.quantity)
                                           )
                                         )}
                                       </td>

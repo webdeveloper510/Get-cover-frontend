@@ -14,30 +14,30 @@ function CustomerOrderSummary(props) {
   console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
   const handleDownloadClick = (file, apiUrlData) => {
-      const fileUrl = `${baseUrl.bucket}/uploads/orderFile/${file}`;
-      const fileName = file;
+    const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
+    const fileName = file;
 
-      fetch(fileUrl, {
-          headers: baseUrl.headers
-      })
+    fetch(fileUrl, {
+      headers: baseUrl.headers
+    })
       .then((response) => {
-          if (!response.ok) {
-              throw new Error(`Failed to fetch the file. Status: ${response.status}`);
-          }
-          return response.blob();
+        if (!response.ok) {
+          throw new Error(`Failed to fetch the file. Status: ${response.status}`);
+        }
+        return response.blob();
       })
       .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href = blobUrl;
-          anchor.download = fileName;
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          URL.revokeObjectURL(blobUrl);
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = fileName;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
       })
       .catch((error) => {
-          console.error("Error fetching the file:", error);
+        console.error("Error fetching the file:", error);
       });
   };
 
@@ -135,11 +135,11 @@ function CustomerOrderSummary(props) {
                             </p>
                           </div>
                         </div>}
-                        
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
-                               # of Products
+                              # of Products
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {res.checkNumberProducts}
@@ -247,7 +247,7 @@ function CustomerOrderSummary(props) {
                                           1,
                                           Math.ceil(
                                             value.enterQuantity /
-                                              parseFloat(value.quantity)
+                                            parseFloat(value.quantity)
                                           )
                                         )}
                                       </td>

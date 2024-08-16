@@ -62,6 +62,7 @@ import { apiUrl } from "../../../services/authServices";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
+  console.log(baseUrl.bucket)
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -161,7 +162,7 @@ function ClaimList(props) {
   }, [messageList, claimId]);
 
   const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
 
     fetch(url, {
       headers: baseUrl.headers,
@@ -686,7 +687,7 @@ function ClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.bucket}/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
       fetch(url, {
         headers: baseUrl.headers,
       })
@@ -1999,8 +2000,8 @@ function ClaimList(props) {
                                       </p>
                                       <div
                                         className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                            ? "h-[130px] max-h-[130px]"
-                                            : "h-[164px] max-h-[164px]"
+                                          ? "h-[130px] max-h-[130px]"
+                                          : "h-[164px] max-h-[164px]"
                                           }`}
                                       >
                                         <p className="text-sm text-light-green">
@@ -2257,8 +2258,8 @@ function ClaimList(props) {
                             </div>
                             <div
                               className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
                                 }`}
                             >
                               <p className="text-sm pr-3">
