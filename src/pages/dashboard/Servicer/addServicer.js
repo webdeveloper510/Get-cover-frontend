@@ -679,8 +679,8 @@ function AddServicer() {
             </Card>
 
             {formik.values.members.map((dealer, index) => (
-              <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
-                <p className="text-light-black text-lg mb-6 font-semibold">
+              <Card className="p-8 relative drop-shadow-4xl mt-8 rounded-xl">
+                <p className="text-lg mb-6 font-semibold">
                   Add Servicer's Team Members
                 </p>
                 <div className="">
@@ -837,7 +837,7 @@ function AddServicer() {
                           />
                         </div>
                         <div className="col-span-4">
-                          <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                          <p className="flex text-[12px] font-semibold mt-3 mb-6">
                             {" "}
                             Do you want to create an account?
                             <RadioButton
@@ -888,7 +888,7 @@ function AddServicer() {
                     </div>
                   </Grid>
                 </div>
-              </div>
+              </Card>
             ))}
 
             <Button type="submit" className="mt-8">

@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import { getCustomerByDealerId } from "../../../../services/reSellerServices";
+import Card from "../../../../common/card";
 function CustomerList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -225,7 +226,7 @@ function CustomerList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Customers List</p>
@@ -337,7 +338,7 @@ function CustomerList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

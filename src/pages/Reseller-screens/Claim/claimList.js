@@ -65,6 +65,7 @@ import {
   UserDetailAccount,
   checkUserToken,
 } from "../../../services/userServices";
+import Card from "../../../common/card";
 
 function ResellerClaimList(props) {
   // console.log(props);
@@ -1914,8 +1915,8 @@ function ResellerClaimList(props) {
                                     </p>
                                     <div
                                       className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                          ? "h-[130px] max-h-[130px]"
-                                          : "h-[164px] max-h-[164px]"
+                                        ? "h-[130px] max-h-[130px]"
+                                        : "h-[164px] max-h-[164px]"
                                         }`}
                                     >
                                       <p className="text-sm text-light-green">
@@ -2104,8 +2105,8 @@ function ResellerClaimList(props) {
           {tabs.map((tab) => (
             <Button
               className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                  ? "!bg-[#2A2A2A] !text-white"
-                  : "!bg-grayf9 !text-black"
+                ? "!bg-[#2A2A2A] !text-white"
+                : "!bg-grayf9 !text-black"
                 }`}
               onClick={() => handleTabClick(tab.id)}
             >
@@ -2148,11 +2149,11 @@ function ResellerClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-bold">
                   {" "}
                   <span className="text-light-black"> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -2165,7 +2166,7 @@ function ResellerClaimList(props) {
               <div className="col-span-3">
                 <Button
                   type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !bg-[white] !text-light-black !border-light-black !border-[1px]"
                   onClick={closeReject}
                 >
                   No
@@ -2207,7 +2208,7 @@ function ResellerClaimList(props) {
                         rows="4"
                         name="reason"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
                           }`}
                       />
                       <ErrorMessage
@@ -2279,8 +2280,8 @@ function ResellerClaimList(props) {
                             </div>
                             <div
                               className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
                                 }`}
                             >
                               <p className="text-sm pr-3">
@@ -2331,7 +2332,7 @@ function ResellerClaimList(props) {
             <div>
               <p className="text-sm my-3">
                 <b> Attachment : </b>{" "}
-                <span className="text-black">
+                <span className="">
                   {" "}
                   Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                   file size: 50 MB.{" "}
@@ -2411,7 +2412,7 @@ function ResellerClaimList(props) {
                   rows="2"
                   name="content"
                   maxLength={150}
-                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
+                  className={`block px-2.5 pb-2.5 pt-1.5 w-full text-[11px] font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm`}
                   value={formik2.values.content}
                   onChange={formik2.handleChange}
                   onBlur={formik2.handleBlur}
@@ -2467,7 +2468,7 @@ function ResellerClaimList(props) {
             </div>
           ) : (
             <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
+              <Card className="px-8 pb-4 pt-2 drop-shadow-4xl mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
                   <p className="pb-5 text-lg font-semibold">
@@ -2647,8 +2648,8 @@ function ResellerClaimList(props) {
                     </Button>
                   </div>
                 </Grid>
-              </div>
-              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+              </Card>
+              <Card className="px-5 pb-5 pt-3 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">
                 <div className="relative">
                   <label
                     htmlFor="description"
@@ -2667,7 +2668,7 @@ function ResellerClaimList(props) {
                     className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
                   ></textarea>
                 </div>
-              </div>
+              </Card>
 
               <div className="mt-3">
                 <Button className="!bg-white !text-black" onClick={closeEdit}>
@@ -2682,14 +2683,14 @@ function ResellerClaimList(props) {
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-bold">
             Submitted
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Edit Claim Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
         </div>

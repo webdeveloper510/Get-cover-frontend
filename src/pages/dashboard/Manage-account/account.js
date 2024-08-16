@@ -565,20 +565,10 @@ function Account() {
                   <div
                     ref={dropdownRef}
                     className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[80px]"
-                      } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                      } drop-shadow-5xl -right-3 mt-2 bg-white text-light-black py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                   >
-                    {/* {!row.isPrimary && row.status && (
-                      <div
-                        onClick={() => makeUserPrimary(row)}
-                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                      >
-                        <img src={make} className="w-4 h-4 mr-2" />{" "}
-                        <span className="self-center"> Make Primary </span>
-                      </div>
-                    )} */}
-
                     <div
                       onClick={() => editUser(row._id)}
                       className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
@@ -1075,8 +1065,8 @@ function Account() {
                           <Grid>
                             <div className="col-span-4">
                               <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: textColor }}>
-                                <p className="text-sm m-0 p-0">Email</p>
-                                <p className="font-semibold">{email}</p>
+                                <p className="text-sm m-0 p-0 text-light-black">Email</p>
+                                <p className="font-semibold text-light-black">{email}</p>
                               </div>
                             </div>
                             <div className="col-span-4">
@@ -1192,20 +1182,6 @@ function Account() {
                             Send Notification to
                           </label>
                           <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                            {/* <ReactTags
-                          tags={tags}
-                          delimiters={delimiters}
-                          name="email"
-                          handleDelete={handleDelete}
-                          handleAddition={handleAddition}
-                          handleDrag={handleDrag}
-                          handleTagClick={handleTagClick}
-                          inputFieldPosition="bottom"
-                          autocomplete
-                          editable
-                          placeholder=""
-                        /> */}
-
                             <MultiSelect
                               label="Email"
                               name="Email"

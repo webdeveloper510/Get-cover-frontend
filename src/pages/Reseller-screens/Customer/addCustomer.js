@@ -32,6 +32,7 @@ import {
 } from "../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import Card from "../../../common/card";
 
 function ResellerAddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -378,7 +379,7 @@ function ResellerAddCustomer() {
 
           {/* Form Start */}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="bg-white p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+            <Card className="p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
                   <p className="text-light-black text-lg font-bold">
@@ -687,10 +688,10 @@ function ResellerAddCustomer() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </Card>
 
             {formik.values.members.map((dealer, index) => (
-              <div className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl">
+              <Card className="p-8 relative drop-shadow-4xl mt-8 rounded-xl">
                 <p className="text-light-black text-lg mb-6 font-semibold">
                   Add Team Members
                 </p>
@@ -899,7 +900,7 @@ function ResellerAddCustomer() {
                     </div>
                   </Grid>
                 </div>
-              </div>
+              </Card>
             ))}
 
             <Button type="submit" className="mt-8">
@@ -927,24 +928,24 @@ function ResellerAddCustomer() {
               {message === "Customer Created Successfully" ? (
                 <>
                   <img src={AddDealer} alt="email Image" className="mx-auto" />
-                  <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  <p className="text-3xl mb-0 mt-4 font-bold">
                     Submitted
-                    <span className="text-light-black"> Successfully </span>
+                    <span className=""> Successfully </span>
                   </p>
-                  <p className="text-neutral-grey text-base font-medium mt-2">
+                  <p className="text-base font-medium mt-2">
                     {message}
                   </p>
-                  <p className="text-neutral-grey text-base font-medium mt-2">
+                  <p className="text-base font-medium mt-2">
                     Redirecting you on Customer Page {timer} seconds.
                   </p>
                 </>
               ) : (
                 <>
                   <img src={disapprove} alt="email Image" className="mx-auto" />
-                  <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                  <p className="text-3xl mb-0 mt-4 font-bold ">
                     Error
                   </p>
-                  <p className="text-neutral-grey text-base font-medium mt-2">
+                  <p className="text-base font-medium mt-2">
                     {message}
                   </p>
                 </>

@@ -28,6 +28,7 @@ import Cross from "../../../assets/images/Cross.png";
 import PdfGenerator from "../../pdfViewer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Card from "../../../common/card";
 
 function ResellerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -375,7 +376,7 @@ function ResellerOrderList() {
             </Link>
           </Button>
 
-          <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !pt-[14px] !pb-0">
               <div className="col-span-3 self-center">
                 <p className="text-xl font-semibold">Order List</p>
@@ -480,7 +481,7 @@ function ResellerOrderList() {
                 />
               )}
             </div>
-          </div>
+          </Card>
         </div>}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {orderType == "Process" ? (
@@ -508,11 +509,11 @@ function ResellerOrderList() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
+          <p className="text-3xl mb-0 mt-4 font-bold">
             <span className="text-light-black">Error</span>{" "}
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {errorLine} : <br />
             <span>{errorList} . </span>
           </p>
@@ -522,14 +523,14 @@ function ResellerOrderList() {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Would you like to Archive it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeArchive()}
             >
               No
@@ -542,13 +543,13 @@ function ResellerOrderList() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Archive Order Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully archive the order
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>

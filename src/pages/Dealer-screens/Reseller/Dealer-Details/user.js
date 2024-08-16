@@ -30,6 +30,7 @@ import Select from "../../../../common/select";
 import { getCustomerUsersById } from "../../../../services/customerServices";
 import { useMyContext } from "../../../../context/context";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
+import Card from "../../../../common/card";
 
 function UserList(props) {
   console.log(props);
@@ -361,9 +362,8 @@ function UserList(props) {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             disabled={row.isPrimary || !servicerStatus}
@@ -401,11 +401,10 @@ function UserList(props) {
             {selectedAction === row.email && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${
-                  !row.isPrimary ? "w-[120px]" : "w-[80px]"
-                } drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                  index
-                )}`}
+                className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
+                  } drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                    index
+                  )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
@@ -450,7 +449,7 @@ function UserList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Users List</p>
@@ -577,17 +576,17 @@ function UserList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {primaryText}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
@@ -598,7 +597,7 @@ function UserList(props) {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -611,7 +610,7 @@ function UserList(props) {
               Yes
             </Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
@@ -625,13 +624,13 @@ function UserList(props) {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -640,7 +639,7 @@ function UserList(props) {
       {/* Modal Edit Popop */}
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
-          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold">
             Edit User
           </p>
           <form className="mt-8" onSubmit={formik.handleSubmit}>

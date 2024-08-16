@@ -60,7 +60,7 @@ const FileDropdown = ({
         ) : (
           <>
             <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
-            <p className={`text-[#5D6E66]`}>
+            <p className={``}>
               Accepted file types:{" "}
               {labelAccept == null ? "csv, xlsx, xls" : <>{labelAccept}</>}{" "}
               <br /> Max. file size: 50 MB.

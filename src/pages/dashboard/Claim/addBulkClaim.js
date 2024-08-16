@@ -227,7 +227,7 @@ function AddBulkClaim() {
 
               <Grid className="">
                 <div className="col-span-12">
-                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none peer relative">
                     <ReactTags
                       tags={tags}
                       delimiters={delimiters}
@@ -292,7 +292,7 @@ function AddBulkClaim() {
                       </span>
                     </p>
                   )}
-                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                  <p className="text-[12px] mt-1 font-medium">
                     Please click on file option and make a copy. Upload the list
                     of Product Name and Price using our provided Google Sheets
                     template, by{" "}

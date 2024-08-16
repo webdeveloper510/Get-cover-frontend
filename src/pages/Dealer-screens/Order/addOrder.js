@@ -1441,7 +1441,7 @@ function DealerAddOrder() {
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      className="text-sm !py-0 h-[30px] self-center !bg-[white] !text-light-black !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
@@ -2358,7 +2358,7 @@ function DealerAddOrder() {
                               }
                               onChange={formikStep3.handleChange}
                               onBlur={formikStep3.handleBlur}
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px]  border-gray-300 appearance-none peer"
                             ></textarea>
                             {formikStep3.errors.productsArray &&
                               formikStep3.errors.productsArray[index] &&

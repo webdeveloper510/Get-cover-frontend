@@ -24,6 +24,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { unAssignedServicerForDealer } from "../../../../services/dealerServices";
 import { getResellerServicers } from "../../../../services/reSellerServices";
+import Card from "../../../../common/card";
 
 function ServicerList(props) {
   console.log(props);
@@ -344,7 +345,7 @@ function ServicerList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Servicer List</p>
@@ -457,21 +458,21 @@ function ServicerList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Would you like to Unassigned it? */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Would you like to Unassigned it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal()}
             >
               No
@@ -484,10 +485,10 @@ function ServicerList(props) {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Unassigned Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully Unassigned
           </p>
         </div>

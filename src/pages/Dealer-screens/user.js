@@ -565,7 +565,7 @@ function DealerUser() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[140px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white text-light-black border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >

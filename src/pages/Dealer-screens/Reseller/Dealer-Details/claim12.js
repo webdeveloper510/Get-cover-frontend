@@ -62,6 +62,7 @@ import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
 import { checkUserToken } from "../../../../services/userServices";
+import Card from "../../../../common/card";
 
 function ClaimList12(props) {
   const location = useLocation();
@@ -1050,7 +1051,7 @@ function ClaimList12(props) {
             </div>
           </>
         ) : (
-          <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
               <div className="col-span-2 self-center">
                 <p className="text-xl font-semibold">Claims List</p>
@@ -1395,17 +1396,17 @@ function ClaimList12(props) {
                                               $
                                               {part.price === undefined
                                                 ? (0).toLocaleString("en-US", {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  })
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })
                                                 : parseFloat(
-                                                    part.price === undefined
-                                                      ? 0
-                                                      : part.price
-                                                  ).toLocaleString("en-US", {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2,
-                                                  })}
+                                                  part.price === undefined
+                                                    ? 0
+                                                    : part.price
+                                                ).toLocaleString("en-US", {
+                                                  minimumFractionDigits: 2,
+                                                  maximumFractionDigits: 2,
+                                                })}
                                             </p>
                                           </div>
                                         </div>
@@ -1447,9 +1448,9 @@ function ClaimList12(props) {
                                                 value={servicer}
                                                 disabled={
                                                   claimStatus.status ==
-                                                    "Rejected" ||
+                                                  "Rejected" ||
                                                   claimStatus.status ==
-                                                    "Completed"
+                                                  "Completed"
                                                 }
                                                 onChange={handleSelectChange}
                                                 white
@@ -1641,11 +1642,10 @@ function ClaimList12(props) {
                                             Diagnosis
                                           </p>
                                           <div
-                                            className={` overflow-y-scroll Diagnosis ${
-                                              res?.receiptImage != ""
-                                                ? "h-[130px] max-h-[130px]"
-                                                : "h-[164px] max-h-[164px]"
-                                            }`}
+                                            className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
+                                              ? "h-[130px] max-h-[130px]"
+                                              : "h-[164px] max-h-[164px]"
+                                              }`}
                                           >
                                             <p className="text-sm text-light-green">
                                               {res.diagnosis}
@@ -1734,7 +1734,7 @@ function ClaimList12(props) {
                 />
               )}
             </div>
-          </div>
+          </Card>
         )}
       </div>
 
@@ -1759,14 +1759,14 @@ function ClaimList12(props) {
         ) : (
           <div className="p-3 text-center">
             <img src={request} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-bold">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className="text-2xl font-semibold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -1788,7 +1788,7 @@ function ClaimList12(props) {
                 <div className="col-span-3">
                   <Button
                     onClick={closePay}
-                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[white]"
                   >
                     No
                   </Button>
@@ -1802,13 +1802,13 @@ function ClaimList12(props) {
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Claim Successfully Paid </span>
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className=""> Claim Successfully Paid </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
+          <p className="text-base font-medium mt-2 ">
             You have successfully marked the Claim as paid
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
         </div>
@@ -1829,11 +1829,11 @@ function ClaimList12(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-bold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -1881,9 +1881,8 @@ function ClaimList12(props) {
                         rows="4"
                         name="content"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.content && touched.content && "border-red-500"
-                        }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.content && touched.content && "border-red-500"
+                          }`}
                       />
                       <ErrorMessage
                         name="content"
@@ -1953,11 +1952,10 @@ function ClaimList12(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${
-                                msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
-                              }`}
+                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
+                                }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2052,8 +2050,8 @@ function ClaimList12(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                        <FontAwesomeIcon icon={faFileImage} size="3x" />
-                      )}
+                          <FontAwesomeIcon icon={faFileImage} size="3x" />
+                        )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2202,9 +2200,8 @@ function ClaimList12(props) {
                       </div>
 
                       <div
-                        className={`${
-                          index > 0 ? "col-span-2" : "col-span-3"
-                        }  `}
+                        className={`${index > 0 ? "col-span-2" : "col-span-3"
+                          }  `}
                       >
                         {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                         <Input

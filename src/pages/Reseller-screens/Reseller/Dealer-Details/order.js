@@ -37,6 +37,7 @@ import {
 import PdfMake from "../../../pdfMakeOrder";
 import PdfGenerator from "../../../pdfViewer";
 import DocMakeOrderContainer from "../../../docMakeOrder";
+import Card from "../../../../common/card";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -238,10 +239,9 @@ function OrderList(props) {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${
-          row?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        `$${row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -252,9 +252,8 @@ function OrderList(props) {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%]">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
         </div>
@@ -304,7 +303,7 @@ function OrderList(props) {
                       Order
                     </div>
                     <div className="border-b">
-                      <PdfGenerator data={row._id}  setLoading={setLoading} />
+                      <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
                     <div
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
@@ -322,12 +321,12 @@ function OrderList(props) {
                       <img src={view} className="w-4 h-4 mr-2" /> View
                     </Link>
                     <div className="">
-                    <PdfGenerator
-                      data={row._id}
-                      setLoading={setLoading}
-                    />
+                      <PdfGenerator
+                        data={row._id}
+                        setLoading={setLoading}
+                      />
                     </div>
-                      {/* <DocMakeOrderContainer setLoading={setLoading} data={row._id} /> */}
+                    {/* <DocMakeOrderContainer setLoading={setLoading} data={row._id} /> */}
                   </>
                 )}
               </div>
@@ -366,7 +365,7 @@ function OrderList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Orders List</p>
@@ -447,7 +446,7 @@ function OrderList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={orderList}
                 highlightOnHover
                 sortIcon={
@@ -464,20 +463,20 @@ function OrderList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Would you like to Archive it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeArchive()}
             >
               No
@@ -490,13 +489,13 @@ function OrderList(props) {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             {primaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {secondaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
@@ -515,14 +514,11 @@ function OrderList(props) {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black">Error</span>{" "}
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className="">Error</span>{" "}
           </p>
-
-          <p className="text-neutral-grey text-base font-medium mt-2">
-            <p className="text-neutral-grey text-base font-medium mt-2">
-              {errorList}
-            </p>
+          <p className="text-base font-medium mt-2">
+            {errorList}
           </p>
         </div>
       </Modal>

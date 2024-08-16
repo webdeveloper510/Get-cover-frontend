@@ -18,6 +18,7 @@ import {
   getResellerPortalCustomers,
 } from "../../../services/dealerServices/priceBookServices";
 import view from "../../../assets/images/eye.png";
+import Card from "../../../common/card";
 // Declare the base URL of the API
 function ResellerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -203,7 +204,7 @@ function ResellerCustomerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-4 self-center">
               <p className="text-xl font-semibold">Customers List</p>
@@ -316,7 +317,7 @@ function ResellerCustomerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

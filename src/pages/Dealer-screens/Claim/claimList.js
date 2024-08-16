@@ -1312,21 +1312,21 @@ function ClaimList(props) {
                           <>
                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Claim ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res?.contracts?.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                 </p>
@@ -1540,6 +1540,7 @@ function ClaimList(props) {
                                               name="claimType"
                                               label=""
                                               value={claimType}
+                                              classBox='!bg-transparent'
                                               onChange={handleSelectChange}
                                               white
                                               disableFirstOption={true}
@@ -1780,6 +1781,7 @@ function ClaimList(props) {
                                             claimStatus.status == "Rejected" ||
                                             claimStatus.status == "Completed"
                                           }
+                                          classBox='!bg-transparent'
                                           white
                                           className1="!border-0 !text-light-black"
                                           options={customerValue}
@@ -1835,6 +1837,7 @@ function ClaimList(props) {
                                                 claimStatus.status ==
                                                 "Completed"
                                               }
+                                              classBox='!bg-transparent'
                                               onChange={handleSelectChange}
                                               white
                                               className1="!border-0 !text-light-black"
@@ -1917,6 +1920,7 @@ function ClaimList(props) {
                                                 value={repairStatus.status}
                                                 onChange={handleSelectChange}
                                                 disableFirstOption={true}
+                                                classBox='!bg-transparent'
                                                 disabled={
                                                   claimStatus.status ==
                                                   "Rejected" ||

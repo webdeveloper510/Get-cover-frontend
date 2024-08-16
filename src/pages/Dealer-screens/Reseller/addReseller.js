@@ -392,7 +392,7 @@ function DealerAddReseller() {
           <Card className="p-4 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
-                <p className="text-light-black text-lg font-bold">
+                <p className=" text-lg font-bold">
                   Create Account
                 </p>
                 <Grid>
@@ -511,7 +511,7 @@ function DealerAddReseller() {
                 </Grid>
               </div>
               <div className="col-span-8">
-                <p className="text-light-black text-lg font-bold mb-4">
+                <p className="text-lg font-bold mb-4">
                   Contact Information
                 </p>
 
@@ -644,7 +644,7 @@ function DealerAddReseller() {
                     />
                   </div>
                   <div className="col-span-6 self-center">
-                    <p className="text-light-black flex text-[13px]  font-semibold self-center">
+                    <p className="flex text-[13px]  font-semibold self-center">
                       {" "}
                       Do you want to create an account?
                       <RadioButton
@@ -664,7 +664,7 @@ function DealerAddReseller() {
                     </p>
                   </div>
                   <div className="col-span-12 self-center mt-5">
-                    <p className="text-light-black flex text-[12px]  font-semibold self-center">
+                    <p className="flex text-[12px]  font-semibold self-center">
                       {" "}
                       Do you want work as a servicer ?
                       <RadioButton
@@ -707,7 +707,7 @@ function DealerAddReseller() {
 
           {formik.values.members.map((dealer, index) => (
             <Card className="p-8 relative drop-shadow-4xl mt-8 rounded-xl">
-              <p className="text-light-black text-lg mb-6 font-semibold">
+              <p className="text-lg mb-6 font-semibold">
                 Add Team Members
               </p>
               <div className="">
@@ -864,7 +864,7 @@ function DealerAddReseller() {
                         />
                       </div>
                       <div className="col-span-4">
-                        <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                        <p className="flex text-[12px] font-semibold mt-3 mb-6">
                           {" "}
                           Do you want to create an account?
                           <RadioButton

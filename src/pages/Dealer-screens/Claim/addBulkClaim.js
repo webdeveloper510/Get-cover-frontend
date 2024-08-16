@@ -128,7 +128,7 @@ function DealerAddBulkClaim() {
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-       
+
         ),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
@@ -244,7 +244,7 @@ function DealerAddBulkClaim() {
                   </div>
                 </div> */}
                 <div className="col-span-12">
-                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none peer relative">
                     <ReactTags
                       tags={tags}
                       delimiters={delimiters}
@@ -271,11 +271,11 @@ function DealerAddBulkClaim() {
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
-                                {index > 0 && " "}
-                                {error}
-                              </span>
-                            ))
+                            <span key={index}>
+                              {index > 0 && " "}
+                              {error}
+                            </span>
+                          ))
                           : formik.errors.email)}
                     </p>
                   )}

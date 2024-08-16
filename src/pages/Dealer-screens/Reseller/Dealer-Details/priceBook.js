@@ -24,6 +24,7 @@ import { RotateLoader } from "react-spinners";
 import * as Yup from "yup";
 import Modal from "../../../../common/model";
 import { getPriceBookListByResellerId } from "../../../../services/reSellerServices";
+import Card from "../../../../common/card";
 function PriceBookList(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -105,283 +106,149 @@ function PriceBookList(props) {
   const columns =
     props.flag === "reseller"
       ? [
-          {
-            name: "ID",
-            selector: (row) => row.unique_key,
-            sortable: true,
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-          },
-          {
-            name: "Name",
-            selector: (row) => row?.priceBooks?.name,
-            sortable: true,
-          },
-          {
-            name: "Category",
-            selector: (row) => row?.priceBooks?.category[0]?.name,
-            sortable: true,
-          },
-          {
-            name: "Term",
-            selector: (row) => row?.priceBooks?.term + " " + "Months",
-            sortable: true,
-          },
-          {
-            name: "WholeSale Cost",
-            selector: (row) => `$${
-              row?.wholesalePrice === undefined
-                ? parseInt(0).toLocaleString(2)
-                : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+        {
+          name: "ID",
+          selector: (row) => row.unique_key,
+          sortable: true,
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "70px", // Set a custom maximum width
+        },
+        {
+          name: "Name",
+          selector: (row) => row?.priceBooks?.name,
+          sortable: true,
+        },
+        {
+          name: "Category",
+          selector: (row) => row?.priceBooks?.category[0]?.name,
+          sortable: true,
+        },
+        {
+          name: "Term",
+          selector: (row) => row?.priceBooks?.term + " " + "Months",
+          sortable: true,
+        },
+        {
+          name: "WholeSale Cost",
+          selector: (row) => `$${row?.wholesalePrice === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
             }`,
-            sortable: true,
-          },
-          {
-            name: "Retail Cost",
-            selector: (row) => `$${
-              row?.retailPrice === undefined
-                ? parseInt(0).toLocaleString(2)
-                : formatOrderValue(row?.retailPrice ?? parseInt(0))
+          sortable: true,
+        },
+        {
+          name: "Retail Cost",
+          selector: (row) => `$${row?.retailPrice === undefined
+            ? parseInt(0).toLocaleString(2)
+            : formatOrderValue(row?.retailPrice ?? parseInt(0))
             }`,
-            sortable: true,
-          },
-          // {
-          //   name: "Status",
-          //   selector: (row) => row.status,
-          //   sortable: true,
+          sortable: true,
+        },
 
-          //   cell: (row) => (
-          //     <div className="relative">
-          //       <div
-          //         className={` ${
-          //           row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-          //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-          //       ></div>
-          //       <select
-          //         value={row.status === true ? "active" : "inactive"}
-          //         disabled={
-          //           row.priceBooks.category[0].status === false ||
-          //           row.dealer?.accountStatus === false ||
-          //           row.priceBooks?.status === false
-          //         }
-          //         onChange={(e) => handleStatusChange(row, e.target.value)}
-          //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-          //       >
-          //         <option value="active">Active</option>
-          //         <option value="inactive">Inactive</option>
-          //       </select>
-          //     </div>
-          //   ),
-          // },
-        ]
+      ]
       : [
-          {
-            name: "ID",
-            selector: (row) => row.unique_key,
-            sortable: true,
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-          },
-          {
-            name: "Name",
-            selector: (row) => row?.priceBooks?.name,
-            sortable: true,
-          },
-          {
-            name: "Category",
-            selector: (row) => row?.priceBooks?.category[0]?.name,
-            sortable: true,
-          },
-          {
-            name: "Term",
-            selector: (row) => row?.priceBooks?.term + " " + "Months",
-            sortable: true,
-          },
-          {
-            name: "WholeSale Cost",
-            selector: (row) => "$" + row.wholesalePrice.toFixed(2),
-            sortable: true,
-          },
-          {
-            name: "Retail Cost",
-            selector: (row) => "$" + row.retailPrice.toFixed(2),
-            sortable: true,
-          },
-          {
-            name: "Status",
-            selector: (row) => row.status,
-            sortable: true,
+        {
+          name: "ID",
+          selector: (row) => row.unique_key,
+          sortable: true,
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "70px", // Set a custom maximum width
+        },
+        {
+          name: "Name",
+          selector: (row) => row?.priceBooks?.name,
+          sortable: true,
+        },
+        {
+          name: "Category",
+          selector: (row) => row?.priceBooks?.category[0]?.name,
+          sortable: true,
+        },
+        {
+          name: "Term",
+          selector: (row) => row?.priceBooks?.term + " " + "Months",
+          sortable: true,
+        },
+        {
+          name: "WholeSale Cost",
+          selector: (row) => "$" + row.wholesalePrice.toFixed(2),
+          sortable: true,
+        },
+        {
+          name: "Retail Cost",
+          selector: (row) => "$" + row.retailPrice.toFixed(2),
+          sortable: true,
+        },
+        {
+          name: "Status",
+          selector: (row) => row.status,
+          sortable: true,
 
-            cell: (row) => (
-              <div className="relative">
-                <div
-                  className={` ${
-                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+          cell: (row) => (
+            <div className="relative">
+              <div
+                className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
                   } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-                ></div>
-                <select
-                  value={row.status === true ? "active" : "inactive"}
-                  disabled={
-                    row.priceBooks.category[0].status === false ||
-                    row.dealer?.accountStatus === false ||
-                    row.priceBooks?.status === false
-                  }
-                  onChange={(e) => handleStatusChange(row, e.target.value)}
-                  className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-                >
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-            ),
-          },
-          {
-            name: "Action",
-            minWidth: "auto", // Set a custom minimum width
-            maxWidth: "70px", // Set a custom maximum width
-            cell: (row, index) => {
-              return (
-                <div className="relative">
-                  <div onClick={() => setSelectedAction(row.unique_key)}>
-                    <img
-                      src={ActiveIcon}
-                      className="cursor-pointer	w-[35px]"
-                      alt="Active Icon"
-                    />
-                  </div>
-                  {selectedAction === row.unique_key && (
-                    <div
-                      ref={dropdownRef}
-                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                        index
-                      )}`}
-                    >
-                      {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                      <div
-                        className="text-center py-2 px-2 border-b cursor-pointer"
-                        onClick={() => {
-                          routeToEditPage(row);
-                        }}
-                      >
-                        Edit
-                      </div>
-                      <div
-                        className="text-center py-2 px-2 cursor-pointer"
-                        onClick={() => openView(row._id)}
-                      >
-                        View
-                      </div>
-                    </div>
-                  )}
+              ></div>
+              <select
+                value={row.status === true ? "active" : "inactive"}
+                disabled={
+                  row.priceBooks.category[0].status === false ||
+                  row.dealer?.accountStatus === false ||
+                  row.priceBooks?.status === false
+                }
+                onChange={(e) => handleStatusChange(row, e.target.value)}
+                className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+              >
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+          ),
+        },
+        {
+          name: "Action",
+          minWidth: "auto", // Set a custom minimum width
+          maxWidth: "70px", // Set a custom maximum width
+          cell: (row, index) => {
+            return (
+              <div className="relative">
+                <div onClick={() => setSelectedAction(row.unique_key)}>
+                  <img
+                    src={ActiveIcon}
+                    className="cursor-pointer	w-[35px]"
+                    alt="Active Icon"
+                  />
                 </div>
-              );
-            },
+                {selectedAction === row.unique_key && (
+                  <div
+                    ref={dropdownRef}
+                    className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                      index
+                    )}`}
+                  >
+                    {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                    <div
+                      className="text-center py-2 px-2 border-b cursor-pointer"
+                      onClick={() => {
+                        routeToEditPage(row);
+                      }}
+                    >
+                      Edit
+                    </div>
+                    <div
+                      className="text-center py-2 px-2 cursor-pointer"
+                      onClick={() => openView(row._id)}
+                    >
+                      View
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
           },
-        ];
-  // const columns = [
-  //   {
-  //     name: "ID",
-  //     selector: (row) => row.unique_key,
-  //     sortable: true,
-  //     minWidth: "auto", // Set a custom minimum width
-  //     maxWidth: "70px", // Set a custom maximum width
-  //   },
-  //   {
-  //     name: "Name",
-  //     selector: (row) => row?.priceBooks?.name,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Category",
-  //     selector: (row) => row?.priceBooks?.category[0]?.name,
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Term",
-  //     selector: (row) => row?.priceBooks?.term + " " + "Months",
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "WholeSale Cost",
-  //     selector: (row) => "$ " + row.wholesalePrice.toFixed(2),
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Retail Cost",
-  //     selector: (row) => "$  " + row.retailPrice.toFixed(2),
-  //     sortable: true,
-  //   },
-  //   {
-  //     name: "Status",
-  //     selector: (row) => row.status,
-  //     sortable: true,
-
-  //     cell: (row) => (
-  //       <div className="relative">
-  //         <div
-  //           className={` ${
-  //             row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-  //           } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-  //         ></div>
-  //         <select
-  //           value={row.status === true ? "active" : "inactive"}
-  //           disabled={
-  //             row.priceBooks.category[0].status === false ||
-  //             row.dealer?.accountStatus === false ||
-  //             row.priceBooks?.status === false
-  //           }
-  //           onChange={(e) => handleStatusChange(row, e.target.value)}
-  //           className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-  //         >
-  //           <option value="active">Active</option>
-  //           <option value="inactive">Inactive</option>
-  //         </select>
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     name: "Action",
-  //     minWidth: "auto", // Set a custom minimum width
-  //     maxWidth: "70px", // Set a custom maximum width
-  //     cell: (row, index) => {
-  //       return (
-  //         <div className="relative">
-  //           <div onClick={() => setSelectedAction(row.unique_key)}>
-  //             <img
-  //               src={ActiveIcon}
-  //               className="cursor-pointer	w-[35px]"
-  //               alt="Active Icon"
-  //             />
-  //           </div>
-  //           {selectedAction === row.unique_key && (
-  //             <div
-  //               ref={dropdownRef}
-  //               className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-  //                 index
-  //               )}`}
-  //             >
-  //               {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-  //               <div
-  //                 className="text-center py-3 border-b cursor-pointer"
-  //                 onClick={() => {
-  //                   routeToEditPage(row);
-  //                 }}
-  //               >
-  //                 Edit
-  //               </div>
-  //               <div
-  //                 className="text-center py-3 cursor-pointer"
-  //                 onClick={() => openView(row._id)}
-  //               >
-  //                 View
-  //               </div>
-  //             </div>
-  //           )}
-  //         </div>
-  //       );
-  //     },
-  //   },
-  // ];
+        },
+      ];
 
   const priceBookData = async () => {
     setLoading(true);
@@ -514,12 +381,12 @@ function PriceBookList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className={` ${props.flag === "reseller" ? ('col-span-6 self-center') : ('col-span-4 self-center') }`}>
+            <div className={` ${props.flag === "reseller" ? ('col-span-6 self-center') : ('col-span-4 self-center')}`}>
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className={` ${props.flag === "reseller" ? ('col-span-6') : ('col-span-8') }`}>
+            <div className={` ${props.flag === "reseller" ? ('col-span-6') : ('col-span-8')}`}>
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className={` ${props.flag === "reseller" ? ('!grid-cols-8') : ('!grid-cols-11')}`}>
@@ -550,7 +417,7 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    {props.flag === "reseller" ? (<></>) : ( <div className="col-span-3 self-center">
+                    {props.flag === "reseller" ? (<></>) : (<div className="col-span-3 self-center">
                       <Select
                         name="status"
                         label=""
@@ -563,7 +430,7 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>)}
-                   
+
                     <div className="col-span-2 self-center flex justify-center">
                       <Button type="submit" className='!p-2'>
                         <img
@@ -597,7 +464,7 @@ function PriceBookList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={priceBookList}
                 highlightOnHover
                 sortIcon={
@@ -614,7 +481,7 @@ function PriceBookList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>
@@ -645,46 +512,46 @@ function PriceBookList(props) {
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Product Name
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.pName}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Product Category
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Wholesale Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 ${dealerPriceBookDetail?.wholesalePrice?.toFixed(2)}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Retail Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 ${dealerPriceBookDetail?.retailPrice?.toFixed(2)}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Term</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-bold">Term</p>
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Status</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-bold">Status</p>
+              <p className="text-base font-semibold">
                 {" "}
                 {dealerPriceBookDetail?.priceBooks?.status === true
                   ? "Active"
@@ -692,37 +559,37 @@ function PriceBookList(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Price Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-6">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-bold">
                 Description
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-bold">
                     Range Start
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-semibold">
                     {" "}
                     {dealerPriceBookDetail?.priceBooks?.rangeStart?.toFixed(2)}
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-bold">
                     Range End
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-semibold">
                     {" "}
                     {dealerPriceBookDetail?.priceBooks?.rangeEnd?.toFixed(2)}
                   </p>
@@ -731,30 +598,30 @@ function PriceBookList(props) {
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-              <>
-                <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
-                      <th colSpan={"2"}>Quantity Pricing List </th>
-                    </tr>
-                    <tr className="border bg-[#9999]">
-                      <th>Name</th>
-                      <th>Max Quantity</th>
-                    </tr>
-                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                      .length !== 0 &&
-                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                        (item, index) => (
-                          <tr key={index} className="border">
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                          </tr>
-                        )
-                      )}
-                  </table>
-                </div>
-              </>
-            )}
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th>Name</th>
+                        <th>Max Quantity</th>
+                      </tr>
+                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>
