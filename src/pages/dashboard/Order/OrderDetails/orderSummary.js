@@ -4,15 +4,12 @@ import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 
 // Media Includes
-import Search from "../../../../assets/images/icons/SearchIcon.svg";
-import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
 function OrderSummary(props) {
   console.log(props.data);
   const baseUrl = apiUrl();
-  const [showTooltip, setShowTooltip] = useState(false);
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -24,8 +21,10 @@ function OrderSummary(props) {
     }
   };
 
-  const handleDownloadClick = (file,) => {
-    const fileUrl = `${baseUrl.baseUrl}/uploads/orderFile/${file}`;
+  
+  const handleDownloadClick = (file) => {
+    console.log(file)
+    const fileUrl = `${baseUrl.bucket}/uploads/orderFile/${file}`;
     const fileName = file;
 
     fetch(fileUrl, {

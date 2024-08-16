@@ -40,6 +40,7 @@ export const apiUrl = () => {
 
   return {
     baseUrl: urlValue.origin,
+    bucket: process.env.NODE_ENV === "production" ? "getcover":"getcover2",
     headers: headers
   };
 };
