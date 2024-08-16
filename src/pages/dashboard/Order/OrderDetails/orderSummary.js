@@ -26,9 +26,8 @@ function OrderSummary(props) {
     const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file}`; 
 
     const fileName = file;
-    fetch(fileUrl, {
-        headers: baseUrl.headers 
-    })
+
+    fetch(fileUrl)  // No additional headers, simpler fetch
     .then((response) => {
         if (!response.ok) {
             throw new Error(`Failed to fetch the file. Status: ${response.status}`);
@@ -49,6 +48,7 @@ function OrderSummary(props) {
         console.error("Error fetching the file:", error);
     });
 };
+
 
 
   return (
