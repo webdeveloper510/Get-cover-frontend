@@ -109,6 +109,7 @@ function ClaimList(props) {
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const baseUrl = apiUrl();
+  console.log(baseUrl)
 
   useEffect(() => {
     if (location.pathname.includes("/dealer")) {
@@ -132,7 +133,11 @@ function ClaimList(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
+<<<<<<< HEAD
     const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
+=======
+    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
+>>>>>>> 0458272a0aa2b3dabf6360b8abcc36f3eedfbc3f
     fetch(url, {
       headers: baseUrl.headers
     })
@@ -576,7 +581,7 @@ function ClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
+      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
 
       fetch(url, {
         headers: baseUrl.headers
@@ -1232,7 +1237,7 @@ function ClaimList(props) {
                                       <></>
                                     )}
                                   </div>
-                                </Grid>
+                                </Grid >
                                 <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
                                   <div className="col-span-1 flex ">
                                     <img
@@ -1664,13 +1669,13 @@ function ClaimList(props) {
                                 )}
                               </div>
                             </Grid>
-                          </CollapsibleDiv>
+                          </CollapsibleDiv >
                         );
                       })}
                   </>
                 )}
               </>}
-            </div>
+            </div >
             <div>
               {claimList?.result?.length == 0 ? (
                 <>
@@ -1688,9 +1693,9 @@ function ClaimList(props) {
                 />
               )}
             </div>
-          </Card>
+          </Card >
         }
-      </div>
+      </div >
 
       <Modal isOpen={isPayOpen} onClose={closePay}>
         <Button

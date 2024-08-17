@@ -61,7 +61,7 @@ function Reseller(props) {
     try {
       setResellerList((prevResellers) => {
         return prevResellers.map((data) => {
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               resellerData: {
@@ -73,7 +73,7 @@ function Reseller(props) {
           return data;
         });
       });
-      const result = await changeResellerStatus(row.accountId, {
+      const result = await changeResellerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
       });
 

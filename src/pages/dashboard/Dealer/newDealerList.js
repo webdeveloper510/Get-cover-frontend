@@ -208,13 +208,13 @@ function NewDealerList() {
             >
               <div
                 className="text-center py-1 px-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
-                onClick={() => handleActionChange("Approved", row.accountId)}
+                onClick={() => handleActionChange("Approved", row.metaId.toString())}
               >
                 Approve
               </div>
               <div
                 className="text-center py-1 px-2 text-[#FF4747] text-[12px] cursor-pointer"
-                onClick={() => handleActionChange("Rejected", row.accountId)}
+                onClick={() => handleActionChange("Rejected", row.metaId.toString())}
               >
                 Disapprove
               </div>

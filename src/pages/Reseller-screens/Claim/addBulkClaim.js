@@ -107,7 +107,7 @@ function ResellerAddBulkClaim() {
     console.log(filteredDealers);
     filteredDealers?.length > 0 &&
       filteredDealers?.map((item) => {
-        arr.push({ label: item.dealerData.name, value: item.accountId });
+        arr.push({ label: item.dealerData.name, value: item.metaId.toString() });
       });
 
     SetActiveDealers(arr);

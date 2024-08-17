@@ -40,7 +40,7 @@ function ServicerDealerList() {
       setDealerList((dealerData) => {
         return dealerData.map((data) => {
           console.log(data);
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               dealerData: {
@@ -53,7 +53,7 @@ function ServicerDealerList() {
         });
       });
 
-      const result = await changeDealerStatus(row.accountId, {
+      const result = await changeDealerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
       });
 

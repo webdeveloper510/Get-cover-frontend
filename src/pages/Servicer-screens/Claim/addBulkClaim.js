@@ -106,7 +106,7 @@ function ServicerAddBulkClaim() {
     console.log(filteredDealers);
     filteredDealers?.length > 0 &&
       filteredDealers?.map((item) => {
-        arr.push({ label: item.dealerData.name, value: item.accountId });
+        arr.push({ label: item.dealerData.name, value: item.metaId.toString() });
       });
 
     SetActiveDealers(arr);
@@ -127,7 +127,7 @@ function ServicerAddBulkClaim() {
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-            
+
         ),
       file: Yup.mixed().test("file", "CSV file is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
@@ -270,11 +270,11 @@ function ServicerAddBulkClaim() {
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
-                                {index > 0 && " "}
-                                {error}
-                              </span>
-                            ))
+                            <span key={index}>
+                              {index > 0 && " "}
+                              {error}
+                            </span>
+                          ))
                           : formik.errors.email)}
                     </p>
                   )}

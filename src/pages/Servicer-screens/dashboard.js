@@ -186,18 +186,18 @@ function ServicerDashboard() {
       sortable: true,
     },
     {
-      name: "# of Orders",
+      name: "# of Claims",
       selector: (row) =>
-        row?.totalOrder == null ? 0 : row.totalOrder.toLocaleString(2),
+        row?.totalOrder == null ? 0 : row.totalClaim.toLocaleString(2),
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },
     {
-      name: "Order Value",
+      name: "Claims Amount",
       selector: (row) =>
-        `$${row?.totalAmount === undefined
+        `$${row?.claimAmount === undefined
           ? parseInt(0).toLocaleString(2)
-          : formatOrderValue(row?.totalAmount ?? parseInt(0))
+          : formatOrderValue(row?.claimAmount ?? parseInt(0))
         }`,
       sortable: true,
     },

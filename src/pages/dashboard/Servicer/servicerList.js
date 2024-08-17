@@ -67,7 +67,7 @@ function ServicerList() {
     try {
       setServicerList((servicerData) => {
         return servicerData.map((data) => {
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               servicerData: {
@@ -79,7 +79,7 @@ function ServicerList() {
           return data;
         });
       });
-      const result = await updateServicerStatus(row.accountId, {
+      const result = await updateServicerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
         userId: row._id,
       });
@@ -224,7 +224,7 @@ function ServicerList() {
                 <div
                   onClick={() => {
                     localStorage.removeItem("servicer");
-                    navigate(`/servicerDetails/${row.accountId}`);
+                    navigate(`/servicerDetails/${row.metaId.toString()}`);
                   }}
                   className="text-left cursor-pointer flex text-black hover:font-semibold py-1 px-2"
                 >

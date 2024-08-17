@@ -97,7 +97,7 @@ function AddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1LO5InDYl-pqqJ3vMTqlrxxbOCDOYVJLF/edit?gid=1553032734#gid=1553032734",
       "_blank"
     );
   };
@@ -135,12 +135,6 @@ function AddOrder() {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
-      // setTermList(
-      //   res.result.terms.map((item) => ({
-      //     label: item.terms + " Months",
-      //     value: item.terms,
-      //   }))
-      // );
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

@@ -8,14 +8,14 @@ function FileDownloader(props) {
   const baseUrl = apiUrl();
   const handleClick = async (apiUrlData) => {
     setLoading(true);
+    console.log(apiUrlData)
     try {
-      // Make an API request to fetch the file URL
       const response = await DownloadTC(props.data, apiUrlData);
+      console.log(response)
 
       if (response.code === 200) {
-        // Create a link element
         console.log(response.result.fileName);
-        const fileUrl = `${baseUrl.baseUrl}/uploads/mergedFile/${response.result.fileName}`;
+        const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/mergedFile/${response.result.fileName}`;
         const fileName = "Term_And_Condition.pdf";
 
         fetch(fileUrl, {
@@ -42,7 +42,7 @@ function FileDownloader(props) {
           .catch((error) => {
             console.error("Error fetching the file:", error);
           });
-       
+
       } else {
         console.error(
           "Failed to fetch file: Unexpected response status",

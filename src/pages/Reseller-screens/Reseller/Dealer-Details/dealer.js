@@ -124,7 +124,7 @@ function DealerDetailList(props) {
       setServicerDealersList((dealerData) => {
         return dealerData.map((data) => {
           console.log(data);
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               status: newStatus === "active" ? true : false,
@@ -134,7 +134,7 @@ function DealerDetailList(props) {
         });
       });
 
-      const result = await changeDealerStatus(row.accountId, {
+      const result = await changeDealerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
       });
 
@@ -281,7 +281,7 @@ function DealerDetailList(props) {
                 <div
                   className="text-center cursor-pointer py-1 px-2"
                   onClick={() => {
-                    navigate(`/dealerDetails/${row.accountId}`);
+                    navigate(`/dealerDetails/${row.metaId.toString()}`);
                   }}
                 >
                   View

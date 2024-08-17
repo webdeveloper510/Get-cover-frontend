@@ -106,7 +106,7 @@ function CustomerAddBulkClaim() {
     console.log(filteredDealers);
     filteredDealers?.length > 0 &&
       filteredDealers?.map((item) => {
-        arr.push({ label: item.dealerData.name, value: item.accountId });
+        arr.push({ label: item.dealerData.name, value: item.metaId });
       });
 
     SetActiveDealers(arr);
@@ -271,11 +271,11 @@ function CustomerAddBulkClaim() {
                       {formik.errors.email &&
                         (Array.isArray(formik.errors.email)
                           ? formik.errors.email.map((error, index) => (
-                              <span key={index}>
-                                {index > 0 && " "}
-                                {error}
-                              </span>
-                            ))
+                            <span key={index}>
+                              {index > 0 && " "}
+                              {error}
+                            </span>
+                          ))
                           : formik.errors.email)}
                     </p>
                   )}
