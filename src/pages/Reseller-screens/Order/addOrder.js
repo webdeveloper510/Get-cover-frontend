@@ -1547,6 +1547,7 @@ function ResellerAddOrder() {
                     className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
                       }`}
                     required={true}
+                    disableFirstOption={true}
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
                     value={formikStep2.values.serviceCoverageType}
@@ -1578,6 +1579,7 @@ function ResellerAddOrder() {
                     disabled={type == "Edit"}
                     onChange={handleSelectChange1}
                     options={coverage}
+                    disableFirstOption={true}
                     value={formikStep2.values.coverageType}
                     onBlur={formikStep2.handleBlur}
                     error={

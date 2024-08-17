@@ -8,12 +8,14 @@ function FileDownloader(props) {
   const baseUrl = apiUrl();
   const handleClick = async (apiUrlData) => {
     setLoading(true);
+    console.log(apiUrlData)
     try {
       const response = await DownloadTC(props.data, apiUrlData);
+      console.log(response)
 
       if (response.code === 200) {
         console.log(response.result.fileName);
-        const fileUrl = `${baseUrl.baseUrl}/uploads/mergedFile/${response.result.fileName}`;
+        const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/mergedFile/${response.result.fileName}`;
         const fileName = "Term_And_Condition.pdf";
 
         fetch(fileUrl, {

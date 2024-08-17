@@ -99,7 +99,7 @@ function DealerResellerList() {
     try {
       setResellerList((prevResellers) => {
         return prevResellers.map((data) => {
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               resellerData: {
@@ -111,7 +111,7 @@ function DealerResellerList() {
           return data;
         });
       });
-      const result = await changeResellerStatus(row.accountId, {
+      const result = await changeResellerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
       });
 
@@ -224,7 +224,7 @@ function DealerResellerList() {
                 <div
                   onClick={() => {
                     localStorage.removeItem("Resellermenu");
-                    navigate(`/dealer/resellerDetails/${row?.accountId}`);
+                    navigate(`/dealer/resellerDetails/${row?.metaId.toString()}`);
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >

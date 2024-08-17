@@ -134,12 +134,6 @@ function AddOrder() {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
-      // setTermList(
-      //   res.result.terms.map((item) => ({
-      //     label: item.terms + " Months",
-      //     value: item.terms,
-      //   }))
-      // );
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

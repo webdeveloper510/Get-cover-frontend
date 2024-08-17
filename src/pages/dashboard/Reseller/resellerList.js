@@ -115,7 +115,7 @@ function ResellerList() {
     try {
       setResellerList((prevResellers) => {
         return prevResellers.map((data) => {
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               resellerData: {
@@ -127,7 +127,7 @@ function ResellerList() {
           return data;
         });
       });
-      const result = await changeResellerStatus(row.accountId, {
+      const result = await changeResellerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
       });
 
@@ -231,11 +231,10 @@ function ResellerList() {
                   index
                 )}`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
                   onClick={() => {
                     localStorage.removeItem("Resellermenu");
-                    navigate(`/resellerDetails/${row?.accountId}`);
+                    navigate(`/resellerDetails/${row?.metaId}`);
                   }}
                   className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >

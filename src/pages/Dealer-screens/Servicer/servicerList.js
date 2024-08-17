@@ -55,7 +55,7 @@ function DealerServicerList() {
   //   try {
   //     setServicerList((servicerData) => {
   //       return servicerData.map((data) => {
-  //         if (data.accountId === row.accountId) {
+  //         if (data.metaId.toString() === row.metaId.toString()) {
   //           return {
   //             ...data,
   //             servicerData: {
@@ -67,7 +67,7 @@ function DealerServicerList() {
   //         return data;
   //       });
   //     });
-  //     const result = await updateServicerStatus(row.accountId, {
+  //     const result = await updateServicerStatus(row.metaId.toString(), {
   //       status: newStatus === "active" ? true : false,
   //       userId: row._id,
   //     });
@@ -200,7 +200,7 @@ function DealerServicerList() {
     //               className="text-center cursor-pointer py-1"
     //               onClick={() => {
     //                 localStorage.removeItem("servicer");
-    //                 navigate(`/servicerDetails/${row.accountId}`);
+    //                 navigate(`/servicerDetails/${row.metaId.toString()}`);
     //               }}
     //             >
     //               View

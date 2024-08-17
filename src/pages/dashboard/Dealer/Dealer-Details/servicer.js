@@ -174,7 +174,7 @@ function ServicerList(props) {
       setServicerData((servicerData) => {
         return servicerData.map((data) => {
           console.log("data", data);
-          if (data.accountId === row.accountId) {
+          if (data.metaId.toString() === row.metaId.toString()) {
             return {
               ...data,
               servicerData: {
@@ -186,7 +186,7 @@ function ServicerList(props) {
           return data;
         });
       });
-      const result = await changeServicerStatus(row.accountId, {
+      const result = await changeServicerStatus(row.metaId.toString(), {
         status: newStatus === "active" ? true : false,
         userId: row._id,
       });
@@ -341,7 +341,7 @@ function ServicerList(props) {
                     >
                       <div
                         onClick={() => {
-                          navigate(`/servicerDetails/${row.accountId}`);
+                          navigate(`/servicerDetails/${row.metaId.toString()}`);
                         }}
                         className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
                       >

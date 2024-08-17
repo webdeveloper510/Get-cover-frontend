@@ -185,13 +185,13 @@ function RequestServicer() {
             >
               <div
                 className="text-center py-2 px-2 border-b cursor-pointer border-[#E6E6E6] text-[12px] text-[#40BF73]"
-                onClick={() => handleActionChange("Approved", row.accountId)}
+                onClick={() => handleActionChange("Approved", row.metaId.toString())}
               >
                 Approve
               </div>
               <div
                 className="text-center py-2 px-2 text-[#FF4747] text-[12px] cursor-pointer"
-                onClick={() => handleActionChange("Rejected", row.accountId)}
+                onClick={() => handleActionChange("Rejected", row.metaId.toString())}
               >
                 Disapprove
               </div>
