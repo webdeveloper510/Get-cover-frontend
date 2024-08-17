@@ -684,9 +684,9 @@ function ClaimList(props) {
 
   const downloadAttachments = (res) => {
     const attachments = res || [];
-
+    console.log(attachments, '------------')
     attachments.forEach((attachment, index) => {
-      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
+      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.key}`;
       fetch(url, {
         headers: baseUrl.headers,
       })
