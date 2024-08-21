@@ -199,7 +199,7 @@ function ContractList(props) {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Contracts</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dealer/dashboard"}>Contracts /</Link>{" "}
+                <Link to={"/"}>Home /</Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
                 Contracts List
@@ -682,11 +682,10 @@ function ContractList(props) {
             </Button> */}
         <Button
           onClick={closeView}
-          className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
-            props?.orderId == null && props?.flag == undefined
+          className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
               ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
               : "!bg-Granite-Gray"
-          } `}
+            } `}
         >
           <img
             src={Cross}
@@ -777,9 +776,9 @@ function ContractList(props) {
                         {contractDetails.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetails.productValue) ??
-                                parseInt(0)
-                            )}
+                            Number(contractDetails.productValue) ??
+                            parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -926,13 +925,13 @@ function ContractList(props) {
                         {contractDetails?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              contractDetails?.claimAmount ?? parseInt(0)
-                            )}
+                            contractDetails?.claimAmount ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
                   {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -945,10 +944,10 @@ function ContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeStart ??
-                                    parseInt(0)
-                                )}
+                                contractDetails?.order?.[0]
+                                  ?.productsArray?.[0]?.rangeStart ??
+                                parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -963,10 +962,10 @@ function ContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeEnd ??
-                                    parseInt(0)
-                                )}{" "}
+                                contractDetails?.order?.[0]
+                                  ?.productsArray?.[0]?.rangeEnd ??
+                                parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -1056,7 +1055,7 @@ function ContractList(props) {
                     </div>
                   </div>
                   {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">

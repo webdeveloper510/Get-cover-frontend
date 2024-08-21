@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Grid from "../../../common/grid";
 import Button from "../../../common/button";
 
@@ -34,6 +34,7 @@ import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
 
 function OrderDetails() {
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [orderDetails, setOrderDetails] = useState({});
@@ -133,12 +134,12 @@ function OrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dealer/orderList"}>Order Lists / </Link>
+                <Link to={`/`}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/dealer/orderList"}>Order Details / </Link>
+              <li className="text-sm text-neutral-grey font-Regular ml-1">
+                <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -312,11 +313,11 @@ function OrderDetails() {
                         Servicer Name
                       </p>
                       <p className="text-base text-white font-semibold">
-                      {userDetails?.servicerData?.status
-                        ? userDetails?.servicerData?.name
-                        : ""}
-                    </p>
-                
+                        {userDetails?.servicerData?.status
+                          ? userDetails?.servicerData?.name
+                          : ""}
+                      </p>
+
                     </div>
                   </div>
                 </>
@@ -336,16 +337,16 @@ function OrderDetails() {
                 </div>
                 <div className="col-span-6">
                   {userDetails?.termCondition == '' ? <></> : (
-                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
-                    <span className="self-center">
-                      {" "}
-                      <FileDownloader
-                        data={orderId}
-                        setLoading={setLoading1}
-                        apiUrlData={baseUrl}
-                      />
-                    </span>
-                  </Button>
+                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                      <span className="self-center">
+                        {" "}
+                        <FileDownloader
+                          data={orderId}
+                          setLoading={setLoading1}
+                          apiUrlData={baseUrl}
+                        />
+                      </span>
+                    </Button>
                   )}
                 </div>
               </Grid>
@@ -359,11 +360,10 @@ function OrderDetails() {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -374,9 +374,8 @@ function OrderDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

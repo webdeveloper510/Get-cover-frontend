@@ -132,9 +132,9 @@ function ResellerServicerList() {
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Servicer</p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {/* <Link to={"/"}>Servicer </Link>{" "} */}
-                <div>Servicer</div>
+                <div>Servicer List</div>
               </li>
             </ul>
           </div>

@@ -372,7 +372,7 @@ function DealerDetails() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const maxSize = 10048576; 
+    const maxSize = 10048576;
     if (file?.size > maxSize) {
       formik.setFieldError(
         "termCondition",
@@ -383,7 +383,7 @@ function DealerDetails() {
       const formData = new FormData();
       formData.append("file", file);
       const result = uploadTermsandCondition(formData).then((res) => {
-         console.log(result);
+        console.log(result);
         formik.setFieldValue("termCondition", {
           fileName: res?.file?.filename,
           name: res?.file?.originalname,
@@ -604,8 +604,8 @@ function DealerDetails() {
                 const selectedItems = checked
                   ? [...servicerForm.values.selectedItems, itemId]
                   : servicerForm.values.selectedItems.filter(
-                      (id) => id !== itemId
-                    );
+                    (id) => id !== itemId
+                  );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -843,12 +843,12 @@ function DealerDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Dealer / </Link>{" "}
+                <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm text-neutral-grey ml-1 font-Regular">
                 <Link to={"/dealerList"}> Dealer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Dealer Detail ({activeTab})
               </li>
@@ -961,7 +961,7 @@ function DealerDetails() {
                       $
                       {formatOrderValue(
                         dealerDetails?.ordersResult?.[0]?.orderAmount ??
-                          parseInt(0)
+                        parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -999,11 +999,10 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
               <div
-                className={` ${
-                  isStatus == true
+                className={` ${isStatus == true
                     ? "col-span-10 relative"
                     : "col-span-10 mr-[30px] relative"
-                }`}
+                  }`}
               >
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
@@ -1019,11 +1018,10 @@ function DealerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                          activeTab === tab.id
+                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
                             ? ""
                             : "!bg-grayf9 !text-black"
-                        }`}
+                          }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <img
@@ -1034,9 +1032,8 @@ function DealerDetails() {
                           alt={tab.label}
                         />
                         <span
-                          className={`ml-1 py-1 text-sm font-Regular ${
-                            activeTab === tab.id ? "text-white" : "text-black"
-                          }`}
+                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
                         >
                           {tab.label}
                         </span>
@@ -1052,8 +1049,8 @@ function DealerDetails() {
               {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
-                  activeTab !== "Unpaid Claims" &&
-                  activeTab !== "Paid Claims" ? (
+                    activeTab !== "Unpaid Claims" &&
+                    activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}

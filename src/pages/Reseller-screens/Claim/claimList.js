@@ -166,7 +166,7 @@ function ResellerClaimList(props) {
     setServicerCreateAccountOption(result?.result?.isServicer);
   };
   const downloadImage = (file) => {
-    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
+    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
 
     fetch(url, {
       headers: baseUrl.headers,
@@ -546,28 +546,28 @@ function ResellerClaimList(props) {
         case "Parts":
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "Parts", value: "Parts" }];
         case "Labour":
           return shipping
             ? [
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "Labor ", value: "Labour" }];
         default:
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-              ];
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+            ];
       }
     };
     setServiceType(
@@ -712,7 +712,7 @@ function ResellerClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
+      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
       fetch(url, {
         headers: baseUrl.headers,
       })
@@ -790,12 +790,12 @@ function ResellerClaimList(props) {
       const type = pathname.includes("/dealer/claimList")
         ? "Dealer"
         : pathname.includes("/customer/claimList")
-        ? "Customer"
-        : pathname.includes("/reseller/claimList")
-        ? "Reseller"
-        : pathname.includes("/servicer/claimList")
-        ? "Servicer"
-        : null;
+          ? "Customer"
+          : pathname.includes("/reseller/claimList")
+            ? "Reseller"
+            : pathname.includes("/servicer/claimList")
+              ? "Servicer"
+              : null;
 
       if (type) {
         formik2.setFieldValue("type", type);
@@ -816,8 +816,8 @@ function ResellerClaimList(props) {
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
           : coverageType === "Accidental"
-          ? [{ label: "Accidental", value: "Accidental" }]
-          : [
+            ? [{ label: "Accidental", value: "Accidental" }]
+            : [
               { label: "Breakdown", value: "Breakdown" },
               { label: "Accidental", value: "Accidental" },
             ];
@@ -1093,7 +1093,7 @@ function ResellerClaimList(props) {
       orderId: "",
       trackingNumber: "",
       trackingType: "",
-      claimPaidStatus:"",
+      claimPaidStatus: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1428,17 +1428,17 @@ function ResellerClaimList(props) {
                                         $
                                         {part.price === undefined
                                           ? (0).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })
                                           : parseFloat(
-                                              part.price === undefined
-                                                ? 0
-                                                : part.price
-                                            ).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
+                                            part.price === undefined
+                                              ? 0
+                                              : part.price
+                                          ).toLocaleString("en-US", {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}
                                       </p>
                                     </div>
                                   </div>
@@ -1473,12 +1473,12 @@ function ResellerClaimList(props) {
                                         Servicer Name :{" "}
                                       </span>
                                       {userType !== "dealer" &&
-                                      !location.pathname.includes(
-                                        "customer/claimList"
-                                      ) &&
-                                      !location.pathname.includes(
-                                        "/reseller/claimList"
-                                      ) ? (
+                                        !location.pathname.includes(
+                                          "customer/claimList"
+                                        ) &&
+                                        !location.pathname.includes(
+                                          "/reseller/claimList"
+                                        ) ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1521,9 +1521,9 @@ function ResellerClaimList(props) {
                                               white
                                               disabled={
                                                 claimStatus.status ==
-                                                  "Rejected" ||
+                                                "Rejected" ||
                                                 claimStatus.status ==
-                                                  "Completed"
+                                                "Completed"
                                               }
                                               options={claim}
                                               OptionName="Claim Type"
@@ -1540,7 +1540,7 @@ function ResellerClaimList(props) {
                                       {trackerView ? (
                                         <>
                                           {claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed" ? (
+                                            claimStatus.status == "Completed" ? (
                                             <></>
                                           ) : (
                                             <form
@@ -1573,9 +1573,9 @@ function ResellerClaimList(props) {
                                                   }
                                                   disabled={
                                                     claimStatus.status ==
-                                                      "Rejected" ||
+                                                    "Rejected" ||
                                                     claimStatus.status ==
-                                                      "Completed"
+                                                    "Completed"
                                                   }
                                                   // options={state}
                                                   className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
@@ -1603,7 +1603,7 @@ function ResellerClaimList(props) {
                                             <>
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                              claimStatus.status ==
+                                                claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1693,7 +1693,7 @@ function ResellerClaimList(props) {
                                               )}
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                              claimStatus.status ==
+                                                claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1738,7 +1738,7 @@ function ResellerClaimList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "Rejected" ||
-                                    claimStatus.status == "Completed" ? (
+                                      claimStatus.status == "Completed" ? (
                                       <></>
                                     ) : (
                                       <div
@@ -1792,7 +1792,7 @@ function ResellerClaimList(props) {
                                     {role == "Super Admin" && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (
+                                          claimStatus.status == "Completed" ? (
                                           <></>
                                         ) : (
                                           <div
@@ -1805,9 +1805,9 @@ function ResellerClaimList(props) {
                                               value={claimStatus.status}
                                               disabled={
                                                 claimStatus.status ==
-                                                  "Rejected" ||
+                                                "Rejected" ||
                                                 claimStatus.status ==
-                                                  "Completed"
+                                                "Completed"
                                               }
                                               onChange={handleSelectChange}
                                               white
@@ -1875,36 +1875,36 @@ function ResellerClaimList(props) {
                                     {(role == "Super Admin" ||
                                       claimList.result[activeIndex]
                                         ?.selfServicer) && (
-                                      <>
-                                        {claimStatus.status == "Rejected" ||
-                                        claimStatus.status == "Completed" ? (
-                                          <></>
-                                        ) : (
-                                          <div
-                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                            ref={dropdownRef}
-                                            onClick={handleToggleDropdown1}
-                                          >
-                                            <Select
-                                              name="repairStatus"
-                                              label=""
-                                              value={repairStatus.status}
-                                              onChange={handleSelectChange}
-                                              disabled={
-                                                claimStatus.status ==
+                                        <>
+                                          {claimStatus.status == "Rejected" ||
+                                            claimStatus.status == "Completed" ? (
+                                            <></>
+                                          ) : (
+                                            <div
+                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                              ref={dropdownRef}
+                                              onClick={handleToggleDropdown1}
+                                            >
+                                              <Select
+                                                name="repairStatus"
+                                                label=""
+                                                value={repairStatus.status}
+                                                onChange={handleSelectChange}
+                                                disabled={
+                                                  claimStatus.status ==
                                                   "Rejected" ||
-                                                claimStatus.status ==
+                                                  claimStatus.status ==
                                                   "Completed"
-                                              }
-                                              white
-                                              className1="!border-0 !text-light-black"
-                                              options={repairValue}
-                                              visible={dropdownVisible}
-                                            />
-                                          </div>
-                                        )}
-                                      </>
-                                    )}
+                                                }
+                                                white
+                                                className1="!border-0 !text-light-black"
+                                                options={repairValue}
+                                                visible={dropdownVisible}
+                                              />
+                                            </div>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-2">
@@ -1913,11 +1913,10 @@ function ResellerClaimList(props) {
                                       Diagnosis
                                     </p>
                                     <div
-                                      className={` overflow-y-scroll Diagnosis ${
-                                        res?.receiptImage != ""
+                                      className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
                                           ? "h-[130px] max-h-[130px]"
                                           : "h-[164px] max-h-[164px]"
-                                      }`}
+                                        }`}
                                     >
                                       <p className="text-sm text-light-green">
                                         {res.diagnosis}
@@ -2077,7 +2076,7 @@ function ResellerClaimList(props) {
                 </p>
                 <ul className="flex self-center">
                   <li className="text-sm text-neutral-grey font-Regular">
-                    <Link to={"/"}>Claim </Link> /
+                    <Link to={"/"}>Home </Link> /
                   </li>
                   <li className="text-sm text-neutral-grey font-semibold ml-1">
                     {" "}
@@ -2099,17 +2098,15 @@ function ResellerClaimList(props) {
           </>
         )}
         <div
-          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${
-            createServicerAccountOption ? "w-[45%]" : "w-[16%]"
-          }`}
+          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${createServicerAccountOption ? "w-[45%]" : "w-[16%]"
+            }`}
         >
           {tabs.map((tab) => (
             <Button
-              className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                activeTab === tab.id
+              className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
                   ? "!bg-[#2A2A2A] !text-white"
                   : "!bg-grayf9 !text-black"
-              }`}
+                }`}
               onClick={() => handleTabClick(tab.id)}
             >
               <img
@@ -2118,9 +2115,8 @@ function ResellerClaimList(props) {
                 alt={tab.label}
               />
               <span
-                className={`ml-1 py-1 text-sm font-Regular ${
-                  activeTab === tab.id ? "text-white" : "text-black"
-                }`}
+                className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                  }`}
               >
                 {tab.label}
               </span>
@@ -2211,9 +2207,8 @@ function ResellerClaimList(props) {
                         rows="4"
                         name="reason"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.reason && touched.reason && "border-red-500"
-                        }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
+                          }`}
                       />
                       <ErrorMessage
                         name="reason"
@@ -2283,11 +2278,10 @@ function ResellerClaimList(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${
-                                msg.messageFile.originalName !== ""
+                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
                                   ? "col-span-5"
                                   : "col-span-6 text-right"
-                              }`}
+                                }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2382,8 +2376,8 @@ function ResellerClaimList(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                        <FontAwesomeIcon icon={faFileImage} size="3x" />
-                      )}
+                          <FontAwesomeIcon icon={faFileImage} size="3x" />
+                        )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2521,8 +2515,8 @@ function ResellerClaimList(props) {
                               options={
                                 index === 0
                                   ? serviceType.filter(
-                                      (option) => option.label !== "Shipping"
-                                    )
+                                    (option) => option.label !== "Shipping"
+                                  )
                                   : serviceType
                               }
                               required={true}
@@ -2581,9 +2575,8 @@ function ResellerClaimList(props) {
                         </div>
 
                         <div
-                          className={`${
-                            index > 0 ? "col-span-2" : "col-span-3"
-                          }  `}
+                          className={`${index > 0 ? "col-span-2" : "col-span-3"
+                            }  `}
                         >
                           {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                           <Input
@@ -2817,40 +2810,40 @@ function ResellerClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ? 
-               <div className="col-span-6">
-               <Select
-                 options={claimPaid}
-                 name="claimPaidStatus"
-                 label="Paid Status"
-                 className="!bg-white"
-                 onChange={handleSelectChange2}
-                 value={formik1.values.claimPaidStatus}
-               />
-             </div> : 
-             <>
-              <div className="col-span-6">
-                <Select
-                  options={customerValue}
-                  name="customerStatusValue"
-                  label="Customer Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.customerStatusValue}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  options={repairValue}
-                  name="repairStatus"
-                  label="Repair Status"
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.repairStatus}
-                />
-              </div>
-             </> 
-             }
+              {formik1.values.claimStatus == "Completed" ?
+                <div className="col-span-6">
+                  <Select
+                    options={claimPaid}
+                    name="claimPaidStatus"
+                    label="Paid Status"
+                    className="!bg-white"
+                    onChange={handleSelectChange2}
+                    value={formik1.values.claimPaidStatus}
+                  />
+                </div> :
+                <>
+                  <div className="col-span-6">
+                    <Select
+                      options={customerValue}
+                      name="customerStatusValue"
+                      label="Customer Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.customerStatusValue}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      options={repairValue}
+                      name="repairStatus"
+                      label="Repair Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.repairStatus}
+                    />
+                  </div>
+                </>
+              }
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

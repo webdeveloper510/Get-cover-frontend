@@ -87,12 +87,12 @@ function ResellerOrderDetails() {
             </p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Order List / </Link>
+                <Link to={"/"}>Home / </Link>
               </li>
               <li className="text-sm text-neutral-grey font-Regular pl-2">
-                <Link to={"/"}>Order Details / </Link>
+                <Link to={"/reseller/orderList"}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -298,11 +298,10 @@ function ResellerOrderDetails() {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                          }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -313,9 +312,8 @@ function ResellerOrderDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

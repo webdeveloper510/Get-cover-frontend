@@ -192,7 +192,7 @@ function CustomerContractList(props) {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Contracts</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Contracts /</Link>{" "}
+                <Link to={"/"}>Home /</Link>{" "}
               </li>
               <li className="text-sm text-neutral-grey font-semibold ml-1">
                 Contracts List
@@ -210,9 +210,8 @@ function CustomerContractList(props) {
               <form onSubmit={formik.handleSubmit}>
                 <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid
-                    className={`${
-                      props.orderId == null ? "!grid-cols-9" : "!grid-cols-7"
-                    }`}
+                    className={`${props.orderId == null ? "!grid-cols-9" : "!grid-cols-7"
+                      }`}
                   >
                     <div className="col-span-2 self-center">
                       <Input
@@ -273,9 +272,8 @@ function CustomerContractList(props) {
                       </Button>
                     </div>
                     <div
-                      className={`${
-                        props.orderId == null ? "" : "text-center"
-                      } col-span-2 self-center`}
+                      className={`${props.orderId == null ? "" : "text-center"
+                        } col-span-2 self-center`}
                     >
                       <Button
                         className="!text-[13px]"
@@ -564,11 +562,10 @@ function CustomerContractList(props) {
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         <Button
           onClick={closeView}
-          className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${
-            props?.orderId == null && props?.flag == undefined
-              ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-              : "!bg-Granite-Gray"
-          } `}
+          className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
+            ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+            : "!bg-Granite-Gray"
+            } `}
         >
           <img
             src={Cross}
@@ -659,9 +656,9 @@ function CustomerContractList(props) {
                         {contractDetails?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetails?.productValue) ??
-                                parseInt(0)
-                            )}
+                            Number(contractDetails?.productValue) ??
+                            parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -783,13 +780,13 @@ function CustomerContractList(props) {
                         {contractDetails?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              contractDetails?.claimAmount ?? parseInt(0)
-                            )}
+                            contractDetails?.claimAmount ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
                   {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -802,10 +799,10 @@ function CustomerContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeStart ??
-                                    parseInt(0)
-                                )}
+                                contractDetails?.order?.[0]
+                                  ?.productsArray?.[0]?.rangeStart ??
+                                parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -820,10 +817,10 @@ function CustomerContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeEnd ??
-                                    parseInt(0)
-                                )}{" "}
+                                contractDetails?.order?.[0]
+                                  ?.productsArray?.[0]?.rangeEnd ??
+                                parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -913,7 +910,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">

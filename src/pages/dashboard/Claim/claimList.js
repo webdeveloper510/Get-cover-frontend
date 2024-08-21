@@ -161,8 +161,7 @@ function ClaimList(props) {
   }, [messageList, claimId]);
 
   const downloadImage = (file) => {
-    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
-
+    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`; 
     fetch(url, {
       headers: baseUrl.headers,
     })
@@ -514,28 +513,28 @@ function ClaimList(props) {
         case "Parts":
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "Parts", value: "Parts" }];
         case "Labour":
           return shipping
             ? [
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [{ label: "labor", value: "Labour" }];
         default:
           return shipping
             ? [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-                { label: "Shipping", value: "Shipping" },
-              ]
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+              { label: "Shipping", value: "Shipping" },
+            ]
             : [
-                { label: "Parts", value: "Parts" },
-                { label: "Labor ", value: "Labour" },
-              ];
+              { label: "Parts", value: "Parts" },
+              { label: "Labor ", value: "Labour" },
+            ];
       }
     };
     setServiceType(
@@ -686,7 +685,7 @@ function ClaimList(props) {
     const attachments = res || [];
 
     attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.baseUrl}/uploads/claimFile/${attachment.filename}`;
+      const url =   `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`; 
       fetch(url, {
         headers: baseUrl.headers,
       })
@@ -764,13 +763,13 @@ function ClaimList(props) {
       const type = pathname.includes("/dealer/claimList")
         ? "Dealer"
         : pathname.includes("/customer/claimList")
-        ? "Customer"
-        : pathname.includes("/reseller/claimList") ||
-          pathname.includes("/reseller/customerDetails")
-        ? "Reseller"
-        : pathname.includes("/servicer/claimList")
-        ? "Servicer"
-        : null;
+          ? "Customer"
+          : pathname.includes("/reseller/claimList") ||
+            pathname.includes("/reseller/customerDetails")
+            ? "Reseller"
+            : pathname.includes("/servicer/claimList")
+              ? "Servicer"
+              : null;
 
       if (type) {
         formik2.setFieldValue("type", type);
@@ -786,8 +785,8 @@ function ClaimList(props) {
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
           : coverageType === "Accidental"
-          ? [{ label: "Accidental", value: "Accidental" }]
-          : [
+            ? [{ label: "Accidental", value: "Accidental" }]
+            : [
               { label: "Breakdown", value: "Breakdown" },
               { label: "Accidental", value: "Accidental" },
             ];
@@ -1188,7 +1187,7 @@ function ClaimList(props) {
     getAllClaims();
   };
   // console.log(activeIndex, "++++++++++++++++_-------------------");
-  const addTracker = () => {};
+  const addTracker = () => { };
   return (
     <>
       {loading1 && (
@@ -1209,7 +1208,7 @@ function ClaimList(props) {
                 </p>
                 <ul className="flex self-center">
                   <li className="text-sm text-neutral-grey font-Regular">
-                    <Link to={"/"}>Claim </Link> /
+                    <Link to={"/"}>Home </Link> /
                   </li>
                   <li className="text-sm text-neutral-grey font-semibold ml-1">
                     {" "}
@@ -1494,17 +1493,17 @@ function ClaimList(props) {
                                           $
                                           {part.price === undefined
                                             ? (0).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })
                                             : parseFloat(
-                                                part.price === undefined
-                                                  ? 0
-                                                  : part.price
-                                              ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
+                                              part.price === undefined
+                                                ? 0
+                                                : part.price
+                                            ).toLocaleString("en-US", {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
                                         </p>
                                       </div>
                                     </div>
@@ -1517,17 +1516,17 @@ function ClaimList(props) {
                                       {!location.pathname.includes(
                                         "customer/claimList"
                                       ) && (
-                                        <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                          Customer Name :{" "}
-                                          <span className="font-semibold text-white">
-                                            {" "}
-                                            {
-                                              res?.contracts?.orders?.customer
-                                                ?.username
-                                            }{" "}
-                                          </span>
-                                        </p>
-                                      )}
+                                          <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                            Customer Name :{" "}
+                                            <span className="font-semibold text-white">
+                                              {" "}
+                                              {
+                                                res?.contracts?.orders?.customer
+                                                  ?.username
+                                              }{" "}
+                                            </span>
+                                          </p>
+                                        )}
 
                                       <p className="text-light-green text-[11px] mb-3 font-Regular">
                                         Claim Cost :{" "}
@@ -1561,9 +1560,9 @@ function ClaimList(props) {
                                               value={servicer}
                                               disabled={
                                                 claimStatus.status ===
-                                                  "Rejected" ||
+                                                "Rejected" ||
                                                 claimStatus.status ===
-                                                  "Completed" ||
+                                                "Completed" ||
                                                 location.pathname.includes(
                                                   "/reseller/customerDetails"
                                                 )
@@ -1596,7 +1595,7 @@ function ClaimList(props) {
                                             disableFirstOption={true}
                                             disabled={
                                               claimStatus.status ===
-                                                "Rejected" ||
+                                              "Rejected" ||
                                               claimStatus.status === "Completed"
                                             }
                                             options={claim}
@@ -1613,7 +1612,7 @@ function ClaimList(props) {
                                         {trackerView ? (
                                           <>
                                             {claimStatus.status == "Rejected" ||
-                                            claimStatus.status ==
+                                              claimStatus.status ==
                                               "Completed" ? (
                                               <></>
                                             ) : (
@@ -1648,9 +1647,9 @@ function ClaimList(props) {
                                                     }
                                                     disabled={
                                                       claimStatus.status ==
-                                                        "Rejected" ||
+                                                      "Rejected" ||
                                                       claimStatus.status ==
-                                                        "Completed"
+                                                      "Completed"
                                                     }
                                                     // options={state}
                                                     className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
@@ -1678,7 +1677,7 @@ function ClaimList(props) {
                                               <>
                                                 {claimStatus.status ==
                                                   "Rejected" ||
-                                                claimStatus.status ==
+                                                  claimStatus.status ==
                                                   "Completed" ? (
                                                   <></>
                                                 ) : (
@@ -1749,28 +1748,28 @@ function ClaimList(props) {
 
                                                 {res?.trackingType ==
                                                   "usps" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    USPS Tracker
-                                                  </a>
-                                                )}
+                                                    <a
+                                                      className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                      href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                      target="_blank"
+                                                    >
+                                                      USPS Tracker
+                                                    </a>
+                                                  )}
 
                                                 {res?.trackingType ==
                                                   "fedx" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    FedX Tracker
-                                                  </a>
-                                                )}
+                                                    <a
+                                                      className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                      href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                      target="_blank"
+                                                    >
+                                                      FedX Tracker
+                                                    </a>
+                                                  )}
                                                 {claimStatus.status ==
                                                   "Rejected" ||
-                                                claimStatus.status ==
+                                                  claimStatus.status ==
                                                   "Completed" ? (
                                                   <></>
                                                 ) : (
@@ -1815,7 +1814,7 @@ function ClaimList(props) {
                                         </span>
                                       </div>
                                       {claimStatus.status == "Rejected" ||
-                                      claimStatus.status == "Completed" ? (
+                                        claimStatus.status == "Completed" ? (
                                         <></>
                                       ) : (
                                         <div
@@ -1831,7 +1830,7 @@ function ClaimList(props) {
                                             onChange={handleSelectChange}
                                             disabled={
                                               claimStatus.status ==
-                                                "Rejected" ||
+                                              "Rejected" ||
                                               claimStatus.status == "Completed"
                                             }
                                             white
@@ -1871,7 +1870,7 @@ function ClaimList(props) {
                                       {role == "Super Admin" && (
                                         <>
                                           {claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed" ? (
+                                            claimStatus.status == "Completed" ? (
                                             <></>
                                           ) : (
                                             <div
@@ -1885,9 +1884,9 @@ function ClaimList(props) {
                                                 value={claimStatus.status}
                                                 disabled={
                                                   claimStatus.status ==
-                                                    "Rejected" ||
+                                                  "Rejected" ||
                                                   claimStatus.status ==
-                                                    "Completed"
+                                                  "Completed"
                                                 }
                                                 onChange={handleSelectChange}
                                                 white
@@ -1960,7 +1959,7 @@ function ClaimList(props) {
                                         ) && (
                                           <>
                                             {claimStatus.status == "Rejected" ||
-                                            claimStatus.status ==
+                                              claimStatus.status ==
                                               "Completed" ? (
                                               <></>
                                             ) : (
@@ -1977,9 +1976,9 @@ function ClaimList(props) {
                                                   onChange={handleSelectChange}
                                                   disabled={
                                                     claimStatus.status ==
-                                                      "Rejected" ||
+                                                    "Rejected" ||
                                                     claimStatus.status ==
-                                                      "Completed"
+                                                    "Completed"
                                                   }
                                                   white
                                                   className1="!border-0 !text-light-black"
@@ -1998,11 +1997,10 @@ function ClaimList(props) {
                                         Diagnosis
                                       </p>
                                       <div
-                                        className={` overflow-y-scroll Diagnosis ${
-                                          res?.receiptImage != ""
+                                        className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
                                             ? "h-[130px] max-h-[130px]"
                                             : "h-[164px] max-h-[164px]"
-                                        }`}
+                                          }`}
                                       >
                                         <p className="text-sm text-light-green">
                                           {res.diagnosis}
@@ -2186,9 +2184,8 @@ function ClaimList(props) {
                         rows="4"
                         name="reason"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
-                          errors.reason && touched.reason && "border-red-500"
-                        }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
+                          }`}
                       />
                       <ErrorMessage
                         name="reason"
@@ -2258,11 +2255,10 @@ function ClaimList(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${
-                                msg.messageFile.originalName !== ""
+                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
                                   ? "col-span-5"
                                   : "col-span-6 text-right"
-                              }`}
+                                }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2357,8 +2353,8 @@ function ClaimList(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                        <FontAwesomeIcon icon={faFileImage} size="3x" />
-                      )}
+                          <FontAwesomeIcon icon={faFileImage} size="3x" />
+                        )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2498,8 +2494,8 @@ function ClaimList(props) {
                               options={
                                 index === 0
                                   ? serviceType.filter(
-                                      (option) => option.label !== "Shipping"
-                                    )
+                                    (option) => option.label !== "Shipping"
+                                  )
                                   : serviceType
                               }
                               required={true}
@@ -2558,9 +2554,8 @@ function ClaimList(props) {
                         </div>
 
                         <div
-                          className={`${
-                            index > 0 ? "col-span-2" : "col-span-3"
-                          }  `}
+                          className={`${index > 0 ? "col-span-2" : "col-span-3"
+                            }  `}
                         >
                           {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                           <Input

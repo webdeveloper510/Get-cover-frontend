@@ -288,13 +288,13 @@ function Dealer() {
       formik.setFieldError("termCondition", "File is too large. Please upload a file smaller than 10MB.");
       console.log("Selected file:", file);
     } else {
-        setSelectedFile2(file);
-        formik.setFieldValue("termCondition", file);
-        console.log("Selected file:", file);
+      setSelectedFile2(file);
+      formik.setFieldValue("termCondition", file);
+      console.log("Selected file:", file);
     }
-};
+  };
 
-  
+
   const handleRemoveFile = () => {
     if (inputRef) {
       inputRef.current.click();
@@ -532,17 +532,17 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                priceBookId: Yup.string().required("Required"),
-                categoryId: Yup.string().required("Required"),
-                retailPrice: Yup.number()
-                  .typeError("Required")
-                  .required("Required")
-                  .min(0, "Retail Price cannot be negative")
-                  .nullable(),
-                status: Yup.boolean().required("Required"),
-              })
-            ),
+            Yup.object().shape({
+              priceBookId: Yup.string().required("Required"),
+              categoryId: Yup.string().required("Required"),
+              retailPrice: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .min(0, "Retail Price cannot be negative")
+                .nullable(),
+              status: Yup.boolean().required("Required"),
+            })
+          ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -553,17 +553,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -761,9 +761,9 @@ function Dealer() {
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Dealer</p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Dealer </Link> /{" "}
+              <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
               {" "}
               Add New Dealer{" "}
             </li>
@@ -997,10 +997,10 @@ function Dealer() {
                           </div>
                         </div>
                         {formik.errors.termCondition && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.termCondition}
-                            </div>
-                          )}
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.termCondition}
+                          </div>
+                        )}
                         <small className="text-neutral-grey p-10p">Attachment size limit is 10 MB</small>
                       </div>
                     </Grid>
