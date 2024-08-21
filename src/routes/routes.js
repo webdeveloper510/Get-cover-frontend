@@ -990,7 +990,7 @@ const routes = [
         ),
       },
       {
-        path: "/reseller/claim",
+        path: "/reseller/Reporting",
         element: <PrivateRoute element={<Claims />} role={"reseller"} />,
       },
       {

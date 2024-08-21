@@ -119,17 +119,15 @@ function SidebarItem({
   // console.log('location.pathname', location.pathname)
   return (
     <li
-      className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${
-        activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
-      } ${expandedItem == item.name ? "active" : ""}`}
+      className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+        } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
         to={hasItems ? window.location.href : item.url}
-        className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${
-          activeUrl
-            ? "bg-white text-[#000] rounded-s-[30px]"
-            : "text-light-grey"
-        }`}
+        className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${activeUrl
+          ? "bg-white text-[#000] rounded-s-[30px]"
+          : "text-light-grey"
+          }`}
         onClick={handleClick}
       >
         {activeUrl ? (
@@ -146,11 +144,10 @@ function SidebarItem({
           />
         )}
         <span
-          className={`self-center text-left w-full pl-[12px] ${
-            activeUrl
-              ? " text-[14px] font-semibold"
-              : " text-[14px] font-Regular"
-          }`}
+          className={`self-center text-left w-full pl-[12px] ${activeUrl
+            ? " text-[14px] font-semibold"
+            : " text-[14px] font-Regular"
+            }`}
         >
           {item.name}
         </span>
@@ -160,11 +157,10 @@ function SidebarItem({
               <>
                 <img
                   src={Down}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${
-                    expandedItem === item.name
-                      ? "rotate-180 dropdown-expanded"
-                      : "dropdown-collapsed"
-                  }`}
+                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
+                    ? "rotate-180 dropdown-expanded"
+                    : "dropdown-collapsed"
+                    }`}
                   alt="Dropdown Arrow"
                 />
               </>
@@ -172,11 +168,10 @@ function SidebarItem({
               <>
                 <img
                   src={DropdownArrowImage}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${
-                    expandedItem === item.name
-                      ? "rotate-180 dropdown-expanded"
-                      : "dropdown-collapsed"
-                  }`}
+                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
+                    ? "rotate-180 dropdown-expanded"
+                    : "dropdown-collapsed"
+                    }`}
                   alt="Dropdown Arrow"
                 />
               </>
@@ -187,19 +182,17 @@ function SidebarItem({
 
       {hasItems && (
         <ul
-          className={`${
-            activeUrl || expandedItem === item.name ? "block" : "hidden"
-          }`}
+          className={`${activeUrl || expandedItem === item.name ? "block" : "hidden"
+            }`}
         >
           {item.items.map((subItem, subIndex) => (
             <li key={subIndex} className={`ps-[19px]`}>
               <Link
                 to={subItem.url}
-                className={`rounded-[25px] flex ${
-                  location.pathname.includes(subItem.url)
-                    ? "text-white font-medium"
-                    : "text-light-grey"
-                }`}
+                className={`rounded-[25px] flex ${location.pathname.includes(subItem.url)
+                  ? "text-white font-medium"
+                  : "text-light-grey"
+                  }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
                   console.log(`Sub-Item link to ${subItem.url} clicked`);
@@ -209,15 +202,14 @@ function SidebarItem({
                   <>
                     <img
                       src={subItem.active}
-                      className={` ${
-                        subIndex == 0
-                          ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
-                          : subIndex == 1
+                      className={` ${subIndex == 0
+                        ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
+                        : subIndex == 1
                           ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
                           : subIndex == 2
-                          ? "mt-[-95%]"
-                          : "mt-[-115%]"
-                      } w-[24px]`}
+                            ? "mt-[-95%]"
+                            : "mt-[-115%]"
+                        } w-[24px]`}
                       alt={subItem.active}
                     />
                   </>
@@ -226,24 +218,21 @@ function SidebarItem({
                     {" "}
                     <img
                       src={subItem.image}
-                      className={` ${
-                        subIndex == 0 ? "mt-[-19%]" : "mt-[-42%]"
-                      } w-[24px] `}
+                      className={` ${subIndex == 0 ? "mt-[-19%]" : "mt-[-42%]"
+                        } w-[24px] `}
                       alt={subItem.image}
                     />
                   </>
                 )}
 
                 <span
-                  className={`self-center text-left text-[12px] font-medium w-full ${
-                    location.pathname.includes(subItem.url)
-                      ? "opacity-1"
-                      : "opacity-80"
-                  } pl-0 ml-[10px] p-[19px] pr-0 ${
-                    subIndex == item.items.length - 1
+                  className={`self-center text-left text-[12px] font-medium w-full ${location.pathname.includes(subItem.url)
+                    ? "opacity-1"
+                    : "opacity-80"
+                    } pl-0 ml-[10px] p-[19px] pr-0 ${subIndex == item.items.length - 1
                       ? ""
                       : "border-b-2 border-Gray28"
-                  }`}
+                    }`}
                 >
                   {subItem.name}
                 </span>
@@ -770,7 +759,7 @@ function SideBar() {
         },
         {
           name: "Claims",
-          url: "/reseller/claim",
+          url: "/reseller/reporting",
           image: Dropdown2,
           active: SeacondActive,
         },
