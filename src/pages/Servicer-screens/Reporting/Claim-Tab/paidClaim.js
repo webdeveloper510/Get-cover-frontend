@@ -133,11 +133,7 @@ function ClaimList(props) {
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
   const downloadImage = (file) => {
-<<<<<<< HEAD
-    const url = `${baseUrl.baseUrl}/uploads/claimFile/${file.messageFile.fileName}`;
-=======
     const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
->>>>>>> 0458272a0aa2b3dabf6360b8abcc36f3eedfbc3f
     fetch(url, {
       headers: baseUrl.headers
     })
