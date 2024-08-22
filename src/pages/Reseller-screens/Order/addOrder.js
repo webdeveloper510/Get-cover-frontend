@@ -1153,8 +1153,6 @@ function ResellerAddOrder() {
         );
       }
       console.log(result.result);
-
-      setTermList(result.result?.terms);
       if (formikStep3.values.productsArray.length !== 0) {
         const updateOptions = (stateSetter, data) => {
           stateSetter((prevOptions) => {
@@ -1218,7 +1216,6 @@ function ResellerAddOrder() {
       : []),
     ,
     { label: "Dealer", value: "Dealer" },
-    { label: "Servicer", value: "Servicer" },
     { label: "Custom", value: "Custom" },
   ];
 
@@ -1349,46 +1346,6 @@ function ResellerAddOrder() {
                         error={formik.touched.billTo && formik.errors.billTo}
                       />
                     </div>
-
-                    {/* <div className="col-span-6">
-                  <Select
-                      label="Reseller Name"
-                      name="resellerId"
-                      placeholder=""
-                      className="!bg-white"
-                      // onChange={handleSelectChange}
-                      onChange={handleSelectChange}
-                      options={resellerList}
-                      value={formik.values.resellerId}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      label="Customer Name"
-                      name="customerId"
-                      placeholder=""
-                      className="!bg-white"
-                      // onChange={handleSelectChange}
-                      onChange={handleSelectChange}
-                      options={customerList}
-                      value={formik.values.customerId}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      label="Servicer Name"
-                      name="servicerId"
-                      placeholder=""
-                      className="!bg-white"
-                      onChange={handleSelectChange}
-                      // onChange={handleSelectChange}
-                      options={servicerData}
-                      value={formik.values.servicerId}
-                      onBlur={formik.handleBlur}
-                    />
-                  </div> */}
                   </Grid>
                 </div>
               </Grid>
@@ -1945,15 +1902,25 @@ function ResellerAddOrder() {
                           onWheelCapture={(e) => {
                             e.preventDefault();
                           }}
+                          error={
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray &&
+                            formikStep3.values.productsArray[index] &&
+                            formikStep3.values.productsArray[index].noOfProducts
+                          }
                         />
-                        {
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            {formikStep3.errors.productsArray &&
-                              formikStep3.errors.productsArray[index] &&
-                              formikStep3.errors.productsArray[index]
-                                .noOfProducts}
-                          </div>
-                        }
+                        {formikStep3.touched.productsArray &&
+                          formikStep3.touched.productsArray[index] &&
+                          formikStep3.touched.productsArray[index]
+                            .noOfProducts && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formikStep3.errors.productsArray &&
+                                formikStep3.errors.productsArray[index] &&
+                                formikStep3.errors.productsArray[index]
+                                  .noOfProducts}
+                            </div>
+                          )}
                       </div>
                       <div className="col-span-4">
                         <Input
