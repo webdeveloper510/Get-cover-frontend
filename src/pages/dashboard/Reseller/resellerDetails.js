@@ -258,50 +258,34 @@ function ResellerDetails() {
       setLoading(true);
     }
     const result = await getResellerListByResellerId(id.resellerId);
-    setResllerDetails(result.reseller[0]);
-    setIsStatus(result?.dealerStatus);
-    setResellerStatus(result?.reseller[0].status);
-    console.log(
-      result.reseller[0].resellerData.status,
-      "---------------------<<<<<<<<result?.reseller[0]?.resellerData?.isServicer>>>>>>>>>>>>>>>>>>"
-    );
-    setResellerStatusMain(result.reseller[0].resellerData.status);
-    setServicerCreateAccountOption(
-      result?.reseller[0]?.resellerData?.isServicer
-    );
-    setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
-    setInitialFormValues({
-      accountName: result?.reseller[0]?.resellerData?.name,
-      oldName: result?.reseller[0]?.resellerData?.name,
-      resellerId: id.resellerId,
-      street: result?.reseller[0]?.resellerData?.street,
-      city: result?.reseller[0]?.resellerData?.city,
-      zip: result?.reseller[0]?.resellerData?.zip,
-      state: result?.reseller[0]?.resellerData?.state,
-      isServicer: result?.reseller[0]?.resellerData?.isServicer,
-      isAccountCreate: result?.reseller[0].status,
-      country: "USA",
-    });
+    if (result.code == 200) {
+      setResllerDetails(result.reseller[0]);
+      setIsStatus(result?.dealerStatus);
+      setResellerStatus(result?.reseller[0].status);
+      setResellerStatusMain(result.reseller[0].resellerData.status);
+      setServicerCreateAccountOption(
+        result?.reseller[0]?.resellerData?.isServicer
+      );
+      setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
+      setInitialFormValues({
+        accountName: result?.reseller[0]?.resellerData?.name,
+        oldName: result?.reseller[0]?.resellerData?.name,
+        resellerId: id.resellerId,
+        street: result?.reseller[0]?.resellerData?.street,
+        city: result?.reseller[0]?.resellerData?.city,
+        zip: result?.reseller[0]?.resellerData?.zip,
+        state: result?.reseller[0]?.resellerData?.state,
+        isServicer: result?.reseller[0]?.resellerData?.isServicer,
+        isAccountCreate: result?.reseller[0].status,
+        country: "USA",
+      });
+    } else {
+      navigate(`/`);
+    }
+
     setLoading(false);
   };
-  // const dealerData = async () => {
-  //   setLoading(true);
-  //   console.log(id);
-  //   const result = await getDealersDetailsByid(id?.id);
-  //   setDealerDetails(result.result[0]);
-  //   console.log(result.result[0].dealerData);
-  // setInitialFormValues({
-  //   accountName: result?.result[0]?.dealerData?.name,
-  //   oldName: result?.result[0]?.dealerData?.name,
-  //   dealerId: id.id,
-  //   street: result?.result[0]?.dealerData?.street,
-  //   city: result?.result[0]?.dealerData?.city,
-  //   zip: result?.result[0]?.dealerData?.zip,
-  //   state: result?.result[0]?.dealerData?.state,
-  //   country: "USA",
-  // });
-  //   setLoading(false);
-  // };
+
   const openModal = () => {
     setIsModalOpen(true);
   };

@@ -388,23 +388,28 @@ function ServicerDetails() {
   const servicerDetail = async () => {
     setLoading(true);
     const res = await getServicerDetailsByServicerId(servicerId);
-    setServicerDetails(res.message);
-    console.log(res.message);
-    setCreateAccount(res?.message?.meta?.isAccountCreate);
-    setCreateAccountOption(
-      res?.message?.meta?.isAccountCreate === false ? "no" : "yes"
-    );
-    setInitialFormValues({
-      name: res?.message?.meta?.name,
-      oldName: res?.message?.meta?.name,
-      servicerId: servicerId,
-      street: res?.message?.meta?.street,
-      city: res?.message?.meta?.city,
-      zip: res?.message?.meta?.zip,
-      state: res?.message?.meta?.state,
-      country: "USA",
-      isAccountCreate: res?.message?.meta?.isAccountCreate,
-    });
+    if (res.code == 200) {
+      setServicerDetails(res.message);
+      console.log(res.message);
+      setCreateAccount(res?.message?.meta?.isAccountCreate);
+      setCreateAccountOption(
+        res?.message?.meta?.isAccountCreate === false ? "no" : "yes"
+      );
+      setInitialFormValues({
+        name: res?.message?.meta?.name,
+        oldName: res?.message?.meta?.name,
+        servicerId: servicerId,
+        street: res?.message?.meta?.street,
+        city: res?.message?.meta?.city,
+        zip: res?.message?.meta?.zip,
+        state: res?.message?.meta?.state,
+        country: "USA",
+        isAccountCreate: res?.message?.meta?.isAccountCreate,
+      });
+    }
+    else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   const userValues = useFormik({

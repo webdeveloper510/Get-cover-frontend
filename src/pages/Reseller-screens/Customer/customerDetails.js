@@ -284,26 +284,30 @@ function ResellerCustomerDetails() {
     setLoading(true);
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
-    setCustomerDetail(result.result);
-    setCreateAccount(result.result.meta.isAccountCreate);
-    setCreateMainAccount(result.result.userAccount);
-    if (result.result.userAccount && result.result.meta.isAccountCreate) {
-      setCreateAccountOption("yes");
-    } else {
-      setCreateAccountOption("no");
-    }
+    if (result.code === 200) {
+      setCustomerDetail(result.result);
+      setCreateAccount(result.result.meta.isAccountCreate);
+      setCreateMainAccount(result.result.userAccount);
+      if (result.result.userAccount && result.result.meta.isAccountCreate) {
+        setCreateAccountOption("yes");
+      } else {
+        setCreateAccountOption("no");
+      }
 
-    console.log(result.result);
-    setInitialFormValues({
-      username: result?.result?.meta?.username,
-      oldName: result?.result?.meta?.username,
-      // dealerId: id.id,
-      street: result?.result?.meta?.street,
-      city: result?.result?.meta?.city,
-      zip: result?.result?.meta?.zip,
-      state: result?.result?.meta?.state,
-      country: "USA",
-    });
+      console.log(result.result);
+      setInitialFormValues({
+        username: result?.result?.meta?.username,
+        oldName: result?.result?.meta?.username,
+        // dealerId: id.id,
+        street: result?.result?.meta?.street,
+        city: result?.result?.meta?.city,
+        zip: result?.result?.meta?.zip,
+        state: result?.result?.meta?.state,
+        country: "USA",
+      });
+    } else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   useEffect(() => {

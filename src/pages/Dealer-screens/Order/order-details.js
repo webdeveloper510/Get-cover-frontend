@@ -67,17 +67,21 @@ function OrderDetails() {
   const getOrderDetails = async () => {
     setLoading1(true);
     const result = await orderDetailsById(orderId);
-    setUserDetails(result.orderUserData);
-    setOrderDetails(result.result);
-    let data = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
-    setInvoiceData(data);
-    console.log(data);
+    if (result.code === 200) {
+      setUserDetails(result.orderUserData);
+      setOrderDetails(result.result);
+      let data = {
+        dealerName: result.orderUserData.dealerData,
+        customerName: result.orderUserData.customerData,
+        resellerName: result.orderUserData.resellerData,
+        totalOrderAmount: result.result.orderAmount,
+        ...result.result,
+      };
+      setInvoiceData(data);
+      console.log(data);
+    } else {
+      navigate(`/`);
+    }
     setLoading1(false);
   };
   const handleGOBack = () => {

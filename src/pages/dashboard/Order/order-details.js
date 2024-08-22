@@ -126,29 +126,34 @@ function OrderDetails() {
       setLoading1(true);
     }
     const result = await orderDetailsById(orderId);
-    setUserDetails(result.orderUserData);
-    setOrderTandC(result.result.termCondition);
-    formik.setFieldValue("servicerId", result.result.servicerId);
-    const filteredServicer = result.servicers.filter(
-      (data) => data.status === true || "Approved"
-    );
+    if (result.code == 200) {
+      setUserDetails(result.orderUserData);
+      setOrderTandC(result.result.termCondition);
+      formik.setFieldValue("servicerId", result.result.servicerId);
+      const filteredServicer = result.servicers.filter(
+        (data) => data.status === true || "Approved"
+      );
 
-    let arr = filteredServicer.map((data) => ({
-      label: data.name,
-      value: data._id,
-    }));
-    console.log(result.servicers, "--------->>>>>>>");
-    setServicerList(arr);
-    setOrderDetails(result.result);
-    let data = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
-    setInvoiceData(data);
-    console.log(data);
+      let arr = filteredServicer.map((data) => ({
+        label: data.name,
+        value: data._id,
+      }));
+      console.log(result.servicers, "--------->>>>>>>");
+      setServicerList(arr);
+      setOrderDetails(result.result);
+      let data = {
+        dealerName: result.orderUserData.dealerData,
+        customerName: result.orderUserData.customerData,
+        resellerName: result.orderUserData.resellerData,
+        totalOrderAmount: result.result.orderAmount,
+        ...result.result,
+      };
+      setInvoiceData(data);
+      console.log(data);
+    }
+    else {
+      navigate(`/`);
+    }
     setLoading1(false);
   };
   const handleGOBack = () => {

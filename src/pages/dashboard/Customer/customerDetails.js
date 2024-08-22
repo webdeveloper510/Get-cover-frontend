@@ -316,27 +316,32 @@ function CustomerDetails() {
     setLoading(true);
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
-    setCustomerDetail(result.result);
+    if (result.code == 200) {
+      setCustomerDetail(result.result);
 
-    setIsStatus(result.result.dealerStatus);
-    console.log(result.result.meta.isAccountCreate, " --------- ????????");
-    setCreateAccount(result.result.meta.isAccountCreate);
-    setIsAccountCreate(result.result.userAccount);
-    setCreateAccountOption(
-      result.result.userAccount && result.result.meta.isAccountCreate
-        ? "yes"
-        : "no"
-    );
-    setInitialFormValues({
-      username: result?.result?.meta?.username,
-      oldName: result?.result?.meta?.username,
-      // dealerId: id.id,
-      street: result?.result?.meta?.street,
-      city: result?.result?.meta?.city,
-      zip: result?.result?.meta?.zip,
-      state: result?.result?.meta?.state,
-      country: "USA",
-    });
+      setIsStatus(result.result.dealerStatus);
+      console.log(result.result.meta.isAccountCreate, " --------- ????????");
+      setCreateAccount(result.result.meta.isAccountCreate);
+      setIsAccountCreate(result.result.userAccount);
+      setCreateAccountOption(
+        result.result.userAccount && result.result.meta.isAccountCreate
+          ? "yes"
+          : "no"
+      );
+      setInitialFormValues({
+        username: result?.result?.meta?.username,
+        oldName: result?.result?.meta?.username,
+        // dealerId: id.id,
+        street: result?.result?.meta?.street,
+        city: result?.result?.meta?.city,
+        zip: result?.result?.meta?.zip,
+        state: result?.result?.meta?.state,
+        country: "USA",
+      });
+    }
+    else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   useEffect(() => {
