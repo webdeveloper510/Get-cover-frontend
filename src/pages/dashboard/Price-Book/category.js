@@ -10,6 +10,7 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import Headbar from "../../../common/headBar";
 import Grid from "../../../common/grid";
+import edit from "../../../assets/images/edit-text.png";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import { useEffect } from "react";
@@ -57,7 +58,7 @@ function Category() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = categoryList.length - index <= 2;
+    const isCloseToBottom = categoryList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -104,8 +105,8 @@ function Category() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -133,14 +134,13 @@ function Category() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -165,15 +165,15 @@ function Category() {
             </div>
             {selectedAction === row.unique_key && (
               <div ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center py-1 cursor-pointer"
                   onClick={() => navigate(`/editCategory/${row._id}`)}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                 >
-                  Edit
+                  <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
               </div>
             )}
@@ -216,16 +216,16 @@ function Category() {
 
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Category</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Price Book </Link> /{" "}
+                <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 Category{" "}
               </li>
@@ -234,7 +234,7 @@ function Category() {
         </div>
         <Link
           to={"/addCategory"}
-          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+          className=" w-[180px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -243,13 +243,13 @@ function Category() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white  border-[1px] border-[#D1D1D1] rounded-xl ">
+        <div className="bg-white  border-[1px] border-Light-Grey rounded-xl ">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Categories List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="">
                     <div className="col-span-5 self-center">
@@ -257,8 +257,8 @@ function Category() {
                         name="name"
                         type="text"
                         placeholder="Category Name"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.name}
                         onChange={formik.handleChange}
@@ -271,15 +271,15 @@ function Category() {
                         name="status"
                         OptionName="Status"
                         options={status}
-                        color="text-[#1B1D21] opacity-50"
+                        color="text-Black-Russian opacity-50"
                         className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-[#f7f7f7] "
+                        className="!text-[14px] !bg-White-Smoke "
                         value={formik.values.status}
                         onChange={formik.setFieldValue}
                       />
                     </div>
                     <div className="col-span-2 self-center flex ">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
@@ -313,8 +313,7 @@ function Category() {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={categoryList}
                 highlightOnHover
                 sortIcon={

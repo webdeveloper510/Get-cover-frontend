@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
@@ -12,21 +12,26 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import FileDropdown from "../../../common/fileDropbox";
+import Dropbox from "../../../assets/images/icons/dropBox.svg";
+import csvFile from "../../../assets/images/icons/csvFile.svg";
 import { getDealerList } from "../../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
 import { uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
+import DealerList from "../Dealer/dealerList";
 
 function UploadDealerBook() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedFile, setSelectedFile] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
   const [tags, setTags] = useState([]);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(3);
+  const [dealerName, setDealerName] = useState("");
+  const [dealerID, setDealerID] = useState("");
   const navigate = useNavigate();
   const openModal = () => {
     setIsModalOpen(true);
@@ -37,6 +42,13 @@ function UploadDealerBook() {
   };
 
   const handleSelectChange = (name, selectedValue) => {
+    console.log(name, selectedValue, "Checking here if exist");
+    setDealerID(selectedValue)
+    activeDealers?.find((dealer) => {
+      if (dealer.value === selectedValue) {
+        setDealerName(dealer.label);
+      }
+    });
     formik.setFieldValue(name, selectedValue);
   };
   useEffect(() => {
@@ -49,7 +61,9 @@ function UploadDealerBook() {
 
     if (timer === 0) {
       closeModal();
-      navigate("/dealerPriceList");
+      // navigate(`/dealerPriceList`);
+      navigate(`/dealerDetails/${dealerID}`);
+      localStorage.setItem("menu", "PriceBook");
     }
     return () => {
       clearInterval(intervalId);
@@ -73,6 +87,26 @@ function UploadDealerBook() {
       updatedTags.map((tag) => tag.text)
     );
   };
+
+  const fileInputRef = useRef(null);
+  const handleDropdownClick = () => {
+    if (fileInputRef) {
+      fileInputRef.current.click();
+      setSelectedFile(null);
+      console.log("formik value becomes empty")
+      formik.setFieldValue("file", "");
+      formik.setFieldTouched("file", false);
+      setError(""); // Reset error state
+    }
+  };
+
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    formik.setFieldValue("file", file);
+    console.log("value becmes null")
+    event.target.value = null;
+  };
   const handleAddition = (tag) => {
     const updatedTags = [...tags, tag];
     setTags(updatedTags);
@@ -95,8 +129,12 @@ function UploadDealerBook() {
     const data = await getDealerList();
     console.log(data.data);
     let arr = [];
-    data?.data?.length > 0 &&
-      data?.data?.map((item) => {
+    const filteredDealers = data.data.filter(
+      (data) => data.dealerData.accountStatus === true
+    );
+    console.log(filteredDealers);
+    filteredDealers?.length > 0 &&
+      filteredDealers?.map((item) => {
         arr.push({ label: item.dealerData.name, value: item.accountId });
       });
 
@@ -113,15 +151,14 @@ function UploadDealerBook() {
       file: null,
     },
     validationSchema: Yup.object({
-      dealerId: Yup.string().required("Dealer Name is required"),
+      dealerId: Yup.string().required("Dealer name is required"),
       email: Yup.array()
         .of(
           Yup.string()
             .matches(emailValidationRegex, "Invalid email address")
-            .required("Required")
-        )
-        .required("At least one email is required"),
-      file: Yup.mixed().test("file", "CSV file is required", (value) => {
+
+        ),
+      file: Yup.mixed().test("file", "File is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
     }),
@@ -137,40 +174,41 @@ function UploadDealerBook() {
 
       try {
         const errors = await formik.validateForm(values);
-        const result = await uploadDealerBookInBulk(formData);
-        console.log(result.message);
-        setError(result.message);
-        if (result.code === 200) {
-          if (Object.keys(errors).length === 0) {
+        console.log("errors====>", errors)
+        setError(""); // Reset API error state
+        if (Object.keys(errors).length === 0) {
+          const result = await uploadDealerBookInBulk(formData);
+          console.log(result.message);
+          setError(result.message);
+          if (result.code === 200) {
             console.log("Form Data:", formData);
-            // navigate("/dealerPriceList");
             setLoader(false);
             openModal();
             setTimer(3);
           } else {
+            console.log("API error:", result.message);
             setLoader(false);
-
-            console.log("Form validation failed:", errors);
           }
+        } else {
+          console.log("Form validation failed:", errors);
+          setLoader(false);
         }
       } catch (error) {
-        setLoader(false);
-
         console.error("Error submitting form:", error);
+        setLoader(false);
       }
-      setLoader(false);
-    },
+    }
   });
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1CAsu13q4T9i7dGpzVRvE9KYmt2xM0JNGeswKtRONnG0/edit?usp=sharing",
+      "https://docs.google.com/spreadsheets/d/1hwQfZ-5f80JwcocWAbPF7texOezSAXi-UEp_qSnSQa0/edit#gid=0",
       "_blank"
     );
   };
 
   return (
-    <div className="my-8 ml-3">
+    <div className="mb-8 ml-3">
       <Headbar />
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
@@ -187,8 +225,8 @@ function UploadDealerBook() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/"}>Price Book </Link>{" "}
-                  <span className="mx-2"> /</span>
+                  <Link to={"/"}>Home </Link>{" "}
+                  <span className=""> /</span>
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
@@ -199,22 +237,29 @@ function UploadDealerBook() {
           </div>
 
           {/* Form Start */}
-          {error && (
-            <p className="text-red-500 text-sm pl-2">
-              <span className="font-semibold"> {error} </span>
-            </p>
-          )}
+
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 py-8 drop-shadow-4xl bg-white min-h-screen border-[1px] border-[#D1D1D1]  rounded-xl">
+            <div className="px-8 pb-8 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
+              {error ? (
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              ) : (
+                <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
+                  <span className="font-semibold"> error </span>
+                </p>
+              )}
+
               <Grid className="">
                 <div className="col-span-12">
                   <div className="col-span-12">
                     <Select
-                      label="Dealer Name*"
+                      label="Dealer Name"
+                      required={true}
                       name="dealerId"
                       placeholder=""
                       onChange={handleSelectChange}
-                      className="!bg-[#fff]"
+                      className="!bg-white"
                       options={activeDealers}
                       value={formik.values.dealerId}
                       onBlur={formik.handleBlur}
@@ -222,62 +267,56 @@ function UploadDealerBook() {
                     />
                     {formik.touched.dealerId && formik.errors.dealerId && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.dealerId}
+                        <span className="font-semibold"> {formik.errors.dealerId} </span>
                       </div>
                     )}
                   </div>
                 </div>
-                {/* <div className="col-span-6">
-              <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
-                <ReactTags
-                  tags={tags}
-                  delimiters={delimiters}
-                  name="email"
-                  handleDelete={handleDelete}
-                  handleAddition={handleAddition}
-                  handleDrag={handleDrag}
-                  handleTagClick={handleTagClick}
-                  inputFieldPosition="bottom"
-                  autocomplete
-                  editable
-                  placeholder=""
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute text-base font-Regular leading-6 duration-300 transform origin-[0] top-1 left-2 px-1 -translate-y-4 scale-75 bg-[#fff] text-[#5D6E66] "
-                >
-                  Email Confirmations
-                  <span className="text-red-500">*</span>
-                </label>
-              </div>
-              {formik.errors.email && (
-                <p className="text-red-500 text-[10px] mt-1 font-medium">
-                 {formik.errors.email &&
-                    (Array.isArray(formik.errors.email)
-                      ? formik.errors.email.map((error, index) => (
-                          <span key={index}>
-                            {index > 0 && ' '} {/* Add space if not the first element */}
-                {/* {error}
-                          </span>
-                        ))
-                      : formik.errors.email)}
-                </p>
-              )}
-            </div> */}
                 <div className="col-span-12">
                   <p className="text-light-black text-base mb-2 font-semibold">
                     Upload In Bulk
                   </p>
-                  <FileDropdown
-                    className="!bg-transparent"
-                    accept={
-                      ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                    }
-                    onFileSelect={(file) => formik.setFieldValue("file", file)}
-                  />
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={handleDropdownClick}
+                      className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                    >
+                      {selectedFile ? (
+                        <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                          <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <div className="flex justify-between w-full">
+                            <p className="self-center">{selectedFile.name}</p>
+                            <p className="self-center">
+                              {(selectedFile.size / 1000).toFixed(2)} kb
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <img
+                            src={Dropbox}
+                            className="mx-auto mb-3"
+                            alt="Dropbox"
+                          />
+                          <p className="text-[#5D6E66]">
+                            Accepted file types: csv, xlsx, xls Max. file size:
+                            50 MB.
+                          </p>
+                        </>
+                      )}
+                    </button>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      style={{ display: "none" }}
+                      onChange={handleFileSelect}
+                    />
+                  </div>
                   {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-[10px] mt-1 font-medium">
-                      {formik.errors.file}
+                    <p className="text-red-500 text-sm pl-2 pt-2">
+                      <span className="font-semibold">{formik.errors.file} </span>
                     </p>
                   )}
                   <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
@@ -307,15 +346,6 @@ function UploadDealerBook() {
         </>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-        onClick={closeModal}
-        className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-      >
-        <img
-          src={Cross}
-          className="w-full h-full text-black rounded-full p-0"
-        />
-      </Button> */}
         <div className="text-center py-1">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">

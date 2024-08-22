@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY || "fallback_value";
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -23,7 +23,7 @@ export const getPendingDealersList = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.post(`${url}/admin/pendingDealers`,data ,{
+    const response = await axios.post(`${url}/admin/pendingDealers`, data, {
       headers,
     });
 
@@ -79,6 +79,21 @@ export const getDealersList = async (data) => {
   }
 };
 
+export const getDealersListServicerPortal = async (data) => {
+  console.log(data);
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(`${url}/servicerPortal/getServicerDealers`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDealersDetailsByid = async (id) => {
   const headers = createHeaders();
 
@@ -98,7 +113,7 @@ export const checkDealersEmailValidation = async (email) => {
   console.log(headers);
   try {
     const response = await axios.post(
-      `${url}/user/checkEmail`,
+      `${url}/user/checkEmailForSingle`,
       {
         email: email,
       },
@@ -112,12 +127,14 @@ export const checkDealersEmailValidation = async (email) => {
     throw error;
   }
 };
-export const getProductListbyProductCategoryId = async (categoryId) => {
+
+export const getProductListbyProductCategoryId = async (categoryId,data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/price/getPriceBookByCategoryId/${categoryId}`,
+      data,
       {
         headers,
       }
@@ -259,6 +276,31 @@ export const editDealerData = async (data) => {
     throw error;
   }
 };
+export const uploadTermsandCondition = async (data) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(
+      `${url}/dealer/uploadTermAndCondition`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getDealerPriceBookByDealerId = async (id) => {
   const headers = createHeaders();
   console.log(headers);
@@ -276,13 +318,13 @@ export const getDealerPriceBookByDealerId = async (id) => {
   }
 };
 
-
 export const getFilterPriceBookByDealer = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.post(
-      `${url}/dealer/getAllPriceBooksByFilter/`,data,
+      `${url}/dealer/getAllPriceBooksByFilter/`,
+      data,
       {
         headers,
       }
@@ -294,7 +336,6 @@ export const getFilterPriceBookByDealer = async (data) => {
   }
 };
 
-
 export const filterGetPriceBookDetails = async (data) => {
   const headers = createHeaders();
   try {
@@ -305,6 +346,96 @@ export const filterGetPriceBookDetails = async (data) => {
         headers,
       }
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const unAssignedServicerForUser = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/unAssignServ`, data, {
+      headers,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const createRelationWithDealer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/createRelationWithServicer/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const checkDealerPriceBook = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/checkDealerPriceBook`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getOrderListByDealerId = async (id, data = {}) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/dealerOrders/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const unAssignedServicerForDealer = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/unAssignServicer`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getContractsforDealer = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}/dealer/getDealerContract/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
     return response.data;
   } catch (error) {
     throw error;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY || "fallback_value";
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -52,12 +52,13 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
-export const getCategoryListActiveData = async (id) => {
+export const getCategoryListActiveData = async (value, id, ) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${url}/price/getActivePriceBookCategories?priceBookId=${id}`,
+      value,
       { headers }
     );
 
@@ -85,7 +86,6 @@ export const editCategoryList = async (id, categoryListData) => {
 
 export const getCompanyPriceList = async (filterData) => {
   const headers = createHeaders();
-  console.log(filterData);
   try {
     const response = await axios.post(
       `${url}/price/priceBooks`,
@@ -206,7 +206,7 @@ export const getPriceBookByDealerId = async (id) => {
 };
 
 export const uploadDealerBookInBulk = async (data) => {
-  const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
+  const accessToken = getAccessToken(); 
   const headers = {
     "Content-Type": "multipart/form-data",
   };
@@ -217,8 +217,8 @@ export const uploadDealerBookInBulk = async (data) => {
 
   try {
     const response = await axios.post(
-      `${url}/dealer/uploadsDealerPriceBook`,
-      data, // Assuming `data` is FormData or a structure that Axios can handle for form data
+      `${url}/dealer/uploadDealerPriceBook`,
+      data,
       {
         headers,
       }

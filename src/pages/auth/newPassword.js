@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 // Media imports
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import NewPasswordImage from "../../assets/images/new_password.png";
 import NewPasswordEmail from "../../assets/images/reset-password.png";
 import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
 import Modal from "../../common/model";
-import { resetPassword } from "../../services/authServices";
+import { checkLink, resetPassword } from "../../services/authServices";
 
 const NewPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -24,10 +24,11 @@ const NewPasswordSchema = Yup.object().shape({
 });
 
 function NewPassword() {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+console.log(id, token);
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -44,6 +45,9 @@ function NewPassword() {
       } else {
         setError(result.message);
         setIsModalOpen(true);
+        setTimeout(() => {
+          navigate('/'); // redirect to the login page after 3 seconds
+        }, 3000); 
       }
     },
   });
@@ -52,7 +56,16 @@ function NewPassword() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
+useEffect(()=>{
+  checkValidLink()
+},[])
+const checkValidLink = () => {
+ checkLink(id,token).then((res) => {
+  if(res.code != 200){
+    navigate('/login')
+  }
+  })
+}
   return (
     <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
       <form onSubmit={formik.handleSubmit}>
@@ -60,13 +73,14 @@ function NewPassword() {
           <div className="col-span-5">
             <img
               src={NewPasswordImage}
+              loading="lazy"
               className="h-screen object-contain py-5 w-full"
               alt="Logo "
             />
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={Logo} className="w-[224px]" alt="Logo " />
+              <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Enter </span> New Password
               </p>
@@ -111,7 +125,7 @@ function NewPassword() {
                   className="w-full h-[50px] text-lg mt-3 font-semibold"
                   type="submit"
                 >
-                  Reset Password
+                  Set New Password
                 </Button>
               </div>
             </div>
@@ -122,17 +136,8 @@ function NewPassword() {
 
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {/* <Button
-          onClick={closeModal}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button> */}
         <div className="text-center py-3">
-          <img src={NewPasswordEmail} alt="email Image" className="mx-auto" />
+          <img src={NewPasswordEmail} alt="email Image" loading="lazy" className="mx-auto"/>
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
             Password{" "}
             <span className="text-light-black"> Reset Successfully </span>
@@ -140,10 +145,11 @@ function NewPassword() {
           <p className="text-neutral-grey text-base font-medium mt-4">
             Your password has been changed. Now you can{" "}
           </p>
-          <Link to={"/"} className="font-medium text-base text-neutral-grey">
+           
+          <p className="text-neutral-grey text-base font-medium"><Link to={"/"} className="font-bold text-base text-light-black">
             {" "}
-            <b> login </b> with your new password.
-          </Link>
+            login 
+          </Link> with your new password. </p>
         </div>
       </Modal>
     </div>

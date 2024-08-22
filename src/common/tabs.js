@@ -9,13 +9,14 @@ const Tabs = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex">
+      <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey flex w-[50%] justify-center">
         {tabs.map((tab) => (
           <div
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}
-            className={`cursor-pointer p-4 ${
-              activeTab === tab.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
+            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] mr-3 cursor-pointer border-Light-Grey ${
+              activeTab === tab.id ? "!bg-[#2A2A2A] !text-white"
+              : "!bg-grayf9 !text-black"
             }`}
           >
             {tab.label}

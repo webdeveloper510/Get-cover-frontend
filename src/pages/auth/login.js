@@ -8,7 +8,7 @@ import Button from "../../common/button";
 import Layout from "../../utils/layout";
 
 // Media imports
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
 import PasswordInput from "../../common/passwordInput";
 
@@ -19,10 +19,6 @@ function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.title = "Get Cover | Login";
-  }, []);
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
@@ -48,7 +44,17 @@ function Login() {
         setError("");
         setUserDetails(result.result);
         localStorage.setItem("userDetails", JSON.stringify(result.result));
-        navigate("/dashboard");
+        if (result.result.role == "Super Admin") {
+          navigate("/dashboard");
+        } else if (result.result.role == "Servicer") {
+          navigate("/servicer/dashboard");
+        } else if (result.result.role == "Dealer") {
+          navigate("/dealer/dashboard");
+        } else if (result.result.role == "Reseller") {
+          navigate("/reseller/dashboard");
+        } else if (result.result.role == "Customer") {
+          navigate("/customer/dashboard");
+        }
       }
     },
   });
@@ -57,17 +63,18 @@ function Login() {
     <Layout>
       <form onSubmit={formik.handleSubmit}>
         <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
-          <Grid className="px-8">
-            <div className="col-span-5">
+          <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
+            <div className="col-span-5 hidden md:block">
               <img
                 src={Logi}
+                loading="lazy"
                 className="py-5 lg:h-screen h-full md:mx-auto"
                 alt="Logo "
               />
             </div>
-            <div className="col-span-6 self-center">
-              <div className="mx-auto max-w-md">
-                <img src={Logo} className="w-[224px]" alt="Logo " />
+            <div className="col-span-6 self-center h-screen md:h-full flex relative ">
+              <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
+                <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
                   GetCover
@@ -133,20 +140,20 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
-                    className="w-full h-[50px] text-xl font-semibold"
+                    className="w-full  h-[50px] text-xl font-semibold"
                   >
                     Sign in
                   </Button>
 
                   <p className="text-base text-neutral-grey font-medium mt-4">
                     Don’t have an account?{" "}
-                    <Link
-                      to={"/register"}
-                      className="text-light-black ml-3"
-                    >
+                    <Link to={"/register"} className="text-light-black ml-3">
                       <b> Register </b>
                     </Link>{" "}
                   </p>
+                  <div>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad.net </a></p>
+                  </div>
                 </div>
               </div>
             </div>

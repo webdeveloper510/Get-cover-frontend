@@ -10,9 +10,9 @@ import { Link } from "react-router-dom";
 import Layout from "../../utils/layout";
 
 function Register() {
-  useEffect(() => {
-    document.title = "Get Cover | Register";
-  }, []);
+  // useEffect(() => {
+  //   document.title = "Get Cover | Register";
+  // }, []);
 
   return (
     <Layout>
@@ -20,13 +20,14 @@ function Register() {
         <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
           <Link
             to={"/"}
-            className="absolute bg-[#f9f9f9] top-0 rounded-full p-[19px] left-0"
+            className="absolute bg-grayf9 top-0 rounded-full p-[19px] left-0"
           >
-            <img src={Back} className="w-[40px] h-[40px]" alt=" Back Image" />{" "}
+            <img src={Back} className="w-[40px] h-[40px]" loading="lazy" alt=" Back Image" />{" "}
           </Link>
 
           <img
             src={ImageRegister}
+            loading="lazy"
             className="mx-auto 2xl:w-full xl:w-[65%] w-full "
             alt="Register Image"
           />
@@ -39,10 +40,10 @@ function Register() {
               <b> account type </b>.
             </p>
 
-            <Grid className="">
+            <Grid className="s:grid-cols-3 md:grid-cols-12 xl:grid-cols-12">
               <div className="col-span-3"></div>
-              <div className="col-span-3">
-                <div className="group drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300 hover:bg-[#fff] bg-[#F0F0F0] py-6 mb-[-40px] rounded-[30px] relative">
+              <div className="col-span-3 s:my-5 s:z-10">
+                <div className="group drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105  duration-300 hover:bg-white bg-[#F0F0F0] py-6 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as
                   </p>
@@ -50,17 +51,17 @@ function Register() {
                     Dealer
                   </p>
                   <div className="group-hover:block hidden">
-                    <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
+                    <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerDealer"}>
                         {" "}
-                        <img src={RegisterButton} alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>
                 </div>
               </div>
-              <div className="col-span-3">
-                <div className="group drop-shadow-xl hover:bg-[#fff] bg-[#F0F0F0] py-6 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-300 mb-[-40px] rounded-[30px] relative">
+              <div className="col-span-3 s:my-5">
+                <div className="group drop-shadow-xl hover:bg-white bg-[#F0F0F0] py-6 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-105 duration-300 mb-[-40px] rounded-[30px] relative">
                   <p className="text-neutral-grey text-lg font-medium">
                     Register as
                   </p>
@@ -68,9 +69,9 @@ function Register() {
                     Servicer
                   </p>
                   <div className="group-hover:block hidden">
-                    <Button className="!bg-[#dfdfdf] absolute !px-2 rounded-[36px] left-1/2 transforms absolute">
+                    <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerProvider"}>
-                        <img src={RegisterButton} alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>

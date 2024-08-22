@@ -25,8 +25,8 @@ function AddCategory() {
   const [error, setError] = useState("");
   const [type, setType] = useState("");
   const [loader, setLoader] = useState(false);
-  
-  const [timer, setTimer] = useState(5);
+
+  const [timer, setTimer] = useState(3);
   const [categoryDetails, setCategoryDetails] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
@@ -104,7 +104,7 @@ function AddCategory() {
     if (type === "Edit" && Object.keys(categoryDetails).length > 0) {
       formik.setValues((prevValues) => ({
         ...prevValues,
-        name: categoryDetails.name,
+        name: categoryDetails.name.replace(/\s+/g, ' '),
         description: categoryDetails.description,
         status: categoryDetails.status,
       }));
@@ -122,13 +122,16 @@ function AddCategory() {
     setCategoryDetails(result.result);
     setLoader(false);
   };
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
-    <div className="my-8 ml-3">
+    <div className="mb-8 ml-3">
       <Headbar />
       <div className="flex mt-2">
         <Link
           to={"/category"}
-          className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
+          className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[20px]"
         >
           <img
             src={BackImage}
@@ -142,8 +145,8 @@ function AddCategory() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/dashboard"}>Price Book </Link>{" "}
-              <span className="mx-2"> /</span>{" "}
+              <Link to={'/'}>Home </Link>{" "}
+              <span className=""> /</span>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-Regular ml-1">
               <Link
@@ -152,7 +155,7 @@ function AddCategory() {
               >
                 Category{" "}
               </Link>{" "}
-              <span className="mx-2"> /</span>{" "}
+              <span className=""> /</span>{" "}
             </li>
             <li className="text-sm text-neutral-grey font-semibold ml-1">
               {" "}
@@ -161,11 +164,7 @@ function AddCategory() {
           </ul>
         </div>
       </div>
-      {error && (
-        <p className="text-red-500 text-sm pl-2">
-          <span className="font-semibold"> {error} </span>
-        </p>
-      )}
+
       {/* Form Start */}
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
@@ -175,7 +174,16 @@ function AddCategory() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="px-8 py-8 drop-shadow-4xl bg-white border-[1px] border-[#D1D1D1]  rounded-xl">
+          <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+            {error ? (
+              <p className="text-red-500 text-sm pl-2 my-3">
+                <span className="font-semibold"> {error} </span>
+              </p>
+            ) : (
+              <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                <span className="font-semibold"> error </span>
+              </p>
+            )}
             <Grid>
               <div className="col-span-12">
                 <Input
@@ -184,7 +192,7 @@ function AddCategory() {
                   label="Category Name"
                   placeholder=""
                   required={true}
-                  className="!bg-[#fff]"
+                  className="!bg-white"
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -203,7 +211,7 @@ function AddCategory() {
                     name="status"
                     placeholder=""
                     onChange={handleSelectChange}
-                    className="!bg-[#fff]"
+                    className="!bg-white"
                     options={status}
                     value={formik.values.status}
                     onBlur={formik.handleBlur}
@@ -221,7 +229,7 @@ function AddCategory() {
                 <div className="relative">
                   <label
                     htmlFor="description"
-                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#fff] left-2 px-1 -translate-y-4 scale-75"
+                    className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                   >
                     Description <span className="text-red-500">*</span>
                   </label>

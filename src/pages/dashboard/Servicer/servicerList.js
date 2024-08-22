@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -8,6 +8,7 @@ import arrowImage from "../../../assets/images/dropdownArrow.png";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
+import view from "../../../assets/images/eye.png";
 import Headbar from "../../../common/headBar";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import Grid from "../../../common/grid";
@@ -16,6 +17,7 @@ import DataTable from "react-data-table-component";
 import {
   addNewServicerRequest,
   changeServicerStatus,
+  updateServicerStatus,
 } from "../../../services/servicerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
@@ -26,8 +28,9 @@ function ServicerList() {
   const [servicerList, setServicerList] = useState([]);
   const dropdownRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = servicerList.length - index <= 2;
+    const isCloseToBottom = servicerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -38,6 +41,17 @@ function ServicerList() {
   useEffect(() => {
     getServicerList();
   }, []);
+
+  const formatOrderValue = (orderValue) => {
+    if (Math.abs(orderValue) >= 1e6) {
+      return (orderValue / 1e6).toFixed(2) + "M";
+    } else {
+      return orderValue.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  };
 
   const getServicerList = async () => {
     setLoading(true);
@@ -55,13 +69,16 @@ function ServicerList() {
           if (data.accountId === row.accountId) {
             return {
               ...data,
-              status: newStatus === "active" ? true : false,
+              servicerData: {
+                ...data.servicerData,
+                status: newStatus === "active" ? true : false,
+              },
             };
           }
           return data;
         });
       });
-      const result = await changeServicerStatus(row.accountId, {
+      const result = await updateServicerStatus(row.accountId, {
         status: newStatus === "active" ? true : false,
         userId: row._id,
       });
@@ -105,13 +122,25 @@ function ServicerList() {
     console.log(formik.values);
     getServicerList();
   };
+
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.servicerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "80px",
+      maxWidth: "90px",
     },
     {
       name: "Servicer Name",
@@ -125,19 +154,19 @@ function ServicerList() {
       minWidth: "150px",
     },
     {
-      name: "Phone No.",
-      selector: (row) => row.phoneNumber,
+      name: "Phone #",
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
-      name: "No. of Claims",
-      selector: (row) => 0,
+      name: "# of Claims",
+      selector: (row) => row.claimNumber?.noOfOrders ?? 0,
       sortable: true,
       minWidth: "150px",
     },
     {
       name: "Total Claims Value",
-      selector: (row) => "$0.00",
+      selector: (row) => `$${(formatOrderValue(row?.claimValue?.totalAmount ?? parseInt(0)))}`,
       sortable: true,
       minWidth: "180px",
     },
@@ -146,14 +175,13 @@ function ServicerList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            value={row.status === true ? "active" : "inactive"}
+            value={row.servicerData.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
-            className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+            className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -188,11 +216,19 @@ function ServicerList() {
             {selectedAction === row.servicerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
-                <div className="text-center cursor-pointer py-1">View</div>
+                <div
+                  onClick={() => {
+                    localStorage.removeItem("servicer");
+                    navigate(`/servicerDetails/${row.accountId}`);
+                  }}
+                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                >
+                  <img src={view} className="w-4 h-4 mr-2" /> View
+                </div>
               </div>
             )}
           </div>
@@ -222,7 +258,7 @@ function ServicerList() {
 
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
         <Headbar />
 
         <div className="flex mt-2">
@@ -230,7 +266,10 @@ function ServicerList() {
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Servicer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/"}>Servicer </Link>{" "}
+                <Link to={"/"}>Home </Link> /
+              </li>
+              <li className="text-sm text-neutral-grey font-semibold ml-1">
+                <Link to={"/servicerList"}>Servicer List </Link>{" "}
               </li>
             </ul>
           </div>
@@ -238,7 +277,7 @@ function ServicerList() {
 
         <Link
           to={"/addServicer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl ml-auto border-[1px] border-[#D1D1D1]"
+          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
           <img src={AddItem} className="self-center" alt="AddItem" />{" "}
@@ -247,21 +286,21 @@ function ServicerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Servicer List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Name"
                         value={formik.values.name}
@@ -273,8 +312,8 @@ function ServicerList() {
                       <Input
                         name="email"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Email"
                         value={formik.values.email}
@@ -287,8 +326,9 @@ function ServicerList() {
                       <Input
                         name="phone"
                         type="tel"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        nonumber={true}
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Phone"
                         value={formik.values.phone}
@@ -300,7 +340,7 @@ function ServicerList() {
                           console.log(sanitizedValue);
                           formik.handleChange({
                             target: {
-                              name: "phoneNumber",
+                              name: "phone",
                               value: sanitizedValue,
                             },
                           });
@@ -309,7 +349,7 @@ function ServicerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer"
@@ -343,8 +383,7 @@ function ServicerList() {
                 </div>
               </div>
             ) : (
-              <DataTable
-                columns={columns}
+              <DataTable draggableColumns={false} columns={columns}
                 data={servicerList}
                 highlightOnHover
                 sortIcon={

@@ -52,6 +52,17 @@ function NewDealerList() {
     }
   };
 
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
+
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
       <p>No records found.</p>
@@ -100,7 +111,7 @@ function NewDealerList() {
   };
 
   const calculateDropdownPosition = (index) => {
-    const isCloseToBottom = pendingDealerList.length - index <= 2;
+    const isCloseToBottom = pendingDealerList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
 
@@ -141,8 +152,8 @@ function NewDealerList() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.dealerData.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -170,8 +181,8 @@ function NewDealerList() {
       minWidth: "220px",
     },
     {
-      name: "Phone No.",
-      selector: (row) => row.phoneNumber,
+      name: "Phone #",
+      selector: (row) => "+1 " + formatPhoneNumber(row.phoneNumber),
       sortable: true,
     },
     {
@@ -189,19 +200,19 @@ function NewDealerList() {
           </div>
           {isDropdownOpen && selectedAction === index && (
             <div
-              className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 p-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                 index
               )}`}
               onClick={(e) => e.stopPropagation()}
             >
               <div
-                className="text-center py-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
+                className="text-center py-1 px-2 border-b text-[12px] border-[#E6E6E6] text-[#40BF73] cursor-pointer"
                 onClick={() => handleActionChange("Approved", row.accountId)}
               >
                 Approve
               </div>
               <div
-                className="text-center py-2 text-[#FF4747] text-[12px] cursor-pointer"
+                className="text-center py-1 px-2 text-[#FF4747] text-[12px] cursor-pointer"
                 onClick={() => handleActionChange("Rejected", row.accountId)}
               >
                 Disapprove
@@ -243,10 +254,12 @@ function NewDealerList() {
       }
     } else if (action === "Approved") {
       setIsModalOpen(false);
-      navigate(`/dealer/${id}`);
+      navigate(`/addDealer/${id}`);
     }
   };
-
+  const handleGOBack = () => {
+    navigate(-1)
+  }
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
 
   const closeDisapproved = () => {
@@ -266,16 +279,16 @@ function NewDealerList() {
   }, [isDisapprovedOpen, timer]);
   return (
     <>
-      <div className="my-8 ml-3">
+      <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Dealer</p>
             <ul className="flex self-center">
               <li className="text-sm text-neutral-grey font-Regular">
-                <Link to={"/dashboard"}>Dealer </Link> /{" "}
+                <Link to={'/'}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-2 pt-[1px]">
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
                 {" "}
                 New Dealer Requests{" "}
               </li>
@@ -283,21 +296,21 @@ function NewDealerList() {
           </div>
         </div>
 
-        <div className="bg-white mt-10 border-[1px] border-[#D1D1D1] rounded-xl">
+        <div className="bg-white mt-10 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Request List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-[#F9F9F9] rounded-[30px] p-3 border-[1px] border-[#D1D1D1]">
+              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Name"
                         value={formik.values.name}
@@ -309,8 +322,8 @@ function NewDealerList() {
                       <Input
                         name="email"
                         type="text"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Email"
                         value={formik.values.email}
@@ -321,9 +334,9 @@ function NewDealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="tel"
-                        className="!text-[14px] !bg-[#f7f7f7]"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-[#1B1D21] !bg-[white]"
+                        type="number"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         placeholder="Phone No."
                         value={formik.values.phoneNumber}
@@ -344,7 +357,7 @@ function NewDealerList() {
                       />
                     </div>
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className="!p-0">
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto"
@@ -382,6 +395,7 @@ function NewDealerList() {
                 columns={columns}
                 data={pendingDealerList}
                 highlightOnHover
+                draggableColumns={false}
                 sortIcon={
                   <>
                     {" "}
@@ -417,7 +431,7 @@ function NewDealerList() {
               </div>
               <div className="col-span-3">
                 <Button
-                  className="w-full !py-3 !bg-white border-[#D1D1D1] border !text-light-black"
+                  className="w-full !py-3 !bg-white border-Light-Grey border !text-light-black"
                   onClick={() => setIsModalOpen(false)}
                 >
                   No
@@ -429,7 +443,7 @@ function NewDealerList() {
         </Modal>
 
         <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-[#5f5f5f]">
+          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button> */}
           <div className="text-center py-3">

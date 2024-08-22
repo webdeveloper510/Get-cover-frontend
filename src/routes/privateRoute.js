@@ -1,20 +1,18 @@
-// PrivateRoute.js
 import React, { useState, useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
-import Login from "../pages/auth/login";
-import Dashboard from "../pages/dashboard";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
-const PrivateRoute = ({ element, path, withoutLogin }) => {
+const PrivateRoute = ({ element, path, withoutLogin, role }) => {
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
     const checkAuthentication = async () => {
-      const userToken = localStorage.getItem("userDetails");
+      const userToken = JSON.parse(localStorage.getItem("userDetails"));
       setIsLoggedIn(!!userToken);
       setLoading(false);
+      console.log(role, userToken);
+
       if (!!userToken === false && withoutLogin) {
         navigate(path, { replace: true });
       } else if (withoutLogin && !!userToken === true) {
@@ -24,6 +22,28 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
       } else {
         navigate(path, { replace: true });
       }
+
+      console.log(
+        userToken?.role,
+        role,
+        userToken?.role !== role.charAt(0).toUpperCase() + role.slice(1)
+      );
+      if (
+        role &&
+        userToken?.role != undefined &&
+        userToken?.role !== role.charAt(0).toUpperCase() + role.slice(1)
+      ) {
+        const rolePaths = {
+          Dealer: "/dealer/dashboard",
+          Servicer: "/servicer/dashboard",
+          Reseller: "/reseller/dashboard",
+          Customer: "/customer/dashboard",
+        };
+
+        const redirectionPath = rolePaths[userToken?.role] || "/dashboard";
+        console.log(redirectionPath);
+        navigate(redirectionPath, { replace: true });
+      }
     };
 
     checkAuthentication();
@@ -32,10 +52,7 @@ const PrivateRoute = ({ element, path, withoutLogin }) => {
   if (loading) {
     return null;
   }
-  console.log(path)
-
-  return <>
-  {element}</>;
+  return <>{element}</>;
 };
 
 export default PrivateRoute;

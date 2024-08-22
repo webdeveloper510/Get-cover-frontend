@@ -2,15 +2,48 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{css}",
   ],
   theme: {
     extend: {
       colors: {
-        'neutral-grey': '#999',
-        'light-black' : '#333',
+        'neutral-grey': 'rgb(var(--neutral-grey) / <alpha-value>)',
+        'light-grey': 'rgb(var(--light-grey) / <alpha-value>)',
+        'light-black' : 'rgb(var(--light-black) / <alpha-value>)',
+        'light-white' : 'rgb(var(--light-white) / <alpha-value>)',
+        'light-green' : 'rgb(var(--light-green) / <alpha-value>)',
+        'Gray28' : 'rgb(var(--Gray28) / <alpha-value>)',
+        'grayf9' : 'rgb(var(--grayf9) / <alpha-value>)',
+        'Eclipse' : 'rgb(var(--Eclipse) / <alpha-value>)',
+        'Light-Grey' : 'rgb(var(--Light-Grey) / <alpha-value>)',
+        'white' : 'rgb(var(--white) / <alpha-value>)',
+        'Black-Russian' : 'rgb(var(--Black-Russian) / <alpha-value>)',
+        'White-Smoke' : 'rgb(var(--White-Smoke) / <alpha-value>)',
+        'Smoke' : 'rgb(var(--Smoke) / <alpha-value>)',
+        'Granite-Gray' : 'rgb(var(--Granite-Gray) / <alpha-value>)',
+        'red' : 'rgb(var(--red) / <alpha-value>)',
+        'Onyx' : 'rgb(var(--Onyx) / <alpha-value>)',
+        'Bright-Grey' : 'rgb(var(--Bright-Grey) / <alpha-value>)',
+        'red-500' : 'rgb(var(--red-500) / <alpha-value>)',
+      },
+      padding: {
+        '10p': '10px',
       },
       backgroundColor : {
-        'light-black' : '#333',
+        'light-black' : 'rgb(var(--light-black) / <alpha-value>)',
+        'Gray28' : 'rgb(var(--Gray28) / <alpha-value>)',
+        'grayf9' : 'rgb(var(--grayf9) / <alpha-value>)',
+        'Eclipse' : 'rgb(var(--Eclipse) / <alpha-value>)',
+        'Light-Grey' : 'rgb(var(--Light-Grey) / <alpha-value>)',
+        'white' : 'rgb(var(--white) / <alpha-value>)',
+        'Black-Russian' : 'rgb(var(--Black-Russian) / <alpha-value>)',
+        'White-Smoke' : 'rgb(var(--White-Smoke) / <alpha-value>)',
+        'Smoke' : 'rgb(var(--Smoke) / <alpha-value>)',
+        'Granite-Gray' : 'rgb(var(--Granite-Gray) / <alpha-value>)',
+        'red' : 'rgb(var(--red) / <alpha-value>)',
+        'Onyx' : 'rgb(var(--Onyx) / <alpha-value>)',
+        'Bright-Grey' : 'rgb(var(--Bright-Grey) / <alpha-value>)',
+        'red-500' : 'rgb(var(--red-500) / <alpha-value>)',
       },
       backgroundImage : {
         'hero-pattern': "url('/src/assets/images/Bg.png')",
@@ -24,8 +57,16 @@ module.exports = {
         '3xl': '0 4px 84px rgba(0, 0, 0, 0.25)',
         '4xl': '0px 0px 100px rgba(0, 0, 0, 0.15)',
         '5xl': '0px 4.979px 29.872px rgba(0, 0, 0, 0.25)',
+        'header' : '0px 7px 14px 0px #00000014'
+        
+      },
+      boxShadow: {
+        '6xl':'-11px -4px 11px 20px #f9f9f9',
       },
       screens: {
+        's': '320px',
+        // => @media (min-width: 320px) { ... }
+
         'sm': '640px',
         // => @media (min-width: 640px) { ... }
   

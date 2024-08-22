@@ -10,13 +10,18 @@ import Loader from "../../../assets/images/Loader.gif";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Button from "../../../common/button";
 import Modal from "../../../common/model";
-import Wholesale from "../../../assets/images/icons/wholePrice.svg";
-import product from "../../../assets/images/icons/productName.svg";
-import category1 from "../../../assets/images/icons/productCat.svg";
-import dealer from "../../../assets/images/icons/dealerName.svg";
+import Wholesale from "../../../assets/images/priceBook/Wholesale.svg";
+import product from "../../../assets/images/priceBook/ProductN.svg";
+import productS from "../../../assets/images/priceBook/ProductS.svg";
+import Description from "../../../assets/images/priceBook/Description.svg";
+import Coverage from "../../../assets/images/priceBook/CoverageT.svg";
+import priceType from "../../../assets/images/priceBook/PriceT.svg";
+import category1 from "../../../assets/images/priceBook/ProductC.svg";
+import dealer from "../../../assets/images/priceBook/Dealer.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
 import {
   addDealerPriceBook,
+  checkDealerPriceBook,
   editDealerPriceBook,
   getDealerPricebookDetailById,
   getDealersList,
@@ -35,15 +40,29 @@ function AddDealerBook() {
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
+  const [coverageType, setCoverageType] = useState("");
   const [loader, setLoader] = useState(false);
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
   const { id, dealerIdValue } = useParams();
-  console.log(dealerIdValue);
+
+  useEffect(() => {
+    if (id) {
+      dealerDetailById(id);
+      setType("Edit");
+    } else if (dealerIdValue) {
+      formik.setFieldValue("dealerId", dealerIdValue);
+      getProductList(dealerIdValue);
+    } else {
+      setType("Add");
+    }
+    dealerList();
+  }, []);
+
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
-    console.log(result);
+    console.log(result?.result[0]?.priceBooks?.pName);
     formik.setFieldValue("status", result.result[0].status);
     const data = result.result[0];
     console.log(data);
@@ -55,9 +74,11 @@ function AddDealerBook() {
     );
     formik.setFieldValue("priceBook", result?.result[0]?.priceBook);
     formik.setFieldValue("description", result?.result[0]?.description);
+    formik.setFieldValue("priceType", result?.result[0]?.priceType);
     formik.setFieldValue("term", result?.result[0]?.term);
     formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
     formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
+    formik.setFieldValue("pName", result?.result[0]?.priceBooks.pName);
     formik.setFieldValue(
       "categoryId",
       result?.result[0]?.priceBooks?.category[0]?._id
@@ -67,27 +88,23 @@ function AddDealerBook() {
   };
 
   const dealerList = async () => {
-    const result = await getDealersList();
-    console.log(result.data);
-    let arr = [];
-    result.data.map((data) => {
-      // console.log(data.dealerData);
-      arr.push({ label: data.dealerData.name, value: data.dealerData._id });
-    });
-    setActiveDealerList(arr);
-  };
-  useEffect(() => {
-    if (id) {
-      dealerDetailById(id);
-      setType("Edit");
-    } else if (dealerIdValue) {
-      formik.setFieldValue("dealerId", dealerIdValue);
-    } else {
-      setType("Add");
+    try {
+      const result = await getDealersList();
+      console.log(result.data);
+      const filteredDealers = result.data.filter(
+        (data) => data.dealerData.accountStatus === true
+      );
+
+      let arr = filteredDealers.map((data) => ({
+        label: data.dealerData.name,
+        value: data.dealerData._id,
+      }));
+
+      setActiveDealerList(arr);
+    } catch (error) {
+      console.error("Error fetching dealer list:", error);
     }
-    dealerList();
-    getProductList();
-  }, []);
+  };
 
   useEffect(() => {
     let intervalId;
@@ -103,8 +120,9 @@ function AddDealerBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getProductList = async () => {
-    const result = await getCategoryListActiveData();
+  const getProductList = async (id) => {
+    setLoader(true);
+    const result = await getCategoryListActiveData({ dealerId: id });
     // console.log(result.result);
     setCategoryList(
       result.result.map((item) => ({
@@ -112,13 +130,17 @@ function AddDealerBook() {
         value: item._id,
       }))
     );
+    setCoverageType(result.coverageType);
+    setLoader(false);
   };
   const handleLinkClick = () => {
     if (dealerIdValue !== undefined) {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
       navigate(`/dealerDetails/${dealerIdValue}`);
     } else {
-      navigate("/dealerPriceList");
+      // console.log("Navigating to /dealerbook/" + dealerIdValue);
+      //navigate(-1);
+      navigate(`/dealerPriceList`);
     }
   };
   const closeModal = () => {
@@ -126,6 +148,21 @@ function AddDealerBook() {
   };
   const handleSelectChange = async (name, value) => {
     setError("");
+    if (name === "dealerId") {
+      formik.setValues({
+        ...formik.values,
+        dealerId: "",
+      });
+      const result = await getCategoryListActiveData({ dealerId: value });
+      console.log(result.result);
+      setCoverageType(result.coverageType);
+      setCategoryList(
+        result.result.map((item) => ({
+          label: item.name,
+          value: item._id,
+        }))
+      );
+    }
     if (name === "categoryId") {
       formik.setValues({
         ...formik.values,
@@ -133,20 +170,29 @@ function AddDealerBook() {
         wholesalePrice: "",
         description: "",
         term: "",
+        pName: "",
       });
-      const response = await getProductListbyProductCategoryId(value);
+      console.log(
+        value,
+        "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}"
+      );
+      const response = await getProductListbyProductCategoryId(value, {
+        coverageType: coverageType,
+      });
       setProductNameOptions(() => {
         return response.result.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
           description: item.description,
           term: item.term,
+          pName: item.pName,
           wholesalePrice:
             item.frontingFee +
             item.reserveFutureFee +
             item.reinsuranceFee +
             item.adminFee,
           status: item.status,
+          priceType: item.priceType,
         }));
       });
     }
@@ -159,7 +205,9 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
+      formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
+      formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
     }
 
@@ -170,6 +218,7 @@ function AddDealerBook() {
     initialValues: {
       retailPrice: "",
       priceBook: "",
+      pName: "",
       dealerId: "",
       description: "",
       status: priceBookById?.status !== undefined ? priceBookById.status : true,
@@ -177,24 +226,27 @@ function AddDealerBook() {
       wholesalePrice: "",
       term: "",
       brokerFee: "",
+      priceType: "",
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
         .typeError("Required")
         .required("Required")
+        .min(0, "Retail Price cannot be negative")
         .nullable(),
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
+      pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
       setLoader(true);
-      console.log(values);
+
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-
+      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
@@ -217,9 +269,11 @@ function AddDealerBook() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-
+  const handleGOBack = () => {
+    navigate(-1);
+  };
   return (
-    <div className="my-8 ml-3">
+    <div className="mb-8 ml-3">
       <Headbar />
       {loader == true ? (
         <div className=" h-screen w-full flex py-5">
@@ -232,7 +286,7 @@ function AddDealerBook() {
           <div className="flex">
             <div
               onClick={handleLinkClick}
-              className="h-[60px] w-[60px] flex border-[1px] bg-white border-[#D1D1D1] rounded-[20px]"
+              className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[20px]"
             >
               <img
                 src={BackImage}
@@ -246,8 +300,8 @@ function AddDealerBook() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={"/dashboard"}>Price Book </Link>{" "}
-                  <span className="mx-2"> /</span>{" "}
+                  <Link to={'/'}>Home </Link>{" "}
+                  <span className=""> /</span>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-Regular ml-1">
                   <Link
@@ -256,7 +310,7 @@ function AddDealerBook() {
                   >
                     Dealer Book{" "}
                   </Link>{" "}
-                  <span className="mx-2"> /</span>{" "}
+                  <span className=""> /</span>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
@@ -267,40 +321,36 @@ function AddDealerBook() {
           </div>
 
           {/* Form Start */}
-          {error && (
+          {/* {error && (
             <p className="text-red-500 text-sm pl-2">
               <span className="font-semibold"> {error} </span>
             </p>
-          )}
+          )} */}
           {type === "Edit" && (
             <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
-              <Grid className="mx-8 mx-auto ">
+              <Grid className="mx-auto ">
                 <div className="col-span-4 self-center ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img
-                        src={Wholesale}
-                        className="w-6 h-6"
-                        alt="Wholesale"
-                      />
+                    <div className="self-center mr-4">
+                      <img src={Wholesale} alt="Wholesale" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
-                        Wholesale Price($)
+                      <p className="text-white text-base font-medium leading-5	">
+                        Wholesale Price
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
-                        $ {priceBookById?.wholesalePrice?.toFixed(2)}
+                        ${priceBookById?.wholesalePrice?.toFixed(2)}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="col-span-4 ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={category1} className="w-6 h-6" alt="category" />
+                    <div className="self-center mr-4">
+                      <img src={category1} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Product Category
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -311,11 +361,11 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={dealer} className="w-6 h-6" alt="dealer" />
+                    <div className="self-center mr-4">
+                      <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-base font-medium leading-5	">
+                      <p className="text-white text-base font-medium leading-5	">
                         Dealer Name
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
@@ -326,12 +376,27 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4 ">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={product} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Product Name
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.pName}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-4 ">
+                  <div className="flex">
+                    <div className="self-center mr-4">
+                      <img src={productS} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-white text-lg font-medium leading-5	">
+                        Product SKU
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.name}
@@ -339,13 +404,44 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-8">
+
+                <div className="col-span-4">
                   <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] border-[#D1D9E24D] border rounded-lg p-3 mr-4">
-                      <img src={product} className="w-6 h-6" alt="product" />
+                    <div className="self-center mr-4">
+                      <img src={priceType} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-[#FFF] text-lg font-medium leading-5	">
+                      <p className="text-white text-lg font-medium leading-5	">
+                        Price Type
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.priceType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-4">
+                  <div className="flex">
+                    <div className="self-center mr-4">
+                      <img src={Coverage} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-white text-lg font-medium leading-5	">
+                        Coverage Type
+                      </p>
+                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                        {priceBookById?.priceBooks?.coverageType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-8">
+                  <div className="flex">
+                    <div className="self-center mr-4">
+                      <img src={Description} alt="product" />
+                    </div>
+                    <div className="self-center">
+                      <p className="text-white text-lg font-medium leading-5	">
                         Description
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
@@ -358,18 +454,27 @@ function AddDealerBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 py-8 drop-shadow-4xl bg-white  border-[1px] border-[#D1D1D1]  rounded-3xl">
+            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+              {error ? (
+                <p className="text-red-500 text-sm pl-2 my-3">
+                  <span className="font-semibold"> {error} </span>
+                </p>
+              ) : (
+                <p className="text-red-500 text-sm pl-2 my-3 opacity-0	">
+                  <span className="font-semibold"> error </span>
+                </p>
+              )}
               <Grid>
                 {type !== "Edit" && (
                   <>
-                    <div className="col-span-4">
+                    <div className="col-span-3">
                       <Select
                         name="dealerId"
                         label="Dealer Name"
                         options={activeDealerList}
                         disabled={dealerIdValue != undefined ? true : false}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         value={formik.values.dealerId}
                         onBlur={formik.handleBlur}
@@ -384,13 +489,13 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-3">
                       <Select
                         name="categoryId"
                         label="Product Category"
                         options={category}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         maxLength={"30"}
                         value={formik.values.categoryId}
@@ -407,13 +512,13 @@ function AddDealerBook() {
                           </div>
                         )}
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-3">
                       <Select
                         name="priceBook"
-                        label="Product Name"
+                        label="Product SkU"
                         options={productNameOptions}
                         required={true}
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         placeholder=""
                         value={formik.values.priceBook}
                         onBlur={formik.handleBlur}
@@ -428,13 +533,30 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
+                    <div className="col-span-3">
+                      <Input
+                        type="text"
+                        name="pName"
+                        className="!bg-white"
+                        label="Product Name"
+                        // required={true}
+                        placeholder=""
+                        value={formik.values.pName}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
                     <div className="col-span-4">
                       <Input
                         type="text"
                         name="wholesalePrice"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Wholesale Price($)"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.wholesalePrice}
                         onChange={formik.handleChange}
@@ -450,9 +572,9 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="description"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Description"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.description}
                         onChange={formik.handleChange}
@@ -467,11 +589,28 @@ function AddDealerBook() {
                       <Input
                         type="text"
                         name="term"
-                        className="!bg-[#fff]"
+                        className="!bg-white"
                         label="Term"
-                        required={true}
+                        // required={true}
                         placeholder=""
                         value={formik.values.term}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name="priceType"
+                        className="!bg-white"
+                        label="Price Type"
+                        // required={true}
+                        placeholder=""
+                        value={formik.values.priceType}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={true}
@@ -487,8 +626,8 @@ function AddDealerBook() {
                   <Input
                     type="number"
                     name="retailPrice"
-                    className="!bg-[#fff]"
-                    label="Retail Price ($)"
+                    className="!bg-white"
+                    label="Retail Price($)"
                     placeholder=""
                     required={true}
                     maxLength={"10"}
@@ -519,11 +658,16 @@ function AddDealerBook() {
                     placeholder=""
                     onChange={handleSelectChange}
                     disabled={
+                      priceBookById.dealer?.accountStatus === false ||
+                      priceBookById.priceBooks?.status === false ||
                       priceBookById?.priceBooks?.category[0]?.status === false
-                        ? true
-                        : false
                     }
-                    className="!bg-[#fff]"
+                    // disabled={
+                    //   priceBookById?.priceBooks?.category[0]?.status === false
+                    //     ? true
+                    //     : false
+                    // }
+                    className="!bg-white"
                     options={status}
                     value={formik.values.status}
                     onBlur={formik.handleBlur}

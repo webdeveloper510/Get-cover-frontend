@@ -1,9 +1,127 @@
+@-moz-document url-prefix() {
+  .rounded-full.text-white.absolute {
+    top: 7px !important;
+    right: -33px !important;
+  }
+}
+
 .transforms {
-    transform: translate(-50%, -6%);
+  transform: translate(-50%, -6%);
 }
 
 .focused label,
 .react-select__control--is-focused label {
   transform: translateY(-1.25rem) scale(0.75);
-  color: #4a90e2; /* Change the color to match your design */
+  color: #4a90e2;
+  /* Change the color to match your design */
+}
+
+.rdrInputRange {
+  display: none !important;
+}
+
+.tag-invalid {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 3px;
+}
+
+.tag-valid {
+  background-color: lightgrey;
+  color: white;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 3px;
+}
+
+.SearchSelect:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.\!w-full.SearchSelect.filter.css-b62m3t-container div {
+  padding: 2px 4px;
+}
+
+.dropdown-container {
+  border-radius: 9px !important;
+}
+
+.rmsc .dropdown-container:focus-within {
+  box-shadow: none !important;
+  border-color: #80808085 !important;
+}
+
+.rmsc .gray {
+  color: #333 !important;
+}
+
+.rmsc {
+  --rmsc-main: #808080 !important;
+  box-sizing: unset !important;
+  --tw-ring-color: #80808085 !important;
+}
+
+.SearchSelect.css-b62m3t-container {
+  font-size: 16px !important;
+  color: #111827 !important;
+  font-weight: 600;
+}
+
+.red .dropdown-container {
+  border-width: 0px !important;
+
+}
+
+button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+  right: -20px;
+  min-width: 30px !important;
+  left: unset;
+  min-height: 30px !important;
+}
+
+button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+  right: -20px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+}
+
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+  right: 10px;
+  min-width: 30px !important;
+  left: unset;
+  min-height: 30px !important;
+}
+
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+  right: 10px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+}
+
+.react-multi-carousel-list {
+  position: unset !important;
+}
+
+.gradient-border {
+  border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00);
+  /* Adjust colors as needed */
+  border-image-slice: 1;
+}
+
+.css-b62m3t-container div:hover {
+  border-color: #80808085 !important;
+}
+
+.hover\:font-semibold:hover {
+  font-weight: 600 !important;
+  color: #333333 !important;
+  background: #dedddd !important;
+}
+
+.koyZDM,
+.bsLmP {
+  overflow: unset !important;
 }

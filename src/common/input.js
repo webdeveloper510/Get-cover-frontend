@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Dropbox from "../assets/images/icons/dropBox.svg";
+import csvFile from "../assets/images/icons/csvFile.svg";
 
 const Input = ({
   type,
@@ -14,111 +18,142 @@ const Input = ({
   className,
   className1,
   disabled,
-  maxDecimalPlaces,
   placeholder,
+  zipcode,
+  classBox,
+  nonumber,
+  maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(value);
-  // console.log(defaultValue);
-  const handleWheelCapture = (event) => {
-    event.preventDefault();
-  };
 
-  const handleInput = (event) => {
-    if (
-      type === "number" &&
-      maxDecimalPlaces !== undefined &&
-      maxLength !== undefined
-    ) {
-      const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d{0,10}(\\.\\d{0,2})?$`);
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
-      if (!regex.test(inputValue)) {
-        return;
-      }
-      setInputValue(inputValue);
-
-      if (onChange) {
-        onChange({
-          target: {
-            name: event.target.name,
-            value: inputValue,
-          },
-        });
-      }
-    } else if (
-      type === "tel" &&
-      maxDecimalPlaces !== undefined &&
-      maxLength !== undefined
-    ) {
-      const inputValue = event.target.value;
-      const regex = new RegExp(`^-?\\d{0,7}(\\.\\d{0,2})?$`);
-
-      if (!regex.test(inputValue)) {
-        return;
-      }
-      setInputValue(inputValue);
-
-      if (onChange) {
-        onChange({
-          target: {
-            name: event.target.name,
-            value: inputValue,
-          },
-        });
-      }
-    } else {
-      setInputValue(event.target.value);
-      if (onChange) {
-        onChange(event);
-      }
+  const handleDateChange = (date) => {
+    setInputValue(date);
+    if (onChange) {
+      onChange({
+        target: {
+          name: name,
+          value: date ? date.toISOString().split("T")[0] : "",
+        },
+      });
     }
   };
 
-  // useEffect(() => {
-  //   const inputElement = document.getElementById(name);
-  //   if (inputElement) {
-  //     inputElement.addEventListener("wheel", handleWheelCapture, {
-  //       passive: false,
-  //     });
-  //   }
+  const handleChange = (e) => {
+    setInputValue(e.target.files[0]);
+  };
 
-  //   return () => {
-  //     if (inputElement) {
-  //       inputElement.removeEventListener("wheel", handleWheelCapture);
-  //     }
-  //   };
-  // }, [handleWheelCapture, name]);
+  const handleInput = (event) => {
+    let inputValue = event.target.value;
+
+    if (type === "text") {
+      inputValue = inputValue.replace(/[|&;$%*"<>()+,]/g, "");
+      inputValue = inputValue.replace(/\s+/g, " ");
+    }
+
+    if (zipcode) {
+      inputValue = inputValue.replace(/\D/g, ""); // Remove any non-digit characters
+    }
+
+    setInputValue(inputValue);
+
+    if (onChange) {
+      onChange({
+        target: {
+          name: event.target.name,
+          value: inputValue,
+        },
+      });
+    }
+  };
 
   return (
-    <>
-      <div className="relative">
-        <input
-          type={type}
-          name={name}
-          value={value}
-          id={name}
-          onBlur={onBlur}
-          minLength={minLength}
-          maxLength={maxLength}
-          pattern={type === "number" ? "[0-9]*" : undefined}
+    <div className={`relative ${classBox}`}>
+      {type === "date" ? (
+        <DatePicker
+          selected={inputValue ? new Date(inputValue) : null}
+          onChange={handleDateChange}
+          dateFormat="MM/dd/yyyy"
+          maxDate={maxDate ? new Date() : null}
+          placeholderText="mm/dd/yyyy"
           className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-            error ? "border-[red]" : " border-gray-300 "
+            error ? "border-[red]" : "border-gray-300"
           } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
-          onChange={handleInput}
-          disabled={disabled}
-          placeholder={placeholder}
-          onWheel={(e) => e.preventDefault()}
-          // required={required}
         />
-        <label
-          htmlFor={name}
-          className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-[#f9f9f9] left-2 px-1 -translate-y-4 scale-75 ${className}  `}
-        >
-          {" "}
-          {label} {required && <span className="text-red-500">*</span>}
-        </label>
-      </div>
-    </>
+      ) : (
+        <>
+          {type === "file" ? (
+            <div className="relative">
+              <label
+                htmlFor="file-upload"
+                className="cursor-pointer px-2.5 pb-2.5 flex pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none"
+              >
+                {!inputValue ? (
+                  <>
+                    <img src={Dropbox} className="w-6 h-6 mr-5" alt="Dropbox" />
+                    Choose File
+                  </>
+                ) : (
+                  <>
+                    <img src={csvFile} className="w-6 h-6 mr-2" alt="csvFile" />
+                    {inputValue.name}
+                  </>
+                )}
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                className="absolute hidden"
+                onChange={handleChange}
+              />
+            </div>
+          ) : (
+            <>
+              {type === "tel" || nonumber && (
+                <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                  +1
+                </div>
+              )}
+              <input
+                type={type}
+                name={name}
+                value={type === "date" ? inputValue : value}
+                id={name}
+                onBlur={onBlur}
+                minLength={minLength}
+                maxLength={maxLength}
+                pattern={type === "number" ? "[0-9]*" : undefined}
+                step={type === "number" ? "1" : undefined} // Ensure step is set to 1 for number type
+                className={`${
+                  type === "tel" || (nonumber && "pl-[30px]")
+                } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
+                  error ? "border-[red]" : "border-gray-300"
+                } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                onChange={handleInput}
+                disabled={disabled}
+                required={required}
+                placeholder={placeholder}
+                onWheel={(e) => e.target.blur()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </>
+          )}
+        </>
+      )}
+      <label
+        htmlFor={name}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 ${className}`}
+      >
+        {label} {required && <span className="text-red-500">*</span>}
+      </label>
+    </div>
   );
 };
 
