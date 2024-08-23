@@ -9,41 +9,39 @@ import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
+import { downloadFile } from "../../../../services/userServices";
 function OrderSummary(props) {
-  
   const baseUrl = apiUrl();
 
   console.log(props.shown);
   const [showTooltip, setShowTooltip] = useState(false);
 
-const handleDownloadClick = (file, apiUrlData) => {
-    const fileUrl = `${baseUrl.bucket}/uploads/${file}`;
-    const fileName = file;
+  const handleDownloadClick = async (file) => {
+    try {
+      let data = {
+        key: file,
+      };
+      const binaryString = await downloadFile(data);
+      const binaryArray = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        binaryArray[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([binaryArray], {
+        type: "application/octet-stream",
+      });
 
-    fetch(fileUrl, {
-        headers: baseUrl.headers
-    })
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error(`Failed to fetch the file. Status: ${response.status}`);
-        }
-        return response.blob();
-    })
-    .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = fileName;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-    })
-    .catch((error) => {
-        console.error("Error fetching the file:", error);
-    });
-};
-
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
+  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -135,30 +133,30 @@ const handleDownloadClick = (file, apiUrlData) => {
                               Unit Price
                             </p>
                             <p className="text-light-black text-base font-semibold">
-                            
-                              ${
-                                res.unitPrice === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.unitPrice)
-                              }
+                              $
+                              {res.unitPrice === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(res.unitPrice)}
                             </p>
                           </div>
                         </div>
-                        {props.shown === false && <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              ADH (Waiting Days)
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res?.adh === "" ? 0 : res?.adh}
-                            </p>
+                        {props.shown === false && (
+                          <div className="col-span-3 border border-Light-Grey">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                ADH (Waiting Days)
+                              </p>
+                              <p className="text-light-black text-base font-semibold">
+                                {res?.adh === "" ? 0 : res?.adh}
+                              </p>
+                            </div>
                           </div>
-                        </div>}
-                        
+                        )}
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
-                               # of Products
+                              # of Products
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {res.checkNumberProducts}
@@ -171,11 +169,10 @@ const handleDownloadClick = (file, apiUrlData) => {
                               Price
                             </p>
                             <p className="text-light-black text-base font-semibold">
-                              ${
-                                res.price === undefined
-                                  ? parseInt(0).toLocaleString(2)
-                                  : formatOrderValue(res.price)
-                              }
+                              $
+                              {res.price === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(res.price)}
                             </p>
                           </div>
                         </div>
@@ -248,10 +245,7 @@ const handleDownloadClick = (file, apiUrlData) => {
                               {res.QuantityPricing &&
                                 res.QuantityPricing.map((value, index) => {
                                   return (
-                                    <tr
-                                      key={index}
-                                      className="border bg-white"
-                                    >
+                                    <tr key={index} className="border bg-white">
                                       <td className="text-[12px]">
                                         {value.name}
                                       </td>
