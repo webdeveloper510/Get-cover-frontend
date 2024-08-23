@@ -7,6 +7,7 @@ import Input from "../../../../common/input";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
+import { downloadFile } from "../../../../services/userServices";
 function OrderSummary(props) {
   console.log(props.data);
   const baseUrl = apiUrl();
@@ -21,36 +22,32 @@ function OrderSummary(props) {
     }
   };
 
-
-  const handleDownloadClick = (file) => {
-    console.log(baseUrl, '--------------')
-    const fileUrl = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file}`;
-
-    const fileName = file;
-
-    fetch(fileUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Failed to fetch the file. Status: ${response.status}`);
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = fileName;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
+  const handleDownloadClick = async (file) => {
+    try {
+      let data = {
+        key: file,
+      };
+      const binaryString = await downloadFile(data);
+      const binaryArray = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        binaryArray[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([binaryArray], {
+        type: "application/octet-stream",
       });
+
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
-
-
 
   return (
     <>
@@ -164,16 +161,18 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        {props.shown === false && <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              ADH (Waiting Days)
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res?.adh === "" ? 0 : res?.adh}
-                            </p>
+                        {props.shown === false && (
+                          <div className="col-span-3 border border-Light-Grey">
+                            <div className="py-4 pl-3">
+                              <p className="text-[#5D6E66] text-sm font-Regular">
+                                ADH (Waiting Days)
+                              </p>
+                              <p className="text-light-black text-base font-semibold">
+                                {res?.adh === "" ? 0 : res?.adh}
+                              </p>
+                            </div>
                           </div>
-                        </div>}
+                        )}
 
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
@@ -201,87 +200,88 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        {res.priceType == "Flat Pricing" && (
-                          <>
-                            <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
-                                <p className="text-[#5D6E66] text-sm font-Regular">
-                                  Start Range
-                                </p>
-                                <p className="text-light-black text-base font-semibold">
-                                  {/* ${res.rangeStart.toLocaleString(2)} */}$
-                                  {res.rangeStart === undefined
-                                    ? parseInt(0).toLocaleString(2)
-                                    : formatOrderValue(
-                                      res.rangeStart ?? parseInt(0)
-                                    )}
-                                </p>
+                        {
+                          res.priceType == "Flat Pricing" && (
+                            <>
+                              <div className="col-span-3 border border-Light-Grey">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    Start Range
+                                  </p>
+                                  <p className="text-light-black text-base font-semibold">
+                                    {/* ${res.rangeStart.toLocaleString(2)} */}$
+                                    {res.rangeStart === undefined
+                                      ? parseInt(0).toLocaleString(2)
+                                      : formatOrderValue(
+                                        res.rangeStart ?? parseInt(0)
+                                      )}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                            <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
-                                <p className="text-[#5D6E66] text-sm font-Regular">
-                                  End Range
-                                </p>
-                                <p className="text-light-black text-base font-semibold">
-                                  $
-                                  {res.rangeEnd === undefined
-                                    ? parseInt(0).toLocaleString(2)
-                                    : formatOrderValue(
-                                      res.rangeEnd ?? parseInt(0)
-                                    )}
-                                </p>
+                              <div className="col-span-3 border border-Light-Grey">
+                                <div className="py-4 pl-3">
+                                  <p className="text-[#5D6E66] text-sm font-Regular">
+                                    End Range
+                                  </p>
+                                  <p className="text-light-black text-base font-semibold">
+                                    $
+                                    {res.rangeEnd === undefined
+                                      ? parseInt(0).toLocaleString(2)
+                                      : formatOrderValue(
+                                        res.rangeEnd ?? parseInt(0)
+                                      )}
+                                  </p>
+                                </div>
                               </div>
+                            </>
+                          )
+                        }
+                        {
+                          res.priceType == "Quantity Pricing" && (
+                            <div className="col-span-12">
+                              <table className="w-full border text-center">
+                                <tr className="border bg-white">
+                                  <td colSpan={"4"} className="font-bold text-sm">
+                                    Quantity Pricing List{" "}
+                                  </td>
+                                </tr>
+                                <tr className="border bg-white">
+                                  <th className="font-bold text-sm">Name</th>
+                                  <th className="font-bold text-sm">
+                                    Quantity Per Unit
+                                  </th>
+                                  <th className="font-bold text-sm">Quantity</th>
+                                  <th className="font-bold text-sm"># of Unit</th>
+                                </tr>
+                                {res.QuantityPricing &&
+                                  res.QuantityPricing.map((value, index) => {
+                                    return (
+                                      <tr key={index} className="border bg-white">
+                                        <td className="text-[12px]">
+                                          {value.name}
+                                        </td>
+                                        <td className="text-[12px]">
+                                          {value.quantity}
+                                        </td>
+                                        <td className="text-[12px]">
+                                          {value.enterQuantity}
+                                        </td>
+                                        <td className="text-[12px]">
+                                          {Math.max(
+                                            1,
+                                            Math.ceil(
+                                              value.enterQuantity /
+                                              parseFloat(value.quantity)
+                                            )
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                              </table>
                             </div>
-                          </>
-                        )}
-                        {res.priceType == "Quantity Pricing" && (
-                          <div className="col-span-12">
-                            <table className="w-full border text-center">
-                              <tr className="border bg-white">
-                                <td colSpan={"4"} className="font-bold text-sm">
-                                  Quantity Pricing List{" "}
-                                </td>
-                              </tr>
-                              <tr className="border bg-white">
-                                <th className="font-bold text-sm">Name</th>
-                                <th className="font-bold text-sm">
-                                  Quantity Per Unit
-                                </th>
-                                <th className="font-bold text-sm">Quantity</th>
-                                <th className="font-bold text-sm"># of Unit</th>
-                              </tr>
-                              {res.QuantityPricing &&
-                                res.QuantityPricing.map((value, index) => {
-                                  return (
-                                    <tr
-                                      key={index}
-                                      className="border bg-white"
-                                    >
-                                      <td className="text-[12px]">
-                                        {value.name}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {value.quantity}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {value.enterQuantity}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {Math.max(
-                                          1,
-                                          Math.ceil(
-                                            value.enterQuantity /
-                                            parseFloat(value.quantity)
-                                          )
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </table>
-                          </div>
-                        )}
+                          )
+                        }
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
                             <div className="col-span-9 py-4 pl-3">
@@ -314,17 +314,17 @@ function OrderSummary(props) {
                             </div>
                           </Grid>
                         </div>
-                      </Grid>
-                    </div>
-                  </div>
-                </div>
+                      </Grid >
+                    </div >
+                  </div >
+                </div >
               );
             })
           ) : (
             <></>
           )}
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 }

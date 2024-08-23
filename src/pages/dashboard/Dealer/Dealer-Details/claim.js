@@ -54,7 +54,10 @@ import CustomPagination from "../../../pagination";
 
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
-import { checkUserToken } from "../../../../services/userServices";
+import {
+  checkUserToken,
+  downloadFile,
+} from "../../../../services/userServices";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -130,33 +133,32 @@ function ClaimList(props) {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
-  const downloadImage = (file) => {
-    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      console.log("binaryString---------", binaryString);
+      const binaryArray = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        binaryArray[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([binaryArray], {
+        type: "application/octet-stream",
       });
+
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
 
   useEffect(() => {

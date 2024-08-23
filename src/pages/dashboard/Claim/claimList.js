@@ -59,6 +59,7 @@ import { RotateLoader } from "react-spinners";
 import CustomPagination from "../../pagination";
 import SelectSearch from "../../../common/selectSearch";
 import { apiUrl } from "../../../services/authServices";
+import { downloadFile } from "../../../services/userServices";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -161,34 +162,36 @@ function ClaimList(props) {
     scrollToBottom();
   }, [messageList, claimId]);
 
-  const downloadImage = (file) => {
-    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
 
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+      // Use the downloadFile service to fetch the binary data
+      const binaryString = await downloadFile(data);
+
+      // Convert ArrayBuffer to Blob directly
+      const blob = new Blob([binaryString]);
+
+      // Create a Blob URL
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a download link and trigger the download
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName; // Use the filename from the file object
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+
+      // Revoke the Blob URL after use
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
+
 
   useEffect(() => {
     let intervalId;
@@ -686,7 +689,7 @@ function ClaimList(props) {
     const attachments = res || [];
     console.log(attachments, '------------')
     attachments.forEach((attachment, index) => {
-      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.key}`;
+      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
       fetch(url, {
         headers: baseUrl.headers,
       })
