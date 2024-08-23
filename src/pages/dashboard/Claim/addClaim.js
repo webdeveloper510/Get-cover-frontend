@@ -500,7 +500,7 @@ function AddClaim() {
                                     Customer Name
                                   </th>
                                 )}
-                              <th className="font-semibold">Serial #</th>
+                              <th className="font-semibold">Serial # / Device ID</th>
                               <th className="font-semibold">Order #</th>
                               <th className="font-semibold">Dealer P.O. #</th>
                               <th className="font-semibold">Action</th>
@@ -620,7 +620,7 @@ function AddClaim() {
   };
 
   const validationSchemaStep2 = Yup.object({
-    lossDate: Yup.date().required("Loss Date is required"),
+    lossDate: Yup.date().required("Damage Date is required"),
     images: Yup.array().test("fileSize", "File size is too large", (value) => {
       if (!value || value.length === 0) return true;
 
@@ -844,7 +844,7 @@ function AddClaim() {
                       </div>
                       <div className="col-span-6">
                         <Input
-                          label="Loss Date"
+                          label="Damage Date"
                           type="date"
                           name="lossDate"
                           maxDate={maxDate}
@@ -946,13 +946,16 @@ function AddClaim() {
                     </div>
                   </div>
                   <div className="col-span-6">
-                    <p className=" mb-2">
+                    {window.location.pathname.includes(
+                      "/customer/addClaim"
+                    ) ? '' : <p className=" mb-2">
                       {" "}
                       Max Claim amount is $
                       {price == null
                         ? parseInt(0).toLocaleString(2)
                         : formatOrderValue(price ?? parseInt(0))}
-                    </p>
+                    </p>}
+
                     <div className="relative">
                       <label
                         htmlFor="description"
@@ -1068,8 +1071,8 @@ function AddClaim() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2

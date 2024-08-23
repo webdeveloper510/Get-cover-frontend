@@ -147,7 +147,7 @@ function Contracts(props) {
                       className="!text-[14px] !bg-White-Smoke"
                       className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                       label=""
-                      placeholder="Serial #"
+                      placeholder="Serial # / Device ID"
                     />
                   </div>
                   <div className="col-span-3 self-center">
@@ -160,7 +160,7 @@ function Contracts(props) {
                       // onChange={handleSelectChange}
                       OptionName="Status"
                       name="status"
-                      // value={formik.values.status}
+                    // value={formik.values.status}
                     />
                   </div>
                   <div className="col-span-2 self-center flex justify-center">
@@ -278,8 +278,8 @@ function Contracts(props) {
                               {res.productValue === undefined
                                 ? parseInt(0).toLocaleString(2)
                                 : formatOrderValue(
-                                    res.productValue ?? parseInt(0)
-                                  )}
+                                  res.productValue ?? parseInt(0)
+                                )}
                               {/* ${parseInt(res?.productValue).toLocaleString(2)} */}
                             </p>
                           </div>
@@ -455,8 +455,8 @@ function Contracts(props) {
                         {singleContract?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract?.claimAmount ?? parseInt(0)
-                            )}
+                            singleContract?.claimAmount ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -529,13 +529,13 @@ function Contracts(props) {
                         {singleContract.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract.productValue ?? parseInt(0)
-                            )}
+                            singleContract.productValue ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -548,9 +548,9 @@ function Contracts(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
-                                )}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -565,9 +565,9 @@ function Contracts(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
-                                )}{" "}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd ?? parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -609,7 +609,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">

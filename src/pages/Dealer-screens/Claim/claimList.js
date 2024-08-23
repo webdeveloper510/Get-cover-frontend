@@ -1329,7 +1329,7 @@ function ClaimList(props) {
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                 </p>
-                                <p className="text-[#A3A3A3]">Loss Date</p>
+                                <p className="text-[#A3A3A3]">Damage Date</p>
                               </div>
                               <div className="col-span-3 self-center justify-left pl-4 flex relative">
                                 <img
@@ -1404,7 +1404,7 @@ function ClaimList(props) {
                                 />
                                 <div className="py-4 pl-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product Serial
+                                    Product Serial  / Device ID
                                   </p>
                                   <p className="text-light-black text-sm font-semibold">
                                     {res?.contracts?.serial}
@@ -2788,7 +2788,7 @@ function ClaimList(props) {
                   type="text"
                   name="serial"
                   className="!bg-white"
-                  label="Serial #"
+                  label="Serial # / Device ID"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
                 />

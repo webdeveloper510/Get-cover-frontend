@@ -419,7 +419,7 @@ function ContractList(props) {
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 pl-3">
                               <p className="text-[#5D6E66] text-sm font-Regular">
-                                Serial #
+                                Serial # / Device ID
                               </p>
                               <p className="text-light-black text-base font-semibold">
                                 {res.serial}
@@ -546,7 +546,7 @@ function ContractList(props) {
                       type="text"
                       name="serial"
                       className="!bg-white"
-                      label="Serial #"
+                      label="Serial # / Device ID"
                       placeholder=""
                       {...formik.getFieldProps("serial")}
                     />
@@ -683,8 +683,8 @@ function ContractList(props) {
         <Button
           onClick={closeView}
           className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-              ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-              : "!bg-Granite-Gray"
+            ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+            : "!bg-Granite-Gray"
             } `}
         >
           <img
@@ -749,7 +749,7 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial #
+                        Serial # / Device ID
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {contractDetails?.serial}

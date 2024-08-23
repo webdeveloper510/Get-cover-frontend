@@ -251,7 +251,7 @@ function CustomerAddClaim() {
                 </div>
                 <div className='col-span-6'>
                   <Input
-                    label="Loss Date"
+                    label="Damage Date"
                     name="lossDate"
                     required
                     type='date'

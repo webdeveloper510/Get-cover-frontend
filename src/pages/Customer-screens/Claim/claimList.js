@@ -82,7 +82,7 @@ function CustomerClaimList() {
     { label: "Reseller", value: false },
     { label: "Servicer", value: false },
   ];
-  
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -117,7 +117,7 @@ function CustomerClaimList() {
         </Link>
 
         <div className='bg-white my-8 border-[1px] border-Light-Grey rounded-xl'>
-          
+
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-2 self-center'>
               <p className='text-xl font-semibold'>Claims List</p>
@@ -160,7 +160,7 @@ function CustomerClaimList() {
                       />
                     </Button>
                     <Button
-                      type="submit" className='ml-2 !text-sm' onClick={()=> openDisapproved()}>
+                      type="submit" className='ml-2 !text-sm' onClick={() => openDisapproved()}>
                       Advance Search
                     </Button>
                   </div>
@@ -171,57 +171,57 @@ function CustomerClaimList() {
 
           <div className=' px-3 mt-5'>
 
-            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex}  title={ <> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
-                <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 861910  </p>
-                  <p className='text-[#A3A3A3]'>Claim ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
-                  <p className='text-[#A3A3A3]'>Contract ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
-                  <p className='text-[#A3A3A3]'>Loss Date</p>
-                </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
-                </div>
-              </Grid>
-            <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
-            <div className='col-span-2 flex '>
-              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+            <CollapsibleDiv index={1} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={<> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
+              <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
+                <p className='font-semibold leading-5 text-lg'> 861910  </p>
+                <p className='text-[#A3A3A3]'>Claim ID</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                <p className='text-light-black text-sm font-semibold'>Apple</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
+                <p className='text-[#A3A3A3]'>Contract ID</p>
               </div>
-            </div>
-            <div className='col-span-4 flex'>
-              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
+                <p className='text-[#A3A3A3]'>Damage Date</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+              <div className='col-span-3 self-center justify-center flex relative'>
+                <img src={chat} className=' mr-2 cursor-pointer' onClick={() => openView()} alt='chat' />
+                {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
               </div>
-            </div>
-          </Grid> </>}>
+            </Grid>
+              <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
+                <div className='col-span-2 flex '>
+                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                    <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple</p>
+                  </div>
+                </div>
+                <div className='col-span-4 flex'>
+                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
+                    <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+                  </div>
+                </div>
+              </Grid> </>}>
 
-              
-          <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
+
+              <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
@@ -326,11 +326,11 @@ function CustomerClaimList() {
                       <div className='m-2 p-2 bg-Eclipse '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
                         <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                          <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
                         </div>
                       </div>
                     </div>
@@ -338,9 +338,9 @@ function CustomerClaimList() {
                       {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
                       <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
                         <div className='self-center'>
-                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
-                          <p className='text-sm font-semibold text-center'>Download <br/>
-                             Attachments</p>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download' />
+                          <p className='text-sm font-semibold text-center'>Download <br />
+                            Attachments</p>
                         </div>
                       </div>
                     </div>
@@ -349,57 +349,57 @@ function CustomerClaimList() {
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv index={2} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={ <> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
-                <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 861910  </p>
-                  <p className='text-[#A3A3A3]'>Claim ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
-                  <p className='text-[#A3A3A3]'>Contract ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
-                  <p className='text-[#A3A3A3]'>Loss Date</p>
-                </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
-                </div>
-              </Grid>
-            <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
-            <div className='col-span-2 flex '>
-              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+            <CollapsibleDiv index={2} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={<> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
+              <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
+                <p className='font-semibold leading-5 text-lg'> 861910  </p>
+                <p className='text-[#A3A3A3]'>Claim ID</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                <p className='text-light-black text-sm font-semibold'>Apple</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
+                <p className='text-[#A3A3A3]'>Contract ID</p>
               </div>
-            </div>
-            <div className='col-span-4 flex'>
-              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
+                <p className='text-[#A3A3A3]'>Damage Date</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+              <div className='col-span-3 self-center justify-center flex relative'>
+                <img src={chat} className=' mr-2 cursor-pointer' onClick={() => openView()} alt='chat' />
+                {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
               </div>
-            </div>
-          </Grid> </>}>
+            </Grid>
+              <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
+                <div className='col-span-2 flex '>
+                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                    <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple</p>
+                  </div>
+                </div>
+                <div className='col-span-4 flex'>
+                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
+                    <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+                  </div>
+                </div>
+              </Grid> </>}>
 
-              
-          <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
+
+              <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
@@ -504,11 +504,11 @@ function CustomerClaimList() {
                       <div className='m-2 p-2 bg-Eclipse '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
                         <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                          <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
                         </div>
                       </div>
                     </div>
@@ -516,9 +516,9 @@ function CustomerClaimList() {
                       {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
                       <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
                         <div className='self-center'>
-                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
-                          <p className='text-sm font-semibold text-center'>Download <br/>
-                             Attachments</p>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download' />
+                          <p className='text-sm font-semibold text-center'>Download <br />
+                            Attachments</p>
                         </div>
                       </div>
                     </div>
@@ -527,57 +527,57 @@ function CustomerClaimList() {
               </Grid>
             </CollapsibleDiv>
 
-            <CollapsibleDiv index={3} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={ <> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
-                <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 861910  </p>
-                  <p className='text-[#A3A3A3]'>Claim ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
-                  <p className='text-[#A3A3A3]'>Contract ID</p>
-                </div>
-                <div className='col-span-3 self-center border-Gray28 border-r p-5'>
-                  <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
-                  <p className='text-[#A3A3A3]'>Loss Date</p>
-                </div>
-                <div className='col-span-3 self-center justify-center flex relative'>
-                  <img src={chat} className=' mr-2 cursor-pointer' onClick={()=>openView()} alt='chat' />
-                 {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
-                </div>
-              </Grid>
-            <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
-            <div className='col-span-2 flex '>
-              <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
-                <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+            <CollapsibleDiv index={3} activeIndex={activeIndex} setActiveIndex={setActiveIndex} title={<> <Grid className='border-Gray28 border !gap-2 rounded-t-[22px]'>
+              <div className='col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5'>
+                <p className='font-semibold leading-5 text-lg'> 861910  </p>
+                <p className='text-[#A3A3A3]'>Claim ID</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
-                <p className='text-light-black text-sm font-semibold'>Apple</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> DFDSS1ghdf  </p>
+                <p className='text-[#A3A3A3]'>Contract ID</p>
               </div>
-            </div>
-            <div className='col-span-4 flex'>
-              <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
-                <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+              <div className='col-span-3 self-center border-Gray28 border-r p-5'>
+                <p className='font-semibold leading-5 text-lg'> 12 Dec 2023  </p>
+                <p className='text-[#A3A3A3]'>Damage Date</p>
               </div>
-            </div>
-            <div className='col-span-3 flex'>
-              <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-              <div className='py-4 pl-3 self-center'>
-                <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial</p>
-                <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+              <div className='col-span-3 self-center justify-center flex relative'>
+                <img src={chat} className=' mr-2 cursor-pointer' onClick={() => openView()} alt='chat' />
+                {/* <img src={Edit} className=' mr-2 cursor-pointer' onClick={()=>openEdit()} alt='edit' />  */}
               </div>
-            </div>
-          </Grid> </>}>
+            </Grid>
+              <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
+                <div className='col-span-2 flex '>
+                  <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
+                    <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple</p>
+                  </div>
+                </div>
+                <div className='col-span-4 flex'>
+                  <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
+                    <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
+                  </div>
+                </div>
+                <div className='col-span-3 flex'>
+                  <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
+                  <div className='py-4 pl-3 self-center'>
+                    <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
+                    <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
+                  </div>
+                </div>
+              </Grid> </>}>
 
-              
-          <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
+
+              <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
                   <div className='py-4 pl-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
@@ -652,7 +652,7 @@ function CustomerClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                        <img src={DropActive} alt='DropActive' />
+                          <img src={DropActive} alt='DropActive' />
                         </div>
                       </div>
                       <div className='border border-[#FFFFFF1A] mb-2 p-1 rounded-lg flex w-full'>
@@ -675,7 +675,7 @@ function CustomerClaimList() {
                           <p className='text-[#686868]'>16 Dec 2024</p>
                         </div>
                         <div className='self-center ml-auto mr-2'>
-                         
+
                         </div>
                       </div>
                     </div>
@@ -683,11 +683,11 @@ function CustomerClaimList() {
                       <div className='m-2 p-2 bg-Eclipse '>
                         <p className='text-[11px] text-white'>Diagnosis</p>
                         <div className='h-[180px] max-h-[180px] overflow-y-scroll Diagnosis'>
-                        <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
-                          placeholder. In publishing and graphic design, Lorem ipsum
-                          is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
+                          <p className='text-sm text-[#686868]'>In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design In publishing and graphic design, Lorem ipsum is a
+                            placeholder. In publishing and graphic design, Lorem ipsum
+                            is a placeholder. In publishing and graphic design, Lorem ipsum is a placeholder. In publishing and graphic design</p>
                         </div>
                       </div>
                     </div>
@@ -695,9 +695,9 @@ function CustomerClaimList() {
                       {/* <div onClick={() => openAttachments()}> <img src={attach} alt='attach' /> </div>  */}
                       <div className=' flex justify-center self-center bg-[white] h-full rounded-md'>
                         <div className='self-center'>
-                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download'/>
-                          <p className='text-sm font-semibold text-center'>Download <br/>
-                             Attachments</p>
+                          <img src={download} className='w-8 h-8 mx-auto cursor-pointer' alt='download' />
+                          <p className='text-sm font-semibold text-center'>Download <br />
+                            Attachments</p>
                         </div>
                       </div>
                     </div>
@@ -711,383 +711,383 @@ function CustomerClaimList() {
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>
-            <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
-              <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-            </Button>
-            <div className="py-3">
-              <p className='text-center text-3xl font-semibold '>
-                Comments Details
-              </p>
-              <div className='h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey bg-[#F0F0F0] border rounded-xl'>
-
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-     <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
-
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
-      <p className='text-white text-2xl self-center'>D</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
-
-<Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
-      <p className='text-white text-2xl self-center'>S</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid> 
-
- <Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>
-
- <Grid className='my-3'>
-  <div className='col-span-1'>
-    <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
-      <p className='text-white text-2xl self-center'>A</p>
-    </div>
-  </div>
-  <div className='col-span-11'>
-    <div className='bg-white rounded-md relative p-1'>
-      <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage'/>
-    <Grid>
-      <div className='col-span-6'>
-        <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
-      </div>
-      <div className='col-span-5 self-center flex justify-end'>
-        <p className='text-sm pr-3'>9:30 am</p>
-        <p className='text-sm'>12 Nov 2023</p>
-      </div>
-      <div className='col-span-1 self-center text-center'>
-       <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download'/>
-      </div>
-    </Grid>
-    <hr className='my-2'/>
-    <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
-     <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
-    </div>
-  </div>
-</Grid>             
-
-</div>
-              <div >
-                <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
-              </div>
-              <Grid>
-                <div className='col-span-1'> 
-                  <div className='border flex h-full justify-center'>
-                    <img src={upload} className='self-center' alt='upload'/>
-                  </div>
-                </div>
-                <div className='col-span-6'>
-                  <Input type='text'
-                  className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-Black-Russian !bg-[white]"/>
-                </div>
-                <div className='col-span-3'>
-                  <Select 
-                   name="state"
-                   options={state}
-                   placeholder=""
-                   className="!bg-white "
-                   className1='!p-2'
-                   />
-                </div>
-                <div className=''><Button>Submit</Button></div>
-              </Grid>
-            
-            </div>
-          </Modal>
-
-          <Modal  isOpen={isEditOpen} onClose={closeEdit}>
-            <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
-                <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-            </Button>
-            <div className='py-1'>
-            <p className='text-center text-3xl font-semibold '>
-              Edit Claim</p>
-            <form className="mt-3 mr-4">
-                  <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey  rounded-3xl">
-                    <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
-                    <div className='w-full h-[180px] px-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden'>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-white"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-white"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-4'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-white"
-                        label="Price($)"
-                        placeholder="" />
-                      </div>
-                    
-                    </Grid>
-                    <hr className='my-4'/>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-white"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-white"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-3'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-white"
-                        label="Price($)"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
-                      </div>
-                    </Grid>
-                    <hr className='my-4'/>
-                    <Grid className='mb-5'>
-                      <div className='col-span-3'>
-                      <Select
-                        name="ServiceType"
-                        label="Service Type"
-                        options={CoverageStartDate}
-                        required={true}
-                        className="!bg-white"
-                        placeholder=""/>
-                      </div>
-                      <div className='col-span-5'>
-                        <Input type='text' 
-                         name="description"
-                        className="!bg-white"
-                        label="Description"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-3'>
-                        <Input type='number' 
-                         name="price"
-                        className="!bg-white"
-                        label="Price($)"
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1 self-center  flex justify-center'>
-                       <Button className='!text-sm'><img src={DeleteImage} /></Button>
-                      </div>
-                    </Grid>
-                    </div>
-                    
-                      <div className='text-right'>
-                    <Button className='!text-sm'>+ Add More</Button>
-                      </div>
-                   
-                  </div>
-                  <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
-                  <div className="relative">
-                      <label
-                        htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                      >
-                        Note
-                      </label>
-                      <textarea
-                        id="note"
-                        rows="3"
-                        name="Note"
-                        maxLength={150}
-                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                      ></textarea>
-                    </div>
-                    </div>
-
-                  <div className='mt-3'>
-                    <Button className='!bg-white !text-black' >Cancel</Button>
-                    <Button>Update</Button>
-                    </div>
-                </form>
-            </div>
-          </Modal>
-
-          <Modal  isOpen={isAttachmentsOpen} onClose={closeAttachments}>
-            <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
-                <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-            </Button>
-            <div className='py-1'>
-            <p className='text-center text-3xl font-semibold '>
-              View Attachment</p>
-
-              <img src={Attachment} className='p-4' alt='Attachment' /> 
-            </div>
-          </Modal>
-
-          <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
+        <Button onClick={closeView} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
-          <div className="py-3">
-            <p className='text-center text-3xl font-semibold '>
+        <div className="py-3">
+          <p className='text-center text-3xl font-semibold '>
+            Comments Details
+          </p>
+          <div className='h-[350px] mt-3 p-3 max-h-[350px] overflow-y-scroll border-Light-Grey bg-[#F0F0F0] border rounded-xl'>
+
+            <Grid className='my-3'>
+              <div className='col-span-1'>
+                <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
+                  <p className='text-white text-2xl self-center'>A</p>
+                </div>
+              </div>
+              <div className='col-span-11'>
+                <div className='bg-white rounded-md relative p-1'>
+                  <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage' />
+                  <Grid>
+                    <div className='col-span-6'>
+                      <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                    </div>
+                    <div className='col-span-5 self-center flex justify-end'>
+                      <p className='text-sm pr-3'>9:30 am</p>
+                      <p className='text-sm'>12 Nov 2023</p>
+                    </div>
+                    <div className='col-span-1 self-center text-center'>
+                      <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download' />
+                    </div>
+                  </Grid>
+                  <hr className='my-2' />
+                  <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                  <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid className='my-3'>
+              <div className='col-span-1'>
+                <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
+                  <p className='text-white text-2xl self-center'>D</p>
+                </div>
+              </div>
+              <div className='col-span-11'>
+                <div className='bg-white rounded-md relative p-1'>
+                  <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage' />
+                  <Grid>
+                    <div className='col-span-6'>
+                      <p className='text-xl font-semibold'>Alison <span className='text-[12px]'>(Dealer)</span></p>
+                    </div>
+                    <div className='col-span-5 self-center flex justify-end'>
+                      <p className='text-sm pr-3'>9:30 am</p>
+                      <p className='text-sm'>12 Nov 2023</p>
+                    </div>
+                    <div className='col-span-1 self-center text-center'>
+                      <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download' />
+                    </div>
+                  </Grid>
+                  <hr className='my-2' />
+                  <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                  <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid className='my-3'>
+              <div className='col-span-1'>
+                <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
+                  <p className='text-white text-2xl self-center'>S</p>
+                </div>
+              </div>
+              <div className='col-span-11'>
+                <div className='bg-white rounded-md relative p-1'>
+                  <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage' />
+                  <Grid>
+                    <div className='col-span-6'>
+                      <p className='text-xl font-semibold'>Veronica <span className='text-[12px]'> (Servicer) </span></p>
+                    </div>
+                    <div className='col-span-5 self-center flex justify-end'>
+                      <p className='text-sm pr-3'>9:30 am</p>
+                      <p className='text-sm'>12 Nov 2023</p>
+                    </div>
+                    <div className='col-span-1 self-center text-center'>
+                      <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download' />
+                    </div>
+                  </Grid>
+                  <hr className='my-2' />
+                  <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                  <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid className='my-3'>
+              <div className='col-span-1'>
+                <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
+                  <p className='text-white text-2xl self-center'>A</p>
+                </div>
+              </div>
+              <div className='col-span-11'>
+                <div className='bg-white rounded-md relative p-1'>
+                  <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage' />
+                  <Grid>
+                    <div className='col-span-6'>
+                      <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                    </div>
+                    <div className='col-span-5 self-center flex justify-end'>
+                      <p className='text-sm pr-3'>9:30 am</p>
+                      <p className='text-sm'>12 Nov 2023</p>
+                    </div>
+                    <div className='col-span-1 self-center text-center'>
+                      <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download' />
+                    </div>
+                  </Grid>
+                  <hr className='my-2' />
+                  <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                  <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                </div>
+              </div>
+            </Grid>
+
+            <Grid className='my-3'>
+              <div className='col-span-1'>
+                <div className='bg-light-black border-2 w-12 h-12 flex justify-center border-Light-Grey rounded-full'>
+                  <p className='text-white text-2xl self-center'>A</p>
+                </div>
+              </div>
+              <div className='col-span-11'>
+                <div className='bg-white rounded-md relative p-1'>
+                  <img src={arrowImage} className='absolute -left-3 rotate-[270deg] top-2	' alt='arrowImage' />
+                  <Grid>
+                    <div className='col-span-6'>
+                      <p className='text-xl font-semibold'>Angela <span className='text-[12px]'>(Admin)</span> </p>
+                    </div>
+                    <div className='col-span-5 self-center flex justify-end'>
+                      <p className='text-sm pr-3'>9:30 am</p>
+                      <p className='text-sm'>12 Nov 2023</p>
+                    </div>
+                    <div className='col-span-1 self-center text-center'>
+                      <img src={download} className='w-5 h-5 mx-auto cursor-pointer' alt='download' />
+                    </div>
+                  </Grid>
+                  <hr className='my-2' />
+                  <p className='text-sm'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual.</p>
+                  <p className='text-right'><span className='text-[11px]'>(To Admin)</span></p>
+                </div>
+              </div>
+            </Grid>
+
+          </div>
+          <div >
+            <p className='text-sm my-3'><b> Attachment : </b>  <span className='text-neutral-grey'> Accepted file types: jpg, gif, png, Max. file size: 50 MB. </span></p>
+          </div>
+          <Grid>
+            <div className='col-span-1'>
+              <div className='border flex h-full justify-center'>
+                <img src={upload} className='self-center' alt='upload' />
+              </div>
+            </div>
+            <div className='col-span-6'>
+              <Input type='text'
+                className1="!text-[16px] !pt-2 placeholder-opacity-50 !pb-2 placeholder-Black-Russian !bg-[white]" />
+            </div>
+            <div className='col-span-3'>
+              <Select
+                name="state"
+                options={state}
+                placeholder=""
+                className="!bg-white "
+                className1='!p-2'
+              />
+            </div>
+            <div className=''><Button>Submit</Button></div>
+          </Grid>
+
+        </div>
+      </Modal>
+
+      <Modal isOpen={isEditOpen} onClose={closeEdit}>
+        <Button onClick={closeEdit} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className='py-1'>
+          <p className='text-center text-3xl font-semibold '>
+            Edit Claim</p>
+          <form className="mt-3 mr-4">
+            <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey  rounded-3xl">
+              <p className='pb-5 text-lg font-semibold'>Repair Parts</p>
+              <div className='w-full h-[180px] px-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden'>
+                <Grid className='mb-5'>
+                  <div className='col-span-3'>
+                    <Select
+                      name="ServiceType"
+                      label="Service Type"
+                      options={CoverageStartDate}
+                      required={true}
+                      className="!bg-white"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-5'>
+                    <Input type='text'
+                      name="description"
+                      className="!bg-white"
+                      label="Description"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-4'>
+                    <Input type='number'
+                      name="price"
+                      className="!bg-white"
+                      label="Price($)"
+                      placeholder="" />
+                  </div>
+
+                </Grid>
+                <hr className='my-4' />
+                <Grid className='mb-5'>
+                  <div className='col-span-3'>
+                    <Select
+                      name="ServiceType"
+                      label="Service Type"
+                      options={CoverageStartDate}
+                      required={true}
+                      className="!bg-white"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-5'>
+                    <Input type='text'
+                      name="description"
+                      className="!bg-white"
+                      label="Description"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-3'>
+                    <Input type='number'
+                      name="price"
+                      className="!bg-white"
+                      label="Price($)"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-1 self-center  flex justify-center'>
+                    <Button className='!text-sm'><img src={DeleteImage} /></Button>
+                  </div>
+                </Grid>
+                <hr className='my-4' />
+                <Grid className='mb-5'>
+                  <div className='col-span-3'>
+                    <Select
+                      name="ServiceType"
+                      label="Service Type"
+                      options={CoverageStartDate}
+                      required={true}
+                      className="!bg-white"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-5'>
+                    <Input type='text'
+                      name="description"
+                      className="!bg-white"
+                      label="Description"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-3'>
+                    <Input type='number'
+                      name="price"
+                      className="!bg-white"
+                      label="Price($)"
+                      placeholder="" />
+                  </div>
+                  <div className='col-span-1 self-center  flex justify-center'>
+                    <Button className='!text-sm'><img src={DeleteImage} /></Button>
+                  </div>
+                </Grid>
+              </div>
+
+              <div className='text-right'>
+                <Button className='!text-sm'>+ Add More</Button>
+              </div>
+
+            </div>
+            <div className="px-5 pb-5 pt-5 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+              <div className="relative">
+                <label
+                  htmlFor="description"
+                  className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                >
+                  Note
+                </label>
+                <textarea
+                  id="note"
+                  rows="3"
+                  name="Note"
+                  maxLength={150}
+                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                ></textarea>
+              </div>
+            </div>
+
+            <div className='mt-3'>
+              <Button className='!bg-white !text-black' >Cancel</Button>
+              <Button>Update</Button>
+            </div>
+          </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
+        <Button onClick={closeAttachments} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className='py-1'>
+          <p className='text-center text-3xl font-semibold '>
+            View Attachment</p>
+
+          <img src={Attachment} className='p-4' alt='Attachment' />
+        </div>
+      </Modal>
+
+      <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
+        <Button onClick={closeDisapproved} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className="py-3">
+          <p className='text-center text-3xl font-semibold '>
             Advance Search
-            </p>
-           <Grid className='mt-5 px-6'>
+          </p>
+          <Grid className='mt-5 px-6'>
             <div className='col-span-6'>
-               <Input type='text' 
-                    name="Contract ID"
-                  className="!bg-white"
-                  label="Contract ID"
-                  placeholder="" />
+              <Input type='text'
+                name="Contract ID"
+                className="!bg-white"
+                label="Contract ID"
+                placeholder="" />
             </div>
             <div className='col-span-6'>
-               <Input type='text' 
-                    name="Order ID"
-                  className="!bg-white"
-                  label="Order ID"
-                  placeholder="" />
+              <Input type='text'
+                name="Order ID"
+                className="!bg-white"
+                label="Order ID"
+                placeholder="" />
             </div>
             <div className='col-span-6'>
-               <Input type='text' 
-                  name="Dealer P.O. No."
+              <Input type='text'
+                name="Dealer P.O. No."
                 className="!bg-white"
                 label="Dealer P.O. #"
                 placeholder="" />
             </div>
             <div className='col-span-6'>
-               <Input type='text' 
-                  name="Product Name"
+              <Input type='text'
+                name="Product Name"
                 className="!bg-white"
                 label="Product Name"
                 placeholder="" />
             </div>
             <div className='col-span-6'>
-            <Select
+              <Select
                 name="Status"
                 label="Status"
                 options={status}
                 className="!bg-white"
-                placeholder=""/>
+                placeholder="" />
             </div>
             <div className='col-span-6'>
-            <Select
+              <Select
                 name="ClaimStatus"
                 label="Claim Status"
                 options={status}
                 className="!bg-white"
-                placeholder=""/>
+                placeholder="" />
             </div>
             <div className='col-span-12'>
-             <Button className={'w-full'}>Search</Button>
+              <Button className={'w-full'}>Search</Button>
             </div>
-           </Grid>
-          </div>
-        </Modal>
+          </Grid>
+        </div>
+      </Modal>
     </>
   )
 }

@@ -51,8 +51,8 @@ function ContractList(props) {
       props.flag === "reseller"
         ? await getContractsforReseller(props.id, data)
         : props.flag === "dealer"
-        ? await getContractsforDealer(props.id, data)
-        : await getContractsforCustomer(props.id, data);
+          ? await getContractsforDealer(props.id, data)
+          : await getContractsforCustomer(props.id, data);
 
     setContractList(result.result);
     console.log(result);
@@ -609,13 +609,13 @@ function ContractList(props) {
                         {singleContract?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract?.claimAmount ?? parseInt(0)
-                            )}
+                            singleContract?.claimAmount ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -628,9 +628,9 @@ function ContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
-                                )}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -645,9 +645,9 @@ function ContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
-                                )}{" "}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd ?? parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -737,7 +737,7 @@ function ContractList(props) {
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">
@@ -831,7 +831,7 @@ function ContractList(props) {
                   type="text"
                   name="serial"
                   className="!bg-white"
-                  label="Serial #"
+                  label="Serial # / Device ID"
                   placeholder=""
                   {...formik.getFieldProps("serial")}
                 />
