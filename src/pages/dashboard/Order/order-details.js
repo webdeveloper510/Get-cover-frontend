@@ -35,6 +35,7 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
+import { downloadFile } from "../../../services/userServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -187,34 +188,24 @@ function OrderDetails() {
     setActiveTab(tabId);
   };
 
-  const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
-console.log(url)
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
 
   return (
@@ -414,10 +405,10 @@ console.log(url)
                     alt="Name"
                   />
                   {userDetails?.servicerData?.name == null ||
-                    userDetails?.servicerData?.status == false ||
-                    userDetails?.servicerData?.resellerId != null ||
-                    userDetails?.servicerData?.dealerId != null ||
-                    userDetails?.servicerData?.status != true ? (
+                  userDetails?.servicerData?.status == false ||
+                  userDetails?.servicerData?.resellerId != null ||
+                  userDetails?.servicerData?.dealerId != null ||
+                  userDetails?.servicerData?.status != true ? (
                     <></>
                   ) : (
                     <Link to={`/servicerDetails/${orderDetails.servicerId}`}>
@@ -495,10 +486,11 @@ console.log(url)
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-grayf9 !text-black"
-                            }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                            activeTab === tab.id
+                              ? "!bg-[#2A2A2A] !text-white"
+                              : "!bg-grayf9 !text-black"
+                          }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -509,8 +501,9 @@ console.log(url)
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
+                            className={`ml-1 py-1 text-sm font-normal ${
+                              activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
                           >
                             {tab.label}
                           </span>

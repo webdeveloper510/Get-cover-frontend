@@ -68,6 +68,7 @@ import ClaimList12 from "../Reseller/Dealer-Details/claim12";
 import {
   UserDetailAccount,
   checkUserToken,
+  downloadFile,
 } from "../../../services/userServices";
 
 function ClaimList(props) {
@@ -169,34 +170,24 @@ function ClaimList(props) {
     setServicerCreateAccountOption(result?.result?.isServicer);
     setLoading1(false);
   };
-  const downloadImage = (file) => {
-    const url = `${baseUrl.bucket}/uploads/${file.messageFile.fileName}`;
-
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
 
   useEffect(() => {
@@ -591,28 +582,28 @@ function ClaimList(props) {
         case "Parts":
           return shipping
             ? [
-              { label: "Parts", value: "Parts" },
-              { label: "Shipping", value: "Shipping" },
-            ]
+                { label: "Parts", value: "Parts" },
+                { label: "Shipping", value: "Shipping" },
+              ]
             : [{ label: "Parts", value: "Parts" }];
         case "Labour":
           return shipping
             ? [
-              { label: "Labor ", value: "Labour" },
-              { label: "Shipping", value: "Shipping" },
-            ]
+                { label: "Labor ", value: "Labour" },
+                { label: "Shipping", value: "Shipping" },
+              ]
             : [{ label: "Labor ", value: "Labour" }];
         default:
           return shipping
             ? [
-              { label: "Parts", value: "Parts" },
-              { label: "Labor ", value: "Labour" },
-              { label: "Shipping", value: "Shipping" },
-            ]
+                { label: "Parts", value: "Parts" },
+                { label: "Labor ", value: "Labour" },
+                { label: "Shipping", value: "Shipping" },
+              ]
             : [
-              { label: "Parts", value: "Parts" },
-              { label: "Labor ", value: "Labour" },
-            ];
+                { label: "Parts", value: "Parts" },
+                { label: "Labor ", value: "Labour" },
+              ];
       }
     };
     setServiceType(
@@ -753,29 +744,50 @@ function ClaimList(props) {
     }
   }, [claimList]);
 
-  const downloadAttachments = (res) => {
+  const downloadAttachments = async (res) => {
     const attachments = res || [];
 
-    attachments.forEach((attachment, index) => {
-      const url = `${baseUrl.bucket}/uploads/${attachment.filename}`;
-      fetch(url, {
-        headers: baseUrl.headers,
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href = blobUrl;
-          anchor.download = `file_${index + 1}`;
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          URL.revokeObjectURL(blobUrl);
-        })
-        .catch((error) => {
-          console.error("Error fetching the file:", error);
-        });
-    });
+    for (const [index, attachment] of attachments.entries()) {
+      try {
+        const binaryString = await downloadFile({ key: attachment.key });
+        const fileExtension = attachment.key.split(".").pop();
+        let mimeType = "";
+
+        switch (fileExtension) {
+          case "pdf":
+            mimeType = "application/pdf";
+            break;
+          case "jpg":
+          case "jpeg":
+            mimeType = "image/jpeg";
+            break;
+          case "png":
+            mimeType = "image/png";
+            break;
+          case "doc":
+          case "docx":
+            mimeType = "application/msword";
+            break;
+          case "xlsx":
+            mimeType =
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            break;
+          default:
+            mimeType = "application/octet-stream";
+        }
+        const blob = new Blob([binaryString], { type: mimeType });
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = attachment.key.split("/").pop();
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Error fetching the file:", error);
+      }
+    }
   };
 
   const initialValues2 = {
@@ -835,12 +847,12 @@ function ClaimList(props) {
       const type = pathname.includes("/dealer/claimList")
         ? "Dealer"
         : pathname.includes("/customer/claimList")
-          ? "Customer"
-          : pathname.includes("/reseller/claimList")
-            ? "Reseller"
-            : pathname.includes("/servicer/claimList")
-              ? "Servicer"
-              : null;
+        ? "Customer"
+        : pathname.includes("/reseller/claimList")
+        ? "Reseller"
+        : pathname.includes("/servicer/claimList")
+        ? "Servicer"
+        : null;
 
       if (type) {
         formik2.setFieldValue("type", type);
@@ -861,8 +873,8 @@ function ClaimList(props) {
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
           : coverageType === "Accidental"
-            ? [{ label: "Accidental", value: "Accidental" }]
-            : [
+          ? [{ label: "Accidental", value: "Accidental" }]
+          : [
               { label: "Breakdown", value: "Breakdown" },
               { label: "Accidental", value: "Accidental" },
             ];
@@ -1450,17 +1462,17 @@ function ClaimList(props) {
                                         $
                                         {part.price === undefined
                                           ? (0).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          })
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })
                                           : parseFloat(
-                                            part.price === undefined
-                                              ? 0
-                                              : part.price
-                                          ).toLocaleString("en-US", {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2,
-                                          })}
+                                              part.price === undefined
+                                                ? 0
+                                                : part.price
+                                            ).toLocaleString("en-US", {
+                                              minimumFractionDigits: 2,
+                                              maximumFractionDigits: 2,
+                                            })}
                                       </p>
                                     </div>
                                   </div>
@@ -1495,12 +1507,12 @@ function ClaimList(props) {
                                         Servicer Name :{" "}
                                       </span>
                                       {userType !== "dealer" &&
-                                        !location.pathname.includes(
-                                          "customer/claimList"
-                                        ) &&
-                                        !location.pathname.includes(
-                                          "/reseller/claimList"
-                                        ) ? (
+                                      !location.pathname.includes(
+                                        "customer/claimList"
+                                      ) &&
+                                      !location.pathname.includes(
+                                        "/reseller/claimList"
+                                      ) ? (
                                         <Select
                                           name="servicer"
                                           label=""
@@ -1544,9 +1556,9 @@ function ClaimList(props) {
                                               disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ==
-                                                "Rejected" ||
+                                                  "Rejected" ||
                                                 claimStatus.status ==
-                                                "Completed"
+                                                  "Completed"
                                               }
                                               options={claim}
                                               OptionName="Claim Type"
@@ -1563,7 +1575,7 @@ function ClaimList(props) {
                                       {trackerView ? (
                                         <>
                                           {claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed" ? (
+                                          claimStatus.status == "Completed" ? (
                                             <></>
                                           ) : (
                                             <form
@@ -1596,9 +1608,9 @@ function ClaimList(props) {
                                                   }
                                                   disabled={
                                                     claimStatus.status ==
-                                                    "Rejected" ||
+                                                      "Rejected" ||
                                                     claimStatus.status ==
-                                                    "Completed"
+                                                      "Completed"
                                                   }
                                                   // options={state}
                                                   className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
@@ -1626,7 +1638,7 @@ function ClaimList(props) {
                                             <>
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                                claimStatus.status ==
+                                              claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1716,7 +1728,7 @@ function ClaimList(props) {
                                               )}
                                               {claimStatus.status ==
                                                 "Rejected" ||
-                                                claimStatus.status ==
+                                              claimStatus.status ==
                                                 "Completed" ? (
                                                 <></>
                                               ) : (
@@ -1761,7 +1773,7 @@ function ClaimList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "Rejected" ||
-                                      claimStatus.status == "Completed" ? (
+                                    claimStatus.status == "Completed" ? (
                                       <></>
                                     ) : (
                                       <div
@@ -1816,7 +1828,7 @@ function ClaimList(props) {
                                     {role == "Super Admin" && (
                                       <>
                                         {claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed" ? (
+                                        claimStatus.status == "Completed" ? (
                                           <></>
                                         ) : (
                                           <div
@@ -1830,9 +1842,9 @@ function ClaimList(props) {
                                               disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ==
-                                                "Rejected" ||
+                                                  "Rejected" ||
                                                 claimStatus.status ==
-                                                "Completed"
+                                                  "Completed"
                                               }
                                               onChange={handleSelectChange}
                                               white
@@ -1900,37 +1912,37 @@ function ClaimList(props) {
                                     {(role == "Super Admin" ||
                                       claimList.result[activeIndex]
                                         ?.selfServicer) && (
-                                        <>
-                                          {claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed" ? (
-                                            <></>
-                                          ) : (
-                                            <div
-                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                              ref={dropdownRef}
-                                              onClick={handleToggleDropdown1}
-                                            >
-                                              <Select
-                                                name="repairStatus"
-                                                label=""
-                                                value={repairStatus.status}
-                                                onChange={handleSelectChange}
-                                                disableFirstOption={true}
-                                                disabled={
-                                                  claimStatus.status ==
+                                      <>
+                                        {claimStatus.status == "Rejected" ||
+                                        claimStatus.status == "Completed" ? (
+                                          <></>
+                                        ) : (
+                                          <div
+                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                            ref={dropdownRef}
+                                            onClick={handleToggleDropdown1}
+                                          >
+                                            <Select
+                                              name="repairStatus"
+                                              label=""
+                                              value={repairStatus.status}
+                                              onChange={handleSelectChange}
+                                              disableFirstOption={true}
+                                              disabled={
+                                                claimStatus.status ==
                                                   "Rejected" ||
-                                                  claimStatus.status ==
+                                                claimStatus.status ==
                                                   "Completed"
-                                                }
-                                                white
-                                                className1="!border-0 !text-light-black"
-                                                options={repairValue}
-                                                visible={dropdownVisible}
-                                              />
-                                            </div>
-                                          )}
-                                        </>
-                                      )}
+                                              }
+                                              white
+                                              className1="!border-0 !text-light-black"
+                                              options={repairValue}
+                                              visible={dropdownVisible}
+                                            />
+                                          </div>
+                                        )}
+                                      </>
+                                    )}
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-2">
@@ -1939,10 +1951,11 @@ function ClaimList(props) {
                                       Diagnosis
                                     </p>
                                     <div
-                                      className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                        ? "h-[130px] max-h-[130px]"
-                                        : "h-[164px] max-h-[164px]"
-                                        }`}
+                                      className={` overflow-y-scroll Diagnosis ${
+                                        res?.receiptImage != ""
+                                          ? "h-[130px] max-h-[130px]"
+                                          : "h-[164px] max-h-[164px]"
+                                      }`}
                                     >
                                       <p className="text-sm text-light-green">
                                         {res.diagnosis}
@@ -2125,15 +2138,17 @@ function ClaimList(props) {
         )}
 
         <div
-          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${createServicerAccountOption ? "w-[45%]" : "w-[15%]"
-            }`}
+          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${
+            createServicerAccountOption ? "w-[45%]" : "w-[15%]"
+          }`}
         >
           {tabs.map((tab) => (
             <Button
-              className={`flex self-center mx-1 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                ? "!bg-[#2A2A2A] !text-white"
-                : "!bg-grayf9 !text-black"
-                }`}
+              className={`flex self-center mx-1 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                activeTab === tab.id
+                  ? "!bg-[#2A2A2A] !text-white"
+                  : "!bg-grayf9 !text-black"
+              }`}
               onClick={() => handleTabClick(tab.id)}
             >
               <img
@@ -2142,8 +2157,9 @@ function ClaimList(props) {
                 alt={tab.label}
               />
               <span
-                className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                  }`}
+                className={`ml-1 py-1 text-sm font-Regular ${
+                  activeTab === tab.id ? "text-white" : "text-black"
+                }`}
               >
                 {tab.label}
               </span>
@@ -2236,8 +2252,9 @@ function ClaimList(props) {
                         rows="4"
                         name="reason"
                         maxLength={150}
-                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${errors.reason && touched.reason && "border-red-500"
-                          }`}
+                        className={`block px-2.5 pb-2.5 pt-1.5 w-full text-sm font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none focus:text-sm ${
+                          errors.reason && touched.reason && "border-red-500"
+                        }`}
                       />
                       <ErrorMessage
                         name="reason"
@@ -2307,10 +2324,11 @@ function ClaimList(props) {
                               </p>
                             </div>
                             <div
-                              className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
-                                ? "col-span-5"
-                                : "col-span-6 text-right"
-                                }`}
+                              className={` self-center flex justify-end ${
+                                msg.messageFile.originalName !== ""
+                                  ? "col-span-5"
+                                  : "col-span-6 text-right"
+                              }`}
                             >
                               <p className="text-sm pr-3">
                                 {" "}
@@ -2405,8 +2423,8 @@ function ClaimList(props) {
                       {(fileType === "csv" ||
                         fileType === "xlsx" ||
                         fileType === "xls") && (
-                          <FontAwesomeIcon icon={faFileImage} size="3x" />
-                        )}
+                        <FontAwesomeIcon icon={faFileImage} size="3x" />
+                      )}
                       {fileType === "word" && (
                         <FontAwesomeIcon icon={faFileWord} size="3x" />
                       )}
@@ -2546,8 +2564,8 @@ function ClaimList(props) {
                               options={
                                 index === 0
                                   ? serviceType.filter(
-                                    (option) => option.label !== "Shipping"
-                                  )
+                                      (option) => option.label !== "Shipping"
+                                    )
                                   : serviceType
                               }
                               required={true}
@@ -2607,8 +2625,9 @@ function ClaimList(props) {
                         </div>
 
                         <div
-                          className={`${index > 0 ? "col-span-2" : "col-span-3"
-                            }  `}
+                          className={`${
+                            index > 0 ? "col-span-2" : "col-span-3"
+                          }  `}
                         >
                           {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
                           <Input
@@ -2856,7 +2875,7 @@ function ClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ?
+              {formik1.values.claimStatus == "Completed" ? (
                 <div className="col-span-6">
                   <Select
                     options={claimPaid}
@@ -2866,7 +2885,8 @@ function ClaimList(props) {
                     onChange={handleSelectChange2}
                     value={formik1.values.claimPaidStatus}
                   />
-                </div> :
+                </div>
+              ) : (
                 <>
                   <div className="col-span-6">
                     <Select
@@ -2889,7 +2909,7 @@ function ClaimList(props) {
                     />
                   </div>
                 </>
-              }
+              )}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
