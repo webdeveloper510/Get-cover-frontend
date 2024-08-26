@@ -139,15 +139,7 @@ function ClaimList(props) {
         key: file.messageFile.fileName,
       };
       const binaryString = await downloadFile(data);
-      console.log("binaryString---------", binaryString);
-      const binaryArray = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        binaryArray[i] = binaryString.charCodeAt(i);
-      }
-      const blob = new Blob([binaryArray], {
-        type: "application/octet-stream",
-      });
-
+      const blob = new Blob([binaryString]);
       const blobUrl = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = blobUrl;
@@ -570,30 +562,50 @@ function ClaimList(props) {
     }
   }, [claimList]);
 
-  const downloadAttachments = (res) => {
+  const downloadAttachments = async (res) => {
     const attachments = res || [];
 
-    attachments.forEach((attachment, index) => {
-      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
+    for (const [index, attachment] of attachments.entries()) {
+      try {
+        const binaryString = await downloadFile({ key: attachment.key });
+        const fileExtension = attachment.key.split(".").pop();
+        let mimeType = "";
 
-      fetch(url, {
-        headers: baseUrl.headers,
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href = blobUrl;
-          anchor.download = `file_${index + 1}`;
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          URL.revokeObjectURL(blobUrl);
-        })
-        .catch((error) => {
-          console.error("Error fetching the file:", error);
-        });
-    });
+        switch (fileExtension) {
+          case "pdf":
+            mimeType = "application/pdf";
+            break;
+          case "jpg":
+          case "jpeg":
+            mimeType = "image/jpeg";
+            break;
+          case "png":
+            mimeType = "image/png";
+            break;
+          case "doc":
+          case "docx":
+            mimeType = "application/msword";
+            break;
+          case "xlsx":
+            mimeType =
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            break;
+          default:
+            mimeType = "application/octet-stream";
+        }
+        const blob = new Blob([binaryString], { type: mimeType });
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = attachment.key.split("/").pop();
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Error fetching the file:", error);
+      }
+    }
   };
 
   const initialValues2 = {

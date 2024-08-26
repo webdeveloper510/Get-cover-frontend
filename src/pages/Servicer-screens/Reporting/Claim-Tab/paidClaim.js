@@ -54,7 +54,10 @@ import CustomPagination from "../../../pagination";
 
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
-import { checkUserToken } from "../../../../services/userServices";
+import {
+  checkUserToken,
+  downloadFile,
+} from "../../../../services/userServices";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -131,39 +134,29 @@ function ClaimList(props) {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
-  const downloadImage = (file) => {
-    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
-    fetch(url, {
-      headers: baseUrl.headers
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
-
 
   useEffect(() => {
     let intervalId;
-    if (isAttachmentsOpen || isSuccessOpen && timer > 0) {
+    if (isAttachmentsOpen || (isSuccessOpen && timer > 0)) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -329,7 +322,7 @@ function ClaimList(props) {
   const markClaimsasPaid = async (data) => {
     const apiResponse = await markasPaidClaims(data);
     setMarkLoader(true);
-    setIsPayOpen(false)
+    setIsPayOpen(false);
     setIsSuccessOpen(true);
     console.log(apiResponse);
     if (apiResponse) {
@@ -337,7 +330,7 @@ function ClaimList(props) {
     }
     setMarkLoader(false);
   };
-  console.log(props, '-------------------<<<<<<<<<<<<>>>>>>>>>>>>')
+  console.log(props, "-------------------<<<<<<<<<<<<>>>>>>>>>>>>");
   const getAllClaims = async (page = 1, rowsPerPage = 10) => {
     setLoaderType(true);
     setPageValue(page);
@@ -350,7 +343,6 @@ function ClaimList(props) {
 
     let res;
     if (props.activeTab === "Unpaid Claims") {
-
       res = await getUnpaidClaims(props.id, data);
     } else {
       res = await getPaidClaims(props.id, data);
@@ -571,33 +563,51 @@ function ClaimList(props) {
     }
   }, [claimList]);
 
-  const downloadAttachments = (res) => {
-    console.log("hello", res);
+  const downloadAttachments = async (res) => {
     const attachments = res || [];
 
-    attachments.forEach((attachment, index) => {
-      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
+    for (const [index, attachment] of attachments.entries()) {
+      try {
+        const binaryString = await downloadFile({ key: attachment.key });
+        const fileExtension = attachment.key.split(".").pop();
+        let mimeType = "";
 
-      fetch(url, {
-        headers: baseUrl.headers
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href = blobUrl;
-          anchor.download = `file_${index + 1}`;
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          URL.revokeObjectURL(blobUrl);
-        })
-        .catch((error) => {
-          console.error("Error fetching the file:", error);
-        });
-    });
+        switch (fileExtension) {
+          case "pdf":
+            mimeType = "application/pdf";
+            break;
+          case "jpg":
+          case "jpeg":
+            mimeType = "image/jpeg";
+            break;
+          case "png":
+            mimeType = "image/png";
+            break;
+          case "doc":
+          case "docx":
+            mimeType = "application/msword";
+            break;
+          case "xlsx":
+            mimeType =
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            break;
+          default:
+            mimeType = "application/octet-stream";
+        }
+        const blob = new Blob([binaryString], { type: mimeType });
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = attachment.key.split("/").pop();
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Error fetching the file:", error);
+      }
+    }
   };
-
 
   const initialValues2 = {
     content: "",
@@ -764,16 +774,16 @@ function ClaimList(props) {
     { label: "Completed", value: "completed" },
     { label: "Rejected", value: "rejected" },
   ];
-  console.log(modelLoading, "----------------:::::::::")
+  console.log(modelLoading, "----------------:::::::::");
 
   const openPay = () => {
     setIsPayOpen(true);
     setLoading1(true);
     getClaimUnpaid(checkboxStates).then((res) => {
-      setClaims(res.result.totalClaims)
-      setClaimValues(res.result.unpaidValue)
+      setClaims(res.result.totalClaims);
+      setClaimValues(res.result.unpaidValue);
       setLoading1(false);
-    })
+    });
   };
   const closePay = () => {
     setIsPayOpen(false);
@@ -973,7 +983,7 @@ function ClaimList(props) {
   const [checkboxStates, setCheckboxStates] = useState([]);
 
   const handleCheckboxChange = (id) => {
-    console.log(id, '----------')
+    console.log(id, "----------");
     const isChecked = checkboxStates.includes(id);
     if (isChecked) {
       const newCheckboxStates = checkboxStates.filter(
@@ -983,7 +993,6 @@ function ClaimList(props) {
     } else {
       setCheckboxStates([...checkboxStates, id]);
     }
-
   };
 
   const handleSelectAll = (claimList) => {
@@ -991,7 +1000,7 @@ function ClaimList(props) {
     const newCheckboxStates = [...checkboxStates, ...ids];
     const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
     setCheckboxStates(uniqueCheckboxStates);
-    console.log(checkboxStates, "----------------:::::::::")
+    console.log(checkboxStates, "----------------:::::::::");
   };
 
   const handleUnselectAll = () => {
@@ -1741,13 +1750,11 @@ function ClaimList(props) {
             </div>
           </div>
         )}
-
       </Modal>
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
           <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-
             <span className="text-light-black"> Claim Successfully Paid </span>
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2 ">

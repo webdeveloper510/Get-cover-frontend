@@ -22,14 +22,7 @@ function OrderSummary(props) {
         key: file,
       };
       const binaryString = await downloadFile(data);
-      const binaryArray = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        binaryArray[i] = binaryString.charCodeAt(i);
-      }
-      const blob = new Blob([binaryArray], {
-        type: "application/octet-stream",
-      });
-
+      const blob = new Blob([binaryString]);
       const blobUrl = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = blobUrl;
