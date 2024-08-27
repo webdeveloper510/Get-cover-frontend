@@ -22,6 +22,7 @@ function ClaimContent({
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
   const isResellerClaims = location.pathname.includes("/reseller/claim");
+  const isCustomerClaims = location.pathname.includes("/customer/claims");
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -154,24 +155,47 @@ function ClaimContent({
           : "user"
       );
       const amountData = res?.result?.graphData?.map((item) => {
+        if (isCustomerClaims) {
+          const {
+            total_claim,
+            total_paid_claim,
+            total_unpaid_claim,
+            total_rejected_claim,
+            total_paid_amount,
+            total_unpaid_amount,
+            ...rest
+          } = item;
+          return rest;
+        } else {
+          const {
+            total_claim,
+            total_paid_claim,
+            total_unpaid_claim,
+            total_rejected_claim,
+            ...rest
+          } = item;
+          return rest;
+        }
+      });
+
+      const countData = res?.result?.graphData?.map((item) => {
         const {
+          weekStart,
           total_claim,
           total_paid_claim,
           total_unpaid_claim,
           total_rejected_claim,
-          ...rest
         } = item;
-        return rest;
-      });
 
-      const countData = res?.result?.graphData?.map((item) => {
-        return {
-          weekStart: item.weekStart,
-          total_claim: item.total_claim,
-          total_paid_claim: item.total_paid_claim,
-          total_unpaid_claim: item.total_unpaid_claim,
-          total_rejected_claim: item.total_rejected_claim,
-        };
+        return isCustomerClaims
+          ? { weekStart, total_claim }
+          : {
+              weekStart,
+              total_claim,
+              total_paid_claim,
+              total_unpaid_claim,
+              total_rejected_claim,
+            };
       });
 
       toggleFilterFlag();
