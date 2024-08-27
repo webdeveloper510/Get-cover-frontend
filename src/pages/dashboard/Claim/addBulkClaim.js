@@ -119,7 +119,10 @@ function AddBulkClaim() {
     console.log(filteredDealers);
     filteredDealers?.length > 0 &&
       filteredDealers?.map((item) => {
-        arr.push({ label: item.dealerData.name, value: item.metaId.toString() });
+        arr.push({
+          label: item.dealerData.name,
+          value: item.metaId.toString(),
+        });
       });
 
     SetActiveDealers(arr);
@@ -179,10 +182,13 @@ function AddBulkClaim() {
   });
 
   const downloadCSVTemplate = async () => {
-    window.open(
-      "https://docs.google.com/spreadsheets/d/1T0wqhbLkgxwi38nyFnN7SduKZFlDjr89LD77sp-qekU/edit#gid=0",
-      "_blank"
+    const isDealerResellerCustomer = ["/dealer", "/reseller", "/customer"].some(
+      (path) => window.location.href.includes(path)
     );
+    const url = isDealerResellerCustomer
+      ? "https://docs.google.com/spreadsheets/d/1dZTJYvIz2sR3hVrXsTAd7mLf949s8y8nvXzid_52gLY/edit?gid=0#gid=0"
+      : "https://docs.google.com/spreadsheets/d/1T0wqhbLkgxwi38nyFnN7SduKZFlDjr89LD77sp-qekU/edit?gid=0#gid=0";
+    window.open(url, "_blank");
   };
 
   return (
