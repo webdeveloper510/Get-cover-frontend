@@ -22,9 +22,15 @@ import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
 import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { archiveOrders, getOrdersForResellerPortal, markPaid, processOrders } from "../../../services/orderServices";
+import {
+  archiveOrders,
+  getOrdersForResellerPortal,
+  markPaid,
+  processOrders,
+} from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
+import disapproved from "../../../assets/images/Disapproved.png";
 import PdfGenerator from "../../pdfViewer";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -48,6 +54,7 @@ function ResellerOrderList() {
     "Order can not be process to the following reasons"
   );
   const [errorList, SetErrorList] = useState([]);
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
   const [orderType, SetOrderType] = useState("");
   const [data, setData] = useState(null);
   const dropdownRef = useRef(null);
@@ -84,18 +91,27 @@ function ResellerOrderList() {
     setIsModalOpen1(false);
   };
 
+  const closeError = () => {
+    setIsErrorOpen(false);
+    // getOrderList();
+  };
+
   const openModal1 = () => {
     closeArchive();
     console.log(orderId);
     setLoadingOrder(true);
     archiveOrders(orderId).then((res) => {
       setLoadingOrder(false);
-      setPrimaryMessage("Archive Order Successfully");
-      setSecondaryMessage("You have successfully archive the order");
-      setTimer(3);
-      setIsModalOpen1(true);
+      if (res.code) {
+        setPrimaryMessage("Archive Order Successfully");
+        setSecondaryMessage("You have successfully archive the order");
+        setTimer(3);
+        setIsModalOpen1(true);
+      } else {
+        setIsErrorOpen(true);
+        setSecondaryMessage(res.message);
+      }
     });
-
   };
 
   const closeArchive = () => {
@@ -112,7 +128,7 @@ function ResellerOrderList() {
       setProcessOrderErrors(res.result);
       SetErrorList(res.result);
       // console.log(res.result);
-    })
+    });
   };
 
   const closeModal = () => {
@@ -245,8 +261,10 @@ function ResellerOrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`} ></div>
+            className={` ${
+              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+          ></div>
           <p className="self-center"> {row?.status} </p>
         </div>
       ),
@@ -338,13 +356,15 @@ function ResellerOrderList() {
 
   return (
     <>
-      {loadingOrder ? <>
-        <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
-          <div className="self-center mx-auto">
-            <RotateLoader color="#fff" />
+      {loadingOrder ? (
+        <>
+          <div className="h-[100vh] fixed z-[999999] bg-[#333333c7] backdrop-blur-xl top-0 left-0 w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#fff" />
+            </div>
           </div>
-        </div>
-      </> :
+        </>
+      ) : (
         <div className="mb-8 ml-3">
           <Headbar />
 
@@ -463,13 +483,19 @@ function ResellerOrderList() {
                   </div>
                 </div>
               ) : (
-                <DataTable draggableColumns={false} columns={columns}
+                <DataTable
+                  draggableColumns={false}
+                  columns={columns}
                   data={orderList}
                   highlightOnHover
                   sortIcon={
                     <>
                       {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                      <img
+                        src={shorting}
+                        className="ml-2"
+                        alt="shorting"
+                      />{" "}
                     </>
                   }
                   pagination
@@ -481,7 +507,8 @@ function ResellerOrderList() {
               )}
             </div>
           </div>
-        </div>}
+        </div>
+      )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {orderType == "Process" ? (
           <Button
@@ -550,6 +577,29 @@ function ResellerOrderList() {
           </p>
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
+          </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isErrorOpen} onClose={closeError}>
+        <Button
+          onClick={closeError}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            <span className="text-light-black"> Error </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {secondaryMessage}
           </p>
         </div>
       </Modal>
