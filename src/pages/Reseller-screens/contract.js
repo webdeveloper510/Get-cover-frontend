@@ -508,11 +508,7 @@ function ResellerContract() {
               </Grid>
             </div>
           </Modal>
-<<<<<<< HEAD
         </Card >
-=======
-        </div>
->>>>>>> e02fd238a3b70121a30705cb8c227f31548627cc
       </div >
     </>
   )

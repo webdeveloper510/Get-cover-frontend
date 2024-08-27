@@ -129,7 +129,7 @@ function DealerRegister() {
   const fetchUserDetails12 = async () => {
     try {
       const userDetails = await getSetting();
-      
+
       if (userDetails && userDetails.result) {
         setDetails(userDetails.result[0]);
       }
@@ -139,14 +139,14 @@ function DealerRegister() {
   };
   useEffect(() => {
     fetchUserDetails12();
-} ,[]);
+  }, []);
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
           <div className="col-span-7 self-center min-h-screen flex">
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-            <img loading="lazy" src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <img loading="lazy" src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
                 <span className="text-neutral-grey"> Welcome to </span> {details?.title}
               </p>
@@ -336,6 +336,7 @@ function DealerRegister() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         minLength={"5"}
+                        zipcode={true}
                         maxLength={"6"}
                         error={formik.touched.zip && formik.errors.zip}
                       />
@@ -407,11 +408,11 @@ function DealerRegister() {
                   </Link>{" "}
                 </p>
                 <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
-                  </div>
+                  <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
+                </div>
               </div>
             </div>
-          
+
           </div>
           <div className="col-span-5">
             <img
@@ -434,7 +435,7 @@ function DealerRegister() {
               will be executed{" "}
             </p>
             <p className="font-medium text-base">
-              as soon as the approver will validate the action. 
+              as soon as the approver will validate the action.
             </p>
             <Link to={"/"} className="font-bold text-base">
               Click the link to Sign In

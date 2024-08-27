@@ -47,7 +47,19 @@ const Input = ({
   };
 
   const handleChange = (e) => {
-    setInputValue(e.target.files[0]);
+    if (type === "file") {
+      setInputValue(e.target.files[0]);
+    } else if (type === "color") {
+      setInputValue(e.target.value);
+    }
+    if (onChange) {
+      onChange({
+        target: {
+          name: name,
+          value: e.target.value,
+        },
+      });
+    }
   };
 
   const handleInput = (event) => {
