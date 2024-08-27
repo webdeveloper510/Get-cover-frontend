@@ -36,7 +36,7 @@ const Input = ({
       onChange({
         target: {
           name: name,
-          value: date ? date.toISOString().split("T")[0] : "",
+          value: date ? date : "",
         },
       });
     }
@@ -112,11 +112,12 @@ const Input = ({
             </div>
           ) : (
             <>
-              {type === "tel" || nonumber && (
-                <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                  +1
-                </div>
-              )}
+              {type === "tel" ||
+                (nonumber && (
+                  <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                    +1
+                  </div>
+                ))}
               <input
                 type={type}
                 name={name}
