@@ -281,7 +281,7 @@ function DealerResellerDetails() {
         country: "USA",
       });
     } else {
-      console.log(result?.message);
+      navigate(`/`);
     }
     setLoading(false);
   };

@@ -454,7 +454,7 @@ function ResellerContract() {
                   <Input type='text'
                     name="Serial No."
                     className="!bg-white"
-                    label="Serial #"
+                    label="Serial # / Device ID"
                     placeholder="" />
                 </div>
                 <div className='col-span-6'>
@@ -508,8 +508,12 @@ function ResellerContract() {
               </Grid>
             </div>
           </Modal>
-        </Card>
-      </div>
+<<<<<<< HEAD
+        </Card >
+=======
+        </div>
+>>>>>>> e02fd238a3b70121a30705cb8c227f31548627cc
+      </div >
     </>
   )
 }

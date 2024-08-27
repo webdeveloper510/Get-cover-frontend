@@ -2,7 +2,7 @@ import axios from "axios";
 import { handleAuthError } from "./authErrorHandler";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -23,7 +23,6 @@ const createHeaders = () => {
 export const getUserListByDealerId = async (id, data) => {
   const headers = createHeaders();
   try {
-   
     const response = await axios.post(
       `${url}/dealer/getUserByDealerId/${id}`,
       data,
@@ -55,16 +54,12 @@ export const changePrimaryByUserId = async (id) => {
   }
 };
 
-
 export const UserDetailAccount = async () => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(
-      `${url}/user/getAccountInfo`,
-      {
-        headers,
-      }
-    );
+    const response = await axios.get(`${url}/user/getAccountInfo`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -87,7 +82,6 @@ export const changePrimaryByUserIdCustomerPortal = async (id) => {
     throw error;
   }
 };
-
 
 export const deleteUserByUserId = async (id) => {
   const headers = createHeaders();
@@ -156,13 +150,9 @@ export const addUserByDealerId = async (data) => {
 export const addUserToCustomer = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/customer/addCustomerUser`,
-      data,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${url}/customer/addCustomerUser`, data, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -180,6 +170,21 @@ export const addUserToCustomerPortal = async (data) => {
         headers,
       }
     );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const downloadFile = async (fileName) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/user/downloadFile`, fileName, {
+      headers,
+      responseType: "arraybuffer", // Ensure binary data is handled correctly
+    });
+    //  handleAuthError(response.data);
 
     return response.data;
   } catch (error) {

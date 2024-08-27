@@ -832,7 +832,7 @@ function ContractList(props) {
                   type="text"
                   name="serial"
                   className="!bg-white"
-                  label="Serial #"
+                  label="Serial # / Device ID"
                   placeholder=""
                   {...formik.getFieldProps("serial")}
                 />

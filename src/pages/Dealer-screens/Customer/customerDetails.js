@@ -319,27 +319,31 @@ function CustomerDetails() {
     setLoading(true);
     console.log(customerId);
     const result = await getCustomerDetailsById(customerId);
-    setCustomerDetail(result.result);
-    setCreateMainAccount(result.result.userAccount);
-    setCreateAccountOption(
-      result.result.primary.status === false ? "no" : "yes"
-    );
-    setCreateAccount(
-      result.result.meta.isAccountCreate && result.result.userAccount
-        ? true
-        : false
-    );
+    if (result.code == 200) {
+      setCustomerDetail(result.result);
+      setCreateMainAccount(result.result.userAccount);
+      setCreateAccountOption(
+        result.result.primary.status === false ? "no" : "yes"
+      );
+      setCreateAccount(
+        result.result.meta.isAccountCreate && result.result.userAccount
+          ? true
+          : false
+      );
 
-    console.log(result.result.primary.status, "??????????????");
-    setInitialFormValues({
-      username: result?.result?.meta?.username,
-      oldName: result?.result?.meta?.username,
-      street: result?.result?.meta?.street,
-      city: result?.result?.meta?.city,
-      zip: result?.result?.meta?.zip,
-      state: result?.result?.meta?.state,
-      country: "USA",
-    });
+      console.log(result.result.primary.status, "??????????????");
+      setInitialFormValues({
+        username: result?.result?.meta?.username,
+        oldName: result?.result?.meta?.username,
+        street: result?.result?.meta?.street,
+        city: result?.result?.meta?.city,
+        zip: result?.result?.meta?.zip,
+        state: result?.result?.meta?.state,
+        country: "USA",
+      });
+    } else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   useEffect(() => {

@@ -166,7 +166,7 @@ function ServicerAddClaim() {
                 </div>
                 <div className='col-span-6'>
                   <DateInput
-                    label="Loss Date"
+                    label="Damage Date"
                     name="lossDate"
                     required
                     item={item}

@@ -37,6 +37,7 @@ import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import Card from "../../../common/card";
+import { downloadFile } from "../../../services/userServices";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -128,29 +129,34 @@ function OrderDetails() {
       setLoading1(true);
     }
     const result = await orderDetailsById(orderId);
-    setUserDetails(result.orderUserData);
-    setOrderTandC(result.result.termCondition);
-    formik.setFieldValue("servicerId", result.result.servicerId);
-    const filteredServicer = result.servicers.filter(
-      (data) => data.status === true || "Approved"
-    );
+    if (result.code == 200) {
+      setUserDetails(result.orderUserData);
+      setOrderTandC(result.result.termCondition);
+      formik.setFieldValue("servicerId", result.result.servicerId);
+      const filteredServicer = result.servicers.filter(
+        (data) => data.status === true || "Approved"
+      );
 
-    let arr = filteredServicer.map((data) => ({
-      label: data.name,
-      value: data._id,
-    }));
-    console.log(result.servicers, "--------->>>>>>>");
-    setServicerList(arr);
-    setOrderDetails(result.result);
-    let data = {
-      dealerName: result.orderUserData.dealerData,
-      customerName: result.orderUserData.customerData,
-      resellerName: result.orderUserData.resellerData,
-      totalOrderAmount: result.result.orderAmount,
-      ...result.result,
-    };
-    setInvoiceData(data);
-    console.log(data);
+      let arr = filteredServicer.map((data) => ({
+        label: data.name,
+        value: data._id,
+      }));
+      console.log(result.servicers, "--------->>>>>>>");
+      setServicerList(arr);
+      setOrderDetails(result.result);
+      let data = {
+        dealerName: result.orderUserData.dealerData,
+        customerName: result.orderUserData.customerData,
+        resellerName: result.orderUserData.resellerData,
+        totalOrderAmount: result.result.orderAmount,
+        ...result.result,
+      };
+      setInvoiceData(data);
+      console.log(data);
+    }
+    else {
+      navigate(`/`);
+    }
     setLoading1(false);
   };
   const handleGOBack = () => {
@@ -189,34 +195,24 @@ function OrderDetails() {
     setActiveTab(tabId);
   };
 
-  const downloadImage = (file) => {
-    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
-    console.log(url)
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');

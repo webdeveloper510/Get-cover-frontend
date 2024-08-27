@@ -23,9 +23,9 @@ const PrivateRoute = ({ element, path, withoutLogin, role }) => {
         navigate(path, { replace: true });
       }
 
-      // console.log(userToken?.role === role.charAt(0).toUpperCase() + role.slice(1));
       if (
         role &&
+        userToken?.role != undefined &&
         userToken?.role !== role.charAt(0).toUpperCase() + role.slice(1)
       ) {
         const rolePaths = {

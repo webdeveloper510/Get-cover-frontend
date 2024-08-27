@@ -188,8 +188,8 @@ function SidebarItem({
         to={hasItems ? window.location.href : item.url}
         style={{ backgroundColor: activeUrl ? sideBarButtonColor : null, color: activeUrl ? sideBarButtonTextColor : sideBarTextColor }}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${activeUrl
-            ? `!bg-[${sideBarButtonColor}] !text-[${sideBarButtonTextColor}]  rounded-s-[30px]`
-            : `text-[${sideBarTextColor}]`
+          ? `!bg-[${sideBarButtonColor}] !text-[${sideBarButtonTextColor}]  rounded-s-[30px]`
+          : `text-[${sideBarTextColor}]`
           }`}
         onClick={handleClick}
       >
@@ -227,8 +227,8 @@ function SidebarItem({
 
         <span
           className={`self-center text-left w-full pl-[12px] ${activeUrl
-              ? " text-[14px] font-semibold"
-              : " text-[14px] font-Regular"
+            ? " text-[14px] font-semibold"
+            : " text-[14px] font-Regular"
             }`}
         >
           {item.name}
@@ -240,8 +240,8 @@ function SidebarItem({
                 <img
                   src={Down}
                   className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
-                      ? "rotate-180 dropdown-expanded"
-                      : "dropdown-collapsed"
+                    ? "rotate-180 dropdown-expanded"
+                    : "dropdown-collapsed"
                     }`}
                   style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                   alt="Dropdown Arrow"
@@ -252,8 +252,8 @@ function SidebarItem({
                 <img
                   src={DropdownArrowImage}
                   className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
-                      ? "rotate-180 dropdown-expanded"
-                      : "dropdown-collapsed"
+                    ? "rotate-180 dropdown-expanded"
+                    : "dropdown-collapsed"
                     }`}
                   style={{ filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
                   alt="Dropdown Arrow"
@@ -274,8 +274,8 @@ function SidebarItem({
               <Link
                 to={subItem.url}
                 className={`rounded-[25px] flex ${location.pathname.includes(subItem.url)
-                    ? "text-white font-medium"
-                    : "text-light-grey"
+                  ? "text-white font-medium"
+                  : "text-light-grey"
                   }`}
                 onClick={() => {
                   onLinkClick(subItem.url, item.name);
@@ -287,12 +287,12 @@ function SidebarItem({
                     <img
                       src={subItem.active}
                       className={` ${subIndex == 0
-                          ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
-                          : subIndex == 1
-                            ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
-                            : subIndex == 2
-                              ? "mt-[-95%]"
-                              : "mt-[-115%]"
+                        ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
+                        : subIndex == 1
+                          ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
+                          : subIndex == 2
+                            ? "mt-[-95%]"
+                            : "mt-[-115%]"
                         } w-[24px]`}
                       style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                       alt={subItem.active}
@@ -312,8 +312,8 @@ function SidebarItem({
 
                 <span
                   className={`self-center text-left text-[12px] font-medium w-full ${location.pathname.includes(subItem.url)
-                      ? "opacity-1"
-                      : "opacity-80"
+                    ? "opacity-1"
+                    : "opacity-80"
                     } pl-0 ml-[10px] p-[19px] pr-0 ${subIndex == item.items.length - 1
                       ? ""
                       : "border-b-2 border-Gray28"
@@ -692,18 +692,7 @@ function SideBar() {
           image: Dropdown1,
           active: Actives,
         },
-        // {
-        //   name: "Paid Claim Listing",
-        //   url: "/dealer/paidClaimList",
-        //   image: Dropdown1,
-        //   active: Actives,
-        // },
-        // {
-        //   name: "Unpaid Claim Listing",
-        //   url: "/dealer/unPaidClaimList",
-        //   image: Dropdown1,
-        //   active: Actives,
-        // },
+
         {
           name: "Add Claim",
           url: "/dealer/addClaim",
@@ -858,7 +847,6 @@ function SideBar() {
         },
       ],
     },
-
     {
       name: "Price Book ",
       url: "/reseller/priceBook",
@@ -903,7 +891,7 @@ function SideBar() {
         },
         {
           name: "Claims",
-          url: "/reseller/claim",
+          url: "/reseller/reporting",
           image: Dropdown2,
           active: SeacondActive,
         },
@@ -956,18 +944,6 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
-      name: "Order List",
-      image: OrderImage,
-      active: ActiveOrder,
-      url: "/customer/orderList",
-    },
-    {
-      name: "Contract",
-      url: "/customer/contractList",
-      active: ActiveProduct,
-      image: ProductImage,
-    },
-    {
       name: "Claim",
       image: ClaimImage,
       active: ActiveClaim,
@@ -991,6 +967,18 @@ function SideBar() {
           active: ForthActive,
         },
       ],
+    },
+    {
+      name: "Order List",
+      image: OrderImage,
+      active: ActiveOrder,
+      url: "/customer/orderList",
+    },
+    {
+      name: "Contract",
+      url: "/customer/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
     },
     {
       name: "Claims Reporting",

@@ -287,7 +287,7 @@ function DealerAddClaim() {
                 </div>
                 <div className="col-span-6">
                   <Input
-                    label="Loss Date"
+                    label="Damage Date"
                     name="lossDate"
                     type="date"
                     required
@@ -412,8 +412,8 @@ function DealerAddClaim() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2

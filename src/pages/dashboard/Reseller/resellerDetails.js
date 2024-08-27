@@ -274,28 +274,34 @@ function ResellerDetails() {
       setLoading(true);
     }
     const result = await getResellerListByResellerId(id.resellerId);
-    setResllerDetails(result.reseller[0]);
-    setIsStatus(result?.dealerStatus);
-    setResellerStatus(result?.reseller[0].status);
-    setResellerStatusMain(result.reseller[0].resellerData.status);
-    setServicerCreateAccountOption(
-      result?.reseller[0]?.resellerData?.isServicer
-    );
-    setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
-    setInitialFormValues({
-      accountName: result?.reseller[0]?.resellerData?.name,
-      oldName: result?.reseller[0]?.resellerData?.name,
-      resellerId: id.resellerId,
-      street: result?.reseller[0]?.resellerData?.street,
-      city: result?.reseller[0]?.resellerData?.city,
-      zip: result?.reseller[0]?.resellerData?.zip,
-      state: result?.reseller[0]?.resellerData?.state,
-      isServicer: result?.reseller[0]?.resellerData?.isServicer,
-      isAccountCreate: result?.reseller[0].status,
-      country: "USA",
-    });
+    if (result.code == 200) {
+      setResllerDetails(result.reseller[0]);
+      setIsStatus(result?.dealerStatus);
+      setResellerStatus(result?.reseller[0].status);
+      setResellerStatusMain(result.reseller[0].resellerData.status);
+      setServicerCreateAccountOption(
+        result?.reseller[0]?.resellerData?.isServicer
+      );
+      setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
+      setInitialFormValues({
+        accountName: result?.reseller[0]?.resellerData?.name,
+        oldName: result?.reseller[0]?.resellerData?.name,
+        resellerId: id.resellerId,
+        street: result?.reseller[0]?.resellerData?.street,
+        city: result?.reseller[0]?.resellerData?.city,
+        zip: result?.reseller[0]?.resellerData?.zip,
+        state: result?.reseller[0]?.resellerData?.state,
+        isServicer: result?.reseller[0]?.resellerData?.isServicer,
+        isAccountCreate: result?.reseller[0].status,
+        country: "USA",
+      });
+    } else {
+      navigate(`/`);
+    }
+
     setLoading(false);
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };

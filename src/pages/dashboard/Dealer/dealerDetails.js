@@ -266,40 +266,44 @@ function DealerDetails() {
     }
 
     const result = await getDealersDetailsByid(id?.id);
-    setDealerDetails(result.result[0]);
-    // console.log(result.result[0].dealerData);
-    setIsStatus(result?.result[0]?.dealerData.accountStatus);
-    setInitialFormValues({
-      accountName: result?.result[0]?.dealerData?.name,
-      oldName: result?.result[0]?.dealerData?.name,
-      dealerId: id.id,
-      street: result?.result[0]?.dealerData?.street,
-      city: result?.result[0]?.dealerData?.city,
-      zip: result?.result[0]?.dealerData?.zip,
-      state: result?.result[0]?.dealerData?.state,
-      country: "USA",
-      serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
-      coverageType: result?.result[0]?.dealerData?.coverageType,
-      userAccount: result?.result[0]?.dealerData?.userAccount,
-      isShippingAllowed:
-        result?.result[0]?.dealerData?.isShippingAllowed === true
-          ? "yes"
-          : "no",
-      isServicer: result?.result[0]?.dealerData?.isServicer,
-      termCondition: result?.result[0]?.dealerData?.termCondition,
-      isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
-    });
-    setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
+    if (result.code == 200) {
+      setDealerDetails(result.result[0]);
+      // console.log(result.result[0].dealerData);
+      setIsStatus(result?.result[0]?.dealerData.accountStatus);
+      setInitialFormValues({
+        accountName: result?.result[0]?.dealerData?.name,
+        oldName: result?.result[0]?.dealerData?.name,
+        dealerId: id.id,
+        street: result?.result[0]?.dealerData?.street,
+        city: result?.result[0]?.dealerData?.city,
+        zip: result?.result[0]?.dealerData?.zip,
+        state: result?.result[0]?.dealerData?.state,
+        country: "USA",
+        serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
+        coverageType: result?.result[0]?.dealerData?.coverageType,
+        userAccount: result?.result[0]?.dealerData?.userAccount,
+        isShippingAllowed:
+          result?.result[0]?.dealerData?.isShippingAllowed === true
+            ? "yes"
+            : "no",
+        isServicer: result?.result[0]?.dealerData?.isServicer,
+        termCondition: result?.result[0]?.dealerData?.termCondition,
+        isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
+      });
+      setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
 
-    // console.log(result, '-------------->>>>>>')
-    setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
-    setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
-    setCreateAccountOption(
-      result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
-    );
-    setShipping(
-      result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
-    );
+      // console.log(result, '-------------->>>>>>')
+      setCreateAccount(result?.result[0]?.dealerData?.isAccountCreate);
+      setSelectedFile2(result?.result[0]?.dealerData?.termCondition);
+      setCreateAccountOption(
+        result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
+      );
+      setShipping(
+        result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
+      );
+    } else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
 

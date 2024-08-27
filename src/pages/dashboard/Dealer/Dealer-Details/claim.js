@@ -54,8 +54,11 @@ import CustomPagination from "../../../pagination";
 
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
-import { checkUserToken } from "../../../../services/userServices";
 import Card from "../../../../common/card";
+import {
+  checkUserToken,
+  downloadFile,
+} from "../../../../services/userServices";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -131,33 +134,24 @@ function ClaimList(props) {
     scrollToBottom();
   }, [messageList]); // Assuming messageList is the dependency that triggers data loading
 
-  const downloadImage = (file) => {
-    const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${file.messageFile.fileName}`;
-    fetch(url, {
-      headers: baseUrl.headers,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch the file. Status: ${response.status}`
-          );
-        }
-        return response.blob();
-      })
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = file.messageFile.fileName || "downloaded_image";
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(blobUrl);
-      })
-      .catch((error) => {
-        console.error("Error fetching the file:", error);
-      });
+  const downloadImage = async (file) => {
+    try {
+      let data = {
+        key: file.messageFile.fileName,
+      };
+      const binaryString = await downloadFile(data);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = file.messageFile.fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Error fetching the file:", error);
+    }
   };
 
   useEffect(() => {
@@ -569,30 +563,50 @@ function ClaimList(props) {
     }
   }, [claimList]);
 
-  const downloadAttachments = (res) => {
+  const downloadAttachments = async (res) => {
     const attachments = res || [];
 
-    attachments.forEach((attachment, index) => {
-      const url = `https://${baseUrl.bucket}.s3.us-east-1.amazonaws.com/${attachment.filename}`;
+    for (const [index, attachment] of attachments.entries()) {
+      try {
+        const binaryString = await downloadFile({ key: attachment.key });
+        const fileExtension = attachment.key.split(".").pop();
+        let mimeType = "";
 
-      fetch(url, {
-        headers: baseUrl.headers,
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href = blobUrl;
-          anchor.download = `file_${index + 1}`;
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          URL.revokeObjectURL(blobUrl);
-        })
-        .catch((error) => {
-          console.error("Error fetching the file:", error);
-        });
-    });
+        switch (fileExtension) {
+          case "pdf":
+            mimeType = "application/pdf";
+            break;
+          case "jpg":
+          case "jpeg":
+            mimeType = "image/jpeg";
+            break;
+          case "png":
+            mimeType = "image/png";
+            break;
+          case "doc":
+          case "docx":
+            mimeType = "application/msword";
+            break;
+          case "xlsx":
+            mimeType =
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            break;
+          default:
+            mimeType = "application/octet-stream";
+        }
+        const blob = new Blob([binaryString], { type: mimeType });
+        const blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = attachment.key.split("/").pop();
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error("Error fetching the file:", error);
+      }
+    }
   };
 
   const initialValues2 = {
@@ -1200,7 +1214,7 @@ function ClaimList(props) {
                                         )}
                                       </p>
                                       <p className="text-[#A3A3A3]">
-                                        Loss Date
+                                        Damage Date
                                       </p>
                                     </div>
                                     <div className="col-span-3 self-center justify-left pl-4 flex relative">
@@ -1293,7 +1307,7 @@ function ClaimList(props) {
                                       />
                                       <div className="py-4 pl-3 self-center">
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                          Product Serial
+                                          Product Serial  / Device ID
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.serial}
@@ -2366,7 +2380,7 @@ function ClaimList(props) {
                   type="text"
                   name="serial"
                   className="!bg-white"
-                  label="Serial #"
+                  label="Serial # / Device ID"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
                 />
