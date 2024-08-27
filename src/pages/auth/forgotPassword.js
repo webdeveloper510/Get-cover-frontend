@@ -23,7 +23,7 @@ function ForgotPassword() {
   const fetchUserDetails12 = async () => {
     try {
       const userDetails = await getSetting();
-      
+
       if (userDetails && userDetails.result) {
         setDetails(userDetails.result[0]);
       }
@@ -33,7 +33,7 @@ function ForgotPassword() {
   };
   useEffect(() => {
     fetchUserDetails12();
-} ,[]);
+  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -75,7 +75,7 @@ function ForgotPassword() {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-            <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
                 Password?
@@ -122,9 +122,9 @@ function ForgotPassword() {
                 </p>
 
               </div>
-                <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad.net </a></p>
-                  </div>
+              <div>
+                <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad India </a></p>
+              </div>
             </div>
           </div>
           <div className="col-span-1"></div>

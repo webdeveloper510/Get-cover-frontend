@@ -567,12 +567,14 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const [selectedFile2, setSelectedFile2] = useState('');
+  const [url, setUrl] = useState('');
   console.log(selectedFile2, '--selectedFile2');
 
   useEffect(() => {
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
+      setUrl(storedUserDetails.logoLight ? storedUserDetails.logoLight.fullUrl : null);
       setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach(color => {
@@ -604,7 +606,7 @@ function SideBar() {
       // localStorage.removeItem('userDetails')
       local.siteSettings = fetchedData
       localStorage.setItem("siteSettings", JSON.stringify(local));
-
+      setUrl(fetchedData.logoLight ? fetchedData.logoLight.fullUrl : null);
       setSelectedFile2(fetchedData.logoLight ? fetchedData.logoLight.fileName : null);
       const colorScheme = fetchedData.colorScheme;
       colorScheme.forEach(color => {
@@ -1022,7 +1024,7 @@ function SideBar() {
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
       <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
         <img
-          src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2)}`}
+          src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
           className="mx-auto py-6 w-full px-5"
           alt="logo"
         />

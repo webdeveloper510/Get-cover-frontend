@@ -906,6 +906,7 @@ function Account() {
       }
       if (userDetails && userDetails.result) {
         setTitle(userDetails.result[0].title);
+
         setSelectedFile2(userDetails.result[0].favIcon || null);
         setSelectedFile1(userDetails.result[0].logoLight || null);
         setSelectedFile(userDetails.result[0].logoDark || null);
@@ -1392,7 +1393,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
                     </div>
-                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
+                    <img src={`${selectedFile2?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
                   </div>
                   <div className="col-span-4 mb-2">
                     <div className="relative">
@@ -1433,7 +1434,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                     </div>
-                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
+                    <img src={`${selectedFile1?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
                   </div>
                   <div className="col-span-4">
                     <div className="relative">
@@ -1474,7 +1475,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                     </div>
-                    <img src={`https://api.codewarranty.com/uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
+                    <img src={`${selectedFile?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
                   </div>
                   <div className="col-span-6">
                     <div className="relative">
