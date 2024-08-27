@@ -186,7 +186,7 @@ function AddBulkClaim() {
     );
     const url = isDealerResellerCustomer
       ? "https://docs.google.com/spreadsheets/d/1dZTJYvIz2sR3hVrXsTAd7mLf949s8y8nvXzid_52gLY/edit?gid=0#gid=0"
-      : "https://docs.google.com/spreadsheets/d/1T0wqhbLkgxwi38nyFnN7SduKZFlDjr89LD77sp-qekU/edit?gid=0#gid=0";
+      : "https://docs.google.com/spreadsheets/d/1hJ5qP21CraZHj1-yS_R3KJIGRmEZGFxEyCsFcspZz2U/edit?gid=0#gid=0";
     window.open(url, "_blank");
   };
 
