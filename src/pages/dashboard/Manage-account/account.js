@@ -784,6 +784,7 @@ function Account() {
 
 
   const [sideBarColor, setSideBarColor] = useState('');
+  const [reset, setReset] = useState([]);
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
@@ -795,8 +796,8 @@ function Account() {
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
   const [cardColor, setCardColor] = useState('');
   const [textColor, setTextColor] = useState('');
-  const [title, setTitle] = useState('');
   const [titleColor, setTitleColor] = useState('');
+  const [title, setTitle] = useState('');
   const [bankDetails, setBankDetails] = useState('');
   const [address, setAddress] = useState('');
   const [state, setState] = useState('');
@@ -906,7 +907,7 @@ function Account() {
       }
       if (userDetails && userDetails.result) {
         setTitle(userDetails.result[0].title);
-
+        setReset(userDetails.result[0].resetColor)
         setSelectedFile2(userDetails.result[0].favIcon || null);
         setSelectedFile1(userDetails.result[0].logoLight || null);
         setSelectedFile(userDetails.result[0].logoDark || null);
@@ -966,6 +967,7 @@ function Account() {
         const apiData = {
           favIcon: values.favIcon || selectedFile2,
           colorScheme: colorScheme,
+          resetColor: reset,
           title: values.title || title,
           logoLight: values.logoLight || selectedFile1,
           logoDark: values.logoDark || selectedFile,
@@ -1531,13 +1533,6 @@ function Account() {
                     <p className="mb-3 text-light-black font-bold">Color Setting </p>
                     <Grid >
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="right"
-                                        id={`tooltip-1`}
-                                        content=''
-                                        >
-                                        <p className="absolute bg-[#F0F0F0] right-0 top-[-5px] z-[2]"><img src={info} className="h-4 w-5" alt="Info"/></p>
-                                        </CommonTooltip> */}
                         <Input
                           type="color"
                           name={`sideBarColor`}
@@ -1577,11 +1572,6 @@ function Account() {
                         />
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-4`}
-                                        content='you can change the sideBar active page button text color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`sideBarButtonTextColor`}
@@ -1593,14 +1583,8 @@ function Account() {
                           placeholder=""
                           value={sideBarButtonTextColor} onChange={handleColorChange3}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-5`}
-                                        content='you can change all button background color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`buttonColor`}
@@ -1612,14 +1596,8 @@ function Account() {
                           placeholder=""
                           value={buttonColor} onChange={handleColorChange4}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-6`}
-                                        content='you can change all button text color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`buttonTextColor`}
@@ -1631,14 +1609,8 @@ function Account() {
                           placeholder=""
                           value={buttonTextColor} onChange={handleColorChange5}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-7`}
-                                        content='you can change background color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`backGroundColor`}
@@ -1650,14 +1622,8 @@ function Account() {
                           placeholder=""
                           value={backGroundColor} onChange={handleColorChange6}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`titleColor`}
@@ -1669,33 +1635,8 @@ function Account() {
                           placeholder=""
                           value={titleColor} onChange={handleColorChange8}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
-                        <Input
-                          type="color"
-                          name={`cardColor`}
-                          tooltip="9"
-                          className="!bg-white flex"
-                          content='you can change website Card color here'
-                          className1="h-11"
-                          label="Card Text Color"
-                          placeholder=""
-                          value={cardColor} onChange={handleColorChange9}
-                        />
-                        {/* </CommonTooltip> */}
-                      </div>
-                      <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`cardBackGroundColor`}
@@ -1707,14 +1648,22 @@ function Account() {
                           placeholder=""
                           value={cardBackGroundColor} onChange={handleColorChange10}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
+                        <Input
+                          type="color"
+                          name={`cardColor`}
+                          tooltip="9"
+                          className="!bg-white flex"
+                          content='you can change website Card color here'
+                          className1="h-11"
+                          label="Card Text Color"
+                          placeholder=""
+                          value={cardColor} onChange={handleColorChange9}
+                        />
+                      </div>
+
+                      <div className="col-span-2 relative">
                         <Input
                           type="color"
                           name={`modelBackgroundColor`}
@@ -1726,14 +1675,8 @@ function Account() {
                           placeholder=""
                           value={modelBackgroundColor} onChange={handleColorChange11}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                       <div className="col-span-2 relative">
-                        {/* <CommonTooltip
-                                        place="top"
-                                        id={`tooltip-8`}
-                                        content='you can change website text color here'
-                                      > */}
                         <Input
                           type="color"
                           name={`modelColor`}
@@ -1745,42 +1688,17 @@ function Account() {
                           placeholder=""
                           value={modelColor} onChange={handleColorChange12}
                         />
-                        {/* </CommonTooltip> */}
                       </div>
                     </Grid>
                   </div>
                 </Grid>
                 <div className="text-right">
+                  <Button className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
               </form>
             </Card>
           )}
-
-          {activeButton === "CoverageType" && (
-            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
-              <form onSubmit={siteChange.handleSubmit}>
-                <Grid container spacing={2}>
-                  <div className="col-span-12 mb-2">
-                    <p className="mb-3 font-bold">Add Coverage Type</p>
-                    <Input
-                      type="text"
-                      name="coverage_type"
-                      label="Coverage Type"
-                      placeholder=""
-                      className="!bg-white"
-                      maxLength={"30"}
-                    />
-                  </div>
-
-                </Grid>
-                <div className="text-right">
-                  <Button className="mt-3" type="submit">Submit</Button>
-                </div>
-              </form>
-            </Card>
-          )}
-
         </div >
       )
       }
