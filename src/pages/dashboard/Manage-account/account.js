@@ -30,6 +30,7 @@ import {
   saveSetting,
   getSetting,
   sendNotifications,
+  resetSetting,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -781,10 +782,7 @@ function Account() {
     }
   };
 
-
-
   const [sideBarColor, setSideBarColor] = useState('');
-  const [reset, setReset] = useState([]);
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
@@ -907,7 +905,6 @@ function Account() {
       }
       if (userDetails && userDetails.result) {
         setTitle(userDetails.result[0].title);
-        setReset(userDetails.result[0].resetColor)
         setSelectedFile2(userDetails.result[0].favIcon || null);
         setSelectedFile1(userDetails.result[0].logoLight || null);
         setSelectedFile(userDetails.result[0].logoDark || null);
@@ -967,7 +964,6 @@ function Account() {
         const apiData = {
           favIcon: values.favIcon || selectedFile2,
           colorScheme: colorScheme,
-          resetColor: reset,
           title: values.title || title,
           logoLight: values.logoLight || selectedFile1,
           logoDark: values.logoDark || selectedFile,
@@ -997,6 +993,26 @@ function Account() {
       }
     },
   });
+
+  const handleReset = async () => {
+    setLoading(true);
+    try {
+      const data = await resetSetting();
+      setFirstMessage("Site Setting Reset Successfully ");
+      setSecondMessage("Site setting Reset successfully ");
+      setLastMessage("Site will be reloaded after setting has been reset successfully");
+      setModalOpen(true);
+      setTimer(3);
+      fetchUserDetails12();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000);
+    } catch (error) {
+      console.error('Error resetting settings:', error);
+
+    }
+  };
+
   return (
     <>
       {loading ? (
@@ -1693,7 +1709,7 @@ function Account() {
                   </div>
                 </Grid>
                 <div className="text-right">
-                  <Button className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
+                  <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
               </form>

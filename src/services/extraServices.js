@@ -25,7 +25,7 @@ export const getNotifications = async (data) => {
     const response = await axios.post(
       `${url}/user/getAllNotifications
        `,
-       data,
+      data,
       {
         headers,
       }
@@ -237,7 +237,7 @@ export const saveSetting = async (data) => {
     const response = await axios.post(`${url}/user/setting`, data, {
       headers: {
         ...headers,
-       
+
       },
     });
 
@@ -252,7 +252,7 @@ export const getSetting = async () => {
     const response = await axios.get(`${url}/user/setting/getSetting`, {
       headers: {
         ...headers,
-       // Set the content type to multipart/form-data
+        // Set the content type to multipart/form-data
       },
     });
 
@@ -261,6 +261,22 @@ export const getSetting = async () => {
     throw error;
   }
 };
+
+export const resetSetting = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/user/resetSetting`, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const sendNotifications = async (data, id) => {
   const headers = createHeaders();
   try {

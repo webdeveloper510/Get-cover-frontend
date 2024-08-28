@@ -1771,6 +1771,7 @@ function ResellerClaimList(props) {
                                             claimStatus.status == "Completed"
                                           }
                                           white
+                                          classBox='!bg-[transparent]'
                                           className1="!border-0 !text-light-black"
                                           options={customerValue}
                                           visible={dropdownVisible}
@@ -1912,6 +1913,7 @@ function ResellerClaimList(props) {
                                                   "Completed"
                                                 }
                                                 white
+                                                classBox='bg-[transparent]'
                                                 className1="!border-0 !text-light-black"
                                                 options={repairValue}
                                                 visible={dropdownVisible}

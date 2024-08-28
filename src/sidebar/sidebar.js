@@ -1038,12 +1038,19 @@ function SideBar() {
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
-                  <img
-                    src={LogoutImage}
-                    className="w-[22px] h-[22px] fill-red"
-                    style={{ filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
-                    fill="red"
-                    alt={LogoutImage}
+                  <div
+                    className="w-[22px] h-[22px]"
+                    style={{
+                      maskImage: `url(${LogoutImage})`,
+                      WebkitMaskImage: `url(${LogoutImage})`,
+                      backgroundColor: sideBarTextColor,
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      WebkitMaskPosition: 'center',
+                      maskSize: 'contain',
+                      WebkitMaskSize: 'contain'
+                    }}
                   />
                   <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
                     Logout

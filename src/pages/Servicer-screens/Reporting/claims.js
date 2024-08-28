@@ -1742,6 +1742,7 @@ function AllList(props) {
                                               }
                                               onChange={handleSelectChange}
                                               white
+                                              classBox='!bg-transparent'
                                               className1="!border-0 !text-light-black"
                                               options={claimvalues}
                                               visible={dropdownVisible}
