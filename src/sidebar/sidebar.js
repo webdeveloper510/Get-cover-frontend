@@ -548,7 +548,7 @@ function SideBar() {
           image: Dropdown1,
           active: Actives,
         },
-      
+
         {
           name: "Add Claim",
           url: "/dealer/addClaim",
@@ -703,7 +703,6 @@ function SideBar() {
         },
       ],
     },
-
     {
       name: "Price Book ",
       url: "/reseller/priceBook",
@@ -801,18 +800,6 @@ function SideBar() {
       active: ActiveDashboard,
     },
     {
-      name: "Order List",
-      image: OrderImage,
-      active: ActiveOrder,
-      url: "/customer/orderList",
-    },
-    {
-      name: "Contract",
-      url: "/customer/contractList",
-      active: ActiveProduct,
-      image: ProductImage,
-    },
-    {
       name: "Claim",
       image: ClaimImage,
       active: ActiveClaim,
@@ -836,6 +823,18 @@ function SideBar() {
           active: ForthActive,
         },
       ],
+    },
+    {
+      name: "Order List",
+      image: OrderImage,
+      active: ActiveOrder,
+      url: "/customer/orderList",
+    },
+    {
+      name: "Contract",
+      url: "/customer/contractList",
+      active: ActiveProduct,
+      image: ProductImage,
     },
     {
       name: "Claims Reporting",

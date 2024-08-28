@@ -1519,6 +1519,7 @@ function DealerAddOrder() {
                         name="billTo"
                         placeholder=""
                         className={`!bg-white`}
+                        disableFirstOption={true}
                         onChange={handleSelectChange}
                         options={BillTo}
                         value={formik.values.billTo}

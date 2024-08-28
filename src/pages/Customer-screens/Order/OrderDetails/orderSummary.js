@@ -142,7 +142,7 @@ function CustomerOrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
+                        {/* <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price
@@ -154,7 +154,7 @@ function CustomerOrderSummary(props) {
                                 : formatOrderValue(res.price)}
                             </p>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -251,7 +251,7 @@ function CustomerOrderSummary(props) {
                         )}
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
-                            <div className="col-span-9 py-4 pl-3">
+                            <div className="col-span-12 py-4 pl-3">
                               <div className="">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Note
@@ -261,7 +261,7 @@ function CustomerOrderSummary(props) {
                                 </p>
                               </div>
                             </div>
-                            <div className="col-span-3 self-center justify-end flex pr-4">
+                            {/* <div className="col-span-3 self-center justify-end flex pr-4">
                               <Button
                                 className="!bg-white !text-light-black border flex"
                                 onClick={() => {
@@ -278,7 +278,7 @@ function CustomerOrderSummary(props) {
                                   Download File{" "}
                                 </span>
                               </Button>
-                            </div>
+                            </div> */}
                           </Grid>
                         </div>
                       </Grid>
