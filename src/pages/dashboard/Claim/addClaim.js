@@ -432,7 +432,7 @@ function AddClaim() {
 
                     <div className="col-span-4">
                       <Input
-                        label="Serial Number"
+                        label="Serial # / Device ID"
                         name="serial"
                         placeholder=""
                         className="!bg-white"
@@ -715,7 +715,7 @@ function AddClaim() {
                     </div>
                     <div className="col-span-2">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Serial #</p>
+                        <p className="text-sm m-0 p-0">Serial # / Device ID</p>
                         <p className="font-semibold">
                           {" "}
                           {contractDetail?.serial}
@@ -1216,7 +1216,7 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial
+                        Serial # / Device ID
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {contractDetail?.serial}

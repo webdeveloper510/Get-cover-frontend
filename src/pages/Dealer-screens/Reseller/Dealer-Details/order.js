@@ -29,6 +29,7 @@ import Cross from "../../../../assets/images/Cross.png";
 import unassign from "../../../../assets/images/Unassign.png";
 import Primary from "../../../../assets/images/SetPrimary.png";
 import AddDealer from "../../../../assets/images/Disapproved.png";
+import disapproved from "../../../../assets/images/Disapproved.png";
 import {
   archiveOrders,
   getContracts,
@@ -56,6 +57,7 @@ function OrderList(props) {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isErrorOpen, setIsErrorOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
@@ -116,11 +118,16 @@ function OrderList(props) {
   const openModal1 = () => {
     if (message == "Would you like to Archive it?") {
       archiveOrders(orderId).then((res) => {
-        setPrimaryMessage("Archive Order Successfully");
-        setSecondaryMessage("You have successfully archive the order");
-        console.log(res);
-        setTimer(3);
-        setIsModalOpen1(true);
+        if (res.code == 200) {
+          setPrimaryMessage("Archive Order Successfully");
+          setSecondaryMessage("You have successfully archive the order");
+          console.log(res);
+          setTimer(3);
+          setIsModalOpen1(true);
+        } else {
+          setIsErrorOpen(true);
+          setSecondaryMessage(res.message);
+        }
       });
     } else {
       markPaid(orderId).then((res) => {
@@ -137,6 +144,12 @@ function OrderList(props) {
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
+
+  const closeError = () => {
+    setIsErrorOpen(false);
+    // getOrderList();
+  };
+
   useEffect(() => {
     if (props.activeTab === "Orders" || props.activeTab === "Order") {
       getOrderList();
@@ -449,7 +462,9 @@ function OrderList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false} columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={orderList}
                 highlightOnHover
                 sortIcon={
@@ -486,6 +501,29 @@ function OrderList(props) {
             </Button>
             <div className="col-span-1"></div>
           </Grid>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isErrorOpen} onClose={closeError}>
+        <Button
+          onClick={closeError}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            <span className="text-light-black"> Error </span>
+          </p>
+
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            {secondaryMessage}
+          </p>
         </div>
       </Modal>
 
