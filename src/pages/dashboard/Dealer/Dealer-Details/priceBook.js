@@ -18,7 +18,10 @@ import {
   getFilterPriceBookByDealer,
   getDealerPricebookDetailById,
 } from "../../../../services/dealerServices";
-import { getCategoryList, getTermList } from "../../../../services/priceBookService";
+import {
+  getCategoryList,
+  getTermList,
+} from "../../../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import Select from "../../../../common/select";
@@ -116,195 +119,218 @@ function PriceBookList(props) {
   const columns =
     props.flag === "reseller"
       ? [
-        {
-          name: "ID",
-          selector: (row) => row.unique_key,
-          sortable: true,
-          minWidth: "auto", // Set a custom minimum width
-          maxWidth: "70px", // Set a custom maximum width
-        },
-        {
-          name: "Name",
-          selector: (row) => row?.priceBooks?.name,
-          sortable: true,
-        },
-        {
-          name: "Category",
-          selector: (row) => row?.priceBooks?.category[0]?.name,
-          sortable: true,
-        },
-        {
-          name: "Term",
-          selector: (row) => row?.priceBooks?.term + " " + "Months",
-          sortable: true,
-        },
-        {
-          name: "WholeSale Cost",
-          selector: (row) => `$${row?.wholesalePrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
-            }`,
-          sortable: true,
-        },
-        {
-          name: "Retail Cost",
-          selector: (row) => `$${row?.retailPrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.retailPrice ?? parseInt(0))
-            }`,
-          sortable: true,
-        },
-        // {
-        //   name: "Status",
-        //   selector: (row) => row.status,
-        //   sortable: true,
-
-        //   cell: (row) => (
-        //     <div className="relative">
-        //       <div
-        //         className={` ${
-        //           row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-        //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-        //       ></div>
-        //       <select
-        //         value={row.status === true ? "active" : "inactive"}
-        //         disabled={
-        //           row.priceBooks.category[0].status === false ||
-        //           row.dealer?.accountStatus === false ||
-        //           row.priceBooks?.status === false
-        //         }
-        //         onChange={(e) => handleStatusChange(row, e.target.value)}
-        //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-        //       >
-        //         <option value="active">Active</option>
-        //         <option value="inactive">Inactive</option>
-        //       </select>
-        //     </div>
-        //   ),
-        // },
-      ]
-      : [
-        {
-          name: "Sr.#",
-          selector: (row, index) => index + 1,
-          sortable: true,
-          minWidth: "auto",
-          maxWidth: "90px",
-        },
-        {
-          name: (<div>
-            Product
-            <br />
-            SKU
-          </div>),
-          selector: (row) => row?.priceBooks?.name,
-          sortable: true,
-        },
-        {
-          name: (<div>
-            Product
-            <br />
-            Name
-          </div>),
-          selector: (row) => row?.priceBooks?.pName,
-          sortable: true,
-        },
-        {
-          name: "Category",
-          selector: (row) => row?.priceBooks?.category[0]?.name,
-          sortable: true,
-        },
-        {
-          name: "Term",
-          selector: (row) => row?.priceBooks?.term + " " + "Months",
-          sortable: true,
-        },
-        {
-          name: (<div>Wholesale <br /> Cost </div>),
-          selector: (row) => `$${row?.wholesalePrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.wholesalePrice)
-            }`,
-          sortable: true,
-        },
-        {
-          name: (<div>Retail<br />Cost</div>),
-          selector: (row) => `$${row?.retailPrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.retailPrice)
-            }`,
-          sortable: true,
-        },
-        {
-          name: "Status",
-          selector: (row) => row.status,
-          sortable: true,
-
-          cell: (row) => (
-            <div className="relative">
-              <div
-                className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-              ></div>
-              <select
-                value={row.status === true ? "active" : "inactive"}
-                disabled={
-                  row.priceBooks.category[0].status === false ||
-                  row.dealer?.accountStatus === false ||
-                  row.priceBooks?.status === false
-                }
-                onChange={(e) => handleStatusChange(row, e.target.value)}
-                className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          ),
-        },
-        {
-          name: "Action",
-          minWidth: "auto", // Set a custom minimum width
-          maxWidth: "70px", // Set a custom maximum width
-          cell: (row, index) => {
-            return (
-              <div className="relative">
-                <div onClick={() => setSelectedAction(row.unique_key)}>
-                  <img
-                    src={ActiveIcon}
-                    className="cursor-pointer	w-[35px]"
-                    alt="Active Icon"
-                  />
-                </div>
-                {selectedAction === row.unique_key && (
-                  <div
-                    ref={dropdownRef}
-                    className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                      index
-                    )}`}
-                  >
-                    {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                    <div
-                      onClick={() => {
-                        routeToEditPage(row);
-                      }}
-                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                    >
-                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
-                    </div>
-                    <div
-                      onClick={() => openView(row._id)}
-                      className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                    >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
+          {
+            name: "ID",
+            selector: (row) => row.unique_key,
+            sortable: true,
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
           },
-        },
-      ];
+          {
+            name: "Name",
+            selector: (row) => row?.priceBooks?.name,
+            sortable: true,
+          },
+          {
+            name: "Category",
+            selector: (row) => row?.priceBooks?.category[0]?.name,
+            sortable: true,
+          },
+          {
+            name: "Term",
+            selector: (row) => row?.priceBooks?.term + " " + "Months",
+            sortable: true,
+          },
+          {
+            name: "WholeSale Cost",
+            selector: (row) =>
+              `$${
+                row?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+              }`,
+            sortable: true,
+          },
+          {
+            name: "Retail Cost",
+            selector: (row) =>
+              `$${
+                row?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.retailPrice ?? parseInt(0))
+              }`,
+            sortable: true,
+          },
+          // {
+          //   name: "Status",
+          //   selector: (row) => row.status,
+          //   sortable: true,
+
+          //   cell: (row) => (
+          //     <div className="relative">
+          //       <div
+          //         className={` ${
+          //           row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+          //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+          //       ></div>
+          //       <select
+          //         value={row.status === true ? "active" : "inactive"}
+          //         disabled={
+          //           row.priceBooks.category[0].status === false ||
+          //           row.dealer?.accountStatus === false ||
+          //           row.priceBooks?.status === false
+          //         }
+          //         onChange={(e) => handleStatusChange(row, e.target.value)}
+          //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+          //       >
+          //         <option value="active">Active</option>
+          //         <option value="inactive">Inactive</option>
+          //       </select>
+          //     </div>
+          //   ),
+          // },
+        ]
+      : [
+          {
+            name: "Sr.#",
+            selector: (row, index) => index + 1,
+            sortable: true,
+            minWidth: "auto",
+            maxWidth: "90px",
+          },
+          {
+            name: (
+              <div>
+                Custom
+                <br />
+                SKU
+              </div>
+            ),
+            selector: (row) => row?.dealerSku,
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Product
+                <br />
+                Name
+              </div>
+            ),
+            selector: (row) => row?.priceBooks?.pName,
+            sortable: true,
+          },
+          {
+            name: "Category",
+            selector: (row) => row?.priceBooks?.category[0]?.name,
+            sortable: true,
+          },
+          {
+            name: "Term",
+            selector: (row) => row?.priceBooks?.term + " " + "Months",
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Wholesale <br /> Cost{" "}
+              </div>
+            ),
+            selector: (row) =>
+              `$${
+                row?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.wholesalePrice)
+              }`,
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Retail
+                <br />
+                Cost
+              </div>
+            ),
+            selector: (row) =>
+              `$${
+                row?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.retailPrice)
+              }`,
+            sortable: true,
+          },
+          {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+
+            cell: (row) => (
+              <div className="relative">
+                <div
+                  className={` ${
+                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                ></div>
+                <select
+                  value={row.status === true ? "active" : "inactive"}
+                  disabled={
+                    row.priceBooks.category[0].status === false ||
+                    row.dealer?.accountStatus === false ||
+                    row.priceBooks?.status === false
+                  }
+                  onChange={(e) => handleStatusChange(row, e.target.value)}
+                  className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            ),
+          },
+          {
+            name: "Action",
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
+            cell: (row, index) => {
+              return (
+                <div className="relative">
+                  <div onClick={() => setSelectedAction(row.unique_key)}>
+                    <img
+                      src={ActiveIcon}
+                      className="cursor-pointer	w-[35px]"
+                      alt="Active Icon"
+                    />
+                  </div>
+                  {selectedAction === row.unique_key && (
+                    <div
+                      ref={dropdownRef}
+                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                    >
+                      {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                      <div
+                        onClick={() => {
+                          routeToEditPage(row);
+                        }}
+                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      >
+                        <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                      </div>
+                      <div
+                        onClick={() => openView(row._id)}
+                        className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                      >
+                        <img src={view} className="w-4 h-4 mr-2" /> View
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            },
+          },
+        ];
 
   const coverage = [
     { label: "Breakdown", value: "Breakdown" },
@@ -536,7 +562,6 @@ function PriceBookList(props) {
       coverageType: "",
       term: "",
       range: "",
-
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -560,8 +585,10 @@ function PriceBookList(props) {
 
   // useEffect hook to monitor changes to formik.values
   useEffect(() => {
-    if (JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)) {
-      console.log(formik.values, '================123');
+    if (
+      JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)
+    ) {
+      console.log(formik.values, "================123");
       priceBookData();
     }
   }, [formik.values]);
@@ -592,14 +619,36 @@ function PriceBookList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className={` ${props.flag === "reseller" ? ('col-span-4 self-center') : ('col-span-3 self-center')}`}>
+            <div
+              className={` ${
+                props.flag === "reseller"
+                  ? "col-span-4 self-center"
+                  : "col-span-3 self-center"
+              }`}
+            >
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className={` ${props.flag === "reseller" ? ('col-span-8') : ('col-span-9')}`}>
+            <div
+              className={` ${
+                props.flag === "reseller" ? "col-span-8" : "col-span-9"
+              }`}
+            >
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className={` ${props.flag === "reseller" ? ('!grid-cols-10') : ('!grid-cols-10')}`}>
-                    <div className={`${props.flag === "reseller" ? ('col-span-3 self-center') : ('col-span-3 self-center')}`}>
+                  <Grid
+                    className={` ${
+                      props.flag === "reseller"
+                        ? "!grid-cols-10"
+                        : "!grid-cols-10"
+                    }`}
+                  >
+                    <div
+                      className={`${
+                        props.flag === "reseller"
+                          ? "col-span-3 self-center"
+                          : "col-span-3 self-center"
+                      }`}
+                    >
                       <Input
                         name="name"
                         type="text"
@@ -613,8 +662,13 @@ function PriceBookList(props) {
                       />
                     </div>
 
-                    <div className={`${props.flag === "reseller" ? ('col-span-3 self-center') : ('col-span-3 self-center')}`}>
-
+                    <div
+                      className={`${
+                        props.flag === "reseller"
+                          ? "col-span-3 self-center"
+                          : "col-span-3 self-center"
+                      }`}
+                    >
                       {/* <Input
                         name="category"
                         type="text"
@@ -653,7 +707,7 @@ function PriceBookList(props) {
                     </div>)} */}
 
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className='!p-2'>
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
@@ -752,12 +806,12 @@ function PriceBookList(props) {
                 Wholesale Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${
-                  dealerPriceBookDetail?.wholesalePrice === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0))
-                }
-
+                $
+                {dealerPriceBookDetail?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -765,11 +819,12 @@ function PriceBookList(props) {
                 Retail Price
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                ${
-                  dealerPriceBookDetail?.retailPrice === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))
-                }
+                $
+                {dealerPriceBookDetail?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -797,6 +852,14 @@ function PriceBookList(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
+                Product SKU
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBookDetail?.dealerSku}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
                 Coverage Type
               </p>
               <p className="text-base text-neutral-grey font-semibold">
@@ -819,12 +882,13 @@ function PriceBookList(props) {
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
                     {" "}
-                    ${
-                      dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))
-                    }
-
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -832,42 +896,43 @@ function PriceBookList(props) {
                     Range End
                   </p>
                   <p className="text-base text-neutral-grey font-semibold">
-
-                    ${
-                      dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))
-                    }
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
               </>
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-                <>
-                  <div className="col-span-12">
-                    <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
-                        <th colSpan={"2"}>Quantity Pricing List </th>
-                      </tr>
-                      <tr className="border bg-[#9999]">
-                        <th>Name</th>
-                        <th>Max Quantity</th>
-                      </tr>
-                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                        .length !== 0 &&
-                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                          (item, index) => (
-                            <tr key={index} className="border">
-                              <td>{item.name}</td>
-                              <td>{item.quantity}</td>
-                            </tr>
-                          )
-                        )}
-                    </table>
-                  </div>
-                </>
-              )}
+              <>
+                <div className="col-span-12">
+                  <table className="w-full border text-center">
+                    <tr className="border bg-[#9999]">
+                      <th colSpan={"2"}>Quantity Pricing List </th>
+                    </tr>
+                    <tr className="border bg-[#9999]">
+                      <th>Name</th>
+                      <th>Max Quantity</th>
+                    </tr>
+                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                      .length !== 0 &&
+                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                        (item, index) => (
+                          <tr key={index} className="border">
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                          </tr>
+                        )
+                      )}
+                  </table>
+                </div>
+              </>
+            )}
           </Grid>
         </div>
       </Modal>
@@ -959,18 +1024,20 @@ function PriceBookList(props) {
                   onChange={formik.setFieldValue}
                 />
               </div>
-              {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="range"
-                  className="!bg-white"
-                  label="Product Retail Price"
-                  placeholder=""
-                  value={formik.values.range}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>}
+              {formik.values.priceType == "Flat Pricing" && (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="range"
+                    className="!bg-white"
+                    label="Product Retail Price"
+                    placeholder=""
+                    value={formik.values.range}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+              )}
               <div className="col-span-6">
                 <Select
                   name="coverageType"

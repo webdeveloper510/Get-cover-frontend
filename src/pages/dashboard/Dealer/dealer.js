@@ -80,6 +80,7 @@ function Dealer() {
         description: "",
         retailPrice: "",
         status: "",
+        dealerSku: "",
       },
     ],
     isAccountCreate: false,
@@ -285,7 +286,10 @@ function Dealer() {
     const maxSize = 10048576; // 10MB in bytes
 
     if (file.size > maxSize) {
-      formik.setFieldError("termCondition", "File is too large. Please upload a file smaller than 10MB.");
+      formik.setFieldError(
+        "termCondition",
+        "File is too large. Please upload a file smaller than 10MB."
+      );
       console.log("Selected file:", file);
     } else {
       setSelectedFile2(file);
@@ -293,7 +297,6 @@ function Dealer() {
       console.log("Selected file:", file);
     }
   };
-
 
   const handleRemoveFile = () => {
     if (inputRef) {
@@ -403,6 +406,7 @@ function Dealer() {
         `priceBook[${match[1]}].description`,
         data.description
       );
+      formik.setFieldValue(`priceBook[${match[1]}].dealerSku`, data.label);
       formik.setFieldValue(
         `priceBook[${match[1]}].wholesalePrice`,
         data.wholesalePrice.toFixed(2)
@@ -532,17 +536,18 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-            Yup.object().shape({
-              priceBookId: Yup.string().required("Required"),
-              categoryId: Yup.string().required("Required"),
-              retailPrice: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .min(0, "Retail Price cannot be negative")
-                .nullable(),
-              status: Yup.boolean().required("Required"),
-            })
-          ),
+              Yup.object().shape({
+                priceBookId: Yup.string().required("Required"),
+                categoryId: Yup.string().required("Required"),
+                dealerSku: Yup.string().required("Required"),
+                retailPrice: Yup.number()
+                  .typeError("Required")
+                  .required("Required")
+                  .min(0, "Retail Price cannot be negative")
+                  .nullable(),
+                status: Yup.boolean().required("Required"),
+              })
+            ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -553,17 +558,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              pName: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                pName: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1001,7 +1006,9 @@ function Dealer() {
                             {formik.errors.termCondition}
                           </div>
                         )}
-                        <small className="text-neutral-grey p-10p">Attachment size limit is 10 MB</small>
+                        <small className="text-neutral-grey p-10p">
+                          Attachment size limit is 10 MB
+                        </small>
                       </div>
                     </Grid>
                   </div>
@@ -1695,6 +1702,35 @@ function Dealer() {
                             formik.errors.priceBook[index].retailPrice && (
                               <div className="text-red-500 text-sm pl-2 pt-2">
                                 {formik.errors.priceBook[index].retailPrice}
+                              </div>
+                            )}
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`priceBook[${index}].dealerSku`}
+                            className="!bg-grayf9"
+                            label="Custom  SKU"
+                            required={true}
+                            placeholder=""
+                            value={formik.values.priceBook[index].dealerSku}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={
+                              formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].dealerSku
+                            }
+                          />
+                          {formik.touched.priceBook &&
+                            formik.touched.priceBook[index] &&
+                            formik.errors.priceBook &&
+                            formik.errors.priceBook[index] &&
+                            formik.errors.priceBook[index].dealerSku && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.priceBook[index].dealerSku}
                               </div>
                             )}
                         </div>
