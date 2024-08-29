@@ -515,7 +515,7 @@ function OrderDetails() {
                       <div className="col-span-1" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
+                            ? ""
                             : "!bg-grayf9 !text-black"
                             }`}
                           onClick={() => handleTabClick(tab.id)}
@@ -545,7 +545,8 @@ function OrderDetails() {
                             style={{
                               borderColor: activeTab === tab.id ? buttonTextColor : 'black',
                               borderLeftWidth: '1px',
-                              paddingLeft: '7px'
+                              paddingLeft: '7px',
+                              color: activeTab === tab.id ? buttonTextColor : 'black',
                             }}
                             className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
                               }`}

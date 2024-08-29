@@ -972,10 +972,10 @@ function ResellerDetails() {
                           style={{
                             borderColor: activeTab === tab.id ? buttonTextColor : 'black',
                             borderLeftWidth: '1px',
-                            paddingLeft: '7px'
+                            paddingLeft: '7px',
+                            color: activeTab === tab.id ? buttonTextColor : 'black',
                           }}
-                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                          className={`ml-1 py-1 text-sm font-Regular `}
                         >
                           {tab.label}
                         </span>

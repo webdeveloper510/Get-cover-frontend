@@ -15,6 +15,7 @@ import { getFilterList } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function Sale() {
   const [loading, setLoading] = useState(false)
@@ -69,6 +70,29 @@ function Sale() {
 
   useEffect(() => {
     resetAllFilters();
+  }, []);
+
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
   }, []);
 
   const getDatasetAtEvent = async (data) => {
@@ -202,16 +226,16 @@ function Sale() {
               <div className="self-center">
                 <Button
                   onClick={() => handleButtonClick("dealer")}
-                  className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer" &&
-                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
+                  className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] ${activeButton !== "dealer" &&
+                    "!bg-[white] !border-[1px] !text-[#333] "
                     }`}
                 >
                   Dealer
                 </Button>
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton === "dealer" &&
-                    "!bg-[white] !border-light-black !border-[1px] !text-[#333] "
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-[1px] ${activeButton === "dealer" &&
+                    "!bg-[white] !border-[1px] !text-[#333] "
                     }`}
                 >
                   Category
@@ -350,14 +374,27 @@ function Sale() {
                           }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
-                        <img
-                          src={
-                            activeTab === tab.id ? tab.Activeicons : tab.icons
-                          }
-                          className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                          alt={tab.label}
+                        <div
+                          style={{
+                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskRepeat: 'no-repeat',
+                            maskPosition: 'center',
+                            WebkitMaskPosition: 'center',
+                            maskSize: 'contain',
+                            WebkitMaskSize: 'contain'
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
                         />
                         <span
+                          style={{
+                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            borderLeftWidth: '1px',
+                            paddingLeft: '7px',
+                            color: activeTab === tab.id ? buttonTextColor : 'black',
+                          }}
                           className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
                             }`}
                         >

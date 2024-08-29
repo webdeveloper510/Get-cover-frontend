@@ -222,7 +222,7 @@ function UploadDealerBook() {
           <div className="flex mt-2">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Upload Dealer Book
+                Upload PriceBook Book
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
@@ -231,116 +231,205 @@ function UploadDealerBook() {
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                  Upload Dealer Book{" "}
+                  Upload PriceBook Book{" "}
                 </li>
               </ul>
             </div>
           </div>
 
           {/* Form Start */}
+          <Grid className="">
+            <div className="col-span-6">
 
-          <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
-              {error ? (
-                <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
-                  <span className="font-semibold"> {error} </span>
-                </p>
-              ) : (
-                <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
-                  <span className="font-semibold"> error </span>
-                </p>
-              )}
-              <Grid className="">
-                <div className="col-span-12">
-                  <div className="col-span-12">
-                    <Select
-                      label="Dealer Name"
-                      required={true}
-                      name="dealerId"
-                      placeholder=""
-                      onChange={handleSelectChange}
-                      className="!bg-white"
-                      options={activeDealers}
-                      value={formik.values.dealerId}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched.dealerId && formik.errors.dealerId}
-                    />
-                    {formik.touched.dealerId && formik.errors.dealerId && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        <span className="font-semibold"> {formik.errors.dealerId} </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="col-span-12">
-                  <p className="text-base mb-2 font-semibold">
-                    Upload In Bulk
-                  </p>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={handleDropdownClick}
-                      className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                    >
-                      {selectedFile ? (
-                        <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                          <img src={csvFile} className="mr-2" alt="Dropbox" />
-                          <div className="flex justify-between w-full">
-                            <p className="self-center">{selectedFile.name}</p>
-                            <p className="self-center">
-                              {(selectedFile.size / 1000).toFixed(2)} kb
-                            </p>
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <img
-                            src={Dropbox}
-                            className="mx-auto mb-3"
-                            alt="Dropbox"
-                          />
-                          <p className="">
-                            Accepted file types: csv, xlsx, xls Max. file size:
-                            50 MB.
-                          </p>
-                        </>
-                      )}
-                    </button>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                      style={{ display: "none" }}
-                      onChange={handleFileSelect}
-                    />
-                  </div>
-                  {formik.touched.file && formik.errors.file && (
-                    <p className="text-red-500 text-sm pl-2 pt-2">
-                      <span className="font-semibold">{formik.errors.file} </span>
+              <form className="mt-8" onSubmit={formik.handleSubmit}>
+                <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+                  <p className="text-xl font-semibold ">Dealer PriceBook</p>
+                  {error ? (
+                    <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
+                      <span className="font-semibold"> {error} </span>
+                    </p>
+                  ) : (
+                    <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
+                      <span className="font-semibold"> error </span>
                     </p>
                   )}
-                  <p className="text-[12px] mt-1 font-medium">
-                    Please click on file option and make a copy. Upload the list
-                    of Product Name and Price using our provided Google Sheets
-                    template, by{" "}
-                    <span
-                      className="underline cursor-pointer"
-                      onClick={downloadCSVTemplate}
-                    >
-                      Clicking here
-                    </span>
-                    The file must be saved with csv , xls and xlsx Format.
-                  </p>
-                </div>
-              </Grid>
-              <Button
-                type="submit"
-                className="mt-12 font-normal rounded-[25px]"
-              >
-                Submit
-              </Button>
-            </Card>
-          </form>
+                  <Grid className="">
+                    <div className="col-span-12">
+                      <div className="col-span-12">
+                        <Select
+                          label="Dealer Name"
+                          required={true}
+                          name="dealerId"
+                          placeholder=""
+                          onChange={handleSelectChange}
+                          className="!bg-white"
+                          options={activeDealers}
+                          value={formik.values.dealerId}
+                          onBlur={formik.handleBlur}
+                          error={formik.touched.dealerId && formik.errors.dealerId}
+                        />
+                        {formik.touched.dealerId && formik.errors.dealerId && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            <span className="font-semibold"> {formik.errors.dealerId} </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-span-12">
+                      <p className="text-base mb-2 font-semibold">
+                        Upload In Bulk
+                      </p>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={handleDropdownClick}
+                          className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                        >
+                          {selectedFile ? (
+                            <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                              <img src={csvFile} className="mr-2" alt="Dropbox" />
+                              <div className="flex justify-between w-full">
+                                <p className="self-center">{selectedFile.name}</p>
+                                <p className="self-center">
+                                  {(selectedFile.size / 1000).toFixed(2)} kb
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              <img
+                                src={Dropbox}
+                                className="mx-auto mb-3"
+                                alt="Dropbox"
+                              />
+                              <p className="">
+                                Accepted file types: csv, xlsx, xls Max. file size:
+                                50 MB.
+                              </p>
+                            </>
+                          )}
+                        </button>
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          style={{ display: "none" }}
+                          onChange={handleFileSelect}
+                        />
+                      </div>
+                      {formik.touched.file && formik.errors.file && (
+                        <p className="text-red-500 text-sm pl-2 pt-2">
+                          <span className="font-semibold">{formik.errors.file} </span>
+                        </p>
+                      )}
+                      <p className="text-[12px] mt-1 font-medium">
+                        Please click on file option and make a copy. Upload the list
+                        of Product Name and Price using our provided Google Sheets
+                        template, by{" "}
+                        <span
+                          className="underline cursor-pointer"
+                          onClick={downloadCSVTemplate}
+                        >
+                          Clicking here
+                        </span>
+                        The file must be saved with csv , xls and xlsx Format.
+                      </p>
+                    </div>
+                  </Grid>
+                  <Button
+                    type="submit"
+                    className="mt-12 font-normal rounded-[25px]"
+                  >
+                    Submit
+                  </Button>
+                </Card>
+              </form>
+            </div>
+            <div className="col-span-6">
+              <form className="mt-8" onSubmit={formik.handleSubmit}>
+                <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+                  <p className="text-xl font-semibold ">Company PriceBook</p>
+                  {error ? (
+                    <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
+                      <span className="font-semibold"> {error} </span>
+                    </p>
+                  ) : (
+                    <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
+                      <span className="font-semibold"> error </span>
+                    </p>
+                  )}
+                  <Grid className="">
+                    <div className="col-span-12">
+                      <p className="text-base mb-2 font-semibold">
+                        Upload In Bulk
+                      </p>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={handleDropdownClick}
+                          className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                        >
+                          {selectedFile ? (
+                            <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                              <img src={csvFile} className="mr-2" alt="Dropbox" />
+                              <div className="flex justify-between w-full">
+                                <p className="self-center">{selectedFile.name}</p>
+                                <p className="self-center">
+                                  {(selectedFile.size / 1000).toFixed(2)} kb
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <>
+                              <img
+                                src={Dropbox}
+                                className="mx-auto mb-3"
+                                alt="Dropbox"
+                              />
+                              <p className="">
+                                Accepted file types: csv, xlsx, xls Max. file size:
+                                50 MB.
+                              </p>
+                            </>
+                          )}
+                        </button>
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          style={{ display: "none" }}
+                          onChange={handleFileSelect}
+                        />
+                      </div>
+                      {formik.touched.file && formik.errors.file && (
+                        <p className="text-red-500 text-sm pl-2 pt-2">
+                          <span className="font-semibold">{formik.errors.file} </span>
+                        </p>
+                      )}
+                      <p className="text-[12px] mt-1 font-medium">
+                        Please click on file option and make a copy. Upload the list
+                        of Product Name and Price using our provided Google Sheets
+                        template, by{" "}
+                        <span
+                          className="underline cursor-pointer"
+                          onClick={downloadCSVTemplate}
+                        >
+                          Clicking here
+                        </span>
+                        The file must be saved with csv , xls and xlsx Format.
+                      </p>
+                    </div>
+                  </Grid>
+                  <Button
+                    type="submit"
+                    className="mt-12 font-normal rounded-[25px]"
+                  >
+                    Submit
+                  </Button>
+                </Card>
+              </form>
+            </div>
+          </Grid>
 
           {/* Modal Email Popop */}
         </>

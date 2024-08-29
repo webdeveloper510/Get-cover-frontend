@@ -143,41 +143,6 @@ function SidebarItem({
       });
     }
   }, []);
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    try {
-      console.log("Fetching user details...");
-      const userDetails = await getSetting();
-      console.log("User details fetched:---****-->", userDetails.result[0]);
-      const fetchedData = userDetails.result[0];
-      let local = JSON.parse(localStorage.getItem("siteSettings"));
-      // localStorage.removeItem('userDetails')
-      local.siteSettings = fetchedData
-      localStorage.setItem("siteSettings", JSON.stringify(local));
-
-      const colorScheme = fetchedData.colorScheme;
-      colorScheme.forEach(color => {
-        switch (color.colorType) {
-          case 'sideBarTextColor':
-            setSideBarTextColor(color.colorCode);
-            break;
-          case 'sideBarButtonColor':
-            setSideBarButtonColor(color.colorCode);
-            break;
-          case 'sideBarButtonTextColor':
-            setSideBarButtonTextColor(color.colorCode);
-            break;
-          default:
-            break;
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
 
   return (
     <li
@@ -237,7 +202,24 @@ function SidebarItem({
           <>
             {activeUrl ? (
               <>
-                <img
+                <div
+                  className={`w-4 h-4 ${expandedItem === item.name
+                    ? "rotate-180 dropdown-expanded"
+                    : "dropdown-collapsed"
+                    }`}
+                  style={{
+                    maskImage: `url(${Down})`,
+                    WebkitMaskImage: `url(${Down})`,
+                    backgroundColor: sideBarButtonTextColor,
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain'
+                  }}
+                />
+                {/* <img
                   src={Down}
                   className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
                     ? "rotate-180 dropdown-expanded"
@@ -245,18 +227,26 @@ function SidebarItem({
                     }`}
                   style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                   alt="Dropdown Arrow"
-                />
+                /> */}
               </>
             ) : (
               <>
-                <img
-                  src={DropdownArrowImage}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
+                <div
+                  className={`w-4 h-4 ${expandedItem === item.name
                     ? "rotate-180 dropdown-expanded"
                     : "dropdown-collapsed"
                     }`}
-                  style={{ filter: `opacity(.5) drop-shadow(0 0 0 ${sideBarTextColor})` }}
-                  alt="Dropdown Arrow"
+                  style={{
+                    maskImage: `url(${DropdownArrowImage})`,
+                    WebkitMaskImage: `url(${DropdownArrowImage})`,
+                    backgroundColor: sideBarTextColor,
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain'
+                  }}
                 />
               </>
             )}
@@ -284,7 +274,28 @@ function SidebarItem({
               >
                 {location.pathname.includes(subItem.url) ? (
                   <>
-                    <img
+                    <div
+                      className={` ${subIndex == 0
+                        ? "3xl:mt-[-32%] xl:mt-[-31%] mt-[-31%]"
+                        : subIndex == 1
+                          ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
+                          : subIndex == 2
+                            ? "mt-[-81%]"
+                            : "mt-[-99%]"
+                        } w-[24px]`}
+                      style={{
+                        maskImage: `url(${subItem.active})`,
+                        WebkitMaskImage: `url(${subItem.active})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    {/* <img
                       src={subItem.active}
                       className={` ${subIndex == 0
                         ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
@@ -296,23 +307,38 @@ function SidebarItem({
                         } w-[24px]`}
                       style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                       alt={subItem.active}
-                    />
+                    /> */}
                   </>
                 ) : (
                   <>
-                    {" "}
-                    <img
+                    <div
+                      className={` ${subIndex == 0 ? "mt-[-19%]" : "mt-[-33%]"
+                        } w-[24px] `}
+                      style={{
+                        maskImage: `url(${subItem.image})`,
+                        WebkitMaskImage: `url(${subItem.image})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    {/* <img
                       src={subItem.image}
                       className={` ${subIndex == 0 ? "mt-[-19%]" : "mt-[-42%]"
                         } w-[24px] `}
                       alt={subItem.image}
-                    />
+                    /> */}
                   </>
                 )}
 
                 <span
+                  style={{ color: location.pathname.includes(subItem.url) ? sideBarTextColor : sideBarTextColor }}
                   className={`self-center text-left text-[12px] font-medium w-full ${location.pathname.includes(subItem.url)
-                    ? "opacity-1"
+                    ? "opacity-1 !font-bold"
                     : "opacity-80"
                     } pl-0 ml-[10px] p-[19px] pr-0 ${subIndex == item.items.length - 1
                       ? ""
@@ -325,8 +351,9 @@ function SidebarItem({
             </li>
           ))}
         </ul>
-      )}
-    </li>
+      )
+      }
+    </li >
   );
 }
 

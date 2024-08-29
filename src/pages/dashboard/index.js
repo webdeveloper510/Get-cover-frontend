@@ -23,7 +23,7 @@ function Dashboard() {
   const [dealerList, setDealerList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [servicerList, setServicerList] = useState([]);
-  const [dealerPriceBook, setDealerPriceBook] = useState([]); 
+  const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [dealerPriceBookYear, setDealerPriceBookYear] = useState([]);
   const [claimList, setClaimList] = useState([]);
   const [orderAmount, setOrderAmount] = useState([]);
@@ -63,7 +63,6 @@ function Dashboard() {
     const trimmedData1 = result.yealy_sku.slice(0, 5);
     setDealerPriceBook(trimmedData);
     setDealerPriceBookYear(trimmedData1);
-    setLoading(false);
   };
   useEffect(() => {
     getDashboardCart();
@@ -106,12 +105,12 @@ function Dashboard() {
   //                 caches.delete(name);
   //             })
   //         });
-  
+
   //         // Makes sure the page reloads. Changes are only visible after you refresh.
   //         window.location.reload(true);
   //     }
   // }, [])
-  
+
   useEffect(() => {
     fetchUserDetails();
   }, []);
@@ -126,6 +125,8 @@ function Dashboard() {
       // localStorage.removeItem('userDetails')
       local.siteSettings = fetchedData
       localStorage.setItem("siteSettings", JSON.stringify(local));
+      setLoading(false);
+
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
@@ -159,10 +160,9 @@ function Dashboard() {
     {
       name: "Orders Value",
       selector: (row) =>
-        `$${
-          row?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orderAmount ?? parseInt(0))
+        `$${row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -234,10 +234,9 @@ function Dashboard() {
     {
       name: "Claim Amount",
       selector: (row) =>
-        `$${
-          row?.totalAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.totalAmount ?? parseInt(0))
+        `$${row?.totalAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.totalAmount ?? parseInt(0))
         } `,
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
@@ -308,10 +307,9 @@ function Dashboard() {
     {
       name: "Orders Value",
       selector: (row) =>
-        `$${
-          row?.totalAmount === ""
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.totalAmount ?? parseInt(0))
+        `$${row?.totalAmount === ""
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.totalAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -366,10 +364,9 @@ function Dashboard() {
     {
       name: "Claims Value",
       selector: (row) =>
-        `$${
-          row?.totalClaimAmount === ""
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.totalClaimAmount ?? parseInt(0))
+        `$${row?.totalClaimAmount === ""
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.totalClaimAmount ?? parseInt(0))
         }`,
       sortable: true,
     },
@@ -439,19 +436,18 @@ function Dashboard() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.reinsuranceFee +
+        `$${row?.reinsuranceFee +
+          row?.frontingFee +
+          row?.adminFee +
+          row?.reserveFutureFee ===
+          undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(
+            row?.reinsuranceFee +
             row?.frontingFee +
             row?.adminFee +
-            row?.reserveFutureFee ===
-          undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(
-                row?.reinsuranceFee +
-                  row?.frontingFee +
-                  row?.adminFee +
-                  row?.reserveFutureFee ?? parseInt(0)
-              )
+            row?.reserveFutureFee ?? parseInt(0)
+          )
         } `,
       sortable: true,
     },
@@ -491,8 +487,8 @@ function Dashboard() {
                   {dashboardDetail?.orderData?.totalAmount === ""
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail?.orderData?.totalAmount ?? parseInt(0)
-                      )}
+                      dashboardDetail?.orderData?.totalAmount ?? parseInt(0)
+                    )}
                 </p>
                 <p className="text-neutral-grey text-sm">
                   Total Value of Orders
@@ -514,8 +510,8 @@ function Dashboard() {
                   {dashboardDetail?.claimData?.valueClaim === ""
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
-                      )}
+                      dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
+                    )}
                 </p>
                 <p className="text-neutral-grey text-sm">
                   Total Value of Claims
@@ -542,159 +538,159 @@ function Dashboard() {
               </div>
               <div className="col-span-6 border-2 rounded-xl">
                 <Card>
-                <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Orders
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={columns}
-                    data={orderList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+                  <p className="text-xl font-semibold pl-3 pt-2">
+                    Last 5 Completed Orders
+                  </p>
+                  <div className="">
+                    <DataTable
+                      columns={columns}
+                      data={orderList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
                 </Card>
               </div>
 
               <div className="col-span-6 border-2 rounded-xl">
-              <Card>
-                <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Claims
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={Claim}
-                    data={claimList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+                <Card>
+                  <p className="text-xl font-semibold pl-3 pt-2">
+                    Last 5 Completed Claims
+                  </p>
+                  <div className="">
+                    <DataTable
+                      columns={Claim}
+                      data={claimList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
                 </Card>
               </div>
             </Grid>
 
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6 border-2 rounded-xl">
-              <Card>
-                <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                  Top 5 Dealers
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={Dealer}
-                    data={dealerList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+                <Card>
+                  <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
+                    Top 5 Dealers
+                  </p>
+                  <div className="">
+                    <DataTable
+                      columns={Dealer}
+                      data={dealerList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
                 </Card>
               </div>
               <div className="col-span-6 border-2 rounded-xl">
                 <Card>
-                <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
-                  Top 5 Servicers
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={Servicer}
-                    data={servicerList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
+                  <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
+                    Top 5 Servicers
+                  </p>
+                  <div className="">
+                    <DataTable
+                      columns={Servicer}
+                      data={servicerList}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <img
+                            src={shorting}
+                            className="ml-2"
+                            alt="shorting"
+                          />{" "}
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                    />
+                  </div>
                 </Card>
               </div>
             </Grid>
 
             <Grid>
               <div className="col-span-6 mt-4 border-2 rounded-xl">
-              <Card>
-                <div className="">
-                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                    Top 5 Performing SKU's 30 Days
-                  </p>
-                </div>
-                <DataTable
-                  columns={Product}
-                  data={dealerPriceBook}
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img
-                        src={shorting}
-                        className="ml-2"
-                        alt="shorting"
-                      />{" "}
-                    </>
-                  }
-                  highlightOnHover
-                  draggableColumns={false}
-                />
+                <Card>
+                  <div className="">
+                    <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                      Top 5 Performing SKU's 30 Days
+                    </p>
+                  </div>
+                  <DataTable
+                    columns={Product}
+                    data={dealerPriceBook}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </Card>
               </div>
               <div className="col-span-6 mt-4 border-2 rounded-xl">
                 <Card>
-                <div className="">
-                  <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                    Top 5 Performing SKU's 1 Year
-                  </p>
-                </div>
-                <DataTable
-                  columns={Product}
-                  data={dealerPriceBookYear}
-                  sortIcon={
-                    <>
-                      {" "}
-                      <img
-                        src={shorting}
-                        className="ml-2"
-                        alt="shorting"
-                      />{" "}
-                    </>
-                  }
-                  highlightOnHover
-                  draggableColumns={false}
-                />
+                  <div className="">
+                    <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                      Top 5 Performing SKU's 1 Year
+                    </p>
+                  </div>
+                  <DataTable
+                    columns={Product}
+                    data={dealerPriceBookYear}
+                    sortIcon={
+                      <>
+                        {" "}
+                        <img
+                          src={shorting}
+                          className="ml-2"
+                          alt="shorting"
+                        />{" "}
+                      </>
+                    }
+                    highlightOnHover
+                    draggableColumns={false}
+                  />
                 </Card>
               </div>
             </Grid>

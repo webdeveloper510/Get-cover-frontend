@@ -73,6 +73,7 @@ function AddDealerBook() {
       "retailPrice",
       result.result[0].retailPrice.toFixed(2)
     );
+    formik.setFieldValue("dealerSku", result.result[0].dealerSku);
     formik.setFieldValue("priceBook", result?.result[0]?.priceBook);
     formik.setFieldValue("description", result?.result[0]?.description);
     formik.setFieldValue("priceType", result?.result[0]?.priceType);
@@ -187,6 +188,7 @@ function AddDealerBook() {
           description: item.description,
           term: item.term,
           pName: item.pName,
+          coverageType: item.coverageType,
           wholesalePrice:
             item.frontingFee +
             item.reserveFutureFee +
@@ -206,10 +208,13 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
+      console.log(selectedProduct);
       formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
+      formik.setFieldValue("dealerSku", selectedProduct.label);
+      formik.setFieldValue("coverageType", selectedProduct.coverageType);
     }
 
     formik.setFieldValue(name, value);
@@ -228,6 +233,8 @@ function AddDealerBook() {
       term: "",
       brokerFee: "",
       priceType: "",
+      dealerSku: "",
+      coverageType: "",
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -240,6 +247,7 @@ function AddDealerBook() {
       categoryId: Yup.string().trim().required("Required"),
       pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
+      dealerSku: Yup.string().required("Required"),
     }),
     onSubmit: async (values) => {
       setLoader(true);
@@ -301,8 +309,7 @@ function AddDealerBook() {
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
-                  <Link to={'/'}>Home </Link>{" "}
-                  <span className=""> /</span>{" "}
+                  <Link to={"/"}>Home </Link> <span className=""> /</span>{" "}
                 </li>
                 <li className="text-sm text-neutral-grey font-Regular ml-1">
                   <Link
@@ -468,7 +475,7 @@ function AddDealerBook() {
               <Grid>
                 {type !== "Edit" && (
                   <>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="dealerId"
                         label="Dealer Name"
@@ -490,7 +497,7 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="categoryId"
                         label="Product Category"
@@ -513,10 +520,10 @@ function AddDealerBook() {
                           </div>
                         )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="priceBook"
-                        label="Product SkU"
+                        label="Product SKU"
                         options={productNameOptions}
                         required={true}
                         className="!bg-white"
@@ -534,7 +541,7 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Input
                         type="text"
                         name="pName"
@@ -620,9 +627,41 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
+                    <div className="col-span-4">
+                      <Input
+                        type="text"
+                        name="priceType"
+                        className="!bg-white"
+                        label="Coverage Type"
+                        placeholder=""
+                        value={formik.values.coverageType}
+                        disabled={true}
+                      />
+                    </div>
                   </>
                 )}
-
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="dealerSku"
+                    className="!bg-white"
+                    label="Dealer SKU"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.dealerSku}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                    error={formik.touched.dealerSku && formik.errors.dealerSku}
+                  />
+                  {formik.touched.dealerSku && formik.errors.dealerSku && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.dealerSku}
+                    </div>
+                  )}
+                </div>
                 <div className="col-span-4">
                   <Input
                     type="number"
@@ -651,6 +690,8 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
+
+
                 <div className="col-span-4">
                   <Select
                     label="Status"
@@ -663,11 +704,6 @@ function AddDealerBook() {
                       priceBookById.priceBooks?.status === false ||
                       priceBookById?.priceBooks?.category[0]?.status === false
                     }
-                    // disabled={
-                    //   priceBookById?.priceBooks?.category[0]?.status === false
-                    //     ? true
-                    //     : false
-                    // }
                     className="!bg-white"
                     options={status}
                     value={formik.values.status}
@@ -681,6 +717,7 @@ function AddDealerBook() {
                   )}
                 </div>
               </Grid>
+
               {type !== "Edit" && (
                 <Button
                   type="submit"

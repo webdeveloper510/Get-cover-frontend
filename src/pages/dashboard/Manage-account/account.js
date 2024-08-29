@@ -802,53 +802,77 @@ function Account() {
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
   const handleColorChange = (event) => {
-    setSideBarColor(event.target.value);
-    siteChange.setFieldValue('sideBarColor', sideBarColor)
+    const newColor = event.target.value;
+    setSideBarColor(newColor);
+    siteChange.setFieldValue('sideBarColor', newColor);
   };
+
   const handleColorChange1 = (event) => {
-    setSideBarTextColor(event.target.value);
-    siteChange.setFieldValue('sideBarTextColor', sideBarTextColor)
+    const newColor = event.target.value;
+    setSideBarTextColor(newColor);
+    siteChange.setFieldValue('sideBarTextColor', newColor);
   };
+
   const handleColorChange2 = (event) => {
-    setSideBarButtonColor(event.target.value);
-    siteChange.setFieldValue('sideBarButtonColor', sideBarButtonColor)
+    const newColor = event.target.value;
+    setSideBarButtonColor(newColor);
+    siteChange.setFieldValue('sideBarButtonColor', newColor);
   };
+
   const handleColorChange3 = (event) => {
-    setSideBarButtonTextColor(event.target.value);
-    siteChange.setFieldValue('sideBarButtonTextColor', sideBarButtonTextColor)
+    const newColor = event.target.value;
+    setSideBarButtonTextColor(newColor);
+    siteChange.setFieldValue('sideBarButtonTextColor', newColor);
   };
+
   const handleColorChange4 = (event) => {
-    setButtonColor(event.target.value);
-    siteChange.setFieldValue('buttonColor', buttonColor)
+    const newColor = event.target.value;
+    setButtonColor(newColor);
+    siteChange.setFieldValue('buttonColor', newColor);
   };
+
   const handleColorChange5 = (event) => {
-    setButtonTextColor(event.target.value);
-    siteChange.setFieldValue('buttonTextColor', buttonTextColor)
+    const newColor = event.target.value;
+    setButtonTextColor(newColor);
+    siteChange.setFieldValue('buttonTextColor', newColor);
   };
+
   const handleColorChange6 = (event) => {
-    setBackGroundColor(event.target.value);
-    siteChange.setFieldValue('backGroundColor', backGroundColor)
+    const newColor = event.target.value;
+    setBackGroundColor(newColor);
+    siteChange.setFieldValue('backGroundColor', newColor);
   };
+
   const handleColorChange8 = (event) => {
-    setTitleColor(event.target.value);
-    siteChange.setFieldValue('titleColor', titleColor)
+    const newColor = event.target.value;
+    setTitleColor(newColor);
+    siteChange.setFieldValue('titleColor', newColor);
   };
+
   const handleColorChange9 = (event) => {
-    setCardColor(event.target.value);
-    siteChange.setFieldValue('cardColor', cardColor)
+    const newColor = event.target.value;
+    setCardColor(newColor);
+    siteChange.setFieldValue('cardColor', newColor);
   };
+
   const handleColorChange10 = (event) => {
-    setCardBackGroundColor(event.target.value);
-    siteChange.setFieldValue('cardBackGroundColor', cardBackGroundColor)
+    const newColor = event.target.value;
+    setCardBackGroundColor(newColor);
+    siteChange.setFieldValue('cardBackGroundColor', newColor);
   };
+
   const handleColorChange11 = (event) => {
-    setModelBackgroundColor(event.target.value);
-    siteChange.setFieldValue('modelBackgroundColor', modelBackgroundColor)
+    const newColor = event.target.value;
+    setModelBackgroundColor(newColor);
+    siteChange.setFieldValue('modelBackgroundColor', newColor);
   };
+
   const handleColorChange12 = (event) => {
-    setModelColor(event.target.value);
-    siteChange.setFieldValue('modelColor', modelColor)
+    const newColor = event.target.value;
+    setModelColor(newColor);
+    siteChange.setFieldValue('modelColor', newColor);
   };
+
 
   const fetchUserDetails12 = async () => {
     try {

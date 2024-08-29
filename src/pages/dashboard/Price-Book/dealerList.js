@@ -116,7 +116,6 @@ function DealerPriceList() {
         retailPrice: row?.retailPrice?.toFixed(2),
         priceBook: row?.priceBook,
         dealerId: row?.dealerId,
-
         status: newStatus === "active" ? true : false,
         categoryId: row?.priceBooks[0]?.category[0]?._id,
         wholesalePrice: row?.wholesalePrice,
@@ -206,9 +205,10 @@ function DealerPriceList() {
     }
   };
   const splitLettersWithBreaks = (name) => {
-    if (!name) return '';
-    return name.split('').join('<br>');
+    if (!name) return "";
+    return name.split("").join("<br>");
   };
+
   const columns = [
     {
       name: "Sr.#",
@@ -230,17 +230,19 @@ function DealerPriceList() {
       minWidth: "100px",
 
       style: {
-        whiteSpace: 'pre-wrap',
-        textAlign: 'center'
-      }
+        whiteSpace: "pre-wrap",
+        textAlign: "center",
+      },
     },
     {
-      name: (<div>
-        Product
-        <br />
-        SKU
-      </div>),
-      selector: (row) => row.priceBooks[0]?.name,
+      name: (
+        <div>
+          Dealer
+          <br />
+          SKU
+        </div>
+      ),
+      selector: (row) => row.dealerSku,
       sortable: true,
       minWidth: "150px",
     },
@@ -257,18 +259,32 @@ function DealerPriceList() {
       minWidth: "90px",
     },
     {
-      name: (<div>Wholesale <br /> Cost </div>),
-      selector: (row) => `$${row?.wholesalePrice === undefined
-        ? parseInt(0).toLocaleString(2)
-        : formatOrderValue(row?.wholesalePrice ?? parseInt(0))} `,
+      name: (
+        <div>
+          Wholesale <br /> Cost{" "}
+        </div>
+      ),
+      selector: (row) =>
+        `$${row?.wholesalePrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+        } `,
       sortable: true,
       minWidth: "160px",
     },
     {
-      name: (<div>Retail<br />Cost</div>),
-      selector: (row) => `$${row?.retailPrice === undefined
-        ? parseInt(0).toLocaleString(2)
-        : formatOrderValue(row?.retailPrice ?? parseInt(0))} `,
+      name: (
+        <div>
+          Retail
+          <br />
+          Cost
+        </div>
+      ),
+      selector: (row) =>
+        `$${row?.retailPrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.retailPrice ?? parseInt(0))
+        } `,
       sortable: true,
       minWidth: "120px",
     },
@@ -279,7 +295,8 @@ function DealerPriceList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"} absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -342,18 +359,22 @@ function DealerPriceList() {
     },
   ];
 
-
-
-
   const closeView = () => {
     setIsViewOpen(false);
   };
 
   const openView = async (id) => {
-    const result = await getDealerPricebookDetailById(id);
-    setDealerPriceBookDetail(result.result[0]);
-    console.log(result);
-    setIsViewOpen(true);
+    setLoading(true);
+    try {
+      const result = await getDealerPricebookDetailById(id);
+      setDealerPriceBookDetail(result.result[0]);
+      console.log(result);
+      setIsViewOpen(true);
+    } catch (error) {
+      console.error("Error fetching dealer price book details:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -400,7 +421,6 @@ function DealerPriceList() {
 
   return (
     <>
-
       <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">
@@ -523,7 +543,9 @@ function DealerPriceList() {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false} columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={dealerPriceBook}
                 highlightOnHover
                 sortIcon={
@@ -610,26 +632,45 @@ function DealerPriceList() {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
+              <p className="text-lg  font-semibold">
+                Product SKU
+              </p>
+              <p className="text-base  font-semibold">
+                {dealerPriceBookDetail?.priceBooks?.name}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg  font-semibold">
+                Dealer SKU
+              </p>
+              <p className="text-base  font-semibold">
+                {dealerPriceBookDetail?.dealerSku}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
                 Wholesale Price
               </p>
-              <p className="text-base font-bold">
-                ${
-                  dealerPriceBookDetail?.wholesalePrice === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dealerPriceBookDetail?.wholesalePrice ?? parseInt(0))}
-
+              <p className="text-base text-neutral-grey font-semibold">
+                $
+                {dealerPriceBookDetail?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                    dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
               <p className="text-lg font-semibold">
                 Retail Price
               </p>
-              <p className="text-base font-bold">
-                ${
-                  dealerPriceBookDetail?.retailPrice === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(dealerPriceBookDetail?.retailPrice ?? parseInt(0))}
+              <p className="text-base font-semibold">
+                $
+                {dealerPriceBookDetail?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(
+                    dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
@@ -642,9 +683,7 @@ function DealerPriceList() {
               <p className="text-lg font-semibold">Status</p>
               <p className="text-base font-bold">
                 {" "}
-                {dealerPriceBookDetail?.status === true
-                  ? "Active"
-                  : "Inactive"}
+                {dealerPriceBookDetail?.status === true ? "Active" : "Inactive"}
               </p>
             </div>
 
@@ -654,22 +693,28 @@ function DealerPriceList() {
                   <p className="text-lg font-semibold">
                     Range Start
                   </p>
-                  <p className="text-base font-bold">
-                    ${
-                      dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeStart ?? parseInt(0))}
+                  <p className="text-base  font-semibold">
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
                 <div className="col-span-4">
                   <p className="text-lg font-semibold">
                     Range End
                   </p>
-                  <p className="text-base font-bold">
-                    ${
-                      dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(dealerPriceBookDetail?.priceBooks?.rangeEnd ?? parseInt(0))}
+                  <p className="text-base font-semibold">
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
               </>
@@ -795,18 +840,20 @@ function DealerPriceList() {
                   onChange={formik.setFieldValue}
                 />
               </div>
-              {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="range"
-                  className="!bg-white"
-                  label="Product Retail Price"
-                  placeholder=""
-                  value={formik.values.range}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>}
+              {formik.values.priceType == "Flat Pricing" && (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="range"
+                    className="!bg-white"
+                    label="Product Retail Price"
+                    placeholder=""
+                    value={formik.values.range}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+              )}
               <div className="col-span-6">
                 <Select
                   name="coverageType"
@@ -841,7 +888,6 @@ function DealerPriceList() {
           </div>
         </form>
       </Modal>
-
     </>
   );
 }
