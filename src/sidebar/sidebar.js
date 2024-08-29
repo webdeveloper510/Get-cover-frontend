@@ -51,7 +51,42 @@ function SidebarItem({
   sidebarItems,
 }) {
 
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
 
+  const fetchUserDetails = async () => {
+
+    console.log("Fetching user details...");
+    const userDetails = await getSetting();
+    console.log("User details fetched:---****-->", userDetails.result[0]);
+    const fetchedData = userDetails.result[0];
+    let local = JSON.parse(localStorage.getItem("siteSettings"));
+    // localStorage.removeItem('userDetails')
+    local.siteSettings = fetchedData
+    localStorage.setItem("siteSettings", JSON.stringify(local));
+    const colorScheme = fetchedData.colorScheme;
+
+
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'sideBarTextColor':
+          setSideBarTextColor(color.colorCode);
+          break;
+        case 'sideBarButtonColor':
+          setSideBarButtonColor(color.colorCode);
+          break;
+        case 'sideBarButtonTextColor':
+          setSideBarButtonTextColor(color.colorCode);
+          break;
+        default:
+          break;
+      }
+    });
+  }
   const location = useLocation();
 
   const hasItems = item.items && item.items.length > 0;
@@ -115,31 +150,7 @@ function SidebarItem({
 
     onLinkClick(item.url);
   };
-  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
-  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
-  const [sideBarTextColor, setSideBarTextColor] = useState('');
-  useEffect(() => {
-    const storedUserDetails = getUserDetailsFromLocalStorage();
 
-    if (storedUserDetails) {
-      const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
-        switch (color.colorType) {
-          case 'sideBarTextColor':
-            setSideBarTextColor(color.colorCode);
-            break;
-          case 'sideBarButtonColor':
-            setSideBarButtonColor(color.colorCode);
-            break;
-          case 'sideBarButtonTextColor':
-            setSideBarButtonTextColor(color.colorCode);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  }, []);
 
   return (
     <li

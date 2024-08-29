@@ -1376,7 +1376,7 @@ function Account() {
           {activeButton === "siteSetting" && (
             <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
               <form onSubmit={siteChange.handleSubmit}>
-                <p className="mb-3 text-light-black font-bold">Logo Setting</p>
+                <p className="mb-3 font-bold">Logo Setting</p>
                 <Grid container spacing={2}>
                   <div className="col-span-12">
                     <Input
@@ -1412,7 +1412,7 @@ function Account() {
                         ref={inputRef2}
                       />
 
-                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
                         {selectedFile2 && (
                           <button
                             type="button"
@@ -1453,7 +1453,7 @@ function Account() {
                         onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
                         ref={inputRef1}
                       />
-                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
                         {selectedFile1 && (
                           <button
                             type="button"
@@ -1494,7 +1494,7 @@ function Account() {
                         onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
                         ref={inputRef3}
                       />
-                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer">
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
                         {selectedFile && (
                           <button
                             type="button"
@@ -1535,7 +1535,7 @@ function Account() {
                         onChange={siteChange.handleChange}
                         onBlur={siteChange.handleBlur}
                         maxLength={150}
-                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       ></textarea>
                       {formik.touched.address && formik.errors.address && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1560,7 +1560,7 @@ function Account() {
                         onChange={siteChange.handleChange}
                         onBlur={siteChange.handleBlur}
                         maxLength={150}
-                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer"
                       ></textarea>
                       {formik.touched.bankDetails && formik.errors.bankDetails && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1570,7 +1570,7 @@ function Account() {
                     </div>
                   </div>
                   <div className="col-span-12">
-                    <p className="mb-3 text-light-black font-bold">Color Setting </p>
+                    <p className="mb-3 font-bold">Color Setting </p>
                     <Grid >
                       <div className="col-span-2 relative">
                         <Input
@@ -1617,7 +1617,7 @@ function Account() {
                           name={`sideBarButtonTextColor`}
                           tooltip="4"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar text color here'
+                          content='you can change the sideBar active page button text color here'
                           className1="h-11"
                           label="SideBar text Button "
                           placeholder=""
