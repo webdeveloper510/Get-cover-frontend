@@ -336,8 +336,8 @@ function DealerRegister() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         minLength={"5"}
-                        zipcode={true}
                         maxLength={"6"}
+                        zipcode={true}
                         error={formik.touched.zip && formik.errors.zip}
                       />
                       {formik.touched.zip && formik.errors.zip && (

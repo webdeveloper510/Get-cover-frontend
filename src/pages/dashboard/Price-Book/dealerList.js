@@ -648,10 +648,10 @@ function DealerPriceList() {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Wholesale Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 $
                 {dealerPriceBookDetail?.wholesalePrice === undefined
                   ? parseInt(0).toLocaleString(2)

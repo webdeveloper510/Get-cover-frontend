@@ -90,15 +90,12 @@ function SidebarItem({
 
   const [activeUrl, setActiveUrl] = useState(false);
 
-  // console.log('activeUrl---------------->>', activeUrl )
-
   useEffect(() => {
     let urls = [item.url];
     if (hasItems) {
       const urlsItem = item?.items?.map((i) => i.url) || [];
       urls = [...urls, ...urlsItem];
     }
-    // console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname, urls);
     if (itHasUrl) console.log("item=======>", item);
@@ -219,15 +216,6 @@ function SidebarItem({
                     WebkitMaskSize: 'contain'
                   }}
                 />
-                {/* <img
-                  src={Down}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
-                    ? "rotate-180 dropdown-expanded"
-                    : "dropdown-collapsed"
-                    }`}
-                  style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
-                  alt="Dropdown Arrow"
-                /> */}
               </>
             ) : (
               <>
