@@ -35,7 +35,6 @@ function ResellerPriceBook(props) {
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState();
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -92,11 +91,37 @@ function ResellerPriceBook(props) {
     setIsViewOpen(false);
   };
   const openView = async (id) => {
-    const result = await getPriceBookDetailsForDealerPortal(id);
-    setDealerPriceBook(result?.result[0]);
-    console.log(result?.result, '----->>>>><<<<<<<');
-    setIsViewOpen(true);
+    setLoading(true);
+    try {
+      const result = await getPriceBookDetailsForDealerPortal(id);
+      if (
+        result?.result &&
+        Array.isArray(result.result) &&
+        result.result.length > 0
+      ) {
+        setDealerPriceBook(result.result[0]);
+      }
+      setIsViewOpen(true);
+    } catch (error) {
+      console.error("Error fetching price book details:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setSelectedAction(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const columns = [
     {
@@ -107,18 +132,22 @@ function ResellerPriceBook(props) {
       maxWidth: "70px",
     },
     {
-      name: (<div>
-        Product <br />
-        SKU
-      </div>),
-      selector: (row) => row?.priceBooks?.name,
+      name: (
+        <div>
+          Dealer <br />
+          SKU
+        </div>
+      ),
+      selector: (row) => row?.dealerSku,
       sortable: true,
     },
     {
-      name: (<div>
-        Product <br />
-        Name
-      </div>),
+      name: (
+        <div>
+          Product <br />
+          Name
+        </div>
+      ),
       selector: (row) => row?.priceBooks?.pName,
       sortable: true,
     },
@@ -138,10 +167,12 @@ function ResellerPriceBook(props) {
     //   sortable: true,
     // },
     {
-      name: (<div>
-        Retail <br />
-        Cost
-      </div>),
+      name: (
+        <div>
+          Retail <br />
+          Cost
+        </div>
+      ),
       selector: (row) => `$${row.retailPrice.toFixed(2)} `,
       sortable: true,
     },
@@ -225,16 +256,18 @@ function ResellerPriceBook(props) {
     });
   };
 
-  const priceBookData = async (data = {
-    name: "",
-    status: "",
-    pName: "",
-    category: "",
-    coverageType: "",
-    priceType: "",
-    term: "",
-    range: "",
-  }) => {
+  const priceBookData = async (
+    data = {
+      name: "",
+      status: "",
+      pName: "",
+      category: "",
+      coverageType: "",
+      priceType: "",
+      term: "",
+      range: "",
+    }
+  ) => {
     setLoading(true);
 
     const result = await getResellerPortalPriceBook(data);
@@ -284,11 +317,13 @@ function ResellerPriceBook(props) {
       priceType: "",
       term: "",
       range: "",
+      dealerSku: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
+      dealerSku: Yup.string(),
     }),
     onSubmit: (values) => {
       closeDisapproved();
@@ -330,13 +365,13 @@ function ResellerPriceBook(props) {
                   <Grid className="!grid-cols-10">
                     <div className="col-span-3 self-center">
                       <Input
-                        name="name"
+                        name="dealerSku"
                         type="text"
-                        placeholder="Product SKU"
+                        placeholder="Dealer SKU"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        value={formik.values.name}
+                        value={formik.values.dealerSku}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
@@ -356,7 +391,7 @@ function ResellerPriceBook(props) {
                       />
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className='!p-2'>
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
@@ -394,7 +429,9 @@ function ResellerPriceBook(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false} columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={priceBookList}
                 highlightOnHover
                 sortIcon={
@@ -430,6 +467,18 @@ function ResellerPriceBook(props) {
               Advance Search
             </p>
             <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -503,18 +552,20 @@ function ResellerPriceBook(props) {
                   onChange={formik.setFieldValue}
                 />
               </div>
-              {formik.values.priceType == 'Flat Pricing' && <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="range"
-                  className="!bg-white"
-                  label="Product Retail Price"
-                  placeholder=""
-                  value={formik.values.range}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>}
+              {formik.values.priceType == "Flat Pricing" && (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="range"
+                    className="!bg-white"
+                    label="Product Retail Price"
+                    placeholder=""
+                    value={formik.values.range}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                </div>
+              )}
 
               {/* <div className="col-span-6">
                   <Select
@@ -587,8 +638,8 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                    dealerPriceBook?.retailPrice ?? parseInt(0)
-                  )}
+                      dealerPriceBook?.retailPrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -603,6 +654,14 @@ function ResellerPriceBook(props) {
               </p>
               <p className="text-base text-neutral-grey font-semibold">
                 {dealerPriceBook?.priceBooks?.coverageType}{" "}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg text-light-black font-semibold">
+                Product SKU
+              </p>
+              <p className="text-base text-neutral-grey font-semibold">
+                {dealerPriceBook?.priceBooks?.name}
               </p>
             </div>
             <div className="col-span-12">
@@ -626,9 +685,8 @@ function ResellerPriceBook(props) {
                     {dealerPriceBook?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBook?.priceBooks?.rangeStart ??
-                        parseInt(0)
-                      )}
+                          dealerPriceBook?.priceBooks?.rangeStart ?? parseInt(0)
+                        )}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -640,39 +698,37 @@ function ResellerPriceBook(props) {
                     {dealerPriceBook?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBook?.priceBooks?.rangeEnd ??
-                        parseInt(0)
-                      )}
+                          dealerPriceBook?.priceBooks?.rangeEnd ?? parseInt(0)
+                        )}
                   </p>
                 </div>
               </>
             )}
-            {dealerPriceBook?.priceBooks?.priceType ==
-              "Quantity Pricing" && (
-                <>
-                  <div className="col-span-12">
-                    <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
-                        <th colSpan={"2"}>Quantity Pricing List </th>
-                      </tr>
-                      <tr className="border bg-[#9999]">
-                        <th className="w-[50%]">Name</th>
-                        <th className="w-[50%]">Max Quantity</th>
-                      </tr>
-                      {dealerPriceBook?.priceBooks?.quantityPriceDetail
-                        .length !== 0 &&
-                        dealerPriceBook?.priceBooks?.quantityPriceDetail.map(
-                          (item, index) => (
-                            <tr key={index} className="border">
-                              <td>{item.name}</td>
-                              <td>{item.quantity}</td>
-                            </tr>
-                          )
-                        )}
-                    </table>
-                  </div>
-                </>
-              )}
+            {dealerPriceBook?.priceBooks?.priceType == "Quantity Pricing" && (
+              <>
+                <div className="col-span-12">
+                  <table className="w-full border text-center">
+                    <tr className="border bg-[#9999]">
+                      <th colSpan={"2"}>Quantity Pricing List </th>
+                    </tr>
+                    <tr className="border bg-[#9999]">
+                      <th className="w-[50%]">Name</th>
+                      <th className="w-[50%]">Max Quantity</th>
+                    </tr>
+                    {dealerPriceBook?.priceBooks?.quantityPriceDetail.length !==
+                      0 &&
+                      dealerPriceBook?.priceBooks?.quantityPriceDetail.map(
+                        (item, index) => (
+                          <tr key={index} className="border">
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                          </tr>
+                        )
+                      )}
+                  </table>
+                </div>
+              </>
+            )}
           </Grid>
         </div>
       </Modal>

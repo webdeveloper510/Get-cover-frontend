@@ -562,6 +562,7 @@ function PriceBookList(props) {
       coverageType: "",
       term: "",
       range: "",
+      dealerSku: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -572,6 +573,7 @@ function PriceBookList(props) {
       coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
+      dealerSku: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
@@ -642,7 +644,7 @@ function PriceBookList(props) {
                         : "!grid-cols-10"
                     }`}
                   >
-                    <div
+                    {/* <div
                       className={`${
                         props.flag === "reseller"
                           ? "col-span-3 self-center"
@@ -657,6 +659,26 @@ function PriceBookList(props) {
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
                         value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                      />
+                    </div> */}
+
+                    <div
+                      className={`${
+                        props.flag === "reseller"
+                          ? "col-span-3 self-center"
+                          : "col-span-3 self-center"
+                      }`}
+                    >
+                      <Input
+                        name="dealerSku"
+                        type="text"
+                        placeholder="Dealer SKU"
+                        className="!text-[14px] !bg-White-Smoke"
+                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                        label=""
+                        value={formik.values.dealerSku}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
@@ -855,7 +877,7 @@ function PriceBookList(props) {
                 Product SKU
               </p>
               <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.dealerSku}
+                {dealerPriceBookDetail?.priceBooks?.name}
               </p>
             </div>
             <div className="col-span-4">
@@ -973,6 +995,18 @@ function PriceBookList(props) {
                   label="Product SKU"
                   placeholder=""
                   value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

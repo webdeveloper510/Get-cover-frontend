@@ -10,14 +10,12 @@ import AllActive from "../../../assets/images/Amount.svg";
 import wholesale from "../../../assets/images/AciveCount.svg";
 import WholesaleActive from "../../../assets/images/Count.svg";
 
-import { cityData } from "../../../stateCityJson";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { MultiSelect } from "react-multi-select-component";
 import ClaimContent from "./Claim-Tab/ClaimContent";
 import { useMyContext } from "./../../../context/context";
 import {
   getFilterListForClaim,
-  getFilterListForDealerClaim,
   getFilterListForServicerClaim,
 } from "../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
@@ -86,7 +84,6 @@ function Claims() {
     setFiltersForClaimServicer,
     setFiltersForClaimDealer,
     setFiltersForClaimCategory,
-    toggleFilterFlag,
     resetAllFilters,
   } = useMyContext();
 
@@ -121,21 +118,14 @@ function Claims() {
       const res =
         isServicerClaims || isResellerClaims
           ? await getFilterListForServicerClaim(
-            data,
-            !isResellerClaims ? "servicerPortal" : "resellerPortal"
-          )
+              data,
+              !isResellerClaims ? "servicerPortal" : "resellerPortal"
+            )
           : await getFilterListForClaim(data);
       const { dealers, categories, priceBooks, servicers } = res.result;
-
       const getName = (obj) => obj.name;
       const mapToLabelValue = (value) =>
         value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      // const mapPriceBooks = (value) =>
-      //   value.map((obj) => ({
-      //     label: obj.name,
-      //     value: obj.name,
-      //   }));
-
       if (activeButton === "dealer") {
         setDealerList(mapToLabelValue(dealers));
         setCategoryList(mapToLabelValue(categories));
@@ -162,7 +152,6 @@ function Claims() {
   };
 
   const handleFilterChange = (name, value) => {
-    console.log(value);
     let updatedFilters = { ...filter };
     const commonUpdates = {
       categoryId: "",
@@ -259,6 +248,10 @@ function Claims() {
   };
 
   const handleResetFilters = () => {
+    setSelectedRange({
+      startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
+      endDate: new Date(),
+    });
     let data = {
       dealerId: "",
       priceBookId: [],
@@ -266,6 +259,7 @@ function Claims() {
       categoryId: "",
       primary: activeButton,
     };
+
     if (activeButton === "category") {
       setFiltersCategory(data);
       setFiltersForClaimCategory(data);
@@ -320,10 +314,11 @@ function Claims() {
                 {!isResellerClaims && (
                   <Button
                     onClick={() => handleButtonClick("dealer")}
-                    className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer"
-                      ? "!bg-[white] !text-[#333]"
-                      : ""
-                      }`}
+                    className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${
+                      activeButton !== "dealer"
+                        ? "!bg-[white] !text-[#333]"
+                        : ""
+                    }`}
                   >
                     Dealer
                   </Button>
@@ -331,16 +326,20 @@ function Claims() {
                 {!isServicerClaims && (
                   <Button
                     onClick={() => handleButtonClick("servicer")}
-                    className={` !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !text-[#333]"
-                      } ${isResellerClaims ? "!rounded-e-[0px]" : '!rounded-[0px]'}`}
+                    className={` !px-2 !py-1 !border-light-black !border-[1px] ${
+                      activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                    } ${
+                      isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
+                    }`}
                   >
                     Servicer
                   </Button>
                 )}
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "category" && "!bg-[white] !text-[#333]"
-                    }`}
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
+                    activeButton !== "category" && "!bg-[white] !text-[#333]"
+                  }`}
                 >
                   Category
                 </Button>
@@ -349,12 +348,13 @@ function Claims() {
           </div>
           {!isCustomerClaims && (
             <Grid
-              className={`${activeButton === "dealer"
-                ? "!grid-cols-10"
-                : activeButton === "category"
+              className={`${
+                activeButton === "dealer"
+                  ? "!grid-cols-10"
+                  : activeButton === "category"
                   ? "!grid-cols-6"
                   : "!grid-cols-10"
-                } !gap-0`}
+              } !gap-0`}
             >
               {activeButton === "dealer" && (
                 <>
@@ -502,19 +502,23 @@ function Claims() {
                       options={servicerListServicer}
                     />
                   </div>
-                  {isResellerClaims ? '' : <div className="col-span-2 self-center pl-3">
-                    <SelectBoxWithSearch
-                      label="Dealer Name"
-                      name="dealerId"
-                      value={filterServicer.dealerId}
-                      onChange={handleFilterChangeServicer}
-                      placeholder="Dealer Name"
-                      className="!bg-white"
-                      className1="filter"
-                      pName="Dealer Name"
-                      options={dealerListServicer}
-                    />
-                  </div>}
+                  {isResellerClaims ? (
+                    ""
+                  ) : (
+                    <div className="col-span-2 self-center pl-3">
+                      <SelectBoxWithSearch
+                        label="Dealer Name"
+                        name="dealerId"
+                        value={filterServicer.dealerId}
+                        onChange={handleFilterChangeServicer}
+                        placeholder="Dealer Name"
+                        className="!bg-white"
+                        className1="filter"
+                        pName="Dealer Name"
+                        options={dealerListServicer}
+                      />
+                    </div>
+                  )}
 
                   <div className="col-span-2 self-center pl-3">
                     <SelectBoxWithSearch
@@ -551,9 +555,7 @@ function Claims() {
                       Product SKU
                     </small>
                   </div>
-                  {isResellerClaims && <div className="col-span-2">
-
-                  </div>}
+                  {isResellerClaims && <div className="col-span-2"></div>}
                   <div className="col-span-2 self-center ml-auto pl-3">
                     <Button className="mr-2" onClick={handleApplyFilters}>
                       Filter
@@ -578,10 +580,11 @@ function Claims() {
                       {tabs.map((tab) => (
                         <div className={tab.className} key={tab.id}>
                           <Button
-                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
-                              }`}
+                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                              activeTab === tab.id
+                                ? "!bg-[#2A2A2A] !text-white"
+                                : "!bg-grayf9 !text-black"
+                            }`}
                             onClick={() => handleTabClick(tab.id)}
                           >
                             <img
@@ -594,10 +597,11 @@ function Claims() {
                               alt={tab.label}
                             />
                             <span
-                              className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id
-                                ? "text-white"
-                                : "text-black"
-                                }`}
+                              className={`ml-1 py-1 text-[12px] font-normal ${
+                                activeTab === tab.id
+                                  ? "text-white"
+                                  : "text-black"
+                              }`}
                             >
                               {tab.label}
                             </span>

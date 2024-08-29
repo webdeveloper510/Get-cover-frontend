@@ -129,20 +129,22 @@ function PriceBookList(props) {
           },
           {
             name: "WholeSale Cost",
-            selector: (row) => `$${
-              row?.wholesalePrice === undefined
-                ? parseInt(0).toLocaleString(2)
-                : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
-            }`,
+            selector: (row) =>
+              `$${
+                row?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+              }`,
             sortable: true,
           },
           {
             name: "Retail Cost",
-            selector: (row) => `$${
-              row?.retailPrice === undefined
-                ? parseInt(0).toLocaleString(2)
-                : formatOrderValue(row?.retailPrice ?? parseInt(0))
-            }`,
+            selector: (row) =>
+              `$${
+                row?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.retailPrice ?? parseInt(0))
+              }`,
             sortable: true,
           },
           // {
@@ -516,13 +518,29 @@ function PriceBookList(props) {
       <div className="my-8">
         <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
-            <div className={` ${props.flag === "reseller" ? ('col-span-6 self-center') : ('col-span-4 self-center') }`}>
+            <div
+              className={` ${
+                props.flag === "reseller"
+                  ? "col-span-6 self-center"
+                  : "col-span-4 self-center"
+              }`}
+            >
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
-            <div className={` ${props.flag === "reseller" ? ('col-span-6') : ('col-span-8') }`}>
+            <div
+              className={` ${
+                props.flag === "reseller" ? "col-span-6" : "col-span-8"
+              }`}
+            >
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
-                  <Grid className={` ${props.flag === "reseller" ? ('!grid-cols-8') : ('!grid-cols-11')}`}>
+                  <Grid
+                    className={` ${
+                      props.flag === "reseller"
+                        ? "!grid-cols-8"
+                        : "!grid-cols-11"
+                    }`}
+                  >
                     <div className="col-span-3 self-center">
                       <Input
                         name="name"
@@ -550,22 +568,26 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    {props.flag === "reseller" ? (<></>) : ( <div className="col-span-3 self-center">
-                      <Select
-                        name="status"
-                        label=""
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-White-Smoke"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
-                      />
-                    </div>)}
-                   
+                    {props.flag === "reseller" ? (
+                      <></>
+                    ) : (
+                      <div className="col-span-3 self-center">
+                        <Select
+                          name="status"
+                          label=""
+                          options={status}
+                          OptionName="Status"
+                          color="text-Black-Russian opacity-50"
+                          className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                          className="!text-[14px] !bg-White-Smoke"
+                          value={formik.values.status}
+                          onChange={formik.setFieldValue}
+                        />
+                      </div>
+                    )}
+
                     <div className="col-span-2 self-center flex justify-center">
-                      <Button type="submit" className='!p-2'>
+                      <Button type="submit" className="!p-2">
                         <img
                           src={Search}
                           className="cursor-pointer	mx-auto "
@@ -597,7 +619,9 @@ function PriceBookList(props) {
                 </div>
               </div>
             ) : (
-              <DataTable draggableColumns={false}  columns={columns}
+              <DataTable
+                draggableColumns={false}
+                columns={columns}
                 data={priceBookList}
                 highlightOnHover
                 sortIcon={

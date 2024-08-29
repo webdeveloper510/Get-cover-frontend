@@ -42,8 +42,8 @@ function ClaimContent({
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
 
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+    const startDateStr = startDate?.toISOString().split("T")[0];
+    const endDateStr = endDate?.toISOString().split("T")[0];
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -84,28 +84,29 @@ function ClaimContent({
       priceBookId: priceBookId,
       categoryId: categoryId,
       flag: flag,
+      servicerId: servicerId,
     };
-
+    console.log(data);
     getDatasetAtEvent(data);
     setIsModalOpen(false);
   };
 
   useEffect(() => {
     getDatasetAtEvent({
-      startDate: selectedRange.startDate.toISOString().split("T")[0],
-      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      startDate: selectedRange?.startDate?.toISOString().split("T")[0],
+      endDate: selectedRange?.endDate?.toISOString().split("T")[0],
       dealerId: "",
       priceBookId: [],
       categoryId: [],
-      flag: flag,
+      servicerId: "",
     });
-  }, [selectedRange]);
+  }, []);
 
   useEffect(() => {
     if (flag1) {
       getDatasetAtEvent({
-        startDate: selectedRange.startDate.toISOString().split("T")[0],
-        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        startDate: selectedRange?.startDate?.toISOString().split("T")[0],
+        endDate: selectedRange?.endDate?.toISOString().split("T")[0],
         primary: activeButton,
         flag: flag,
       });
@@ -134,6 +135,19 @@ function ClaimContent({
       priceBookId = filtersClaimCategory.priceBookId;
       servicerId = filtersClaimCategory.servicerId;
     }
+    const diffTime = Math.abs(
+      new Date(selectedRange?.endDate?.toISOString().split("T")[0]) -
+        new Date(selectedRange?.startDate?.toISOString().split("T")[0])
+    );
+
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    let flagValue = "daily";
+    if (diffDays < 30) {
+      flagValue = "daily";
+    } else {
+      flagValue = "weekly";
+    }
 
     let data = {
       startDate: value.startDate,
@@ -141,10 +155,11 @@ function ClaimContent({
       dealerId: dealerId,
       priceBookId: priceBookId,
       categoryId: categoryId,
-      servicerId: servicerId,
+      servicerId: servicerId == undefined ? "" : servicerId,
       primary: activeButton,
-      flag: flag,
+      flag: flagValue,
     };
+    console.log(data);
     try {
       const res = await getAllClaims(
         data,
@@ -239,7 +254,7 @@ function ClaimContent({
               </div>
               <div className="col-span-7 justify-end flex">
                 <p className="pr-4 self-center">
-                  {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                  {`Selected Range: ${selectedRange?.startDate?.toLocaleDateString()} - ${selectedRange?.endDate?.toLocaleDateString()}`}
                 </p>
                 <Button
                   className="!bg-white border-[1px] !text-[#333] font-normal py-2 border-Light-Grey"

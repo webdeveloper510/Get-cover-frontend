@@ -176,6 +176,7 @@ function DealerPriceList() {
       term: "",
       range: "",
       coverageType: "",
+      dealerSku: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -186,6 +187,7 @@ function DealerPriceList() {
       coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
+      dealerSku: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -759,6 +761,18 @@ function DealerPriceList() {
               Advance Search
             </p>
             <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
               <div className="col-span-6">
                 <Input
                   type="text"
