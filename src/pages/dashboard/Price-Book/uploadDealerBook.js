@@ -203,7 +203,7 @@ function UploadDealerBook() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1hwQfZ-5f80JwcocWAbPF7texOezSAXi-UEp_qSnSQa0/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1hwQfZ-5f80JwcocWAbPF7texOezSAXi-UEp_qSnSQa0/edit?usp=sharing",
       "_blank"
     );
   };
@@ -222,7 +222,7 @@ function UploadDealerBook() {
           <div className="flex mt-2">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Upload PriceBook Book
+                Upload DealerPrice Book
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
@@ -231,7 +231,7 @@ function UploadDealerBook() {
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                  Upload PriceBook Book{" "}
+                  Upload DealerPrice Book{" "}
                 </li>
               </ul>
             </div>
@@ -239,11 +239,11 @@ function UploadDealerBook() {
 
           {/* Form Start */}
           <Grid className="">
-            <div className="col-span-6">
+            <div className="col-span-12">
 
               <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
-                  <p className="text-xl font-semibold ">Dealer PriceBook</p>
+                <Card className="px-8 pb-8  drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+                  {/* <p className="text-xl font-semibold ">Dealer PriceBook</p> */}
                   {error ? (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                       <span className="font-semibold"> {error} </span>
@@ -330,9 +330,8 @@ function UploadDealerBook() {
                           className="underline cursor-pointer"
                           onClick={downloadCSVTemplate}
                         >
-                          Clicking here
-                        </span>
-                        The file must be saved with csv , xls and xlsx Format.
+                          Clicking here.
+                        </span> The file must be saved with csv , xls and xlsx Format.
                       </p>
                     </div>
                   </Grid>
@@ -345,7 +344,7 @@ function UploadDealerBook() {
                 </Card>
               </form>
             </div>
-            <div className="col-span-6">
+            {/* <div className="col-span-6">
               <form className="mt-8" onSubmit={formik.handleSubmit}>
                 <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
                   <p className="text-xl font-semibold ">Company PriceBook</p>
@@ -428,7 +427,7 @@ function UploadDealerBook() {
                   </Button>
                 </Card>
               </form>
-            </div>
+            </div> */}
           </Grid>
 
           {/* Modal Email Popop */}

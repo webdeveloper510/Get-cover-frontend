@@ -109,10 +109,10 @@ function ResellerPriceBook(props) {
     },
     {
       name: (<div>
-        Product <br />
+        Dealer <br />
         SKU
       </div>),
-      selector: (row) => row?.priceBooks?.name,
+      selector: (row) => row?.dealerSku,
       sortable: true,
     },
     {
@@ -277,7 +277,7 @@ function ResellerPriceBook(props) {
   ];
   const formik = useFormik({
     initialValues: {
-      name: "",
+      dealerSku: "",
       status: "",
       pName: "",
       category: "",
@@ -287,7 +287,7 @@ function ResellerPriceBook(props) {
       range: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string(),
+      dealerSku: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
     }),
@@ -331,13 +331,13 @@ function ResellerPriceBook(props) {
                   <Grid className="!grid-cols-10">
                     <div className="col-span-3 self-center">
                       <Input
-                        name="name"
+                        name="dealerSku"
                         type="text"
-                        placeholder="Product SKU"
+                        placeholder="Dealer SKU"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        value={formik.values.name}
+                        value={formik.values.dealerSku}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
@@ -434,11 +434,11 @@ function ResellerPriceBook(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="name"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  value={formik.values.name}
+                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

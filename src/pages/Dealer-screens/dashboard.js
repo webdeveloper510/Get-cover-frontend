@@ -254,7 +254,7 @@ function DealerDashboard() {
     {
       name: (
         <div>
-          Product <br /> SKU
+          Dealer <br /> SKU
         </div>
       ),
       selector: (row) => row?.name,
@@ -433,7 +433,7 @@ function DealerDashboard() {
               </div>
             </Grid>
 
-            <Grid>
+            <Grid className="mt-3">
               <div className="col-span-6 border-2 rounded-xl">
                 <Card>
                   <div className="">
