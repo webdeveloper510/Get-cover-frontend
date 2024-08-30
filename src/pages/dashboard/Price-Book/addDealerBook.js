@@ -662,6 +662,34 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
+                {/* <div className="col-span-2">
+                  <Input
+                    type="number"
+                    name="brokerfee"
+                    className="!bg-white"
+                    label="Broker Fee($)"
+                    placeholder=""
+                    required={true}
+                    maxLength={"10"}
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const inputValue = e.target.value.trim();
+                      const formattedValue =
+                        inputValue !== ""
+                          ? parseFloat(inputValue).toFixed(2)
+                          : "";
+                      formik.handleBlur(e);
+                      formik.setFieldValue("brokerfee", formattedValue);
+                    }}
+                    value={formik.values.retailPrice}
+                    maxDecimalPlaces={2}
+                  />
+                  {formik.touched.retailPrice && formik.errors.retailPrice && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.retailPrice}
+                    </div>
+                  )}
+                </div> */}
                 <div className="col-span-4">
                   <Input
                     type="number"
@@ -690,7 +718,6 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
-
 
                 <div className="col-span-4">
                   <Select

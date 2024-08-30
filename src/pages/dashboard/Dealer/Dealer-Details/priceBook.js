@@ -128,8 +128,12 @@ function PriceBookList(props) {
           maxWidth: "70px", // Set a custom maximum width
         },
         {
-          name: "Name",
-          selector: (row) => row?.priceBooks?.name,
+          name: <div>
+            Dealer
+            <br />
+            SKU
+          </div>,
+          selector: (row) => row?.dealerSku,
           sortable: true,
         },
         {
@@ -159,35 +163,7 @@ function PriceBookList(props) {
               : formatOrderValue(row?.retailPrice ?? parseInt(0))
             }`,
           sortable: true,
-        },
-        // {
-        //   name: "Status",
-        //   selector: (row) => row.status,
-        //   sortable: true,
-
-        //   cell: (row) => (
-        //     <div className="relative">
-        //       <div
-        //         className={` ${
-        //           row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-        //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-        //       ></div>
-        //       <select
-        //         value={row.status === true ? "active" : "inactive"}
-        //         disabled={
-        //           row.priceBooks.category[0].status === false ||
-        //           row.dealer?.accountStatus === false ||
-        //           row.priceBooks?.status === false
-        //         }
-        //         onChange={(e) => handleStatusChange(row, e.target.value)}
-        //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-        //       >
-        //         <option value="active">Active</option>
-        //         <option value="inactive">Inactive</option>
-        //       </select>
-        //     </div>
-        //   ),
-        // },
+        }
       ]
       : [
         {
@@ -200,7 +176,7 @@ function PriceBookList(props) {
         {
           name: (
             <div>
-              Custom
+              Dealer
               <br />
               SKU
             </div>
@@ -449,6 +425,7 @@ function PriceBookList(props) {
       name: "",
       pName: "",
       status: "",
+      dealerSku: "",
       category: "",
       priceType: "",
       coverageType: "",
@@ -458,6 +435,7 @@ function PriceBookList(props) {
     validationSchema: Yup.object({
       name: Yup.string(),
       pName: Yup.string(),
+      dealerSku: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -848,6 +826,18 @@ function PriceBookList(props) {
                   label="Product Name"
                   placeholder=""
                   value={formik.values.pName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

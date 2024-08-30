@@ -91,11 +91,11 @@ function DealerPriceBook(props) {
     },
     {
       name: (<div>
-        Product
+        dealer
         <br />
         SKU
       </div>),
-      selector: (row) => row?.priceBooks?.name,
+      selector: (row) => row?.dealerSku,
       sortable: true,
     },
     {
@@ -295,7 +295,7 @@ function DealerPriceBook(props) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      dealerSku: "",
       status: "",
       pName: "",
       category: "",
@@ -305,7 +305,7 @@ function DealerPriceBook(props) {
       range: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string(),
+      dealerSku: Yup.string(),
       pName: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
@@ -610,11 +610,11 @@ function DealerPriceBook(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="name"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  value={formik.values.name}
+                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

@@ -171,6 +171,7 @@ function DealerPriceList() {
       name: "",
       pName: "",
       dealerName: "",
+      dealerSku: "",
       status: "",
       category: "",
       priceType: "",
@@ -181,6 +182,7 @@ function DealerPriceList() {
     validationSchema: Yup.object({
       name: Yup.string(),
       dealerName: Yup.string(),
+      dealerSku: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -773,6 +775,18 @@ function DealerPriceList() {
                   label="Product SKU"
                   placeholder=""
                   value={formik.values.name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
