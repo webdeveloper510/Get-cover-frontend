@@ -178,6 +178,7 @@ function DealerPriceList() {
       term: "",
       range: "",
       coverageType: "",
+      dealerSku: "",
     },
     validationSchema: Yup.object({
       name: Yup.string(),
@@ -189,6 +190,7 @@ function DealerPriceList() {
       coverageType: Yup.string(),
       term: Yup.string(),
       range: Yup.string(),
+      dealerSku: Yup.string(),
     }),
     onSubmit: (values) => {
       console.log(values);
@@ -239,11 +241,23 @@ function DealerPriceList() {
     {
       name: (
         <div>
-          Dealer
+          Product
           <br />
           SKU
         </div>
       ),
+      selector: (row) => row.priceBooks[0]?.name,
+      sortable: true,
+      minWidth: "150px",
+    },
+    {
+      name:
+        <div>
+          Dealer
+          <br />
+          SKU
+        </div>
+      ,
       selector: (row) => row.dealerSku,
       sortable: true,
       minWidth: "150px",
@@ -256,7 +270,14 @@ function DealerPriceList() {
     },
     {
       name: "Term",
-      selector: (row) => row.priceBooks[0]?.term + " Months",
+      selector: (row) => {
+        const months = row.priceBooks[0]?.term;
+        if (months) {
+          const years = (months / 12);
+          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+        }
+        return "N/A";
+      },
       sortable: true,
       minWidth: "90px",
     },
@@ -272,7 +293,7 @@ function DealerPriceList() {
           : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
         } `,
       sortable: true,
-      minWidth: "160px",
+      minWidth: "110px",
     },
     {
       name: (
@@ -589,10 +610,17 @@ function DealerPriceList() {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
-            {dealerPriceBookDetail?.dealer?.name}/
-            {dealerPriceBookDetail?.priceBooks?.name}
+            View Dealer Price Book Detail
           </p>
           <Grid className="mt-5 px-6">
+            <div className="col-span-4">
+              <p className="text-lg font-semibold">
+                Dealer Name
+              </p>
+              <p className="text-base font-bold">
+                {dealerPriceBookDetail?.dealer?.name}{" "}
+              </p>
+            </div>
             <div className="col-span-4">
               <p className="text-lg font-semibold">
                 Product Name
@@ -767,6 +795,18 @@ function DealerPriceList() {
               Advance Search
             </p>
             <Grid className="mt-5 px-6">
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  value={formik.values.dealerSku}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
               <div className="col-span-6">
                 <Input
                   type="text"
