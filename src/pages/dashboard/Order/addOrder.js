@@ -594,6 +594,7 @@ function AddOrder() {
             orderFile: product.orderFile || "",
             fileValue: "",
             priceBookDetails: product?.priceBookDetail || {},
+            dealerSku:product.dealerSku,
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
@@ -1398,7 +1399,8 @@ console.log(arr2)
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-        handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data.priceBookId)
+
+        handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data == undefined ? "":data.priceBookId)
     }
     if (name.includes("term")) {
       getCategoryList(
@@ -1773,6 +1775,7 @@ console.log(arr2)
       index
     );
   };
+
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
