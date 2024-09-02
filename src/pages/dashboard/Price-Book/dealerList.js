@@ -248,7 +248,7 @@ function DealerPriceList() {
       ),
       selector: (row) => row.priceBooks[0]?.name,
       sortable: true,
-      minWidth: "150px",
+      minWidth: "130px",
     },
     {
       name:
@@ -260,7 +260,7 @@ function DealerPriceList() {
       ,
       selector: (row) => row.dealerSku,
       sortable: true,
-      minWidth: "150px",
+      minWidth: "130px",
     },
     {
       name: "Category",
@@ -293,7 +293,7 @@ function DealerPriceList() {
           : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
         } `,
       sortable: true,
-      minWidth: "110px",
+      minWidth: "130px",
     },
     {
       name: (
@@ -815,18 +815,6 @@ function DealerPriceList() {
                   label="Product SKU"
                   placeholder=""
                   value={formik.values.name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="dealerSku"
-                  className="!bg-white"
-                  label="Dealer SKU"
-                  placeholder=""
-                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

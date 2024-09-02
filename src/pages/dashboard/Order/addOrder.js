@@ -2152,154 +2152,155 @@ function AddOrder() {
                   )}
                 </div>
                 <Grid>
+                  <div className="col-span-6">
+                    <Select
+                      name={`productsArray[${index}].categoryId`}
+                      label="Product Category"
+                      options={categoryList[index]?.data}
+                      required={true}
+                      className="!bg-white"
+                      placeholder=""
+                      value={
+                        formikStep3.values.productsArray[index].categoryId
+                      }
+                      onBlur={formikStep3.handleBlur}
+                      onChange={handleSelectChange2}
+                      index={index}
+                      error={
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray[index].categoryId
+                      }
+                    />
+                    {formikStep3.touched.productsArray &&
+                      formikStep3.touched.productsArray[index] &&
+                      formikStep3.touched.productsArray[index]
+                        .categoryId && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep3.errors.productsArray &&
+                            formikStep3.errors.productsArray[index] &&
+                            formikStep3.errors.productsArray[index]
+                              .categoryId}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-6">
+                    <>
+                      <Select
+                        name={`productsArray[${index}].priceBookId`}
+                        label="Product SKU"
+                        options={productNameOptions[index]?.data}
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index]
+                            .categoryId == ""
+                        }
+                        value={
+                          formikStep3.values.productsArray[index]
+                            .priceBookId
+                        }
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index]
+                            .priceBookId
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index]
+                          .priceBookId && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .priceBookId}
+                          </div>
+                        )}
+                    </>
+                    {/* )} */}
+                  </div>{" "}
+                  <div className="col-span-8">
+                    <Select
+                      label="Product Name"
+                      name={`productsArray[${index}].pName`}
+                      placeholder=""
+                      onChange={handleSelectChange2}
+                      disabled={
+                        formikStep3.values.productsArray[index]
+                          .categoryId == ""
+                      }
+                      className="!bg-white"
+                      options={productList[index]?.data}
+                      value={formikStep3.values.productsArray[index].pName}
+                      onBlur={formikStep3.handleBlur}
+                      index={index}
+                      error={
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray[index].pName
+                      }
+                    />
+                    {formikStep3.touched.productsArray &&
+                      formikStep3.touched.productsArray[index] &&
+                      formikStep3.touched.productsArray[index].pName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep3.errors.productsArray &&
+                            formikStep3.errors.productsArray[index] &&
+                            formikStep3.errors.productsArray[index].pName}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <>
+                      <Select
+                        name={`productsArray[${index}].term`}
+                        label="Terms"
+                        options={termList[index]?.data}
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index]
+                            .categoryId == ""
+                        }
+                        value={formikStep3.values.productsArray[index].term}
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index].term
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index].term && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index].term}
+                          </div>
+                        )}
+                    </>
+                  </div>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-                      <div className="col-span-6">
-                        <Select
-                          name={`productsArray[${index}].categoryId`}
-                          label="Product Category"
-                          options={categoryList[index]?.data}
-                          required={true}
-                          className="!bg-white"
-                          placeholder=""
-                          value={
-                            formikStep3.values.productsArray[index].categoryId
-                          }
-                          onBlur={formikStep3.handleBlur}
-                          onChange={handleSelectChange2}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].categoryId
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index]
-                            .categoryId && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .categoryId}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-6">
-                        <>
-                          <Select
-                            name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
-                            options={productNameOptions[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            disabled={
-                              formikStep3.values.productsArray[index]
-                                .categoryId == ""
-                            }
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .priceBookId && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .priceBookId}
-                              </div>
-                            )}
-                        </>
-                        {/* )} */}
-                      </div>{" "}
-                      <div className="col-span-8">
-                        <Select
-                          label="Product Name"
-                          name={`productsArray[${index}].pName`}
-                          placeholder=""
-                          onChange={handleSelectChange2}
-                          disabled={
-                            formikStep3.values.productsArray[index]
-                              .categoryId == ""
-                          }
-                          className="!bg-white"
-                          options={productList[index]?.data}
-                          value={formikStep3.values.productsArray[index].pName}
-                          onBlur={formikStep3.handleBlur}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].pName
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index].pName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index].pName}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <>
-                          <Select
-                            name={`productsArray[${index}].term`}
-                            label="Terms"
-                            options={termList[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            disabled={
-                              formikStep3.values.productsArray[index]
-                                .categoryId == ""
-                            }
-                            value={formikStep3.values.productsArray[index].term}
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index].term
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index].term && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index].term}
-                              </div>
-                            )}
-                        </>
-                      </div>
+
                       <div className="col-span-12">
                         <Input
                           type="text"

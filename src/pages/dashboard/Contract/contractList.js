@@ -158,6 +158,7 @@ function ContractList(props) {
     manufacture: "",
     status: "",
     model: "",
+    dealerSku: "",
     serial: "",
     productName: "",
     pName: "",
@@ -604,6 +605,16 @@ function ContractList(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  {...formik.getFieldProps("dealerSku")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
                   name="pName"
                   className="!bg-white"
                   label="Product Name"
@@ -755,7 +766,7 @@ function ContractList(props) {
                   {...formik.getFieldProps("model")}
                 />
               </div>
-              <div className="col-span-6">
+              <div className="col-span-4">
                 <Input
                   type="text"
                   name="manufacture"
@@ -765,7 +776,7 @@ function ContractList(props) {
                   {...formik.getFieldProps("manufacture")}
                 />
               </div>
-              <div className="col-span-6">
+              <div className="col-span-4">
                 <Select
                   label="Status"
                   options={status}
@@ -777,7 +788,7 @@ function ContractList(props) {
                   onChange={handleSelectChange1}
                 />
               </div>
-              <div className="col-span-6">
+              <div className="col-span-4">
                 <Select
                   label="Eligibility"
                   options={Eligible}
@@ -1026,6 +1037,16 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {contractDetails?.productName}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Dealer SKU
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {contractDetails?.dealerSku}
                       </p>
                     </div>
                   </div>

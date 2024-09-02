@@ -877,6 +877,7 @@ function ClaimList(props) {
       serial: "",
       productName: "",
       pName: "",
+      dealerSku: "",
       dealerName: "",
       customerName: "",
       servicerName: "",
@@ -1266,6 +1267,21 @@ function ClaimList(props) {
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
                                           {res?.contracts?.productName}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-1 flex ">
+                                      <img
+                                        src={productName}
+                                        className="self-center h-[50px] w-[50px] ml-3"
+                                        alt="productName"
+                                      />
+                                      <div className="py-4 pl-3 self-center">
+                                        <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                          Dealer SKU
+                                        </p>
+                                        <p className="text-light-black text-sm font-semibold">
+                                          {res?.contracts?.dealerSku}
                                         </p>
                                       </div>
                                     </div>
@@ -2403,6 +2419,16 @@ function ClaimList(props) {
                   label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">

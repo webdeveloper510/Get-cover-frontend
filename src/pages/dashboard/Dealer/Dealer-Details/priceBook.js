@@ -137,6 +137,17 @@ function PriceBookList(props) {
           sortable: true,
         },
         {
+          name: (
+            <div>
+              Product
+              <br />
+              SKU
+            </div>
+          ),
+          selector: (row) => row?.priceBooks?.name,
+          sortable: true,
+        },
+        {
           name: "Category",
           selector: (row) => row?.priceBooks?.category[0]?.name,
           sortable: true,
@@ -182,6 +193,17 @@ function PriceBookList(props) {
             </div>
           ),
           selector: (row) => row?.dealerSku,
+          sortable: true,
+        },
+        {
+          name: (
+            <div>
+              Product
+              <br />
+              SKU
+            </div>
+          ),
+          selector: (row) => row?.priceBooks?.name,
           sortable: true,
         },
         {
@@ -533,8 +555,8 @@ function PriceBookList(props) {
 
                     <div
                       className={`${props.flag === "reseller"
-                          ? "col-span-3 self-center"
-                          : "col-span-3 self-center"
+                        ? "col-span-3 self-center"
+                        : "col-span-3 self-center"
                         }`}
                     >
                       <Input
@@ -848,18 +870,6 @@ function PriceBookList(props) {
                   label="Product Name"
                   placeholder=""
                   value={formik.values.pName}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="dealerSku"
-                  className="!bg-white"
-                  label="Dealer SKU"
-                  placeholder=""
-                  value={formik.values.dealerSku}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />

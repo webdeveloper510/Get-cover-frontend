@@ -659,18 +659,6 @@ function DealerPriceBook(props) {
                   onBlur={formik.handleBlur}
                 />
               </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="name"
-                  className="!bg-white"
-                  label="Dealer SKU"
-                  placeholder=""
-                  value={formik.values.dealerSku}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
 
               <div className="col-span-6">
                 <Input

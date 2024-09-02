@@ -1340,25 +1340,25 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
+                        Dealer SKU
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0]?.dealerSku
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.pName
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-2 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Description
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetail?.order?.[0]?.productsArray?.[0]
-                            ?.priceBook?.[0]?.description
                         }
                       </p>
                     </div>
@@ -1376,6 +1376,20 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-2 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Description
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0]?.description
+                        }
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
