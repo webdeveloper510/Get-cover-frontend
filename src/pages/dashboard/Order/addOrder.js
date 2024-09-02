@@ -619,22 +619,22 @@ function AddOrder() {
     }
   };
 
-  useEffect(() => {
-    console.log(location);
-    if (location.pathname.includes("/editOrder")) {
-      // setLoading1(true);
-    }
-    if (location.pathname == "/addOrder") {
-      setType("Add");
-      setCurrentStep(1);
-      formik.resetForm();
-      setNumberOfOrders([]);
-      setFileValues([]);
-      formikStep2.resetForm();
-      formikStep3.resetForm();
-      formik4.resetForm();
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   console.log(location);
+  //   if (location.pathname.includes("/editOrder")) {
+  //     // setLoading1(true);
+  //   }
+  //   if (location.pathname == "/addOrder") {
+  //     setType("Add");
+  //     setCurrentStep(1);
+  //     formik.resetForm();
+  //     setNumberOfOrders([]);
+  //     setFileValues([]);
+  //     formikStep2.resetForm();
+  //     formikStep3.resetForm();
+  //     formik4.resetForm();
+  //   }
+  // }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -1226,6 +1226,8 @@ function AddOrder() {
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
+    console.log(name)
+    console.log()
     const match = name.match(/\[(\d+)\]/);
 
     if (!match) {
@@ -1266,7 +1268,7 @@ function AddOrder() {
     };
 
     const updateQuantityPricing = (quantityPriceDetail) => {
-      return quantityPriceDetail?.map((item) => ({
+      return quantityPriceDetail.map((item) => ({
         ...item,
         enterQuantity: "",
       }));
@@ -1278,6 +1280,7 @@ function AddOrder() {
       return newArray;
     });
 
+<<<<<<< HEAD
     const updateProductFields = (selectedValue, value) => {
       const data = value == "priceBookId" ? productNameOptions[productIndex]?.data.find(
         (value) => value.value === selectedValue
@@ -1285,6 +1288,13 @@ function AddOrder() {
         (value) => value.value === selectedValue
       );
       console.log(data)
+=======
+    const updateProductFields = (selectedValue) => {
+      const data = productNameOptions[productIndex]?.data.find(
+        (value) => value.value === selectedValue
+      );
+
+>>>>>>> c8a34fbd54b62cef08c74911d6fec28fd6b70c7b
       if (data) {
         console.log(data)
         formikStep3.setFieldValue(
@@ -1307,7 +1317,7 @@ function AddOrder() {
         // add this
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].dealerSku`,
-          ""
+          data.dealerSku
         );
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
@@ -1368,7 +1378,7 @@ function AddOrder() {
 
     if (name.includes("priceBookId")) {
       clearProductFields();
-      updateProductFields(selectedValue, 'priceBookId');
+      updateProductFields(selectedValue);
       console.log(selectedValue);
 
       getCategoryList(
@@ -1392,27 +1402,10 @@ function AddOrder() {
     }
     if (name.includes("dealerSku")) {
       clearProductFields();
-      updateProductFields(selectedValue, "dealerSku");
-      getCategoryList(
-        formik.values.dealerId,
-        {
-          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          priceBookId: selectedValue == ""
-            ? ""
-            : formikStep3.values.productsArray[productIndex].priceBookId,
-          dealerSku: selectedValue, //add this
-          pName:
-            selectedValue == ""
-              ? ""
-              : formikStep3.values.productsArray[productIndex].pName,
-          term:
-            selectedValue == ""
-              ? ""
-              : formikStep3.values.productsArray[productIndex].term,
-          coverageType: formikStep2?.values?.coverageType,
-        },
-        productIndex
+      const data = dealerSkuList[productIndex]?.data.find(
+        (value) => value.value === selectedValue
       );
+      handleSelectChange2(`productsArray[${productIndex}].priceBookId`, data.priceBookId)
     }
     if (name.includes("term")) {
       getCategoryList(
@@ -1689,18 +1682,7 @@ function AddOrder() {
         const dealerSkuListData = result.result?.dealerPriceBook.map((item) => ({
           label: item.dealerSku,
           value: item.dealerSku,
-          description: item.description,
-          term: item.term,
-          priceType: item.priceType,
-          adh: item.adh,
-          quantityPriceDetail: item.quantityPriceDetail,
-          wholesalePrice: item?.retailPrice?.toFixed(2),
-          status: item.status,
-          pName: item.pName,
-          rangeStart: item?.rangeStart?.toFixed(2),
-          rangeEnd: item?.rangeEnd?.toFixed(2),
-          priceBookDetails: priceBookDetails,
-          dealerPriceBookDetails: dealerPriceBookDetails,
+          priceBookId: item.priceBook
         }));
 
         updateOptions(setCategoryList, category);
