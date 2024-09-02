@@ -72,6 +72,7 @@ function AddOrder() {
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
+  const [dealerSkuName, setDealerSkuName] = useState([]);
   const [coverage, setCoverage] = useState([]);
   const [dealerSkuList, setDealerSkuList] = useState([]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
@@ -824,6 +825,7 @@ function AddOrder() {
       checkMultipleEmailCheck(values);
       let arr = [];
       let arr1 = [];
+      let arr2 = [];
       console.log(productNameOptions);
       values.productsArray.map((data, index) => {
         const value = categoryList
@@ -841,6 +843,7 @@ function AddOrder() {
           }))
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
+        arr2.push(value1 ? value1.dealerSku : "")
       });
 
       productNameOptions.forEach((item, index) => {
@@ -856,9 +859,10 @@ function AddOrder() {
           );
         });
       });
-
+console.log(arr2)
       setCategoryName(arr);
       setPriceBookName(arr1);
+      setDealerSkuName(arr2)
       setLoading5(false);
     },
   });
@@ -1784,7 +1788,6 @@ function AddOrder() {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
     const pendingAmount = totalAmount - parseFloat(paidAmount || 0);
-    // console.log(totalAmount, pendingAmount, formikStep3.values.productsArray);
     formik4.setFieldValue("pendingAmount", pendingAmount.toFixed(2));
   };
 
@@ -3008,6 +3011,12 @@ function AddOrder() {
                               <p className="text-[12px]">Product SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
+                              </p>
+                            </div>
+                            <div className="col-span-3 py-4 border-r">
+                              <p className="text-[12px]">Dealer SKU</p>
+                              <p className="font-bold text-sm">
+                                {dealerSkuName[index]}
                               </p>
                             </div>
                             <div className="col-span-6 py-4">
