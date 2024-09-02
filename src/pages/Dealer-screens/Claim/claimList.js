@@ -1118,7 +1118,7 @@ function ClaimList(props) {
       claimId: "",
       venderOrder: "",
       serial: "",
-      productName: "",
+      dealerSku: "",
       pName: "",
       dealerName: "",
       customerName: "",
@@ -1373,10 +1373,10 @@ function ClaimList(props) {
                                 />
                                 <div className="py-4 pl-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product SKU
+                                    Dealer SKU
                                   </p>
                                   <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.productName}
+                                    {res?.contracts?.dealerSku}
                                   </p>
                                 </div>
                               </div>
@@ -2852,11 +2852,11 @@ function ClaimList(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="productName"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  {...formik1.getFieldProps("productName")}
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">

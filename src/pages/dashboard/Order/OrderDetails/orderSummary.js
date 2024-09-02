@@ -61,13 +61,18 @@ function OrderSummary(props) {
                 <div className="px-3 mt-5">
                   <div>
                     <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
+                      <Grid className="bg-light-black !gap-2 !grid-cols-10 rounded-t-xl">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
                           </p>
                         </div>
-                        <div className="col-span-5 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                          <p className="text-white py-2 font-Regular">
+                            Dealer SKU : <b> {res.dealerSku} </b>
+                          </p>
+                        </div>
+                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product Name : <b> {res?.pName} </b>
                           </p>

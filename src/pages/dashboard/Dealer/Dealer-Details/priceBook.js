@@ -154,7 +154,14 @@ function PriceBookList(props) {
         },
         {
           name: "Term",
-          selector: (row) => row?.priceBooks?.term + " " + "Months",
+          selector: (row) => {
+            const months = row.priceBooks?.term;
+            if (months) {
+              const years = (months / 12);
+              return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+            }
+            return "N/A";
+          },
           sortable: true,
         },
         {
@@ -224,7 +231,14 @@ function PriceBookList(props) {
         },
         {
           name: "Term",
-          selector: (row) => row?.priceBooks?.term + " " + "Months",
+          selector: (row) => {
+            const months = row.priceBooks?.term;
+            if (months) {
+              const years = (months / 12);
+              return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+            }
+            return "N/A";
+          },
           sortable: true,
         },
         {

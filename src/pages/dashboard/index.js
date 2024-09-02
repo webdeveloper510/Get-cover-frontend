@@ -425,7 +425,14 @@ function Dashboard() {
     },
     {
       name: "Term",
-      selector: (row) => row?.term + " Months",
+      selector: (row) => {
+        const months = row?.term;
+        if (months) {
+          const years = (months / 12);
+          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+        }
+        return "N/A";
+      },
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },

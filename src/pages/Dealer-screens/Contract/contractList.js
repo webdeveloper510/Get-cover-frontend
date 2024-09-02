@@ -171,7 +171,7 @@ function ContractList(props) {
     status: "",
     model: "",
     serial: "",
-    productName: "",
+    dealerSku: "",
     pName: "",
     eligibilty: "",
   };
@@ -495,11 +495,11 @@ function ContractList(props) {
                   <div className="col-span-6">
                     <Input
                       type="text"
-                      name="productName"
+                      name="dealerSku"
                       className="!bg-white"
-                      label="Product SKU"
+                      label="Dealer SKU"
                       placeholder=""
-                      {...formik.getFieldProps("productName")}
+                      {...formik.getFieldProps("dealerSku")}
                     />
                   </div>
                   <div className="col-span-6">
@@ -789,10 +789,10 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product SKU
+                        Dealer SKU
                       </p>
                       <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.productName}
+                        {contractDetails?.dealerSku}
                       </p>
                     </div>
                   </div>

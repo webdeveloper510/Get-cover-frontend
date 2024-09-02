@@ -53,7 +53,7 @@ function PdfGenerator(props, className) {
       return null;
     }
   };
-  
+
   const convertToPDF = async () => {
     setLoading(true);
     try {
@@ -156,14 +156,12 @@ function PdfGenerator(props, className) {
                 <tr>
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
-                        <h4 style="margin: 0; padding: 0;"><b> ${
-                          data?.dealerName?.name
-                        } </b></h4>
-                        <p style="margin: 0; padding: 0;">${
-                          data.billDetail.billTo === "Dealer"
-                            ? " <b> Bill To:</b>"
-                            : "Address :"
-                        } ${data?.username?.firstName} 
+                        <h4 style="margin: 0; padding: 0;"><b> ${data?.dealerName?.name
+      } </b></h4>
+                        <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Dealer"
+        ? " <b> Bill To:</b>"
+        : "Address :"
+      } ${data?.username?.firstName} 
                          ${data?.username?.lastName} <br/>
                           ${data?.dealerName?.street}, 
                           ${data?.dealerName?.city}, 
@@ -172,23 +170,19 @@ function PdfGenerator(props, className) {
                            
                             </p>
                             <p> +1 ${formatPhoneNumber(
-                              data?.username?.phoneNumber
-                            )} | ${data?.username?.email}  </p>
+        data?.username?.phoneNumber
+      )} | ${data?.username?.email}  </p>
                     </td>
-                    ${
-                      data?.resellerId != null
-                        ? `    <td style="text-align: left; width: 50%;">
+                    ${data?.resellerId != null
+        ? `    <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                    <h4 style="margin: 0; padding: 0;"><b>${
-                      data?.resellerName?.name ?? ""
-                    }</b></h4>
-                    <p style="margin: 0; padding: 0;">${
-                      data.billDetail.billTo === "Reseller"
-                        ? " <b> Bill To:</b>"
-                        : "Address :"
-                    } ${data?.resellerUsername?.firstName} ${
-                            data?.resellerUsername?.lastName
-                          } <br/>
+                    <h4 style="margin: 0; padding: 0;"><b>${data?.resellerName?.name ?? ""
+        }</b></h4>
+                    <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Reseller"
+          ? " <b> Bill To:</b>"
+          : "Address :"
+        } ${data?.resellerUsername?.firstName} ${data?.resellerUsername?.lastName
+        } <br/>
                       ${data?.resellerName?.street ?? ""}, 
                       ${data?.resellerName?.city ?? ""},  
                       ${data?.resellerName?.state ?? ""}, 
@@ -196,78 +190,68 @@ function PdfGenerator(props, className) {
                      
                     </p>
                     <p> +1 ${formatPhoneNumber(
-                      data?.resellerUsername?.phoneNumber
-                    )} | ${data?.resellerUsername?.email}  </p>
+          data?.resellerUsername?.phoneNumber
+        )} | ${data?.resellerUsername?.email}  </p>
                   </td> `
-                        : ""
-                    }
+        : ""
+      }
                 </tr>
                 <tr>
                 <td style="text-align: left; width: 50%; padding-top: 20px;">
-                ${
-                  data?.customerId != null
-                    ? `
+                ${data?.customerId != null
+        ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${
-                  data?.customerName?.username
-                } </b></h4>
-                <p style="margin: 0; padding: 0;">Address: ${
-                  data?.customerUserData?.firstName
-                } ${data?.customerUserData?.lastName} <br/>
-                     ${data?.customerName?.street}, ${
-                        data?.customerName?.city
-                      }, ${data?.customerName?.state}, ${
-                        data?.customerName?.zip
-                      } <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${data?.customerName?.username
+        } </b></h4>
+                <p style="margin: 0; padding: 0;">Address: ${data?.customerUserData?.firstName
+        } ${data?.customerUserData?.lastName} <br/>
+                     ${data?.customerName?.street}, ${data?.customerName?.city
+        }, ${data?.customerName?.state}, ${data?.customerName?.zip
+        } <br/>
                    
                     </p>
                     <p> +1 ${formatPhoneNumber(
-                      data?.customerUserData?.phoneNumber
-                    )} | ${data?.customerUserData?.email}  </p>
+          data?.customerUserData?.phoneNumber
+        )} | ${data?.customerUserData?.email}  </p>
             </td>
             `
-                    : ""
-                }
+        : ""
+      }
          
                 </tr>
                 </tbody>
                 </table>
-                ${
-                  data.billDetail.billTo === "Custom"
-                    ? `
+                ${data.billDetail.billTo === "Custom"
+        ? `
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
                     <tbody>
                     <tr>
                 <td style="text-align: left; width: 50%;">
                 <h4 style="margin: 0; padding: 0;"><b>Billing Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${
-                  data?.billDetail?.detail?.name
-                } </b></h4>
-                <p style="margin: 0; padding: 0;">Address : ${
-                  data?.billDetail?.detail?.address
-                } <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${data?.billDetail?.detail?.name
+        } </b></h4>
+                <p style="margin: 0; padding: 0;">Address : ${data?.billDetail?.detail?.address
+        } <br/>
                    
                     </p>
                     <p>
-                    ${
-                      data?.billDetail?.detail?.phoneNumber !== ""
-                        ? `+1 ${formatPhoneNumber(
-                            data?.billDetail?.detail?.phoneNumber
-                          )} |`
-                        : ""
-                    }
-                       ${
-                         data?.billDetail?.detail?.email !== ""
-                           ? `${data?.billDetail?.detail?.email}`
-                           : ""
-                       }   </p>
+                    ${data?.billDetail?.detail?.phoneNumber !== ""
+          ? `+1 ${formatPhoneNumber(
+            data?.billDetail?.detail?.phoneNumber
+          )} |`
+          : ""
+        }
+                       ${data?.billDetail?.detail?.email !== ""
+          ? `${data?.billDetail?.detail?.email}`
+          : ""
+        }   </p>
             </td>
                 </tr> 
                
             </tbody>
         </table> `
-                    : `  `
-                }
+        : `  `
+      }
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
         <tbody>
             <tr>
@@ -281,7 +265,9 @@ function PdfGenerator(props, className) {
         <thead style="background-color: #f4f4f4; text-align: left;">
           <tr>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Sr.No.</th>
-            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product Warranty Details</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Catagory</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product SKU</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Dealer SKU</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Qty</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Unit Price</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Total</th>
@@ -289,70 +275,68 @@ function PdfGenerator(props, className) {
         </thead>
         <tbody>
           ${data?.productsArray
-            ?.map(
-              (product, index) => `
+        ?.map(
+          (product, index) => `
             <tr key="${index}">
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                index + 1
-              }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                product.name
-              }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                product.noOfProducts
-              }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
-                product.unitPrice === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(product.unitPrice)
-              }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
-                product.price === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(product.price)
-              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${index + 1
+            }</td>
+             <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.catName
+            }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.name
+            }</td>
+               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.dealerSku
+            }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.noOfProducts
+            }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice === undefined
+              ? parseInt(0).toLocaleString(2)
+              : formatOrderValue(product.unitPrice)
+            }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price === undefined
+              ? parseInt(0).toLocaleString(2)
+              : formatOrderValue(product.price)
+            }</td>
             </tr>
           `
-            )
-            .join("")}
+        )
+        .join("")}
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
+            <td colspan="6" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
             <td style={{ fontWeight: 'bold', padding: '8px' }}>
-            $${
-              Number(
-                data?.productsArray.reduce(
-                  (total, product) =>
-                    total + product.noOfProducts * product.unitPrice,
-                  0
-                )
-              ) === undefined
-                ? parseInt(0).toLocaleString(2)
-                : formatOrderValue(
-                    Number(
-                      data?.productsArray.reduce(
-                        (total, product) =>
-                          total + product.noOfProducts * product.unitPrice,
-                        0
-                      )
-                    )
-                  )
-            }
+            $${Number(
+          data?.productsArray.reduce(
+            (total, product) =>
+              total + product.noOfProducts * product.unitPrice,
+            0
+          )
+        ) === undefined
+        ? parseInt(0).toLocaleString(2)
+        : formatOrderValue(
+          Number(
+            data?.productsArray.reduce(
+              (total, product) =>
+                total + product.noOfProducts * product.unitPrice,
+              0
+            )
+          )
+        )
+      }
         
           </td>
          
           </tr>
           <tr>
-          <th colspan='5' style="text-align:left; padding-right:20px;">
+          <th colspan='7' style="text-align:left; padding-right:20px;">
           ${toWords.convert(
-            data?.productsArray.reduce(
-              (total, product) =>
-                total + product.noOfProducts * product.unitPrice,
-              0
-            ),
-            { currency: true }
-          )}
+        data?.productsArray.reduce(
+          (total, product) =>
+            total + product.noOfProducts * product.unitPrice,
+          0
+        ),
+        { currency: true }
+      )}
         </th>
           </tr>
         </tfoot>

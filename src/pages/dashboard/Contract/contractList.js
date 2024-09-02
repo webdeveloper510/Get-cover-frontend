@@ -419,6 +419,8 @@ function ContractList(props) {
                                   </div>
                                   {!window.location.pathname.includes(
                                     "/reseller/"
+                                  ) || !window.location.pathname.includes(
+                                    "/dealer/"
                                   ) &&
                                     (props.shownEdit ||
                                       props.shownEdit === undefined ? (
@@ -592,7 +594,9 @@ function ContractList(props) {
                   {...formik.getFieldProps("serial")}
                 />
               </div>
-              <div className="col-span-6">
+              {window.location.pathname.includes(
+                "/reseller/") || window.location.pathname.includes(
+                  "/dealer/") ? '' : <div className="col-span-6">
                 <Input
                   type="text"
                   name="productName"
@@ -601,7 +605,7 @@ function ContractList(props) {
                   placeholder=""
                   {...formik.getFieldProps("productName")}
                 />
-              </div>
+              </div>}
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -766,7 +770,7 @@ function ContractList(props) {
                   {...formik.getFieldProps("model")}
                 />
               </div>
-              <div className="col-span-4">
+              <div className="col-span-6">
                 <Input
                   type="text"
                   name="manufacture"
@@ -776,7 +780,7 @@ function ContractList(props) {
                   {...formik.getFieldProps("manufacture")}
                 />
               </div>
-              <div className="col-span-4">
+              <div className="col-span-6">
                 <Select
                   label="Status"
                   options={status}
@@ -788,7 +792,7 @@ function ContractList(props) {
                   onChange={handleSelectChange1}
                 />
               </div>
-              <div className="col-span-4">
+              <div className="col-span-6">
                 <Select
                   label="Eligibility"
                   options={Eligible}
@@ -1030,16 +1034,20 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product SKU
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.productName}
-                      </p>
+                  {window.location.pathname.includes(
+                    "/reseller/") || window.location.pathname.includes(
+                      "/dealer/") ? '' :
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 pl-3">
+                        <p className="text-[#5D6E66] text-sm font-Regular">
+                          Product SKU
+                        </p>
+                        <p className="text-light-black text-base font-semibold">
+                          {contractDetails?.productName}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  }
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
