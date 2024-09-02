@@ -1660,7 +1660,7 @@ function ResellerAddOrder() {
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
+                            label="Dealer SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-white"
@@ -2399,7 +2399,7 @@ function ResellerAddOrder() {
                             </div>
 
                             <div className="col-span-4 py-4 border-r">
-                              <p className="text-[12px]">Product SKU</p>
+                              <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>

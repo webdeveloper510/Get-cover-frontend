@@ -1831,7 +1831,7 @@ function DealerAddOrder() {
                         <div className="col-span-6">
                           <Select
                             name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
+                            label="Dealer SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-white"
@@ -2561,7 +2561,7 @@ function DealerAddOrder() {
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
-                              <p className="text-[12px]">Product SKU</p>
+                              <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
