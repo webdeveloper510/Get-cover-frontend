@@ -490,18 +490,6 @@ function ResellerPriceBook(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="name"
-                  className="!bg-white"
-                  label="Dealer SKU"
-                  placeholder=""
-                  value={formik.values.dealerSku}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
                   name="pName"
                   className="!bg-white"
                   label="Product Name"
@@ -665,14 +653,14 @@ function ResellerPriceBook(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Product SKU
+              <p className="text-lg font-semibold">
+                Dealer SKU
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBook?.priceBooks?.name}
+              <p className="text-base font-semibold">
+                {dealerPriceBook?.dealerSku}
               </p>
             </div>
-            <div className="col-span-12">
+            <div className="col-span-8">
               <p className="text-lg font-bold">
                 Description
               </p>
@@ -712,6 +700,8 @@ function ResellerPriceBook(props) {
                 </div>
               </>
             )}
+
+
             {dealerPriceBook?.priceBooks?.priceType == "Quantity Pricing" && (
               <>
                 <div className="col-span-12">

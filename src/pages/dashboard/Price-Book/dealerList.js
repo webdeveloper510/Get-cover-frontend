@@ -75,7 +75,7 @@ function DealerPriceList() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getDealerList();
+    // filterDataGetPriceBook();
   };
 
   const filterDataGetPriceBook = async () => {
@@ -94,13 +94,13 @@ function DealerPriceList() {
     }
   };
 
-  const getDealerList = async () => {
-    setLoading(true);
-    const result = await getDealerPriceBook();
-    setDealerPriceBook(result.result);
-    console.log(result.result);
-    setLoading(false);
-  };
+  // const getDealerList = async () => {
+  //   setLoading(true);
+  //   const result = await getDealerPriceBook();
+  //   setDealerPriceBook(result.result);
+  //   console.log(result.result);
+  //   setLoading(false);
+  // };
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = dealerPriceBook.map((category) => {

@@ -421,7 +421,8 @@ function ContractList(props) {
                                     "/reseller/"
                                   ) || !window.location.pathname.includes(
                                     "/dealer/"
-                                  ) &&
+                                  ) || !window.location.pathname.includes(
+                                    "/reseller/contractList") &&
                                     (props.shownEdit ||
                                       props.shownEdit === undefined ? (
                                       <Link to={`/editContract/${res._id}`}>

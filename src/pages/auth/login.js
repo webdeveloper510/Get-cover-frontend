@@ -188,7 +188,7 @@ function Login() {
                     </Link>{" "}
                   </p>
                   <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Designed, Developed & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad.net </a></p>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Designed, Developed & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad India </a></p>
                   </div>
                 </div>
               </div>

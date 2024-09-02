@@ -265,8 +265,7 @@ function PdfGenerator(props, className) {
         <thead style="background-color: #f4f4f4; text-align: left;">
           <tr>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Sr.No.</th>
-            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Catagory</th>
-            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product SKU</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px;">Product Name</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Dealer SKU</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Qty</th>
             <th style="border-bottom: 1px solid #ddd; padding: 8px;">Unit Price</th>
@@ -279,8 +278,6 @@ function PdfGenerator(props, className) {
           (product, index) => `
             <tr key="${index}">
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${index + 1
-            }</td>
-             <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.catName
             }</td>
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.name
             }</td>
@@ -303,7 +300,7 @@ function PdfGenerator(props, className) {
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="6" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
+            <td colspan="5" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
             <td style={{ fontWeight: 'bold', padding: '8px' }}>
             $${Number(
           data?.productsArray.reduce(
@@ -328,7 +325,7 @@ function PdfGenerator(props, className) {
          
           </tr>
           <tr>
-          <th colspan='7' style="text-align:left; padding-right:20px;">
+          <th colspan='6' style="text-align:left; padding-right:20px;">
           ${toWords.convert(
         data?.productsArray.reduce(
           (total, product) =>
