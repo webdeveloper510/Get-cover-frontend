@@ -859,7 +859,7 @@ function AddOrder() {
           );
         });
       });
-console.log(arr2)
+      console.log(arr2)
       setCategoryName(arr);
       setPriceBookName(arr1);
       setDealerSkuName(arr2)
@@ -1284,21 +1284,11 @@ console.log(arr2)
       return newArray;
     });
 
-<<<<<<< HEAD
-    const updateProductFields = (selectedValue, value) => {
-      const data = value == "priceBookId" ? productNameOptions[productIndex]?.data.find(
-        (value) => value.value === selectedValue
-      ) : dealerSkuList[productIndex]?.data.find(
-        (value) => value.value === selectedValue
-      );
-      console.log(data)
-=======
     const updateProductFields = (selectedValue) => {
       const data = productNameOptions[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
 
->>>>>>> c8a34fbd54b62cef08c74911d6fec28fd6b70c7b
       if (data) {
         console.log(data)
         formikStep3.setFieldValue(
@@ -1668,12 +1658,10 @@ console.log(arr2)
 
         }));
 
-        // setCategoryList(
         const category = result.result?.priceCategories.map((item) => ({
           label: item.name,
           value: item._id,
         }));
-        // );
         const termsData = result.result?.terms.map((item) => ({
           label: item.label,
           value: item.value,
@@ -3019,7 +3007,7 @@ console.log(arr2)
                                 {dealerSkuName[index]}
                               </p>
                             </div>
-                            <div className="col-span-6 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">{data.pName}</p>
                             </div>
