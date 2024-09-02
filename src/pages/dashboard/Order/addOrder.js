@@ -2233,6 +2233,7 @@ function AddOrder() {
                         options={productNameOptions[index]?.data}
                         required={true}
                         className="!bg-white"
+                        disableFirstOption={true}
                         placeholder=""
                         disabled={
                           formikStep3.values.productsArray[index]
@@ -2278,6 +2279,7 @@ function AddOrder() {
                         required={true}
                         className="!bg-white"
                         placeholder=""
+                        disableFirstOption={true}
                         disabled={
                           formikStep3.values.productsArray[index]
                             .categoryId == ""
@@ -2298,6 +2300,7 @@ function AddOrder() {
                       name={`productsArray[${index}].pName`}
                       placeholder=""
                       onChange={handleSelectChange2}
+                      disableFirstOption={true}
                       disabled={
                         formikStep3.values.productsArray[index]
                           .categoryId == ""
@@ -2333,6 +2336,7 @@ function AddOrder() {
                         options={termList[index]?.data}
                         required={true}
                         className="!bg-white"
+                        disableFirstOption={true}
                         placeholder=""
                         disabled={
                           formikStep3.values.productsArray[index]
