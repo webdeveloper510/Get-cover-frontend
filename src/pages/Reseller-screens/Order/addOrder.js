@@ -7,7 +7,6 @@ import Input from "../../../common/input";
 import { format, addMonths } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
-import Spinner from "../../../assets/images/icons/Spinner.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -17,7 +16,6 @@ import Button from "../../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import { getTermList } from "../../../services/priceBookService";
 import RadioButton from "../../../common/radio";
 import {
   addOrderForResellerPortal,
@@ -223,6 +221,7 @@ function ResellerAddOrder() {
           priceCatId: product.categoryId,
           term: product.term,
           pName: product.pName,
+          dealerSku:"",
           coverageType: result?.result?.coverageType,
         },
         index
@@ -273,6 +272,7 @@ function ResellerAddOrder() {
         orderFile: product.orderFile || "",
         fileValue: "",
         priceBookDetails: product?.priceBookDetail || {},
+        dealerSku: product?.dealerSku || "",
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
       })),
     });
@@ -404,6 +404,7 @@ function ResellerAddOrder() {
           adh: 0,
           priceBookDetails: {},
           dealerPriceBookDetails: {},
+          dealerSku:""
         },
       ],
     },
@@ -570,7 +571,6 @@ function ResellerAddOrder() {
           nextStep();
         } else {
           for (let key of res.message) {
-            console.log("res", res.message);
             setIsErrorOpen(true);
             formikStep3.setFieldError(
               `productsArray[${key.key}].file`,
@@ -748,6 +748,7 @@ function ResellerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
+        dealerSku:"",
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -853,6 +854,10 @@ function ResellerAddOrder() {
           data.term
         );
         formikStep3.setFieldValue(
+          `productsArray[${productIndex}].dealerSku`,
+          data.dealerSku
+        );
+        formikStep3.setFieldValue(
           `productsArray[${productIndex}].price`,
           data.price
         );
@@ -904,6 +909,7 @@ function ResellerAddOrder() {
           pName: "",
           term: "",
           priceBookId: "",
+          dealerSku:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
@@ -922,6 +928,7 @@ function ResellerAddOrder() {
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
+          dealerSku:"",
           pName:
             selectedValue == ""
               ? ""
@@ -940,6 +947,7 @@ function ResellerAddOrder() {
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+          dealerSku:"",
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
           pName:
@@ -958,6 +966,7 @@ function ResellerAddOrder() {
       getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+          dealerSku:"",
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
           pName: selectedValue,
@@ -1024,6 +1033,7 @@ function ResellerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
+          dealerSku:"",
           coverageType: value,
         },
         0
@@ -1149,6 +1159,7 @@ function ResellerAddOrder() {
             coverageType: formikStep2?.values?.coverageType,
             term: data.term,
             pName: data.pName,
+            dealerSku:"",
           },
           index
         );
@@ -1166,7 +1177,7 @@ function ResellerAddOrder() {
         const priceBookDetails = result?.result?.priceBookDetail;
         const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
         const priceBooksData = result.result?.priceBooks.map((item) => ({
-          label: item.name,
+          label: item.dealerSku,
           value: item._id,
           description: item.description,
           term: item.term,
@@ -1179,6 +1190,7 @@ function ResellerAddOrder() {
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
+          dealerSku:item?.dealerSku,
           dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
@@ -1259,6 +1271,7 @@ function ResellerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
+        dealerSku:"",
         coverageType: formikStep2?.values?.coverageType,
       },
       index

@@ -287,6 +287,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
+          dealerSku:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -305,6 +306,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
+          dealerSku:"",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -339,6 +341,7 @@ function DealerAddOrder() {
           priceCatId: product.categoryId,
           term: product.term,
           pName: product.pName,
+          dealerSku:"",
           coverageType: result?.result?.coverageType,
         },
         index
@@ -398,6 +401,7 @@ function DealerAddOrder() {
         rangeEnd: product.rangeEnd || 0,
         checkNumberProducts: product.checkNumberProducts || "",
         orderFile: product.orderFile || "",
+        dealerSku: product.dealerSku || "",
         fileValue: "",
         priceBookDetails: product?.priceBookDetail || {},
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
@@ -549,6 +553,7 @@ function DealerAddOrder() {
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
+          dealerSku:"",
           checkNumberProducts: "",
           fileValue: "",
           orderFile: {},
@@ -907,6 +912,7 @@ function DealerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
+        dealerSku:"",
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -972,6 +978,7 @@ function DealerAddOrder() {
             priceCatId: selectedValue,
             pName: "",
             term: "",
+            dealerSku:"",
             priceBookId: "",
             coverageType: formikStep2?.values?.coverageType,
           },
@@ -989,6 +996,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
+          dealerSku:"",
           pName:
             selectedValue == ""
               ? ""
@@ -1045,6 +1053,10 @@ function DealerAddOrder() {
         `productsArray[${match[1]}].rangeStart`,
         data?.rangeStart
       );
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].dealerSku`,
+        data?.dealerSku
+      );
 
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
@@ -1068,6 +1080,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           term: selectedValue,
+          dealerSku:"",
           pName:
             formikStep3.values.productsArray[match[1]].pName == undefined
               ? ""
@@ -1087,6 +1100,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           pName: selectedValue,
+          dealerSku:"",
           term: formikStep3.values.productsArray[match[1]].term,
           coverageType: formikStep2?.values?.coverageType,
         },
@@ -1151,6 +1165,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
+          dealerSku:"",
           coverageType: value,
         },
         0
@@ -1318,6 +1333,7 @@ function DealerAddOrder() {
             priceCatId: result.result.selectedCategory._id,
             coverageType: formikStep2?.values?.coverageType,
             term: data.term,
+            dealerSku:"",
             pName: data.pName,
           },
           index
@@ -1336,7 +1352,7 @@ function DealerAddOrder() {
         const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
 
         const priceBooksData = result.result?.priceBooks.map((item) => ({
-          label: item.name,
+          label: item.dealerSku,
           value: item._id,
           description: item.description,
           term: item.term,
@@ -1349,6 +1365,7 @@ function DealerAddOrder() {
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
+          dealerSku:item?.dealerSku,
           dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
@@ -1419,6 +1436,7 @@ function DealerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
+        dealerSku:"",
         coverageType: formikStep2?.values?.coverageType,
       },
       index
