@@ -595,6 +595,7 @@ function AddOrder() {
             orderFile: product.orderFile || "",
             fileValue: "",
             priceBookDetails: product?.priceBookDetail || {},
+            dealerSku: product.dealerSku,
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
@@ -1399,7 +1400,8 @@ function AddOrder() {
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-      handleSelectChange2(`productsArray[${productIndex}].priceBookId`, data.priceBookId)
+
+      handleSelectChange2(`productsArray[${productIndex}].priceBookId`, data == undefined ? "" : data.priceBookId)
     }
     if (name.includes("term")) {
       getCategoryList(
@@ -1772,6 +1774,7 @@ function AddOrder() {
       index
     );
   };
+
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
@@ -2231,6 +2234,7 @@ function AddOrder() {
                         options={productNameOptions[index]?.data}
                         required={true}
                         className="!bg-white"
+                        disableFirstOption={true}
                         placeholder=""
                         disabled={
                           formikStep3.values.productsArray[index]
@@ -2276,6 +2280,7 @@ function AddOrder() {
                         required={true}
                         className="!bg-white"
                         placeholder=""
+                        disableFirstOption={true}
                         disabled={
                           formikStep3.values.productsArray[index]
                             .categoryId == ""
@@ -2315,6 +2320,7 @@ function AddOrder() {
                       name={`productsArray[${index}].pName`}
                       placeholder=""
                       onChange={handleSelectChange2}
+                      disableFirstOption={true}
                       disabled={
                         formikStep3.values.productsArray[index]
                           .categoryId == ""
@@ -2350,6 +2356,7 @@ function AddOrder() {
                         options={termList[index]?.data}
                         required={true}
                         className="!bg-white"
+                        disableFirstOption={true}
                         placeholder=""
                         disabled={
                           formikStep3.values.productsArray[index]
