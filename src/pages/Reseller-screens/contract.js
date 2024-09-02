@@ -13,6 +13,7 @@ import Headbar from '../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../common/select';
 import Modal from '../../common/model';
+import Card from '../../common/card';
 function ResellerContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -48,7 +49,7 @@ function ResellerContract() {
           </div>
         </div>
 
-        <div className='bg-white mt-6 border-[1px] border-Light-Grey rounded-xl'>
+        <Card className='mt-6 border-[1px] border-Light-Grey rounded-xl'>
           <Grid className='!p-[26px] !pt-[14px] !pb-0'>
             <div className='col-span-3 self-center'>
               <p className='text-xl font-semibold'>Contracts List</p>
@@ -507,8 +508,8 @@ function ResellerContract() {
               </Grid>
             </div>
           </Modal>
-        </div>
-      </div>
+        </Card >
+      </div >
     </>
   )
 }

@@ -36,6 +36,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import DocMakeOrderContainer from "../../docMakeOrder";
+import Card from "../../../common/card";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -351,13 +352,13 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       <img src={edit} className="w-4 h-4 mr-2" /> Edit
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <img src={process} className="w-4 h-4 mr-2" /> Process
@@ -365,7 +366,7 @@ function OrderList() {
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 px-2 border-b flex cursor-pointer"
+                        className="text-center py-1 px-2 border-b text-black flex cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
                         <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
@@ -380,7 +381,7 @@ function OrderList() {
                       />
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
+                      className="text-left py-1 px-2 flex cursor-pointer text-black hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
                       <img src={remove} className="w-4 h-4 mr-2" /> Archive
@@ -391,7 +392,7 @@ function OrderList() {
                     <div onClick={() => localStorage.removeItem("orderMenu")}>
                       <Link
                         to={`/orderDetails/${row._id}`}
-                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold border-b w-full flex justify-start"
+                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold text-black border-b w-full flex justify-start"
                       >
                         <img src={view} className="w-4 h-4 mr-2" /> View
                       </Link>
@@ -441,7 +442,7 @@ function OrderList() {
           </Link>
         </Button>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Order List</p>
@@ -549,7 +550,7 @@ function OrderList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {orderType == "Process" ? (
@@ -577,11 +578,11 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black">Error</span>{" "}
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className="">Error</span>{" "}
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {errorLine} : <br />
             <span>{errorList} . </span>
           </p>
@@ -601,7 +602,7 @@ function OrderList() {
           <>
             <div className="text-center py-3">
               <img src={unassign} alt="email Image" className="mx-auto my-4" />
-              <p className="text-3xl mb-0 mt-2 font-[800] px-10 text-light-black">
+              <p className="text-3xl mb-0 mt-2 font-[800] px-10">
                 {message}
               </p>
               <Grid className="!grid-cols-4 my-5 ">
@@ -623,13 +624,13 @@ function OrderList() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             {primaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {secondaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>

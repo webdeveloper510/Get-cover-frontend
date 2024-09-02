@@ -20,6 +20,7 @@ import {
   authserviceProviderRegister,
 } from "../../services/authServices";
 import { RotateLoader } from "react-spinners";
+import { getSetting } from "../../services/extraServices";
 
 function DealerRegister() {
   const history = useLocation();
@@ -124,16 +125,30 @@ function DealerRegister() {
   const handleSelectChange = (name, selectedValue) => {
     formik.setFieldValue(name, selectedValue);
   };
+  const [details, setDetails] = useState();
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
 
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  }, []);
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="relative bg-hero-pattern bg-cover	bg-no-repeat bg-center">
         <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
-          <div className="col-span-7 self-center min-h-screen flex relative">
+          <div className="col-span-7 self-center min-h-screen flex">
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-              <img src={Logo} loading="lazy" className="w-[224px]" alt="Logo " />
-              <p className="text-3xl mb-0 mt-1 font-bold text-light-black">
-                <span className="text-neutral-grey"> Welcome to </span> GetCover
+              <img loading="lazy" src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
+                <span className="text-neutral-grey"> Welcome to </span> {details?.title}
               </p>
               <p className="text-neutral-grey text-xl font-medium mb-4 mt-2">
                 {" "}
@@ -322,6 +337,7 @@ function DealerRegister() {
                         onBlur={formik.handleBlur}
                         minLength={"5"}
                         maxLength={"6"}
+                        zipcode={true}
                         error={formik.touched.zip && formik.errors.zip}
                       />
                       {formik.touched.zip && formik.errors.zip && (
@@ -392,11 +408,11 @@ function DealerRegister() {
                   </Link>{" "}
                 </p>
                 <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad.net </a></p>
-                  </div>
+                  <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad India </a></p>
+                </div>
               </div>
             </div>
-          
+
           </div>
           <div className="col-span-5">
             <img
@@ -410,18 +426,18 @@ function DealerRegister() {
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="text-center py-3">
             <img src={email} alt="email Image" loading="lazy" className="mx-auto w-1/2 py-8" />
-            <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-2 font-semibold ">
               Please wait it will take time for{" "}
-              <span className="text-light-black"> Approval </span>
+              <span className=""> Approval </span>
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
+            <p className="text-base font-medium mt-4">
               For some security reasons you <b> require an approval. </b> It
               will be executed{" "}
             </p>
-            <p className="font-medium text-base text-neutral-grey">
-              as soon as the approver will validate the action. 
+            <p className="font-medium text-base">
+              as soon as the approver will validate the action.
             </p>
-            <Link to={"/"} className="font-bold text-base text-light-black">
+            <Link to={"/"} className="font-bold text-base">
               Click the link to Sign In
             </Link>
           </div>

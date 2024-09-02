@@ -47,6 +47,7 @@ import { getServicerListInOrders } from "../../../services/orderServices";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DataTable from "react-data-table-component";
+import Card from "../../../common/card";
 
 function AddClaim() {
   const [loading, setLoading] = useState(false);
@@ -385,7 +386,7 @@ function AddClaim() {
             </div>
           </div>
         ) : (
-          <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+          <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
             <p className="text-xl font-bold mb-4">Step 1</p>
             <Grid>
               <div className="col-span-12">
@@ -431,7 +432,7 @@ function AddClaim() {
 
                     <div className="col-span-4">
                       <Input
-                        label="Serial Number"
+                        label="Serial # / Device ID"
                         name="serial"
                         placeholder=""
                         className="!bg-white"
@@ -613,7 +614,7 @@ function AddClaim() {
                 </>
               )}
             </Grid>
-          </div>
+          </Card>
         )}
       </>
     );
@@ -690,7 +691,7 @@ function AddClaim() {
   const renderStep2 = () => {
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
           <p className="text-2xl font-bold mb-4">Enter Required Info</p>
           {loading21 ? (
             <div className=" h-[400px] w-full flex py-5">
@@ -714,7 +715,7 @@ function AddClaim() {
                     </div>
                     <div className="col-span-2">
                       <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                        <p className="text-sm m-0 p-0">Serial #</p>
+                        <p className="text-sm m-0 p-0">Serial # / Device ID</p>
                         <p className="font-semibold">
                           {" "}
                           {contractDetail?.serial}
@@ -961,7 +962,7 @@ function AddClaim() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Diagonsis <span className="text-red-500">*</span>
+                        Diagnosis <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         id="description"
@@ -980,11 +981,6 @@ function AddClaim() {
                           {formikStep2.errors.diagnosis}
                         </div>
                       )}
-                    {/* <p className="text-[10px] text-neutral-grey">
-                    {" "}
-                    <span className="text-red-500"> Note : </span> Max Claim
-                    amount is $123.00
-                  </p> */}
                   </div>
                   <div className="col-span-6">
                     <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
@@ -1013,7 +1009,7 @@ function AddClaim() {
               </div>
             </form>
           )}
-        </div>
+        </Card>
       </>
     );
   };
@@ -1220,7 +1216,7 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial
+                        Serial # / Device ID
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {contractDetail?.serial}
@@ -1344,25 +1340,25 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
+                        Dealer SKU
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0]?.dealerSku
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="col-span-1 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {
                           contractDetail?.order?.[0]?.productsArray?.[0]
                             ?.priceBook?.[0]?.pName
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-2 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Description
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetail?.order?.[0]?.productsArray?.[0]
-                            ?.priceBook?.[0]?.description
                         }
                       </p>
                     </div>
@@ -1380,6 +1376,20 @@ function AddClaim() {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-2 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Description
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {
+                          contractDetail?.order?.[0]?.productsArray?.[0]
+                            ?.priceBook?.[0]?.description
+                        }
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">

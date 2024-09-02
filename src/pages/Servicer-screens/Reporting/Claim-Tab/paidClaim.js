@@ -54,6 +54,7 @@ import CustomPagination from "../../../pagination";
 
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
+import Card from "../../../../common/card";
 import {
   checkUserToken,
   downloadFile,
@@ -887,6 +888,7 @@ function ClaimList(props) {
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
+      dealerSku: "",
       claimId: "",
       venderOrder: "",
       serial: "",
@@ -1055,7 +1057,7 @@ function ClaimList(props) {
             </div>
           </div>
         </> :
-          <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
               <div className="col-span-2 self-center">
                 <p className="text-xl font-semibold">Claims List</p>
@@ -1194,21 +1196,21 @@ function ClaimList(props) {
                               <>
                                 <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                                   <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                    <p className="font-semibold leading-5 text-lg">
+                                    <p className="font-semibold leading-5 text-light-black text-lg">
                                       {" "}
                                       {res.unique_key}{" "}
                                     </p>
                                     <p className="text-[#A3A3A3]">Claim ID</p>
                                   </div>
                                   <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                    <p className="font-semibold leading-5 text-lg">
+                                    <p className="font-semibold leading-5 text-light-black text-lg">
                                       {" "}
                                       {res?.contracts?.unique_key}{" "}
                                     </p>
                                     <p className="text-[#A3A3A3]">Contract ID</p>
                                   </div>
                                   <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                    <p className="font-semibold leading-5 text-lg">
+                                    <p className="font-semibold leading-5 text-light-black text-lg">
                                       {" "}
                                       {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                     </p>
@@ -1241,7 +1243,7 @@ function ClaimList(props) {
                                       <></>
                                     )}
                                   </div>
-                                </Grid>
+                                </Grid >
                                 <Grid className="!gap-0 bg-grayf9 !grid-cols-6 border-Gray28 border-x">
                                   <div className="col-span-1 flex ">
                                     <img
@@ -1258,7 +1260,22 @@ function ClaimList(props) {
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="col-span-2 flex">
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={productName}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="productName"
+                                    />
+                                    <div className="py-4 pl-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Dealer SKU
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.contracts?.dealerSku}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="col-span-1 flex">
                                     <img
                                       src={Manufacturer}
                                       className="self-center h-[50px] w-[50px] ml-3"
@@ -1673,13 +1690,13 @@ function ClaimList(props) {
                                 )}
                               </div>
                             </Grid>
-                          </CollapsibleDiv>
+                          </CollapsibleDiv >
                         );
                       })}
                   </>
                 )}
               </>}
-            </div>
+            </div >
             <div>
               {claimList?.result?.length == 0 ? (
                 <>
@@ -1697,9 +1714,9 @@ function ClaimList(props) {
                 />
               )}
             </div>
-          </div>
+          </Card >
         }
-      </div>
+      </div >
 
       <Modal isOpen={isPayOpen} onClose={closePay}>
         <Button
@@ -2352,6 +2369,16 @@ function ClaimList(props) {
                   label="Product SKU"
                   placeholder=""
                   {...formik1.getFieldProps("productName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerSku"
+                  className="!bg-white"
+                  label="Dealer SKU"
+                  placeholder=""
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">

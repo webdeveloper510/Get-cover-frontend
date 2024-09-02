@@ -36,6 +36,12 @@ body {
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg);
 }
 
+.mYSul,
+.rdt_Table {
+  background-color: transparent !important;
+}
+
+
 .dealer-detail .rdt_TableCol {
   font-size: 11px !important;
   font-weight: 700;
@@ -69,8 +75,14 @@ code {
   transition: transform 0.3s ease;
 }
 
+.nCTcL {
+  background-color: transparent !important;
+  color: unset !important;
+}
+
 .rdt_TableRow {
-  color: #727378 !important;
+  background-color: transparent !important;
+  color: unset !important;
 }
 
 .react-datepicker-wrapper {

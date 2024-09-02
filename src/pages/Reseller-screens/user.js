@@ -48,6 +48,7 @@ import delete1 from "../../assets/images/delete.png";
 import PasswordInput from "../../common/passwordInput";
 import deleteUser123 from "../../assets/images/Disapproved.png";
 import Cross from "../../assets/images/Cross.png";
+import Card from "../../common/card";
 
 function ResellerUser() {
   const { toggleFlag } = useMyContext();
@@ -460,7 +461,7 @@ function ResellerUser() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border text-light-black rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
@@ -718,7 +719,7 @@ function ResellerUser() {
             </div>
           </div>
 
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+          <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
             <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
@@ -822,7 +823,7 @@ function ResellerUser() {
                 <div className="col-span-2"></div>
               </Grid>
             </div>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-5">Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>
                 <Grid>
@@ -886,7 +887,7 @@ function ResellerUser() {
                   <Button type="submit">Change Password</Button>
                 </div>
               </form>
-            </div>
+            </Card>
 
             {loading ? (
               <div className=" h-[400px] w-full flex py-5">
@@ -895,7 +896,7 @@ function ResellerUser() {
                 </div>
               </div>
             ) : (
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
                 {isprimary && (
                   <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}>
@@ -921,20 +922,21 @@ function ResellerUser() {
                   }
                   noDataComponent={<CustomNoDataComponent />}
                 />
-              </div>
+              </Card>
             )}
-          </div>
-        </div>
-      )}
+          </Card>
+        </div >
+      )
+      }
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {primaryText}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
@@ -945,7 +947,7 @@ function ResellerUser() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -958,7 +960,7 @@ function ResellerUser() {
               Yes
             </Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
@@ -972,13 +974,13 @@ function ResellerUser() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -986,7 +988,7 @@ function ResellerUser() {
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
-          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold">
             Add New User
           </p>
           <form className="mt-8" onSubmit={userValues.handleSubmit}>
@@ -1120,7 +1122,7 @@ function ResellerUser() {
       )} */}
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className="flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1142,7 +1144,7 @@ function ResellerUser() {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeUserModal()}
                 >
                   Cancel
@@ -1161,7 +1163,7 @@ function ResellerUser() {
 
       <Modal isOpen={isModalOpen2} onClose={closeModal2}>
         <div className=" py-3">
-          <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+          <p className="text-3xl text-center mb-5 mt-2 font-semibold">
             Edit User
           </p>
           <form className="mt-8" onSubmit={formik1.handleSubmit}>
@@ -1283,7 +1285,7 @@ function ResellerUser() {
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
                 <Button
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
                   onClick={() => closeModal2()}
                 >
                   Cancel
@@ -1312,10 +1314,10 @@ function ResellerUser() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>

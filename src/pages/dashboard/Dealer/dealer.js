@@ -30,6 +30,7 @@ import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -99,8 +100,6 @@ function Dealer() {
   const navigate = useNavigate();
   const { id } = useParams();
   const handleDropdownClick = () => {
-    // setSelectedFile(null)
-    // formik.setFieldValue("file", "")
     if (fileInputRef) {
       fileInputRef.current.click();
       setSelectedFile(null);
@@ -536,18 +535,18 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                priceBookId: Yup.string().required("Required"),
-                categoryId: Yup.string().required("Required"),
-                dealerSku: Yup.string().required("Required"),
-                retailPrice: Yup.number()
-                  .typeError("Required")
-                  .required("Required")
-                  .min(0, "Retail Price cannot be negative")
-                  .nullable(),
-                status: Yup.boolean().required("Required"),
-              })
-            ),
+            Yup.object().shape({
+              priceBookId: Yup.string().required("Required"),
+              categoryId: Yup.string().required("Required"),
+              dealerSku: Yup.string().required("Required"),
+              retailPrice: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .min(0, "Retail Price cannot be negative")
+                .nullable(),
+              status: Yup.boolean().required("Required"),
+            })
+          ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -558,17 +557,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -785,10 +784,10 @@ function Dealer() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="bg-white p-8 drop-shadow-4xl rounded-xl">
+          <Card className="bg-white p-8 drop-shadow-4xl rounded-xl">
             <Grid>
               <div className="col-span-4 border-e-[1px] border-Light-Grey pr-3">
-                <p className="text-light-black text-lg mb-3 font-semibold">
+                <p className="text-lg mb-3 font-semibold">
                   Create Dealer Account
                 </p>
                 <Grid>
@@ -814,7 +813,7 @@ function Dealer() {
                   </div>
                   <div className="col-span-12">
                     <div className="flex">
-                      <p className="text-[#5D6E66] text-sm">ADDRESS</p>
+                      <p className="text-sm">ADDRESS</p>
                       <hr className="self-center ml-3 border-Light-Grey w-full" />
                     </div>
                   </div>
@@ -902,7 +901,7 @@ function Dealer() {
                 </Grid>
               </div>
               <div className="col-span-8">
-                <p className="text-light-black text-lg mb-3 font-semibold">
+                <p className="text-lg mb-3 font-semibold">
                   Dealer Information
                 </p>
                 <Grid className="mt-5">
@@ -1013,7 +1012,7 @@ function Dealer() {
                     </Grid>
                   </div>
                   <div className="col-span-6 pt-2 mt-2">
-                    <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
+                    <p className="flex text-[12px] mb-7 font-semibold ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -1030,7 +1029,7 @@ function Dealer() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                    <p className="text-light-black flex text-[12px] mb-7 font-semibold ">
+                    <p className="flex text-[12px] mb-7 font-semibold ">
                       <span className="mr-[0.58rem]">
                         Do you want to Provide Shipping?
                       </span>
@@ -1050,7 +1049,7 @@ function Dealer() {
                       />
                     </p>
 
-                    <p className="text-light-black flex text-[12px] mb-7 font-semibold self-center">
+                    <p className="flex text-[12px] mb-7 font-semibold self-center">
                       {" "}
                       <span className="mr-[0.2rem]">
                         {" "}
@@ -1071,7 +1070,7 @@ function Dealer() {
                         onChange={handleServiceChange}
                       />
                     </p>
-                    <p className="text-light-black flex text-[12px] font-semibold">
+                    <p className="flex text-[12px] font-semibold">
                       <span className="w-[60%]">
                         {" "}
                         Do you want to create separate account for customer?{" "}
@@ -1095,7 +1094,7 @@ function Dealer() {
                     </p>
                   </div>
                 </Grid>
-                <p className="text-light-black mt-4 text-lg mb-3 font-semibold">
+                <p className="mt-4 text-lg mb-3 font-semibold">
                   Primary Contact Information
                 </p>
 
@@ -1241,14 +1240,14 @@ function Dealer() {
                 </Grid>
               </div>
             </Grid>
-          </div>
+          </Card>
 
           {formik.values.dealers.map((dealer, index) => (
-            <div
+            <Card
               key={index}
               className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
             >
-              <p className="text-light-black text-lg mb-6 font-semibold">
+              <p className="text-lg mb-6 font-semibold">
                 Add Dealer’s Team Members
               </p>
               <div className="">
@@ -1405,7 +1404,7 @@ function Dealer() {
                         />
                       </div>
                       <div className="col-span-4">
-                        <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                        <p className="flex text-[12px] font-semibold mt-3 mb-6">
                           {" "}
                           Do you want to create an account?
                           <RadioButton
@@ -1455,13 +1454,13 @@ function Dealer() {
                   </div>
                 </Grid>
               </div>
-            </div>
+            </Card>
           ))}
 
-          <div className="bg-white p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+          <Card className="p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
             <Grid>
               <div className="col-span-2">
-                <p className="text-light-black text-lg mb-3 font-semibold">
+                <p className="text-lg mb-3 font-semibold">
                   {selectedOption === "yes"
                     ? "Add Price Book"
                     : "Upload Price Book"}{" "}
@@ -1710,7 +1709,7 @@ function Dealer() {
                             type="text"
                             name={`priceBook[${index}].dealerSku`}
                             className="!bg-grayf9"
-                            label="Custom  SKU"
+                            label="Dealer  SKU"
                             required={true}
                             placeholder=""
                             value={formik.values.priceBook[index].dealerSku}
@@ -1847,7 +1846,7 @@ function Dealer() {
                 </p>
               </div>
             )}
-          </div>
+          </Card>
           <Button type="submit" className="mt-4">
             Submit
           </Button>

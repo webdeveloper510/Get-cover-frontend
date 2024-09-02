@@ -14,11 +14,46 @@ import PasswordInput from "../../common/passwordInput";
 
 //Importing services
 import { authlogin } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [details, setDetails] = useState();
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+        const fetchedData = userDetails.result[0];
+        localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
+        if (userDetails.result && userDetails.result[0].colorScheme) {
+          const colorScheme = userDetails.result[0].colorScheme;
+          colorScheme.forEach(color => {
+            switch (color.colorType) {
+              case 'buttonColor':
+                setBackGroundColor(color.colorCode);
+                break;
+              case 'buttonTextColor':
+                setButtonTextColor(color.colorCode);
+                break;
+              default:
+                break;
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  }, []);
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
@@ -74,10 +109,10 @@ function Login() {
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
+                <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
-                  GetCover
+                  {details?.title}
                 </p>
                 <p className="text-neutral-grey text-xl font-medium mb-5">
                   <span className="font-semibold"> Sign in </span> to your
@@ -140,7 +175,8 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
-                    className="w-full  h-[50px] text-xl font-semibold"
+                    style={{ backgroundColor: backGroundColor, color: buttonTextColor }}
+                    className="w-full !bg-[#333] !text-white h-[50px] text-xl font-semibold"
                   >
                     Sign in
                   </Button>
@@ -152,10 +188,11 @@ function Login() {
                     </Link>{" "}
                   </p>
                   <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad.net </a></p>
+                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Designed, Developed & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad India </a></p>
                   </div>
                 </div>
               </div>
+
             </div>
             <div className="col-span-1"></div>
           </Grid>

@@ -38,6 +38,7 @@ import SeacondActive from "../assets/images/side-bar/220Active.svg";
 import lastActive from "../assets/images/side-bar/250active.svg";
 import { useLocation } from "react-router-dom";
 import { checkWordsExist } from "../utils/helper";
+import { getSetting, getUserDetailsFromLocalStorage } from "../services/extraServices";
 
 function SidebarItem({
   item,
@@ -49,6 +50,43 @@ function SidebarItem({
   isActiveValue,
   sidebarItems,
 }) {
+
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+
+    console.log("Fetching user details...");
+    const userDetails = await getSetting();
+    console.log("User details fetched:---****-->", userDetails.result[0]);
+    const fetchedData = userDetails.result[0];
+    let local = JSON.parse(localStorage.getItem("siteSettings"));
+    // localStorage.removeItem('userDetails')
+    local.siteSettings = fetchedData
+    localStorage.setItem("siteSettings", JSON.stringify(local));
+    const colorScheme = fetchedData.colorScheme;
+
+
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'sideBarTextColor':
+          setSideBarTextColor(color.colorCode);
+          break;
+        case 'sideBarButtonColor':
+          setSideBarButtonColor(color.colorCode);
+          break;
+        case 'sideBarButtonTextColor':
+          setSideBarButtonTextColor(color.colorCode);
+          break;
+        default:
+          break;
+      }
+    });
+  }
   const location = useLocation();
 
   const hasItems = item.items && item.items.length > 0;
@@ -87,15 +125,12 @@ function SidebarItem({
 
   const [activeUrl, setActiveUrl] = useState(false);
 
-  // console.log('activeUrl---------------->>', activeUrl )
-
   useEffect(() => {
     let urls = [item.url];
     if (hasItems) {
       const urlsItem = item?.items?.map((i) => i.url) || [];
       urls = [...urls, ...urlsItem];
     }
-    // console.log("urls==========>>",urls,locationGet.pathname)
 
     const itHasUrl = checkWordsExist(locationGet.pathname, urls);
     if (itHasUrl) console.log("item=======>", item);
@@ -116,33 +151,53 @@ function SidebarItem({
     onLinkClick(item.url);
   };
 
-  // console.log('location.pathname', location.pathname)
+
   return (
     <li
-      className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${activeUrl ? "relative bg-[#2B2B2B] rounded-s-[30px]" : ""
+      className={`border-t-Gray28 w-full rounded-ss-[30px] p-0 border-t-[0.5px]  ${activeUrl ? `relative bg-[${sideBarButtonColor}] rounded-s-[30px]` : ""
         } ${expandedItem == item.name ? "active" : ""}`}
     >
       <Link
         to={hasItems ? window.location.href : item.url}
+        style={{ backgroundColor: activeUrl ? sideBarButtonColor : null, color: activeUrl ? sideBarButtonTextColor : sideBarTextColor }}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${activeUrl
-          ? "bg-white text-[#000] rounded-s-[30px]"
-          : "text-light-grey"
+          ? `!bg-[${sideBarButtonColor}] !text-[${sideBarButtonTextColor}]  rounded-s-[30px]`
+          : `text-[${sideBarTextColor}]`
           }`}
         onClick={handleClick}
       >
         {activeUrl ? (
-          <img
-            src={item.active}
-            className="w-[22px]  h-[22px]"
-            alt={item.image}
+          <div
+            className="w-[22px] h-[22px]"
+            style={{
+              maskImage: `url(${item.active})`,
+              WebkitMaskImage: `url(${item.active})`,
+              backgroundColor: sideBarButtonTextColor,
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain'
+            }}
           />
         ) : (
-          <img
-            src={item.image}
+          <div
             className="w-[22px] h-[22px]"
-            alt={item.image}
+            style={{
+              maskImage: `url(${item.image})`,
+              WebkitMaskImage: `url(${item.image})`,
+              backgroundColor: sideBarTextColor,
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain'
+            }}
           />
         )}
+
         <span
           className={`self-center text-left w-full pl-[12px] ${activeUrl
             ? " text-[14px] font-semibold"
@@ -155,24 +210,42 @@ function SidebarItem({
           <>
             {activeUrl ? (
               <>
-                <img
-                  src={Down}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
+                <div
+                  className={`w-4 h-4 ${expandedItem === item.name
                     ? "rotate-180 dropdown-expanded"
                     : "dropdown-collapsed"
                     }`}
-                  alt="Dropdown Arrow"
+                  style={{
+                    maskImage: `url(${Down})`,
+                    WebkitMaskImage: `url(${Down})`,
+                    backgroundColor: sideBarButtonTextColor,
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain'
+                  }}
                 />
               </>
             ) : (
               <>
-                <img
-                  src={DropdownArrowImage}
-                  className={`ml-auto w-3 h-3 mt-2 transition-transform transform ${expandedItem === item.name
+                <div
+                  className={`w-4 h-4 ${expandedItem === item.name
                     ? "rotate-180 dropdown-expanded"
                     : "dropdown-collapsed"
                     }`}
-                  alt="Dropdown Arrow"
+                  style={{
+                    maskImage: `url(${DropdownArrowImage})`,
+                    WebkitMaskImage: `url(${DropdownArrowImage})`,
+                    backgroundColor: sideBarTextColor,
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain'
+                  }}
                 />
               </>
             )}
@@ -200,7 +273,28 @@ function SidebarItem({
               >
                 {location.pathname.includes(subItem.url) ? (
                   <>
-                    <img
+                    <div
+                      className={` ${subIndex == 0
+                        ? "3xl:mt-[-32%] xl:mt-[-31%] mt-[-31%]"
+                        : subIndex == 1
+                          ? "3xl:mt-[-50%%] xl:mt-[-43%] xl:h-[110px]"
+                          : subIndex == 2
+                            ? "mt-[-81%]"
+                            : "mt-[-99%]"
+                        } w-[24px]`}
+                      style={{
+                        maskImage: `url(${subItem.active})`,
+                        WebkitMaskImage: `url(${subItem.active})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    {/* <img
                       src={subItem.active}
                       className={` ${subIndex == 0
                         ? "3xl:mt-[-32%] xl:mt-[-40%] mt-[-40%]"
@@ -210,24 +304,40 @@ function SidebarItem({
                             ? "mt-[-95%]"
                             : "mt-[-115%]"
                         } w-[24px]`}
+                      style={{ filter: `opacity(0.5) drop-shadow(0 0 0 ${sideBarButtonTextColor})` }}
                       alt={subItem.active}
-                    />
+                    /> */}
                   </>
                 ) : (
                   <>
-                    {" "}
-                    <img
+                    <div
+                      className={` ${subIndex == 0 ? "mt-[-19%]" : "mt-[-33%]"
+                        } w-[24px] `}
+                      style={{
+                        maskImage: `url(${subItem.image})`,
+                        WebkitMaskImage: `url(${subItem.image})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    {/* <img
                       src={subItem.image}
                       className={` ${subIndex == 0 ? "mt-[-19%]" : "mt-[-42%]"
                         } w-[24px] `}
                       alt={subItem.image}
-                    />
+                    /> */}
                   </>
                 )}
 
                 <span
+                  style={{ color: location.pathname.includes(subItem.url) ? sideBarTextColor : sideBarTextColor }}
                   className={`self-center text-left text-[12px] font-medium w-full ${location.pathname.includes(subItem.url)
-                    ? "opacity-1"
+                    ? "opacity-1 !font-bold"
                     : "opacity-80"
                     } pl-0 ml-[10px] p-[19px] pr-0 ${subIndex == item.items.length - 1
                       ? ""
@@ -240,8 +350,9 @@ function SidebarItem({
             </li>
           ))}
         </ul>
-      )}
-    </li>
+      )
+      }
+    </li >
   );
 }
 
@@ -470,8 +581,9 @@ function SideBar() {
   const location = useLocation();
   const [active, setActive] = useState(location.pathname);
   const [expandedItem, setExpandedItem] = useState(active);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // State to manage the visibility of the sidebar
-  // other state and functions...
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle the state when the button is clicked
@@ -480,8 +592,68 @@ function SideBar() {
   const [userType, setUserType] = useState(
     JSON.parse(localStorage.getItem("userDetails"))
   );
+  const [selectedFile2, setSelectedFile2] = useState('');
+  const [url, setUrl] = useState('');
+  console.log(selectedFile2, '--selectedFile2');
+
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      setUrl(storedUserDetails.logoLight ? storedUserDetails.logoLight.fullUrl : null);
+      setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarColor':
+            setSideBarColor(color.colorCode);
+            break;
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  const fetchUserDetails = async () => {
+    try {
+      console.log("Fetching user details...");
+      const userDetails = await getSetting();
+      console.log("User details fetched:---****-->", userDetails.result[0]);
+      const fetchedData = userDetails.result[0];
+      let local = JSON.parse(localStorage.getItem("siteSettings"));
+      // localStorage.removeItem('userDetails')
+      local.siteSettings = fetchedData
+      localStorage.setItem("siteSettings", JSON.stringify(local));
+      setUrl(fetchedData.logoLight ? fetchedData.logoLight.fullUrl : null);
+      setSelectedFile2(fetchedData.logoLight ? fetchedData.logoLight.fileName : null);
+      const colorScheme = fetchedData.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarColor':
+            setSideBarColor(color.colorCode);
+            break;
+          case 'sideBarTextColor':
+            setSideBarTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
+
   const navigate = useNavigate();
-  // console.log('active---------------->>', active )
 
   const handleLinkClick = (url, dropdownItem) => {
     setActive(url === "#" ? dropdownItem : url);
@@ -876,28 +1048,37 @@ function SideBar() {
 
   return (
     <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
-      <div className="bg-light-black min-h-[95vh] rounded-3xl relative pl-[5px]">
+      <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
         <img
-          src={Logo}
-          className="mx-auto py-6 w-[160px] h-[80px]"
+          src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
+          className="mx-auto py-6 w-full px-5"
           alt="logo"
         />
-        <hr className=" border-Gray28 border-[1px]" />
-        <div className="shadow-sm h-full ">
+        <hr className="border-Gray28 border-[1px]" />
+        <div className="shadow-sm h-full">
           <div className="mx-auto h-full mt-6">
             <ul className="pb-5">
               {renderSidebarItems}
               <li
-                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full text-white"
+                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
                 onClick={handleLogOut}
               >
                 <div className="py-[22px] pe-3 ps-[10px] flex">
-                  <img
-                    src={LogoutImage}
-                    className="w-[22px] h-[22px] text-black"
-                    alt={LogoutImage}
+                  <div
+                    className="w-[22px] h-[22px]"
+                    style={{
+                      maskImage: `url(${LogoutImage})`,
+                      WebkitMaskImage: `url(${LogoutImage})`,
+                      backgroundColor: sideBarTextColor,
+                      maskRepeat: 'no-repeat',
+                      WebkitMaskRepeat: 'no-repeat',
+                      maskPosition: 'center',
+                      WebkitMaskPosition: 'center',
+                      maskSize: 'contain',
+                      WebkitMaskSize: 'contain'
+                    }}
                   />
-                  <span className="self-center text-[14px] font-light text-left w-full pl-[12px] text-light-grey ml-1">
+                  <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
                     Logout
                   </span>
                 </div>

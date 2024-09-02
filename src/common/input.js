@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropbox from "../assets/images/icons/dropBox.svg";
+import info from "../assets/images/info.svg";
 import csvFile from "../assets/images/icons/csvFile.svg";
+import CommonTooltip from "./toolTip";
 
 const Input = ({
   type,
@@ -16,12 +18,14 @@ const Input = ({
   maxLength,
   required,
   className,
+  tooltip,
   className1,
   disabled,
   placeholder,
   zipcode,
   classBox,
   nonumber,
+  content,
   maxDate,
 }) => {
   const [inputValue, setInputValue] = useState(value);
@@ -43,7 +47,19 @@ const Input = ({
   };
 
   const handleChange = (e) => {
-    setInputValue(e.target.files[0]);
+    if (type === "file") {
+      setInputValue(e.target.files[0]);
+    } else if (type === "color") {
+      setInputValue(e.target.value);
+    }
+    if (onChange) {
+      onChange({
+        target: {
+          name: name,
+          value: e.target.value,
+        },
+      });
+    }
   };
 
   const handleInput = (event) => {
@@ -71,7 +87,7 @@ const Input = ({
   };
 
   return (
-    <div className={`relative ${classBox}`}>
+    <div className={`relative ${classBox} bg-white rounded-lg`}>
       {type === "date" ? (
         <DatePicker
           selected={inputValue ? new Date(inputValue) : null}
@@ -79,9 +95,8 @@ const Input = ({
           dateFormat="MM/dd/yyyy"
           maxDate={maxDate ? new Date() : null}
           placeholderText="mm/dd/yyyy"
-          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-            error ? "border-[red]" : "border-gray-300"
-          } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+          className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
+            } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
         />
       ) : (
         <>
@@ -128,11 +143,9 @@ const Input = ({
                 maxLength={maxLength}
                 pattern={type === "number" ? "[0-9]*" : undefined}
                 step={type === "number" ? "1" : undefined} // Ensure step is set to 1 for number type
-                className={`${
-                  type === "tel" || (nonumber && "pl-[30px]")
-                } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${
-                  error ? "border-[red]" : "border-gray-300"
-                } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                className={`${type === "tel" || (nonumber && "pl-[30px]")
+                  } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
+                  } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
                 onChange={handleInput}
                 disabled={disabled}
                 required={required}
@@ -150,9 +163,16 @@ const Input = ({
       )}
       <label
         htmlFor={name}
-        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 ${className}`}
+        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-grayf9 left-2 px-1 -translate-y-4 scale-75 self-center ${className}`}
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label} {required && <span className="text-red-500">*</span>} {type === "color" &&
+          <CommonTooltip
+            place="top"
+            id={`tooltip-${tooltip}`}
+            content={content}
+          >
+            <img src={info} className="h-5 w-5 ml-1 self-center" alt="Info" />
+          </CommonTooltip>}
       </label>
     </div>
   );

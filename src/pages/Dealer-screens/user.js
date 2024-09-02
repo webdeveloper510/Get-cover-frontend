@@ -45,6 +45,7 @@ import {
   changePasswordbyToken,
   getSuperAdminMembers,
 } from "../../services/extraServices";
+import Card from "../../common/card";
 
 function DealerUser() {
   const { toggleFlag } = useMyContext();
@@ -564,7 +565,7 @@ function DealerUser() {
               <div
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[140px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white text-light-black border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
@@ -751,7 +752,7 @@ function DealerUser() {
                 </ul>
               </div>
             </div>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
               <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
                 <Grid>
                   <div className="col-span-2 text-left">
@@ -802,7 +803,7 @@ function DealerUser() {
                   <div className="col-span-2"></div>
                 </Grid>
               </div>
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
                 <p className="text-xl font-semibold mb-5">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
@@ -866,9 +867,9 @@ function DealerUser() {
                     <Button type="submit">Change Password</Button>
                   </div>
                 </form>
-              </div>
+              </Card>
 
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
                 {primary && (
                   <div className="bg-gradient-to-r from-[#f3f3f3] to-[#ededed] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}>
@@ -879,103 +880,7 @@ function DealerUser() {
                 )}
 
                 <p className="text-xl font-semibold mb-3">Users List</p>
-                {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
-                    <div className="col-span-3 self-center"></div>
-                    <div className="col-span-9">
-                      <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                        <form className="" onSubmit={formikUSerFilter.handleSubmit}>
-                          <Grid className="!grid-cols-9">
-                            <div className="col-span-2 self-center">
-                              <Input
-                                name="firstName"
-                                type="text"
-                                className="!text-[14px] !bg-White-Smoke"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                                label=""
-                                placeholder="First Name"
-                                value={formikUSerFilter.values.firstName}
-                                onBlur={formikUSerFilter.handleBlur}
-                                onChange={formikUSerFilter.handleChange}
-                              />
-                            </div>
-                            <div className="col-span-2 self-center">
-                              <Input
-                                name="lastName"
-                                type="text"
-                                className="!text-[14px] !bg-White-Smoke"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                                label=""
-                                placeholder="Last Name"
-                                value={formikUSerFilter.values.lastName}
-                                onBlur={formikUSerFilter.handleBlur}
-                                onChange={formikUSerFilter.handleChange}
-                              />
-                            </div>
-                            <div className="col-span-2 self-center">
-                              <Input
-                                name="email"
-                                type="text"
-                                className="!text-[14px] !bg-White-Smoke"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                                label=""
-                                placeholder="Email"
-                                value={formikUSerFilter.values.email}
-                                onBlur={formikUSerFilter.handleBlur}
-                                onChange={formikUSerFilter.handleChange}
-                              />
-                            </div>
-                            <div className="col-span-2 self-center">
-                              <Input
-                                name="phone"
-                                type="number"
-                                className="!text-[14px] !bg-White-Smoke"
-                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                                label=""
-                                placeholder="Phone"
-                                value={formikUSerFilter.values.phone}
-                                onBlur={formikUSerFilter.handleBlur}
-                                onChange={(e) => {
-                                  const sanitizedValue = e.target.value.replace(
-                                    /[^0-9]/g,
-                                    ""
-                                  );
-                                  console.log(sanitizedValue);
-                                  formikUSerFilter.handleChange({
-                                    target: {
-                                      name: "phone",
-                                      value: sanitizedValue,
-                                    },
-                                  });
-                                }}
-                              />
-                            </div>
-                            <div className="col-span-1 self-center flex justify-center">
-                              <Button type="submit" className="!p-0">
-                                <img
-                                  src={Search}
-                                  className="cursor-pointer "
-                                  alt="Search"
-                                />
-                              </Button>
-                              <Button
-                                type="submit"
-                                onClick={() => {
-                                  handleFilterIconClick();
-                                }}
-                                className="!bg-transparent !p-0"
-                              >
-                                <img
-                                  src={clearFilter}
-                                  className="cursor-pointer	mx-auto"
-                                  alt="clearFilter"
-                                />
-                              </Button>
-                            </div>
-                          </Grid>
-                        </form>
-                      </div>
-                    </div>
-                  </Grid> */}
+
                 <DataTable
                   columns={primary ? columns : columns1}
                   data={userList}
@@ -992,20 +897,21 @@ function DealerUser() {
                   }
                   noDataComponent={<CustomNoDataComponent />}
                 />
-              </div>
-            </div>
+              </Card>
+            </Card>
           </div>
         </>
-      )}
+      )
+      }
 
       {/* Modal Primary Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {primaryText}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
@@ -1016,7 +922,7 @@ function DealerUser() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold ">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -1029,7 +935,7 @@ function DealerUser() {
               Yes
             </Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
@@ -1043,13 +949,13 @@ function DealerUser() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -1065,7 +971,7 @@ function DealerUser() {
           </div>
           :
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Add New User
             </p>
             <form className="mt-8" onSubmit={userValues.handleSubmit}>
@@ -1192,14 +1098,9 @@ function DealerUser() {
                       userValues.touched.position && userValues.errors.position
                     }
                   />
-                  {/* {userValues.touched.position && userValues.errors.position && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {userValues.errors.position}
-                </div>
-              )} */}
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1221,7 +1122,7 @@ function DealerUser() {
               <Grid className="!grid-cols-5 my-5  px-8">
                 <div className="col-span-2">
                   <Button
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
                     onClick={() => closeUserModal()}
                   >
                     Cancel
@@ -1248,7 +1149,7 @@ function DealerUser() {
           </div>
           :
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Edit User
             </p>
             <form className="mt-8" onSubmit={formik1.handleSubmit}>
@@ -1400,10 +1301,10 @@ function DealerUser() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>

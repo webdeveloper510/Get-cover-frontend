@@ -46,6 +46,7 @@ import OrderList from "../Reseller/Dealer-Details/order";
 import ContractList from "../Reseller/Dealer-Details/contract";
 import UserList from "../../dashboard/Dealer/Dealer-Details/user";
 import ClaimList from "../../dashboard/Claim/claimList";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function CustomerDetails() {
   const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
@@ -424,7 +425,28 @@ function CustomerDetails() {
       });
     }
   };
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading && (
@@ -647,19 +669,33 @@ function CustomerDetails() {
                       <div className="col-span-1" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
+                            ? ""
                             : "!bg-grayf9 !text-black"
                             }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
-                          <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                            alt={tab.label}
+                          <div
+                            style={{
+                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain'
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4"
                           />
                           <span
+                            style={{
+                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              borderLeftWidth: '1px',
+                              paddingLeft: '7px',
+                              color: activeTab === tab.id ? buttonTextColor : 'black',
+                            }}
                             className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
                               }`}
                           >

@@ -113,7 +113,7 @@ function CustomerAddClaim() {
               </div>
               <div className='col-span-4'>
                 <Input
-                  label="Serial Number"
+                  label="Serial # / Device ID"
                   name="Serial"
                   placeholder=""
                   className="!bg-white"

@@ -22,6 +22,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Card from "../../../common/card";
 
 function ServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -216,7 +217,7 @@ function ServicerList() {
             {selectedAction === row.servicerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl text-light-black -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -225,7 +226,7 @@ function ServicerList() {
                     localStorage.removeItem("servicer");
                     navigate(`/servicerDetails/${row.metaId.toString()}`);
                   }}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer flex text-black hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
@@ -286,7 +287,7 @@ function ServicerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Servicer List</p>
@@ -400,7 +401,7 @@ function ServicerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

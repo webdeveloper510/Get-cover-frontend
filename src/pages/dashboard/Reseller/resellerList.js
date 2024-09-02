@@ -21,6 +21,7 @@ import {
   getResellerList,
   changeResellerStatus,
 } from "../../../services/reSellerServices";
+import Card from "../../../common/card";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -236,7 +237,7 @@ function ResellerList() {
                     localStorage.removeItem("Resellermenu");
                     navigate(`/resellerDetails/${row?.metaId}`);
                   }}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer flex text-black hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
@@ -313,7 +314,7 @@ function ResellerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Resellers List</p>
@@ -440,7 +441,7 @@ function ResellerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

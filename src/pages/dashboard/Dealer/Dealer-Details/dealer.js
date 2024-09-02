@@ -26,6 +26,7 @@ import {
   unAssignedServicerForDealer,
 } from "../../../../services/dealerServices";
 import Primary from "../../../../assets/images/SetPrimary.png";
+import Card from "../../../../common/card";
 
 function DealerDetailList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -312,7 +313,7 @@ function DealerDetailList(props) {
                 )}`}
               >
                 <div
-                  className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
+                  className="text-center cursor-pointer flex py-1 border-b px-2 text-black"
                   onClick={() => {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
@@ -321,7 +322,7 @@ function DealerDetailList(props) {
                   <span className="self-center"> View </span>
                 </div>
                 <div
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-center py-1 px-2 flex cursor-pointer text-black"
                   onClick={() => openModal(row)}
                 >
                   <img src={paper} className="w-4 h-4 mr-2" />{" "}
@@ -338,7 +339,7 @@ function DealerDetailList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealer List</p>
@@ -454,7 +455,7 @@ function DealerDetailList(props) {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

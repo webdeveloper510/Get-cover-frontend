@@ -19,6 +19,7 @@ import {
 import Select from "../../../common/select";
 import Loader from "../../../assets/images/Loader.gif";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function AddCategory() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -174,7 +175,7 @@ function AddCategory() {
         </div>
       ) : (
         <form className="mt-8" onSubmit={formik.handleSubmit}>
-          <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+          <Card className="px-8 pb-8 pt-6 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">
             {error ? (
               <p className="text-red-500 text-sm pl-2 my-3">
                 <span className="font-semibold"> {error} </span>
@@ -254,7 +255,7 @@ function AddCategory() {
             <Button type="submit" className="mt-12 font-normal rounded-[25px]">
               Submit
             </Button>
-          </div>
+          </Card>
         </form>
       )}
 

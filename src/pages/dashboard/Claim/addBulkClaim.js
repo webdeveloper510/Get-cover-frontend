@@ -18,6 +18,7 @@ import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
+import Card from "../../../common/card";
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -219,7 +220,7 @@ function AddBulkClaim() {
           {/* Form Start */}
 
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-0 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                   <span className="font-semibold"> {error} </span>
@@ -232,7 +233,7 @@ function AddBulkClaim() {
 
               <Grid className="">
                 <div className="col-span-12">
-                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300 appearance-none peer relative">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none peer relative">
                     <ReactTags
                       tags={tags}
                       delimiters={delimiters}
@@ -297,7 +298,7 @@ function AddBulkClaim() {
                       </span>
                     </p>
                   )}
-                  <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                  <p className="text-[12px] mt-1 font-medium">
                     Please click on file option and make a copy. Upload the list
                     of Product Name and Price using our provided Google Sheets
                     template, by{" "}
@@ -317,7 +318,7 @@ function AddBulkClaim() {
               >
                 Submit
               </Button>
-            </div>
+            </Card>
           </form>
         </>
       )}

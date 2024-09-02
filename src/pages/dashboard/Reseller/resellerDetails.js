@@ -71,6 +71,7 @@ import Unpaid from "../../../assets/images/icons/Unpaid.svg";
 import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function ResellerDetails() {
   const getInitialActiveTab = () => {
@@ -128,7 +129,28 @@ function ResellerDetails() {
   });
 
   const state = cityData;
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
     setServicerCreateAccountOption(resellerDetail.resellerData?.isServicer);
@@ -211,12 +233,6 @@ function ResellerDetails() {
     setServicerList(result.result);
     console.log(result.result);
   };
-  console.log(
-    isStatus,
-    resellerStatus,
-    createAccount,
-    "<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>"
-  );
   useEffect(() => {
     resellerDetails();
     getServicerList();
@@ -686,13 +702,6 @@ function ResellerDetails() {
     }
   };
 
-  // const handleTransitionEnd = () => {
-  //   if (containerRef.current) {
-  //     containerRef.current.classList.remove("scroll-transition");
-  //     setScrolling(false);
-  //   }
-  // };
-
   const containerRef = useRef(null);
   const handleGOBack = () => {
     navigate(`/resellerList`);
@@ -938,16 +947,35 @@ function ResellerDetails() {
                           }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
-                        <img
+                        <div
+                          style={{
+                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskRepeat: 'no-repeat',
+                            maskPosition: 'center',
+                            WebkitMaskPosition: 'center',
+                            maskSize: 'contain',
+                            WebkitMaskSize: 'contain'
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                        />
+                        {/* <img
                           src={
                             activeTab === tab.id ? tab.Activeicons : tab.icons
                           }
                           className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
                           alt={tab.label}
-                        />
+                        /> */}
                         <span
-                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                          style={{
+                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            borderLeftWidth: '1px',
+                            paddingLeft: '7px',
+                            color: activeTab === tab.id ? buttonTextColor : 'black',
+                          }}
+                          className={`ml-1 py-1 text-sm font-Regular `}
                         >
                           {tab.label}
                         </span>
@@ -1141,7 +1169,7 @@ function ResellerDetails() {
                 </div>
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                <p className="flex text-[11px] mb-3 mt-2 font-semibold ">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1158,7 +1186,7 @@ function ResellerDetails() {
                     onChange={handleAccountChange}
                   />
                 </p>
-                <p className="text-light-black flex text-[11px] mb-7 font-semibold self-center">
+                <p className="flex text-[11px] mb-7 font-semibold self-center">
                   {" "}
                   <span className="mr-[2px]">
                     {" "}
@@ -1207,7 +1235,7 @@ function ResellerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold">
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
@@ -1248,7 +1276,7 @@ function ResellerDetails() {
       {/* Modal Add User Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+          <p className=" text-center text-3xl mb-5 mt-2 font-bold">
             Add New User
           </p>
           <form onSubmit={userValues.handleSubmit}>
@@ -1372,7 +1400,7 @@ function ResellerDetails() {
                 />
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className="flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1423,10 +1451,10 @@ function ResellerDetails() {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>

@@ -41,6 +41,7 @@ import {
   getCustomerListForResellerPortal,
   getServiceCoverageDetails,
 } from "../../../services/customerServices";
+import Card from "../../../common/card";
 
 function ResellerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1275,13 +1276,13 @@ function ResellerAddOrder() {
           </div>
         ) : (
           <form onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      className="text-sm !py-0 h-[30px] self-center !bg-[white] !text-light-black !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
@@ -1442,7 +1443,7 @@ function ResellerAddOrder() {
                   </Grid>
                 </div>
               )}
-            </div>
+            </Card>
             <div className="flex">
               <Button
                 type="submit"
@@ -1464,7 +1465,7 @@ function ResellerAddOrder() {
     // Step 2 content
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -1555,10 +1556,10 @@ function ResellerAddOrder() {
               </Grid>
             </div>
           </Grid>
-        </div>
+        </Card>
 
         <div className="flex">
-          <Button onClick={prevStep} className="!bg-[transparent] !text-black">
+          <Button onClick={prevStep} className="!bg-[white] !text-black">
             Previous
           </Button>
           <Button onClick={formikStep2.handleSubmit}>Next</Button>
@@ -1579,9 +1580,9 @@ function ResellerAddOrder() {
         ) : (
           <div className="mb-3">
             {formikStep3?.values?.productsArray.map((data, index) => (
-              <div
+              <Card
                 key={index}
-                className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
+                className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative"
               >
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
@@ -1659,7 +1660,7 @@ function ResellerAddOrder() {
                         <>
                           <Select
                             name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
+                            label="Dealer SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-white"
@@ -2302,10 +2303,10 @@ function ResellerAddOrder() {
                   </div>
                   <div className="col-span-12"></div>
                 </Grid>
-              </div>
+              </Card>
             ))}
             <Button
-              className="!bg-[transparent] !text-black"
+              className="!bg-[white] !text-black"
               onClick={prevStep}
             >
               Previous
@@ -2330,7 +2331,7 @@ function ResellerAddOrder() {
           </div>
         ) : (
           <form onSubmit={formik4.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-6">
                   <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
@@ -2398,7 +2399,7 @@ function ResellerAddOrder() {
                             </div>
 
                             <div className="col-span-4 py-4 border-r">
-                              <p className="text-[12px]">Product SKU</p>
+                              <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
@@ -2628,10 +2629,10 @@ function ResellerAddOrder() {
                 <div className="col-span-12"></div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
-            </div>
+            </Card>
 
             <Button
-              className="!bg-[transparent] !text-black"
+              className="!bg-[white] !text-black"
               onClick={prevStep}
             >
               Previous

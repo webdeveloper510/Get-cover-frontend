@@ -13,6 +13,7 @@ import LineChart from "../../../../common/lineChart";
 import { getAllSales } from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
+import Card from "../../../../common/card";
 
 function All({ activeTab, activeButton }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -222,10 +223,10 @@ function All({ activeTab, activeButton }) {
         </Grid>
       )}
 
-      <div className="bg-white rounded-[20px] p-3 h-auto my-4 border-[1px] border-Light-Grey">
+      <Card className=" rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey !h-auto">
         <Grid className="!grid-cols-5">
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -248,10 +249,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full  px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -274,10 +275,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full  px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -300,10 +301,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
           <div className="col-span-1 border-r bg-gradient-to-t from-[#FFFFFF00] via-[#AAAAAA] to-[#FFFFFF00] pr-[1px]">
-            <div className="bg-white h-full px-2">
+            <Card className="h-full px-2">
               <div className="flex w-full justify-between mb-4">
                 <div>
                   <p className="text-2xl font-bold">
@@ -326,10 +327,10 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
-          <div className="col-span-1 h-full px-2">
-            <div className="flex w-full justify-between mb-4">
+          <div className="col-span-1 px-2">
+            <Card className="flex w-full justify-between mb-4">
               <div>
                 <p className="text-2xl font-bold">
                   $
@@ -346,10 +347,10 @@ function All({ activeTab, activeButton }) {
               <div>
                 <img src={Broker} className="w-[55px]" alt="Administration" />
               </div>
-            </div>
+            </Card>
           </div>
         </Grid>
-      </div>
+      </Card>
 
       <Modal isOpen={isModalOpen} className="w-[72vw]" onClose={closeModal}>
         <Button

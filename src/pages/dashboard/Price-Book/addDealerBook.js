@@ -31,6 +31,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getCategoryListActiveData } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
 
 function AddDealerBook() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -461,7 +462,7 @@ function AddDealerBook() {
             </div>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+            <Card className="px-8 pb-8 pt-6 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">
               {error ? (
                 <p className="text-red-500 text-sm pl-2 my-3">
                   <span className="font-semibold"> {error} </span>
@@ -474,7 +475,7 @@ function AddDealerBook() {
               <Grid>
                 {type !== "Edit" && (
                   <>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="dealerId"
                         label="Dealer Name"
@@ -496,7 +497,7 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="categoryId"
                         label="Product Category"
@@ -519,7 +520,7 @@ function AddDealerBook() {
                           </div>
                         )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Select
                         name="priceBook"
                         label="Product SKU"
@@ -540,7 +541,7 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-4">
                       <Input
                         type="text"
                         name="pName"
@@ -639,7 +640,56 @@ function AddDealerBook() {
                     </div>
                   </>
                 )}
-
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="dealerSku"
+                    className="!bg-white"
+                    label="Dealer SKU"
+                    required={true}
+                    placeholder=""
+                    value={formik.values.dealerSku}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    onWheelCapture={(e) => {
+                      e.preventDefault();
+                    }}
+                    error={formik.touched.dealerSku && formik.errors.dealerSku}
+                  />
+                  {formik.touched.dealerSku && formik.errors.dealerSku && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.dealerSku}
+                    </div>
+                  )}
+                </div>
+                {/* <div className="col-span-2">
+                  <Input
+                    type="number"
+                    name="brokerfee"
+                    className="!bg-white"
+                    label="Broker Fee($)"
+                    placeholder=""
+                    required={true}
+                    maxLength={"10"}
+                    onChange={formik.handleChange}
+                    onBlur={(e) => {
+                      const inputValue = e.target.value.trim();
+                      const formattedValue =
+                        inputValue !== ""
+                          ? parseFloat(inputValue).toFixed(2)
+                          : "";
+                      formik.handleBlur(e);
+                      formik.setFieldValue("brokerfee", formattedValue);
+                    }}
+                    value={formik.values.retailPrice}
+                    maxDecimalPlaces={2}
+                  />
+                  {formik.touched.retailPrice && formik.errors.retailPrice && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.retailPrice}
+                    </div>
+                  )}
+                </div> */}
                 <div className="col-span-4">
                   <Input
                     type="number"
@@ -668,6 +718,7 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
+
                 <div className="col-span-4">
                   <Select
                     label="Status"
@@ -680,11 +731,6 @@ function AddDealerBook() {
                       priceBookById.priceBooks?.status === false ||
                       priceBookById?.priceBooks?.category[0]?.status === false
                     }
-                    // disabled={
-                    //   priceBookById?.priceBooks?.category[0]?.status === false
-                    //     ? true
-                    //     : false
-                    // }
                     className="!bg-white"
                     options={status}
                     value={formik.values.status}
@@ -694,28 +740,6 @@ function AddDealerBook() {
                   {formik.touched.status && formik.errors.status && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {formik.errors.status}
-                    </div>
-                  )}
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="dealerSku"
-                    className="!bg-white"
-                    label="Custom SKU"
-                    required={true}
-                    placeholder=""
-                    value={formik.values.dealerSku}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    onWheelCapture={(e) => {
-                      e.preventDefault();
-                    }}
-                    error={formik.touched.dealerSku && formik.errors.dealerSku}
-                  />
-                  {formik.touched.dealerSku && formik.errors.dealerSku && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.dealerSku}
                     </div>
                   )}
                 </div>
@@ -739,7 +763,7 @@ function AddDealerBook() {
                   </Button>
                 </div>
               )}
-            </div>
+            </Card>
           </form>
         </>
       )}

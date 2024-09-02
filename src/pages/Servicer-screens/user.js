@@ -37,6 +37,7 @@ import terms from "../../assets/images/Dealer/Address.svg";
 import dealer from "../../assets/images/Dealer/Name.svg";
 import { useMyContext } from "../../context/context";
 import { getSevicerDetailPortal } from "../../services/customerServices";
+import Card from "../../common/card";
 
 function ServicerUser() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -498,7 +499,7 @@ function ServicerUser() {
                   <div
                     ref={dropdownRef}
                     className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                      } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md`}
+                      } drop-shadow-5xl -right-3 mt-2 py-1 bg-white text-light-black border rounded-lg shadow-md`}
                   >
                     {!row?.isPrimary && row.status && (
                       <div
@@ -648,30 +649,6 @@ function ServicerUser() {
         </>
       ) : (
         <div className="mb-8 ml-3">
-          {/* <Headbar /> */}
-          {/* <div className="flex mt-2">
-            <Link
-              to={"/servicer/dashboard"}
-              className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
-            >
-              <img
-                src={BackImage}
-                className="m-auto my-auto self-center bg-white"
-                alt="BackImage"
-              />
-            </Link>
-            <div className="pl-3">
-              <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Manage Account
-              </p>
-              <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
-                  {" "}
-                  Edit Account{" "}
-                </li>
-              </ul>
-            </div>
-          </div> */}
           <div className="flex mt-2">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9	mb-[3px]">
@@ -737,7 +714,7 @@ function ServicerUser() {
               <div className="col-span-2"></div>
             </Grid>
           </div>
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative z-10">
+          <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative z-10">
             <p className="text-xl font-semibold mb-3">Change Password</p>
 
             <form onSubmit={passwordChnageForm.handleSubmit}>
@@ -802,7 +779,7 @@ function ServicerUser() {
                 <Button type="submit">Change Password</Button>
               </div>
             </form>
-          </div>
+          </Card>
           {
             loading ? (
               <div className="h-[400px] w-full flex py-5">
@@ -811,7 +788,7 @@ function ServicerUser() {
                 </div>
               </div>
             ) : (
-              <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
                 {isPrimary && (
                   <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                     <Button onClick={() => openUserModal()}>+ Add Member</Button>
@@ -830,7 +807,7 @@ function ServicerUser() {
                   }
                   noDataComponent={<CustomNoDataComponent />}
                 />
-              </div>
+              </Card>
             )
           }
         </div >
@@ -846,7 +823,7 @@ function ServicerUser() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -972,7 +949,7 @@ function ServicerUser() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -995,7 +972,7 @@ function ServicerUser() {
                 <div className="col-span-4">
                   <Button
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel

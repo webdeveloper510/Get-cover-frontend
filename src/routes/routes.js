@@ -815,7 +815,7 @@ const routes = [
           <PrivateRoute
             element={<ServicerAddBulkClaim />}
             role={"servicer"}
-            path="/servicer/claimList"
+            path="/servicer/addBulkClaim"
           />
         ),
       },

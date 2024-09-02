@@ -70,6 +70,8 @@ import {
   checkUserToken,
   downloadFile,
 } from "../../../services/userServices";
+import Card from "../../../common/card";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -1116,7 +1118,7 @@ function ClaimList(props) {
       claimId: "",
       venderOrder: "",
       serial: "",
-      productName: "",
+      dealerSku: "",
       pName: "",
       dealerName: "",
       customerName: "",
@@ -1220,7 +1222,7 @@ function ClaimList(props) {
       icons: Claim,
       Activeicons: ClaimActive,
       content: (
-        <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
             <div className="col-span-2 self-center">
               <p className="text-xl font-semibold">Claims List</p>
@@ -1323,21 +1325,21 @@ function ClaimList(props) {
                           <>
                             <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
                               <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Claim ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {res?.contracts?.unique_key}{" "}
                                 </p>
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-lg">
+                                <p className="font-semibold leading-5 text-light-black text-lg">
                                   {" "}
                                   {format(new Date(res.lossDate), "MM/dd/yyyy")}
                                 </p>
@@ -1371,10 +1373,10 @@ function ClaimList(props) {
                                 />
                                 <div className="py-4 pl-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product SKU
+                                    Dealer SKU
                                   </p>
                                   <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.productName}
+                                    {res?.contracts?.dealerSku}
                                   </p>
                                 </div>
                               </div>
@@ -1551,6 +1553,7 @@ function ClaimList(props) {
                                               name="claimType"
                                               label=""
                                               value={claimType}
+                                              classBox='!bg-transparent w-[55%]'
                                               onChange={handleSelectChange}
                                               white
                                               disableFirstOption={true}
@@ -1563,7 +1566,6 @@ function ClaimList(props) {
                                               options={claim}
                                               OptionName="Claim Type"
                                               className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                              classBox="w-[55%]"
                                             />
                                           </p>
                                         </>
@@ -1791,6 +1793,7 @@ function ClaimList(props) {
                                             claimStatus.status == "Rejected" ||
                                             claimStatus.status == "Completed"
                                           }
+                                          classBox='!bg-transparent'
                                           white
                                           className1="!border-0 !text-light-black"
                                           options={customerValue}
@@ -1846,6 +1849,7 @@ function ClaimList(props) {
                                                 claimStatus.status ==
                                                 "Completed"
                                               }
+                                              classBox='!bg-transparent'
                                               onChange={handleSelectChange}
                                               white
                                               className1="!border-0 !text-light-black"
@@ -1928,6 +1932,7 @@ function ClaimList(props) {
                                                 value={repairStatus.status}
                                                 onChange={handleSelectChange}
                                                 disableFirstOption={true}
+                                                classBox='!bg-transparent'
                                                 disabled={
                                                   claimStatus.status ==
                                                   "Rejected" ||
@@ -2059,7 +2064,7 @@ function ClaimList(props) {
               // />
             )}
           </div>
-        </div>
+        </Card>
       ),
     },
   ];
@@ -2094,6 +2099,29 @@ function ClaimList(props) {
       }
     );
   }
+
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading1 && (
@@ -2142,18 +2170,34 @@ function ClaimList(props) {
         >
           {tabs.map((tab) => (
             <Button
-              className={`flex self-center mx-1 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                ? "!bg-[#2A2A2A] !text-white"
+              className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                ? ""
                 : "!bg-grayf9 !text-black"
                 }`}
               onClick={() => handleTabClick(tab.id)}
             >
-              <img
-                src={activeTab === tab.id ? tab.Activeicons : tab.icons}
-                className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                alt={tab.label}
+              <div
+                style={{
+                  maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                  WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                  backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain'
+                }}
+                className="self-center pr-1 py-1 h-4 w-4"
               />
               <span
+                style={{
+                  borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                  borderLeftWidth: '1px',
+                  paddingLeft: '7px',
+                  color: activeTab === tab.id ? buttonTextColor : 'black',
+                }}
                 className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
                   }`}
               >
@@ -2189,11 +2233,11 @@ function ClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -2206,7 +2250,7 @@ function ClaimList(props) {
               <div className="col-span-3">
                 <Button
                   type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !bg-[white] !text-light-black !border-light-black !border-[1px]"
                   onClick={closeReject}
                 >
                   No
@@ -2808,11 +2852,11 @@ function ClaimList(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="productName"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  {...formik1.getFieldProps("productName")}
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">

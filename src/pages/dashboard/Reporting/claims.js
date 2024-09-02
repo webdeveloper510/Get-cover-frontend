@@ -18,7 +18,9 @@ import {
   getFilterListForClaim,
   getFilterListForServicerClaim,
 } from "../../../services/reportingServices";
+import Card from "../../../common/card";
 import { RotateLoader } from "react-spinners";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function Claims() {
   const [loading, setLoading] = useState(false);
@@ -118,9 +120,9 @@ function Claims() {
       const res =
         isServicerClaims || isResellerClaims
           ? await getFilterListForServicerClaim(
-              data,
-              !isResellerClaims ? "servicerPortal" : "resellerPortal"
-            )
+            data,
+            !isResellerClaims ? "servicerPortal" : "resellerPortal"
+          )
           : await getFilterListForClaim(data);
       const { dealers, categories, priceBooks, servicers } = res.result;
       const getName = (obj) => obj.name;
@@ -275,7 +277,28 @@ function Claims() {
     setSelectedSer([]);
     getDatasetAtEvent(data);
   };
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading ? (
@@ -302,23 +325,19 @@ function Claims() {
                   {activeTab}
                 </li>
               </ul>
-            </div>
-          </div>
-          <div
-            className="p-3 bg-white mt-4"
-            style={{ display: isCustomerClaims ? "none" : "block" }}
-          >
+            </div >
+          </div >
+          <Card className="p-3 mt-4">
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
                 {!isResellerClaims && (
                   <Button
                     onClick={() => handleButtonClick("dealer")}
-                    className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${
-                      activeButton !== "dealer"
-                        ? "!bg-[white] !text-[#333]"
-                        : ""
-                    }`}
+                    className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] ${activeButton !== "dealer"
+                      ? "!bg-[white] !text-[#333]"
+                      : ""
+                      }`}
                   >
                     Dealer
                   </Button>
@@ -326,35 +345,29 @@ function Claims() {
                 {!isServicerClaims && (
                   <Button
                     onClick={() => handleButtonClick("servicer")}
-                    className={` !px-2 !py-1 !border-light-black !border-[1px] ${
-                      activeButton !== "servicer" && "!bg-[white] !text-[#333]"
-                    } ${
-                      isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
-                    }`}
+                    className={` !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !text-[#333]"
+                      } ${isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
+                      }`}
                   >
                     Servicer
                   </Button>
                 )}
                 <Button
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${
-                    activeButton !== "category" && "!bg-[white] !text-[#333]"
-                  }`}
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px] ${activeButton !== "category" && "!bg-[white] !text-[#333]"
+                    }`}
                 >
                   Category
                 </Button>
               </div>
             </div>
-          </div>
-          {!isCustomerClaims && (
             <Grid
-              className={`${
-                activeButton === "dealer"
-                  ? "!grid-cols-10"
-                  : activeButton === "category"
+              className={`${activeButton === "dealer"
+                ? "!grid-cols-10"
+                : activeButton === "category"
                   ? "!grid-cols-6"
                   : "!grid-cols-10"
-              } !gap-0`}
+                } !gap-0`}
             >
               {activeButton === "dealer" && (
                 <>
@@ -570,7 +583,8 @@ function Claims() {
                 </>
               )}
             </Grid>
-          )}
+          </Card >
+
           <Grid className="!grid-cols-3">
             <div className="col-span-3">
               <Grid className="mt-2">
@@ -580,28 +594,34 @@ function Claims() {
                       {tabs.map((tab) => (
                         <div className={tab.className} key={tab.id}>
                           <Button
-                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                              activeTab === tab.id
-                                ? "!bg-[#2A2A2A] !text-white"
-                                : "!bg-grayf9 !text-black"
-                            }`}
+                            key={tab.id}
+                            className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
+                              }`}
                             onClick={() => handleTabClick(tab.id)}
                           >
-                            <img
-                              src={
-                                activeTab === tab.id
-                                  ? tab.Activeicons
-                                  : tab.icons
-                              }
-                              className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                              alt={tab.label}
+                            <div
+                              style={{
+                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                                maskRepeat: 'no-repeat',
+                                WebkitMaskRepeat: 'no-repeat',
+                                maskPosition: 'center',
+                                WebkitMaskPosition: 'center',
+                                maskSize: 'contain',
+                                WebkitMaskSize: 'contain'
+                              }}
+                              className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
                             />
                             <span
-                              className={`ml-1 py-1 text-[12px] font-normal ${
-                                activeTab === tab.id
-                                  ? "text-white"
-                                  : "text-black"
-                              }`}
+                              style={{
+                                borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                                borderLeftWidth: '1px',
+                                paddingLeft: '7px',
+                                color: activeTab === tab.id ? buttonTextColor : 'black',
+                              }}
+                              className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                                }`}
                             >
                               {tab.label}
                             </span>
@@ -609,21 +629,22 @@ function Claims() {
                         </div>
                       ))}
                     </Grid>
-                  </div>
+                  </div >
                 </div>
-                <div className="col-span-1 self-center"></div>
               </Grid>
+            </div >
+            <div className="col-span-1 self-center"></div>
+          </Grid >
 
-              <ClaimContent
-                activeTab={activeTab}
-                selectedRange={selectedRange}
-                activeButton={activeButton}
-                setSelectedRange={setSelectedRange}
-              />
-            </div>
-          </Grid>
-        </div>
-      )}
+          <ClaimContent
+            activeTab={activeTab}
+            selectedRange={selectedRange}
+            activeButton={activeButton}
+            setSelectedRange={setSelectedRange}
+          />
+        </div >
+      )
+      }
     </>
   );
 }

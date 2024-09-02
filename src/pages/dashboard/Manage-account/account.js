@@ -14,19 +14,23 @@ import { RotateLoader } from "react-spinners";
 import Primary from "../../.././assets/images/SetPrimary.png";
 import deleteUser10 from "../../../assets/images/deleteUser.svg";
 import deleteUser123 from "../../../assets/images/Disapproved.png";
-import make from "../../../assets/images/star.png";
+import info from "../../../assets/images/info.svg";
 import edit from "../../../assets/images/edit-text.png";
 import Cross from "../../../assets/images/Cross.png";
 import delete1 from "../../../assets/images/delete.png";
 import assign from "../../../assets/images/Unassign.png";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import {
   addSuperAdminMembers,
   changePasswordbyToken,
   changePrimaryById,
   editUserDetailsbyToken,
   getSuperAdminMembers,
-  getUserDetailsbyToken,
+  uploadFile,
+  saveSetting,
+  getSetting,
   sendNotifications,
+  resetSetting,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -40,6 +44,8 @@ import Select from "../../../common/select";
 import PasswordInput from "../../../common/passwordInput";
 import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
+import CommonTooltip from "../../../common/toolTip";
+import Card from "../../../common/card";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -49,6 +55,7 @@ function Account() {
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
+  const [lastMessage, setLastMessage] = useState("");
   const [tags, setTags] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
@@ -62,7 +69,10 @@ function Account() {
   const [mainStatus, setMainStatus] = useState(true);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [email, setEmail] = useState("");
-
+  const [selectedFile2, setSelectedFile2] = useState(null);
+  const inputRef1 = useRef(null);
+  const inputRef2 = useRef(null);
+  const inputRef3 = useRef(null);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -101,6 +111,7 @@ function Account() {
   useEffect(() => {
     setLoading(true);
     fetchUserDetails();
+    fetchUserDetails12();
     setTimeout(() => {
       fetchUserMembers();
     }, 2000);
@@ -224,17 +235,6 @@ function Account() {
     setIsUserModalOpen(false);
     setModalOpen(false);
   };
-
-  // const makeUserPrimary = async (row) => {
-  //   console.log(row._id);
-  //   const result = await changePrimaryById(row._id);
-  //   console.log(result);
-  //   if (result.code == 200) {
-  //     setFirstMessage("It's set to Primary");
-  //     setSecondMessage("We have successfully made this user primary");
-  //     setModalOpen(true);
-  //   }
-  // };
 
   const editUser = async (id) => {
     // console.log(id);
@@ -473,14 +473,7 @@ function Account() {
     phoneNumber: Yup.string()
       .matches(/^[0-9]{10}$/, "Invalid phone number")
       .required("Phone number is required"),
-    // position: Yup.string().required("Position is required"),
   });
-
-  const KeyCodes = {
-    comma: 188,
-    space: 32,
-    enter: 13,
-  };
 
   const handleAddition = (tag) => {
     const newTags = [...tag];
@@ -573,20 +566,10 @@ function Account() {
                   <div
                     ref={dropdownRef}
                     className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[80px]"
-                      } drop-shadow-5xl -right-3 mt-2 bg-white py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                      } drop-shadow-5xl -right-3 mt-2 bg-white text-light-black py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                   >
-                    {/* {!row.isPrimary && row.status && (
-                      <div
-                        onClick={() => makeUserPrimary(row)}
-                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                      >
-                        <img src={make} className="w-4 h-4 mr-2" />{" "}
-                        <span className="self-center"> Make Primary </span>
-                      </div>
-                    )} */}
-
                     <div
                       onClick={() => editUser(row._id)}
                       className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
@@ -766,6 +749,293 @@ function Account() {
   };
   const [selectedEmail, setSelectedEmail] = useState([]);
   const [emails, setEmails] = useState([]);
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+  };
+  const [activeButton, setActiveButton] = useState("myAccount");
+  const [selectedFile1, setSelectedFile1] = useState();
+  const [selectedFile, setSelectedFile] = useState();
+  const handleFileChange = (event, setterFunction, fieldName) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      uploadFile(formData).then((res) => {
+        console.log("API response:", res);
+        if (res && res.result) {
+          siteChange.setFieldValue(fieldName, res.result);
+          setterFunction(res.result);
+        } else {
+          console.error("Unexpected response format:", res);
+        }
+      }).catch((error) => {
+        console.error("Error uploading file:", error);
+      });
+    }
+  };
+  const handleRemoveFile = (setterFunction, fieldName) => {
+    if (inputRef1.current) {
+      inputRef1.current.value = null;
+      siteChange.setFieldValue(fieldName, "");
+      setterFunction(null);
+    }
+  };
+
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
+  const [buttonColor, setButtonColor] = useState('');
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+  const [modelBackgroundColor, setModelBackgroundColor] = useState('');
+  const [modelColor, setModelColor] = useState('');
+  const [cardBackGroundColor, setCardBackGroundColor] = useState('');
+  const [cardColor, setCardColor] = useState('');
+  const [textColor, setTextColor] = useState('');
+  const [titleColor, setTitleColor] = useState('');
+  const [title, setTitle] = useState('');
+  const [bankDetails, setBankDetails] = useState('');
+  const [address, setAddress] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const handleColorChange = (event) => {
+    const newColor = event.target.value;
+    setSideBarColor(newColor);
+    siteChange.setFieldValue('sideBarColor', newColor);
+  };
+
+  const handleColorChange1 = (event) => {
+    const newColor = event.target.value;
+    setSideBarTextColor(newColor);
+    siteChange.setFieldValue('sideBarTextColor', newColor);
+  };
+
+  const handleColorChange2 = (event) => {
+    const newColor = event.target.value;
+    setSideBarButtonColor(newColor);
+    siteChange.setFieldValue('sideBarButtonColor', newColor);
+  };
+
+  const handleColorChange3 = (event) => {
+    const newColor = event.target.value;
+    setSideBarButtonTextColor(newColor);
+    siteChange.setFieldValue('sideBarButtonTextColor', newColor);
+  };
+
+  const handleColorChange4 = (event) => {
+    const newColor = event.target.value;
+    setButtonColor(newColor);
+    siteChange.setFieldValue('buttonColor', newColor);
+  };
+
+  const handleColorChange5 = (event) => {
+    const newColor = event.target.value;
+    setButtonTextColor(newColor);
+    siteChange.setFieldValue('buttonTextColor', newColor);
+  };
+
+  const handleColorChange6 = (event) => {
+    const newColor = event.target.value;
+    setBackGroundColor(newColor);
+    siteChange.setFieldValue('backGroundColor', newColor);
+  };
+
+  const handleColorChange8 = (event) => {
+    const newColor = event.target.value;
+    setTitleColor(newColor);
+    siteChange.setFieldValue('titleColor', newColor);
+  };
+
+  const handleColorChange9 = (event) => {
+    const newColor = event.target.value;
+    setCardColor(newColor);
+    siteChange.setFieldValue('cardColor', newColor);
+  };
+
+  const handleColorChange10 = (event) => {
+    const newColor = event.target.value;
+    setCardBackGroundColor(newColor);
+    siteChange.setFieldValue('cardBackGroundColor', newColor);
+  };
+
+  const handleColorChange11 = (event) => {
+    const newColor = event.target.value;
+    setModelBackgroundColor(newColor);
+    siteChange.setFieldValue('modelBackgroundColor', newColor);
+  };
+
+  const handleColorChange12 = (event) => {
+    const newColor = event.target.value;
+    setModelColor(newColor);
+    siteChange.setFieldValue('modelColor', newColor);
+  };
+
+
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
+      console.log(userDetails);
+
+      if (userDetails.result && userDetails.result[0].colorScheme) {
+        const colorScheme = userDetails.result[0].colorScheme;
+        colorScheme.forEach(color => {
+          switch (color.colorType) {
+            case 'sideBarColor':
+              setSideBarColor(color.colorCode);
+              break;
+            case 'sideBarTextColor':
+              setSideBarTextColor(color.colorCode);
+              break;
+            case 'sideBarButtonColor':
+              setSideBarButtonColor(color.colorCode);
+              break;
+            case 'sideBarButtonTextColor':
+              setSideBarButtonTextColor(color.colorCode);
+              break;
+            case 'buttonColor':
+              setButtonColor(color.colorCode);
+              break;
+            case 'buttonTextColor':
+              setButtonTextColor(color.colorCode);
+              break;
+            case 'backGroundColor':
+              setBackGroundColor(color.colorCode);
+              break;
+            case 'textColor':
+              setTextColor(color.colorCode);
+              break;
+            case 'titleColor':
+              setTitleColor(color.colorCode);
+              break;
+            case 'cardColor':
+              setCardColor(color.colorCode);
+              break;
+            case 'cardBackGroundColor':
+              setCardBackGroundColor(color.colorCode);
+              break;
+            case 'modelBackgroundColor':
+              setModelBackgroundColor(color.colorCode);
+              break;
+            case 'modelColor':
+              setModelColor(color.colorCode);
+              break;
+            default:
+              break;
+          }
+        });
+      }
+      if (userDetails && userDetails.result) {
+        setTitle(userDetails.result[0].title);
+        setSelectedFile2(userDetails.result[0].favIcon || null);
+        setSelectedFile1(userDetails.result[0].logoLight || null);
+        setSelectedFile(userDetails.result[0].logoDark || null);
+        setAddress(userDetails.result[0].address);
+        setBankDetails(userDetails.result[0].paymentDetail);
+
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  console.log(title, '------>>><<<');
+  const siteChange = useFormik({
+    initialValues: {
+      favIcon: selectedFile2,
+      logoImage: selectedFile1,
+      title: title,
+      sideBarColor: sideBarColor,
+      sideBarTextColor: sideBarTextColor,
+      sideBarButtonColor: sideBarButtonColor,
+      sideBarButtonTextColor: sideBarButtonTextColor,
+      buttonColor: buttonColor,
+      buttonTextColor: buttonTextColor,
+      backGroundColor: backGroundColor,
+      textColor: textColor,
+      titleColor: titleColor,
+      modelColor: modelColor,
+      modelBackgroundColor: modelBackgroundColor,
+      cardBackGroundColor: cardBackGroundColor,
+      cardColor: cardColor,
+      paymentDetail: bankDetails,
+      address: address,
+
+    },
+    validationSchema: Yup.object({
+      favIcon: Yup.mixed().nullable(),
+    }),
+    onSubmit: async (values) => {
+
+      try {
+        setLoading(true);
+        const colorScheme = [
+          { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
+          { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
+          { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
+          { colorCode: values.sideBarButtonTextColor || sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
+          { colorCode: values.buttonColor || buttonColor, colorType: "buttonColor" },
+          { colorCode: values.buttonTextColor || buttonTextColor, colorType: "buttonTextColor" },
+          { colorCode: values.backGroundColor || backGroundColor, colorType: "backGroundColor" },
+          { colorCode: values.textColor || textColor, colorType: "textColor" },
+          { colorCode: values.titleColor || titleColor, colorType: "titleColor" },
+          { colorCode: values.cardColor || cardColor, colorType: "cardColor" },
+          { colorCode: values.cardBackGroundColor || cardBackGroundColor, colorType: "cardBackGroundColor" },
+          { colorCode: values.modelBackgroundColor || modelBackgroundColor, colorType: "modelBackgroundColor" },
+          { colorCode: values.modelColor || modelColor, colorType: "modelColor" }
+        ];
+        const apiData = {
+          favIcon: values.favIcon || selectedFile2,
+          colorScheme: colorScheme,
+          title: values.title || title,
+          logoLight: values.logoLight || selectedFile1,
+          logoDark: values.logoDark || selectedFile,
+          address: values.address || address,
+          paymentDetail: values.bankDetails || bankDetails,
+        };
+        console.log(apiData);
+        const result = await saveSetting(apiData);
+        console.log(result);
+        let local = JSON.parse(localStorage.getItem("siteSettings"));
+        // localStorage.removeItem('userDetails')
+        local.siteSettings = result
+        localStorage.setItem("siteSettings", JSON.stringify(local));
+        setFirstMessage("Site Setting Updated Successfully ");
+        setSecondMessage("site setting updated successfully ");
+        setLastMessage("site will be reloaded after setting has been updated successfully");
+        setModalOpen(true);
+        setTimer(3);
+        fetchUserDetails12();
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 3000);
+        // setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    },
+  });
+
+  const handleReset = async () => {
+    setLoading(true);
+    try {
+      const data = await resetSetting();
+      setFirstMessage("Site Setting Reset Successfully ");
+      setSecondMessage("Site setting Reset successfully ");
+      setLastMessage("Site will be reloaded after setting has been reset successfully");
+      setModalOpen(true);
+      setTimer(3);
+      fetchUserDetails12();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 3000);
+    } catch (error) {
+      console.error('Error resetting settings:', error);
+
+    }
+  };
 
   return (
     <>
@@ -803,305 +1073,675 @@ function Account() {
               </ul>
             </div>
           </div>
+          <div className="mt-5">
+            <Button
+              onClick={() => handleButtonClick("myAccount")}
+              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
+                }`}>
+              My Account
+            </Button>
+            <Button
+              onClick={() => handleButtonClick("siteSetting")}
+              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
+                }`}>
+              Site Setting
+            </Button>
+          </div>
 
-          <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative z-10">
-            <p className="text-xl font-semibold mb-3">My Account</p>
+          {activeButton === "myAccount" && (
             <>
-              <Grid>
-                <Formik
-                  initialValues={initialValues}
-                  validationSchema={validationSchema}
-                  onSubmit={(values, { setSubmitting }) => {
-                    editDetail(values);
-                    setSubmitting(false);
-                    fetchUserDetails();
-                  }}
-                >
-                  {({ isSubmitting }) => (
-                    <Form className="col-span-12">
-                      <Grid>
-                        <div className="col-span-4">
-                          <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
-                            <p className="text-sm m-0 p-0">Email</p>
-                            <p className="font-semibold">{email}</p>
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="First Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              First Name
-                            </label>
-
-                            <Field
-                              type="text"
-                              name="firstName"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="firstName"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Last Name"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Last Name
-                            </label>
-                            <Field
-                              type="text"
-                              name="lastName"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="lastName"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Phone #"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Phone #
-                            </label>
-                            <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                              +1
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+                <p className="text-xl font-semibold mb-3">My Account</p>
+                <>
+                  <Grid>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={(values, { setSubmitting }) => {
+                        editDetail(values);
+                        setSubmitting(false);
+                        fetchUserDetails();
+                      }}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form className="col-span-12">
+                          <Grid>
+                            <div className="col-span-4">
+                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: textColor }}>
+                                <p className="text-sm m-0 p-0 text-light-black">Email</p>
+                                <p className="font-semibold text-light-black">{email}</p>
+                              </div>
                             </div>
-                            <Field
-                              type="tel"
-                              name="phoneNumber"
-                              placeholder=""
-                              minLength={10}
-                              maxLength={10}
-                              className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="phoneNumber"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
-                        <div className="col-span-4">
-                          <div className="relative">
-                            <label
-                              htmlFor="Position"
-                              className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
-                            >
-                              Position
-                            </label>
-                            <Field
-                              type="text"
-                              name="position"
-                              placeholder=""
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
-                            />
-                            <ErrorMessage
-                              name="position"
-                              component="div"
-                              className="text-red-500"
-                            />
-                          </div>
-                        </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="First Name"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  First Name
+                                </label>
 
-                        <div className="col-span-4 text-right">
-                          <Button type="submit" disabled={isSubmitting}>
-                            Save Changes
-                          </Button>
+                                <Field
+                                  type="text"
+                                  name="firstName"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="firstName"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Last Name"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Last Name
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="lastName"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="lastName"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Phone #"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Phone #
+                                </label>
+                                <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                                  +1
+                                </div>
+                                <Field
+                                  type="tel"
+                                  name="phoneNumber"
+                                  placeholder=""
+                                  minLength={10}
+                                  maxLength={10}
+                                  className="block pr-2.5 pb-2.5 pl-[30px] pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="phoneNumber"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+                            <div className="col-span-4">
+                              <div className="relative">
+                                <label
+                                  htmlFor="Position"
+                                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75`}
+                                >
+                                  Position
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="position"
+                                  placeholder=""
+                                  className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                                />
+                                <ErrorMessage
+                                  name="position"
+                                  component="div"
+                                  className="text-red-500"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="col-span-4 text-right">
+                              <Button type="submit" disabled={isSubmitting}>
+                                Save Changes
+                              </Button>
+                            </div>
+                          </Grid>
+                        </Form>
+                      )}
+                    </Formik>
+                    <div className="col-span-12">
+                      <form onSubmit={formikEmail.handleSubmit}>
+                        <p className="text-xl font-semibold mb-4">
+                          Send Notification
+                        </p>
+                        <div className="relative">
+                          <label
+                            htmlFor="email"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Send Notification to
+                          </label>
+                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                            <MultiSelect
+                              label="Email"
+                              name="Email"
+                              placeholder="Email"
+                              value={selectedEmail}
+                              options={emails}
+                              pName="Email"
+                              onChange={(value) => {
+                                console.log("value", value);
+                                setSelectedEmail(value);
+                                handleAddition(value);
+                                // handleFilterChange("priceBookId", value);
+                              }}
+                              labelledBy="Select"
+                              overrideStrings={{
+                                selectSomeItems: "Select Email",
+                              }}
+                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                            />
+                          </div>
                         </div>
-                      </Grid>
-                    </Form>
+                        {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
+                          <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                            {(() => {
+                              const uniqueErrors = new Set();
+                              return formikEmail.errors.notificationTo.map((error, index) => {
+                                if (!uniqueErrors.has(error)) {
+                                  uniqueErrors.add(error);
+                                  return (
+                                    <span key={index}>
+                                      {index > 0 && " "}{" "}
+                                      <span className="font-semibold">
+                                        {" "}
+                                        {error}{" "}
+                                      </span>
+                                    </span>
+                                  );
+                                }
+                                return null;
+                              });
+                            })()}
+                          </p>
+                        )}
+
+                        <div className="col-span-12 text-right mt-5">
+                          <Button type="submit">Save</Button>
+                        </div>
+                      </form>
+                    </div>
+                  </Grid>
+                </>
+                <p className="text-xl font-semibold mb-3">Change Password</p>
+                <form onSubmit={passwordChnageForm.handleSubmit}>
+                  <Grid>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="oldPassword"
+                        label="Old Password"
+                        value={passwordChnageForm.values.oldPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                        isPassword
+                        className="!bg-white"
+                      />
+                      {passwordChnageForm.touched.oldPassword &&
+                        passwordChnageForm.errors.oldPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.oldPassword}
+                          </div>
+                        )}
+                    </div>
+
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="newPassword"
+                        label="New Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.newPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.newPassword &&
+                        passwordChnageForm.errors.newPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.newPassword}
+                          </div>
+                        )}
+                    </div>
+                    <div className="col-span-4">
+                      <PasswordInput
+                        type="password"
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        isPassword
+                        className="!bg-white"
+                        value={passwordChnageForm.values.confirmPassword}
+                        onChange={passwordChnageForm.handleChange}
+                        onBlur={passwordChnageForm.handleBlur}
+                      />
+                      {passwordChnageForm.touched.confirmPassword &&
+                        passwordChnageForm.errors.confirmPassword && (
+                          <div className="text-red-500">
+                            {passwordChnageForm.errors.confirmPassword}
+                          </div>
+                        )}
+                    </div>
+                  </Grid>
+                  <div className="mt-4 text-right">
+                    <Button type="submit">Change Password</Button>
+                  </div>
+                </form>
+              </Card>
+              {loading ? (
+                <div className="h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
+                </div>
+              ) : (
+                <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+                  {isPrimary && (
+                    <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                      <Button onClick={() => openUserModal()}>+ Add Member</Button>
+                    </div>
                   )}
-                </Formik>
-                <div className="col-span-12">
-                  <form onSubmit={formikEmail.handleSubmit}>
-                    <p className="text-xl font-semibold mb-4">
-                      Send Notification
-                    </p>
+
+                  <p className="text-xl font-semibold mb-3">
+                    Other Super admin details
+                  </p>
+
+                  <DataTable
+                    draggableColumns={false}
+                    columns={isPrimary ? columns : columns1}
+                    data={memberList}
+                    highlightOnHover
+                    sortIcon={
+                      <img src={shorting} className="ml-2" alt="shorting" />
+                    }
+                    noDataComponent={<CustomNoDataComponent />}
+                  />
+                </Card>
+              )}
+            </>
+          )}
+
+          {activeButton === "siteSetting" && (
+            <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl relative">
+              <form onSubmit={siteChange.handleSubmit}>
+                <p className="mb-3 font-bold">Logo Setting</p>
+                <Grid container spacing={2}>
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      name={`title`}
+                      className="!bg-white"
+                      className1="h-11"
+                      label="Company Name"
+                      placeholder=""
+                      value={siteChange.values.title || title}
+                      onBlur={siteChange.handleBlur}
+                      onChange={siteChange.handleChange}
+                      error={
+                        siteChange.touched.title &&
+                        siteChange.errors.title
+                      }
+                    />
+                  </div>
+                  <div className="col-span-4">
                     <div className="relative">
                       <label
-                        htmlFor="email"
+                        htmlFor="favicon-upload"
                         className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Send Notification to
+                        Favicon Upload
                       </label>
-                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                        {/* <ReactTags
-                          tags={tags}
-                          delimiters={delimiters}
-                          name="email"
-                          handleDelete={handleDelete}
-                          handleAddition={handleAddition}
-                          handleDrag={handleDrag}
-                          handleTagClick={handleTagClick}
-                          inputFieldPosition="bottom"
-                          autocomplete
-                          editable
-                          placeholder=""
-                        /> */}
+                      <input
+                        type="file"
+                        id="favicon-upload"
+                        name="favIcon"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
+                        ref={inputRef2}
+                      />
 
-                        <MultiSelect
-                          label="Email"
-                          name="Email"
-                          placeholder="Email"
-                          value={selectedEmail}
-                          options={emails}
-                          pName="Email"
-                          onChange={(value) => {
-                            console.log("value", value);
-                            setSelectedEmail(value);
-                            handleAddition(value);
-                            // handleFilterChange("priceBookId", value);
-                          }}
-                          labelledBy="Select"
-                          overrideStrings={{
-                            selectSomeItems: "Select Email",
-                          }}
-                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
+                        {selectedFile2 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile2, "favIcon")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile2 ? (
+                          <p className="w-full break-words">{selectedFile2.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef2.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
+                    </div>
+                    <img src={`${selectedFile2?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
+                  </div>
+                  <div className="col-span-4 mb-2">
+                    <div className="relative">
+                      <label
+                        htmlFor="logo-upload"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Light Logo Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="logo-upload"
+                        name="logoImage"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
+                        ref={inputRef1}
+                      />
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
+                        {selectedFile1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile1, "logoLight")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile1 ? (
+                          <p className="w-full break-words">{selectedFile1.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef1.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
+                    </div>
+                    <img src={`${selectedFile1?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
+                  </div>
+                  <div className="col-span-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="favicon-upload"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Dark Logo Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="favicon-upload"
+                        name="favIcon"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
+                        ref={inputRef3}
+                      />
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
+                        {selectedFile && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile, "logoDark")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile ? (
+                          <p className="w-full break-words">{selectedFile.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef3.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
+                    </div>
+                    <img src={`${selectedFile?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
+                  </div>
+                  <div className="col-span-6">
+                    <div className="relative">
+                      <label
+                        htmlFor="address"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Full Address
+                      </label>
+                      <textarea
+                        id="address"
+                        rows="4"
+                        name="address"
+                        value={siteChange.values.address || address}
+                        onChange={siteChange.handleChange}
+                        onBlur={siteChange.handleBlur}
+                        maxLength={150}
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                      ></textarea>
+                      {formik.touched.address && formik.errors.address && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.address}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-span-6">
+                    <div className="relative">
+                      <label
+                        htmlFor="bankDetails"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Bank Details
+                      </label>
+                      <textarea
+                        id="bankDetails"
+                        rows="4"
+                        name="bankDetails"
+                        value={siteChange.values.bankDetails || bankDetails}
+                        onChange={siteChange.handleChange}
+                        onBlur={siteChange.handleBlur}
+                        maxLength={150}
+                        className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                      ></textarea>
+                      {formik.touched.bankDetails && formik.errors.bankDetails && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.bankDetails}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="col-span-12">
+                    <p className="mb-3 font-bold">Color Setting </p>
+                    <Grid >
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarColor`}
+                          className1="h-11"
+                          tooltip="1"
+                          className="!bg-white  flex"
+                          content='you can change the sideBar Background color here'
+                          label="SideBar Color"
+                          placeholder=""
+                          value={sideBarColor} onChange={handleColorChange}
                         />
                       </div>
-                    </div>
-                    {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
-                      <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                        {(() => {
-                          const uniqueErrors = new Set();
-                          return formikEmail.errors.notificationTo.map((error, index) => {
-                            if (!uniqueErrors.has(error)) {
-                              uniqueErrors.add(error);
-                              return (
-                                <span key={index}>
-                                  {index > 0 && " "}{" "}
-                                  <span className="font-semibold">
-                                    {" "}
-                                    {error}{" "}
-                                  </span>
-                                </span>
-                              );
-                            }
-                            return null;
-                          });
-                        })()}
-                      </p>
-                    )}
-
-                    <div className="col-span-12 text-right mt-5">
-                      <Button type="submit">Save</Button>
-                    </div>
-                  </form>
-                </div>
-              </Grid>
-            </>
-
-            <p className="text-xl font-semibold mb-3">Change Password</p>
-
-            <form onSubmit={passwordChnageForm.handleSubmit}>
-              <Grid>
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="oldPassword"
-                    label="Old Password"
-                    value={passwordChnageForm.values.oldPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                    isPassword
-                    className="!bg-white"
-                  />
-                  {passwordChnageForm.touched.oldPassword &&
-                    passwordChnageForm.errors.oldPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.oldPassword}
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarTextColor`}
+                          className1="h-11"
+                          tooltip="2"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar text color here'
+                          label="SideBar text Color"
+                          placeholder=""
+                          value={sideBarTextColor} onChange={handleColorChange1}
+                        />
                       </div>
-                    )}
-                </div>
-
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="newPassword"
-                    label="New Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChnageForm.values.newPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                  />
-                  {passwordChnageForm.touched.newPassword &&
-                    passwordChnageForm.errors.newPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.newPassword}
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarButtonColor`}
+                          tooltip="3"
+                          className="!bg-white flex"
+                          content='you can change the sideBar active page button color here'
+                          className1="h-11"
+                          label="SideBar Button "
+                          placeholder=""
+                          value={sideBarButtonColor} onChange={handleColorChange2}
+                        />
                       </div>
-                    )}
-                </div>
-                <div className="col-span-4">
-                  <PasswordInput
-                    type="password"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    isPassword
-                    className="!bg-white"
-                    value={passwordChnageForm.values.confirmPassword}
-                    onChange={passwordChnageForm.handleChange}
-                    onBlur={passwordChnageForm.handleBlur}
-                  />
-                  {passwordChnageForm.touched.confirmPassword &&
-                    passwordChnageForm.errors.confirmPassword && (
-                      <div className="text-red-500">
-                        {passwordChnageForm.errors.confirmPassword}
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarButtonTextColor`}
+                          tooltip="4"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar active page button text color here'
+                          className1="h-11"
+                          label="SideBar text Button "
+                          placeholder=""
+                          value={sideBarButtonTextColor} onChange={handleColorChange3}
+                        />
                       </div>
-                    )}
-                </div>
-              </Grid>
-              <div className="mt-4 text-right">
-                <Button type="submit">Change Password</Button>
-              </div>
-            </form>
-          </div>
-          {loading ? (
-            <div className="h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
-              </div>
-            </div>
-          ) : (
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
-              {isPrimary && (
-                <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                  <Button onClick={() => openUserModal()}>+ Add Member</Button>
-                </div>
-              )}
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`buttonColor`}
+                          tooltip="5"
+                          className="!bg-white flex"
+                          content='you can change all button background color here'
+                          className1="h-11"
+                          label="Button Color"
+                          placeholder=""
+                          value={buttonColor} onChange={handleColorChange4}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`buttonTextColor`}
+                          tooltip="6"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change all button text color here'
+                          className1="h-11"
+                          label="Button text Color"
+                          placeholder=""
+                          value={buttonTextColor} onChange={handleColorChange5}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`backGroundColor`}
+                          tooltip="7"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change all backGround Color here'
+                          className1="h-11"
+                          label="Background Color"
+                          placeholder=""
+                          value={backGroundColor} onChange={handleColorChange6}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`titleColor`}
+                          tooltip="8"
+                          className="!bg-white flex"
+                          content='you can change website text color here'
+                          className1="h-11"
+                          label="Text Color"
+                          placeholder=""
+                          value={titleColor} onChange={handleColorChange8}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`cardBackGroundColor`}
+                          tooltip="10"
+                          className="!bg-white flex"
+                          content='you can change website card backGround color here'
+                          className1="h-11"
+                          label="Card Color"
+                          placeholder=""
+                          value={cardBackGroundColor} onChange={handleColorChange10}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`cardColor`}
+                          tooltip="9"
+                          className="!bg-white flex"
+                          content='you can change website Card color here'
+                          className1="h-11"
+                          label="Card Text Color"
+                          placeholder=""
+                          value={cardColor} onChange={handleColorChange9}
+                        />
+                      </div>
 
-              <p className="text-xl font-semibold mb-3">
-                Other Super admin details
-              </p>
-
-              <DataTable
-                draggableColumns={false}
-                columns={isPrimary ? columns : columns1}
-                data={memberList}
-                highlightOnHover
-                sortIcon={
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                }
-                noDataComponent={<CustomNoDataComponent />}
-              />
-            </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`modelBackgroundColor`}
+                          tooltip="11"
+                          className="!bg-white flex "
+                          content='you can change website model Background color here'
+                          className1="h-11 "
+                          label="Model Color"
+                          placeholder=""
+                          value={modelBackgroundColor} onChange={handleColorChange11}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`modelColor`}
+                          tooltip="12"
+                          className="!bg-white flex !w-[163px]"
+                          content='you can change website model text color here'
+                          className1="h-11"
+                          label="Model text Color"
+                          placeholder=""
+                          value={modelColor} onChange={handleColorChange12}
+                        />
+                      </div>
+                    </Grid>
+                  </div>
+                </Grid>
+                <div className="text-right">
+                  <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
+                  <Button className="mt-3" type="submit">Submit</Button>
+                </div>
+              </form>
+            </Card>
           )}
-        </div>
-      )}
+        </div >
+      )
+      }
 
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         {addLoading ? (
@@ -1112,7 +1752,7 @@ function Account() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -1238,7 +1878,7 @@ function Account() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1287,7 +1927,7 @@ function Account() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Edit User
             </p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
@@ -1409,7 +2049,7 @@ function Account() {
               <Grid className="!grid-cols-5 my-5  px-8">
                 <div className="col-span-2">
                   <Button
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !bg-white !text-light-black !text-sm !font-Regular"
                     onClick={() => closeModal2()}
                   >
                     Cancel
@@ -1430,20 +2070,22 @@ function Account() {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
-            {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
+          <p className=" text-base font-medium mt-4">
+            {secondMessage} {""} <br />
+            {lastMessage == null ? '' : lastMessage} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>
         </div>
       </Modal>
+
       {/* Modal Delete Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -1470,13 +2112,13 @@ function Account() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -1502,6 +2144,7 @@ function Account() {
           </p>
         </div>
       </Modal>
+
     </>
   );
 }

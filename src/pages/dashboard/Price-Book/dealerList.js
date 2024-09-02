@@ -32,7 +32,8 @@ import { getTermList } from "../../../services/dealerServices";
 import axios from "axios";
 import Modal from "../../../common/model";
 import { getCategoryList } from "../../../services/priceBookService";
-const url = process.env.REACT_APP_API_KEY_LOCAL;
+import Card from "../../../common/card";
+const url = process.env.REACT_APP_API_KEY_LOCAL
 
 function DealerPriceList() {
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -74,7 +75,7 @@ function DealerPriceList() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getDealerList();
+    // filterDataGetPriceBook();
   };
 
   const filterDataGetPriceBook = async () => {
@@ -93,13 +94,13 @@ function DealerPriceList() {
     }
   };
 
-  const getDealerList = async () => {
-    setLoading(true);
-    const result = await getDealerPriceBook();
-    setDealerPriceBook(result.result);
-    console.log(result.result);
-    setLoading(false);
-  };
+  // const getDealerList = async () => {
+  //   setLoading(true);
+  //   const result = await getDealerPriceBook();
+  //   setDealerPriceBook(result.result);
+  //   console.log(result.result);
+  //   setLoading(false);
+  // };
   const handleStatusChange = async (row, newStatus) => {
     try {
       const updatedCompanyPriceList = dealerPriceBook.map((category) => {
@@ -170,6 +171,7 @@ function DealerPriceList() {
       name: "",
       pName: "",
       dealerName: "",
+      dealerSku: "",
       status: "",
       category: "",
       priceType: "",
@@ -181,6 +183,7 @@ function DealerPriceList() {
     validationSchema: Yup.object({
       name: Yup.string(),
       dealerName: Yup.string(),
+      dealerSku: Yup.string(),
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
@@ -213,7 +216,7 @@ function DealerPriceList() {
   const columns = [
     {
       name: "Sr.#",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -238,14 +241,26 @@ function DealerPriceList() {
     {
       name: (
         <div>
-          Custom
+          Product
           <br />
           SKU
         </div>
       ),
+      selector: (row) => row.priceBooks[0]?.name,
+      sortable: true,
+      minWidth: "130px",
+    },
+    {
+      name:
+        <div>
+          Dealer
+          <br />
+          SKU
+        </div>
+      ,
       selector: (row) => row.dealerSku,
       sortable: true,
-      minWidth: "150px",
+      minWidth: "130px",
     },
     {
       name: "Category",
@@ -255,7 +270,14 @@ function DealerPriceList() {
     },
     {
       name: "Term",
-      selector: (row) => row.priceBooks[0]?.term + " Months",
+      selector: (row) => {
+        const months = row.priceBooks[0]?.term;
+        if (months) {
+          const years = (months / 12);
+          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+        }
+        return "N/A";
+      },
       sortable: true,
       minWidth: "90px",
     },
@@ -266,13 +288,12 @@ function DealerPriceList() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.wholesalePrice === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+        `$${row?.wholesalePrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
         } `,
       sortable: true,
-      minWidth: "160px",
+      minWidth: "130px",
     },
     {
       name: (
@@ -283,10 +304,9 @@ function DealerPriceList() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.retailPrice === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.retailPrice ?? parseInt(0))
+        `$${row?.retailPrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.retailPrice ?? parseInt(0))
         } `,
       sortable: true,
       minWidth: "120px",
@@ -298,9 +318,8 @@ function DealerPriceList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -345,13 +364,13 @@ function DealerPriceList() {
               >
                 <div
                   onClick={() => editScreen(row)}
-                  className="text-left cursor-pointer border-b flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer border-b text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
                 <div
                   onClick={() => openView(row._id)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
@@ -454,7 +473,7 @@ function DealerPriceList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white  border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white  border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold py-4">Dealer Price List</p>
@@ -565,7 +584,7 @@ function DealerPriceList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView}>
@@ -591,93 +610,108 @@ function DealerPriceList() {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
-            {dealerPriceBookDetail?.dealer?.name}/
-            {dealerPriceBookDetail?.priceBooks?.name}
+            View Dealer Price Book Detail
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
+                Dealer Name
+              </p>
+              <p className="text-base font-bold">
+                {dealerPriceBookDetail?.dealer?.name}{" "}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg font-semibold">
                 Product Name
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.pName}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Product Category
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Price Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Coverage Type
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.coverageType}
               </p>
             </div>
             <div className="col-span-8">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Description
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.description}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg  font-semibold">
                 Product SKU
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base  font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.name}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg  font-semibold">
+                Dealer SKU
+              </p>
+              <p className="text-base  font-semibold">
+                {dealerPriceBookDetail?.dealerSku}
+              </p>
+            </div>
+            <div className="col-span-4">
+              <p className="text-lg font-semibold">
                 Wholesale Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 $
                 {dealerPriceBookDetail?.wholesalePrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
-                    )}
+                    dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg font-semibold">
                 Retail Price
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 $
                 {dealerPriceBookDetail?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
-                    )}
+                    dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Term</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-semibold">Term</p>
+              <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">Status</p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-lg font-semibold">Status</p>
+              <p className="text-base font-bold">
                 {" "}
                 {dealerPriceBookDetail?.status === true ? "Active" : "Inactive"}
               </p>
@@ -686,61 +720,61 @@ function DealerPriceList() {
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-semibold">
                     Range Start
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base  font-semibold">
                     $
                     {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                            parseInt(0)
-                        )}
+                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg text-light-black font-semibold">
+                  <p className="text-lg font-semibold">
                     Range End
                   </p>
-                  <p className="text-base text-neutral-grey font-semibold">
+                  <p className="text-base font-semibold">
                     $
                     {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                            parseInt(0)
-                        )}
+                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
                   </p>
                 </div>
               </>
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-              <>
-                <div className="col-span-12">
-                  <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
-                      <th colSpan={"2"}>Quantity Pricing List </th>
-                    </tr>
-                    <tr className="border bg-[#9999]">
-                      <th>Name</th>
-                      <th>Max Quantity</th>
-                    </tr>
-                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                      .length !== 0 &&
-                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                        (item, index) => (
-                          <tr key={index} className="border">
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                          </tr>
-                        )
-                      )}
-                  </table>
-                </div>
-              </>
-            )}
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th>Name</th>
+                        <th>Max Quantity</th>
+                      </tr>
+                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>

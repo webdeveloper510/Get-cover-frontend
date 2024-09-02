@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "../../common/grid";
 import Input from "../../common/input";
 import { Link } from "react-router-dom";
@@ -14,11 +14,26 @@ import email from "../../assets/images/email.png";
 
 //Importing services
 import { sendResetPasswordLink } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 function ForgotPassword() {
+  const [details, setDetails] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState();
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
 
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -58,9 +73,9 @@ function ForgotPassword() {
               alt="Logo "
             />
           </div>
-          <div className="col-span-6 self-center flex relative min-h-screen">
-            <div className="mx-auto max-w-md py-5 self-center">
-              <img src={Logo} loading="lazy" className="w-[224px]" alt="Logo " />
+          <div className="col-span-6 self-center">
+            <div className="mx-auto max-w-md">
+              <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
                 Password?
@@ -107,9 +122,9 @@ function ForgotPassword() {
                 </p>
 
               </div>
-                <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{bottom : '20px'}}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad.net </a></p>
-                  </div>
+              <div>
+                <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad India </a></p>
+              </div>
             </div>
           </div>
           <div className="col-span-1"></div>
@@ -120,14 +135,14 @@ function ForgotPassword() {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={email} loading="lazy" alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Check your <span className="text-light-black"> Email </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             We emailed a <b> magic link </b> to{" "}
-            <span className="text-light-black">{formik.values.email} </span>
+            <span className="font-bold">{formik.values.email} </span>
           </p>
-          <Link to={"/"} className="font-bold text-base text-light-black">
+          <Link to={"/"} className="font-bold text-base">
             Click the link to Sign In
           </Link>
         </div>

@@ -30,6 +30,7 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import { editDealerPriceBook } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
+import Card from "../../../common/card";
 
 function CompanyPriceBook() {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -220,7 +221,14 @@ function CompanyPriceBook() {
     },
     {
       name: " Term",
-      selector: (row) => row.term + " Months",
+      selector: (row) => {
+        const months = row?.term;
+        if (months) {
+          const years = (months / 12);
+          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+        }
+        return "N/A";
+      },
       sortable: true,
       minWidth: "auto",
       maxWidth: "100px",
@@ -297,14 +305,14 @@ function CompanyPriceBook() {
               >
                 <div
                   onClick={() => navigate(`/editCompanyPriceBook/${row._id}`)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={edit} className="w-4 h-4 mr-2" /> Edit
                 </div>
                 <hr />
                 <div
                   onClick={() => openView(row._id)}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
                 >
                   <img src={view} className="w-4 h-4 mr-2" /> View
                 </div>
@@ -465,7 +473,7 @@ function CompanyPriceBook() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white border-[1px] border-Light-Grey rounded-xl">
+        <Card className="bg-white border-[1px] border-Light-Grey rounded-xl">
           <form onSubmit={formik.handleSubmit}>
             <Grid className="!px-[26px] !pt-[14px] !pb-0">
               <div className="col-span-3 self-center">
@@ -622,73 +630,73 @@ function CompanyPriceBook() {
                   </p>
                   <Grid className="mt-5 px-6">
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Product Category
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data?.category?.name}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Product SKU
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.name}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Product Name
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.pName}
                       </p>
                     </div>
                     <div className="col-span-12">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Description
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.description}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Price Type
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.priceType}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Coverage Type
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.coverageType}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Term
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.term} Months
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Fronting fee
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {data?.frontingFee === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -696,10 +704,10 @@ function CompanyPriceBook() {
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Re-insurance fee
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {data?.reinsuranceFee === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -709,10 +717,10 @@ function CompanyPriceBook() {
                       </p>
                     </div>
                     <div className="col-span-6">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Reserve for future claims
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {data?.reserveFutureFee === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -722,10 +730,10 @@ function CompanyPriceBook() {
                       </p>
                     </div>
                     <div className="col-span-6">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Administration fee
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         $
                         {data?.adminFee === undefined
                           ? parseInt(0).toLocaleString(2)
@@ -735,20 +743,20 @@ function CompanyPriceBook() {
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Wholesale Cost
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {formattedCost === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(formattedCost ?? parseInt(0))}
                       </p>
                     </div>
                     <div className="col-span-4">
-                      <p className="text-lg text-light-black font-semibold">
+                      <p className="text-lg font-semibold">
                         Status
                       </p>
-                      <p className="text-base text-neutral-grey font-semibold">
+                      <p className="text-base font-bold">
                         {" "}
                         {data.status === true ? "Active" : "Inactive"}
                       </p>
@@ -757,10 +765,10 @@ function CompanyPriceBook() {
                     {data.priceType == "Flat Pricing" && (
                       <>
                         <div className="col-span-4">
-                          <p className="text-lg text-light-black font-semibold">
+                          <p className="text-lg font-semibold">
                             Range Start
                           </p>
-                          <p className="text-base text-neutral-grey font-semibold">
+                          <p className="text-base font-bold">
                             $
                             {data?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
@@ -770,10 +778,10 @@ function CompanyPriceBook() {
                           </p>
                         </div>
                         <div className="col-span-4">
-                          <p className="text-lg text-light-black font-semibold">
+                          <p className="text-lg font-semibold">
                             Range End
                           </p>
-                          <p className="text-base text-neutral-grey font-semibold">
+                          <p className="text-base font-bold">
                             {" "}
                             $
                             {data?.rangeEnd === undefined
@@ -939,7 +947,7 @@ function CompanyPriceBook() {
               </div>
             </form>
           </Modal>
-        </div>
+        </Card>
       </div>
     </>
   );

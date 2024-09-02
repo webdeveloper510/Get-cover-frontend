@@ -37,6 +37,7 @@ import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
 import { getOrdersForDealerPortal } from "../../../services/dealerServices/orderListServices";
 import DocMakeOrderContainer from "../../docMakeOrder";
+import Card from "../../../common/card";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -271,10 +272,9 @@ function OrderList() {
     {
       name: "Order Value",
       selector: (row) =>
-        `$${
-          row?.orderAmount === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.orderAmount)
+        `$${row?.orderAmount === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.orderAmount)
         }`,
       sortable: true,
       reorder: false,
@@ -285,9 +285,8 @@ function OrderList() {
       cell: (row) => (
         <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
           <div
-            className={` ${
-              row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-            }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
+            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
+              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
           ></div>
           <p className="self-center"> {row.status} </p>
         </div>
@@ -320,7 +319,7 @@ function OrderList() {
               <div
                 onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl text-light-black -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -419,7 +418,7 @@ function OrderList() {
               </span>{" "}
             </Link>
           </Button>
-          <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !pt-[14px] !pb-0">
               <div className="col-span-3 self-center">
                 <p className="text-xl font-semibold">Order List</p>
@@ -531,7 +530,7 @@ function OrderList() {
                 />
               )}
             </div>
-          </div>
+          </Card>
         </div>
       )}
 
@@ -559,11 +558,11 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
+          <p className="text-3xl mb-0 mt-4 font-bold ">
             <span className="text-light-black">Error</span>{" "}
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Order can not be process to the following reasons : <br />
             <span>{errorList} . </span>
           </p>
@@ -573,14 +572,14 @@ function OrderList() {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             {message}
           </p>
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
             <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
               onClick={() => closeArchive()}
             >
               No
@@ -593,13 +592,13 @@ function OrderList() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             {primaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {secondaryMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>

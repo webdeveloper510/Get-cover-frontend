@@ -18,6 +18,7 @@ import CustomPagination from "../../../pagination";
 import { getContractsforCustomer } from "../../../../services/customerServices";
 import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
+import Card from "../../../../common/card";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
@@ -127,7 +128,7 @@ function ContractList(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
@@ -333,7 +334,7 @@ function ContractList(props) {
               />
             </div>
           )}
-        </div>
+        </Card>
       </div>
 
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
@@ -503,8 +504,8 @@ function ContractList(props) {
                         {singleContract?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract?.claimAmount ?? parseInt(0)
-                            )}
+                            singleContract?.claimAmount ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -577,13 +578,13 @@ function ContractList(props) {
                         {singleContract.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              singleContract.productValue ?? parseInt(0)
-                            )}
+                            singleContract.productValue ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -596,9 +597,9 @@ function ContractList(props) {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
-                                )}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -613,9 +614,9 @@ function ContractList(props) {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  singleContract?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
-                                )}{" "}
+                                singleContract?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd ?? parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -657,7 +658,7 @@ function ContractList(props) {
                     </div>
                   </div>
                   {singleContract?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">

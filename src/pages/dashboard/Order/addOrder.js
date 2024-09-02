@@ -50,6 +50,7 @@ import {
 import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import Card from "../../../common/card";
 
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -541,7 +542,7 @@ function AddOrder() {
               priceBookId: product.priceBookId,
               priceCatId: product.categoryId,
               term: product.term,
-              dealerSku:"", //add this
+              dealerSku: "", //add this
               pName: product.pName,
               coverageType,
             },
@@ -594,7 +595,7 @@ function AddOrder() {
             orderFile: product.orderFile || "",
             fileValue: "",
             priceBookDetails: product?.priceBookDetail || {},
-            dealerSku:product.dealerSku,
+            dealerSku:product.dealerSku|| "",
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
@@ -620,22 +621,22 @@ function AddOrder() {
     }
   };
 
-          // useEffect(() => {
-          //   console.log(location);
-          //   if (location.pathname.includes("/editOrder")) {
-          //     // setLoading1(true);
-          //   }
-          //   if (location.pathname == "/addOrder") {
-          //     setType("Add");
-          //     setCurrentStep(1);
-          //     formik.resetForm();
-          //     setNumberOfOrders([]);
-          //     setFileValues([]);
-          //     formikStep2.resetForm();
-          //     formikStep3.resetForm();
-          //     formik4.resetForm();
-          //   }
-          // }, [location]);
+  // useEffect(() => {
+  //   console.log(location);
+  //   if (location.pathname.includes("/editOrder")) {
+  //     // setLoading1(true);
+  //   }
+  //   if (location.pathname == "/addOrder") {
+  //     setType("Add");
+  //     setCurrentStep(1);
+  //     formik.resetForm();
+  //     setNumberOfOrders([]);
+  //     setFileValues([]);
+  //     formikStep2.resetForm();
+  //     formikStep3.resetForm();
+  //     formik4.resetForm();
+  //   }
+  // }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -769,7 +770,7 @@ function AddOrder() {
           fileValue: "",
           priceBookDetails: {},
           dealerPriceBookDetails: {},
-          dealerSku:"" // add this
+          dealerSku: "" // add this
         },
       ],
     },
@@ -780,7 +781,6 @@ function AddOrder() {
           priceBookId: Yup.string().required("Required"),
           term: Yup.string().required("Required"),
           pName: Yup.string().required("Required"),
-          dealerSku: Yup.string().required("Required"),  // add this
           // file: Yup.string().required("Valid File is required"),
           unitPrice: Yup.number()
             .typeError("Required")
@@ -859,7 +859,7 @@ function AddOrder() {
           );
         });
       });
-console.log(arr2)
+      console.log(arr2)
       setCategoryName(arr);
       setPriceBookName(arr1);
       setDealerSkuName(arr2)
@@ -1193,7 +1193,7 @@ console.log(arr2)
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"", //add this
+        dealerSku: "", //add this
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -1363,7 +1363,7 @@ console.log(arr2)
           pName: "",
           term: "",
           priceBookId: "",
-          dealerSku:"", //add this
+          dealerSku: "", //add this
           coverageType: formikStep2?.values?.coverageType,
         },
         productIndex
@@ -1380,7 +1380,7 @@ console.log(arr2)
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
-          dealerSku:"", //add this
+          dealerSku: "", //add this
           pName:
             selectedValue == ""
               ? ""
@@ -1427,7 +1427,7 @@ console.log(arr2)
         formik.values.dealerId,
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          dealerSku:"", //add this
+          dealerSku: "", //add this
           priceBookId:
             formikStep3.values.productsArray[productIndex].priceBookId,
           pName: selectedValue,
@@ -1503,7 +1503,7 @@ console.log(arr2)
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",//add this
+          dealerSku: "",//add this
           coverageType: value,
         },
         0
@@ -1539,7 +1539,7 @@ console.log(arr2)
         value,
         {
           priceBookId: "",
-          dealerSku:"", //add this
+          dealerSku: "", //add this
           priceCatId: "",
           pName: "",
           term: "",
@@ -1622,7 +1622,7 @@ console.log(arr2)
             coverageType: formikStep2?.values?.coverageType,
             term: data.term,
             pName: data.pName,
-            dealerSku:"", //add this
+            dealerSku: "", //add this
           },
           index
         );
@@ -1655,16 +1655,14 @@ console.log(arr2)
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
           dealerPriceBookDetails: dealerPriceBookDetails,
-          dealerSku:item.dealerSku   // add this
-          
+          dealerSku: item.dealerSku   // add this
+
         }));
 
-        // setCategoryList(
         const category = result.result?.priceCategories.map((item) => ({
           label: item.name,
           value: item._id,
         }));
-        // );
         const termsData = result.result?.terms.map((item) => ({
           label: item.label,
           value: item.value,
@@ -1677,7 +1675,7 @@ console.log(arr2)
         const dealerSkuListData = result.result?.dealerPriceBook.map((item) => ({
           label: item.dealerSku,
           value: item.dealerSku,
-          priceBookId:item.priceBook
+          priceBookId: item.priceBook
         }));
 
         updateOptions(setCategoryList, category);
@@ -1769,7 +1767,7 @@ console.log(arr2)
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"", //add this
+        dealerSku: "", //add this
         coverageType: formikStep2?.values?.coverageType,
       },
       index
@@ -1795,7 +1793,7 @@ console.log(arr2)
         ) : (
           <>
             <form onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+              <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
                 <Grid>
                   <div className="col-span-8">
                     <div className="flex justify-between w-full">
@@ -2009,7 +2007,8 @@ console.log(arr2)
                     </Grid>
                   </div>
                 )}
-              </div>
+              </Card>
+
               <div className="flex">
                 {dataLoading ? (
                   <Button
@@ -2037,7 +2036,7 @@ console.log(arr2)
     // Step 2 content
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -2128,7 +2127,7 @@ console.log(arr2)
               </Grid>
             </div>
           </Grid>
-        </div>
+        </Card>
 
         <div className="flex">
           <Button onClick={prevStep} className="!bg-[transparent] !text-black">
@@ -2152,7 +2151,7 @@ console.log(arr2)
         ) : (
           <div className="mb-3">
             {formikStep3?.values?.productsArray.map((data, index) => (
-              <div
+              <Card
                 key={index}
                 className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
               >
@@ -2192,197 +2191,179 @@ console.log(arr2)
                   )}
                 </div>
                 <Grid>
+                  <div className="col-span-4">
+                    <Select
+                      name={`productsArray[${index}].categoryId`}
+                      label="Product Category"
+                      options={categoryList[index]?.data}
+                      required={true}
+                      className="!bg-white"
+                      placeholder=""
+                      value={
+                        formikStep3.values.productsArray[index].categoryId
+                      }
+                      onBlur={formikStep3.handleBlur}
+                      onChange={handleSelectChange2}
+                      index={index}
+                      error={
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray[index].categoryId
+                      }
+                    />
+                    {formikStep3.touched.productsArray &&
+                      formikStep3.touched.productsArray[index] &&
+                      formikStep3.touched.productsArray[index]
+                        .categoryId && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep3.errors.productsArray &&
+                            formikStep3.errors.productsArray[index] &&
+                            formikStep3.errors.productsArray[index]
+                              .categoryId}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <>
+                      <Select
+                        name={`productsArray[${index}].priceBookId`}
+                        label="Product SKU"
+                        options={productNameOptions[index]?.data}
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index]
+                            .categoryId == ""
+                        }
+                        value={
+                          formikStep3.values.productsArray[index]
+                            .priceBookId
+                        }
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index]
+                            .priceBookId
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index]
+                          .priceBookId && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
+                                .priceBookId}
+                          </div>
+                        )}
+                    </>
+                    {/* )} */}
+                  </div>
+                  {/* add this  */}
+                  <div className="col-span-4">
+                    <>
+                      <Select
+                        name={`productsArray[${index}].dealerSku`}
+                        label="Dealer SKU"
+                        options={dealerSkuList[index]?.data}
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index]
+                            .categoryId == ""
+                        }
+                        value={
+                          formikStep3.values.productsArray[index]
+                            .dealerSku
+                        }
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index} 
+                      />
+                    </>
+                  </div>
+                  <div className="col-span-8">
+                    <Select
+                      label="Product Name"
+                      name={`productsArray[${index}].pName`}
+                      placeholder=""
+                      onChange={handleSelectChange2}
+                      disabled={
+                        formikStep3.values.productsArray[index]
+                          .categoryId == ""
+                      }
+                      className="!bg-white"
+                      options={productList[index]?.data}
+                      value={formikStep3.values.productsArray[index].pName}
+                      onBlur={formikStep3.handleBlur}
+                      index={index}
+                      error={
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray &&
+                        formikStep3.values.productsArray[index] &&
+                        formikStep3.values.productsArray[index].pName
+                      }
+                    />
+                    {formikStep3.touched.productsArray &&
+                      formikStep3.touched.productsArray[index] &&
+                      formikStep3.touched.productsArray[index].pName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep3.errors.productsArray &&
+                            formikStep3.errors.productsArray[index] &&
+                            formikStep3.errors.productsArray[index].pName}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-4">
+                    <>
+                      <Select
+                        name={`productsArray[${index}].term`}
+                        label="Terms"
+                        options={termList[index]?.data}
+                        required={true}
+                        className="!bg-white"
+                        placeholder=""
+                        disabled={
+                          formikStep3.values.productsArray[index]
+                            .categoryId == ""
+                        }
+                        value={formikStep3.values.productsArray[index].term}
+                        onBlur={formikStep3.handleBlur}
+                        onChange={handleSelectChange2}
+                        index={index}
+                        error={
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray &&
+                          formikStep3.values.productsArray[index] &&
+                          formikStep3.values.productsArray[index].term
+                        }
+                      />
+                      {formikStep3.touched.productsArray &&
+                        formikStep3.touched.productsArray[index] &&
+                        formikStep3.touched.productsArray[index].term && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index].term}
+                          </div>
+                        )}
+                    </>
+                  </div>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-                      <div className="col-span-6">
-                        <Select
-                          name={`productsArray[${index}].categoryId`}
-                          label="Product Category"
-                          options={categoryList[index]?.data}
-                          required={true}
-                          className="!bg-white"
-                          placeholder=""
-                          value={
-                            formikStep3.values.productsArray[index].categoryId
-                          }
-                          onBlur={formikStep3.handleBlur}
-                          onChange={handleSelectChange2}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].categoryId
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index]
-                            .categoryId && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .categoryId}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-6">
-                        <>
-                          <Select
-                            name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
-                            options={productNameOptions[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            disabled={
-                              formikStep3.values.productsArray[index]
-                                .categoryId == ""
-                            }
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .priceBookId
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .priceBookId && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .priceBookId}
-                              </div>
-                            )}
-                        </>
-                        {/* )} */}
-                      </div>
-                       {/* add this  */}
-                      <div className="col-span-6">
-                        <>
-                          <Select
-                            name={`productsArray[${index}].dealerSku`}
-                            label="Dealer SKU"
-                            options={dealerSkuList[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            disabled={
-                              formikStep3.values.productsArray[index]
-                                .categoryId == ""
-                            }
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .dealerSku
-                            }
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .dealerSku
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index]
-                              .dealerSku && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index]
-                                    .dealerSku}
-                              </div>
-                            )}
-                        </>
-                      </div>
-                      <div className="col-span-8">
-                        <Select
-                          label="Product Name"
-                          name={`productsArray[${index}].pName`}
-                          placeholder=""
-                          onChange={handleSelectChange2}
-                          disabled={
-                            formikStep3.values.productsArray[index]
-                              .categoryId == ""
-                          }
-                          className="!bg-white"
-                          options={productList[index]?.data}
-                          value={formikStep3.values.productsArray[index].pName}
-                          onBlur={formikStep3.handleBlur}
-                          index={index}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].pName
-                          }
-                        />
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index].pName && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index].pName}
-                            </div>
-                          )}
-                      </div>
-                      <div className="col-span-4">
-                        <>
-                          <Select
-                            name={`productsArray[${index}].term`}
-                            label="Terms"
-                            options={termList[index]?.data}
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            disabled={
-                              formikStep3.values.productsArray[index]
-                                .categoryId == ""
-                            }
-                            value={formikStep3.values.productsArray[index].term}
-                            onBlur={formikStep3.handleBlur}
-                            onChange={handleSelectChange2}
-                            index={index}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index].term
-                            }
-                          />
-                          {formikStep3.touched.productsArray &&
-                            formikStep3.touched.productsArray[index] &&
-                            formikStep3.touched.productsArray[index].term && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formikStep3.errors.productsArray &&
-                                  formikStep3.errors.productsArray[index] &&
-                                  formikStep3.errors.productsArray[index].term}
-                              </div>
-                            )}
-                        </>
-                      </div>
+
                       <div className="col-span-12">
                         <Input
                           type="text"
@@ -2785,7 +2766,7 @@ console.log(arr2)
                             }
                             onChange={formikStep3.handleChange}
                             onBlur={formikStep3.handleBlur}
-                            className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                            className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] bg-white border-gray-300 appearance-none peer"
                           ></textarea>
                           {formikStep3.errors.productsArray &&
                             formikStep3.errors.productsArray[index] &&
@@ -2825,11 +2806,11 @@ console.log(arr2)
                                 alt="Dropbox"
                               />
                               <div className="flex justify-between w-full">
-                                <p className="self-center text-sm pr-3">
+                                <p className="self-center text-sm pr-3 text-black">
                                   {" "}
                                   {fileValues[index].name}
                                 </p>
-                                <p className="self-center text-sm">
+                                <p className="self-center text-sm text-black">
                                   {(fileValues[index].size / 1000).toFixed(2)}{" "}
                                   kb
                                 </p>
@@ -2842,7 +2823,7 @@ console.log(arr2)
                                 className="mx-auto mb-3"
                                 alt="Dropbox"
                               />
-                              <p className="text-[#5D6E66]">
+                              <p className="">
                                 Accepted file types: csv, xlsx, xls Max. file
                                 size: 50 MB.
                               </p>
@@ -2867,7 +2848,7 @@ console.log(arr2)
                         />
                       </div>
                     </div>
-                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    <p className="text-[12px] mt-1 font-medium">
                       Please click on file option and make a copy. Upload the
                       list of Product Name and Price using our provided Google
                       Sheets template, by{" "}
@@ -2891,7 +2872,7 @@ console.log(arr2)
                   </div>
                   <div className="col-span-12"></div>
                 </Grid>
-              </div>
+              </Card>
             ))}
             <Button
               className="!bg-[transparent] !text-black"
@@ -2919,13 +2900,13 @@ console.log(arr2)
           </div>
         ) : (
           <form onSubmit={formik4.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Order Details
                   </p>
-                  <Grid className="bg-grayf9 border-Light-Grey border rounded-xl px-4 ">
+                  <Grid className=" border-Light-Grey border rounded-xl px-4 ">
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Dealer Name</p>
                       <p className="font-bold text-sm break-words">
@@ -2953,10 +2934,10 @@ console.log(arr2)
                   </Grid>
                 </div>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
-                  <Grid className="bg-grayf9 !gap-2 border-Light-Grey border rounded-xl px-2 ">
+                  <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Dealer Purchase Order</p>
                       <p className="font-bold text-sm">
@@ -2986,10 +2967,10 @@ console.log(arr2)
                   return (
                     <>
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Product Details
                         </p>
-                        <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
+                        <div className=" border-Light-Grey border rounded-xl ">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -3009,7 +2990,7 @@ console.log(arr2)
                                 {dealerSkuName[index]}
                               </p>
                             </div>
-                            <div className="col-span-6 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">{data.pName}</p>
                             </div>
@@ -3171,14 +3152,14 @@ console.log(arr2)
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Uploaded Data
                         </p>
-                        <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
+                        <div className="border border-dashed w-full h-[83%] relative flex">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
-                              <p className="self-center">
+                              <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
@@ -3201,7 +3182,7 @@ console.log(arr2)
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                  <div className="flex  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer undefined text-light-black">
+                  <div className="flex  w-full text-base font-semibold bg-grayf9 rounded-lg border-[1px] border-gray-300 appearance-none peer text-light-black">
                     <p className="self-center w-[40%] text-sm px-3">
                       Payment Status
                     </p>
@@ -3307,7 +3288,7 @@ console.log(arr2)
                   </p>
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -3325,9 +3306,10 @@ console.log(arr2)
                     />
                   </p>
                 </div>
-              </Grid>
-              {error && <p className="text-red-500">{error}</p>}
-            </div>
+              </Grid >
+              {error && <p className="text-red-500">{error}</p>
+              }
+            </Card >
 
             <Button
               className="!bg-[transparent] !text-black"
@@ -3336,7 +3318,7 @@ console.log(arr2)
               Previous
             </Button>
             <Button type="submit">Submit</Button>
-          </form>
+          </form >
         )}
         {/* )} */}
       </>
@@ -3486,16 +3468,16 @@ console.log(arr2)
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold ">
             {type == "Edit" ? "Update" : "Add"} Order
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             <b> {type == "Edit" ? "" : "New Order"} </b>{" "}
             {type == "Edit" ? "Updated" : "Added"} Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
@@ -3514,11 +3496,11 @@ console.log(arr2)
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Error </span>
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            <span className=""> Error </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Some Errors Please Check Form Validations
           </p>
         </div>

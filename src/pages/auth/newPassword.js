@@ -13,6 +13,7 @@ import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
 import Modal from "../../common/model";
 import { checkLink, resetPassword } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 const NewPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -28,7 +29,7 @@ function NewPassword() {
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-console.log(id, token);
+  const [details, setDetails] = useState();
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -47,25 +48,38 @@ console.log(id, token);
         setIsModalOpen(true);
         setTimeout(() => {
           navigate('/'); // redirect to the login page after 3 seconds
-        }, 3000); 
+        }, 3000);
       }
     },
   });
   // console.log(id, token);
+  const fetchUserDetails12 = async () => {
+    try {
+      const userDetails = await getSetting();
 
+      if (userDetails && userDetails.result) {
+        setDetails(userDetails.result[0]);
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserDetails12();
+  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
-useEffect(()=>{
-  checkValidLink()
-},[])
-const checkValidLink = () => {
- checkLink(id,token).then((res) => {
-  if(res.code != 200){
-    navigate('/login')
+  useEffect(() => {
+    checkValidLink()
+  }, [])
+  const checkValidLink = () => {
+    checkLink(id, token).then((res) => {
+      if (res.code != 200) {
+        navigate('/login')
+      }
+    })
   }
-  })
-}
   return (
     <div className="bg-hero-pattern bg-cover bg-no-repeat bg-center">
       <form onSubmit={formik.handleSubmit}>
@@ -80,7 +94,7 @@ const checkValidLink = () => {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={Logo} className="w-[224px]" loading="lazy" alt="Logo " />
+              <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Enter </span> New Password
               </p>
@@ -137,18 +151,18 @@ const checkValidLink = () => {
       {/* Modal Email Popop */}
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
-          <img src={NewPasswordEmail} alt="email Image" loading="lazy" className="mx-auto"/>
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <img src={NewPasswordEmail} alt="email Image" loading="lazy" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Password{" "}
-            <span className="text-light-black"> Reset Successfully </span>
+            <span className=""> Reset Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             Your password has been changed. Now you can{" "}
           </p>
-           
-          <p className="text-neutral-grey text-base font-medium"><Link to={"/"} className="font-bold text-base text-light-black">
+
+          <p className=" text-base font-medium"><Link to={"/"} className="font-bold text-base">
             {" "}
-            login 
+            login
           </Link> with your new password. </p>
         </div>
       </Modal>

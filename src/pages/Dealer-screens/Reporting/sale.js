@@ -14,6 +14,8 @@ import { MultiSelect } from "react-multi-select-component";
 import { getFilterListDropdown } from "../../../services/reportingServices";
 import { useMyContext } from "./../../../context/context";
 import { RotateLoader } from "react-spinners";
+import Card from "../../../common/card";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 
 function Sale() {
   const location = useLocation();
@@ -74,7 +76,28 @@ function Sale() {
     }
     setLoading(false);
   };
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   const tabs = [
     { id: "Amount", label: "Amount", icons: all, Activeicons: AllActive },
     {
@@ -145,8 +168,8 @@ function Sale() {
               </ul>
             </div>
           </div>
-          <div className="p-3 bg-white mt-4">
-            <p className="p-0 self-center font-bold mr-4 mb-2">Filter by  </p>
+          <Card className="p-3 mt-4">
+            <p className="p-0 self-center font-bold mr-4 mb-2">Filter by </p>
             <Grid className={`${"!grid-cols-5"} !gap-0`}>
               <div className={`self-center pl-1 col-span-2`}>
                 <SelectBoxWithSearch
@@ -193,7 +216,7 @@ function Sale() {
                 </Button>
               </div>
             </Grid>
-          </div>
+          </Card>
           <Grid className="mt-4 !gap-0">
             <div className="col-span-12">
               <Grid className=" grid-cols-9 !gap-0">
@@ -204,20 +227,35 @@ function Sale() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        key={tab.id}
-                        className={`flex self-center w-[190px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? "!bg-[#2A2A2A] !text-white"
+                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                          ? ""
                           : "!bg-grayf9 !text-black"
                           }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
-                        <img
-                          src={activeTab === tab.id ? tab.Activeicons : tab.icons}
-                          className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                          alt={tab.label}
+                        <div
+                          style={{
+                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            maskRepeat: 'no-repeat',
+                            WebkitMaskRepeat: 'no-repeat',
+
+                            maskPosition: 'center',
+                            WebkitMaskPosition: 'center',
+                            maskSize: 'contain',
+                            WebkitMaskSize: 'contain'
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4"
                         />
                         <span
-                          className={`ml-1 py-1 text-[12px] font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                          style={{
+                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                            borderLeftWidth: '1px',
+                            paddingLeft: '7px',
+                            color: activeTab === tab.id ? buttonTextColor : 'black',
+                          }}
+                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
                             }`}
                         >
                           {tab.label}

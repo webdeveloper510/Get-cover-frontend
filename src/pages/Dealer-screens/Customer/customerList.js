@@ -19,6 +19,7 @@ import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getDealerCustomers } from "../../../services/dealerServices/priceBookServices";
+import Card from "../../../common/card";
 // Declare the base URL of the API
 function DealerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -189,7 +190,7 @@ function DealerCustomerList() {
             {selectedAction === row.customerData.unique_key && (
               <div
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md text-light-black ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -264,7 +265,7 @@ function DealerCustomerList() {
           </span>{" "}
         </Link>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-4 self-center">
               <p className="text-xl font-semibold">Customers List</p>
@@ -390,7 +391,7 @@ function DealerCustomerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

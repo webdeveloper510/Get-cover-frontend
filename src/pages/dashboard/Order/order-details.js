@@ -35,6 +35,8 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
 
 function OrderDetails() {
@@ -212,7 +214,28 @@ function OrderDetails() {
       console.error("Error fetching the file:", error);
     }
   };
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
 
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {loading1 && (
@@ -486,25 +509,45 @@ function OrderDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-4">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <Card className="!rounded-[30px] border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
+                            ? ""
+                            : "!bg-grayf9 !text-black"
                             }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
-                          <img
+                          <div
+                            style={{
+                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain'
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
+                          />
+                          {/* <img
                             src={
                               activeTab === tab.id ? tab.Activeicons : tab.icons
                             }
                             className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
                             alt={tab.label}
-                          />
+                          /> */}
                           <span
+                            style={{
+                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              borderLeftWidth: '1px',
+                              paddingLeft: '7px',
+                              color: activeTab === tab.id ? buttonTextColor : 'black',
+                            }}
                             className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
                               }`}
                           >
@@ -514,7 +557,7 @@ function OrderDetails() {
                       </div>
                     ))}
                   </Grid>
-                </div>
+                </Card>
               </div>
             </Grid>
 
@@ -570,10 +613,10 @@ function OrderDetails() {
       <Modal isOpen={modalOpen} onClose={closeModel}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             Servicer Updated Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             Redirecting Back to Order Detail page in {timer} Seconds
           </p>
         </div>

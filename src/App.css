@@ -1,12 +1,12 @@
+.transforms {
+  transform: translate(-50%, -6%);
+}
+
 @-moz-document url-prefix() {
   .rounded-full.text-white.absolute {
     top: 7px !important;
     right: -33px !important;
   }
-}
-
-.transforms {
-  transform: translate(-50%, -6%);
 }
 
 .focused label,

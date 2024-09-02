@@ -22,6 +22,7 @@ import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getArchiveOrdersForDealerPortal, getArchiveOrdersForResellerPortal } from "../../../services/dealerServices/orderListServices";
+import Card from "../../../common/card";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -208,7 +209,7 @@ function ArchiveOrderList() {
           </div>
         </div>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Archive Order List</p>
@@ -299,21 +300,21 @@ function ArchiveOrderList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey ">
-            <span className="text-light-black"> Order Processed </span>{" "}
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className=""> Order Processed </span>{" "}
             Successfully
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Order Processed Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
@@ -322,7 +323,7 @@ function ArchiveOrderList() {
       <Modal isOpen={isArchiveOpen} onClose={closeArchive}>
         <div className="text-center py-3">
           <img src={unassign} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Would you like to Archive it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -342,13 +343,13 @@ function ArchiveOrderList() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-2 font-[800] text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-[800]">
             Archive Order Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully archive the order
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>

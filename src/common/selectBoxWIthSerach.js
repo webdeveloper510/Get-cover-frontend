@@ -71,7 +71,7 @@ const SelectBoxWithSearch = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full rounded-lg bg-white">
       <Select
         options={extendedOptions}
         onChange={(selectedOption) => onChange(name, selectedOption?.value)}

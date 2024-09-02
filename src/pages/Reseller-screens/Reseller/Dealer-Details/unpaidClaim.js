@@ -61,6 +61,7 @@ import SelectSearch from "../../../../common/selectSearch";
 import Checkbox from "../../../../common/checkbox";
 import request from "../../../../assets/images/request.png";
 import { apiUrl } from "../../../../services/authServices";
+import Card from "../../../../common/card";
 import {
   checkUserToken,
   downloadFile,
@@ -896,7 +897,7 @@ function ClaimList12(props) {
       claimId: "",
       venderOrder: "",
       serial: "",
-      productName: "",
+      dealerSku: "",
       pName: "",
       dealerName: "",
       customerName: "",
@@ -1063,7 +1064,7 @@ function ClaimList12(props) {
             </div>
           </>
         ) : (
-          <div className="bg-white my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+          <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
               <div className="col-span-2 self-center">
                 <p className="text-xl font-semibold">Claims List</p>
@@ -1303,10 +1304,10 @@ function ClaimList12(props) {
                                       />
                                       <div className="py-4 pl-3 self-center">
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                          Product SKU
+                                          Dealer SKU
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
-                                          {res?.contracts?.productName}
+                                          {res?.contracts?.dealerSku}
                                         </p>
                                       </div>
                                     </div>
@@ -1746,7 +1747,7 @@ function ClaimList12(props) {
                 />
               )}
             </div>
-          </div>
+          </Card>
         )}
       </div>
 
@@ -1771,14 +1772,14 @@ function ClaimList12(props) {
         ) : (
           <div className="p-3 text-center">
             <img src={request} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-bold">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className="text-2xl font-bold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -1800,7 +1801,7 @@ function ClaimList12(props) {
                 <div className="col-span-3">
                   <Button
                     onClick={closePay}
-                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[white]"
                   >
                     No
                   </Button>
@@ -1814,13 +1815,13 @@ function ClaimList12(props) {
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Claim Successfully Paid </span>
+          <p className="text-3xl mb-0 mt-4 font-bold">
+            <span className=""> Claim Successfully Paid </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
+          <p className="text-base font-medium mt-2 ">
             You have successfully marked the Claim as paid
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
         </div>
@@ -1841,11 +1842,11 @@ function ClaimList12(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -2407,11 +2408,11 @@ function ClaimList12(props) {
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="productName"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  {...formik1.getFieldProps("productName")}
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">

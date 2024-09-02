@@ -9,6 +9,7 @@ import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
+import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 function OrderSummary(props) {
   const baseUrl = apiUrl();
@@ -50,7 +51,7 @@ function OrderSummary(props) {
   return (
     <>
       <div className="my-8">
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Orders Details</p>
@@ -68,7 +69,7 @@ function OrderSummary(props) {
                       <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
-                            Product SKU : <b> {res.name} </b>
+                            Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
@@ -304,7 +305,7 @@ function OrderSummary(props) {
           ) : (
             <></>
           )}
-        </div>
+        </Card>
       </div>
     </>
   );

@@ -39,6 +39,7 @@ import {
   getServicerListInOrdersforDealerPortal,
 } from "../../../services/dealerServices/orderListServices";
 import { getServiceCoverageDetails } from "../../../services/customerServices";
+import Card from "../../../common/card";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1434,13 +1435,13 @@ function DealerAddOrder() {
           </div>
         ) : (
           <form onSubmit={formik.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-8">
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
                     <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      className="text-sm !py-0 h-[30px] self-center !bg-[white] !text-light-black !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
@@ -1618,7 +1619,7 @@ function DealerAddOrder() {
                   </Grid>
                 </div>
               )}
-            </div>
+            </Card>
             <div className="flex">
               <Button
                 type="submit"
@@ -1640,7 +1641,7 @@ function DealerAddOrder() {
     // Step 2 content
     return (
       <>
-        <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+        <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
             <div className="col-span-6">
@@ -1726,7 +1727,7 @@ function DealerAddOrder() {
               </Grid>
             </div>
           </Grid>
-        </div>
+        </Card>
 
         <div className="flex">
           <Button onClick={prevStep} className="!bg-[transparent] !text-black">
@@ -1751,7 +1752,7 @@ function DealerAddOrder() {
           <>
             <div className="mb-3">
               {formikStep3?.values?.productsArray.map((data, index) => (
-                <div
+                <Card
                   key={index}
                   className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"
                 >
@@ -1830,7 +1831,7 @@ function DealerAddOrder() {
                         <div className="col-span-6">
                           <Select
                             name={`productsArray[${index}].priceBookId`}
-                            label="Product SKU"
+                            label="Dealer SKU"
                             options={productNameOptions[index]?.data}
                             required={true}
                             className="!bg-white"
@@ -2358,7 +2359,7 @@ function DealerAddOrder() {
                               }
                               onChange={formikStep3.handleChange}
                               onBlur={formikStep3.handleBlur}
-                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                              className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-white rounded-lg border-[1px]  border-gray-300 appearance-none peer"
                             ></textarea>
                             {formikStep3.errors.productsArray &&
                               formikStep3.errors.productsArray[index] &&
@@ -2464,7 +2465,7 @@ function DealerAddOrder() {
                     </div>
                     <div className="col-span-12"></div>
                   </Grid>
-                </div>
+                </Card>
               ))}
               <Button
                 className="!bg-[transparent] !text-black"
@@ -2493,7 +2494,7 @@ function DealerAddOrder() {
           </div>
         ) : (
           <form onSubmit={formik4.handleSubmit}>
-            <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+            <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-6">
                   <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
@@ -2560,7 +2561,7 @@ function DealerAddOrder() {
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
-                              <p className="text-[12px]">Product SKU</p>
+                              <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
@@ -2790,7 +2791,7 @@ function DealerAddOrder() {
                 <div className="col-span-12"></div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
-            </div>
+            </Card>
 
             <Button
               className="!bg-[transparent] !text-black"
