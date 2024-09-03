@@ -272,7 +272,7 @@ function ResellerDashboard() {
     {
       name: "Term",
       selector: (row) => {
-        const months = row.priceBooks?.term;
+        const months = row?.term;
         if (months) {
           const years = (months / 12);
           return `${years} ${years == 1 ? 'Year' : 'Years'} `;
@@ -443,7 +443,7 @@ function ResellerDashboard() {
             </Grid>
 
             <Grid>
-              <div className="col-span-6 mt-4 rounded-xl">
+              <div className="col-span-6 mt-4 border-2 rounded-xl">
                 <Card>
                   <div className="">
                     <p className="text-xl font-semibold pl-1 pr-1 pt-2">

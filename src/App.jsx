@@ -7,6 +7,7 @@ import { getSetting } from './services/extraServices';
 
 function App() {
   const routing = useRoutes(routes);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -15,9 +16,6 @@ function App() {
         console.log("User details fetched:", userDetails);
         const fetchedData = userDetails.result[0];
         localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
-
-        // localStorage.setItem('siteSettings', JSON.stringify(userDetails.result[0]))
-
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
 
           console.log("User details are valid, updating favicon...");

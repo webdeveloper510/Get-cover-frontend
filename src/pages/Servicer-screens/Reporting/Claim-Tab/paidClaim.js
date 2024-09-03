@@ -1271,7 +1271,7 @@ function ClaimList(props) {
                                         Dealer SKU
                                       </p>
                                       <p className="text-light-black text-sm font-semibold">
-                                        {res?.contracts?.dealerSku}
+                                        {res?.dealerSku}
                                       </p>
                                     </div>
                                   </div>

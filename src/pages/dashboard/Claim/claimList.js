@@ -216,7 +216,7 @@ function ClaimList(props) {
   }, [location]);
 
   const handleSelectChange = (selectedValue, value) => {
-    setLoading1(true);
+
     if (selectedValue === "claimStatus") {
       if (value === "Rejected") {
         setIsRejectOpen(true);
@@ -242,6 +242,7 @@ function ClaimList(props) {
         }
       }
     } else if (selectedValue === "claimType") {
+      setLoading1(true);
       console.log(loading1, "------2--------------");
       const updateAndCallAPI = (setter) => {
         editClaimClaimType(
@@ -252,6 +253,7 @@ function ClaimList(props) {
       };
       updateAndCallAPI(setClaimType);
     } else if (selectedValue === "servicer") {
+      setLoading1(true);
       console.log(loading1, "------3--------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
@@ -264,6 +266,7 @@ function ClaimList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
+      setLoading1(true);
       console.log(loading1, "-------4-------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
@@ -1419,7 +1422,7 @@ function ClaimList(props) {
                                     Dealer SKU
                                   </p>
                                   <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.dealerSku}
+                                    {res?.dealerSku}
                                   </p>
                                 </div>
                               </div>

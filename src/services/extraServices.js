@@ -309,6 +309,6 @@ export const changePrimaryById = async (id) => {
 
 
 export const getUserDetailsFromLocalStorage = () => {
-  const userDetails = localStorage.getItem("siteSettings");
-  return userDetails ? JSON.parse(userDetails) : null;
+  const siteSettings = localStorage.getItem("siteSettings");
+  return siteSettings ? JSON.parse(siteSettings) : null;
 };
