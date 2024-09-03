@@ -1089,7 +1089,7 @@ function AddOrder() {
   const handleDateChange = (e, index) => {
     const inputValue = e.target.value;
     const selectedDate = new Date(inputValue);
-    selectedDate.setDate(selectedDate.getDate() + 1);
+    selectedDate.setDate(selectedDate.getDate());
 
     const gmtDate = selectedDate.toISOString();
     formikStep3.setFieldValue(

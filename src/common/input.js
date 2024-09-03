@@ -35,6 +35,7 @@ const Input = ({
   }, [value]);
 
   const handleDateChange = (date) => {
+    console.log(date)
     setInputValue(date);
     if (onChange) {
       onChange({

@@ -2157,7 +2157,7 @@ function DealerAddOrder() {
                             onChange={(e) => {
                               formikStep3.handleChange(e);
                               const selectedDate = new Date(e.target.value);
-                              selectedDate.setDate(selectedDate.getDate() + 1);
+                              selectedDate.setDate(selectedDate.getDate());
 
                               const gmtDate = selectedDate.toISOString();
                               formikStep3.setFieldValue(
