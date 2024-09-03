@@ -52,7 +52,7 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
-export const getCategoryListActiveData = async (value, id, ) => {
+export const getCategoryListActiveData = async (value, id,) => {
   const headers = createHeaders();
   console.log(headers);
   try {
@@ -122,6 +122,18 @@ export const getTermList = async () => {
 
   try {
     const response = await axios.get(`${url}/user/getAllTerms`, { headers });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCovrageList = async () => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/user/getOptions/coverage_type`, { headers });
 
     return response.data;
   } catch (error) {
@@ -206,7 +218,7 @@ export const getPriceBookByDealerId = async (id) => {
 };
 
 export const uploadDealerBookInBulk = async (data) => {
-  const accessToken = getAccessToken(); 
+  const accessToken = getAccessToken();
   const headers = {
     "Content-Type": "multipart/form-data",
   };

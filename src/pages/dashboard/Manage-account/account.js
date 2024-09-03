@@ -997,16 +997,15 @@ function Account() {
         console.log(apiData);
         const result = await saveSetting(apiData);
         console.log(result);
-        if(result)
-          {
-            localStorage.setItem('siteSettings',JSON.stringify(result.result))
-          }
+        if (result) {
+          localStorage.setItem('siteSettings', JSON.stringify(result.result))
+        }
         setFirstMessage("Site Setting Updated Successfully ");
         setSecondMessage("site setting updated successfully ");
         setLastMessage("site will be reloaded after setting has been updated successfully");
         setModalOpen(true);
         setTimer(3);
-     
+
         setTimeout(() => {
           window.location.reload()
         }, 3000);
@@ -1023,9 +1022,8 @@ function Account() {
     try {
       const data = await resetSetting();
       console.log(data)
-      if(data)
-      {
-        localStorage.setItem('siteSettings',JSON.stringify(data.result))
+      if (data) {
+        localStorage.setItem('siteSettings', JSON.stringify(data.result))
       }
       setFirstMessage("Site Setting Reset Successfully ");
       setSecondMessage("Site setting Reset successfully ");
@@ -1440,7 +1438,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
                     </div>
-                    <img src={`${selectedFile2?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
+                    <img src={`${selectedFile2?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
                   </div>
                   <div className="col-span-4 mb-2">
                     <div className="relative">
@@ -1481,7 +1479,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                     </div>
-                    <img src={`${selectedFile1?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
+                    <img src={`${selectedFile1?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
                   </div>
                   <div className="col-span-4">
                     <div className="relative">
@@ -1522,7 +1520,7 @@ function Account() {
                       </div>
                       <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                     </div>
-                    <img src={`${selectedFile?.fullUrl}uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
+                    <img src={`${selectedFile?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
                   </div>
                   <div className="col-span-6">
                     <div className="relative">

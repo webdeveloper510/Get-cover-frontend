@@ -29,9 +29,9 @@ function DealerRegister() {
   const [loader, setLoader] = useState(false);
   const [userType, setUserType] = useState("");
   const [error, setError] = useState("");
-  
-  const [siteDetails,setSiteDetails]= useState({})
- 
+
+  const [siteDetails, setSiteDetails] = useState({})
+
   useEffect(() => {
     const data = localStorage.getItem("siteSettings")
     setSiteDetails(JSON.parse(data))
@@ -141,7 +141,7 @@ function DealerRegister() {
         <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
           <div className="col-span-7 self-center min-h-screen flex">
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-              <img loading="lazy" src={`${siteDetails?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <img loading="lazy" src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
                 <span className="text-neutral-grey"> Welcome to </span> {siteDetails?.title}
               </p>

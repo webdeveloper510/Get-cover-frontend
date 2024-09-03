@@ -59,7 +59,7 @@ function SidebarItem({
   }, []);
 
   const fetchUserDetails = async () => {
-    const fetchedData = JSON.parse( localStorage.getItem("siteSettings"))
+    const fetchedData = JSON.parse(localStorage.getItem("siteSettings"))
     const colorScheme = fetchedData.colorScheme;
     colorScheme.forEach(color => {
       switch (color.colorType) {
@@ -584,14 +584,14 @@ function SideBar() {
   );
   const [selectedFile2, setSelectedFile2] = useState('');
   const [url, setUrl] = useState('');
-  const [siteDetails,setSiteDetails]= useState({})
- 
+  const [siteDetails, setSiteDetails] = useState({})
+
   console.log(selectedFile2, '--selectedFile2');
 
   useEffect(() => {
-    const data =JSON.parse( localStorage.getItem("siteSettings"))
+    const data = JSON.parse(localStorage.getItem("siteSettings"))
     if (data) {
-      setUrl(data.logoLight ? data.logoLight.fullUrl : null);
+      setUrl(data.logoLight ? data.logoLight.baseUrl : null);
       setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
       const colorScheme = data.colorScheme;
       colorScheme.forEach(color => {
@@ -610,25 +610,25 @@ function SideBar() {
   }, []);
 
   useEffect(() => {
-    const data =JSON.parse( localStorage.getItem("siteSettings"))
-      setUrl(data.logoLight ? data.logoLight.fullUrl : null);
-      setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-      const colorScheme = data.colorScheme;
-      colorScheme.forEach(color => {
-        switch (color.colorType) {
-          case 'sideBarColor':
-            setSideBarColor(color.colorCode);
-            break;
-          case 'sideBarTextColor':
-            setSideBarTextColor(color.colorCode);
-            break;
-          default:
-            break;
-        }
-      })
+    const data = JSON.parse(localStorage.getItem("siteSettings"))
+    setUrl(data.logoLight ? data.logoLight.baseUrl : null);
+    setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+    const colorScheme = data.colorScheme;
+    colorScheme.forEach(color => {
+      switch (color.colorType) {
+        case 'sideBarColor':
+          setSideBarColor(color.colorCode);
+          break;
+        case 'sideBarTextColor':
+          setSideBarTextColor(color.colorCode);
+          break;
+        default:
+          break;
+      }
+    })
   }, []);
 
- 
+
 
 
   const navigate = useNavigate();

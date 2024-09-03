@@ -1410,7 +1410,7 @@ function ClaimList(props) {
                                   )}
                               </div>
                             </Grid>
-                            <Grid className={`${excludedPaths ? '!grid-cols-4' : '!grid-cols-5'} !gap-0 bg-grayf9  border-Gray28 border-x`}>
+                            <Grid className={`${isExcludedPath ? '!grid-cols-4' : '!grid-cols-5'} !gap-0 bg-grayf9  border-Gray28 border-x`}>
                               <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
@@ -1426,7 +1426,7 @@ function ClaimList(props) {
                                   </p>
                                 </div>
                               </div>
-                              {excludedPaths ? '' : <div className="col-span-1 flex ">
+                              {isExcludedPath ? '' : <div className="col-span-1 flex ">
                                 <img
                                   src={productName}
                                   className="self-center h-[50px] w-[50px] ml-3"

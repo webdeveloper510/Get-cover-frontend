@@ -674,15 +674,7 @@ function CompanyPriceBook() {
                         {data.priceType}
                       </p>
                     </div>
-                    <div className="col-span-4">
-                      <p className="text-lg font-semibold">
-                        Coverage Type
-                      </p>
-                      <p className="text-base font-bold">
-                        {" "}
-                        {data.coverageType}
-                      </p>
-                    </div>
+
                     <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Term
@@ -729,7 +721,7 @@ function CompanyPriceBook() {
                           )}{" "}
                       </p>
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Administration fee
                       </p>
@@ -791,6 +783,23 @@ function CompanyPriceBook() {
                         </div>
                       </>
                     )}
+                    <div className="col-span-4">
+                      <p className="text-lg font-semibold">
+                        Coverage Type
+                      </p>
+                      <p className="text-base font-bold">
+                        {" "}
+                        {data.coverageType && data.coverageType.length > 0 ? (
+                          <ol className="list-disc pl-6">
+                            {data.coverageType.map((type, index) => (
+                              <li key={index}>{type}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          "No coverage types available"
+                        )}
+                      </p>
+                    </div>
                     {data.priceType == "Quantity Pricing" && (
                       <>
                         <div className="col-span-12">

@@ -23,10 +23,12 @@ import {
   editCompanyList,
   getCategoryListActiveData,
   getCompanyPriceBookById,
+  getCovrageList,
   getTermList,
 } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -34,6 +36,8 @@ function AddCompanyPriceBook() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
+  const [coverage, setCoverage] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [totalAmount, setTotalAmount] = useState();
   const [type, setType] = useState("");
   const { id } = useParams();
@@ -56,7 +60,7 @@ function AddCompanyPriceBook() {
       name: "",
       description: "",
       pName: "",
-      coverageType: "",
+      coverageType: [],
       term: "",
       frontingFee: "",
       reinsuranceFee: "",
@@ -271,6 +275,7 @@ function AddCompanyPriceBook() {
   useEffect(() => {
     getCategoryListActiveData11();
     getTermListData();
+    getCovrageListData();
   }, []);
   useEffect(() => {
     calculateTotal();
@@ -351,6 +356,23 @@ function AddCompanyPriceBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverage(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
+
   const getTermListData = async () => {
     try {
       const res = await getTermList();
@@ -388,6 +410,11 @@ function AddCompanyPriceBook() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleSelectChange1 = (selectedOptions) => {
+    formik.setFieldValue("coverageType", selectedOptions);
+  };
+
   const handleSelectChange = (name, selectedValue) => {
     console.log(name);
     if (name === "priceCatId") {
@@ -411,11 +438,7 @@ function AddCompanyPriceBook() {
     { label: "Inactive", value: false },
   ];
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+
   const defaultValue = formik.values.status === "" ? false : true;
   const handleGOBack = () => {
     navigate(-1);
@@ -792,35 +815,51 @@ function AddCompanyPriceBook() {
                   <></>
                 ) : (
                   <div className="col-span-1">
-                    <Select
-                      label="Coverage Type "
-                      name="coverageType"
-                      placeholder=""
-                      onChange={handleSelectChange}
-                      required={true}
-                      className="!bg-white"
-                      options={coverage}
-                      value={
-                        (
-                          coverage.find(
-                            (option) =>
-                              option.value === formik.values.coverageType
-                          ) || {}
-                        ).value || ""
-                      }
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.coverageType &&
-                        formik.errors.coverageType
-                      }
-                    />
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type "
+                          name="coverageType"
+                          placeholder=""
+                          onChange={(value) => {
+                            setSelected(value);
+                            const values = value.map(option => option.value);
+                            formik.setFieldValue("coverageType", values);
+                          }}
 
-                    {formik.touched.coverageType &&
-                      formik.errors.coverageType && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.coverageType}
-                        </div>
-                      )}
+                          required={true}
+                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                          options={coverage}
+                          value={selected}
+                          // value={
+                          //   (
+                          //     coverage.find(
+                          //       (option) =>
+                          //         option.value === formik.values.coverageType
+                          //     ) || {}
+                          //   ).value || ""
+                          // }
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+
+                        {formik.touched.coverageType &&
+                          formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )}
+                      </div>
+                    </div>
                   </div>
                 )}
                 {type == "Edit" ? (
