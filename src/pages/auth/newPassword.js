@@ -29,7 +29,14 @@ function NewPassword() {
   const [error, setError] = useState("");
   const { id, token } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [details, setDetails] = useState();
+  const [siteDetails,setSiteDetails]= useState({})
+ 
+  useEffect(() => {
+    const data = localStorage.getItem("siteSettings")
+    setSiteDetails(JSON.parse(data))
+    console.log(JSON.parse(data))
+  }, []);
+  
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -52,27 +59,15 @@ function NewPassword() {
       }
     },
   });
-  // console.log(id, token);
-  const fetchUserDetails12 = async () => {
-    try {
-      const userDetails = await getSetting();
 
-      if (userDetails && userDetails.result) {
-        setDetails(userDetails.result[0]);
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserDetails12();
-  }, []);
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     checkValidLink()
   }, [])
+
   const checkValidLink = () => {
     checkLink(id, token).then((res) => {
       if (res.code != 200) {
@@ -94,7 +89,7 @@ function NewPassword() {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <img src={`${siteDetails?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Enter </span> New Password
               </p>

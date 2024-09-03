@@ -29,9 +29,9 @@ function Layout() {
 
 
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserDetails();
+  // }, []);
 
   const fetchUserDetails = async () => {
     try {

@@ -111,9 +111,9 @@ function Dashboard() {
   //     }
   // }, [])
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserDetails();
+  // }, []);
 
   const fetchUserDetails = async () => {
     try {

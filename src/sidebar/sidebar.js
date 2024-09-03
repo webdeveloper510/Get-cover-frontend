@@ -59,18 +59,8 @@ function SidebarItem({
   }, []);
 
   const fetchUserDetails = async () => {
-
-    console.log("Fetching user details...");
-    const userDetails = await getSetting();
-    console.log("User details fetched:---****-->", userDetails.result[0]);
-    const fetchedData = userDetails.result[0];
-    let local = JSON.parse(localStorage.getItem("siteSettings"));
-    // localStorage.removeItem('userDetails')
-    local.siteSettings = fetchedData
-    localStorage.setItem("siteSettings", JSON.stringify(local));
+    const fetchedData = JSON.parse( localStorage.getItem("siteSettings"))
     const colorScheme = fetchedData.colorScheme;
-
-
     colorScheme.forEach(color => {
       switch (color.colorType) {
         case 'sideBarTextColor':
@@ -594,15 +584,16 @@ function SideBar() {
   );
   const [selectedFile2, setSelectedFile2] = useState('');
   const [url, setUrl] = useState('');
+  const [siteDetails,setSiteDetails]= useState({})
+ 
   console.log(selectedFile2, '--selectedFile2');
 
   useEffect(() => {
-    const storedUserDetails = getUserDetailsFromLocalStorage();
-
-    if (storedUserDetails) {
-      setUrl(storedUserDetails.logoLight ? storedUserDetails.logoLight.fullUrl : null);
-      setSelectedFile2(storedUserDetails.logoLight ? storedUserDetails.logoLight.fileName : null);
-      const colorScheme = storedUserDetails.colorScheme;
+    const data =JSON.parse( localStorage.getItem("siteSettings"))
+    if (data) {
+      setUrl(data.logoLight ? data.logoLight.fullUrl : null);
+      setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+      const colorScheme = data.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'sideBarColor':
@@ -619,22 +610,10 @@ function SideBar() {
   }, []);
 
   useEffect(() => {
-    fetchUserDetails();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    try {
-      console.log("Fetching user details...");
-      const userDetails = await getSetting();
-      console.log("User details fetched:---****-->", userDetails.result[0]);
-      const fetchedData = userDetails.result[0];
-      let local = JSON.parse(localStorage.getItem("siteSettings"));
-      // localStorage.removeItem('userDetails')
-      local.siteSettings = fetchedData
-      localStorage.setItem("siteSettings", JSON.stringify(local));
-      setUrl(fetchedData.logoLight ? fetchedData.logoLight.fullUrl : null);
-      setSelectedFile2(fetchedData.logoLight ? fetchedData.logoLight.fileName : null);
-      const colorScheme = fetchedData.colorScheme;
+    const data =JSON.parse( localStorage.getItem("siteSettings"))
+      setUrl(data.logoLight ? data.logoLight.fullUrl : null);
+      setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+      const colorScheme = data.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'sideBarColor':
@@ -646,11 +625,10 @@ function SideBar() {
           default:
             break;
         }
-      });
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
+      })
+  }, []);
+
+ 
 
 
   const navigate = useNavigate();
