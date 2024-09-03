@@ -621,22 +621,22 @@ function AddOrder() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(location);
-  //   if (location.pathname.includes("/editOrder")) {
-  //     // setLoading1(true);
-  //   }
-  //   if (location.pathname == "/addOrder") {
-  //     setType("Add");
-  //     setCurrentStep(1);
-  //     formik.resetForm();
-  //     setNumberOfOrders([]);
-  //     setFileValues([]);
-  //     formikStep2.resetForm();
-  //     formikStep3.resetForm();
-  //     formik4.resetForm();
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname.includes("/editOrder")) {
+      // setLoading1(true);
+    }
+    if (location.pathname == "/addOrder") {
+      setType("Add");
+      setCurrentStep(1);
+      formik.resetForm();
+      setNumberOfOrders([]);
+      setFileValues([]);
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -770,7 +770,7 @@ function AddOrder() {
           fileValue: "",
           priceBookDetails: {},
           dealerPriceBookDetails: {},
-          dealerSku: "" // add this
+          dealerSku: "" 
         },
       ],
     },
@@ -1185,6 +1185,7 @@ function AddOrder() {
       checkNumberProducts: "",
       orderFile: {},
       fileValue: "",
+      dealerSku:""
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1309,10 +1310,7 @@ function AddOrder() {
           data.price
         );
         // add this
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].dealerSku`,
-          data.dealerSku
-        );
+      
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
           data.priceType
@@ -1399,7 +1397,10 @@ function AddOrder() {
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-
+      formikStep3.setFieldValue(
+        `productsArray[${productIndex}].dealerSku`,
+        data.dealerSku
+      );
         handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data == undefined ? "":data.priceBookId)
     }
     if (name.includes("term")) {
