@@ -20,39 +20,14 @@ function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [details, setDetails] = useState();
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
-  const fetchUserDetails12 = async () => {
-    try {
-      const userDetails = await getSetting();
-
-      if (userDetails && userDetails.result) {
-        setDetails(userDetails.result[0]);
-        const fetchedData = userDetails.result[0];
-        localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
-        if (userDetails.result && userDetails.result[0].colorScheme) {
-          const colorScheme = userDetails.result[0].colorScheme;
-          colorScheme.forEach(color => {
-            switch (color.colorType) {
-              case 'buttonColor':
-                setBackGroundColor(color.colorCode);
-                break;
-              case 'buttonTextColor':
-                setButtonTextColor(color.colorCode);
-                break;
-              default:
-                break;
-            }
-          });
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  };
+  const [siteDetails,setSiteDetails]= useState({})
+ 
   useEffect(() => {
-    fetchUserDetails12();
+    const data = localStorage.getItem("siteSettings")
+    setSiteDetails(JSON.parse(data))
+    console.log(JSON.parse(data))
   }, []);
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
@@ -109,10 +84,10 @@ function Login() {
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={`${details?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(details?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+                <img src={`${siteDetails?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
-                  {details?.title}
+                  {siteDetails?.title}
                 </p>
                 <p className="text-neutral-grey text-xl font-medium mb-5">
                   <span className="font-semibold"> Sign in </span> to your

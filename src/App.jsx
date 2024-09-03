@@ -25,7 +25,8 @@ function App() {
             link.rel = 'icon';
             document.getElementsByTagName('head')[0].appendChild(link);
           }
-          link.href = `${userDetails.result[0].favIcon.fullUrl}uploads/logo/${userDetails.result[0].favIcon.fileName}`;
+          console.log(`${userDetails?.result[0]?.favIcon.fullUrl}uploads/logo/${userDetails.result[0].favIcon.fileName}`)
+          link.href = `${userDetails?.result[0]?.favIcon.fullUrl}uploads/logo/${userDetails.result[0].favIcon.fileName}`;
           document.title = userDetails.result[0].title || 'Default Title';
         } else {
           console.log("User details are invalid or empty.");
