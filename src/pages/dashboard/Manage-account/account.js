@@ -997,18 +997,18 @@ function Account() {
         console.log(apiData);
         const result = await saveSetting(apiData);
         console.log(result);
-        let local = JSON.parse(localStorage.getItem("siteSettings"));
-        // localStorage.removeItem('userDetails')
-        local.siteSettings = result
-        localStorage.setItem("siteSettings", JSON.stringify(local));
+        if(result)
+          {
+            localStorage.setItem('siteSettings',JSON.stringify(result.result))
+          }
         setFirstMessage("Site Setting Updated Successfully ");
         setSecondMessage("site setting updated successfully ");
         setLastMessage("site will be reloaded after setting has been updated successfully");
         setModalOpen(true);
         setTimer(3);
-        fetchUserDetails12();
+     
         setTimeout(() => {
-          window.location.href = '/';
+          window.location.reload()
         }, 3000);
         // setLoading(false);
       } catch (error) {
@@ -1022,6 +1022,11 @@ function Account() {
     setLoading(true);
     try {
       const data = await resetSetting();
+      console.log(data)
+      if(data)
+      {
+        localStorage.setItem('siteSettings',JSON.stringify(data.result))
+      }
       setFirstMessage("Site Setting Reset Successfully ");
       setSecondMessage("Site setting Reset successfully ");
       setLastMessage("Site will be reloaded after setting has been reset successfully");
@@ -1029,7 +1034,7 @@ function Account() {
       setTimer(3);
       fetchUserDetails12();
       setTimeout(() => {
-        window.location.href = '/';
+        window.location.reload();
       }, 3000);
     } catch (error) {
       console.error('Error resetting settings:', error);
