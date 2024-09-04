@@ -221,6 +221,7 @@ function ClaimList(props) {
       if (value === "Rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
+        setLoading1(true);
         value.claimStatus = "Rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {

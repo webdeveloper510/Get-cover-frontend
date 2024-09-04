@@ -645,14 +645,7 @@ function DealerPriceList() {
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Coverage Type
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType}
-              </p>
-            </div>
+
             <div className="col-span-8">
               <p className="text-lg font-semibold">
                 Description
@@ -749,6 +742,22 @@ function DealerPriceList() {
                 </div>
               </>
             )}
+            <div className="col-span-4">
+              <p className="text-lg font-semibold">
+                Coverage Type
+              </p>
+              <p className="text-base font-bold">
+                {dealerPriceBookDetail?.priceBooks?.coverageType && dealerPriceBookDetail?.priceBooks?.coverageType.length > 0 ? (
+                  <ol className="list-disc pl-6">
+                    {dealerPriceBookDetail?.priceBooks?.coverageType.map((type, index) => (
+                      <li key={index}>{type}</li>
+                    ))}
+                  </ol>
+                ) : (
+                  "No coverage types available"
+                )}
+              </p>
+            </div>
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
                 <>

@@ -546,7 +546,7 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-3">
                   <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] rounded-lg mr-4">
+                    <div className="self-start bg-[#FFFFFF08] rounded-lg mr-4">
                       <img src={coverageIcon} className="" alt="terms" />
                     </div>
                     <div className="self-center">
@@ -554,7 +554,15 @@ function AddCompanyPriceBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        {detailsById?.coverageType}
+                        {detailsById.coverageType && detailsById.coverageType.length > 0 ? (
+                          <ol className="list-disc pl-6">
+                            {detailsById.coverageType.map((type, index) => (
+                              <li key={index}>{type}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          "No coverage types available"
+                        )}
                       </p>
                     </div>
                   </div>

@@ -438,7 +438,16 @@ function AddDealerBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.coverageType}
+                        { }
+                        {priceBookById?.priceBooks?.coverageType && priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          <ol className="list-disc pl-6">
+                            {priceBookById?.priceBooks?.coverageType.map((type, index) => (
+                              <li key={index}>{type}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          "No coverage types available"
+                        )}
                       </p>
                     </div>
                   </div>
@@ -628,15 +637,25 @@ function AddDealerBook() {
                       />
                     </div>
                     <div className="col-span-4">
-                      <Input
-                        type="text"
-                        name="priceType"
-                        className="!bg-white"
-                        label="Coverage Type"
-                        placeholder=""
-                        value={formik.values.coverageType}
-                        disabled={true}
-                      />
+                      <div className="relative">
+                        <label
+                          htmlFor="coverageType"
+                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Coverage Type
+                        </label>
+                        <div className="block w-full text-base font-semibold bg-transparent p-2.5 rounded-lg border border-gray-300">
+                          {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
+                            <ol className="list-disc pl-6">
+                              {formik.values.coverageType.map((type, index) => (
+                                <li className="font-semibold text-[#5D6E66]" key={index}>{type}</li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </>
                 )}
