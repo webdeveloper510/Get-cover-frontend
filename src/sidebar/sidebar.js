@@ -645,7 +645,8 @@ function SideBar() {
   };
 
   const handleLogOut = () => {
-    localStorage.clear();
+    localStorage.removeItem("userDetails");
+    localStorage.removeItem("lengthofNotifications");
     navigate("/");
   };
 

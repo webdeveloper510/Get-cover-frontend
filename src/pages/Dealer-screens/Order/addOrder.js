@@ -924,12 +924,28 @@ function DealerAddOrder() {
     ]);
   };
 
+  // const handleDeleteProduct = (index) => {
+  //   const updatedProduct = [...formikStep3.values.productsArray];
+  //   updatedProduct.splice(index, 1);
+  //   formikStep3.setFieldValue("productsArray", updatedProduct);
+  // };
   const handleDeleteProduct = (index) => {
+    handleInputClickReset(index)
     const updatedProduct = [...formikStep3.values.productsArray];
+    console.log(formikStep3.values.productsArray.splice(index,1))
     updatedProduct.splice(index, 1);
-    formikStep3.setFieldValue("productsArray", updatedProduct);
-  };
+     formikStep3.setFieldValue("productsArray", updatedProduct);
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = null;
 
+      return newArray;
+    });
+   
+      console.log(formikStep3.values.productsArray,updatedProduct)
+
+  };
+  
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -2141,7 +2157,7 @@ function DealerAddOrder() {
                             onChange={(e) => {
                               formikStep3.handleChange(e);
                               const selectedDate = new Date(e.target.value);
-                              selectedDate.setDate(selectedDate.getDate() + 1);
+                              selectedDate.setDate(selectedDate.getDate());
 
                               const gmtDate = selectedDate.toISOString();
                               formikStep3.setFieldValue(

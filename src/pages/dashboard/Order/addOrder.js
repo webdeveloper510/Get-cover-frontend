@@ -621,22 +621,22 @@ function AddOrder() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(location);
-  //   if (location.pathname.includes("/editOrder")) {
-  //     // setLoading1(true);
-  //   }
-  //   if (location.pathname == "/addOrder") {
-  //     setType("Add");
-  //     setCurrentStep(1);
-  //     formik.resetForm();
-  //     setNumberOfOrders([]);
-  //     setFileValues([]);
-  //     formikStep2.resetForm();
-  //     formikStep3.resetForm();
-  //     formik4.resetForm();
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    console.log(location);
+    if (location.pathname.includes("/editOrder")) {
+      // setLoading1(true);
+    }
+    if (location.pathname == "/addOrder") {
+      setType("Add");
+      setCurrentStep(1);
+      formik.resetForm();
+      setNumberOfOrders([]);
+      setFileValues([]);
+      formikStep2.resetForm();
+      formikStep3.resetForm();
+      formik4.resetForm();
+    }
+  }, [location]);
 
   const renderStep = () => {
     switch (currentStep) {
@@ -770,7 +770,7 @@ function AddOrder() {
           fileValue: "",
           priceBookDetails: {},
           dealerPriceBookDetails: {},
-          dealerSku: "" // add this
+          dealerSku: "" 
         },
       ],
     },
@@ -1089,7 +1089,7 @@ function AddOrder() {
   const handleDateChange = (e, index) => {
     const inputValue = e.target.value;
     const selectedDate = new Date(inputValue);
-    selectedDate.setDate(selectedDate.getDate() + 1);
+    selectedDate.setDate(selectedDate.getDate());
 
     const gmtDate = selectedDate.toISOString();
     formikStep3.setFieldValue(
@@ -1185,6 +1185,7 @@ function AddOrder() {
       checkNumberProducts: "",
       orderFile: {},
       fileValue: "",
+      dealerSku:""
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1206,15 +1207,20 @@ function AddOrder() {
   };
 
   const handleDeleteProduct = (index) => {
+    handleInputClickReset(index)
     const updatedProduct = [...formikStep3.values.productsArray];
+    console.log(formikStep3.values.productsArray.splice(index,1))
     updatedProduct.splice(index, 1);
+     formikStep3.setFieldValue("productsArray", updatedProduct);
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
 
       return newArray;
     });
-    formikStep3.setFieldValue("productsArray", updatedProduct);
+   
+      console.log(formikStep3.values.productsArray,updatedProduct)
+
   };
 
   const openModal = () => {
@@ -1303,16 +1309,16 @@ function AddOrder() {
           `productsArray[${productIndex}].QuantityPricing`,
           updatedQuantityPricing
         );
-
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].dealerSku`,
+          data.dealerSku
+        );
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].price`,
           data.price
         );
         // add this
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].dealerSku`,
-          data.dealerSku
-        );
+      
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
           data.priceType
@@ -1399,7 +1405,7 @@ function AddOrder() {
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-
+    
         handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data == undefined ? "":data.priceBookId)
     }
     if (name.includes("term")) {
