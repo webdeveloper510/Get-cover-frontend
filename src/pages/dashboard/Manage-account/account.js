@@ -60,6 +60,7 @@ function Account() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [isSetDefalt, setIsSetDefalt] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [deleteId, setDeleteId] = useState("");
@@ -265,6 +266,10 @@ function Account() {
   };
   const closeModal12 = () => {
     setIsModalOpen12(false);
+  };
+
+  const closeDefalt = () => {
+    setIsSetDefalt(false);
   };
 
   const closePassword = () => {
@@ -1017,27 +1022,28 @@ function Account() {
     },
   });
 
-  const handleReset = async () => {
-    setLoading(true);
-    try {
-      const data = await resetSetting();
-      console.log(data)
-      if (data) {
-        localStorage.setItem('siteSettings', JSON.stringify(data.result))
-      }
-      setFirstMessage("Site Setting Reset Successfully ");
-      setSecondMessage("Site setting Reset successfully ");
-      setLastMessage("Site will be reloaded after setting has been reset successfully");
-      setModalOpen(true);
-      setTimer(3);
-      fetchUserDetails12();
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-    } catch (error) {
-      console.error('Error resetting settings:', error);
+  const handleReset = async (value) => {
+    console.log(value, '-value---');
+    // setLoading(true);
+    // try {
+    //   const data = await resetSetting();
+    //   console.log(data)
+    //   if (data) {
+    //     localStorage.setItem('siteSettings', JSON.stringify(data.result))
+    //   }
+    //   setFirstMessage("Site Setting Reset Successfully ");
+    //   setSecondMessage("Site setting Reset successfully ");
+    //   setLastMessage("Site will be reloaded after setting has been reset successfully");
+    //   setModalOpen(true);
+    //   setTimer(3);
+    //   fetchUserDetails12();
+    //   setTimeout(() => {
+    //     window.location.reload();
+    //   }, 3000);
+    // } catch (error) {
+    //   console.error('Error resetting settings:', error);
 
-    }
+    // }
   };
 
   return (
@@ -1736,6 +1742,7 @@ function Account() {
                   </div>
                 </Grid>
                 <div className="text-right">
+                  <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>
                   <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
@@ -2103,6 +2110,33 @@ function Account() {
             <Button
               className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
               onClick={() => closeModal1()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
+        </div>
+      </Modal>
+
+      {/* Modal Delete Popop */}
+      <Modal isOpen={isSetDefalt} onClose={closeDefalt}>
+        <div className="text-center py-3">
+          <img src={assign} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
+            Would you like to set it as the default color?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button
+              onClick={() => {
+                handleReset('default');
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeDefalt()}
             >
               No
             </Button>

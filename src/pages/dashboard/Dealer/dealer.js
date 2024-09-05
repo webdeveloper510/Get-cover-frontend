@@ -25,12 +25,13 @@ import {
   getProductListbyProductCategoryId,
   getTermList,
 } from "../../../services/dealerServices";
-import { getCategoryListActiveData } from "../../../services/priceBookService";
+import { getCategoryListActiveData, getCovrageList } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -48,6 +49,8 @@ function Dealer() {
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [message, setMessage] = useState("");
   const [types, setTypes] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [coverage, setCoverage] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
   const [timer, setTimer] = useState(3);
@@ -87,7 +90,7 @@ function Dealer() {
     isAccountCreate: false,
     customerAccountCreated: false,
     serviceCoverageType: "",
-    coverageType: "",
+    coverageType: '',
     isShippingAllowed: false,
 
     file: "",
@@ -140,7 +143,7 @@ function Dealer() {
   };
   useEffect(() => {
     console.log("here1");
-
+    getCovrageListData();
     if (id === undefined) {
       setInitialFormValues({
         name: "",
@@ -296,7 +299,20 @@ function Dealer() {
       console.log("Selected file:", file);
     }
   };
-
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverage(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
   const handleRemoveFile = () => {
     if (inputRef) {
       inputRef.current.click();
@@ -373,7 +389,7 @@ function Dealer() {
           selectedValue,
           { coverageType: types }
         );
-        console.log(response.result, "-------------------");
+        console.log(response, "--------1233-----------");
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -420,11 +436,7 @@ function Dealer() {
     formik.setFieldValue(name, selectedValue);
   };
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+
 
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
@@ -434,11 +446,16 @@ function Dealer() {
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);
   };
-  const handleSelectChange2 = async (name, value) => {
-    formik.setFieldValue(name, value);
 
+  const handleSelectChange12 = (selectedOptions) => {
+    formik.setFieldValue("coverageType", selectedOptions);
+  };
+
+  const handleSelectChange2 = async (name, value) => {
+    // formik.setFieldValue(name, value);
+    formik.setFieldValue("coverageType", value);
     const result = await getCategoryListActiveData({ coverageType: value });
-    console.log(result.result);
+    console.log(result.result, '----coverageType11---------');
     setTypes(result.coverageType);
     formik.setFieldValue("priceBook", [
       {
@@ -466,9 +483,6 @@ function Dealer() {
     enableReinitialize: true,
     validationSchema: Yup.object({
       serviceCoverageType: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      coverageType: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
       isShippingAllowed: Yup.string()
@@ -931,7 +945,59 @@ function Dealer() {
                           )}
                       </div>
                       <div className="col-span-12">
-                        <Select
+                        <div className="relative">
+                          <label
+                            htmlFor="coverageType"
+                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                          >
+                            Coverage Type
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                            <MultiSelect
+                              label="Coverage Type "
+                              name="coverageType"
+                              placeholder=""
+                              onChange={(label, value) => {
+                                setSelected(label);
+
+                                // Check selectedOptions here
+                                if (label && label.length > 0) {
+                                  const values = label.map(option => option.value); // Extract values
+                                  console.log(values, 'Debugging: check if values are extracted ');  // Debugging: check if values are extracted correctly
+                                  handleSelectChange2("coverageType", values);
+                                } else {
+                                  handleSelectChange2("coverageType", []);
+                                }
+                              }}
+                              required={true}
+                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                              options={coverage}
+                              value={selected}
+                              // value={
+                              //   (
+                              //     coverage.find(
+                              //       (option) =>
+                              //         option.value === formik.values.coverageType
+                              //     ) || {}
+                              //   ).value || ""
+                              // }
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.coverageType &&
+                                formik.errors.coverageType
+                              }
+                            />
+
+                            {formik.touched.coverageType &&
+                              formik.errors.coverageType && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.coverageType}
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                        {/* <Select
                           label="Coverage Type"
                           name="coverageType"
                           placeholder=""
@@ -952,7 +1018,7 @@ function Dealer() {
                             <div className="text-red-500 text-sm pl-2 pt-2">
                               {formik.errors.coverageType}
                             </div>
-                          )}
+                          )} */}
                       </div>
                       <div className="col-span-12">
                         <div className="relative">
@@ -1761,6 +1827,27 @@ function Dealer() {
                               </div>
                             )}
                         </div>
+                        {/* <div className="col-span-8">
+                          <div className="relative">
+                            <label
+                              htmlFor="coverageType"
+                              className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                            >
+                              Coverage Type
+                            </label>
+                            <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
+                              {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
+                                <ol className="flex flex-wrap">
+                                  {formik.values.coverageType.map((type, index) => (
+                                    <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
+                                  ))}
+                                </ol>
+                              ) : (
+                                <></>
+                              )}
+                            </div>
+                          </div>
+                        </div> */}
                       </Grid>
                     </div>
                   </div>

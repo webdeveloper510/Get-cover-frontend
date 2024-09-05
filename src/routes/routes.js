@@ -231,7 +231,7 @@ const routes = [
         ),
       },
       {
-        path: "/addDealerBook/:dealerIdValue?",
+        path: "/addPriceBook/:dealerIdValue?",
         element: (
           <PrivateRoute element={<AddDealerBook />} role={"Super Admin"} />
         ),

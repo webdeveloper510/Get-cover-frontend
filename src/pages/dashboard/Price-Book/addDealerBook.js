@@ -439,10 +439,10 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         { }
-                        {priceBookById?.priceBooks?.coverageType && priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                        {priceBookById?.priceBooks?.optionDropdown && priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
                           <ol className="list-disc pl-6">
-                            {priceBookById?.priceBooks?.coverageType.map((type, index) => (
-                              <li key={index}>{type}</li>
+                            {priceBookById?.priceBooks?.optionDropdown.map((type, index) => (
+                              <li key={index}>{type.label}</li>
                             ))}
                           </ol>
                         ) : (
@@ -585,23 +585,7 @@ function AddDealerBook() {
                       />
                     </div>
 
-                    <div className="col-span-4">
-                      <Input
-                        type="text"
-                        name="description"
-                        className="!bg-white"
-                        label="Description"
-                        // required={true}
-                        placeholder=""
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
-                        }}
-                      />
-                    </div>
+
                     <div className="col-span-4">
                       <Input
                         type="text"
@@ -636,7 +620,24 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-8">
+                      <Input
+                        type="text"
+                        name="description"
+                        className="!bg-white"
+                        label="Description"
+                        // required={true}
+                        placeholder=""
+                        value={formik.values.description}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        disabled={true}
+                        onWheelCapture={(e) => {
+                          e.preventDefault();
+                        }}
+                      />
+                    </div>
+                    <div className="col-span-12">
                       <div className="relative">
                         <label
                           htmlFor="coverageType"
@@ -644,11 +645,11 @@ function AddDealerBook() {
                         >
                           Coverage Type
                         </label>
-                        <div className="block w-full text-base font-semibold bg-transparent p-2.5 rounded-lg border border-gray-300">
+                        <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
                           {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
-                            <ol className="list-disc pl-6">
+                            <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
-                                <li className="font-semibold text-[#5D6E66]" key={index}>{type}</li>
+                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type}</li>
                               ))}
                             </ol>
                           ) : (

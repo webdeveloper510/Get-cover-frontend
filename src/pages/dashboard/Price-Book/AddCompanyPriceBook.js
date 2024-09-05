@@ -554,10 +554,10 @@ function AddCompanyPriceBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        {detailsById.coverageType && detailsById.coverageType.length > 0 ? (
+                        {detailsById.optionDropdown && detailsById.optionDropdown.length > 0 ? (
                           <ol className="list-disc pl-6">
-                            {detailsById.coverageType.map((type, index) => (
-                              <li key={index}>{type}</li>
+                            {detailsById.optionDropdown.map((type, index) => (
+                              <li key={index}>{type.label}</li>
                             ))}
                           </ol>
                         ) : (
@@ -829,22 +829,19 @@ function AddCompanyPriceBook() {
                         className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Coverage Type
+                        <span className="text-red-500">*</span>
                       </label>
                       <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
                         <MultiSelect
                           label="Coverage Type "
                           name="coverageType"
                           placeholder=""
-                          onChange={(value) => {
-                            setSelected(value);
-                            const values = value.map(option => option.value);
-                            formik.setFieldValue("coverageType", values);
-                          }}
+                          onChange={handleSelectChange1}
 
                           required={true}
                           className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
                           options={coverage}
-                          value={selected}
+                          value={formik.values.coverageType || ''}
                           // value={
                           //   (
                           //     coverage.find(

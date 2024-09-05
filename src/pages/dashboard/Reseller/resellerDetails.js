@@ -652,7 +652,7 @@ function ResellerDetails() {
         break;
       case "PriceBook":
         localStorage.setItem("Resellermenu", "PriceBook");
-        navigate(`/addDealerBook/${id.resellerId}`);
+        navigate(`/addPriceBook/${id.resellerId}`);
         break;
       case "Customer":
         localStorage.setItem("Resellermenu", "Customer");

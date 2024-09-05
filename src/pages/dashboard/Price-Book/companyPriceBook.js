@@ -789,10 +789,10 @@ function CompanyPriceBook() {
                       </p>
                       <p className="text-base font-bold">
                         {" "}
-                        {data.coverageType && data.coverageType.length > 0 ? (
+                        {data.optionDropdown && data.optionDropdown.length > 0 ? (
                           <ol className="list-disc pl-6">
-                            {data.coverageType.map((type, index) => (
-                              <li key={index}>{type}</li>
+                            {data.optionDropdown.map((label, index) => (
+                              <li key={index}>{label.label}</li>
                             ))}
                           </ol>
                         ) : (

@@ -463,7 +463,7 @@ function DealerPriceList() {
           </div>
         </div>
         <Link
-          to={"/addDealerBook"}
+          to={"/addPriceBook"}
           className=" w-[190px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
           {" "}
@@ -747,10 +747,10 @@ function DealerPriceList() {
                 Coverage Type
               </p>
               <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType && dealerPriceBookDetail?.priceBooks?.coverageType.length > 0 ? (
+                {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
                   <ol className="list-disc pl-6">
-                    {dealerPriceBookDetail?.priceBooks?.coverageType.map((type, index) => (
-                      <li key={index}>{type}</li>
+                    {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((type, index) => (
+                      <li key={index}>{type.label}</li>
                     ))}
                   </ol>
                 ) : (

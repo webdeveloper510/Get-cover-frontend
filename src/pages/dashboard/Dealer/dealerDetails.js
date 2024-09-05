@@ -90,7 +90,7 @@ function DealerDetails() {
   const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
-    useState(true);
+    useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
@@ -532,7 +532,7 @@ function DealerDetails() {
     checkTokenExpiry();
     localStorage.setItem("menu", activeTab);
 
-    console.log("-------------", createServicerAccountOption);
+    console.log("-------1542------", createServicerAccountOption);
     if (!createServicerAccountOption) {
       if (
         activeTab === "Customer" ||
@@ -731,7 +731,7 @@ function DealerDetails() {
     switch (data) {
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
-        navigate(`/addDealerBook/${id.id}`);
+        navigate(`/addPriceBook/${id.id}`);
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
