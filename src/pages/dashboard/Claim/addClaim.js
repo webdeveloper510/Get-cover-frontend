@@ -50,6 +50,7 @@ import DataTable from "react-data-table-component";
 import Card from "../../../common/card";
 
 function AddClaim() {
+  // do this
   const data = JSON.parse(localStorage.getItem("userDetails"));
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -119,6 +120,7 @@ function AddClaim() {
     }
 
     if (timer === 0) {
+      // do this
       closeCreate();
       let navigatePath = "/claimList";
       if (data.role == "Dealer") {
@@ -640,6 +642,7 @@ function AddClaim() {
   };
 
   const back = () => {
+    // do this
     if (location.pathname.includes("singleView")) {
       navigate(-1);
     } else if (data.role == "Dealer") {
@@ -832,6 +835,7 @@ function AddClaim() {
                           options={servicerData}
                           value={formikStep2.values.servicerId}
                           onBlur={formikStep2.handleBlur}
+                          // do this
                           isDisabled={data.role != "Super Admin"}
                         />
                       </div>
