@@ -875,6 +875,7 @@ function Account() {
         setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
+        setDefaults(userDetails.result[0].setDefault === 0 ? true : false);
 
       }
     } catch (error) {

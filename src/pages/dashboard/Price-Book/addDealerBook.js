@@ -29,7 +29,7 @@ import {
 } from "../../../services/dealerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getCategoryListActiveData } from "../../../services/priceBookService";
+import { getCategoryListActiveData, getCategoryListCoverage } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 
@@ -176,7 +176,7 @@ function AddDealerBook() {
       });
       console.log(
         coverageType,
-        "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}"
+
       );
       const response = await getProductListbyProductCategoryId(value, {
         coverageType: coverageType,
@@ -208,13 +208,14 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
-      console.log(selectedProduct);
+      const response = await getCategoryListCoverage(selectedProduct?.value);
+      console.log(response, "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}");
       formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
       formik.setFieldValue("dealerSku", selectedProduct.label);
-      formik.setFieldValue("coverageType", selectedProduct.coverageType);
+      formik.setFieldValue("coverageType", response.result);
     }
 
     formik.setFieldValue(name, value);
