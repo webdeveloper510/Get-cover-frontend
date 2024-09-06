@@ -22,8 +22,8 @@ function Login() {
   const navigate = useNavigate();
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
-  const [siteDetails,setSiteDetails]= useState({})
- 
+  const [siteDetails, setSiteDetails] = useState({})
+
   useEffect(() => {
     const data = localStorage.getItem("siteSettings")
     setSiteDetails(JSON.parse(data))
@@ -84,7 +84,7 @@ function Login() {
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={`${siteDetails?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+                <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
                   {siteDetails?.title}

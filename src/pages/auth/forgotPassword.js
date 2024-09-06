@@ -19,9 +19,9 @@ import { getSetting } from "../../services/extraServices";
 function ForgotPassword() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState();
-  
-  const [siteDetails,setSiteDetails]= useState({})
- 
+
+  const [siteDetails, setSiteDetails] = useState({})
+
   useEffect(() => {
     const data = localStorage.getItem("siteSettings")
     setSiteDetails(JSON.parse(data))
@@ -69,7 +69,7 @@ function ForgotPassword() {
           </div>
           <div className="col-span-6 self-center">
             <div className="mx-auto max-w-md">
-              <img src={`${siteDetails?.logoDark?.fullUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+              <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
                 Password?
