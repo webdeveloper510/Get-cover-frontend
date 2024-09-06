@@ -132,6 +132,27 @@ export const getClaimListForDealer = async (id, data) => {
   }
 };
 
+export const getOptions = async (data) => {
+  const headers = createHeaders();
+  const queryString = data
+    .map((value, index) => `key[${index}]=${encodeURIComponent(value)}`)
+    .join("&");
+
+  try {
+    const response = await axios.get(
+      `${url}/user/getOptions?${queryString}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const getUnpaidClaims = async (id, data) => {
   const headers = createHeaders();
 
