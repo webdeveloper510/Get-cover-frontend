@@ -277,6 +277,21 @@ export const resetSetting = async () => {
   }
 };
 
+export const resetDefault = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/setting/setDefault`, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const sendNotifications = async (data, id) => {
   const headers = createHeaders();
   try {

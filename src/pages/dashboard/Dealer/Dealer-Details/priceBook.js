@@ -303,14 +303,14 @@ function PriceBookList(props) {
           cell: (row, index) => {
             return (
               <div className="relative">
-                <div onClick={() => setSelectedAction(row.unique_key)}>
+                <div onClick={() => setSelectedAction(row._id)}>
                   <img
                     src={ActiveIcon}
                     className="cursor-pointer	w-[35px]"
                     alt="Active Icon"
                   />
                 </div>
-                {selectedAction === row.unique_key && (
+                {selectedAction === row._id && (
                   <div
                     ref={dropdownRef}
                     className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -774,11 +774,20 @@ function PriceBookList(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg  font-semibold">
+              <p className="text-lg font-semibold">
                 Product SKU
               </p>
-              <p className="text-base text-neutral-grey font-semibold">
+              <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.name}
+              </p>
+            </div>
+
+            <div className="col-span-8">
+              <p className="text-lg font-semibold">
+                Description
+              </p>
+              <p className="text-base font-bold">
+                {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
             <div className="col-span-4">
@@ -786,15 +795,16 @@ function PriceBookList(props) {
                 Coverage Type
               </p>
               <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType}
-              </p>
-            </div>
-            <div className="col-span-6">
-              <p className="text-lg font-semibold">
-                Description
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].description}
+
+                {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
+                  <ol className="list-disc pl-6">
+                    {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((label, index) => (
+                      <li key={index}>{label.label}</li>
+                    ))}
+                  </ol>
+                ) : (
+                  "No coverage types available"
+                )}
               </p>
             </div>
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (

@@ -588,26 +588,7 @@ function SideBar() {
 
   console.log(selectedFile2, '--selectedFile2');
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("siteSettings"))
-    if (data) {
-      setUrl(data.logoLight ? data.logoLight.baseUrl : null);
-      setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-      const colorScheme = data.colorScheme;
-      colorScheme.forEach(color => {
-        switch (color.colorType) {
-          case 'sideBarColor':
-            setSideBarColor(color.colorCode);
-            break;
-          case 'sideBarTextColor':
-            setSideBarTextColor(color.colorCode);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  }, []);
+
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("siteSettings"))

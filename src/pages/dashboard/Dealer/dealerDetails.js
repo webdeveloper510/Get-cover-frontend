@@ -73,6 +73,8 @@ import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import { MultiSelect } from "react-multi-select-component";
+import { getCovrageList } from "../../../services/priceBookService";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -87,6 +89,8 @@ function DealerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [scrolling, setScrolling] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [coverage, setCoverage] = useState([]);
   const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
@@ -186,6 +190,7 @@ function DealerDetails() {
   const carouselRef = useRef(null);
 
   useEffect(() => {
+    getCovrageListData();
     setLoading(true);
     let intervalId;
 
@@ -219,6 +224,21 @@ function DealerDetails() {
   };
   const handleRadio = (event) => {
     setShipping(event.target.value);
+  };
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverage(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
   };
 
   const getUserList = async () => {
@@ -338,9 +358,6 @@ function DealerDetails() {
         .required("Required"),
       country: Yup.string().required("Required"),
       serviceCoverageType: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      coverageType: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
       isShippingAllowed: Yup.string()
@@ -804,12 +821,6 @@ function DealerDetails() {
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);
   };
-
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
 
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
@@ -1302,28 +1313,55 @@ function DealerDetails() {
                       )}
                   </div>
                   <div className="col-span-12">
-                    <Select
-                      label="Coverage Type"
-                      name="coverageType"
-                      placeholder=""
-                      className="!bg-white"
-                      required={true}
-                      onChange={handleSelectChange1}
-                      options={coverage}
-                      // disabled={true}
-                      value={formik.values.coverageType}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.coverageType &&
-                        formik.errors.coverageType
-                      }
-                    />
-                    {formik.touched.coverageType &&
-                      formik.errors.coverageType && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.coverageType}
-                        </div>
-                      )}
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type "
+                          name="coverageType"
+                          placeholder=""
+                          onChange={(label, value) => {
+                            setSelected(label);
+
+                            // Check selectedOptions here
+                            if (label && label.length > 0) {
+                              const values = label.map(
+                                (option) => option.value
+                              ); // Extract values
+                              console.log(
+                                values,
+                                "Debugging: check if values are extracted "
+                              ); // Debugging: check if values are extracted correctly
+                              handleSelectChange("coverageType", values);
+                            } else {
+                              handleSelectChange("coverageType", []);
+                            }
+                          }}
+                          required={true}
+                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                          options={coverage}
+                          value={selected}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+
+                        {formik.touched.coverageType &&
+                          formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )}
+                      </div>
+                    </div>
                   </div>
                   <div className="col-span-12">
                     <div className="relative">

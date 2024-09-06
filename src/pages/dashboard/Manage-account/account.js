@@ -31,6 +31,7 @@ import {
   getSetting,
   sendNotifications,
   resetSetting,
+  resetDefault,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -956,8 +957,7 @@ function Account() {
     },
   });
 
-  const handleReset = async (value) => {
-    console.log(value, '-value---');
+  const handleReset = async () => {
     setLoading(true);
     try {
       const data = await resetSetting();
@@ -977,6 +977,27 @@ function Account() {
     } catch (error) {
       console.error('Error resetting settings:', error);
 
+    }
+  };
+
+  const handleDefault = async () => {
+    setIsSetDefalt(false);
+    setLoading(true);
+    try {
+      const data = await resetDefault();
+      setFirstMessage(" Successfully ");
+      setSecondMessage("Default color set successfully ");
+      setModalOpen(true);
+      setLoading(false);
+      setTimer(3);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      setFirstMessage(" Error ");
+      setSecondMessage(error.message);
+      setModalOpen(true);
+      console.error('Error Default settings:', error);
     }
   };
 
@@ -2064,7 +2085,7 @@ function Account() {
             <div className="col-span-1"></div>
             <Button
               onClick={() => {
-                handleReset('default');
+                handleDefault();
               }}
             >
               Yes

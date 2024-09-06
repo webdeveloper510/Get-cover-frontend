@@ -41,7 +41,7 @@ function AddDealerBook() {
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
-  const [coverageType, setCoverageType] = useState("");
+  const [coverageType, setCoverageType] = useState([]);
   const [loader, setLoader] = useState(false);
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
@@ -175,7 +175,7 @@ function AddDealerBook() {
         pName: "",
       });
       console.log(
-        value,
+        coverageType,
         "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}"
       );
       const response = await getProductListbyProductCategoryId(value, {
@@ -649,7 +649,7 @@ function AddDealerBook() {
                           {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
                             <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
-                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type}</li>
+                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
                               ))}
                             </ol>
                           ) : (
@@ -795,28 +795,28 @@ function AddDealerBook() {
           <>
             {type === "Edit" ? (
               <>
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   Updated{" "}
-                  <span className="text-light-black"> Successfully </span>
+                  <span className=""> Successfully </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   <b> Dealer Book </b> Updated successfully.{" "}
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   {" "}
                   Redirecting you on Dealer Book Page {timer} seconds.
                 </p>
               </>
             ) : (
               <>
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   Submitted{" "}
-                  <span className="text-light-black"> Successfully </span>
+                  <span className=""> Successfully </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   <b> New Dealer Book </b> added successfully.{" "}
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className=" text-base font-medium mt-2">
                   {" "}
                   Redirecting you on Dealer Book Page {timer} seconds.
                 </p>

@@ -1132,30 +1132,30 @@ function AddCompanyPriceBook() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           {type == "Edit" ? (
-            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              Updated <span className="text-light-black"> Successfully </span>
+            <p className="text-3xl mb-0 mt-4 font-semibold ">
+              Updated <span className=""> Successfully </span>
             </p>
           ) : (
-            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              Submitted <span className="text-light-black"> Successfully </span>
+            <p className="text-3xl mb-0 mt-4 font-semibold ">
+              Submitted <span className=""> Successfully </span>
             </p>
           )}
           {type == "Edit" ? (
             <>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 You have Successfully Updated the
                 <b> Company Price Book </b>
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Company Price Book Page {timer} seconds.
               </p>
             </>
           ) : (
             <>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 <b> Company Price Book </b> added successfully.{" "}
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Company Price Book Page {timer} seconds.
               </p>
             </>
