@@ -31,6 +31,7 @@ import {
   getSetting,
   sendNotifications,
   resetSetting,
+  resetDefault,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -803,79 +804,14 @@ function Account() {
   const [title, setTitle] = useState('');
   const [bankDetails, setBankDetails] = useState('');
   const [address, setAddress] = useState('');
-  const [state, setState] = useState('');
+  const [defaults, setDefaults] = useState(true);
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
-  const handleColorChange = (event) => {
+  const handleColorChange = (field, setter) => (event) => {
     const newColor = event.target.value;
-    setSideBarColor(newColor);
-    siteChange.setFieldValue('sideBarColor', newColor);
-  };
-
-  const handleColorChange1 = (event) => {
-    const newColor = event.target.value;
-    setSideBarTextColor(newColor);
-    siteChange.setFieldValue('sideBarTextColor', newColor);
-  };
-
-  const handleColorChange2 = (event) => {
-    const newColor = event.target.value;
-    setSideBarButtonColor(newColor);
-    siteChange.setFieldValue('sideBarButtonColor', newColor);
-  };
-
-  const handleColorChange3 = (event) => {
-    const newColor = event.target.value;
-    setSideBarButtonTextColor(newColor);
-    siteChange.setFieldValue('sideBarButtonTextColor', newColor);
-  };
-
-  const handleColorChange4 = (event) => {
-    const newColor = event.target.value;
-    setButtonColor(newColor);
-    siteChange.setFieldValue('buttonColor', newColor);
-  };
-
-  const handleColorChange5 = (event) => {
-    const newColor = event.target.value;
-    setButtonTextColor(newColor);
-    siteChange.setFieldValue('buttonTextColor', newColor);
-  };
-
-  const handleColorChange6 = (event) => {
-    const newColor = event.target.value;
-    setBackGroundColor(newColor);
-    siteChange.setFieldValue('backGroundColor', newColor);
-  };
-
-  const handleColorChange8 = (event) => {
-    const newColor = event.target.value;
-    setTitleColor(newColor);
-    siteChange.setFieldValue('titleColor', newColor);
-  };
-
-  const handleColorChange9 = (event) => {
-    const newColor = event.target.value;
-    setCardColor(newColor);
-    siteChange.setFieldValue('cardColor', newColor);
-  };
-
-  const handleColorChange10 = (event) => {
-    const newColor = event.target.value;
-    setCardBackGroundColor(newColor);
-    siteChange.setFieldValue('cardBackGroundColor', newColor);
-  };
-
-  const handleColorChange11 = (event) => {
-    const newColor = event.target.value;
-    setModelBackgroundColor(newColor);
-    siteChange.setFieldValue('modelBackgroundColor', newColor);
-  };
-
-  const handleColorChange12 = (event) => {
-    const newColor = event.target.value;
-    setModelColor(newColor);
-    siteChange.setFieldValue('modelColor', newColor);
+    setter(newColor);
+    siteChange.setFieldValue(field, newColor);
+    setDefaults(false);
   };
 
 
@@ -939,13 +875,13 @@ function Account() {
         setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
+        setDefaults(userDetails.result[0].setDefault === 0 ? true : false);
 
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
   };
-  console.log(title, '------>>><<<');
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile2,
@@ -1022,28 +958,48 @@ function Account() {
     },
   });
 
-  const handleReset = async (value) => {
-    console.log(value, '-value---');
-    // setLoading(true);
-    // try {
-    //   const data = await resetSetting();
-    //   console.log(data)
-    //   if (data) {
-    //     localStorage.setItem('siteSettings', JSON.stringify(data.result))
-    //   }
-    //   setFirstMessage("Site Setting Reset Successfully ");
-    //   setSecondMessage("Site setting Reset successfully ");
-    //   setLastMessage("Site will be reloaded after setting has been reset successfully");
-    //   setModalOpen(true);
-    //   setTimer(3);
-    //   fetchUserDetails12();
-    //   setTimeout(() => {
-    //     window.location.reload();
-    //   }, 3000);
-    // } catch (error) {
-    //   console.error('Error resetting settings:', error);
+  const handleReset = async () => {
+    setLoading(true);
+    try {
+      const data = await resetSetting();
+      console.log(data)
+      if (data) {
+        localStorage.setItem('siteSettings', JSON.stringify(data.result))
+      }
+      setFirstMessage("Site Setting Reset Successfully ");
+      setSecondMessage("Site setting Reset successfully ");
+      setLastMessage("Site will be reloaded after setting has been reset successfully");
+      setModalOpen(true);
+      setTimer(3);
+      fetchUserDetails12();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      console.error('Error resetting settings:', error);
 
-    // }
+    }
+  };
+
+  const handleDefault = async () => {
+    setIsSetDefalt(false);
+    setLoading(true);
+    try {
+      const data = await resetDefault();
+      setFirstMessage(" Successfully ");
+      setSecondMessage("Default color set successfully ");
+      setModalOpen(true);
+      setLoading(false);
+      setTimer(3);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      setFirstMessage(" Error ");
+      setSecondMessage(error.message);
+      setModalOpen(true);
+      console.error('Error Default settings:', error);
+    }
   };
 
   return (
@@ -1085,13 +1041,13 @@ function Account() {
           <div className="mt-5">
             <Button
               onClick={() => handleButtonClick("myAccount")}
-              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
+              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton == "siteSetting" ? "!bg-[#ededed] !text-[#333]" : ""
                 }`}>
               My Account
             </Button>
             <Button
               onClick={() => handleButtonClick("siteSetting")}
-              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
+              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton == "myAccount" ? "!bg-[#ededed] !text-[#333]" : ""
                 }`}>
               Site Setting
             </Button>
@@ -1591,7 +1547,7 @@ function Account() {
                           content='you can change the sideBar Background color here'
                           label="SideBar Color"
                           placeholder=""
-                          value={sideBarColor} onChange={handleColorChange}
+                          value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1604,7 +1560,7 @@ function Account() {
                           content='you can change the sideBar text color here'
                           label="SideBar text Color"
                           placeholder=""
-                          value={sideBarTextColor} onChange={handleColorChange1}
+                          value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1617,7 +1573,7 @@ function Account() {
                           className1="h-11"
                           label="SideBar Button "
                           placeholder=""
-                          value={sideBarButtonColor} onChange={handleColorChange2}
+                          value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1630,7 +1586,7 @@ function Account() {
                           className1="h-11"
                           label="SideBar text Button "
                           placeholder=""
-                          value={sideBarButtonTextColor} onChange={handleColorChange3}
+                          value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1643,7 +1599,7 @@ function Account() {
                           className1="h-11"
                           label="Button Color"
                           placeholder=""
-                          value={buttonColor} onChange={handleColorChange4}
+                          value={buttonColor} onChange={handleColorChange('buttonColor', setButtonColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1656,7 +1612,7 @@ function Account() {
                           className1="h-11"
                           label="Button text Color"
                           placeholder=""
-                          value={buttonTextColor} onChange={handleColorChange5}
+                          value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1669,7 +1625,7 @@ function Account() {
                           className1="h-11"
                           label="Background Color"
                           placeholder=""
-                          value={backGroundColor} onChange={handleColorChange6}
+                          value={backGroundColor} onChange={handleColorChange('backGroundColor', setBackGroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1682,7 +1638,7 @@ function Account() {
                           className1="h-11"
                           label="Text Color"
                           placeholder=""
-                          value={titleColor} onChange={handleColorChange8}
+                          value={titleColor} onChange={handleColorChange('titleColor', setTitleColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1695,7 +1651,7 @@ function Account() {
                           className1="h-11"
                           label="Card Color"
                           placeholder=""
-                          value={cardBackGroundColor} onChange={handleColorChange10}
+                          value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1708,7 +1664,7 @@ function Account() {
                           className1="h-11"
                           label="Card Text Color"
                           placeholder=""
-                          value={cardColor} onChange={handleColorChange9}
+                          value={cardColor} onChange={handleColorChange('cardColor', setCardColor)}
                         />
                       </div>
 
@@ -1722,7 +1678,7 @@ function Account() {
                           className1="h-11 "
                           label="Model Color"
                           placeholder=""
-                          value={modelBackgroundColor} onChange={handleColorChange11}
+                          value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1735,14 +1691,15 @@ function Account() {
                           className1="h-11"
                           label="Model text Color"
                           placeholder=""
-                          value={modelColor} onChange={handleColorChange12}
+                          value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
                         />
                       </div>
                     </Grid>
                   </div>
                 </Grid>
                 <div className="text-right">
-                  <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>
+                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
+
                   <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
@@ -2129,7 +2086,7 @@ function Account() {
             <div className="col-span-1"></div>
             <Button
               onClick={() => {
-                handleReset('default');
+                handleDefault();
               }}
             >
               Yes

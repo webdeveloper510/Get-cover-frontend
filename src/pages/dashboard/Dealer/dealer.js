@@ -27,6 +27,7 @@ import {
 } from "../../../services/dealerServices";
 import {
   getCategoryListActiveData,
+  getCategoryListCoverage,
   getCovrageList,
 } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
@@ -50,6 +51,7 @@ function Dealer() {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
+  const [coverageType, setCoverageType] = useState([]);
   const [message, setMessage] = useState("");
   const [types, setTypes] = useState("");
   const [selected, setSelected] = useState([]);
@@ -390,7 +392,7 @@ function Dealer() {
           selectedValue,
           { coverageType: types }
         );
-        console.log(response, "--------1233-----------");
+
         setProductNameOptions((prevOptions) => {
           const newOptions = [...prevOptions];
           newOptions[match[1]] = {
@@ -431,6 +433,9 @@ function Dealer() {
       formik.setFieldValue(`priceBook[${match[1]}].terms`, data.term);
       formik.setFieldValue(`priceBook[${match[1]}].pName`, data.pName);
       console.log(match[1], data);
+      const res = await getCategoryListCoverage(data.value);
+      console.log(res, "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}");
+      setCoverageType(res.result)
     }
 
     console.log(name);
@@ -548,18 +553,18 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                priceBookId: Yup.string().required("Required"),
-                categoryId: Yup.string().required("Required"),
-                dealerSku: Yup.string().required("Required"),
-                retailPrice: Yup.number()
-                  .typeError("Required")
-                  .required("Required")
-                  .min(0, "Retail Price cannot be negative")
-                  .nullable(),
-                status: Yup.boolean().required("Required"),
-              })
-            ),
+            Yup.object().shape({
+              priceBookId: Yup.string().required("Required"),
+              categoryId: Yup.string().required("Required"),
+              dealerSku: Yup.string().required("Required"),
+              retailPrice: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .min(0, "Retail Price cannot be negative")
+                .nullable(),
+              status: Yup.boolean().required("Required"),
+            })
+          ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -570,17 +575,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1839,27 +1844,27 @@ function Dealer() {
                                 </div>
                               )}
                           </div>
-                          {/* <div className="col-span-8">
-                          <div className="relative">
-                            <label
-                              htmlFor="coverageType"
-                              className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                            >
-                              Coverage Type
-                            </label>
-                            <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                              {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
-                                <ol className="flex flex-wrap">
-                                  {formik.values.coverageType.map((type, index) => (
-                                    <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
-                                  ))}
-                                </ol>
-                              ) : (
-                                <></>
-                              )}
+                          <div className="col-span-8">
+                            <div className="relative">
+                              <label
+                                htmlFor="coverageType"
+                                className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                              >
+                                Coverage Type
+                              </label>
+                              <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
+                                {coverageType && coverageType.length > 0 ? (
+                                  <ol className="flex flex-wrap">
+                                    {coverageType.map((type, index) => (
+                                      <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
+                                    ))}
+                                  </ol>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div> */}
                         </Grid>
                       </div>
                     </div>

@@ -29,7 +29,7 @@ import {
 } from "../../../services/dealerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getCategoryListActiveData } from "../../../services/priceBookService";
+import { getCategoryListActiveData, getCategoryListCoverage } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 
@@ -41,7 +41,7 @@ function AddDealerBook() {
   const [error, setError] = useState("");
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
-  const [coverageType, setCoverageType] = useState("");
+  const [coverageType, setCoverageType] = useState([]);
   const [loader, setLoader] = useState(false);
   const [priceBookById, setPriceBookById] = useState({});
   const navigate = useNavigate();
@@ -175,8 +175,8 @@ function AddDealerBook() {
         pName: "",
       });
       console.log(
-        value,
-        "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}"
+        coverageType,
+
       );
       const response = await getProductListbyProductCategoryId(value, {
         coverageType: coverageType,
@@ -208,13 +208,14 @@ function AddDealerBook() {
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
-      console.log(selectedProduct);
+      const response = await getCategoryListCoverage(selectedProduct?.value);
+      console.log(response, "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}");
       formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
       formik.setFieldValue("dealerSku", selectedProduct.label);
-      formik.setFieldValue("coverageType", selectedProduct.coverageType);
+      formik.setFieldValue("coverageType", response.result);
     }
 
     formik.setFieldValue(name, value);
@@ -649,7 +650,7 @@ function AddDealerBook() {
                           {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
                             <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
-                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type}</li>
+                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
                               ))}
                             </ol>
                           ) : (
@@ -795,28 +796,28 @@ function AddDealerBook() {
           <>
             {type === "Edit" ? (
               <>
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   Updated{" "}
-                  <span className="text-light-black"> Successfully </span>
+                  <span className=""> Successfully </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   <b> Dealer Book </b> Updated successfully.{" "}
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   {" "}
                   Redirecting you on Dealer Book Page {timer} seconds.
                 </p>
               </>
             ) : (
               <>
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   Submitted{" "}
-                  <span className="text-light-black"> Successfully </span>
+                  <span className=""> Successfully </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className="text-base font-medium mt-2">
                   <b> New Dealer Book </b> added successfully.{" "}
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2">
+                <p className=" text-base font-medium mt-2">
                   {" "}
                   Redirecting you on Dealer Book Page {timer} seconds.
                 </p>

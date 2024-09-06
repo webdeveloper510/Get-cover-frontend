@@ -52,6 +52,21 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
+export const getCategoryListCoverage = async (id,) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(
+      `${url}/price/getCoverageType/${id}`,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCategoryListActiveData = async (value, id,) => {
   const headers = createHeaders();
   console.log(headers);
