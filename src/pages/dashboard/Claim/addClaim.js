@@ -50,6 +50,7 @@ import DataTable from "react-data-table-component";
 import Card from "../../../common/card";
 
 function AddClaim() {
+  const data = JSON.parse(localStorage.getItem("userDetails"));
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [loading21, setLoading21] = useState(false);
@@ -119,14 +120,12 @@ function AddClaim() {
 
     if (timer === 0) {
       closeCreate();
-      const path = window.location.pathname;
       let navigatePath = "/claimList";
-
-      if (path.includes("/dealer/addClaim")) {
+      if (data.role == "Dealer") {
         navigatePath = "/dealer/claimList";
-      } else if (path.includes("/reseller/addClaim")) {
+      } else if (data.role == "Reseller") {
         navigatePath = "/reseller/claimList";
-      } else if (path.includes("/customer/addClaim")) {
+      } else if (data.role == "Customer") {
         navigatePath = "/customer/claimList";
       }
       navigate(navigatePath);
@@ -469,8 +468,9 @@ function AddClaim() {
                     )}
 
                     <div
-                      className={`col-span-4 self-end justify-end flex ${isFormEmpty() == true ? "opacity-0" : "opacity-1"
-                        }`}
+                      className={`col-span-4 self-end justify-end flex ${
+                        isFormEmpty() == true ? "opacity-0" : "opacity-1"
+                      }`}
                     >
                       <Button type="submit" disabled={isFormEmpty()}>
                         Search
@@ -497,11 +497,13 @@ function AddClaim() {
                               {!location.pathname.includes(
                                 "/customer/addClaim"
                               ) && (
-                                  <th className="font-semibold !py-3">
-                                    Customer Name
-                                  </th>
-                                )}
-                              <th className="font-semibold">Serial # / Device ID</th>
+                                <th className="font-semibold !py-3">
+                                  Customer Name
+                                </th>
+                              )}
+                              <th className="font-semibold">
+                                Serial # / Device ID
+                              </th>
                               <th className="font-semibold">Order #</th>
                               <th className="font-semibold">Dealer P.O. #</th>
                               <th className="font-semibold">Action</th>
@@ -640,9 +642,9 @@ function AddClaim() {
   const back = () => {
     if (location.pathname.includes("singleView")) {
       navigate(-1);
-    } else if (window.location.pathname.includes("/dealer/addClaim")) {
+    } else if (data.role == "Dealer") {
       navigate("/dealer/claimList");
-    } else if (window.location.pathname.includes("/reseller/addClaim")) {
+    } else if (data.role == "Reseller") {
       navigate("/reseller/claimList");
     } else {
       navigate("/claimList");
@@ -740,9 +742,9 @@ function AddClaim() {
                           {contractDetail?.productValue === undefined
                             ? parseInt(0).toLocaleString(2)
                             : formatOrderValue(
-                              Number(contractDetail?.productValue) ??
-                              parseInt(0)
-                            )}
+                                Number(contractDetail?.productValue) ??
+                                  parseInt(0)
+                              )}
                           {/* ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
                               contractDetail?.productValue ?? parseInt(0)
@@ -827,20 +829,10 @@ function AddClaim() {
                           name="servicerId"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData} // Make sure to define servicerList
+                          options={servicerData}
                           value={formikStep2.values.servicerId}
                           onBlur={formikStep2.handleBlur}
-                          isDisabled={
-                            window.location.pathname.includes(
-                              "/dealer/addClaim"
-                            ) ||
-                            window.location.pathname.includes(
-                              "/reseller/addClaim"
-                            ) ||
-                            window.location.pathname.includes(
-                              "/customer/addClaim"
-                            )
-                          }
+                          isDisabled={data.role != "Super Admin"}
                         />
                       </div>
                       <div className="col-span-6">
@@ -947,15 +939,17 @@ function AddClaim() {
                     </div>
                   </div>
                   <div className="col-span-6">
-                    {window.location.pathname.includes(
-                      "/customer/addClaim"
-                    ) ? '' : <p className=" mb-2">
-                      {" "}
-                      Max Claim amount is $
-                      {price == null
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(price ?? parseInt(0))}
-                    </p>}
+                    {window.location.pathname.includes("/customer/addClaim") ? (
+                      ""
+                    ) : (
+                      <p className=" mb-2">
+                        {" "}
+                        Max Claim amount is $
+                        {price == null
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(price ?? parseInt(0))}
+                      </p>
+                    )}
 
                     <div className="relative">
                       <label
@@ -1054,8 +1048,9 @@ function AddClaim() {
           )}
 
           <p
-            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Step 1
           </p>
@@ -1066,18 +1061,20 @@ function AddClaim() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${currentStep > 1
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
-                }  rounded-full mx-auto w-[26px]`}
+              className={`border ${
+                currentStep > 1
+                  ? "text-black border-black"
+                  : "text-[#ADADAD] border-[#ADADAD]"
+              }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
 
           <p
-            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Step 2
           </p>
@@ -1243,9 +1240,9 @@ function AddClaim() {
                         {contractDetail?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                            Number(contractDetail?.productValue) ??
-                            parseInt(0)
-                          )}
+                              Number(contractDetail?.productValue) ??
+                                parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
@@ -1412,14 +1409,14 @@ function AddClaim() {
                         {contractDetail?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                            Number(contractDetail?.claimAmount) ?? parseInt(0)
-                          )}
+                              Number(contractDetail?.claimAmount) ?? parseInt(0)
+                            )}
                       </p>
                     </div>
                   </div>
 
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                    "Flat Pricing" ? (
+                  "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -1432,9 +1429,9 @@ function AddClaim() {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                contractDetail?.order?.[0]?.productsArray?.[0]
-                                  ?.rangeStart ?? parseInt(0)
-                              )}
+                                  contractDetail?.order?.[0]?.productsArray?.[0]
+                                    ?.rangeStart ?? parseInt(0)
+                                )}
                           </p>
                         </div>
                       </div>
@@ -1449,9 +1446,9 @@ function AddClaim() {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                contractDetail?.order?.[0]?.productsArray?.[0]
-                                  ?.rangeEnd ?? parseInt(0)
-                              )}{" "}
+                                  contractDetail?.order?.[0]?.productsArray?.[0]
+                                    ?.rangeEnd ?? parseInt(0)
+                                )}{" "}
                           </p>
                         </div>
                       </div>
@@ -1540,7 +1537,7 @@ function AddClaim() {
                     </div>
                   </div>
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                    "Quantity Pricing" ? (
+                  "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5 border border-Light-Grey ">
                         <table className="w-full">
