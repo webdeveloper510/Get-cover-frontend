@@ -10,6 +10,7 @@ import Layout from "../../utils/layout";
 // Media imports
 import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
+import Login_image from "../../assets/images/Login_Page.png";
 import PasswordInput from "../../common/passwordInput";
 
 //Importing services
@@ -76,7 +77,7 @@ function Login() {
           <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
             <div className="col-span-5 hidden md:block">
               <img
-                src={Logi}
+                src={Login_image}
                 loading="lazy"
                 className="py-5 lg:h-screen h-full md:mx-auto"
                 alt="Logo "

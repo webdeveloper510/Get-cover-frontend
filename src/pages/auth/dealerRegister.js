@@ -11,6 +11,7 @@ import * as Yup from "yup";
 
 import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
+import Logi1 from "../../assets/images/Welcome_page.png";
 import email from "../../assets/images/approval-image.png";
 
 import { cityData } from "../../stateCityJson";
@@ -411,7 +412,7 @@ function DealerRegister() {
           </div>
           <div className="col-span-5">
             <img
-              src={Logi}
+              src={Logi1}
               loading="lazy"
               className="py-5  h-screen mx-auto hidden md:block"
               alt="Logo "

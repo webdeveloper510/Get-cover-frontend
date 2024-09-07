@@ -418,11 +418,8 @@ function ContractList(props) {
                                     />{" "}
                                   </div>
                                   {!window.location.pathname.includes(
-                                    "/reseller/"
-                                  ) || !window.location.pathname.includes(
-                                    "/dealer/"
-                                  ) || !window.location.pathname.includes(
-                                    "/reseller/contractList") &&
+                                    "/reseller/") || !window.location.pathname.includes(
+                                      "/dealer/") ?
                                     (props.shownEdit ||
                                       props.shownEdit === undefined ? (
                                       <Link to={`/editContract/${res._id}`}>
@@ -432,7 +429,7 @@ function ContractList(props) {
                                           alt="edit"
                                         />
                                       </Link>
-                                    ) : null)}
+                                    ) : null) : ''}
                                 </div>
                               </Grid>
 
@@ -547,270 +544,275 @@ function ContractList(props) {
             <p className="text-center text-3xl font-semibold ">
               Advance Search
             </p>
-            <Grid className="mt-5 px-6">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="contractId"
-                  className="!bg-white"
-                  label="Contract ID"
-                  placeholder=""
-                  {...formik.getFieldProps("contractId")}
-                />
-              </div>
-              {props.orderId == null ? (
-                <>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="orderId"
-                      className="!bg-white"
-                      label="Order ID"
-                      {...formik.getFieldProps("orderId")}
-                      placeholder=""
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Input
-                      type="text"
-                      name="venderOrder"
-                      className="!bg-white"
-                      label="Dealer P.O. #"
-                      {...formik.getFieldProps("venderOrder")}
-                      placeholder=""
-                    />
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
+            <div className="max-h-[70vh] overflow-y-scroll">
 
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="serial"
-                  className="!bg-white"
-                  label="Serial # / Device ID"
-                  placeholder=""
-                  {...formik.getFieldProps("serial")}
-                />
-              </div>
-              {window.location.pathname.includes(
-                "/reseller/") || window.location.pathname.includes(
-                  "/dealer/") ? '' : <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="productName"
-                  className="!bg-white"
-                  label="Product SKU"
-                  placeholder=""
-                  {...formik.getFieldProps("productName")}
-                />
-              </div>}
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="dealerSku"
-                  className="!bg-white"
-                  label="Dealer SKU"
-                  placeholder=""
-                  {...formik.getFieldProps("dealerSku")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="pName"
-                  className="!bg-white"
-                  label="Product Name"
-                  placeholder=""
-                  {...formik.getFieldProps("pName")}
-                />
-              </div>
-              {props.orderId == null ? (
-                <>
-                  {props.flag === "customer" ? (
-                    <>
-                      {/* Hide dealerName, resellerName, and customerName for customer */}
-                      <div className="col-span-6">
-                        <Input
-                          type="text"
-                          name="servicerName"
-                          className="!bg-white"
-                          label="Servicer Name"
-                          {...formik.getFieldProps("servicerName")}
-                          placeholder=""
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {props.flag === "reseller" ||
-                        location.pathname.includes("/reseller") ||
-                        location.pathname.includes("/reseller/") ? (
-                        <>
-                          {/* Hide dealerName and resellerName for reseller */}
-                          <div className="col-span-6">
-                            <Input
-                              type="text"
-                              name="customerName"
-                              className="!bg-white"
-                              label="Customer Name"
-                              {...formik.getFieldProps("customerName")}
-                              placeholder=""
-                            />
-                          </div>
-                          <div className="col-span-6">
-                            <Input
-                              type="text"
-                              name="servicerName"
-                              className="!bg-white"
-                              label="Servicer Name"
-                              {...formik.getFieldProps("servicerName")}
-                              placeholder=""
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          {props.flag === "dealer" ? (
-                            <>
-                              {/* Hide dealerName for dealer */}
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="resellerName"
-                                  className="!bg-white"
-                                  label="Reseller Name"
-                                  {...formik.getFieldProps("resellerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="customerName"
-                                  className="!bg-white"
-                                  label="Customer Name"
-                                  {...formik.getFieldProps("customerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="servicerName"
-                                  className="!bg-white"
-                                  label="Servicer Name"
-                                  {...formik.getFieldProps("servicerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              {/* Default case, show all fields */}
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="dealerName"
-                                  className="!bg-white"
-                                  label="Dealer Name"
-                                  {...formik.getFieldProps("dealerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="resellerName"
-                                  className="!bg-white"
-                                  label="Reseller Name"
-                                  {...formik.getFieldProps("resellerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="customerName"
-                                  className="!bg-white"
-                                  label="Customer Name"
-                                  {...formik.getFieldProps("customerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                              <div className="col-span-6">
-                                <Input
-                                  type="text"
-                                  name="servicerName"
-                                  className="!bg-white"
-                                  label="Servicer Name"
-                                  {...formik.getFieldProps("servicerName")}
-                                  placeholder=""
-                                />
-                              </div>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              ) : (
-                ""
-              )}
+              <Grid className="my-5 px-6">
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="contractId"
+                    className="!bg-white"
+                    label="Contract ID"
+                    placeholder=""
+                    {...formik.getFieldProps("contractId")}
+                  />
+                </div>
+                {props.orderId == null ? (
+                  <>
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="orderId"
+                        className="!bg-white"
+                        label="Order ID"
+                        {...formik.getFieldProps("orderId")}
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
+                        name="venderOrder"
+                        className="!bg-white"
+                        label="Dealer P.O. #"
+                        {...formik.getFieldProps("venderOrder")}
+                        placeholder=""
+                      />
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
 
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="model"
-                  className="!bg-white"
-                  label="Model"
-                  placeholder=""
-                  {...formik.getFieldProps("model")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="manufacture"
-                  className="!bg-white"
-                  label="Manufacturer"
-                  placeholder=""
-                  {...formik.getFieldProps("manufacture")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Status"
-                  options={status}
-                  color="text-Black-Russian opacity-50"
-                  value={selectedProduct}
-                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                  className="!text-[14px] !bg-white"
-                  selectedValue={selectedProduct}
-                  onChange={handleSelectChange1}
-                />
-              </div>
-              <div className="col-span-6">
-                <Select
-                  label="Eligibility"
-                  options={Eligible}
-                  color="text-Black-Russian opacity-50"
-                  value={value}
-                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                  className="!text-[14px] !bg-white"
-                  selectedValue={value}
-                  onChange={handleSelectChange2}
-                />
-              </div>
-              <div className="col-span-12">
-                <Button type="submit" className={"w-full"}>
-                  Search
-                </Button>
-              </div>
-            </Grid>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="serial"
+                    className="!bg-white"
+                    label="Serial # / Device ID"
+                    placeholder=""
+                    {...formik.getFieldProps("serial")}
+                  />
+                </div>
+                {window.location.pathname.includes(
+                  "/reseller/") || window.location.pathname.includes(
+                    "/dealer/") ? '' : <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="productName"
+                    className="!bg-white"
+                    label="Product SKU"
+                    placeholder=""
+                    {...formik.getFieldProps("productName")}
+                  />
+                </div>}
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="dealerSku"
+                    className="!bg-white"
+                    label="Dealer SKU"
+                    placeholder=""
+                    {...formik.getFieldProps("dealerSku")}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="pName"
+                    className="!bg-white"
+                    label="Product Name"
+                    placeholder=""
+                    {...formik.getFieldProps("pName")}
+                  />
+                </div>
+                {props.orderId == null ? (
+                  <>
+                    {props.flag === "customer" ? (
+                      <>
+                        {/* Hide dealerName, resellerName, and customerName for customer */}
+                        <div className="col-span-6">
+                          <Input
+                            type="text"
+                            name="servicerName"
+                            className="!bg-white"
+                            label="Servicer Name"
+                            {...formik.getFieldProps("servicerName")}
+                            placeholder=""
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {props.flag === "reseller" ||
+                          location.pathname.includes("/reseller") ||
+                          location.pathname.includes("/reseller/") ? (
+                          <>
+                            {/* Hide dealerName and resellerName for reseller */}
+                            <div className="col-span-6">
+                              <Input
+                                type="text"
+                                name="customerName"
+                                className="!bg-white"
+                                label="Customer Name"
+                                {...formik.getFieldProps("customerName")}
+                                placeholder=""
+                              />
+                            </div>
+                            <div className="col-span-6">
+                              <Input
+                                type="text"
+                                name="servicerName"
+                                className="!bg-white"
+                                label="Servicer Name"
+                                {...formik.getFieldProps("servicerName")}
+                                placeholder=""
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            {props.flag === "dealer" ? (
+                              <>
+                                {/* Hide dealerName for dealer */}
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="resellerName"
+                                    className="!bg-white"
+                                    label="Reseller Name"
+                                    {...formik.getFieldProps("resellerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="customerName"
+                                    className="!bg-white"
+                                    label="Customer Name"
+                                    {...formik.getFieldProps("customerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="servicerName"
+                                    className="!bg-white"
+                                    label="Servicer Name"
+                                    {...formik.getFieldProps("servicerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                              </>
+                            ) : (
+                              <>
+                                {/* Default case, show all fields */}
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="dealerName"
+                                    className="!bg-white"
+                                    label="Dealer Name"
+                                    {...formik.getFieldProps("dealerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="resellerName"
+                                    className="!bg-white"
+                                    label="Reseller Name"
+                                    {...formik.getFieldProps("resellerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="customerName"
+                                    className="!bg-white"
+                                    label="Customer Name"
+                                    {...formik.getFieldProps("customerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                                <div className="col-span-6">
+                                  <Input
+                                    type="text"
+                                    name="servicerName"
+                                    className="!bg-white"
+                                    label="Servicer Name"
+                                    {...formik.getFieldProps("servicerName")}
+                                    placeholder=""
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  ""
+                )}
+
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="model"
+                    className="!bg-white"
+                    label="Model"
+                    placeholder=""
+                    {...formik.getFieldProps("model")}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="manufacture"
+                    className="!bg-white"
+                    label="Manufacturer"
+                    placeholder=""
+                    {...formik.getFieldProps("manufacture")}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Status"
+                    options={status}
+                    color="text-Black-Russian opacity-50"
+                    value={selectedProduct}
+                    // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                    className="!text-[14px] !bg-white"
+                    selectedValue={selectedProduct}
+                    onChange={handleSelectChange1}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Select
+                    label="Eligibility"
+                    options={Eligible}
+                    color="text-Black-Russian opacity-50"
+                    value={value}
+                    // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                    className="!text-[14px] !bg-white"
+                    selectedValue={value}
+                    onChange={handleSelectChange2}
+                  />
+                </div>
+
+              </Grid>
+            </div>
+
+            <div className="col-span-12">
+              <Button type="submit" className={"w-full"}>
+                Search
+              </Button>
+            </div>
           </div>
         </form>
       </Modal>
@@ -1069,19 +1071,6 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-2 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Description
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetails?.order?.[0]?.productsArray?.[0]
-                            ?.description
-                        }
-                      </p>
-                    </div>
-                  </div>
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1095,6 +1084,20 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
+                  <div className="col-span-2 border border-Light-Grey">
+                    <div className="py-4 pl-3">
+                      <p className="text-[#5D6E66] text-sm font-Regular">
+                        Product Description
+                      </p>
+                      <p className="text-light-black text-base font-semibold">
+                        {
+                          contractDetails?.order?.[0]?.productsArray?.[0]
+                            ?.description
+                        }
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">

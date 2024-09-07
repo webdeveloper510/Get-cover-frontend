@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 // Media Imports
 import ImageRegister from "../../assets/images/register-image.png";
+import ImageRegister1 from "../../assets/images/pageRegister.png";
 import RegisterButton from "../../assets/images/register-Button.png";
 import Back from "../../assets/images/back.png";
 import Grid from "../../common/grid";
@@ -26,7 +27,7 @@ function Register() {
           </Link>
 
           <img
-            src={ImageRegister}
+            src={ImageRegister1}
             loading="lazy"
             className="mx-auto 2xl:w-full xl:w-[65%] w-full "
             alt="Register Image"

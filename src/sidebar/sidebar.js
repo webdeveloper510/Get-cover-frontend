@@ -591,9 +591,9 @@ function SideBar() {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("siteSettings"))
     if (data) {
-      setUrl(data.logoLight ? data.logoLight.baseUrl : null);
-      setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-      const colorScheme = data.colorScheme;
+      setUrl(data?.logoLight ? data?.logoLight?.baseUrl : null);
+      setSelectedFile2(data?.logoLight ? data?.logoLight?.fileName : null);
+      const colorScheme = data?.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'sideBarColor':
@@ -611,9 +611,9 @@ function SideBar() {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("siteSettings"))
-    setUrl(data.logoLight ? data.logoLight.baseUrl : null);
-    setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-    const colorScheme = data.colorScheme;
+    setUrl(data.logoLight ? data.logoLight?.baseUrl : null);
+    setSelectedFile2(data?.logoLight ? data.logoLight?.fileName : null);
+    const colorScheme = data?.colorScheme;
     colorScheme.forEach(color => {
       switch (color.colorType) {
         case 'sideBarColor':
