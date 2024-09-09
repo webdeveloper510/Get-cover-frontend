@@ -270,7 +270,7 @@ function DealerDashboard() {
     {
       name: "Term",
       selector: (row) => {
-        const months = row.priceBooks?.term;
+        const months = row?.term;
         if (months) {
           const years = (months / 12);
           return `${years} ${years == 1 ? 'Year' : 'Years'} `;
