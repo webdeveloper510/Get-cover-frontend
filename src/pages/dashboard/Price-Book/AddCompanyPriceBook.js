@@ -114,7 +114,7 @@ function AddCompanyPriceBook() {
             .typeError("Required")
             .required("Required")
             .nullable()
-            .min(0, "Range Start cannot be negative"),
+            .min(0, "Start Range  cannot be negative"),
       rangeEnd:
         value !== "Flat Pricing"
           ? Yup.number().notRequired()
@@ -122,7 +122,7 @@ function AddCompanyPriceBook() {
             .typeError("Required")
             .required("Required")
             .nullable()
-            .min(0, "Range End cannot be negative")
+            .min(0, "End Range  cannot be negative")
             .test(
               "endRange",
               "End Range should be greater than start range",

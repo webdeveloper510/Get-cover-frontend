@@ -811,7 +811,7 @@ function PriceBookList(props) {
               <>
                 <div className="col-span-4">
                   <p className="text-lg font-semibold">
-                    Range Start
+                    Start Range
                   </p>
                   <p className="text-base font-semibold">
                     {" "}
@@ -826,7 +826,7 @@ function PriceBookList(props) {
                 </div>
                 <div className="col-span-4">
                   <p className="text-lg  font-semibold">
-                    Range End
+                    End Range
                   </p>
                   <p className="text-base  font-semibold">
                     $
