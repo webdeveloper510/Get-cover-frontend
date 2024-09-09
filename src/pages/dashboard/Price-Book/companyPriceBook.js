@@ -783,16 +783,17 @@ function CompanyPriceBook() {
                         </div>
                       </>
                     )}
-                    <div className="col-span-4">
+                    <div className="col-span-12">
                       <p className="text-lg font-semibold">
                         Coverage Type
                       </p>
                       <p className="text-base font-bold">
                         {" "}
                         {data.optionDropdown && data.optionDropdown.length > 0 ? (
-                          <ol className="list-disc pl-6">
+
+                          <ol className="flex flex-wrap">
                             {data.optionDropdown.map((label, index) => (
-                              <li key={index}>{label.label}</li>
+                              <li className="font-semibold list-disc mx-[19px]" key={index}>{label.label}</li>
                             ))}
                           </ol>
                         ) : (

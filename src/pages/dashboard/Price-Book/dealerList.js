@@ -742,15 +742,15 @@ function DealerPriceList() {
                 </div>
               </>
             )}
-            <div className="col-span-4">
+            <div className="col-span-12">
               <p className="text-lg font-semibold">
                 Coverage Type
               </p>
-              <p className="text-base font-bold">
+              <p className="text-base font-bold ">
                 {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
-                  <ol className="list-disc pl-6">
+                  <ol className="flex flex-wrap">
                     {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((type, index) => (
-                      <li key={index}>{type.label}</li>
+                      <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}</li>
                     ))}
                   </ol>
                 ) : (

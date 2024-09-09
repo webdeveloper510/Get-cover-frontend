@@ -429,7 +429,7 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-4">
+                <div className="col-span-6">
                   <div className="flex">
                     <div className="self-center mr-4">
                       <img src={Coverage} alt="product" />
@@ -439,11 +439,11 @@ function AddDealerBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        { }
                         {priceBookById?.priceBooks?.optionDropdown && priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
-                          <ol className="list-disc pl-6">
+
+                          <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.optionDropdown.map((type, index) => (
-                              <li key={index}>{type.label}</li>
+                              <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}</li>
                             ))}
                           </ol>
                         ) : (
@@ -453,7 +453,7 @@ function AddDealerBook() {
                     </div>
                   </div>
                 </div>
-                <div className="col-span-8">
+                <div className="col-span-6">
                   <div className="flex">
                     <div className="self-center mr-4">
                       <img src={Description} alt="product" />

@@ -790,16 +790,17 @@ function PriceBookList(props) {
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
-            <div className="col-span-4">
+            <div className="col-span-12">
               <p className="text-lg  font-semibold">
                 Coverage Type
               </p>
               <p className="text-base font-bold">
 
                 {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
-                  <ol className="list-disc pl-6">
+
+                  <ol className="flex flex-wrap">
                     {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((label, index) => (
-                      <li key={index}>{label.label}</li>
+                      <li className="font-semibold list-disc mx-[19px]" key={index}>{label.label}</li>
                     ))}
                   </ol>
                 ) : (
