@@ -69,8 +69,8 @@ function ForgotPassword() {
               alt="Logo "
             />
           </div>
-          <div className="col-span-6 self-center">
-            <div className="mx-auto max-w-md">
+          <div className="col-span-6 self-center relative flex h-screen md:h-full">
+            <div className="mx-auto max-w-md self-center">
               <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
                 <span className="text-neutral-grey"> Forgot </span> Your
