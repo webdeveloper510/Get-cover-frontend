@@ -16,20 +16,14 @@ import check from "../../../assets/images/icons/check.svg";
 import Button from "../../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  getDealersList,
-  getProductListbyProductCategoryId,
-} from "../../../services/dealerServices";
+import { getDealersList } from "../../../services/dealerServices";
 import { getServicerListByDealerId } from "../../../services/servicerServices";
 import {
   getCustomerListByDealerIdAndResellerId,
   getServiceCoverageDetails,
 } from "../../../services/customerServices";
 import Dropbox from "../../../assets/images/icons/dropBox.svg";
-import {
-  getCategoryListActiveData,
-  getTermList,
-} from "../../../services/priceBookService";
+import { getTermList } from "../../../services/priceBookService";
 import RadioButton from "../../../common/radio";
 import {
   addOrder,
@@ -51,6 +45,7 @@ import Cross from "../../../assets/images/Cross.png";
 import { BeatLoader, RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -77,6 +72,7 @@ function AddOrder() {
   const [dealerSkuList, setDealerSkuList] = useState([]);
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
+  const [selected, setSelected] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -107,7 +103,7 @@ function AddOrder() {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
 
-      const timer = setTimeout(() => { }, 3000);
+      const timer = setTimeout(() => {}, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -373,42 +369,17 @@ function AddOrder() {
 
   const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
+    setCoverage(result.result.coverageType);
     let coverage = [];
     let serviceCoverage = [];
 
     if (type === "Edit") {
-      coverage = [
-        { label: "Breakdown", value: "Breakdown" },
-        { label: "Accidental", value: "Accidental" },
-        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-      ];
-
-      // Add the same service coverage options for edit
       serviceCoverage = [
         { label: "Parts", value: "Parts" },
         { label: "Labor ", value: "Labor" },
         { label: "Parts & Labor ", value: "Parts & Labor" },
       ];
     } else {
-      switch (result?.result?.coverageType) {
-        case "Breakdown & Accidental":
-          coverage = [
-            { label: "Breakdown", value: "Breakdown" },
-            { label: "Accidental", value: "Accidental" },
-            {
-              label: "Breakdown & Accidental",
-              value: "Breakdown & Accidental",
-            },
-          ];
-          break;
-        case "Breakdown":
-          coverage = [{ label: "Breakdown", value: "Breakdown" }];
-          break;
-        default:
-          coverage = [{ label: "Accidental", value: "Accidental" }];
-          break;
-      }
-
       switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
@@ -428,9 +399,7 @@ function AddOrder() {
           break;
       }
     }
-
-    console.log(coverage, serviceCoverage, type);
-    setCoverage(coverage);
+    // setCoverage(coverage);
     setServiceCoverage(serviceCoverage);
   };
 
@@ -595,7 +564,7 @@ function AddOrder() {
             orderFile: product.orderFile || "",
             fileValue: "",
             priceBookDetails: product?.priceBookDetail || {},
-            dealerSku:product.dealerSku|| "",
+            dealerSku: product.dealerSku || "",
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
@@ -632,6 +601,7 @@ function AddOrder() {
       formik.resetForm();
       setNumberOfOrders([]);
       setFileValues([]);
+      setSelected([]); //add this
       formikStep2.resetForm();
       formikStep3.resetForm();
       formik4.resetForm();
@@ -712,7 +682,7 @@ function AddOrder() {
     initialValues: {
       dealerPurchaseOrder: "",
       serviceCoverageType: "",
-      coverageType: "",
+      coverageType: [],
     },
     validationSchema: Yup.object().shape({
       dealerPurchaseOrder: Yup.string().required(
@@ -721,7 +691,7 @@ function AddOrder() {
       serviceCoverageType: Yup.string().required(
         "Service Coverage Type is Required"
       ),
-      coverageType: Yup.string().required("Coverage Type is Required"),
+      coverageType: Yup.array().min(1, "Coverage Type is Required"),
     }),
     onSubmit: (values) => {
       let data = {
@@ -729,7 +699,7 @@ function AddOrder() {
         dealerId: formik.values.dealerId,
         oldDealerPurchaseOrder: order?.venderOrder,
       };
-
+      console.log(values);
       const result = getStep2Validation(data).then((res) => {
         if (res.code == 401) {
           formikStep2.setFieldError(
@@ -770,7 +740,8 @@ function AddOrder() {
           fileValue: "",
           priceBookDetails: {},
           dealerPriceBookDetails: {},
-          dealerSku: "" 
+          dealerSku: "",
+          coverageFields: [], // add this
         },
       ],
     },
@@ -786,6 +757,11 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
+          coverageFields: Yup.array().of(
+            Yup.object().shape({
+              value: Yup.string().required("Required"),
+            })
+          ), //add this
           noOfProducts: Yup.number()
             .typeError("Must be a number")
             .required("Required")
@@ -843,7 +819,7 @@ function AddOrder() {
           }))
           .filter((value) => value.data.length > 0)[0].data[0];
         arr1.push(value1 ? value1.label : "");
-        arr2.push(value1 ? value1.dealerSku : "")
+        arr2.push(value1 ? value1.dealerSku : "");
       });
 
       productNameOptions.forEach((item, index) => {
@@ -859,13 +835,25 @@ function AddOrder() {
           );
         });
       });
-      console.log(arr2)
+      console.log(arr2);
       setCategoryName(arr);
       setPriceBookName(arr1);
-      setDealerSkuName(arr2)
+      setDealerSkuName(arr2);
       setLoading5(false);
     },
   });
+  // add this
+  useEffect(() => {
+    const selectedCoverages = formikStep2.values.coverageType;
+    console.log(selectedCoverages)
+    if (selectedCoverages.length) {
+      const updatedProductsArray = selectedCoverages.map((data) => ({
+        label:data.label,
+        value: "00", 
+      }));
+      formikStep3.setFieldValue("productsArray[0].coverageFields", updatedProductsArray);
+    }
+  }, [formikStep2.values.coverageType]);
 
   const BillTo = [
     { label: "Dealer", value: "Dealer" },
@@ -1185,7 +1173,7 @@ function AddOrder() {
       checkNumberProducts: "",
       orderFile: {},
       fileValue: "",
-      dealerSku:""
+      dealerSku: "",
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1207,20 +1195,19 @@ function AddOrder() {
   };
 
   const handleDeleteProduct = (index) => {
-    handleInputClickReset(index)
+    handleInputClickReset(index);
     const updatedProduct = [...formikStep3.values.productsArray];
-    console.log(formikStep3.values.productsArray.splice(index,1))
+    console.log(formikStep3.values.productsArray.splice(index, 1));
     updatedProduct.splice(index, 1);
-     formikStep3.setFieldValue("productsArray", updatedProduct);
+    formikStep3.setFieldValue("productsArray", updatedProduct);
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
 
       return newArray;
     });
-   
-      console.log(formikStep3.values.productsArray,updatedProduct)
 
+    console.log(formikStep3.values.productsArray, updatedProduct);
   };
 
   const openModal = () => {
@@ -1236,8 +1223,8 @@ function AddOrder() {
   };
 
   const handleSelectChange2 = async (name, selectedValue) => {
-    console.log(name)
-    console.log()
+    console.log(name);
+    console.log();
     const match = name.match(/\[(\d+)\]/);
 
     if (!match) {
@@ -1259,10 +1246,7 @@ function AddOrder() {
         ""
       );
       //add this
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].dealerSku`,
-        ""
-      );
+      formikStep3.setFieldValue(`productsArray[${productIndex}].dealerSku`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].unitPrice`, "");
       formikStep3.setFieldValue(
         `productsArray[${productIndex}].description`,
@@ -1296,7 +1280,7 @@ function AddOrder() {
       );
 
       if (data) {
-        console.log(data)
+        console.log(data);
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].noOfProducts`,
           ""
@@ -1318,7 +1302,7 @@ function AddOrder() {
           data.price
         );
         // add this
-      
+
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
           data.priceType
@@ -1405,8 +1389,11 @@ function AddOrder() {
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-    
-        handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data == undefined ? "":data.priceBookId)
+
+      handleSelectChange2(
+        `productsArray[${productIndex}].priceBookId`,
+        data == undefined ? "" : data.priceBookId
+      );
     }
     if (name.includes("term")) {
       getCategoryList(
@@ -1509,7 +1496,7 @@ function AddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku: "",//add this
+          dealerSku: "", //add this
           coverageType: value,
         },
         0
@@ -1529,6 +1516,7 @@ function AddOrder() {
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
       formik.setFieldValue("dealerId", value);
+      setSelected([]); //add this
       formikStep2.resetForm();
       let data = {
         dealerId: value,
@@ -1661,8 +1649,7 @@ function AddOrder() {
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
           dealerPriceBookDetails: dealerPriceBookDetails,
-          dealerSku: item.dealerSku   // add this
-
+          dealerSku: item.dealerSku, // add this
         }));
 
         const category = result.result?.priceCategories.map((item) => ({
@@ -1678,11 +1665,13 @@ function AddOrder() {
           label: item.pName,
           value: item.pName,
         }));
-        const dealerSkuListData = result.result?.dealerPriceBook.map((item) => ({
-          label: item.dealerSku,
-          value: item.dealerSku,
-          priceBookId: item.priceBook
-        }));
+        const dealerSkuListData = result.result?.dealerPriceBook.map(
+          (item) => ({
+            label: item.dealerSku,
+            value: item.dealerSku,
+            priceBookId: item.priceBook,
+          })
+        );
 
         updateOptions(setCategoryList, category);
         updateOptions(setDealerSkuList, dealerSkuListData);
@@ -1817,14 +1806,15 @@ function AddOrder() {
                           label="Dealer Name"
                           name="dealerId"
                           required={true}
-                          className={`${orderId ||
+                          className={`${
+                            orderId ||
                             dealerId ||
                             resellerId ||
                             dealerValue ||
                             customerId
-                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                            : "!bg-white"
-                            }`}
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                              : "!bg-white"
+                          }`}
                           onChange={handleSelectChange}
                           value={formik.values?.dealerId}
                           onBlur={formik.handleBlur}
@@ -1852,10 +1842,11 @@ function AddOrder() {
                           label="Reseller Name"
                           name="resellerId"
                           placeholder=""
-                          className={`${resellerId
-                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                            : "!bg-white"
-                            }`}
+                          className={`${
+                            resellerId
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                              : "!bg-white"
+                          }`}
                           isDisabled={resellerId || customerId}
                           onChange={handleSelectChange}
                           options={resellerList}
@@ -1888,10 +1879,11 @@ function AddOrder() {
                           label="Customer Name"
                           name="customerId"
                           placeholder=""
-                          className={`${customerId
-                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                            : "!bg-white"
-                            }`}
+                          className={`${
+                            customerId
+                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                              : "!bg-white"
+                          }`}
                           isDisabled={customerId}
                           onChange={handleSelectChange}
                           options={customerList}
@@ -1902,7 +1894,7 @@ function AddOrder() {
                           }
                           onBlur={formik.handleBlur}
                         />
-                        <span className="ml-3 mt-2">{ }</span>
+                        <span className="ml-3 mt-2">{}</span>
                       </div>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach
@@ -2026,7 +2018,7 @@ function AddOrder() {
                     Processing...
                   </Button>
                 ) : (
-                  <Button type="submit" className="mr-3" onClick={() => { }}>
+                  <Button type="submit" className="mr-3" onClick={() => {}}>
                     Next
                   </Button>
                 )}
@@ -2080,10 +2072,11 @@ function AddOrder() {
                     disabled={type == "Edit"}
                     placeholder=""
                     className="!bg-white"
-                    className1={`${type == "Edit"
-                      ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                      : "!bg-white"
-                      }`}
+                    className1={`${
+                      type == "Edit"
+                        ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                        : "!bg-white"
+                    }`}
                     required={true}
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
@@ -2102,21 +2095,26 @@ function AddOrder() {
                     )}
                 </div>
                 <div className="col-span-6">
-                  <Select
+                  <MultiSelect
                     label="Coverage Type"
                     name="coverageType"
                     placeholder=""
-                    className={`${type == "Edit"
-                      ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                      : "!bg-white"
-                      }`}
-                    className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
-                      }`}
+                    className={`${
+                      type == "Edit"
+                        ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                        : "!bg-white"
+                    }`}
+                    className1={`${
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                    }`}
                     required={true}
                     disabled={type == "Edit"}
-                    onChange={handleSelectChange1}
+                    onChange={(value) => {
+                      setSelected(value);
+                      handleSelectChange1("coverageType", value);
+                    }}
                     options={coverage}
-                    value={formikStep2.values.coverageType}
+                    value={selected}
                     onBlur={formikStep2.handleBlur}
                     error={
                       formikStep2.touched.coverageType &&
@@ -2205,9 +2203,7 @@ function AddOrder() {
                       required={true}
                       className="!bg-white"
                       placeholder=""
-                      value={
-                        formikStep3.values.productsArray[index].categoryId
-                      }
+                      value={formikStep3.values.productsArray[index].categoryId}
                       onBlur={formikStep3.handleBlur}
                       onChange={handleSelectChange2}
                       index={index}
@@ -2221,13 +2217,11 @@ function AddOrder() {
                     />
                     {formikStep3.touched.productsArray &&
                       formikStep3.touched.productsArray[index] &&
-                      formikStep3.touched.productsArray[index]
-                        .categoryId && (
+                      formikStep3.touched.productsArray[index].categoryId && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
                           {formikStep3.errors.productsArray &&
                             formikStep3.errors.productsArray[index] &&
-                            formikStep3.errors.productsArray[index]
-                              .categoryId}
+                            formikStep3.errors.productsArray[index].categoryId}
                         </div>
                       )}
                   </div>
@@ -2242,12 +2236,11 @@ function AddOrder() {
                         disableFirstOption={true}
                         placeholder=""
                         disabled={
-                          formikStep3.values.productsArray[index]
-                            .categoryId == ""
+                          formikStep3.values.productsArray[index].categoryId ==
+                          ""
                         }
                         value={
-                          formikStep3.values.productsArray[index]
-                            .priceBookId
+                          formikStep3.values.productsArray[index].priceBookId
                         }
                         onBlur={formikStep3.handleBlur}
                         onChange={handleSelectChange2}
@@ -2257,8 +2250,7 @@ function AddOrder() {
                           formikStep3.values.productsArray[index] &&
                           formikStep3.values.productsArray &&
                           formikStep3.values.productsArray[index] &&
-                          formikStep3.values.productsArray[index]
-                            .priceBookId
+                          formikStep3.values.productsArray[index].priceBookId
                         }
                       />
                       {formikStep3.touched.productsArray &&
@@ -2275,7 +2267,7 @@ function AddOrder() {
                     </>
                     {/* )} */}
                   </div>
-                  {/* add this  */}
+                 
                   <div className="col-span-4">
                     <>
                       <Select
@@ -2287,16 +2279,15 @@ function AddOrder() {
                         placeholder=""
                         disableFirstOption={true}
                         disabled={
-                          formikStep3.values.productsArray[index]
-                            .categoryId == ""
+                          formikStep3.values.productsArray[index].categoryId ==
+                          ""
                         }
                         value={
-                          formikStep3.values.productsArray[index]
-                            .dealerSku
+                          formikStep3.values.productsArray[index].dealerSku
                         }
                         onBlur={formikStep3.handleBlur}
                         onChange={handleSelectChange2}
-                        index={index} 
+                        index={index}
                       />
                     </>
                   </div>
@@ -2308,8 +2299,7 @@ function AddOrder() {
                       onChange={handleSelectChange2}
                       disableFirstOption={true}
                       disabled={
-                        formikStep3.values.productsArray[index]
-                          .categoryId == ""
+                        formikStep3.values.productsArray[index].categoryId == ""
                       }
                       className="!bg-white"
                       options={productList[index]?.data}
@@ -2345,8 +2335,8 @@ function AddOrder() {
                         disableFirstOption={true}
                         placeholder=""
                         disabled={
-                          formikStep3.values.productsArray[index]
-                            .categoryId == ""
+                          formikStep3.values.productsArray[index].categoryId ==
+                          ""
                         }
                         value={formikStep3.values.productsArray[index].term}
                         onBlur={formikStep3.handleBlur}
@@ -2373,7 +2363,6 @@ function AddOrder() {
                   </div>
                   <div className="col-span-8 border-r pr-5">
                     <Grid>
-
                       <div className="col-span-12">
                         <Input
                           type="text"
@@ -2392,7 +2381,36 @@ function AddOrder() {
                           }}
                         />
                       </div>
-                      {formikStep2.values.coverageType === "Breakdown" ? (
+                     
+                                                 {/* ADD THIS*/}
+                                                 <div className="col-span-8 border-r pr-5">
+                
+  { formikStep3.values.productsArray[index].coverageFields && formikStep3.values.productsArray[index].coverageFields.map((coverage, index) => (
+        <Grid>
+  
+    <div key={index}  className="col-span-12">
+      <Input
+        type="text"
+        name={`coverageFields[${index}].label`}
+        className="!bg-white"
+        label={`${coverage.label} Days ${index + 1}`}
+        placeholder={`${coverage.label} Days`}
+        value={coverage.value || ''}
+        onChange={formikStep3.handleChange}
+        onBlur={formikStep3.handleBlur}
+      />
+      {formikStep3.errors.coverageFields &&
+        formikStep3.errors.coverageFields[index] &&
+        formikStep3.errors.coverageFields[index].value && (
+          <div className="text-red-500 text-sm pl-2 pt-2">
+            {formikStep3.errors.coverageFields[index].value}
+          </div>
+      )}
+    </div>
+    </Grid>
+ )) }
+ </div>
+                      {/* {formikStep2.values.coverageType === "Breakdown" ? (
                         <></>
                       ) : (
                         <div className="col-span-4">
@@ -2433,7 +2451,7 @@ function AddOrder() {
                             }}
                           />
                         </div>
-                      )}
+                      )} */}
                       <div className="col-span-4">
                         <Input
                           type="text"
@@ -2464,15 +2482,15 @@ function AddOrder() {
                             formikStep3.values.productsArray[index]
                               .coverageStartDate === ""
                               ? formikStep3.values.productsArray[index]
-                                .coverageStartDate
+                                  .coverageStartDate
                               : format(
-                                new Date(
-                                  formikStep3.values.productsArray[
-                                    index
-                                  ].coverageStartDate
-                                ),
-                                "MM/dd/yyyy"
-                              )
+                                  new Date(
+                                    formikStep3.values.productsArray[
+                                      index
+                                    ].coverageStartDate
+                                  ),
+                                  "MM/dd/yyyy"
+                                )
                           }
                           onChange={(e) => handleDateChange(e, index)}
                           onBlur={formikStep3.handleBlur}
@@ -2591,47 +2609,47 @@ function AddOrder() {
                       {(formikStep3.values.productsArray[index].priceType ===
                         "FlatPricing" ||
                         formikStep3.values.productsArray[index].priceType ===
-                        "Flat Pricing") && (
-                          <>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`productsArray[${index}].rangeStart`}
-                                className="!bg-white"
-                                label="Start Range"
-                                placeholder=""
-                                value={
-                                  formikStep3.values.productsArray[index]
-                                    .rangeStart
-                                }
-                                onChange={formikStep3.handleChange}
-                                onBlur={formikStep3.handleBlur}
-                                disabled={true}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                              />
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`productsArray[${index}].rangeEnd`}
-                                className="!bg-white"
-                                label="End Range"
-                                placeholder=""
-                                value={
-                                  formikStep3.values.productsArray[index].rangeEnd
-                                }
-                                onChange={formikStep3.handleChange}
-                                onBlur={formikStep3.handleBlur}
-                                disabled={true}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                              />
-                            </div>
-                          </>
-                        )}
+                          "Flat Pricing") && (
+                        <>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`productsArray[${index}].rangeStart`}
+                              className="!bg-white"
+                              label="Start Range"
+                              placeholder=""
+                              value={
+                                formikStep3.values.productsArray[index]
+                                  .rangeStart
+                              }
+                              onChange={formikStep3.handleChange}
+                              onBlur={formikStep3.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`productsArray[${index}].rangeEnd`}
+                              className="!bg-white"
+                              label="End Range"
+                              placeholder=""
+                              value={
+                                formikStep3.values.productsArray[index].rangeEnd
+                              }
+                              onChange={formikStep3.handleChange}
+                              onBlur={formikStep3.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
                       <div className="col-span-12">
                         <Grid className="!grid-cols-3">
                           {formikStep3.values.productsArray[index].priceType ===
@@ -2720,7 +2738,7 @@ function AddOrder() {
                                         />
                                         {formikStep3.touched.productsArray &&
                                           formikStep3.touched.productsArray[
-                                          index
+                                            index
                                           ] &&
                                           formikStep3.touched.productsArray[
                                             index
@@ -2757,6 +2775,7 @@ function AddOrder() {
                             })()}
                         </Grid>
                       </div>
+       
                       <div className="col-span-12">
                         <div className="relative">
                           <label
@@ -2880,6 +2899,7 @@ function AddOrder() {
                         </div>
                       )}
                   </div>
+        
                   <div className="col-span-12"></div>
                 </Grid>
               </Card>
@@ -2913,9 +2933,7 @@ function AddOrder() {
             <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold mb-4">
-                    Order Details
-                  </p>
+                  <p className="text-2xl font-bold mb-4">Order Details</p>
                   <Grid className=" border-Light-Grey border rounded-xl px-4 ">
                     <div className="col-span-3 py-4 border-r">
                       <p className="text-[12px]">Dealer Name</p>
@@ -2961,8 +2979,8 @@ function AddOrder() {
                           ? "Labor"
                           : formikStep2.values.serviceCoverageType ===
                             "Parts & Labour"
-                            ? "Parts & Labor"
-                            : formikStep2.values.serviceCoverageType}
+                          ? "Parts & Labor"
+                          : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">
@@ -3027,8 +3045,8 @@ function AddOrder() {
                                 {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                    Number(data.unitPrice) ?? parseInt(0)
-                                  )}
+                                      Number(data.unitPrice) ?? parseInt(0)
+                                    )}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -3046,8 +3064,8 @@ function AddOrder() {
                                 {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                    Number(data.price) ?? parseInt(0)
-                                  )}{" "}
+                                      Number(data.price) ?? parseInt(0)
+                                    )}{" "}
                               </p>
                             </div>
                           </Grid>
@@ -3060,8 +3078,8 @@ function AddOrder() {
                                   {data.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      Number(data.rangeStart) ?? parseInt(0)
-                                    )}
+                                        Number(data.rangeStart) ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
@@ -3071,8 +3089,8 @@ function AddOrder() {
                                   {data.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      data.rangeEnd ?? parseInt(0)
-                                    )}
+                                        data.rangeEnd ?? parseInt(0)
+                                      )}
                                 </p>
                               </div>
                             </Grid>
@@ -3123,7 +3141,7 @@ function AddOrder() {
                                               1,
                                               Math.ceil(
                                                 value.enterQuantity /
-                                                parseFloat(value.quantity)
+                                                  parseFloat(value.quantity)
                                               )
                                             )}
                                           </td>
@@ -3162,9 +3180,7 @@ function AddOrder() {
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <p className="text-2xl font-bold mb-4">
-                          Uploaded Data
-                        </p>
+                        <p className="text-2xl font-bold mb-4">Uploaded Data</p>
                         <div className="border border-dashed w-full h-[83%] relative flex">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
@@ -3179,7 +3195,7 @@ function AddOrder() {
                                 {data?.file === "" || data?.file?.name === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
-                                  "kb"}
+                                    "kb"}
                               </p>
                             </div>
                           </div>
@@ -3200,19 +3216,22 @@ function AddOrder() {
                       <div
                         className={`
                       absolute h-3 w-3 rounded-full top-[33%] ml-[8px]
-                      ${formik4.values.paymentStatus === "Unpaid"
-                            ? "bg-[#FFAA47]"
-                            : ""
-                          }
-                      ${formik4.values.paymentStatus === "Paid"
-                            ? "bg-[#6BD133]"
-                            : ""
-                          }
-                      ${formik4.values.paymentStatus !== "Unpaid" &&
-                            formik4.values.paymentStatus !== "Paid"
-                            ? "bg-[#338FD1]"
-                            : ""
-                          }
+                      ${
+                        formik4.values.paymentStatus === "Unpaid"
+                          ? "bg-[#FFAA47]"
+                          : ""
+                      }
+                      ${
+                        formik4.values.paymentStatus === "Paid"
+                          ? "bg-[#6BD133]"
+                          : ""
+                      }
+                      ${
+                        formik4.values.paymentStatus !== "Unpaid" &&
+                        formik4.values.paymentStatus !== "Paid"
+                          ? "bg-[#338FD1]"
+                          : ""
+                      }
                     `}
                       ></div>
 
@@ -3316,10 +3335,9 @@ function AddOrder() {
                     />
                   </p>
                 </div>
-              </Grid >
-              {error && <p className="text-red-500">{error}</p>
-              }
-            </Card >
+              </Grid>
+              {error && <p className="text-red-500">{error}</p>}
+            </Card>
 
             <Button
               className="!bg-[transparent] !text-black"
@@ -3328,7 +3346,7 @@ function AddOrder() {
               Previous
             </Button>
             <Button type="submit">Submit</Button>
-          </form >
+          </form>
         )}
         {/* )} */}
       </>
@@ -3355,7 +3373,7 @@ function AddOrder() {
           </p>
           <ul className="flex self-center">
             <li className="text-sm text-neutral-grey font-Regular">
-              <Link to={"/"}>Home </Link>  {" / "}
+              <Link to={"/"}>Home </Link> {" / "}
             </li>
             <li className="text-sm text-neutral-grey ml-1 font-Regular">
               {" "}
@@ -3381,8 +3399,9 @@ function AddOrder() {
           )}
 
           <p
-            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Order Details
           </p>
@@ -3393,61 +3412,69 @@ function AddOrder() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${currentStep > 1
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
-                }  rounded-full mx-auto w-[26px]`}
+              className={`border ${
+                currentStep > 1
+                  ? "text-black border-black"
+                  : "text-[#ADADAD] border-[#ADADAD]"
+              }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
           <p
-            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Dealer Order Details
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 2 ? "border-black" : "border-[#ADADAD]"
-            } mt-3`}
+          className={`w-[150px]  ${
+            currentStep > 2 ? "border-black" : "border-[#ADADAD]"
+          } mt-3`}
         />
         <div className="text-center">
           {currentStep > 3 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${currentStep > 2
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
-                } rounded-full mx-auto w-[26px]`}
+              className={`border ${
+                currentStep > 2
+                  ? "text-black border-black"
+                  : "text-[#ADADAD] border-[#ADADAD]"
+              } rounded-full mx-auto w-[26px]`}
             >
               3
             </p>
           )}
           <p
-            className={` ${currentStep == 3 ? "text-black" : "text-[#ADADAD] "
-              }text-sm font-bold`}
+            className={` ${
+              currentStep == 3 ? "text-black" : "text-[#ADADAD] "
+            }text-sm font-bold`}
           >
             Add Product
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 3 ? "border-black" : "border-[#ADADAD]"
-            } mt-3`}
+          className={`w-[150px]  ${
+            currentStep > 3 ? "border-black" : "border-[#ADADAD]"
+          } mt-3`}
         />
         <div className="text-center">
           <p
-            className={`border ${currentStep > 3
-              ? "text-black border-black"
-              : "text-[#ADADAD] border-[#ADADAD]"
-              } rounded-full mx-auto w-[26px]`}
+            className={`border ${
+              currentStep > 3
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
+            } rounded-full mx-auto w-[26px]`}
           >
             4
           </p>
           <p
-            className={` ${currentStep == 4 ? "text-black" : "text-[#ADADAD] "
-              }text-sm font-bold`}
+            className={` ${
+              currentStep == 4 ? "text-black" : "text-[#ADADAD] "
+            }text-sm font-bold`}
           >
             Order Details
           </p>

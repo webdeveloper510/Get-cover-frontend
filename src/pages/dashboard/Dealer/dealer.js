@@ -95,7 +95,7 @@ function Dealer() {
     isAccountCreate: false,
     customerAccountCreated: false,
     serviceCoverageType: "",
-    coverageType: "",
+    coverageType: [],
     isShippingAllowed: false,
 
     file: "",
@@ -164,7 +164,7 @@ function Dealer() {
         role: "dealer",
         savePriceBookType: selectedOption,
         serviceCoverageType: "",
-        coverageType: "",
+        coverageType: [],
         isShippingAllowed: false,
 
         dealers: [],
@@ -214,7 +214,7 @@ function Dealer() {
             dealers: [],
             savePriceBookType: selectedOption,
             serviceCoverageType: "",
-            coverageType: "",
+            coverageType: [],
             isShippingAllowed: false,
 
             priceBook: [
@@ -432,10 +432,8 @@ function Dealer() {
       formik.setFieldValue(`priceBook[${match[1]}].status`, data.status);
       formik.setFieldValue(`priceBook[${match[1]}].terms`, data.term);
       formik.setFieldValue(`priceBook[${match[1]}].pName`, data.pName);
-      console.log(match[1], data);
       const res = await getCategoryListCoverage(data.value);
-      console.log(res, "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}");
-      setCoverageType(res.result)
+      setCoverageType(res.result);
     }
 
     console.log(name);
@@ -451,15 +449,12 @@ function Dealer() {
     formik.setFieldValue(name, value);
   };
 
-  const handleSelectChange12 = (selectedOptions) => {
-    formik.setFieldValue("coverageType", selectedOptions);
-  };
-
   const handleSelectChange2 = async (name, value) => {
     // formik.setFieldValue(name, value);
     formik.setFieldValue("coverageType", value);
-    const result = await getCategoryListActiveData({ coverageType: value });
-    console.log(result.result, "----coverageType11---------");
+    const result = await getCategoryListActiveData({
+      coverageType: value.map((item) => item.value),
+    });
     setTypes(result.coverageType);
     formik.setFieldValue("priceBook", [
       {
@@ -522,6 +517,7 @@ function Dealer() {
         .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
+      coverageType: Yup.array().min(1, "Required"),
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
@@ -553,18 +549,18 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-            Yup.object().shape({
-              priceBookId: Yup.string().required("Required"),
-              categoryId: Yup.string().required("Required"),
-              dealerSku: Yup.string().required("Required"),
-              retailPrice: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .min(0, "Retail Price cannot be negative")
-                .nullable(),
-              status: Yup.boolean().required("Required"),
-            })
-          ),
+              Yup.object().shape({
+                priceBookId: Yup.string().required("Required"),
+                categoryId: Yup.string().required("Required"),
+                dealerSku: Yup.string().required("Required"),
+                retailPrice: Yup.number()
+                  .typeError("Required")
+                  .required("Required")
+                  .min(0, "Retail Price cannot be negative")
+                  .nullable(),
+                status: Yup.boolean().required("Required"),
+              })
+            ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -575,23 +571,22 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              pName: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                pName: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
 
       if (formik.values.dealers.length > 0) {
-        console.log(formik.values.dealers.length);
         let emailValues = [];
         for (let i = 0; i < formik.values.dealers.length; i++) {
           const result = await checkDealerEmailAndSetError(
@@ -601,10 +596,9 @@ function Dealer() {
           );
           emailValues.push(result);
         }
-
-        console.log(emailValues);
         if (emailValues.some((value) => value === false)) {
           setLoading(false);
+
           return;
         }
       }
@@ -649,22 +643,16 @@ function Dealer() {
       const formData = new FormData();
       Object.entries(newValues).forEach(([key, value]) => {
         if (Array.isArray(value)) {
-          if (key == "coverageType") {
-            console.log(key, value);
-            value.forEach((item, index) => {
-              formData.append(`${key}[${index}]`, item);
+          value.forEach((item, index) => {
+            Object.entries(item).forEach(([subKey, subValue]) => {
+              formData.append(`${key}[${index}][${subKey}]`, subValue);
             });
-          } else {
-            value.forEach((item, index) => {
-              Object.entries(item).forEach(([subKey, subValue]) => {
-                formData.append(`${key}[${index}][${subKey}]`, subValue);
-              });
-            });
-          }
+          });
         } else {
           formData.append(key, value);
         }
       });
+
       if (id !== undefined) {
         formData.append("dealerId", id);
       }
@@ -678,7 +666,7 @@ function Dealer() {
         setIsModalOpen(true);
         setMessage("New Dealer Created Successfully");
         setTimer(3);
-        // navigate("/dealerList");
+        setSelected([]);
       } else if (result.message === "Dealer name already exists") {
         setLoading(false);
         formik.setFieldError("name", "Name Already Used");
@@ -969,47 +957,26 @@ function Dealer() {
                               placeholder=""
                               onChange={(label, value) => {
                                 setSelected(label);
-
-                                // Check selectedOptions here
-                                if (label && label.length > 0) {
-                                  const values = label.map(
-                                    (option) => option.value
-                                  ); // Extract values
-                                  console.log(
-                                    values,
-                                    "Debugging: check if values are extracted "
-                                  ); // Debugging: check if values are extracted correctly
-                                  handleSelectChange2("coverageType", values);
-                                } else {
-                                  handleSelectChange2("coverageType", []);
-                                }
+                                handleSelectChange2("coverageType", label);
                               }}
                               required={true}
                               className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
                               options={coverage}
                               value={selected}
-                              // value={
-                              //   (
-                              //     coverage.find(
-                              //       (option) =>
-                              //         option.value === formik.values.coverageType
-                              //     ) || {}
-                              //   ).value || ""
-                              // }
                               onBlur={formik.handleBlur}
                               error={
                                 formik.touched.coverageType &&
                                 formik.errors.coverageType
                               }
                             />
-
-                            {formik.touched.coverageType &&
-                              formik.errors.coverageType && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formik.errors.coverageType}
-                                </div>
-                              )}
                           </div>
+
+                          {formik.touched.coverageType &&
+                            formik.errors.coverageType && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.coverageType}
+                              </div>
+                            )}
                         </div>
                         {/* <Select
                           label="Coverage Type"
@@ -1537,7 +1504,7 @@ function Dealer() {
               </div>
             </Card>
           ))}
-          {formik.values.coverageType != "" && (
+          {formik.values.coverageType.length > 0 && (
             <Card className="p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-2">
@@ -1856,7 +1823,12 @@ function Dealer() {
                                 {coverageType && coverageType.length > 0 ? (
                                   <ol className="flex flex-wrap">
                                     {coverageType.map((type, index) => (
-                                      <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
+                                      <li
+                                        className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
+                                        key={index}
+                                      >
+                                        {type.label}
+                                      </li>
                                     ))}
                                   </ol>
                                 ) : (

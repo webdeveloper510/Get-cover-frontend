@@ -58,7 +58,7 @@ import {
 import Primary from "../../../assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
 import {
-  getServicerListByDealerId,
+
   getServicerListForDealer,
 } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
@@ -288,7 +288,7 @@ function DealerDetails() {
     const result = await getDealersDetailsByid(id?.id);
     if (result.code == 200) {
       setDealerDetails(result.result[0]);
-      // console.log(result.result[0].dealerData);
+      setSelected(result.result[0].dealerData?.coverageType);
       setIsStatus(result?.result[0]?.dealerData.accountStatus);
       setInitialFormValues({
         accountName: result?.result[0]?.dealerData?.name,
@@ -319,7 +319,9 @@ function DealerDetails() {
         result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
       );
       setShipping(
-        result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
+        result?.result[0]?.dealerData?.isShippingAllowed === false
+          ? "no"
+          : "yes"
       );
     } else {
       navigate(`/`);
@@ -626,8 +628,8 @@ function DealerDetails() {
                 const selectedItems = checked
                   ? [...servicerForm.values.selectedItems, itemId]
                   : servicerForm.values.selectedItems.filter(
-                    (id) => id !== itemId
-                  );
+                      (id) => id !== itemId
+                    );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -828,20 +830,20 @@ function DealerDetails() {
     { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
 
-  const [buttonTextColor, setButtonTextColor] = useState('');
-  const [backGroundColor, setBackGroundColor] = useState('');
+  const [buttonTextColor, setButtonTextColor] = useState("");
+  const [backGroundColor, setBackGroundColor] = useState("");
 
   useEffect(() => {
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme.forEach((color) => {
         switch (color.colorType) {
-          case 'buttonColor':
+          case "buttonColor":
             setBackGroundColor(color.colorCode);
             break;
-          case 'buttonTextColor':
+          case "buttonTextColor":
             setButtonTextColor(color.colorCode);
             break;
           default:
@@ -1000,7 +1002,7 @@ function DealerDetails() {
                       $
                       {formatOrderValue(
                         dealerDetails?.ordersResult?.[0]?.orderAmount ??
-                        parseInt(0)
+                          parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -1038,10 +1040,11 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
               <div
-                className={` ${isStatus == true
-                  ? "col-span-10 relative"
-                  : "col-span-10 mr-[30px] relative"
-                  }`}
+                className={` ${
+                  isStatus == true
+                    ? "col-span-10 relative"
+                    : "col-span-10 mr-[30px] relative"
+                }`}
               >
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
@@ -1057,32 +1060,38 @@ function DealerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? ""
-                          : "!bg-grayf9 !text-black"
-                          }`}
+                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                          activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
+                        }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <div
                           style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            maskRepeat: 'no-repeat',
-                            WebkitMaskRepeat: 'no-repeat',
-                            maskPosition: 'center',
-                            WebkitMaskPosition: 'center',
-                            maskSize: 'contain',
-                            WebkitMaskSize: 'contain'
+                            maskImage: `url(${
+                              activeTab === tab.id ? tab.Activeicons : tab.icons
+                            })`,
+                            WebkitMaskImage: `url(${
+                              activeTab === tab.id ? tab.Activeicons : tab.icons
+                            })`,
+                            backgroundColor:
+                              activeTab === tab.id ? buttonTextColor : "black",
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
                           }}
                           className="self-center pr-1 py-1 h-4 w-4"
                         />
                         <span
                           style={{
-                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            borderLeftWidth: '1px',
-                            paddingLeft: '7px',
-                            color: activeTab === tab.id ? buttonTextColor : 'black',
+                            borderColor:
+                              activeTab === tab.id ? buttonTextColor : "black",
+                            borderLeftWidth: "1px",
+                            paddingLeft: "7px",
+                            color:
+                              activeTab === tab.id ? buttonTextColor : "black",
                           }}
                           className={`ml-1 py-1 text-sm font-Regular`}
                         >
@@ -1100,8 +1109,8 @@ function DealerDetails() {
               {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
-                    activeTab !== "Unpaid Claims" &&
-                    activeTab !== "Paid Claims" ? (
+                  activeTab !== "Unpaid Claims" &&
+                  activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
@@ -1326,22 +1335,9 @@ function DealerDetails() {
                           label="Coverage Type "
                           name="coverageType"
                           placeholder=""
-                          onChange={(label, value) => {
-                            setSelected(label);
-
-                            // Check selectedOptions here
-                            if (label && label.length > 0) {
-                              const values = label.map(
-                                (option) => option.value
-                              ); // Extract values
-                              console.log(
-                                values,
-                                "Debugging: check if values are extracted "
-                              ); // Debugging: check if values are extracted correctly
-                              handleSelectChange("coverageType", values);
-                            } else {
-                              handleSelectChange("coverageType", []);
-                            }
+                          onChange={(value) => {
+                            setSelected(value);
+                            handleSelectChange1("coverageType", value);
                           }}
                           required={true}
                           className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
