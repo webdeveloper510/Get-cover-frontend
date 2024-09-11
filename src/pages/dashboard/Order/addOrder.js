@@ -2390,28 +2390,37 @@ function AddOrder() {
                       <div className="col-span-8 border-r pr-5">
                         {formikStep3.values.productsArray[index].adhdays &&
                           formikStep3.values.productsArray[index].adhdays.map(
-                            (coverage, index) => (
-                              <Grid>
-                                <div key={index} className="col-span-12">
+                            (coverage, idx) => (
+                              <Grid key={idx}>
+                                <div className="col-span-12">
                                   <Input
                                     type="text"
-                                    name={`adhdays[${index}].label`}
+                                    name={`productsArray[${index}].adhdays[${idx}].value`}
                                     className="!bg-white"
-                                    label={`${coverage.label} Days ${
-                                      index + 1
-                                    }`}
+                                    label={`${coverage.label} Days `}
                                     placeholder={`${coverage.label} Days`}
                                     value={coverage.value || ""}
-                                    onChange={formikStep3.handleChange}
+                                    onChange={(e) =>
+                                      formikStep3.setFieldValue(
+                                        `productsArray[${index}].adhdays[${idx}].value`,
+                                        e.target.value
+                                      )
+                                    }
                                     onBlur={formikStep3.handleBlur}
                                   />
-                                  {formikStep3.errors.adhdays &&
-                                    formikStep3.errors.adhdays[index] &&
-                                    formikStep3.errors.adhdays[index].value && (
+                                  {formikStep3.errors.productsArray &&
+                                    formikStep3.errors.productsArray[index] &&
+                                    formikStep3.errors.productsArray[index]
+                                      .adhdays &&
+                                    formikStep3.errors.productsArray[index]
+                                      .adhdays[idx] &&
+                                    formikStep3.errors.productsArray[index]
+                                      .adhdays[idx].value && (
                                       <div className="text-red-500 text-sm pl-2 pt-2">
                                         {
-                                          formikStep3.errors.adhdays[index]
-                                            .value
+                                          formikStep3.errors.productsArray[
+                                            index
+                                          ].adhdays[idx].value
                                         }
                                       </div>
                                     )}
@@ -2420,48 +2429,7 @@ function AddOrder() {
                             )
                           )}
                       </div>
-                      {/* {formikStep2.values.coverageType === "Breakdown" ? (
-                        <></>
-                      ) : (
-                        <div className="col-span-4">
-                          <Input
-                            type="tel"
-                            name={`productsArray[${index}].adh`}
-                            className="!bg-white"
-                            label="ADH (Waiting Days)"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].adh || 0
-                            }
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              const trimmedValue = value.trim();
-                              const intValue = trimmedValue.replace(
-                                /[^0-9]/g,
-                                ""
-                              );
-                              const newValue =
-                                intValue !== ""
-                                  ? intValue.startsWith("0")
-                                    ? intValue.replace(/^0+/, "") || "0"
-                                    : intValue
-                                  : "0";
 
-                              formikStep3.handleChange({
-                                target: {
-                                  name,
-                                  value: newValue,
-                                },
-                              });
-                            }}
-                            onBlur={formikStep3.handleBlur}
-                            // disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                      )} */}
                       <div className="col-span-4">
                         <Input
                           type="text"
