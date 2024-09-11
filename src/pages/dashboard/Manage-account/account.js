@@ -1055,7 +1055,7 @@ function Account() {
 
           {activeButton === "myAccount" && (
             <>
-              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+              <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative z-10">
                 <p className="text-xl font-semibold mb-3">My Account</p>
                 <>
                   <Grid>
@@ -1312,7 +1312,7 @@ function Account() {
                   </div>
                 </div>
               ) : (
-                <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative">
+                <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey rounded-xl relative z-0">
                   {isPrimary && (
                     <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
                       <Button onClick={() => openUserModal()}>+ Add Member</Button>
