@@ -797,6 +797,7 @@ function AddOrder() {
       ),
     }),
     onSubmit: (values) => {
+      console.log(values);
       setLoading5(true);
       checkMultipleEmailCheck(values);
       let arr = [];
@@ -845,13 +846,16 @@ function AddOrder() {
   // add this
   useEffect(() => {
     const selectedCoverages = formikStep2.values.coverageType;
-    console.log(selectedCoverages)
+    console.log(selectedCoverages);
     if (selectedCoverages.length) {
       const updatedProductsArray = selectedCoverages.map((data) => ({
-        label:data.label,
-        value: "00", 
+        label: data.label,
+        value: "00",
       }));
-      formikStep3.setFieldValue("productsArray[0].coverageFields", updatedProductsArray);
+      formikStep3.setFieldValue(
+        "productsArray[0].coverageFields",
+        updatedProductsArray
+      );
     }
   }, [formikStep2.values.coverageType]);
 
@@ -2267,7 +2271,7 @@ function AddOrder() {
                     </>
                     {/* )} */}
                   </div>
-                 
+
                   <div className="col-span-4">
                     <>
                       <Select
@@ -2381,35 +2385,41 @@ function AddOrder() {
                           }}
                         />
                       </div>
-                     
-                                                 {/* ADD THIS*/}
-                                                 <div className="col-span-8 border-r pr-5">
-                
-  { formikStep3.values.productsArray[index].coverageFields && formikStep3.values.productsArray[index].coverageFields.map((coverage, index) => (
-        <Grid>
-  
-    <div key={index}  className="col-span-12">
-      <Input
-        type="text"
-        name={`coverageFields[${index}].label`}
-        className="!bg-white"
-        label={`${coverage.label} Days ${index + 1}`}
-        placeholder={`${coverage.label} Days`}
-        value={coverage.value || ''}
-        onChange={formikStep3.handleChange}
-        onBlur={formikStep3.handleBlur}
-      />
-      {formikStep3.errors.coverageFields &&
-        formikStep3.errors.coverageFields[index] &&
-        formikStep3.errors.coverageFields[index].value && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {formikStep3.errors.coverageFields[index].value}
-          </div>
-      )}
-    </div>
-    </Grid>
- )) }
- </div>
+
+                      {/* ADD THIS*/}
+                      <div className="col-span-8 border-r pr-5">
+                        {formikStep3.values.productsArray[index]
+                          .coverageFields &&
+                          formikStep3.values.productsArray[
+                            index
+                          ].coverageFields.map((coverage, index) => (
+                            <Grid>
+                              <div key={index} className="col-span-12">
+                                <Input
+                                  type="text"
+                                  name={`coverageFields[${index}].label`}
+                                  className="!bg-white"
+                                  label={`${coverage.label} Days ${index + 1}`}
+                                  placeholder={`${coverage.label} Days`}
+                                  value={coverage.value || ""}
+                                  onChange={formikStep3.handleChange}
+                                  onBlur={formikStep3.handleBlur}
+                                />
+                                {formikStep3.errors.coverageFields &&
+                                  formikStep3.errors.coverageFields[index] &&
+                                  formikStep3.errors.coverageFields[index]
+                                    .value && (
+                                    <div className="text-red-500 text-sm pl-2 pt-2">
+                                      {
+                                        formikStep3.errors.coverageFields[index]
+                                          .value
+                                      }
+                                    </div>
+                                  )}
+                              </div>
+                            </Grid>
+                          ))}
+                      </div>
                       {/* {formikStep2.values.coverageType === "Breakdown" ? (
                         <></>
                       ) : (
@@ -2775,7 +2785,7 @@ function AddOrder() {
                             })()}
                         </Grid>
                       </div>
-       
+
                       <div className="col-span-12">
                         <div className="relative">
                           <label
@@ -2899,7 +2909,7 @@ function AddOrder() {
                         </div>
                       )}
                   </div>
-        
+
                   <div className="col-span-12"></div>
                 </Grid>
               </Card>
@@ -2965,7 +2975,7 @@ function AddOrder() {
                   <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
-                  <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
+                  {/* <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Dealer Purchase Order</p>
                       <p className="font-bold text-sm">
@@ -2989,7 +2999,7 @@ function AddOrder() {
                         {formikStep2.values.coverageType}
                       </p>
                     </div>
-                  </Grid>
+                  </Grid> */}
                 </div>
                 {formikStep3.values.productsArray.map((data, index) => {
                   return (
