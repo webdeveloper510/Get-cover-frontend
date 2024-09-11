@@ -741,7 +741,7 @@ function AddOrder() {
           priceBookDetails: {},
           dealerPriceBookDetails: {},
           dealerSku: "",
-          adhdays: [], // add this
+          adhDays: [], // add this
         },
       ],
     },
@@ -757,7 +757,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          adhdays: Yup.array().of(
+          adhDays: Yup.array().of(
             Yup.object().shape({
               value: Yup.string().required("Required"),
             })
@@ -853,7 +853,7 @@ function AddOrder() {
         value: "00",
       }));
       formikStep3.setFieldValue(
-        "productsArray[0].adhdays",
+        "productsArray[0].adhDays",
         updatedProductsArray
       );
     }
@@ -2388,21 +2388,21 @@ function AddOrder() {
 
                       {/* ADD THIS*/}
                       <div className="col-span-8 border-r pr-5">
-                        {formikStep3.values.productsArray[index].adhdays &&
-                          formikStep3.values.productsArray[index].adhdays.map(
+                        {formikStep3.values.productsArray[index].adhDays &&
+                          formikStep3.values.productsArray[index].adhDays.map(
                             (coverage, idx) => (
                               <Grid key={idx}>
                                 <div className="col-span-12">
                                   <Input
                                     type="text"
-                                    name={`productsArray[${index}].adhdays[${idx}].value`}
+                                    name={`productsArray[${index}].adhDays[${idx}].value`}
                                     className="!bg-white"
                                     label={`${coverage.label} Days `}
                                     placeholder={`${coverage.label} Days`}
                                     value={coverage.value || ""}
                                     onChange={(e) =>
                                       formikStep3.setFieldValue(
-                                        `productsArray[${index}].adhdays[${idx}].value`,
+                                        `productsArray[${index}].adhDays[${idx}].value`,
                                         e.target.value
                                       )
                                     }
@@ -2411,16 +2411,16 @@ function AddOrder() {
                                   {formikStep3.errors.productsArray &&
                                     formikStep3.errors.productsArray[index] &&
                                     formikStep3.errors.productsArray[index]
-                                      .adhdays &&
+                                      .adhDays &&
                                     formikStep3.errors.productsArray[index]
-                                      .adhdays[idx] &&
+                                      .adhDays[idx] &&
                                     formikStep3.errors.productsArray[index]
-                                      .adhdays[idx].value && (
+                                      .adhDays[idx].value && (
                                       <div className="text-red-500 text-sm pl-2 pt-2">
                                         {
                                           formikStep3.errors.productsArray[
                                             index
-                                          ].adhdays[idx].value
+                                          ].adhDays[idx].value
                                         }
                                       </div>
                                     )}
