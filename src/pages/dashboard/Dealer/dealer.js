@@ -1264,13 +1264,14 @@ function Dealer() {
                     />
                   </div>
 
-                  {formik.touched.coverageType &&
-                    formik.errors.coverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.coverageType}
-                      </div>
-                    )}
+
                 </div>
+                {formik.touched.coverageType &&
+                  formik.errors.coverageType && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.coverageType}
+                    </div>
+                  )}
                 {/* <Select
                           label="Coverage Type"
                           name="coverageType"
