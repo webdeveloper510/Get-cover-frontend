@@ -741,7 +741,7 @@ function AddOrder() {
           priceBookDetails: {},
           dealerPriceBookDetails: {},
           dealerSku: "",
-          coverageFields: [], // add this
+          adhdays: [], // add this
         },
       ],
     },
@@ -757,7 +757,7 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          coverageFields: Yup.array().of(
+          adhdays: Yup.array().of(
             Yup.object().shape({
               value: Yup.string().required("Required"),
             })
@@ -853,7 +853,7 @@ function AddOrder() {
         value: "00",
       }));
       formikStep3.setFieldValue(
-        "productsArray[0].coverageFields",
+        "productsArray[0].adhdays",
         updatedProductsArray
       );
     }
@@ -2388,37 +2388,37 @@ function AddOrder() {
 
                       {/* ADD THIS*/}
                       <div className="col-span-8 border-r pr-5">
-                        {formikStep3.values.productsArray[index]
-                          .coverageFields &&
-                          formikStep3.values.productsArray[
-                            index
-                          ].coverageFields.map((coverage, index) => (
-                            <Grid>
-                              <div key={index} className="col-span-12">
-                                <Input
-                                  type="text"
-                                  name={`coverageFields[${index}].label`}
-                                  className="!bg-white"
-                                  label={`${coverage.label} Days ${index + 1}`}
-                                  placeholder={`${coverage.label} Days`}
-                                  value={coverage.value || ""}
-                                  onChange={formikStep3.handleChange}
-                                  onBlur={formikStep3.handleBlur}
-                                />
-                                {formikStep3.errors.coverageFields &&
-                                  formikStep3.errors.coverageFields[index] &&
-                                  formikStep3.errors.coverageFields[index]
-                                    .value && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                      {
-                                        formikStep3.errors.coverageFields[index]
-                                          .value
-                                      }
-                                    </div>
-                                  )}
-                              </div>
-                            </Grid>
-                          ))}
+                        {formikStep3.values.productsArray[index].adhdays &&
+                          formikStep3.values.productsArray[index].adhdays.map(
+                            (coverage, index) => (
+                              <Grid>
+                                <div key={index} className="col-span-12">
+                                  <Input
+                                    type="text"
+                                    name={`adhdays[${index}].label`}
+                                    className="!bg-white"
+                                    label={`${coverage.label} Days ${
+                                      index + 1
+                                    }`}
+                                    placeholder={`${coverage.label} Days`}
+                                    value={coverage.value || ""}
+                                    onChange={formikStep3.handleChange}
+                                    onBlur={formikStep3.handleBlur}
+                                  />
+                                  {formikStep3.errors.adhdays &&
+                                    formikStep3.errors.adhdays[index] &&
+                                    formikStep3.errors.adhdays[index].value && (
+                                      <div className="text-red-500 text-sm pl-2 pt-2">
+                                        {
+                                          formikStep3.errors.adhdays[index]
+                                            .value
+                                        }
+                                      </div>
+                                    )}
+                                </div>
+                              </Grid>
+                            )
+                          )}
                       </div>
                       {/* {formikStep2.values.coverageType === "Breakdown" ? (
                         <></>
