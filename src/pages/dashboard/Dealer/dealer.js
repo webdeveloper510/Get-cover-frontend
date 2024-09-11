@@ -1241,7 +1241,7 @@ function Dealer() {
             <p className="text-lg mb-3 font-semibold">Dealer Settings</p>
             <Grid>
               <div className="col-span-6 ">
-                <p className="text-base mb-3 font-semibold self-center mr-4"># of claims in  a certain period  Period can be:</p>
+                <p className="text-base mb-3 font-semibold self-center mr-4"># of claims in  a certain period  Period can be :</p>
                 <div className="flex flex-wrap">
                   <Select
                     name={`period`}
