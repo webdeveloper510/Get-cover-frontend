@@ -2952,7 +2952,7 @@ function AddOrder() {
                   <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
-                  {/* <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
+                  <Grid className=" !gap-2 border-Light-Grey border rounded-xl px-2 ">
                     <div className="col-span-4 py-4 border-r">
                       <p className="text-[12px]">Dealer Purchase Order</p>
                       <p className="font-bold text-sm">
@@ -2972,11 +2972,15 @@ function AddOrder() {
                     </div>
                     <div className="col-span-5 py-4">
                       <p className="text-[12px]">Coverage Type</p>
-                      <p className="font-bold text-sm">
-                        {formikStep2.values.coverageType}
-                      </p>
+                      {formikStep2.values.coverageType.map((data) => {
+                        return (
+                          <p key={data.label} className="font-bold text-sm">
+                            {data.label}
+                          </p>
+                        );
+                      })}
                     </div>
-                  </Grid> */}
+                  </Grid>
                 </div>
                 {formikStep3.values.productsArray.map((data, index) => {
                   return (
@@ -3082,6 +3086,22 @@ function AddOrder() {
                               </div>
                             </Grid>
                           )}
+
+                          {/* Add this */}
+                          <Grid className="px-4">
+                            <div className="col-span-8 border-r py-4">
+                              {data.adhDays &&
+                                data.adhDays.map((Data, idx) => (
+                                  <p key={idx}>
+                                    <p className="text-[12px]">
+                                      {" "}
+                                      {Data.label}{" "}
+                                    </p>
+                                    {Data.value} Days
+                                  </p>
+                                ))}
+                            </div>
+                          </Grid>
 
                           <Grid>
                             {data.priceType == "Quantity Pricing" && (
