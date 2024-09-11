@@ -116,6 +116,11 @@ function Dealer() {
     }
   };
 
+  const period = [
+    { label: "Monthly ", value: "monthly " },
+    { label: "Annually ", value: "Annually " }
+  ]
+
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -1235,13 +1240,22 @@ function Dealer() {
           >
             <p className="text-lg mb-3 font-semibold">Dealer Settings</p>
             <Grid>
-              <div className="col-span-8">
-                <p className="text-base mb-3 font-semibold"># of claims in  a certain period  Period can be:</p>
+              <div className="col-span-12 flex">
+                <p className="text-base mb-3 font-semibold self-center mr-4"># of claims in  a certain period  Period can be:</p>
+                <Select
+                  name={`period`}
+                  options={period}
+                  className="!bg-grayf9"
+                  placeholder=""
+                  OptionName={'Period'}
+                  maxLength={"30"}
+                  value={formik.values.period}
+                  onBlur={formik.handleBlur}
+                  onChange={handleSelectChange} />
+                <div className="ml-3">
+                  <Input placeholder='# of claims' type='number' />
+                </div>
               </div>
-              <div className="col-span-2">
-                <Select className="" />
-              </div>
-              <div className="col-span-2"></div>
               <div className="col-span-12">
                 <p className="text-base mb-3 font-semibold">Coverage Type :</p>
                 <Grid>
