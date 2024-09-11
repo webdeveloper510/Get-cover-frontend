@@ -422,7 +422,7 @@ function ContractList(props) {
                                   ) || !window.location.pathname.includes(
                                     "/dealer/"
                                   ) || !window.location.pathname.includes(
-                                    "/reseller/contractList") &&
+                                    "/reseller/contractList") ?
                                     (props.shownEdit ||
                                       props.shownEdit === undefined ? (
                                       <Link to={`/editContract/${res._id}`}>
@@ -432,7 +432,7 @@ function ContractList(props) {
                                           alt="edit"
                                         />
                                       </Link>
-                                    ) : null)}
+                                    ) : null) : ''}
                                 </div>
                               </Grid>
 
@@ -1063,7 +1063,7 @@ function ContractList(props) {
                       </p>
                     </div>
                   </div>
-                  <div className="col-span-1 border border-Light-Grey">
+                  <div className="col-span-2 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Product Name

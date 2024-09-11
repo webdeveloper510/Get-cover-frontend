@@ -549,18 +549,18 @@ function Dealer() {
         selectedOption === "no"
           ? Yup.array().notRequired()
           : Yup.array().of(
-              Yup.object().shape({
-                priceBookId: Yup.string().required("Required"),
-                categoryId: Yup.string().required("Required"),
-                dealerSku: Yup.string().required("Required"),
-                retailPrice: Yup.number()
-                  .typeError("Required")
-                  .required("Required")
-                  .min(0, "Retail Price cannot be negative")
-                  .nullable(),
-                status: Yup.boolean().required("Required"),
-              })
-            ),
+            Yup.object().shape({
+              priceBookId: Yup.string().required("Required"),
+              categoryId: Yup.string().required("Required"),
+              dealerSku: Yup.string().required("Required"),
+              retailPrice: Yup.number()
+                .typeError("Required")
+                .required("Required")
+                .min(0, "Retail Price cannot be negative")
+                .nullable(),
+              status: Yup.boolean().required("Required"),
+            })
+          ),
       file:
         selectedOption === "yes"
           ? Yup.string().notRequired()
@@ -571,17 +571,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -941,66 +941,7 @@ function Dealer() {
                             </div>
                           )}
                       </div>
-                      <div className="col-span-12">
-                        <div className="relative">
-                          <label
-                            htmlFor="coverageType"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Coverage Type
-                            <span className="text-red-500">*</span>
-                          </label>
-                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                            <MultiSelect
-                              label="Coverage Type "
-                              name="coverageType"
-                              placeholder=""
-                              onChange={(label, value) => {
-                                setSelected(label);
-                                handleSelectChange2("coverageType", label);
-                              }}
-                              required={true}
-                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                              options={coverage}
-                              value={selected}
-                              onBlur={formik.handleBlur}
-                              error={
-                                formik.touched.coverageType &&
-                                formik.errors.coverageType
-                              }
-                            />
-                          </div>
 
-                          {formik.touched.coverageType &&
-                            formik.errors.coverageType && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.coverageType}
-                              </div>
-                            )}
-                        </div>
-                        {/* <Select
-                          label="Coverage Type"
-                          name="coverageType"
-                          placeholder=""
-                          className="!bg-white"
-                          required={true}
-                          disableFirstOption={true}
-                          onChange={handleSelectChange2}
-                          options={coverage}
-                          value={formik.values.coverageType}
-                          onBlur={formik.handleBlur}
-                          error={
-                            formik.touched.coverageType &&
-                            formik.errors.coverageType
-                          }
-                        />
-                        {formik.touched.coverageType &&
-                          formik.errors.coverageType && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.coverageType}
-                            </div>
-                          )} */}
-                      </div>
                       <div className="col-span-12">
                         <div className="relative">
                           <label
@@ -1289,11 +1230,93 @@ function Dealer() {
               </div>
             </Grid>
           </Card>
+          <Card
+            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl z-10"
+          >
+            <Grid>
+              <div className="col-span-12">
+                <div className="relative">
+                  <label
+                    htmlFor="coverageType"
+                    className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Coverage Type
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                    <MultiSelect
+                      label="Coverage Type "
+                      name="coverageType"
+                      placeholder=""
+                      onChange={(label, value) => {
+                        setSelected(label);
+                        handleSelectChange2("coverageType", label);
+                      }}
+                      required={true}
+                      className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                      options={coverage}
+                      value={selected}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
+                  </div>
 
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                </div>
+                {/* <Select
+                          label="Coverage Type"
+                          name="coverageType"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          disableFirstOption={true}
+                          onChange={handleSelectChange2}
+                          options={coverage}
+                          value={formik.values.coverageType}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+                        {formik.touched.coverageType &&
+                          formik.errors.coverageType && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.coverageType}
+                            </div>
+                          )} */}
+              </div>
+              <div className="col-span-2">
+                <Input
+                  type="number"
+                  name="breakedown"
+                  label="Breakedown Days"
+                  className="!bg-white"
+                />
+              </div>
+              <div className="col-span-2">
+                <Input
+                  type="number"
+                  name="accidental"
+                  label="Accidental Days"
+                  className="!bg-white"
+                />
+              </div>
+            </Grid>
+
+          </Card>
           {formik.values.dealers.map((dealer, index) => (
             <Card
               key={index}
-              className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl"
+              className="bg-white p-8 z-0 relative drop-shadow-4xl mt-8 rounded-xl"
             >
               <p className="text-lg mb-6 font-semibold">
                 Add Dealer’s Team Members
@@ -1505,7 +1528,7 @@ function Dealer() {
             </Card>
           ))}
           {formik.values.coverageType.length > 0 && (
-            <Card className="p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+            <Card className="z-0 p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-2">
                   <p className="text-lg mb-3 font-semibold">
@@ -1929,7 +1952,8 @@ function Dealer() {
             Submit
           </Button>
         </form>
-      )}
+      )
+      }
 
       {/* Modal Email Popop */}
 
@@ -1977,7 +2001,7 @@ function Dealer() {
           )}
         </div>
       </Modal>
-    </div>
+    </div >
   );
 }
 
