@@ -1240,21 +1240,40 @@ function Dealer() {
           >
             <p className="text-lg mb-3 font-semibold">Dealer Settings</p>
             <Grid>
-              <div className="col-span-12 flex">
+              <div className="col-span-6 ">
                 <p className="text-base mb-3 font-semibold self-center mr-4"># of claims in  a certain period  Period can be:</p>
-                <Select
-                  name={`period`}
-                  options={period}
-                  className="!bg-grayf9"
-                  placeholder=""
-                  OptionName={'Period'}
-                  maxLength={"30"}
-                  value={formik.values.period}
-                  onBlur={formik.handleBlur}
-                  onChange={handleSelectChange} />
-                <div className="ml-3">
-                  <Input placeholder='# of claims' type='number' />
+                <div className="flex flex-wrap">
+                  <Select
+                    name={`period`}
+                    options={period}
+                    className="!bg-grayf9 "
+                    placeholder=""
+                    className1='!pt-2.5'
+                    OptionName={'Period'}
+                    maxLength={"30"}
+                    value={formik.values.period}
+                    onBlur={formik.handleBlur}
+                    onChange={handleSelectChange} />
+                  <div className="ml-3">
+                    <Input className1='!pt-2.5' placeholder='# of claims' type='number' />
+                  </div>
                 </div>
+              </div>
+              <div className="col-span-6 flex">
+                <p className="self-center text-lg mb-3 font-semibold">
+                  {" "}
+                  Is manufacturer warranty included ?
+                  <RadioButton
+                    id={`yes-warranty`}
+                    label="Yes"
+                    value="yes"
+                  />
+                  <RadioButton
+                    id={`no-warranty`}
+                    label="No"
+                    value="no"
+                  />
+                </p>
               </div>
               <div className="col-span-12">
                 <p className="text-base mb-3 font-semibold">Coverage Type :</p>
@@ -1276,6 +1295,26 @@ function Dealer() {
                       type="number"
                       name="accidental"
                       label="Breakedown Deductible ($)"
+                      className="!bg-white w-[220px]"
+                    />
+                  </div>
+                  <div className="col-span-3">
+                    <div className="flex">
+                      <Checkbox />
+                      <p className="font-medium">Accidental</p>
+                    </div>
+                    <div className="my-3">
+                      <Input
+                        type="number"
+                        name="accidental"
+                        label="Accidental Days"
+                        className="!bg-white"
+                      />
+                    </div>
+                    <Input
+                      type="number"
+                      name="accidental"
+                      label="Accidental Deductible ($)"
                       className="!bg-white w-[220px]"
                     />
                   </div>
