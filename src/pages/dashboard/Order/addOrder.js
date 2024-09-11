@@ -866,7 +866,7 @@ function AddOrder() {
       : []),
     { label: "Custom", value: "Custom" },
   ];
-  console.log(formik.values);
+ 
   const checkMultipleEmailCheck = (data) => {
     const formData = new FormData();
     const arr = [];
@@ -958,6 +958,17 @@ function AddOrder() {
                 Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
                   formData.append(
                     `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
+            }
+            //add this
+            if (item.adhDays && Array.isArray(item.adhDays)) {
+              item.adhDays.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][adhDays][${qpIndex}][${qpKey}]`,
                     qpValue
                   );
                 });
