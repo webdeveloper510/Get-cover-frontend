@@ -80,19 +80,19 @@ function Dealer() {
     savePriceBookType: selectedOption,
     dealers: [],
 
-    priceBook: [
-      {
-        priceBookId: "",
-        categoryId: "",
-        wholesalePrice: "",
-        terms: "",
-        pName: "",
-        description: "",
-        retailPrice: "",
-        status: "",
-        dealerSku: "",
-      },
-    ],
+    // priceBook: [
+    //   {
+    //     priceBookId: "",
+    //     categoryId: "",
+    //     wholesalePrice: "",
+    //     terms: "",
+    //     pName: "",
+    //     description: "",
+    //     retailPrice: "",
+    //     status: "",
+    //     dealerSku: "",
+    //   },
+    // ],
     isAccountCreate: false,
     customerAccountCreated: false,
     serviceCoverageType: "",
@@ -192,18 +192,18 @@ function Dealer() {
         isShippingAllowed: false,
         isManufacturerWarranty: false,
         dealers: [],
-        priceBook: [
-          {
-            priceBookId: "",
-            categoryId: "",
-            wholesalePrice: "",
-            terms: "",
-            description: "",
-            pName: "",
-            retailPrice: "",
-            status: "",
-          },
-        ],
+        // priceBook: [
+        //   {
+        //     priceBookId: "",
+        //     categoryId: "",
+        //     wholesalePrice: "",
+        //     terms: "",
+        //     description: "",
+        //     pName: "",
+        //     retailPrice: "",
+        //     status: "",
+        //   },
+        // ],
         isAccountCreate: false,
         customerAccountCreated: false,
         isServicer: createServicerAccountOption,
@@ -253,18 +253,18 @@ function Dealer() {
               period: "",
               value: -1,
             },
-            priceBook: [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                pName: "",
-                description: "",
-                retailPrice: "",
-                status: "",
-              },
-            ],
+            // priceBook: [
+            //   {
+            //     priceBookId: "",
+            //     categoryId: "",
+            //     wholesalePrice: "",
+            //     terms: "",
+            //     pName: "",
+            //     description: "",
+            //     retailPrice: "",
+            //     status: "",
+            //   },
+            // ],
             file: "",
             isAccountCreate: false,
             customerAccountCreated: false,
@@ -1635,7 +1635,7 @@ function Dealer() {
               </div>
             </Card>
           ))}
-          {formik.values.coverageType.length > 0 && (
+          {/* {formik.values.coverageType.length > 0 && (
             <Card className="z-0 p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-2">
@@ -1986,7 +1986,6 @@ function Dealer() {
                     >
                       {selectedFile ? (
                         <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                          {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
                           <img src={csvFile} className="mr-2" alt="Dropbox" />
                           <div className="flex justify-between w-full">
                             <p className="self-center">{selectedFile.name}</p>
@@ -2010,7 +2009,7 @@ function Dealer() {
                       )}
                     </button>
 
-                    {/* Hidden file input */}
+           
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -2044,7 +2043,7 @@ function Dealer() {
                 </div>
               )}
             </Card>
-          )}
+          )} */}
 
           <Button type="submit" className="mt-4">
             Submit
