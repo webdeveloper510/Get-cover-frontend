@@ -1,13 +1,15 @@
-import React from 'react';
+import React from "react";
 
-function Checkbox({ label, name }) {
+function Checkbox({ label, name, checked, onChange }) {
   return (
-    <div className="flex items-center gap-x-3 ">
+    <div className="flex items-center gap-x-3">
       <input
         id={`push-nothing-${name}`}
-        name={`push-notifications-${name}`}
+        name={name}
         type="checkbox"
         className="h-4 w-4 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+        checked={checked}
+        onChange={onChange}
       />
       <label
         htmlFor={`push-nothing-${name}`}

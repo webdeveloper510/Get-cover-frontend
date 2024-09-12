@@ -36,7 +36,7 @@ import Dropbox from "../../../assets/images/icons/dropBox.svg";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
-import Checkbox from "../../../common/checkbox"
+import Checkbox from "../../../common/checkbox";
 function Dealer() {
   const [productNameOptions, setProductNameOptions] = useState([]);
   const [category, setCategoryList] = useState([]);
@@ -79,6 +79,7 @@ function Dealer() {
     role: "dealer",
     savePriceBookType: selectedOption,
     dealers: [],
+
     priceBook: [
       {
         priceBookId: "",
@@ -97,12 +98,24 @@ function Dealer() {
     serviceCoverageType: "",
     coverageType: [],
     isShippingAllowed: false,
-
+    noOfClaim: {
+      period: "",
+      value: -1,
+    },
+    isManufacturerWarranty: false,
     file: "",
     oldName: "",
     oldEmail: "",
     isServicer: createServicerAccountOption,
     termCondition: {},
+    adhDays: coverage.reduce((acc, type) => {
+      acc.push({
+        label: type.value,
+        value: 0,
+        value1: 0,
+      });
+      return acc;
+    }, []),
   });
 
   const navigate = useNavigate();
@@ -118,8 +131,8 @@ function Dealer() {
 
   const period = [
     { label: "Monthly ", value: "monthly " },
-    { label: "Annually ", value: "Annually " }
-  ]
+    { label: "Annually ", value: "Annually " },
+  ];
 
   const status = [
     { label: "Active", value: true },
@@ -146,9 +159,11 @@ function Dealer() {
     updatedPriceBook.splice(index, 1);
     formik.setFieldValue("priceBook", updatedPriceBook);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     console.log("here1");
     getCovrageListData();
@@ -170,8 +185,12 @@ function Dealer() {
         savePriceBookType: selectedOption,
         serviceCoverageType: "",
         coverageType: [],
+        noOfClaim: {
+          period: "",
+          value: -1,
+        },
         isShippingAllowed: false,
-
+        isManufacturerWarranty: false,
         dealers: [],
         priceBook: [
           {
@@ -190,6 +209,14 @@ function Dealer() {
         isServicer: createServicerAccountOption,
         file: "",
         termCondition: {},
+        adhDays: coverage.reduce((acc, type) => {
+          acc.push({
+            label: type.value,
+            value: 0,
+            value1: 0,
+          });
+          return acc;
+        }, []),
       });
     }
 
@@ -221,7 +248,11 @@ function Dealer() {
             serviceCoverageType: "",
             coverageType: [],
             isShippingAllowed: false,
-
+            isManufacturerWarranty: false,
+            noOfClaim: {
+              period: "",
+              value: -1,
+            },
             priceBook: [
               {
                 priceBookId: "",
@@ -239,12 +270,21 @@ function Dealer() {
             customerAccountCreated: false,
             isServicer: createServicerAccountOption,
             termCondition: {},
+            adhDays: coverage.reduce((acc, type) => {
+              acc.push({
+                label: type.value,
+                value: 0,
+                value1: 0,
+              });
+              return acc;
+            }, []),
           });
         }
       });
       setLoading1(false);
     }
   }, [id]);
+
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -287,10 +327,12 @@ function Dealer() {
       }))
     );
   };
+
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
   };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     const maxSize = 10048576; // 10MB in bytes
@@ -307,20 +349,16 @@ function Dealer() {
       console.log("Selected file:", file);
     }
   };
+
   const getCovrageListData = async () => {
     try {
       const res = await getCovrageList();
-      console.log(res);
-      setCoverage(
-        res.result.value.map((item) => ({
-          label: item.label,
-          value: item.value,
-        }))
-      );
+      setCoverage(res.result.value);
     } catch (error) {
       console.error("Error fetching category list:", error);
     }
   };
+
   const handleRemoveFile = () => {
     if (inputRef) {
       inputRef.current.click();
@@ -395,7 +433,7 @@ function Dealer() {
       if (match) {
         const response = await getProductListbyProductCategoryId(
           selectedValue,
-          { coverageType: types }
+          { coverageType: formik.values.coverageType }
         );
 
         setProductNameOptions((prevOptions) => {
@@ -438,10 +476,9 @@ function Dealer() {
       formik.setFieldValue(`priceBook[${match[1]}].terms`, data.term);
       formik.setFieldValue(`priceBook[${match[1]}].pName`, data.pName);
       const res = await getCategoryListCoverage(data.value);
+      console.log(res.result);
       setCoverageType(res.result);
     }
-
-    console.log(name);
     formik.setFieldValue(name, selectedValue);
   };
 
@@ -450,38 +487,13 @@ function Dealer() {
     { label: "Labor ", value: "Labour" },
     { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
+
   const handleSelectChange1 = (name, value) => {
     formik.setFieldValue(name, value);
   };
 
-  const handleSelectChange2 = async (name, value) => {
-    // formik.setFieldValue(name, value);
-    formik.setFieldValue("coverageType", value);
-    const result = await getCategoryListActiveData({
-      coverageType: value.map((item) => item.value),
-    });
-    setTypes(result.coverageType);
-    formik.setFieldValue("priceBook", [
-      {
-        priceBookId: "",
-        categoryId: "",
-        wholesalePrice: "",
-        terms: "",
-        pName: "",
-        description: "",
-        retailPrice: "",
-        status: "",
-      },
-    ]);
-
-    setCategoryList(
-      result.result.map((item) => ({
-        label: item.name,
-        value: item._id,
-      }))
-    );
-  };
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -550,43 +562,43 @@ function Dealer() {
           status: Yup.boolean().required("Required"),
         })
       ),
-      priceBook:
-        selectedOption === "no"
-          ? Yup.array().notRequired()
-          : Yup.array().of(
-            Yup.object().shape({
-              priceBookId: Yup.string().required("Required"),
-              categoryId: Yup.string().required("Required"),
-              dealerSku: Yup.string().required("Required"),
-              retailPrice: Yup.number()
-                .typeError("Required")
-                .required("Required")
-                .min(0, "Retail Price cannot be negative")
-                .nullable(),
-              status: Yup.boolean().required("Required"),
-            })
-          ),
-      file:
-        selectedOption === "yes"
-          ? Yup.string().notRequired()
-          : Yup.string().required("File is required"),
+      // priceBook:
+      //   selectedOption === "no"
+      //     ? Yup.array().notRequired()
+      //     : Yup.array().of(
+      //         Yup.object().shape({
+      //           priceBookId: Yup.string().required("Required"),
+      //           categoryId: Yup.string().required("Required"),
+      //           dealerSku: Yup.string().required("Required"),
+      //           retailPrice: Yup.number()
+      //             .typeError("Required")
+      //             .required("Required")
+      //             .min(0, "Retail Price cannot be negative")
+      //             .nullable(),
+      //           status: Yup.boolean().required("Required"),
+      //         })
+      //       ),
+      // file:
+      //   selectedOption === "yes"
+      //     ? Yup.string().notRequired()
+      //     : Yup.string().required("File is required"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              pName: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                pName: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -750,22 +762,6 @@ function Dealer() {
     formik.setFieldValue("dealers", updatedDealers);
   };
 
-  // const checkEmailAvailability = async (email) => {
-  //   console.log(emailValidationRegex.test(email));
-  //   if (emailValidationRegex.test(email) != false) {
-  //     const result = await checkDealersEmailValidation(email);
-  //     console.log(result);
-  //     if (result.code === 200) {
-  //       setIsEmailAvailable(true);
-  //       formik.setFieldError("email", "");
-  //     } else if (result.code === 401) {
-  //       setIsEmailAvailable(false);
-
-  //       return false;
-  //     }
-  //   }
-  // };
-
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1hwQfZ-5f80JwcocWAbPF7texOezSAXi-UEp_qSnSQa0/edit#gid=0",
@@ -774,6 +770,7 @@ function Dealer() {
   };
 
   const state = cityData;
+
   return (
     <div className="mb-8 ml-3">
       <Headbar />
@@ -1235,741 +1232,825 @@ function Dealer() {
               </div>
             </Grid>
           </Card>
-          <Card
-            className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl z-10"
-          >
+          <Card className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl z-10">
             <p className="text-lg mb-3 font-semibold">Dealer Settings</p>
             <Grid>
               <div className="col-span-6 ">
-                <p className="text-base mb-3 font-semibold self-center mr-4"># of claims in  a certain period  Period can be:</p>
+                <p className="text-base mb-3 font-semibold self-center mr-4">
+                  # of claims in a certain period Period can be:
+                </p>
                 <div className="flex flex-wrap">
-                  <Select
+                  {/* <Select
                     name={`period`}
                     options={period}
                     className="!bg-grayf9 "
                     placeholder=""
-                    className1='!pt-2.5'
-                    OptionName={'Period'}
+                    className1="!pt-2.5"
+                    OptionName={"Period"}
                     maxLength={"30"}
                     value={formik.values.period}
                     onBlur={formik.handleBlur}
-                    onChange={handleSelectChange} />
-                  <div className="ml-3">
-                    <Input className1='!pt-2.5' placeholder='# of claims' type='number' />
-                  </div>
+                    onChange={handleSelectChange}
+                  /> */}
+                  <Select
+                    name={`noOfClaim.period`}
+                    options={period}
+                    className="!bg-grayf9 "
+                    placeholder=""
+                    className1="!pt-2.5"
+                    OptionName={"Period"}
+                    maxLength={"30"}
+                    value={formik.values.noOfClaim.period}
+                    onBlur={formik.handleBlur}
+                    onChange={(name, value) =>
+                      formik.setFieldValue(name, value)
+                    }
+                  />
+                  {/* <div className="ml-3">
+                    <Input
+                      className1="!pt-2.5"
+                      placeholder="# of claims"
+                      type="number"
+                    />
+                  </div> */}
                 </div>
               </div>
               <div className="col-span-6 flex">
                 <p className="self-center text-lg mb-3 font-semibold">
                   {" "}
-                  Is manufacturer warranty included ?
+                  Is manufacturer warranty{" "}
+                  {formik.values.isManufacturerWarranty} ?
                   <RadioButton
-                    id={`yes-warranty`}
+                    id="yes-warranty"
                     label="Yes"
-                    value="yes"
+                    value={true}
+                    checked={formik.values.isManufacturerWarranty == true}
+                    onChange={() =>
+                      formik.setFieldValue("isManufacturerWarranty", true)
+                    }
                   />
                   <RadioButton
-                    id={`no-warranty`}
+                    id="no-warranty"
                     label="No"
-                    value="no"
+                    value={false}
+                    checked={formik.values.isManufacturerWarranty === false}
+                    onChange={() =>
+                      formik.setFieldValue("isManufacturerWarranty", false)
+                    }
                   />
                 </p>
               </div>
               <div className="col-span-12">
                 <p className="text-base mb-3 font-semibold">Coverage Type :</p>
                 <Grid>
-                  <div className="col-span-3">
-                    <div className="flex">
-                      <Checkbox />
-                      <p className="font-medium">Breakedown</p>
-                    </div>
-                    <div className="my-3">
-                      <Input
-                        type="number"
-                        name="breakedown"
-                        label="Breakedown Days"
-                        className="!bg-white"
-                      />
-                    </div>
-                    <Input
-                      type="number"
-                      name="accidental"
-                      label="Breakedown Deductible ($)"
-                      className="!bg-white w-[220px]"
-                    />
-                  </div>
-                  <div className="col-span-3">
-                    <div className="flex">
-                      <Checkbox />
-                      <p className="font-medium">Accidental</p>
-                    </div>
-                    <div className="my-3">
-                      <Input
-                        type="number"
-                        name="accidental"
-                        label="Accidental Days"
-                        className="!bg-white"
-                      />
-                    </div>
-                    <Input
-                      type="number"
-                      name="accidental"
-                      label="Accidental Deductible ($)"
-                      className="!bg-white w-[220px]"
-                    />
-                  </div>
-                </Grid>
+                  {coverage.map((type) => (
+                    <div key={type._id} className="col-span-3">
+                      <div className="flex">
+                        <Checkbox
+                          name={`coverageType[${type.value}]`}
+                          checked={formik.values.coverageType.includes(
+                            type.value
+                          )}
+                          onChange={() => {
+                            const selected = formik.values.coverageType;
+                            const updatedCoverage = selected.includes(
+                              type.value
+                            )
+                              ? selected.filter((item) => item !== type.value)
+                              : [...selected, type.value];
 
-              </div>
+                            formik.setFieldValue(
+                              "coverageType",
+                              updatedCoverage
+                            );
 
-            </Grid>
+                            let updatedadhDays = formik.values.adhDays || [];
 
-          </Card>
-          {
-            formik.values.dealers.map((dealer, index) => (
-              <Card
-                key={index}
-                className="bg-white p-8 z-0 relative drop-shadow-4xl mt-8 rounded-xl"
-              >
-                <p className="text-lg mb-6 font-semibold">
-                  Add Dealer’s Team Members
-                </p>
-                <div className="">
-                  <Grid className="">
-                    <div className="col-span-11">
-                      <Grid className="pr-12 pl-4">
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].firstName`}
-                            label="First Name"
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            maxLength={"30"}
-                            value={formik.values.dealers[index].firstName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].firstName
-                            }
-                          />
-                          {formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].firstName && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].firstName}
-                              </div>
-                            )}
-                        </div>
-
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].lastName`}
-                            className="!bg-white"
-                            label="Last Name"
-                            required={true}
-                            placeholder=""
-                            value={formik.values.dealers[index].lastName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].lastName
-                            }
-                          />
-                          {formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].lastName && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].lastName}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].email`}
-                            label="Email"
-                            placeholder=""
-                            className="!bg-white"
-                            required={true}
-                            value={formik.values.dealers[index].email}
-                            onBlur={async () => {
-                              formik.handleBlur(`dealers[${index}].email`);
-                            }}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].email
-                            }
-                          />
-                          {formik.touched.dealers &&
-                            formik.touched.dealers[index] &&
-                            formik.errors.dealers &&
-                            formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].email && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].email}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="tel"
-                            name={`dealers[${index}].phoneNumber`}
-                            className="!bg-white"
-                            label="Phone"
-                            required={true}
-                            placeholder=""
-                            value={formik.values.dealers[index].phoneNumber}
-                            onChange={(e) => {
-                              const sanitizedValue = e.target.value.replace(
-                                /[^0-9]/g,
-                                ""
+                            if (updatedCoverage.includes(type.value)) {
+                              if (
+                                !updatedadhDays?.find(
+                                  (item) => item.label === type.value
+                                )
+                              ) {
+                                updatedadhDays = [
+                                  ...updatedadhDays,
+                                  {
+                                    label: type.value,
+                                    value: 0,
+                                    value1: 0,
+                                  },
+                                ];
+                              }
+                            } else {
+                              updatedadhDays = updatedadhDays.filter(
+                                (item) => item.label !== type.value
                               );
-                              console.log(sanitizedValue);
-                              formik.handleChange({
-                                target: {
-                                  name: `dealers[${index}].phoneNumber`,
-                                  value: sanitizedValue,
-                                },
-                              });
-                            }}
-                            onBlur={formik.handleBlur}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                            minLength={"10"}
-                            maxLength={"10"}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].phoneNumber
                             }
+
+                            formik.setFieldValue("adhDays", updatedadhDays);
+                          }}
+                        />
+                        <p className="font-medium">{type.label}</p>
+                      </div>
+
+                      {formik?.values?.coverageType?.includes(type.value) && (
+                        <>
+                          <div className="my-3">
+                            <Input
+                              type="number"
+                              name={`adhDays[${type.value}].value`}
+                              label={`${type.label} Days`}
+                              className="!bg-white"
+                              value={
+                                formik?.values?.adhDays?.find(
+                                  (item) => item.label === type.value
+                                )?.value || 0
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={(e) => {
+                                const updatedadhDays =
+                                  formik?.values?.adhDays?.map((item) =>
+                                    item.label === type.value
+                                      ? {
+                                          ...item,
+                                          value: Number(e.target.value),
+                                        }
+                                      : item
+                                  );
+                                formik.setFieldValue("adhDays", updatedadhDays);
+                              }}
+                            />
+                          </div>
+
+                          <Input
+                            type="number"
+                            name={`adhDays[${type.value}].value1`}
+                            label={`${type.label} Deduction Amount ($)`}
+                            className="!bg-white w-[220px]"
+                            value={
+                              formik?.values?.adhDays?.find(
+                                (item) => item.label === type.value
+                              )?.value1 || 0
+                            }
+                            onBlur={formik.handleBlur}
+                            onChange={(e) => {
+                              const updatedadhDays =
+                                formik?.values?.adhDays?.map((item) =>
+                                  item.label === type.value
+                                    ? {
+                                        ...item,
+                                        value1: Number(e.target.value),
+                                      }
+                                    : item
+                                );
+                              formik.setFieldValue("adhDays", updatedadhDays);
+                            }}
                           />
-                          {formik.touched.dealers &&
+                        </>
+                      )}
+                    </div>
+                  ))}
+
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                </Grid>
+              </div>
+            </Grid>
+          </Card>
+          {formik.values.dealers.map((dealer, index) => (
+            <Card
+              key={index}
+              className="bg-white p-8 z-0 relative drop-shadow-4xl mt-8 rounded-xl"
+            >
+              <p className="text-lg mb-6 font-semibold">
+                Add Dealer’s Team Members
+              </p>
+              <div className="">
+                <Grid className="">
+                  <div className="col-span-11">
+                    <Grid className="pr-12 pl-4">
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].firstName`}
+                          label="First Name"
+                          required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          maxLength={"30"}
+                          value={formik.values.dealers[index].firstName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
                             formik.touched.dealers[index] &&
                             formik.errors.dealers &&
                             formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].phoneNumber && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].phoneNumber}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].position`}
-                            className="!bg-white"
-                            label="Position"
-                            placeholder=""
-                            value={formik.values.dealers[index].position}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                          />
-                        </div>
-                        <div className="col-span-4">
-                          <p className="flex text-[12px] font-semibold mt-3 mb-6">
-                            {" "}
-                            Do you want to create an account?
-                            <RadioButton
-                              id={`yes-${index}`}
-                              label="Yes"
-                              value="yes"
-                              disabled={createAccountOption === "no"}
-                              checked={
-                                formik.values.dealers &&
-                                formik.values.dealers[index] &&
-                                formik.values.dealers[index].status === true
-                              }
-                              onChange={() =>
-                                handleRadioChangeDealers("yes", index)
-                              }
-                            />
-                            <RadioButton
-                              id={`no-${index}`}
-                              label="No"
-                              value="no"
-                              checked={
-                                formik.values.dealers &&
-                                formik.values.dealers[index] &&
-                                formik.values.dealers[index].status === false
-                              }
-                              onChange={() =>
-                                handleRadioChangeDealers("no", index)
-                              }
-                            />
-                          </p>
-                        </div>
-                      </Grid>
-                    </div>
-                    <div
-                      className="col-span-1"
-                      onClick={() => {
-                        handleDeleteDealers(index);
-                      }}
-                    >
-                      <div className="flex mx-3 h-full bg-Smoke justify-center">
-                        <img
-                          src={DeleteImage}
-                          className="self-center cursor-pointer"
-                          alt="Delete Icon"
+                            formik.errors.dealers[index].firstName
+                          }
                         />
-                      </div>
-                    </div>
-                  </Grid>
-                </div>
-              </Card>
-            ))
-          }
-          {
-            formik.values.coverageType.length > 0 && (
-              <Card className="z-0 p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
-                <Grid>
-                  <div className="col-span-2">
-                    <p className="text-lg mb-3 font-semibold">
-                      {selectedOption === "yes"
-                        ? "Add Price Book"
-                        : "Upload Price Book"}{" "}
-                    </p>
-                  </div>
-                  <div className="col-span-6 self-center">
-                    <hr className="self-center ml-3 border-Light-Grey w-full" />
-                  </div>
-                  <div className="col-span-4 flex justify-end">
-                    <RadioButton
-                      id="yes"
-                      label="Add Single Price Book"
-                      value="yes"
-                      checked={selectedOption === "yes"}
-                      onChange={handleRadioChangeforBulk}
-                    />
-                    <RadioButton
-                      id="no"
-                      label="Upload In Bulk"
-                      value="no"
-                      checked={selectedOption === "no"}
-                      onChange={handleRadioChangeforBulk}
-                    />
-                  </div>
-                </Grid>
-
-                {selectedOption === "yes" ? (
-                  <>
-                    {formik.values.priceBook.map((dealer, index) => (
-                      <div className="bg-grayf9 p-4 relative mt-8 rounded-xl">
-                        <div className="bg-white rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
-                          {index == 0 ? (
-                            <Button
-                              className="text-sm !font-light"
-                              onClick={handleAddPriceBook}
-                            >
-                              {" "}
-                              + Add More{" "}
-                            </Button>
-                          ) : (
-                            <div
-                              onClick={() => {
-                                handleDeletePriceBook(index);
-                              }}
-                            >
-                              <div className="flex h-full mx-3 bg-white justify-center">
-                                <img
-                                  src={DeleteImage}
-                                  className="self-center cursor-pointer"
-                                  alt="Delete Icon"
-                                />
-                              </div>
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].firstName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].firstName}
                             </div>
                           )}
-                        </div>
-                        <div className=" p-4 pl-0 relative rounded-xl">
-                          <Grid className="">
-                            <div className="col-span-4">
-                              <Select
-                                name={`priceBook[${index}].categoryId`}
-                                label="Product Category"
-                                options={category}
-                                required={true}
-                                className="!bg-grayf9"
-                                placeholder=""
-                                maxLength={"30"}
-                                value={formik.values.priceBook[index].categoryId}
-                                onBlur={formik.handleBlur}
-                                onChange={handleSelectChange}
-                                index={index}
-                                error={
-                                  formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].categoryId
-                                }
-                              />
-                              {formik.touched.priceBook &&
-                                formik.touched.priceBook[index] &&
-                                formik.errors.priceBook &&
-                                formik.errors.priceBook[index] &&
-                                formik.errors.priceBook[index].categoryId && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.priceBook[index].categoryId}
-                                  </div>
-                                )}
-                            </div>
-
-                            <div className="col-span-4">
-                              <Select
-                                name={`priceBook[${index}].priceBookId`}
-                                label="Product SKU"
-                                options={productNameOptions[index]?.data}
-                                required={true}
-                                className="!bg-grayf9"
-                                placeholder=""
-                                value={
-                                  formik.values?.priceBook[index].priceBookId
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={handleSelectChange}
-                                index={index}
-                                disabled={
-                                  formik.values.priceBook[index].categoryId == ""
-                                }
-                                error={
-                                  formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].priceBookId
-                                }
-                              />
-                              {formik.touched.priceBook &&
-                                formik.touched.priceBook[index] &&
-                                formik.errors.priceBook &&
-                                formik.errors.priceBook[index] &&
-                                formik.errors.priceBook[index].priceBookId && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.priceBook[index].priceBookId}
-                                  </div>
-                                )}
-                            </div>
-
-                            <div className="col-span-3">
-                              <Input
-                                type="text"
-                                name={`priceBook[${index}].pName`}
-                                className="!bg-grayf9"
-                                label="Product Name"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.priceBook[index].pName}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                disabled={true}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                              />
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`priceBook[${index}].wholesalePrice`}
-                                className="!bg-grayf9"
-                                label="Wholesale Price($)"
-                                required={true}
-                                placeholder=""
-                                value={
-                                  formik.values.priceBook[index].wholesalePrice
-                                }
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                disabled={true}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                              />
-                            </div>
-
-                            <div className="col-span-8">
-                              <Input
-                                type="text"
-                                name={`priceBook[${index}].description`}
-                                className="!bg-grayf9"
-                                label="Description"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.priceBook[index].description}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                disabled={true}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                              />
-                            </div>
-
-                            <div className="col-span-4">
-                              <Input
-                                label="Terms"
-                                name={`priceBook[${index}].terms`}
-                                required={true}
-                                placeholder=""
-                                onChange={formik.handleChange}
-                                className="!bg-grayf9"
-                                options={termList}
-                                disabled={true}
-                                value={
-                                  formik.values.priceBook[index].terms + " Months"
-                                }
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.term && formik.errors.term}
-                              />
-                              {formik.touched.term && formik.errors.term && (
-                                <div className="text-red-500 text-sm pl-2 pt-2">
-                                  {formik.errors.term}
-                                </div>
-                              )}
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="number"
-                                name={`priceBook[${index}].retailPrice`}
-                                className="!bg-grayf9"
-                                label="Retail Price($)"
-                                maxLength={"10"}
-                                maxDecimalPlaces={2}
-                                required={true}
-                                placeholder=""
-                                value={formik.values.priceBook[index].retailPrice}
-                                onChange={formik.handleChange}
-                                onBlur={(e) => {
-                                  const formattedValue = parseFloat(
-                                    e.target.value
-                                  ).toFixed(2);
-                                  formik.handleBlur(e);
-                                  formik.setFieldValue(
-                                    `priceBook[${index}].retailPrice`,
-                                    formattedValue
-                                  );
-                                }}
-                                onWheelCapture={(e) => {
-                                  e.preventDefault();
-                                }}
-                                error={
-                                  formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].retailPrice
-                                }
-                              />
-                              {formik.touched.priceBook &&
-                                formik.touched.priceBook[index] &&
-                                formik.errors.priceBook &&
-                                formik.errors.priceBook[index] &&
-                                formik.errors.priceBook[index].retailPrice && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.priceBook[index].retailPrice}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                              <Input
-                                type="text"
-                                name={`priceBook[${index}].dealerSku`}
-                                className="!bg-grayf9"
-                                label="Dealer  SKU"
-                                required={true}
-                                placeholder=""
-                                value={formik.values.priceBook[index].dealerSku}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={
-                                  formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].dealerSku
-                                }
-                              />
-                              {formik.touched.priceBook &&
-                                formik.touched.priceBook[index] &&
-                                formik.errors.priceBook &&
-                                formik.errors.priceBook[index] &&
-                                formik.errors.priceBook[index].dealerSku && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.priceBook[index].dealerSku}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                              <Select
-                                name={`priceBook[${index}].status`}
-                                label="Status"
-                                options={status}
-                                required={true}
-                                className="!bg-grayf9"
-                                value={formik.values.priceBook[index].status}
-                                onBlur={formik.handleBlur}
-                                onChange={handleSelectChange}
-                                error={
-                                  formik.touched.priceBook &&
-                                  formik.touched.priceBook[index] &&
-                                  formik.errors.priceBook &&
-                                  formik.errors.priceBook[index] &&
-                                  formik.errors.priceBook[index].status
-                                }
-                              />
-                              {formik.touched.priceBook &&
-                                formik.touched.priceBook[index] &&
-                                formik.errors.priceBook &&
-                                formik.errors.priceBook[index] &&
-                                formik.errors.priceBook[index].status && (
-                                  <div className="text-red-500 text-sm pl-2 pt-2">
-                                    {formik.errors.priceBook[index].status}
-                                  </div>
-                                )}
-                            </div>
-                            <div className="col-span-8">
-                              <div className="relative">
-                                <label
-                                  htmlFor="coverageType"
-                                  className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                                >
-                                  Coverage Type
-                                </label>
-                                <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                                  {coverageType && coverageType.length > 0 ? (
-                                    <ol className="flex flex-wrap">
-                                      {coverageType.map((type, index) => (
-                                        <li
-                                          className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
-                                          key={index}
-                                        >
-                                          {type.label}
-                                        </li>
-                                      ))}
-                                    </ol>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </Grid>
-                        </div>
                       </div>
-                    ))}
-                  </>
-                ) : (
-                  <div className="bg-grayf9 p-4 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
-                    <p className="text-[#717275] text-lg mb-5 font-semibold">
-                      Upload In Bulk
-                    </p>
-                    {/* <FileDropdown
-                  className="!bg-transparent"
-                  accept={
-                    ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                  }
-                  onFileSelect={(file) => {
-                    setFileError(null);
-                    formik.setFieldValue("file", file);
-                  }}
-                /> */}
-                    <div className="relative">
-                      <button
-                        type="button"
-                        onClick={handleDropdownClick}
-                        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                      >
-                        {selectedFile ? (
-                          <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                            {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
-                            <img src={csvFile} className="mr-2" alt="Dropbox" />
-                            <div className="flex justify-between w-full">
-                              <p className="self-center">{selectedFile.name}</p>
-                              <p className="self-center">
-                                {(selectedFile.size / 1000).toFixed(2)} kb
-                              </p>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            <img
-                              src={Dropbox}
-                              className="mx-auto mb-3"
-                              alt="Dropbox"
-                            />
-                            <p className="text-[#5D6E66]">
-                              Accepted file types: csv, xlsx, xls Max. file size:
-                              50 MB.
-                            </p>
-                          </>
-                        )}
-                      </button>
 
-                      {/* Hidden file input */}
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        style={{ display: "none" }}
-                        onChange={handleFileSelect}
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].lastName`}
+                          className="!bg-white"
+                          label="Last Name"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].lastName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].lastName
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].lastName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].lastName}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].email`}
+                          label="Email"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          value={formik.values.dealers[index].email}
+                          onBlur={async () => {
+                            formik.handleBlur(`dealers[${index}].email`);
+                          }}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].email
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].email && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].email}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="tel"
+                          name={`dealers[${index}].phoneNumber`}
+                          className="!bg-white"
+                          label="Phone"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].phoneNumber}
+                          onChange={(e) => {
+                            const sanitizedValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            console.log(sanitizedValue);
+                            formik.handleChange({
+                              target: {
+                                name: `dealers[${index}].phoneNumber`,
+                                value: sanitizedValue,
+                              },
+                            });
+                          }}
+                          onBlur={formik.handleBlur}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
+                          minLength={"10"}
+                          maxLength={"10"}
+                          error={
+                            formik.touched.dealers &&
+                            formik.touched.dealers[index] &&
+                            formik.errors.dealers &&
+                            formik.errors.dealers[index] &&
+                            formik.errors.dealers[index].phoneNumber
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].phoneNumber && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].phoneNumber}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].position`}
+                          className="!bg-white"
+                          label="Position"
+                          placeholder=""
+                          value={formik.values.dealers[index].position}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                        />
+                      </div>
+                      <div className="col-span-4">
+                        <p className="flex text-[12px] font-semibold mt-3 mb-6">
+                          {" "}
+                          Do you want to create an account?
+                          <RadioButton
+                            id={`yes-${index}`}
+                            label="Yes"
+                            value="yes"
+                            disabled={createAccountOption === "no"}
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === true
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("yes", index)
+                            }
+                          />
+                          <RadioButton
+                            id={`no-${index}`}
+                            label="No"
+                            value="no"
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === false
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("no", index)
+                            }
+                          />
+                        </p>
+                      </div>
+                    </Grid>
+                  </div>
+                  <div
+                    className="col-span-1"
+                    onClick={() => {
+                      handleDeleteDealers(index);
+                    }}
+                  >
+                    <div className="flex mx-3 h-full bg-Smoke justify-center">
+                      <img
+                        src={DeleteImage}
+                        className="self-center cursor-pointer"
+                        alt="Delete Icon"
                       />
                     </div>
-                    {formik.touched.file && formik.errors.file && (
-                      <p className="text-red-500 text-sm mt-1 font-medium">
-                        {formik.errors.file}
-                      </p>
-                    )}
-                    {formik.touched.file && fileError && (
-                      <p className="text-red-500 text-sm mt-1 font-medium">
-                        {fileError}
-                      </p>
-                    )}
-                    <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
-                      Please click on file option and make a copy. Upload the list
-                      of Product Name and Price using our provided Google Sheets
-                      template, by{" "}
-                      <span
-                        className="underline cursor-pointer"
-                        onClick={downloadCSVTemplate}
-                      >
-                        Clicking here{" "}
-                      </span>
-                      . The file must be saved with csv , xls and xlsx Format.
-                    </p>
                   </div>
-                )}
-              </Card>
-            )
-          }
+                </Grid>
+              </div>
+            </Card>
+          ))}
+          {formik.values.coverageType.length > 0 && (
+            <Card className="z-0 p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+              <Grid>
+                <div className="col-span-2">
+                  <p className="text-lg mb-3 font-semibold">
+                    {selectedOption === "yes"
+                      ? "Add Price Book"
+                      : "Upload Price Book"}{" "}
+                  </p>
+                </div>
+                <div className="col-span-6 self-center">
+                  <hr className="self-center ml-3 border-Light-Grey w-full" />
+                </div>
+                <div className="col-span-4 flex justify-end">
+                  <RadioButton
+                    id="yes"
+                    label="Add Single Price Book"
+                    value="yes"
+                    checked={selectedOption === "yes"}
+                    onChange={handleRadioChangeforBulk}
+                  />
+                  <RadioButton
+                    id="no"
+                    label="Upload In Bulk"
+                    value="no"
+                    checked={selectedOption === "no"}
+                    onChange={handleRadioChangeforBulk}
+                  />
+                </div>
+              </Grid>
+
+              {selectedOption === "yes" ? (
+                <>
+                  {formik.values.priceBook.map((dealer, index) => (
+                    <div className="bg-grayf9 p-4 relative mt-8 rounded-xl">
+                      <div className="bg-white rounded-[30px] absolute top-[-17px] right-[-12px] p-3">
+                        {index == 0 ? (
+                          <Button
+                            className="text-sm !font-light"
+                            onClick={handleAddPriceBook}
+                          >
+                            {" "}
+                            + Add More{" "}
+                          </Button>
+                        ) : (
+                          <div
+                            onClick={() => {
+                              handleDeletePriceBook(index);
+                            }}
+                          >
+                            <div className="flex h-full mx-3 bg-white justify-center">
+                              <img
+                                src={DeleteImage}
+                                className="self-center cursor-pointer"
+                                alt="Delete Icon"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className=" p-4 pl-0 relative rounded-xl">
+                        <Grid className="">
+                          <div className="col-span-4">
+                            <Select
+                              name={`priceBook[${index}].categoryId`}
+                              label="Product Category"
+                              options={category}
+                              required={true}
+                              className="!bg-grayf9"
+                              placeholder=""
+                              maxLength={"30"}
+                              value={formik.values.priceBook[index].categoryId}
+                              onBlur={formik.handleBlur}
+                              onChange={handleSelectChange}
+                              index={index}
+                              error={
+                                formik.touched.priceBook &&
+                                formik.touched.priceBook[index] &&
+                                formik.errors.priceBook &&
+                                formik.errors.priceBook[index] &&
+                                formik.errors.priceBook[index].categoryId
+                              }
+                            />
+                            {formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].categoryId && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.priceBook[index].categoryId}
+                                </div>
+                              )}
+                          </div>
+
+                          <div className="col-span-4">
+                            <Select
+                              name={`priceBook[${index}].priceBookId`}
+                              label="Product SKU"
+                              options={productNameOptions[index]?.data}
+                              required={true}
+                              className="!bg-grayf9"
+                              placeholder=""
+                              value={
+                                formik.values?.priceBook[index].priceBookId
+                              }
+                              onBlur={formik.handleBlur}
+                              onChange={handleSelectChange}
+                              index={index}
+                              disabled={
+                                formik.values.priceBook[index].categoryId == ""
+                              }
+                              error={
+                                formik.touched.priceBook &&
+                                formik.touched.priceBook[index] &&
+                                formik.errors.priceBook &&
+                                formik.errors.priceBook[index] &&
+                                formik.errors.priceBook[index].priceBookId
+                              }
+                            />
+                            {formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].priceBookId && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.priceBook[index].priceBookId}
+                                </div>
+                              )}
+                          </div>
+
+                          <div className="col-span-3">
+                            <Input
+                              type="text"
+                              name={`priceBook[${index}].pName`}
+                              className="!bg-grayf9"
+                              label="Product Name"
+                              required={true}
+                              placeholder=""
+                              value={formik.values.priceBook[index].pName}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`priceBook[${index}].wholesalePrice`}
+                              className="!bg-grayf9"
+                              label="Wholesale Price($)"
+                              required={true}
+                              placeholder=""
+                              value={
+                                formik.values.priceBook[index].wholesalePrice
+                              }
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+
+                          <div className="col-span-8">
+                            <Input
+                              type="text"
+                              name={`priceBook[${index}].description`}
+                              className="!bg-grayf9"
+                              label="Description"
+                              required={true}
+                              placeholder=""
+                              value={formik.values.priceBook[index].description}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              disabled={true}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                            />
+                          </div>
+
+                          <div className="col-span-4">
+                            <Input
+                              label="Terms"
+                              name={`priceBook[${index}].terms`}
+                              required={true}
+                              placeholder=""
+                              onChange={formik.handleChange}
+                              className="!bg-grayf9"
+                              options={termList}
+                              disabled={true}
+                              value={
+                                formik.values.priceBook[index].terms + " Months"
+                              }
+                              onBlur={formik.handleBlur}
+                              error={formik.touched.term && formik.errors.term}
+                            />
+                            {formik.touched.term && formik.errors.term && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formik.errors.term}
+                              </div>
+                            )}
+                          </div>
+                          <div className="col-span-4">
+                            <Input
+                              type="number"
+                              name={`priceBook[${index}].retailPrice`}
+                              className="!bg-grayf9"
+                              label="Retail Price($)"
+                              maxLength={"10"}
+                              maxDecimalPlaces={2}
+                              required={true}
+                              placeholder=""
+                              value={formik.values.priceBook[index].retailPrice}
+                              onChange={formik.handleChange}
+                              onBlur={(e) => {
+                                const formattedValue = parseFloat(
+                                  e.target.value
+                                ).toFixed(2);
+                                formik.handleBlur(e);
+                                formik.setFieldValue(
+                                  `priceBook[${index}].retailPrice`,
+                                  formattedValue
+                                );
+                              }}
+                              onWheelCapture={(e) => {
+                                e.preventDefault();
+                              }}
+                              error={
+                                formik.touched.priceBook &&
+                                formik.touched.priceBook[index] &&
+                                formik.errors.priceBook &&
+                                formik.errors.priceBook[index] &&
+                                formik.errors.priceBook[index].retailPrice
+                              }
+                            />
+                            {formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].retailPrice && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.priceBook[index].retailPrice}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-span-4">
+                            <Input
+                              type="text"
+                              name={`priceBook[${index}].dealerSku`}
+                              className="!bg-grayf9"
+                              label="Dealer  SKU"
+                              required={true}
+                              placeholder=""
+                              value={formik.values.priceBook[index].dealerSku}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={
+                                formik.touched.priceBook &&
+                                formik.touched.priceBook[index] &&
+                                formik.errors.priceBook &&
+                                formik.errors.priceBook[index] &&
+                                formik.errors.priceBook[index].dealerSku
+                              }
+                            />
+                            {formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].dealerSku && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.priceBook[index].dealerSku}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-span-4">
+                            <Select
+                              name={`priceBook[${index}].status`}
+                              label="Status"
+                              options={status}
+                              required={true}
+                              className="!bg-grayf9"
+                              value={formik.values.priceBook[index].status}
+                              onBlur={formik.handleBlur}
+                              onChange={handleSelectChange}
+                              error={
+                                formik.touched.priceBook &&
+                                formik.touched.priceBook[index] &&
+                                formik.errors.priceBook &&
+                                formik.errors.priceBook[index] &&
+                                formik.errors.priceBook[index].status
+                              }
+                            />
+                            {formik.touched.priceBook &&
+                              formik.touched.priceBook[index] &&
+                              formik.errors.priceBook &&
+                              formik.errors.priceBook[index] &&
+                              formik.errors.priceBook[index].status && (
+                                <div className="text-red-500 text-sm pl-2 pt-2">
+                                  {formik.errors.priceBook[index].status}
+                                </div>
+                              )}
+                          </div>
+                          <div className="col-span-8">
+                            <div className="relative">
+                              <label
+                                htmlFor="coverageType"
+                                className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                              >
+                                Coverage Type
+                              </label>
+                              <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
+                                {coverageType && coverageType.length > 0 ? (
+                                  <ol className="flex flex-wrap">
+                                    {coverageType.map((type, index) => (
+                                      <li
+                                        className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
+                                        key={index}
+                                      >
+                                        {type.label}
+                                      </li>
+                                    ))}
+                                  </ol>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </Grid>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <div className="bg-grayf9 p-4 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
+                  <p className="text-[#717275] text-lg mb-5 font-semibold">
+                    Upload In Bulk
+                  </p>
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={handleDropdownClick}
+                      className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                    >
+                      {selectedFile ? (
+                        <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                          {/* <img src={cross} className="absolute -right-2 -top-2 mx-auto mb-3" alt="Dropbox" /> */}
+                          <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <div className="flex justify-between w-full">
+                            <p className="self-center">{selectedFile.name}</p>
+                            <p className="self-center">
+                              {(selectedFile.size / 1000).toFixed(2)} kb
+                            </p>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <img
+                            src={Dropbox}
+                            className="mx-auto mb-3"
+                            alt="Dropbox"
+                          />
+                          <p className="text-[#5D6E66]">
+                            Accepted file types: csv, xlsx, xls Max. file size:
+                            50 MB.
+                          </p>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Hidden file input */}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                      style={{ display: "none" }}
+                      onChange={handleFileSelect}
+                    />
+                  </div>
+                  {formik.touched.file && formik.errors.file && (
+                    <p className="text-red-500 text-sm mt-1 font-medium">
+                      {formik.errors.file}
+                    </p>
+                  )}
+                  {formik.touched.file && fileError && (
+                    <p className="text-red-500 text-sm mt-1 font-medium">
+                      {fileError}
+                    </p>
+                  )}
+                  <p className="text-[11px] mt-1 text-[#5D6E66] font-medium">
+                    Please click on file option and make a copy. Upload the list
+                    of Product Name and Price using our provided Google Sheets
+                    template, by{" "}
+                    <span
+                      className="underline cursor-pointer"
+                      onClick={downloadCSVTemplate}
+                    >
+                      Clicking here{" "}
+                    </span>
+                    . The file must be saved with csv , xls and xlsx Format.
+                  </p>
+                </div>
+              )}
+            </Card>
+          )}
 
           <Button type="submit" className="mt-4">
             Submit
           </Button>
-        </form >
-      )
-      }
+        </form>
+      )}
 
       {/* Modal Email Popop */}
 
@@ -2017,7 +2098,7 @@ function Dealer() {
           )}
         </div>
       </Modal>
-    </div >
+    </div>
   );
 }
 
