@@ -75,6 +75,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import { MultiSelect } from "react-multi-select-component";
 import { getCovrageList } from "../../../services/priceBookService";
+import Setting from "./Dealer-Details/setting";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -628,8 +629,8 @@ function DealerDetails() {
                 const selectedItems = checked
                   ? [...servicerForm.values.selectedItems, itemId]
                   : servicerForm.values.selectedItems.filter(
-                      (id) => id !== itemId
-                    );
+                    (id) => id !== itemId
+                  );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -715,6 +716,15 @@ function DealerDetails() {
       Activeicons: PriceBookActive,
       content: activeTab === "PriceBook" && (
         <PriceBookList id={id.id} activeTab={activeTab} />
+      ),
+    },
+    {
+      id: "Settings",
+      label: "Settings",
+      icons: PriceBook,
+      Activeicons: PriceBookActive,
+      content: activeTab === "Settings" && (
+        <Setting />
       ),
     },
   ];
@@ -1002,7 +1012,7 @@ function DealerDetails() {
                       $
                       {formatOrderValue(
                         dealerDetails?.ordersResult?.[0]?.orderAmount ??
-                          parseInt(0)
+                        parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -1040,11 +1050,10 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
               <div
-                className={` ${
-                  isStatus == true
-                    ? "col-span-10 relative"
-                    : "col-span-10 mr-[30px] relative"
-                }`}
+                className={` ${isStatus == true
+                  ? "col-span-10 relative"
+                  : "col-span-10 mr-[30px] relative"
+                  }`}
               >
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
@@ -1060,19 +1069,16 @@ function DealerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                          activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
-                        }`}
+                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
+                          }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <div
                           style={{
-                            maskImage: `url(${
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            })`,
-                            WebkitMaskImage: `url(${
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            })`,
+                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
+                              })`,
+                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
+                              })`,
                             backgroundColor:
                               activeTab === tab.id ? buttonTextColor : "black",
                             maskRepeat: "no-repeat",
@@ -1109,8 +1115,9 @@ function DealerDetails() {
               {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
-                  activeTab !== "Unpaid Claims" &&
-                  activeTab !== "Paid Claims" ? (
+                    activeTab !== "Unpaid Claims" &&
+                    activeTab !== "Settings" &&
+                    activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
