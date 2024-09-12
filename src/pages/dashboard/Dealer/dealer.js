@@ -58,6 +58,7 @@ function Dealer() {
   const [coverage, setCoverage] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("start");
+  const [claimOver, setClaimOver] = useState(true);
   const [timer, setTimer] = useState(3);
   const [fileError, setFileError] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -99,7 +100,7 @@ function Dealer() {
     coverageType: [],
     isShippingAllowed: false,
     noOfClaim: {
-      period: "",
+      period: "Monthly",
       value: -1,
     },
     isManufacturerWarranty: false,
@@ -130,8 +131,8 @@ function Dealer() {
   };
 
   const period = [
-    { label: "Monthly ", value: "monthly " },
-    { label: "Annually ", value: "Annually " },
+    { label: "Monthly", value: "Monthly" },
+    { label: "Annually", value: "Annually" },
   ];
 
   const status = [
@@ -186,7 +187,7 @@ function Dealer() {
         serviceCoverageType: "",
         coverageType: [],
         noOfClaim: {
-          period: "",
+          period: "Monthly",
           value: -1,
         },
         isShippingAllowed: false,
@@ -250,7 +251,7 @@ function Dealer() {
             isShippingAllowed: false,
             isManufacturerWarranty: false,
             noOfClaim: {
-              period: "",
+              period: "Monthly",
               value: -1,
             },
             // priceBook: [
@@ -588,17 +589,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-            {
-              priceBookId: "",
-              categoryId: "",
-              wholesalePrice: "",
-              terms: "",
-              description: "",
-              retailPrice: "",
-              pName: "",
-              status: "",
-            },
-          ]
+              {
+                priceBookId: "",
+                categoryId: "",
+                wholesalePrice: "",
+                terms: "",
+                description: "",
+                retailPrice: "",
+                pName: "",
+                status: "",
+              },
+            ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -619,19 +620,19 @@ function Dealer() {
           return;
         }
       }
-      console.log(values.priceBook);
-      var valueArr = values.priceBook.map(function (item) {
-        return item.priceBookId;
-      });
-      var isDuplicate = valueArr.some(function (item, idx) {
-        return valueArr.indexOf(item) != idx;
-      });
-      if (isDuplicate) {
-        setLoading(false);
-        setMessage("PriceBook Exist with Same Name ");
-        setIsModalOpen(true);
-        return;
-      }
+      // console.log(values.priceBook);
+      // var valueArr = values.priceBook.map(function (item) {
+      //   return item.priceBookId;
+      // });
+      // var isDuplicate = valueArr.some(function (item, idx) {
+      //   return valueArr.indexOf(item) != idx;
+      // });
+      // if (isDuplicate) {
+      //   setLoading(false);
+      //   setMessage("PriceBook Exist with Same Name ");
+      //   setIsModalOpen(true);
+      //   return;
+      // }
 
       const newObject = {
         email: values.email,
@@ -656,14 +657,18 @@ function Dealer() {
         ...values,
         dealers: [newObject, ...values.dealers],
       };
-
       const formData = new FormData();
       Object.entries(newValues).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           value.forEach((item, index) => {
-            Object.entries(item).forEach(([subKey, subValue]) => {
-              formData.append(`${key}[${index}][${subKey}]`, subValue);
-            });
+            console.log(key);
+            if (key === "coverageType") {
+              formData.append(`${key}[${index}]`, value);
+            } else {
+              Object.entries(item).forEach(([subKey, subValue]) => {
+                formData.append(`${key}[${index}][${subKey}]`, subValue);
+              });
+            }
           });
         } else {
           formData.append(key, value);
@@ -1034,74 +1039,76 @@ function Dealer() {
                         onChange={handleRadio}
                       />
                     </p>
-
                     <div className="flex justify-between pr-6">
-                      <p className=" text-[12px] mb-3 font-semibold">
-                        {" "}
-                        # of Claims Over the certain period
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims Over the Certain Period
                       </p>
                       <div className="flex">
-
                         <RadioButton
-                          className='self-start'
+                          className="self-start"
                           id="yes-warranty"
                           label="Unlimited"
                           value={true}
-                          checked={formik.values.isManufacturerWarranty == true}
-                          onChange={() =>
-                            formik.setFieldValue("isManufacturerWarranty", true)
-                          }
+                          checked={claimOver === true}
+                          onChange={() => {
+                            setClaimOver(true);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: -1,
+                            });
+                          }}
                         />
                         <RadioButton
-                          className='self-start'
+                          className="self-start"
                           id="no-warranty"
                           label="Fixed"
                           value={false}
-                          checked={formik.values.isManufacturerWarranty === false}
-                          onChange={() =>
-                            formik.setFieldValue("isManufacturerWarranty", false)
-                          }
+                          checked={claimOver === false}
+                          onChange={() => {
+                            setClaimOver(false);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: 0,
+                            });
+                          }}
                         />
                       </div>
                     </div>
-                    <p className="text-[12px] mb-3 font-semibold self-center mr-4">
-                      # of claims in a certain period Period can be:
-                    </p>
-                    <div className="flex flex-wrap">
-                      {/* <Select
-                    name={`period`}
-                    options={period}
-                    className="!bg-grayf9 "
-                    placeholder=""
-                    className1="!pt-2.5"
-                    OptionName={"Period"}
-                    maxLength={"30"}
-                    value={formik.values.period}
-                    onBlur={formik.handleBlur}
-                    onChange={handleSelectChange}
-                  /> */}
-                      <Select
-                        name={`noOfClaim.period`}
-                        options={period}
-                        className="!bg-grayf9 "
-                        placeholder=""
-                        className1="!pt-2.5"
-                        OptionName={"Period"}
-                        maxLength={"30"}
-                        value={formik.values.noOfClaim.period}
-                        onBlur={formik.handleBlur}
-                        onChange={(name, value) =>
-                          formik.setFieldValue(name, value)
-                        }
-                      />
-                      {/* <div className="ml-3">
-                    <Input
-                      className1="!pt-2.5"
-                      placeholder="# of claims"
-                      type="number"
-                    />
-                  </div> */}
-                    </div>
+                    {claimOver === false && (
+                      <div className="flex flex-wrap">
+                        <Select
+                          name={`noOfClaim.period`}
+                          options={period}
+                          className="!bg-grayf9"
+                          placeholder=""
+                          className1="!pt-2.5"
+                          OptionName={"Period"}
+                          maxLength={"30"}
+                          value={formik.values.noOfClaim.period}
+                          onBlur={formik.handleBlur}
+                          onChange={(name, value) =>
+                            formik.setFieldValue(name, value)
+                          }
+                        />
+
+                        <div className="ml-3">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaim.value`}
+                            value={formik.values.noOfClaim.value}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaim.value",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <p className="flex text-[12px] mb-7 font-semibold self-center">
@@ -1154,7 +1161,7 @@ function Dealer() {
                       </p>
                       <div className="flex">
                         <RadioButton
-                          className='self-start'
+                          className="self-start"
                           id="yes-warranty"
                           label="Yes"
                           value={true}
@@ -1164,20 +1171,27 @@ function Dealer() {
                           }
                         />
                         <RadioButton
-                          className='self-start'
+                          className="self-start"
                           id="no-warranty"
                           label="No"
                           value={false}
-                          checked={formik.values.isManufacturerWarranty === false}
+                          checked={
+                            formik.values.isManufacturerWarranty === false
+                          }
                           onChange={() =>
-                            formik.setFieldValue("isManufacturerWarranty", false)
+                            formik.setFieldValue(
+                              "isManufacturerWarranty",
+                              false
+                            )
                           }
                         />
                       </div>
                     </div>
                   </div>
                   <div className="col-span-12">
-                    <p className="text-base mb-3 font-semibold">Coverage Type :</p>
+                    <p className="text-base mb-3 font-semibold">
+                      Coverage Type :
+                    </p>
                     <Grid>
                       {coverage.map((type) => (
                         <div key={type._id} className="col-span-3">
@@ -1192,7 +1206,9 @@ function Dealer() {
                                 const updatedCoverage = selected.includes(
                                   type.value
                                 )
-                                  ? selected.filter((item) => item !== type.value)
+                                  ? selected.filter(
+                                      (item) => item !== type.value
+                                    )
                                   : [...selected, type.value];
 
                                 formik.setFieldValue(
@@ -1200,7 +1216,8 @@ function Dealer() {
                                   updatedCoverage
                                 );
 
-                                let updatedadhDays = formik.values.adhDays || [];
+                                let updatedadhDays =
+                                  formik.values.adhDays || [];
 
                                 if (updatedCoverage.includes(type.value)) {
                                   if (
@@ -1229,7 +1246,9 @@ function Dealer() {
                             <p className="font-semibold">{type.label}</p>
                           </div>
 
-                          {formik?.values?.coverageType?.includes(type.value) && (
+                          {formik?.values?.coverageType?.includes(
+                            type.value
+                          ) && (
                             <>
                               <div className="my-3">
                                 <Input
@@ -1248,12 +1267,15 @@ function Dealer() {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                            ...item,
-                                            value: Number(e.target.value),
-                                          }
+                                              ...item,
+                                              value: Number(e.target.value),
+                                            }
                                           : item
                                       );
-                                    formik.setFieldValue("adhDays", updatedadhDays);
+                                    formik.setFieldValue(
+                                      "adhDays",
+                                      updatedadhDays
+                                    );
                                   }}
                                 />
                               </div>
@@ -1274,12 +1296,15 @@ function Dealer() {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value1: Number(e.target.value),
-                                        }
+                                            ...item,
+                                            value1: Number(e.target.value),
+                                          }
                                         : item
                                     );
-                                  formik.setFieldValue("adhDays", updatedadhDays);
+                                  formik.setFieldValue(
+                                    "adhDays",
+                                    updatedadhDays
+                                  );
                                 }}
                               />
                             </>
@@ -1296,12 +1321,14 @@ function Dealer() {
                     </Grid>
                   </div>
                 </Grid>
-
               </div>
             </Grid>
           </Card>
           <Card className="bg-white p-8 relative drop-shadow-4xl mt-8 rounded-xl z-10">
-            <p className="text-lg mb-3 font-semibold"> Primary Contact Information</p>
+            <p className="text-lg mb-3 font-semibold">
+              {" "}
+              Primary Contact Information
+            </p>
             <Grid className="mt-5">
               <div className="col-span-6">
                 <Input
@@ -1315,9 +1342,7 @@ function Dealer() {
                   value={formik.values.firstName}
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
-                  error={
-                    formik.touched.firstName && formik.errors.firstName
-                  }
+                  error={formik.touched.firstName && formik.errors.firstName}
                 />
                 {formik.touched.firstName && formik.errors.firstName && (
                   <div className="text-red-500 text-sm pl-2 pt-2">
@@ -1443,222 +1468,220 @@ function Dealer() {
               </div>
             </Grid>
           </Card>
-          {
-            formik.values.dealers.map((dealer, index) => (
-              <Card
-                key={index}
-                className="bg-white p-8 z-0 relative drop-shadow-4xl mt-8 rounded-xl"
-              >
-                <p className="text-lg mb-6 font-semibold">
-                  Add Dealer’s Team Members
-                </p>
-                <div className="">
-                  <Grid className="">
-                    <div className="col-span-11">
-                      <Grid className="pr-12 pl-4">
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].firstName`}
-                            label="First Name"
-                            required={true}
-                            className="!bg-white"
-                            placeholder=""
-                            maxLength={"30"}
-                            value={formik.values.dealers[index].firstName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].firstName
-                            }
-                          />
-                          {formik.touched.dealers &&
+          {formik.values.dealers.map((dealer, index) => (
+            <Card
+              key={index}
+              className="bg-white p-8 z-0 relative drop-shadow-4xl mt-8 rounded-xl"
+            >
+              <p className="text-lg mb-6 font-semibold">
+                Add Dealer’s Team Members
+              </p>
+              <div className="">
+                <Grid className="">
+                  <div className="col-span-11">
+                    <Grid className="pr-12 pl-4">
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].firstName`}
+                          label="First Name"
+                          required={true}
+                          className="!bg-white"
+                          placeholder=""
+                          maxLength={"30"}
+                          value={formik.values.dealers[index].firstName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
                             formik.touched.dealers[index] &&
                             formik.errors.dealers &&
                             formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].firstName && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].firstName}
-                              </div>
-                            )}
-                        </div>
+                            formik.errors.dealers[index].firstName
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].firstName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].firstName}
+                            </div>
+                          )}
+                      </div>
 
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].lastName`}
-                            className="!bg-white"
-                            label="Last Name"
-                            required={true}
-                            placeholder=""
-                            value={formik.values.dealers[index].lastName}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].lastName
-                            }
-                          />
-                          {formik.touched.dealers &&
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].lastName`}
+                          className="!bg-white"
+                          label="Last Name"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].lastName}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
                             formik.touched.dealers[index] &&
                             formik.errors.dealers &&
                             formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].lastName && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].lastName}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].email`}
-                            label="Email"
-                            placeholder=""
-                            className="!bg-white"
-                            required={true}
-                            value={formik.values.dealers[index].email}
-                            onBlur={async () => {
-                              formik.handleBlur(`dealers[${index}].email`);
-                            }}
-                            onChange={formik.handleChange}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].email
-                            }
-                          />
-                          {formik.touched.dealers &&
+                            formik.errors.dealers[index].lastName
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].lastName && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].lastName}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].email`}
+                          label="Email"
+                          placeholder=""
+                          className="!bg-white"
+                          required={true}
+                          value={formik.values.dealers[index].email}
+                          onBlur={async () => {
+                            formik.handleBlur(`dealers[${index}].email`);
+                          }}
+                          onChange={formik.handleChange}
+                          error={
+                            formik.touched.dealers &&
                             formik.touched.dealers[index] &&
                             formik.errors.dealers &&
                             formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].email && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].email}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="tel"
-                            name={`dealers[${index}].phoneNumber`}
-                            className="!bg-white"
-                            label="Phone"
-                            required={true}
-                            placeholder=""
-                            value={formik.values.dealers[index].phoneNumber}
-                            onChange={(e) => {
-                              const sanitizedValue = e.target.value.replace(
-                                /[^0-9]/g,
-                                ""
-                              );
-                              console.log(sanitizedValue);
-                              formik.handleChange({
-                                target: {
-                                  name: `dealers[${index}].phoneNumber`,
-                                  value: sanitizedValue,
-                                },
-                              });
-                            }}
-                            onBlur={formik.handleBlur}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                            minLength={"10"}
-                            maxLength={"10"}
-                            error={
-                              formik.touched.dealers &&
-                              formik.touched.dealers[index] &&
-                              formik.errors.dealers &&
-                              formik.errors.dealers[index] &&
-                              formik.errors.dealers[index].phoneNumber
-                            }
-                          />
-                          {formik.touched.dealers &&
+                            formik.errors.dealers[index].email
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].email && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].email}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="tel"
+                          name={`dealers[${index}].phoneNumber`}
+                          className="!bg-white"
+                          label="Phone"
+                          required={true}
+                          placeholder=""
+                          value={formik.values.dealers[index].phoneNumber}
+                          onChange={(e) => {
+                            const sanitizedValue = e.target.value.replace(
+                              /[^0-9]/g,
+                              ""
+                            );
+                            console.log(sanitizedValue);
+                            formik.handleChange({
+                              target: {
+                                name: `dealers[${index}].phoneNumber`,
+                                value: sanitizedValue,
+                              },
+                            });
+                          }}
+                          onBlur={formik.handleBlur}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
+                          minLength={"10"}
+                          maxLength={"10"}
+                          error={
+                            formik.touched.dealers &&
                             formik.touched.dealers[index] &&
                             formik.errors.dealers &&
                             formik.errors.dealers[index] &&
-                            formik.errors.dealers[index].phoneNumber && (
-                              <div className="text-red-500 text-sm pl-2 pt-2">
-                                {formik.errors.dealers[index].phoneNumber}
-                              </div>
-                            )}
-                        </div>
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`dealers[${index}].position`}
-                            className="!bg-white"
-                            label="Position"
-                            placeholder=""
-                            value={formik.values.dealers[index].position}
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                          />
-                        </div>
-                        <div className="col-span-4">
-                          <p className="flex text-[12px] font-semibold mt-3 mb-6">
-                            {" "}
-                            Do you want to create an account?
-                            <RadioButton
-                              id={`yes-${index}`}
-                              label="Yes"
-                              value="yes"
-                              disabled={createAccountOption === "no"}
-                              checked={
-                                formik.values.dealers &&
-                                formik.values.dealers[index] &&
-                                formik.values.dealers[index].status === true
-                              }
-                              onChange={() =>
-                                handleRadioChangeDealers("yes", index)
-                              }
-                            />
-                            <RadioButton
-                              id={`no-${index}`}
-                              label="No"
-                              value="no"
-                              checked={
-                                formik.values.dealers &&
-                                formik.values.dealers[index] &&
-                                formik.values.dealers[index].status === false
-                              }
-                              onChange={() =>
-                                handleRadioChangeDealers("no", index)
-                              }
-                            />
-                          </p>
-                        </div>
-                      </Grid>
-                    </div>
-                    <div
-                      className="col-span-1"
-                      onClick={() => {
-                        handleDeleteDealers(index);
-                      }}
-                    >
-                      <div className="flex mx-3 h-full bg-Smoke justify-center">
-                        <img
-                          src={DeleteImage}
-                          className="self-center cursor-pointer"
-                          alt="Delete Icon"
+                            formik.errors.dealers[index].phoneNumber
+                          }
+                        />
+                        {formik.touched.dealers &&
+                          formik.touched.dealers[index] &&
+                          formik.errors.dealers &&
+                          formik.errors.dealers[index] &&
+                          formik.errors.dealers[index].phoneNumber && (
+                            <div className="text-red-500 text-sm pl-2 pt-2">
+                              {formik.errors.dealers[index].phoneNumber}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <Input
+                          type="text"
+                          name={`dealers[${index}].position`}
+                          className="!bg-white"
+                          label="Position"
+                          placeholder=""
+                          value={formik.values.dealers[index].position}
+                          onBlur={formik.handleBlur}
+                          onChange={formik.handleChange}
                         />
                       </div>
+                      <div className="col-span-4">
+                        <p className="flex text-[12px] font-semibold mt-3 mb-6">
+                          {" "}
+                          Do you want to create an account?
+                          <RadioButton
+                            id={`yes-${index}`}
+                            label="Yes"
+                            value="yes"
+                            disabled={createAccountOption === "no"}
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === true
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("yes", index)
+                            }
+                          />
+                          <RadioButton
+                            id={`no-${index}`}
+                            label="No"
+                            value="no"
+                            checked={
+                              formik.values.dealers &&
+                              formik.values.dealers[index] &&
+                              formik.values.dealers[index].status === false
+                            }
+                            onChange={() =>
+                              handleRadioChangeDealers("no", index)
+                            }
+                          />
+                        </p>
+                      </div>
+                    </Grid>
+                  </div>
+                  <div
+                    className="col-span-1"
+                    onClick={() => {
+                      handleDeleteDealers(index);
+                    }}
+                  >
+                    <div className="flex mx-3 h-full bg-Smoke justify-center">
+                      <img
+                        src={DeleteImage}
+                        className="self-center cursor-pointer"
+                        alt="Delete Icon"
+                      />
                     </div>
-                  </Grid>
-                </div>
-              </Card>
-            ))
-          }
+                  </div>
+                </Grid>
+              </div>
+            </Card>
+          ))}
           {/* {formik.values.coverageType.length > 0 && (
             <Card className="z-0 p-8 relative drop-shadow-4xl border-[1px] mt-8 border-Light-Grey rounded-xl">
               <Grid>
@@ -2076,9 +2099,8 @@ function Dealer() {
               </Button>
             </div>
           </div>
-        </form >
-      )
-      }
+        </form>
+      )}
 
       {/* Modal Email Popop */}
 
@@ -2126,7 +2148,7 @@ function Dealer() {
           )}
         </div>
       </Modal>
-    </div >
+    </div>
   );
 }
 
