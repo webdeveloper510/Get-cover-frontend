@@ -7,7 +7,8 @@ import { ToWords } from "to-words";
 
 function PdfGenerator(props, className) {
   const { setLoading } = props;
-
+  const [selectedFile2, setSelectedFile2] = useState('');
+  const [url, setUrl] = useState('');
   const toWords = new ToWords({
     localeCode: "en-IN",
     converterOptions: {
@@ -27,6 +28,12 @@ function PdfGenerator(props, className) {
       },
     },
   });
+  useEffect(() => {
+    console.log(localStorage.getItem("siteSettings"), '-----------------siteSettings');
+    let data = JSON.parse(localStorage.getItem("siteSettings"))
+    setUrl(data.logoLight ? data.logoLight.baseUrl : null);
+    setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+  }, []);
 
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");
@@ -117,7 +124,7 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
+                <img src=${url}uploads/logo/${encodeURIComponent(selectedFile2)} style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
                 <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
                 <pre style="margin: 0; padding: 0; width: 50%;font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address}</pre>
               </td>

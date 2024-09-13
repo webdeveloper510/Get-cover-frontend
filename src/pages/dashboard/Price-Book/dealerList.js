@@ -743,21 +743,26 @@ function DealerPriceList() {
               </>
             )}
             <div className="col-span-12">
-              <p className="text-lg font-semibold">
-                Coverage Type
-              </p>
-              <p className="text-base font-bold ">
-                {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
-                  <ol className="flex flex-wrap">
-                    {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((type, index) => (
-                      <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}
-                        <br /><p>{type?.value}</p> <br /> <p>{type.value1}</p></li>
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductive Amount</th>
+                </tr>
+
+                {dealerPriceBookDetail?.dealer?.adhDays && dealerPriceBookDetail?.dealer?.adhDays.length > 0 && (
+                  <>
+                    {dealerPriceBookDetail?.dealer?.adhDays.map((type, index) => (
+                      <tr key={index} className="border ">
+                        <td className="font-semibold  mx-[19px]" >{type.label}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.value}</td>
+                        <td className="font-semibold  mx-[19px]" >$ {type.value1}.00</td>
+                      </tr>
                     ))}
-                  </ol>
-                ) : (
-                  "No coverage types available"
+                  </>
                 )}
-              </p>
+              </table>
+
             </div>
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
@@ -786,8 +791,8 @@ function DealerPriceList() {
                 </>
               )}
           </Grid>
-        </div>
-      </Modal>
+        </div >
+      </Modal >
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
