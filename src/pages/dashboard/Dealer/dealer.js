@@ -589,17 +589,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1109,6 +1109,61 @@ function Dealer() {
                         </div>
                       </div>
                     )}
+                    <div className="flex justify-between pr-6 my-4">
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims in Coverage Period
+                      </p>
+                      <div className="flex">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Unlimited"
+                          value={true}
+                          checked={claimOver === true}
+                          onChange={() => {
+                            setClaimOver(true);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: -1,
+                            });
+                          }}
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="Fixed"
+                          value={false}
+                          checked={claimOver === false}
+                          onChange={() => {
+                            setClaimOver(false);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: 0,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {claimOver === false && (
+                      <div className="flex flex-wrap">
+                        <div className="ml-3">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaim.value`}
+                            value={formik.values.noOfClaim.value}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaim.value",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="col-span-6">
                     <p className="flex text-[12px] mb-7 font-semibold self-center">
@@ -1207,8 +1262,8 @@ function Dealer() {
                                   type.value
                                 )
                                   ? selected.filter(
-                                      (item) => item !== type.value
-                                    )
+                                    (item) => item !== type.value
+                                  )
                                   : [...selected, type.value];
 
                                 formik.setFieldValue(
@@ -1249,17 +1304,46 @@ function Dealer() {
                           {formik?.values?.coverageType?.includes(
                             type.value
                           ) && (
-                            <>
-                              <div className="my-3">
+                              <>
+                                <div className="my-3">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value`}
+                                    label={`Waiting Days`}
+                                    className="!bg-white"
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value || 0
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
+                                              ...item,
+                                              value: Number(e.target.value),
+                                            }
+                                            : item
+                                        );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
+                                      );
+                                    }}
+                                  />
+                                </div>
+
                                 <Input
                                   type="number"
-                                  name={`adhDays[${type.value}].value`}
-                                  label={`Waiting Days`}
-                                  className="!bg-white"
+                                  name={`adhDays[${type.value}].value1`}
+                                  label={`Deduction  ($)`}
+                                  className="!bg-white "
                                   value={
                                     formik?.values?.adhDays?.find(
                                       (item) => item.label === type.value
-                                    )?.value || 0
+                                    )?.value1 || 0
                                   }
                                   onBlur={formik.handleBlur}
                                   onChange={(e) => {
@@ -1267,9 +1351,9 @@ function Dealer() {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              value: Number(e.target.value),
-                                            }
+                                            ...item,
+                                            value1: Number(e.target.value),
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -1278,37 +1362,8 @@ function Dealer() {
                                     );
                                   }}
                                 />
-                              </div>
-
-                              <Input
-                                type="number"
-                                name={`adhDays[${type.value}].value1`}
-                                label={`Deduction  ($)`}
-                                className="!bg-white "
-                                value={
-                                  formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
-                                  )?.value1 || 0
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                  const updatedadhDays =
-                                    formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
-                                        ? {
-                                            ...item,
-                                            value1: Number(e.target.value),
-                                          }
-                                        : item
-                                    );
-                                  formik.setFieldValue(
-                                    "adhDays",
-                                    updatedadhDays
-                                  );
-                                }}
-                              />
-                            </>
-                          )}
+                              </>
+                            )}
                         </div>
                       ))}
 

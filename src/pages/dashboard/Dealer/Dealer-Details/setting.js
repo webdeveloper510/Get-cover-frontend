@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getCovrageList } from '../../../../services/priceBookService';
 import Button from '../../../../common/button';
+import download from "../../../../assets/images/downloads.png";
 
 function Setting() {
     const [selectedFile2, setSelectedFile2] = useState(null);
@@ -416,7 +417,7 @@ function Setting() {
                                 </div>
                             )}
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-4">
                         <div className="relative">
                             <label
                                 htmlFor="term"
@@ -471,6 +472,9 @@ function Setting() {
                         <small className="text-neutral-grey p-10p">
                             Attachment size limit is 10 MB
                         </small>
+                    </div>
+                    <div className='col-span-2 pt-1'>
+                        <Button className='w-full flex'><img src={download} className='w-[20px]' alt='download' /> <span className='self-center pl-2'> Download </span> </Button>
                     </div>
                     <div className="col-span-6">
                         <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
