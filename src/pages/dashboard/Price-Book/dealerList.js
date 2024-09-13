@@ -750,7 +750,8 @@ function DealerPriceList() {
                 {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
                   <ol className="flex flex-wrap">
                     {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((type, index) => (
-                      <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}</li>
+                      <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}
+                        <br /><p>{type?.value}</p> <br /> <p>{type.value1}</p></li>
                     ))}
                   </ol>
                 ) : (
