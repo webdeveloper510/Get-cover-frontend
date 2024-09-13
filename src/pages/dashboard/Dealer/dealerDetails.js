@@ -7,10 +7,6 @@ import Button from "../../../common/button";
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
-import rightArrow from "../../../assets/images/arrow-right.png";
-import leftArrow from "../../../assets/images/arrow-left.png";
-import leftActive from "../../../assets/images/activeLeft.png";
-import rightActive from "../../../assets/images/activeRight.png";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
@@ -57,10 +53,7 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../../assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import {
-
-  getServicerListForDealer,
-} from "../../../services/servicerServices";
+import { getServicerListForDealer } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
 import ContractList from "../Contract/contractList";
 import Carousel from "react-multi-carousel";
@@ -132,17 +125,17 @@ function DealerDetails() {
     state: "",
     country: "USA",
     oldName: "",
-    serviceCoverageType: "",
-    coverageType: "",
-    isShippingAllowed: "",
-    isServicer: createServicerAccountOption,
-    isAccountCreate: createAccount,
-    userAccount: separateAccountOption,
-    termCondition: {
-      fileName: "",
-      name: "",
-      size: "",
-    },
+    // serviceCoverageType: "",
+    // coverageType: "",
+    // isShippingAllowed: "",
+    // isServicer: createServicerAccountOption,
+    // isAccountCreate: createAccount,
+    // userAccount: separateAccountOption,
+    // termCondition: {
+    //   fileName: "",
+    //   name: "",
+    //   size: "",
+    // },
   });
 
   const state = cityData;
@@ -300,16 +293,16 @@ function DealerDetails() {
         zip: result?.result[0]?.dealerData?.zip,
         state: result?.result[0]?.dealerData?.state,
         country: "USA",
-        serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
-        coverageType: result?.result[0]?.dealerData?.coverageType,
-        userAccount: result?.result[0]?.dealerData?.userAccount,
-        isShippingAllowed:
-          result?.result[0]?.dealerData?.isShippingAllowed === true
-            ? "yes"
-            : "no",
-        isServicer: result?.result[0]?.dealerData?.isServicer,
-        termCondition: result?.result[0]?.dealerData?.termCondition,
-        isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
+        // serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
+        // coverageType: result?.result[0]?.dealerData?.coverageType,
+        // userAccount: result?.result[0]?.dealerData?.userAccount,
+        // isShippingAllowed:
+        //   result?.result[0]?.dealerData?.isShippingAllowed === true
+        //     ? "yes"
+        //     : "no",
+        // isServicer: result?.result[0]?.dealerData?.isServicer,
+        // termCondition: result?.result[0]?.dealerData?.termCondition,
+        // isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
       });
       setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
 
@@ -360,12 +353,12 @@ function DealerDetails() {
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
       country: Yup.string().required("Required"),
-      serviceCoverageType: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      isShippingAllowed: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
+      // serviceCoverageType: Yup.string()
+      //   .transform((originalValue) => originalValue.trim())
+      //   .required("Required"),
+      // isShippingAllowed: Yup.string()
+      //   .transform((originalValue) => originalValue.trim())
+      //   .required("Required"),
       zip: Yup.string()
         .required("Required")
         .min(5, "Must be at least 5 characters")
@@ -373,7 +366,7 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values) => {
-      values.isShippingAllowed = shipping === "yes" ? true : false;
+      // values.isShippingAllowed = shipping === "yes" ? true : false;
 
       setLoading(true);
       const result = await editDealerData(values);
@@ -551,8 +544,6 @@ function DealerDetails() {
   useEffect(() => {
     checkTokenExpiry();
     localStorage.setItem("menu", activeTab);
-
-    console.log("-------1542------", createServicerAccountOption);
     if (!createServicerAccountOption) {
       if (
         activeTab === "Customer" ||
@@ -629,8 +620,8 @@ function DealerDetails() {
                 const selectedItems = checked
                   ? [...servicerForm.values.selectedItems, itemId]
                   : servicerForm.values.selectedItems.filter(
-                    (id) => id !== itemId
-                  );
+                      (id) => id !== itemId
+                    );
 
                 servicerForm.setFieldValue("selectedItems", selectedItems);
               }}
@@ -723,9 +714,7 @@ function DealerDetails() {
       label: "Settings",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: activeTab === "Settings" && (
-        <Setting />
-      ),
+      content: activeTab === "Settings" && <Setting />,
     },
   ];
 
@@ -1012,7 +1001,7 @@ function DealerDetails() {
                       $
                       {formatOrderValue(
                         dealerDetails?.ordersResult?.[0]?.orderAmount ??
-                        parseInt(0)
+                          parseInt(0)
                       )}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
@@ -1050,10 +1039,11 @@ function DealerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
               <div
-                className={` ${isStatus == true
-                  ? "col-span-10 relative"
-                  : "col-span-10 mr-[30px] relative"
-                  }`}
+                className={` ${
+                  isStatus == true
+                    ? "col-span-10 relative"
+                    : "col-span-10 mr-[30px] relative"
+                }`}
               >
                 <div
                   className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey`}
@@ -1069,16 +1059,19 @@ function DealerDetails() {
                   >
                     {tabs.map((tab) => (
                       <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
-                          }`}
+                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                          activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
+                        }`}
                         onClick={() => handleTabClick(tab.id)}
                       >
                         <div
                           style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
-                              })`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
-                              })`,
+                            maskImage: `url(${
+                              activeTab === tab.id ? tab.Activeicons : tab.icons
+                            })`,
+                            WebkitMaskImage: `url(${
+                              activeTab === tab.id ? tab.Activeicons : tab.icons
+                            })`,
                             backgroundColor:
                               activeTab === tab.id ? buttonTextColor : "black",
                             maskRepeat: "no-repeat",
@@ -1115,9 +1108,9 @@ function DealerDetails() {
               {isStatus == true ? (
                 <>
                   {activeTab !== "Contracts" &&
-                    activeTab !== "Unpaid Claims" &&
-                    activeTab !== "Settings" &&
-                    activeTab !== "Paid Claims" ? (
+                  activeTab !== "Unpaid Claims" &&
+                  activeTab !== "Settings" &&
+                  activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
