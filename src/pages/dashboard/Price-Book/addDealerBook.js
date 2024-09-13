@@ -32,6 +32,7 @@ import * as Yup from "yup";
 import { getCategoryListActiveData, getCategoryListCoverage } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import Checkbox from "../../../common/checkbox";
 
 function AddDealerBook() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -156,7 +157,7 @@ function AddDealerBook() {
         dealerId: "",
       });
       const result = await getCategoryListActiveData({ dealerId: value });
-      console.log(result.result);
+      console.log(result, '----------------');
       setCoverageType(result.coverageType);
       setCategoryList(
         result.result.map((item) => ({
@@ -282,6 +283,7 @@ function AddDealerBook() {
   const handleGOBack = () => {
     navigate(-1);
   };
+  console.log(coverageType)
   return (
     <div className="mb-8 ml-3">
       <Headbar />
@@ -763,6 +765,140 @@ function AddDealerBook() {
                       {formik.errors.status}
                     </div>
                   )}
+                </div>
+                <div className="col-span-12">
+                  <p className="text-base mb-3 font-semibold">
+                    Coverage Type :
+                  </p>
+                  {formik.values.coverageType != '' ? <Grid>
+                    {formik.values.coverageType.map((type) => (
+                      <div key={type._id} className="col-span-3">
+                        <div className="flex">
+                          <Checkbox
+                            name={`coverageType[${type.value}]`}
+                            checked={formik.values.coverageType.includes(
+                              type.value
+                            )}
+                            onChange={() => {
+                              const selected = formik.values.coverageType;
+                              const updatedCoverage = selected.includes(
+                                type.value
+                              )
+                                ? selected.filter(
+                                  (item) => item !== type.value
+                                )
+                                : [...selected, type.value];
+
+                              formik.setFieldValue(
+                                "coverageType",
+                                updatedCoverage
+                              );
+
+                              let updatedadhDays =
+                                formik.values.adhDays || [];
+
+                              if (updatedCoverage.includes(type.value)) {
+                                if (
+                                  !updatedadhDays?.find(
+                                    (item) => item.label === type.value
+                                  )
+                                ) {
+                                  updatedadhDays = [
+                                    ...updatedadhDays,
+                                    {
+                                      label: type.value,
+                                      value: 0,
+                                      value1: 0,
+                                    },
+                                  ];
+                                }
+                              } else {
+                                updatedadhDays = updatedadhDays.filter(
+                                  (item) => item.label !== type.value
+                                );
+                              }
+
+                              formik.setFieldValue("adhDays", updatedadhDays);
+                            }}
+                          />
+                          <p className="font-semibold">{type.label}</p>
+                        </div>
+
+                        {formik?.values?.coverageType?.includes(
+                          type.value
+                        ) && (
+                            <>
+                              <div className="my-3">
+                                <Input
+                                  type="number"
+                                  name={`adhDays[${type.value}].value`}
+                                  label={`Waiting Days`}
+                                  className="!bg-white"
+                                  value={
+                                    formik?.values?.adhDays?.find(
+                                      (item) => item.label === type.value
+                                    )?.value || 0
+                                  }
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) => {
+                                    const updatedadhDays =
+                                      formik?.values?.adhDays?.map((item) =>
+                                        item.label === type.value
+                                          ? {
+                                            ...item,
+                                            value: Number(e.target.value),
+                                          }
+                                          : item
+                                      );
+                                    formik.setFieldValue(
+                                      "adhDays",
+                                      updatedadhDays
+                                    );
+                                  }}
+                                />
+                              </div>
+
+                              <Input
+                                type="number"
+                                name={`adhDays[${type.value}].value1`}
+                                label={`Deduction  ($)`}
+                                className="!bg-white "
+                                value={
+                                  formik?.values?.adhDays?.find(
+                                    (item) => item.label === type.value
+                                  )?.value1 || 0
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={(e) => {
+                                  const updatedadhDays =
+                                    formik?.values?.adhDays?.map((item) =>
+                                      item.label === type.value
+                                        ? {
+                                          ...item,
+                                          value1: Number(e.target.value),
+                                        }
+                                        : item
+                                    );
+                                  formik.setFieldValue(
+                                    "adhDays",
+                                    updatedadhDays
+                                  );
+                                }}
+                              />
+                            </>
+                          )}
+                      </div>
+                    ))}
+
+                    {formik.touched.coverageType &&
+                      formik.errors.coverageType && (
+                        <div className="text-red-500 text-sm">
+                          {formik.errors.coverageType}
+                        </div>
+                      )}
+                  </Grid>
+                    : ''}
+
                 </div>
               </Grid>
 

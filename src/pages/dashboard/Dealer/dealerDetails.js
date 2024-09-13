@@ -1536,6 +1536,7 @@ function DealerDetails() {
         </div>
       </Modal>
 
+      {/* Modal Detail Popop */}
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
