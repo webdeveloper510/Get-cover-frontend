@@ -29,7 +29,10 @@ import {
 } from "../../../services/dealerServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getCategoryListActiveData, getCategoryListCoverage } from "../../../services/priceBookService";
+import {
+  getCategoryListActiveData,
+  getCategoryListCoverage,
+} from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import Checkbox from "../../../common/checkbox";
@@ -101,6 +104,7 @@ function AddDealerBook() {
       let arr = filteredDealers.map((data) => ({
         label: data.dealerData.name,
         value: data.dealerData._id,
+        adhDays: data.dealerData.adhDays,
       }));
 
       setActiveDealerList(arr);
@@ -152,12 +156,14 @@ function AddDealerBook() {
   const handleSelectChange = async (name, value) => {
     setError("");
     if (name === "dealerId") {
-      formik.setValues({
-        ...formik.values,
-        dealerId: "",
-      });
+      if (name === "dealerId") {
+        formik.setValues({
+          ...formik.initialValues,
+          dealerId: value,
+        });
+      }
       const result = await getCategoryListActiveData({ dealerId: value });
-      console.log(result, '----------------');
+      console.log(result, "----------------");
       setCoverageType(result.coverageType);
       setCategoryList(
         result.result.map((item) => ({
@@ -174,11 +180,8 @@ function AddDealerBook() {
         description: "",
         term: "",
         pName: "",
+        categoryId: value,
       });
-      console.log(
-        coverageType,
-
-      );
       const response = await getProductListbyProductCategoryId(value, {
         coverageType: coverageType,
       });
@@ -202,15 +205,27 @@ function AddDealerBook() {
     }
 
     if (name === "priceBook") {
+      const dealerDetails = activeDealerList.find(
+        (item) => item.value === formik.values.dealerId
+      );
+
       const selectedProduct = productNameOptions.find(
         (item) => item.value === value
       );
+      const filteredAdhDays = dealerDetails.adhDays.filter((adhDay) =>
+        selectedProduct.coverageType.find(
+          (coverage) => coverage.value === adhDay.label
+        )
+      );
+      console.log(filteredAdhDays);
+      formik.setFieldValue("priceBook", value);
+      formik.setFieldValue("adhDays", filteredAdhDays);
+      const response = await getCategoryListCoverage(selectedProduct?.value);
       formik.setFieldValue(
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
       );
-      const response = await getCategoryListCoverage(selectedProduct?.value);
-      console.log(response, "---------------------{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}");
+
       formik.setFieldValue("priceType", selectedProduct.priceType);
       formik.setFieldValue("description", selectedProduct.description);
       formik.setFieldValue("pName", selectedProduct.pName);
@@ -219,7 +234,7 @@ function AddDealerBook() {
       formik.setFieldValue("coverageType", response.result);
     }
 
-    formik.setFieldValue(name, value);
+    // formik.setFieldValue(name, value);
   };
 
   const formik = useFormik({
@@ -237,6 +252,7 @@ function AddDealerBook() {
       priceType: "",
       dealerSku: "",
       coverageType: "",
+      adhDays: [],
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -250,10 +266,20 @@ function AddDealerBook() {
       pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
       dealerSku: Yup.string().required("Required"),
+      adhDays: Yup.array().of(
+        Yup.object().shape({
+          label: Yup.string(),
+          value: Yup.number()
+            .required("Required")
+            .min(0, "Value cannot be negative"),
+          value1: Yup.number()
+            .required("Required")
+            .min(0, "Value cannot be negative"),
+        })
+      ),
     }),
     onSubmit: async (values) => {
       setLoader(true);
-
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
@@ -283,7 +309,7 @@ function AddDealerBook() {
   const handleGOBack = () => {
     navigate(-1);
   };
-  console.log(coverageType)
+  console.log(coverageType);
   return (
     <div className="mb-8 ml-3">
       <Headbar />
@@ -441,12 +467,19 @@ function AddDealerBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.optionDropdown && priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
-
+                        {priceBookById?.priceBooks?.optionDropdown &&
+                        priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
                           <ol className="flex flex-wrap">
-                            {priceBookById?.priceBooks?.optionDropdown.map((type, index) => (
-                              <li className="font-semibold list-disc mx-[19px]" key={index}>{type.label}</li>
-                            ))}
+                            {priceBookById?.priceBooks?.optionDropdown.map(
+                              (type, index) => (
+                                <li
+                                  className="font-semibold list-disc mx-[19px]"
+                                  key={index}
+                                >
+                                  {type.label}
+                                </li>
+                              )
+                            )}
                           </ol>
                         ) : (
                           "No coverage types available"
@@ -588,7 +621,6 @@ function AddDealerBook() {
                       />
                     </div>
 
-
                     <div className="col-span-4">
                       <Input
                         type="text"
@@ -649,10 +681,16 @@ function AddDealerBook() {
                           Coverage Type
                         </label>
                         <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                          {formik.values.coverageType && formik.values.coverageType.length > 0 ? (
+                          {formik.values.coverageType &&
+                          formik.values.coverageType.length > 0 ? (
                             <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
-                                <li className="font-semibold list-disc mx-[19px] text-[#5D6E66]" key={index}>{type.label}</li>
+                                <li
+                                  className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
+                                  key={index}
+                                >
+                                  {type.label}
+                                </li>
                               ))}
                             </ol>
                           ) : (
@@ -685,34 +723,6 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
-                {/* <div className="col-span-2">
-                  <Input
-                    type="number"
-                    name="brokerfee"
-                    className="!bg-white"
-                    label="Broker Fee($)"
-                    placeholder=""
-                    required={true}
-                    maxLength={"10"}
-                    onChange={formik.handleChange}
-                    onBlur={(e) => {
-                      const inputValue = e.target.value.trim();
-                      const formattedValue =
-                        inputValue !== ""
-                          ? parseFloat(inputValue).toFixed(2)
-                          : "";
-                      formik.handleBlur(e);
-                      formik.setFieldValue("brokerfee", formattedValue);
-                    }}
-                    value={formik.values.retailPrice}
-                    maxDecimalPlaces={2}
-                  />
-                  {formik.touched.retailPrice && formik.errors.retailPrice && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.retailPrice}
-                    </div>
-                  )}
-                </div> */}
                 <div className="col-span-4">
                   <Input
                     type="number"
@@ -766,140 +776,53 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
-                <div className="col-span-12">
-                  <p className="text-base mb-3 font-semibold">
-                    Coverage Type :
-                  </p>
-                  {formik.values.coverageType != '' ? <Grid>
-                    {formik.values.coverageType.map((type) => (
-                      <div key={type._id} className="col-span-3">
-                        <div className="flex">
-                          <Checkbox
-                            name={`coverageType[${type.value}]`}
-                            checked={formik.values.coverageType.includes(
-                              type.value
-                            )}
-                            onChange={() => {
-                              const selected = formik.values.coverageType;
-                              const updatedCoverage = selected.includes(
-                                type.value
-                              )
-                                ? selected.filter(
-                                  (item) => item !== type.value
-                                )
-                                : [...selected, type.value];
-
-                              formik.setFieldValue(
-                                "coverageType",
-                                updatedCoverage
-                              );
-
-                              let updatedadhDays =
-                                formik.values.adhDays || [];
-
-                              if (updatedCoverage.includes(type.value)) {
-                                if (
-                                  !updatedadhDays?.find(
-                                    (item) => item.label === type.value
-                                  )
-                                ) {
-                                  updatedadhDays = [
-                                    ...updatedadhDays,
-                                    {
-                                      label: type.value,
-                                      value: 0,
-                                      value1: 0,
-                                    },
-                                  ];
-                                }
-                              } else {
-                                updatedadhDays = updatedadhDays.filter(
-                                  (item) => item.label !== type.value
-                                );
-                              }
-
-                              formik.setFieldValue("adhDays", updatedadhDays);
-                            }}
-                          />
-                          <p className="font-semibold">{type.label}</p>
-                        </div>
-
-                        {formik?.values?.coverageType?.includes(
-                          type.value
-                        ) && (
-                            <>
-                              <div className="my-3">
-                                <Input
-                                  type="number"
-                                  name={`adhDays[${type.value}].value`}
-                                  label={`Waiting Days`}
-                                  className="!bg-white"
-                                  value={
-                                    formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
-                                    )?.value || 0
-                                  }
-                                  onBlur={formik.handleBlur}
-                                  onChange={(e) => {
-                                    const updatedadhDays =
-                                      formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
-                                          ? {
-                                            ...item,
-                                            value: Number(e.target.value),
-                                          }
-                                          : item
-                                      );
-                                    formik.setFieldValue(
-                                      "adhDays",
-                                      updatedadhDays
-                                    );
-                                  }}
-                                />
-                              </div>
-
-                              <Input
-                                type="number"
-                                name={`adhDays[${type.value}].value1`}
-                                label={`Deduction  ($)`}
-                                className="!bg-white "
-                                value={
-                                  formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
-                                  )?.value1 || 0
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                  const updatedadhDays =
-                                    formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
-                                        ? {
-                                          ...item,
-                                          value1: Number(e.target.value),
-                                        }
-                                        : item
-                                    );
-                                  formik.setFieldValue(
-                                    "adhDays",
-                                    updatedadhDays
-                                  );
-                                }}
-                              />
-                            </>
+                {formik.values.adhDays &&
+                  formik.values.adhDays.length > 0 &&
+                  formik.values.adhDays.map((adhDay, index) => (
+                    <div key={index} className="grid grid-cols-2 gap-4 mt-4">
+                      <div>
+                        <label htmlFor={`adhDays[${index}].value`}>
+                          Value ({adhDay.label})
+                        </label>
+                        <Input
+                          type="number"
+                          name={`adhDays[${index}].value`}
+                          id={`adhDays[${index}].value`}
+                          value={adhDay.value}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="form-input"
+                        />
+                        {formik.touched.adhDays?.[index]?.value &&
+                          formik.errors.adhDays?.[index]?.value && (
+                            <div className="text-red-500 text-sm">
+                              {formik.errors.adhDays[index].value}
+                            </div>
                           )}
                       </div>
-                    ))}
 
-                    {formik.touched.coverageType &&
-                      formik.errors.coverageType && (
-                        <div className="text-red-500 text-sm">
-                          {formik.errors.coverageType}
-                        </div>
-                      )}
-                  </Grid>
-                    : ''}
-
-                </div>
+                      <div>
+                        <label htmlFor={`adhDays[${index}].value1`}>
+                          Value 1 ({adhDay.label})
+                        </label>
+                        <Input
+                          type="number"
+                          name={`adhDays[${index}].value1`}
+                          id={`adhDays[${index}].value1`}
+                          value={adhDay.value1}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="form-input"
+                        />
+                        {formik.touched.adhDays?.[index]?.value1 &&
+                          formik.errors.adhDays?.[index]?.value1 && (
+                            <div className="text-red-500 text-sm">
+                              {formik.errors.adhDays[index].value1}
+                            </div>
+                          )}
+                      </div>
+                    </div>
+                  ))}
               </Grid>
 
               {type !== "Edit" && (
@@ -933,8 +856,7 @@ function AddDealerBook() {
             {type === "Edit" ? (
               <>
                 <p className="text-3xl mb-0 mt-4 font-semibold">
-                  Updated{" "}
-                  <span className=""> Successfully </span>
+                  Updated <span className=""> Successfully </span>
                 </p>
                 <p className="text-base font-medium mt-2">
                   <b> Dealer Book </b> Updated successfully.{" "}
@@ -947,8 +869,7 @@ function AddDealerBook() {
             ) : (
               <>
                 <p className="text-3xl mb-0 mt-4 font-semibold">
-                  Submitted{" "}
-                  <span className=""> Successfully </span>
+                  Submitted <span className=""> Successfully </span>
                 </p>
                 <p className="text-base font-medium mt-2">
                   <b> New Dealer Book </b> added successfully.{" "}
