@@ -78,7 +78,7 @@ function Dealer() {
     position: "",
     createdBy: "Super admin",
     role: "dealer",
-    savePriceBookType: selectedOption,
+    // savePriceBookType: selectedOption,
     dealers: [],
 
     // priceBook: [
@@ -183,7 +183,7 @@ function Dealer() {
         position: "",
         createdBy: "Super admin",
         role: "dealer",
-        savePriceBookType: selectedOption,
+        // savePriceBookType: selectedOption,
         serviceCoverageType: "",
         coverageType: [],
         noOfClaim: {
@@ -245,7 +245,7 @@ function Dealer() {
             createdBy: "Super admin",
             role: "dealer",
             dealers: [],
-            savePriceBookType: selectedOption,
+            // savePriceBookType: selectedOption,
             serviceCoverageType: "",
             coverageType: [],
             isShippingAllowed: false,
@@ -402,7 +402,7 @@ function Dealer() {
       formik.setFieldValue("file", "");
       setSelectedFile(null);
     }
-    formik.setFieldValue("savePriceBookType", event.target.value);
+    // formik.setFieldValue("savePriceBookType", event.target.value);
     setSelectedOption(event.target.value);
   };
 
@@ -663,7 +663,7 @@ function Dealer() {
           value.forEach((item, index) => {
             console.log(key);
             if (key === "coverageType") {
-              formData.append(`${key}[${index}]`, value);
+              formData.append(`${key}[${index}]`, item);
             } else {
               Object.entries(item).forEach(([subKey, subValue]) => {
                 formData.append(`${key}[${index}][${subKey}]`, subValue);
