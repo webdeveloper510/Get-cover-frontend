@@ -63,7 +63,7 @@ function ForgotPassword() {
         <Grid className="px-8 ">
           <div className="col-span-5">
             <img
-              src={forgotPage}
+              src={forgot}
               loading="lazy"
               className="h-screen object-contain py-5 w-full"
               alt="Logo "

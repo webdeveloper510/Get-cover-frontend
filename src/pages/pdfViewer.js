@@ -39,9 +39,11 @@ function PdfGenerator(props, className) {
 
   const [data, setData] = useState({});
   const getBase64ImageFromUrl = async (imageUrl) => {
+    const proxyUrl = 'https://api.allorigins.win/get?url=';
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl));
+      const data = await response.json();
+      const blob = await fetch(data.contents).then(res => res.blob());
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);

@@ -331,6 +331,9 @@ export const getStep2Validation = async (data) => {
   }
 };
 
+
+
+
 export const orderDetailsById = async (id) => {
   const headers = createHeaders();
   try {
@@ -339,7 +342,23 @@ export const orderDetailsById = async (id) => {
        `,
       {
         headers,
+
       }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const logoBase = async (value) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/order/convertImageIntobase/${value}
+       `,
+      { headers }
     );
 
     return response.data;

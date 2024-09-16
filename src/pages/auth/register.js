@@ -27,7 +27,7 @@ function Register() {
           </Link>
 
           <img
-            src={ImageRegister1}
+            src={ImageRegister}
             loading="lazy"
             className="mx-auto 2xl:w-full xl:w-[65%] w-full "
             alt="Register Image"

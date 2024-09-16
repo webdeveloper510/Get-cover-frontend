@@ -412,7 +412,7 @@ function DealerRegister() {
           </div>
           <div className="col-span-5">
             <img
-              src={Logi1}
+              src={Logi}
               loading="lazy"
               className="py-5  h-screen mx-auto hidden md:block"
               alt="Logo "
