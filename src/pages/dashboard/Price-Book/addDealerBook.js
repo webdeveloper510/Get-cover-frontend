@@ -462,7 +462,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.optionDropdown &&
-                        priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
+                          priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.optionDropdown.map(
                               (type, index) => (
@@ -676,7 +676,7 @@ function AddDealerBook() {
                         </label>
                         <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
                           {formik.values.coverageType &&
-                          formik.values.coverageType.length > 0 ? (
+                            formik.values.coverageType.length > 0 ? (
                             <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
                                 <li
@@ -780,7 +780,7 @@ function AddDealerBook() {
                     </label>
                     <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
                       {formik.values.coverageType &&
-                      formik.values.coverageType.length > 0 ? (
+                        formik.values.coverageType.length > 0 ? (
                         <ol className="flex flex-wrap">
                           {formik.values.coverageType.map((type, index) => (
                             <li
@@ -823,9 +823,8 @@ function AddDealerBook() {
 
                       <div>
                         <Input
-                          label={"Deductival Amount ($)"}
+                          label={"Deductible Amount ($)"}
                           type="number"
-                          label={"deductible amount ($)"}
                           name={`adhDays[${index}].value1`}
                           id={`adhDays[${index}].value1`}
                           value={adhDay.value1}

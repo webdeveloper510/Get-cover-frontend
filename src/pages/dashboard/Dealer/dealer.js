@@ -598,17 +598,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1265,8 +1265,8 @@ function Dealer() {
                                   type.value
                                 )
                                   ? selected.filter(
-                                      (item) => item !== type.value
-                                    )
+                                    (item) => item !== type.value
+                                  )
                                   : [...selected, type.value];
 
                                 formik.setFieldValue(
@@ -1307,17 +1307,46 @@ function Dealer() {
                           {formik?.values?.coverageType?.includes(
                             type.value
                           ) && (
-                            <>
-                              <div className="my-3">
+                              <>
+                                <div className="my-3">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value`}
+                                    label={`Waiting Days`}
+                                    className="!bg-white"
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value || 0
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
+                                              ...item,
+                                              value: Number(e.target.value),
+                                            }
+                                            : item
+                                        );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
+                                      );
+                                    }}
+                                  />
+                                </div>
+
                                 <Input
                                   type="number"
-                                  name={`adhDays[${type.value}].value`}
-                                  label={`Waiting Days`}
-                                  className="!bg-white"
+                                  name={`adhDays[${type.value}].value1`}
+                                  label={`Deductible  ($)`}
+                                  className="!bg-white "
                                   value={
                                     formik?.values?.adhDays?.find(
                                       (item) => item.label === type.value
-                                    )?.value || 0
+                                    )?.value1 || 0
                                   }
                                   onBlur={formik.handleBlur}
                                   onChange={(e) => {
@@ -1325,9 +1354,9 @@ function Dealer() {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              value: Number(e.target.value),
-                                            }
+                                            ...item,
+                                            value1: Number(e.target.value),
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -1336,37 +1365,8 @@ function Dealer() {
                                     );
                                   }}
                                 />
-                              </div>
-
-                              <Input
-                                type="number"
-                                name={`adhDays[${type.value}].value1`}
-                                label={`Deduction  ($)`}
-                                className="!bg-white "
-                                value={
-                                  formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
-                                  )?.value1 || 0
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                  const updatedadhDays =
-                                    formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
-                                        ? {
-                                            ...item,
-                                            value1: Number(e.target.value),
-                                          }
-                                        : item
-                                    );
-                                  formik.setFieldValue(
-                                    "adhDays",
-                                    updatedadhDays
-                                  );
-                                }}
-                              />
-                            </>
-                          )}
+                              </>
+                            )}
                         </div>
                       ))}
 
