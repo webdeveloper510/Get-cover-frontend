@@ -2127,13 +2127,13 @@ function AddOrder() {
                           formikStep2.errors.coverageType
                         }
                       />
-                      {formikStep2.touched.coverageType &&
-                        formikStep2.errors.coverageType && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            {formikStep2.errors.coverageType}
-                          </div>
-                        )}
                     </div>
+                    {formikStep2.touched.coverageType &&
+                      formikStep2.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep2.errors.coverageType}
+                        </div>
+                      )}
                   </div>
                 </div>
               </Grid>

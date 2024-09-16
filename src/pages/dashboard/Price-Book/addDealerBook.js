@@ -666,6 +666,33 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
+                    <div className="col-span-12">
+                      <div className="relative">
+                        <label
+                          htmlFor="coverageType"
+                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Coverage Type
+                        </label>
+                        <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
+                          {formik.values.coverageType &&
+                          formik.values.coverageType.length > 0 ? (
+                            <ol className="flex flex-wrap">
+                              {formik.values.coverageType.map((type, index) => (
+                                <li
+                                  className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
+                                  key={index}
+                                >
+                                  {type.label}
+                                </li>
+                              ))}
+                            </ol>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </>
                 )}
                 <div className="col-span-4">
@@ -773,11 +800,12 @@ function AddDealerBook() {
                 {formik.values.adhDays &&
                   formik.values.adhDays.length > 0 &&
                   formik.values.adhDays.map((adhDay, index) => (
-                    <div key={index} className="col-span-4 mt-4">
-                      <div>
+                    <div key={index} className="col-span-3 mt-4">
+                      <div className="mb-3">
                         <Input
                           label={`Waiting Days`}
                           type="number"
+                          label="Waiting Days"
                           name={`adhDays[${index}].value`}
                           id={`adhDays[${index}].value`}
                           value={adhDay.value}
@@ -793,10 +821,11 @@ function AddDealerBook() {
                           )}
                       </div>
 
-                      <div className="mt-3">
+                      <div>
                         <Input
                           label={"Deductival Amount ($)"}
                           type="number"
+                          label={"deductible amount ($)"}
                           name={`adhDays[${index}].value1`}
                           id={`adhDays[${index}].value1`}
                           value={adhDay.value1}
