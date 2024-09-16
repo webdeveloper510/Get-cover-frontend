@@ -67,29 +67,23 @@ function AddDealerBook() {
   const dealerDetailById = async (id) => {
     setLoader(true);
     const result = await getDealerPricebookDetailById(id);
-    console.log(result?.result[0]?.priceBooks?.pName);
-    formik.setFieldValue("status", result.result[0].status);
     const data = result.result[0];
     console.log(data);
-
     setPriceBookById(data);
-    formik.setFieldValue(
-      "retailPrice",
-      result.result[0].retailPrice.toFixed(2)
-    );
-    formik.setFieldValue("dealerSku", result.result[0].dealerSku);
-    formik.setFieldValue("priceBook", result?.result[0]?.priceBook);
-    formik.setFieldValue("description", result?.result[0]?.description);
-    formik.setFieldValue("priceType", result?.result[0]?.priceType);
-    formik.setFieldValue("term", result?.result[0]?.term);
-    formik.setFieldValue("brokerFee", result?.result[0]?.brokerFee);
-    formik.setFieldValue("wholesalePrice", result?.result[0]?.wholesalePrice);
-    formik.setFieldValue("pName", result?.result[0]?.priceBooks.pName);
-    formik.setFieldValue(
-      "categoryId",
-      result?.result[0]?.priceBooks?.category[0]?._id
-    );
-    formik.setFieldValue("dealerId", result?.result[0]?.dealerId);
+    formik.setFieldValue("retailPrice", data.retailPrice.toFixed(2));
+    formik.setFieldValue("status", data.status);
+    formik.setFieldValue("dealerSku", data.dealerSku);
+    formik.setFieldValue("priceBook", data?.priceBook);
+    formik.setFieldValue("description", data?.description);
+    formik.setFieldValue("priceType", data?.priceType);
+    formik.setFieldValue("term", data?.term);
+    formik.setFieldValue("brokerFee", data?.brokerFee);
+    formik.setFieldValue("wholesalePrice", data?.wholesalePrice);
+    formik.setFieldValue("pName", data?.priceBooks.pName);
+    formik.setFieldValue("coverageType", data.priceBooks.coverageType);
+    formik.setFieldValue("adhDays", data.dealer.adhDays);
+    formik.setFieldValue("categoryId", data?.priceBooks?.category[0]?._id);
+    formik.setFieldValue("dealerId", data?.dealerId);
     setLoader(false);
   };
 
@@ -672,33 +666,6 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
-                    <div className="col-span-12">
-                      <div className="relative">
-                        <label
-                          htmlFor="coverageType"
-                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                        >
-                          Coverage Type
-                        </label>
-                        <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                          {formik.values.coverageType &&
-                          formik.values.coverageType.length > 0 ? (
-                            <ol className="flex flex-wrap">
-                              {formik.values.coverageType.map((type, index) => (
-                                <li
-                                  className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
-                                  key={index}
-                                >
-                                  {type.label}
-                                </li>
-                              ))}
-                            </ol>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      </div>
-                    </div>
                   </>
                 )}
                 <div className="col-span-4">
@@ -776,15 +743,40 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
+                <div className="col-span-12">
+                  <div className="relative">
+                    <label
+                      htmlFor="coverageType"
+                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Coverage Type
+                    </label>
+                    <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
+                      {formik.values.coverageType &&
+                      formik.values.coverageType.length > 0 ? (
+                        <ol className="flex flex-wrap">
+                          {formik.values.coverageType.map((type, index) => (
+                            <li
+                              className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
+                              key={index}
+                            >
+                              {type.label}
+                            </li>
+                          ))}
+                        </ol>
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 {formik.values.adhDays &&
                   formik.values.adhDays.length > 0 &&
                   formik.values.adhDays.map((adhDay, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-4 mt-4">
+                    <div key={index} className="col-span-4 mt-4">
                       <div>
-                        <label htmlFor={`adhDays[${index}].value`}>
-                          Value ({adhDay.label})
-                        </label>
                         <Input
+                          label={`Waiting Days`}
                           type="number"
                           name={`adhDays[${index}].value`}
                           id={`adhDays[${index}].value`}
@@ -801,11 +793,9 @@ function AddDealerBook() {
                           )}
                       </div>
 
-                      <div>
-                        <label htmlFor={`adhDays[${index}].value1`}>
-                          Value 1 ({adhDay.label})
-                        </label>
+                      <div className="mt-3">
                         <Input
+                          label={"Deductival Amount ($)"}
                           type="number"
                           name={`adhDays[${index}].value1`}
                           id={`adhDays[${index}].value1`}
