@@ -468,7 +468,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.optionDropdown &&
-                        priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
+                          priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.optionDropdown.map(
                               (type, index) => (
@@ -682,7 +682,7 @@ function AddDealerBook() {
                         </label>
                         <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
                           {formik.values.coverageType &&
-                          formik.values.coverageType.length > 0 ? (
+                            formik.values.coverageType.length > 0 ? (
                             <ol className="flex flex-wrap">
                               {formik.values.coverageType.map((type, index) => (
                                 <li
@@ -779,13 +779,12 @@ function AddDealerBook() {
                 {formik.values.adhDays &&
                   formik.values.adhDays.length > 0 &&
                   formik.values.adhDays.map((adhDay, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-4 mt-4">
-                      <div>
-                        <label htmlFor={`adhDays[${index}].value`}>
-                          Value ({adhDay.label})
-                        </label>
+                    <div key={index} className="col-span-3 mt-4">
+                      <div className="mb-3">
+
                         <Input
                           type="number"
+                          label='Waiting Days'
                           name={`adhDays[${index}].value`}
                           id={`adhDays[${index}].value`}
                           value={adhDay.value}
@@ -802,11 +801,9 @@ function AddDealerBook() {
                       </div>
 
                       <div>
-                        <label htmlFor={`adhDays[${index}].value1`}>
-                          Value 1 ({adhDay.label})
-                        </label>
                         <Input
                           type="number"
+                          label={'deductible amount ($)'}
                           name={`adhDays[${index}].value1`}
                           id={`adhDays[${index}].value1`}
                           value={adhDay.value1}
