@@ -8,7 +8,9 @@
     right: -33px !important;
   }
 }
-
+.readonly .dropdown-container {
+  background-color: #ededed !important;
+}
 .focused label,
 .react-select__control--is-focused label {
   transform: translateY(-1.25rem) scale(0.75);
@@ -72,7 +74,6 @@
 
 .red .dropdown-container {
   border-width: 0px !important;
-
 }
 
 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
@@ -88,14 +89,16 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
   min-height: 30px !important;
 }
 
-.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+.reseller
+  button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
   right: 10px;
   min-width: 30px !important;
   left: unset;
   min-height: 30px !important;
 }
 
-.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+.reseller
+  button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
   right: 10px !important;
   min-width: 30px !important;
   min-height: 30px !important;
@@ -106,7 +109,7 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
 }
 
 .gradient-border {
-  border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00);
+  border-image: linear-gradient(to right, #ffffff00, #aaaaaa, #ffffff00);
   /* Adjust colors as needed */
   border-image-slice: 1;
 }
