@@ -1146,6 +1146,7 @@ function AddOrder() {
       orderFile: {},
       fileValue: "",
       dealerSku: "",
+      adhDays: [],
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1519,7 +1520,7 @@ function AddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
         },
         0
       );
@@ -1595,7 +1596,7 @@ function AddOrder() {
           {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
-            coverageType: formikStep2?.values?.coverageType,
+            coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
             term: data.term,
             pName: data.pName,
             dealerSku: "", //add this
@@ -1746,7 +1747,7 @@ function AddOrder() {
         pName: "",
         term: "",
         dealerSku: "", //add this
-        coverageType: formikStep2?.values?.coverageType,
+        coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
       },
       index
     );

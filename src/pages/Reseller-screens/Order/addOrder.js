@@ -40,6 +40,7 @@ import {
   getServiceCoverageDetails,
 } from "../../../services/customerServices";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 
 function ResellerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -71,6 +72,7 @@ function ResellerAddOrder() {
   const location = useLocation();
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
+  const [selected, setSelected] = useState([]);
 
   useEffect(() => {
     if (orderId || resellerId || customerId) {
@@ -115,6 +117,7 @@ function ResellerAddOrder() {
       formik.resetForm();
       setNumberOfOrders([]);
       setFileValues([]);
+      setSelected([]); //add this
       formikStep2.resetForm();
       formikStep3.resetForm();
       formik4.resetForm();
@@ -214,6 +217,7 @@ function ResellerAddOrder() {
     console.log(result.result);
     getCustomerList({});
     getServicerList({});
+    setSelected(result.result.coverageType);
     result?.result?.productsArray?.forEach((product, index) => {
       getCategoryList(
         {
@@ -274,6 +278,7 @@ function ResellerAddOrder() {
         priceBookDetails: product?.priceBookDetail || {},
         dealerSku: product?.dealerSku || "",
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
+        adhDays: product.adhDays || [],
       })),
     });
     orderDetail(result.result);
@@ -346,7 +351,7 @@ function ResellerAddOrder() {
     initialValues: {
       dealerPurchaseOrder: "",
       serviceCoverageType: "",
-      coverageType: "",
+      coverageType: [],
     },
     validationSchema: Yup.object().shape({
       dealerPurchaseOrder: Yup.string().required(
@@ -355,7 +360,7 @@ function ResellerAddOrder() {
       serviceCoverageType: Yup.string().required(
         "Service Coverage Type is Required"
       ),
-      coverageType: Yup.string().required("Coverage Type is Required"),
+      coverageType: Yup.array().required("Coverage Type is Required"),
     }),
     onSubmit: (values) => {
       let data = {
@@ -405,6 +410,7 @@ function ResellerAddOrder() {
           priceBookDetails: {},
           dealerPriceBookDetails: {},
           dealerSku: "",
+          adhDays: [],
         },
       ],
     },
@@ -420,6 +426,11 @@ function ResellerAddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
+          adhDays: Yup.array().of(
+            Yup.object().shape({
+              value: Yup.string().required("Required"),
+            })
+          ),
           noOfProducts: Yup.number()
             .typeError("Must be a number")
             .required("Required")
@@ -560,6 +571,16 @@ function ResellerAddOrder() {
                 });
               });
             }
+            if (item.adhDays && Array.isArray(item.adhDays)) {
+              item.adhDays.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][adhDays][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
+            }
           });
         } else {
           formData.append(key, value);
@@ -583,6 +604,24 @@ function ResellerAddOrder() {
   };
 
   const fileInputRef = useRef([]);
+  // add this
+  useEffect(() => {
+    if (type == "Add") {
+      const selectedCoverages = formikStep2.values.coverageType;
+
+      if (selectedCoverages.length) {
+        const updatedProductsArray = selectedCoverages.map((data) => ({
+          label: data.label,
+          value: "00",
+          value1: "",
+        }));
+        formikStep3.setFieldValue(
+          "productsArray[0].adhDays",
+          updatedProductsArray
+        );
+      }
+    }
+  }, [formikStep2.values.coverageType]);
 
   const handleInputClick = (index, event) => {
     setFileValues((prevFileValues) => {
@@ -741,6 +780,7 @@ function ResellerAddOrder() {
       checkNumberProducts: "",
       fileValue: "",
       orderFile: {},
+      adhDays: [],
     };
     getCategoryList(
       {
@@ -749,7 +789,9 @@ function ResellerAddOrder() {
         pName: "",
         term: "",
         dealerSku: "",
-        coverageType: formikStep2?.values?.coverageType,
+        coverageType: formikStep2?.values?.coverageType.map(
+          (item) => item.value
+        ),
       },
       formikStep3.values.productsArray.length
     );
@@ -869,6 +911,10 @@ function ResellerAddOrder() {
           data.term
         );
         formikStep3.setFieldValue(
+          `productsArray[${productIndex}].adhDays`,
+          data.adhDays
+        );
+        formikStep3.setFieldValue(
           `productsArray[${productIndex}].dealerSku`,
           data.dealerSku
         );
@@ -925,7 +971,9 @@ function ResellerAddOrder() {
           term: "",
           priceBookId: "",
           dealerSku: "",
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         productIndex
       );
@@ -952,7 +1000,9 @@ function ResellerAddOrder() {
             selectedValue == ""
               ? ""
               : formikStep3.values.productsArray[productIndex].term,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         productIndex
       );
@@ -970,7 +1020,9 @@ function ResellerAddOrder() {
               ? ""
               : formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         productIndex
       );
@@ -986,7 +1038,9 @@ function ResellerAddOrder() {
             formikStep3.values.productsArray[productIndex].priceBookId,
           pName: selectedValue,
           term: formikStep3.values.productsArray[productIndex].term,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         productIndex
       );
@@ -1049,7 +1103,7 @@ function ResellerAddOrder() {
           pName: "",
           term: "",
           dealerSku: "",
-          coverageType: value,
+          coverageType: value.map((item) => item.value),
         },
         0
       );
@@ -1071,40 +1125,14 @@ function ResellerAddOrder() {
 
   const getServiceCoverage = async (value, type) => {
     const result = await getServiceCoverageDetails(value);
-    let coverage = [];
     let serviceCoverage = [];
     if (type == "Edit") {
-      coverage = [
-        { label: "Breakdown", value: "Breakdown" },
-        { label: "Accidental", value: "Accidental" },
-        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-      ];
-
       serviceCoverage = [
         { label: "Parts", value: "Parts" },
         { label: "Labor ", value: "Labor" },
         { label: "Parts & Labor ", value: "Parts & Labor" },
       ];
     } else {
-      switch (result?.result?.coverageType) {
-        case "Breakdown & Accidental":
-          coverage = [
-            { label: "Breakdown", value: "Breakdown" },
-            { label: "Accidental", value: "Accidental" },
-            {
-              label: "Breakdown & Accidental",
-              value: "Breakdown & Accidental",
-            },
-          ];
-          break;
-        case "Breakdown":
-          coverage = [{ label: "Breakdown", value: "Breakdown" }];
-          break;
-        default:
-          coverage = [{ label: "Accidental", value: "Accidental" }];
-          break;
-      }
-
       switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
@@ -1126,7 +1154,7 @@ function ResellerAddOrder() {
     }
 
     console.log(coverage, serviceCoverage, type);
-    setCoverage(coverage);
+    setCoverage(result?.result?.coverageType);
     setServiceCoverage(serviceCoverage);
   };
   const handleInputClickResetStep1 = () => {
@@ -1171,7 +1199,9 @@ function ResellerAddOrder() {
           {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
-            coverageType: formikStep2?.values?.coverageType,
+            coverageType: formikStep2?.values?.coverageType.map(
+              (item) => item.value
+            ),
             term: data.term,
             pName: data.pName,
             dealerSku: "",
@@ -1207,6 +1237,7 @@ function ResellerAddOrder() {
           priceBookDetails: priceBookDetails,
           dealerSku: item?.dealerSku,
           dealerPriceBookDetails: dealerPriceBookDetails,
+          adhDays: item.adhDays,
         }));
 
         // setCategoryList(
@@ -1287,7 +1318,9 @@ function ResellerAddOrder() {
         pName: "",
         term: "",
         dealerSku: "",
-        coverageType: formikStep2?.values?.coverageType,
+        coverageType: formikStep2?.values?.coverageType.map(
+          (item) => item.value
+        ),
       },
       index
     );
@@ -1552,7 +1585,48 @@ function ResellerAddOrder() {
                       </div>
                     )}
                 </div>
+
                 <div className="col-span-6">
+                  <div className={`relative `}>
+                    <label
+                      htmlFor="coverageType"
+                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1  left-2 px-1 -translate-y-4 scale-75 bg-white z-10`}
+                    >
+                      Coverage Type
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                      <MultiSelect
+                        label="Coverage Type"
+                        name="coverageType"
+                        placeholder=""
+                        className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]  ${
+                          type == "Edit" ? "readonly !bg-[#ededed]" : ""
+                        }`}
+                        required={true}
+                        disabled={type == "Edit"}
+                        onChange={(value) => {
+                          setSelected(value);
+                          handleSelectChange1("coverageType", value);
+                        }}
+                        options={coverage}
+                        value={selected}
+                        onBlur={formikStep2.handleBlur}
+                        error={
+                          formikStep2.touched.coverageType &&
+                          formikStep2.errors.coverageType
+                        }
+                      />
+                    </div>
+                    {formikStep2.touched.coverageType &&
+                      formikStep2.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep2.errors.coverageType}
+                        </div>
+                      )}
+                  </div>
+                </div>
+                {/* <div className="col-span-6">
                   <Select
                     label="Coverage Type"
                     name="coverageType"
@@ -1583,7 +1657,7 @@ function ResellerAddOrder() {
                         {formikStep2.errors.coverageType}
                       </div>
                     )}
-                </div>
+                </div> */}
               </Grid>
             </div>
           </Grid>
@@ -1818,48 +1892,85 @@ function ResellerAddOrder() {
                           }}
                         />
                       </div>
-                      {formikStep2.values.coverageType === "Breakdown" ? (
-                        <></>
-                      ) : (
-                        <div className="col-span-4">
-                          <Input
-                            type="tel"
-                            name={`productsArray[${index}].adh`}
-                            className="!bg-white"
-                            label="ADH (Waiting Days)"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].adh || 0
-                            }
-                            onChange={(e) => {
-                              const { name, value } = e.target;
-                              const trimmedValue = value.trim();
-                              const intValue = trimmedValue.replace(
-                                /[^0-9]/g,
-                                ""
-                              );
-                              const newValue =
-                                intValue !== ""
-                                  ? intValue.startsWith("0")
-                                    ? intValue.replace(/^0+/, "") || "0"
-                                    : intValue
-                                  : "0";
-
-                              formikStep3.handleChange({
-                                target: {
-                                  name,
-                                  value: newValue,
-                                },
-                              });
-                            }}
-                            onBlur={formikStep3.handleBlur}
-                            // disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                      )}
+                      {formikStep3.values.productsArray[index].adhDays &&
+                        formikStep3.values.productsArray[index].adhDays.map(
+                          (coverage, idx) => (
+                            <div className="col-span-4 capitalize">
+                              <div key={idx} className="mb-4">
+                                <Input
+                                  type="text"
+                                  name={`productsArray[${index}].adhDays[${idx}].value`}
+                                  className="!bg-white"
+                                  label={`${coverage.label} Days `}
+                                  placeholder={`${coverage.label} Days`}
+                                  value={
+                                    formikStep3.values.productsArray[index]
+                                      .adhDays[idx].value
+                                  }
+                                  disabled={true}
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].adhDays[${idx}].value`,
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={formikStep3.handleBlur}
+                                />
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays[idx] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays[idx].value && (
+                                    <div className="text-red-500 text-sm pl-2 pt-2">
+                                      {
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx].value
+                                      }
+                                    </div>
+                                  )}
+                              </div>
+                              <div key={idx}>
+                                <Input
+                                  type="text"
+                                  name={`productsArray[${index}].adhDays[${idx}].value1`}
+                                  className="!bg-white"
+                                  label={`Deductable `}
+                                  placeholder={`Deductable`}
+                                  disabled={true}
+                                  value={
+                                    formikStep3.values.productsArray[index]
+                                      .adhDays[idx].value1
+                                  }
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].adhDays[${idx}].value1`,
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={formikStep3.handleBlur}
+                                />
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays[idx] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .adhDays[idx].value1 && (
+                                    <div className="text-red-500 text-sm pl-2 pt-2">
+                                      {
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx].value1
+                                      }
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
+                          )
+                        )}
                       <div className="col-span-4">
                         <Input
                           type="text"
@@ -2482,6 +2593,39 @@ function ResellerAddOrder() {
                                     )}{" "}
                               </p>
                             </div>
+                          </Grid>
+                          <Grid className="border-b !gap-0">
+                            {data.adhDays &&
+                              data.adhDays.map((Data, idx) => (
+                                <div
+                                  key={idx}
+                                  className="col-span-3 py-4  border-r"
+                                >
+                                  <div className="pb-3 border-b px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      {Data.label} Waiting{" "}
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      {Data.value} Days
+                                    </p>
+                                  </div>
+                                  <div className="pt-3 px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      Deductable Amount
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      $
+                                      {Data.value1 === undefined
+                                        ? parseInt(0).toLocaleString(2)
+                                        : formatOrderValue(
+                                            Number(Data.value1) ?? parseInt(0)
+                                          )}{" "}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
                           </Grid>
                           {data.priceType == "Flat Pricing" && (
                             <Grid className="border-b px-4">

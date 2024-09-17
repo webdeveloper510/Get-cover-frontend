@@ -441,10 +441,7 @@ function DealerAddOrder() {
       "serviceCoverageType",
       result?.result?.serviceCoverageType
     );
-    formikStep2.setFieldValue(
-      "coverageType",
-      result?.result?.coverageType.map((item) => item.value)
-    );
+    formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
     // coverageType: coverageType.map((item) => item.value),
   };
 
@@ -953,6 +950,7 @@ function DealerAddOrder() {
       fileValue: "",
       pName: "",
       orderFile: {},
+      adhDays: [],
     };
     getCategoryList(
       {
@@ -1808,30 +1806,7 @@ function DealerAddOrder() {
                         </div>
                       )}
                   </div>
-                  {/* <Select
-                    label="Coverage Type"
-                    name="coverageType"
-                    placeholder=""
-                    disabled={type == "Edit"}
-                    className="!bg-white"
-                    className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
-                      }`}
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={coverage}
-                    value={formikStep2.values.coverageType}
-                    onBlur={formikStep2.handleBlur}
-                    error={
-                      formikStep2.touched.coverageType &&
-                      formikStep2.errors.coverageType
-                    }
-                  />
-                  {formikStep2.touched.coverageType &&
-                    formikStep2.errors.coverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formikStep2.errors.coverageType}
-                      </div>
-                    )} */}
+            
                 </div>
               </Grid>
             </div>
