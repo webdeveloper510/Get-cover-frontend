@@ -72,7 +72,7 @@ function OrderSummary(props) {
                             Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
-                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-5 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product Name : <b> {res.pName} </b>
                           </p>

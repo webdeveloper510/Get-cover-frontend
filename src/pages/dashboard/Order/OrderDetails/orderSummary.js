@@ -62,24 +62,30 @@ function OrderSummary(props) {
                   <div>
                     <div>
                       <Grid className="bg-light-black !gap-2 !grid-cols-10 rounded-t-xl">
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
                           </p>
                         </div>
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
-                            Product Name : <b> {res?.pName} </b>
-                          </p>
-                        </div>
+
                       </Grid>
 
                       <Grid className="!gap-0 bg-grayf9 mb-5">
+                        <div className="col-span-3 border border-Light-Grey">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product Name
+                            </p>
+                            <p className="text-light-black text-base font-semibold">
+                              {res?.pName}
+                            </p>
+                          </div>
+                        </div>
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -100,6 +106,16 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
+                        <div className="col-span-3 border border-Light-Grey">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Term
+                            </p>
+                            <p className="text-light-black text-base font-semibold">
+                              {res.term} Months
+                            </p>
+                          </div>
+                        </div>
                         <div className="col-span-6 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -111,16 +127,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
 
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Term
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.term} Months
-                            </p>
-                          </div>
-                        </div>
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">

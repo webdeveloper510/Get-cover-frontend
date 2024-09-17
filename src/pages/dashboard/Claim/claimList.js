@@ -585,7 +585,9 @@ function ClaimList(props) {
     let typeValue = "Admin";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
-    const isAdminView = window.location.pathname.includes("/dealer/claimList");
+    const isAdminView = window.location.pathname.includes("/dealer/claimList") ||
+      window.location.pathname.includes("/dealer/customerDetails") ||
+      window.location.pathname.includes("/dealer/resellerDetails");
     const isResellerPath =
       window.location.pathname.includes("/reseller/claimList") ||
       window.location.pathname.includes("/reseller/customerDetails");

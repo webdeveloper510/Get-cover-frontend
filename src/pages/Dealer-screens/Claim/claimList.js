@@ -2124,13 +2124,13 @@ function ClaimList(props) {
   }, []);
   return (
     <>
-      {loading1 && (
+      {/* {loading1 && (
         <div className=" fixed z-[999999] bg-[#f9f9f99c] backdrop-blur-xl top-0 h-screen w-full flex py-5">
           <div className="self-center ml-[40%]">
             <RotateLoader color="#333" />
           </div>
         </div>
-      )}
+      )} */}
       <div className="mb-8 ml-3">
         {props && Object.keys(props).length === 0 && (
           <>
