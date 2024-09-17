@@ -98,7 +98,7 @@ function AddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1LO5InDYl-pqqJ3vMTqlrxxbOCDOYVJLF/edit?gid=1553032734#gid=1553032734",
+      "https://docs.google.com/spreadsheets/d/1IKZGYxlL4Bo3ifJsDR2QCqmVcwq5XwOQ/edit?gid=1553032734#gid=1553032734",
       "_blank"
     );
   };
@@ -595,7 +595,7 @@ function AddOrder() {
             orderFile: product.orderFile || "",
             fileValue: "",
             priceBookDetails: product?.priceBookDetail || {},
-            dealerSku:product.dealerSku|| "",
+            dealerSku: product.dealerSku || "",
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
           })),
         });
@@ -770,7 +770,7 @@ function AddOrder() {
           fileValue: "",
           priceBookDetails: {},
           dealerPriceBookDetails: {},
-          dealerSku: "" 
+          dealerSku: ""
         },
       ],
     },
@@ -1185,7 +1185,7 @@ function AddOrder() {
       checkNumberProducts: "",
       orderFile: {},
       fileValue: "",
-      dealerSku:""
+      dealerSku: ""
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1209,17 +1209,17 @@ function AddOrder() {
   const handleDeleteProduct = (index) => {
     handleInputClickReset(index)
     const updatedProduct = [...formikStep3.values.productsArray];
-    console.log(formikStep3.values.productsArray.splice(index,1))
+    console.log(formikStep3.values.productsArray.splice(index, 1))
     updatedProduct.splice(index, 1);
-     formikStep3.setFieldValue("productsArray", updatedProduct);
+    formikStep3.setFieldValue("productsArray", updatedProduct);
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
 
       return newArray;
     });
-   
-      console.log(formikStep3.values.productsArray,updatedProduct)
+
+    console.log(formikStep3.values.productsArray, updatedProduct)
 
   };
 
@@ -1318,7 +1318,7 @@ function AddOrder() {
           data.price
         );
         // add this
-      
+
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].priceType`,
           data.priceType
@@ -1405,8 +1405,8 @@ function AddOrder() {
       const data = dealerSkuList[productIndex]?.data.find(
         (value) => value.value === selectedValue
       );
-    
-        handleSelectChange2(`productsArray[${productIndex}].priceBookId`,data == undefined ? "":data.priceBookId)
+
+      handleSelectChange2(`productsArray[${productIndex}].priceBookId`, data == undefined ? "" : data.priceBookId)
     }
     if (name.includes("term")) {
       getCategoryList(
@@ -2296,7 +2296,7 @@ function AddOrder() {
                         }
                         onBlur={formikStep3.handleBlur}
                         onChange={handleSelectChange2}
-                        index={index} 
+                        index={index}
                       />
                     </>
                   </div>
