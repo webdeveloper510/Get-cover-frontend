@@ -1,66 +1,303 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --neutral-grey: 153 153 153;
+    --light-grey: 235 228 228;
+    --light-black: 51 51 51;
+    --light-white: 93 110 102;
+    --light-green: 193 197 195;
+    --Gray28: 71 71 71;
+    --grayf9: 249 249 249;
+    --Eclipse: 60 60 60;
+    --Light-Grey: 209 209 209;
+    --white: 255 255 255;
+    --Black-Russian: 27 29 33;
+    --White-Smoke: 247 247 247;
+    --Smoke: 235 235 235;
+    --Granite-Gray: 95 95 95;
+    --red: 255 0 0;
+    --Onyx: 56 56 56;
+    --Bright-Grey: 83 84 86;
+    --red-500: 255 0 0;
+  }
+}
+
 body {
+  font-family: 'Gilroy', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.font-light {
-  font-family: 'Gilroy-Light';
-  font-weight: 300;
-}
-.font-thin {
-  font-family: 'Gilroy-Thin';
-  font-weight: 100;
-}
-.font-medium {
-  font-family: 'Gilroy-Medium';
-  font-weight: 500;
+
+.img-filter {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg);
 }
 
-.font-semibold {
-  font-family: 'Gilroy-Medium';
-  font-weight: 600;
+.mYSul,
+.rdt_Table {
+  background-color: transparent !important;
 }
 
-.font-bold {
-  font-family: 'Gilroy-Bold';
+
+.dealer-detail .rdt_TableCol {
+  font-size: 11px !important;
   font-weight: 700;
 }
+
+.dealer-detail .rdt_TableBody .rdt_TableCell {
+  font-size: 11px !important;
+  font-weight: 400;
+}
+
+
+.dYHiBl {
+  padding: 0px !important;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-@font-face {
-  font-family: 'Gilroy-Bold';
-  src: local('Gilroy-Bold'), url(./assets/fonts/Gilroy-Bold.ttf) format('truetype');
+.rdt_TableHeadRow {
+  background: #F9F9F9 !important;
+  margin-top: 16px;
+  /* font-family: 'Gilroy-Bold'; */
+  font-weight: 600;
+  font-size: 14px;
+  border-top: 1px solid #dbdbdb;
 }
 
-@font-face {
-  font-family: 'Gilroy-Medium';
-  src: local('Gilroy-Medium'), url(./assets/fonts/Gilroy-Medium.ttf) format('truetype');
+.scroll-transition {
+  transition: transform 0.3s ease;
 }
 
-@font-face {
-  font-family: 'Gilroy-Light';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Light.ttf) format('truetype');
+.nCTcL {
+  background-color: transparent !important;
+  color: unset !important;
 }
 
-@font-face {
-  font-family: 'Gilroy-Thin';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Thin.ttf) format('truetype');
+.rdt_TableRow {
+  background-color: transparent !important;
+  color: unset !important;
 }
 
-@font-face {
-  font-family: 'Gilroy-Regular';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-Regular.ttf) format('truetype');
+.react-datepicker-wrapper {
+  width: 100% !important;
 }
 
-@font-face {
-  font-family: 'Gilroy-SemiBold';
-  src: local('Gilroy-Light'), url(./assets/fonts/Gilroy-SemiBold.ttf) format('truetype');
+
+.Diagnosis::-webkit-scrollbar-track {
+  background: #333333;
+}
+
+.Diagnosis::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 5px;
+}
+
+.Diagnosis::-webkit-scrollbar-thumb:hover {
+  background: #dfdfdf;
+}
+
+.rdt_Pagination {
+  position: absolute;
+  margin-top: 38px;
+  background: #333 !important;
+  color: #F6F5F1 !important;
+  border-radius: 17px;
+}
+
+.rdt_Pagination svg {
+  fill: white;
+}
+
+.sc-lmoLKH.lcunyj {
+  margin-right: auto;
+}
+
+.rdt_TableBody {
+  font-size: 16px !important;
+}
+
+@layer utilities {
+  @variants responsive {
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+}
+
+@layer base {
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.ReactTags__tags.react-tags-wrapper {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.ReactTags__tagInput,
+input.ReactTags__tagInputField:focus {
+
+  &::-webkit-input-placeholder {
+
+    color: transparent;
+
+    -webkit-transition: color 0.2s ease;
+
+    transition: color 0.2s ease;
+
+  }
+
+  &:-moz-placeholder {
+
+    color: transparent;
+
+    -webkit-transition: color 0.2s ease;
+
+    transition: color 0.2s ease;
+
+  }
+
+  &:-ms-input-placeholder {
+
+    color: transparent;
+
+    -webkit-transition: color 0.2s ease;
+
+    transition: color 0.2s ease;
+
+  }
+}
+
+.react-tags-wrapper::-webkit-scrollbar {
+  width: 0px;
+}
+
+span.tag-wrapper.ReactTags__tag {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.ReactTags__selected {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+span.tag-wrapper.ReactTags__tag {
+  background: #F0F0F0;
+  margin-right: 4px;
+  border-radius: 5px;
+  padding: 0px 5px;
+  margin-bottom: 5px;
+}
+
+span.tag-wrapper.ReactTags__tag button {
+  margin-left: 7px;
+  padding-left: 6px;
+}
+
+.rdt_TableCell div {
+  white-space: normal !important;
+  flex-wrap: wrap;
+}
+
+.rdt_TableCell span {
+  white-space: normal !important;
+  flex-wrap: wrap;
+}
+
+.ReactTags__tagInput {
+  width: 50%;
+}
+
+input.ReactTags__tagInputField {
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+a:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #dfdfdf;
+}
+
+.rdt_TableHeadRow .rdt_TableCol_Sortable {
+  display: flex !important;
+  justify-content: left !important;
+  /* padding-left: 15px; */
+}
+
+.rdt_TableCell {
+  display: flex !important;
+  justify-content: left !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+@-moz-document url-prefix() {
+
+  html,
+  .bg-grayf9.overflow-y-scroll,
+  .overflow-y-auto,
+  .appearance-none.peer {
+    overflow-y: scroll;
+    scrollbar-color: #f1f1f1 #cfcfcf #dfdfdf;
+    scrollbar-width: thin;
+  }
+
+  .rdt_Table select {
+    background: white !important;
+  }
+
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  select.bg-light-black.text-white {
+    background-color: transparent !important;
+  }
 }

@@ -1,0 +1,479 @@
+import React, { useEffect, useState } from "react";
+import Headbar from "../../../common/headBar";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import Grid from "../../../common/grid";
+import Button from "../../../common/button";
+
+// Media Import
+import contract from "../../../assets/images/order/Contracts.svg";
+import contractActive from "../../../assets/images/order/ContractsActive.svg";
+import orderSummary from "../../../assets/images/order/orderSummary.svg";
+import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
+import BackImage from "../../../assets/images/icons/backArrow.svg";
+import Csv from "../../../assets/images/icons/csvWhite.svg";
+import Coverage from "../../../assets/images/order/Coverage.svg";
+import CoverageType from "../../../assets/images/order/CoverageType.svg";
+import Purchase from "../../../assets/images/order/Purchase.svg";
+import DealerList from "../../../assets/images/icons/dealerList.svg";
+import Name from "../../../assets/images/order/Name.svg";
+import { cityData } from "../../../stateCityJson";
+import Contracts from "./OrderDetails/contracts";
+import OrderSummary from "./OrderDetails/orderSummary";
+import { RotateLoader } from "react-spinners";
+import Cross from "../../../assets/images/Cross.png";
+import {
+  getContracts,
+  orderDetailsById,
+} from "../../../services/orderServices";
+import PdfGenerator from "../../pdfViewer";
+import PdfMake from "../../pdfMakeOrder";
+import Modal from "../../../common/model";
+import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
+import ContractList from "../../dashboard/Contract/contractList";
+import FileDownloader from "../../termAndCondition";
+import { apiUrl } from "../../../services/authServices";
+import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+
+function OrderDetails() {
+  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({});
+  const [invoiceData, setInvoiceData] = useState({});
+  const [contractDetails, setContractDetails] = useState();
+  const { orderId } = useParams();
+  const navigate = useNavigate();
+  const baseUrl = apiUrl();
+  const id = useParams();
+  const [activeTab, setActiveTab] = useState("Order Summary");
+  const state = cityData;
+  const [isServicerModal, setIsServicerModal] = useState(false);
+
+  const openServicer = () => {
+    setIsServicerModal(true);
+  };
+  const closeServicer = () => {
+    setIsServicerModal(false);
+  };
+  useEffect(() => {
+    getOrderDetails();
+  }, [orderId]);
+  useEffect(() => {
+    setLoading(true);
+    localStorage.setItem("orderMenu", activeTab);
+    setLoading(false);
+  }, [activeTab]);
+
+  const getOrderDetails = async () => {
+    setLoading1(true);
+    const result = await orderDetailsById(orderId);
+    if (result.code === 200) {
+      setUserDetails(result.orderUserData);
+      setOrderDetails(result.result);
+      let data = {
+        dealerName: result.orderUserData.dealerData,
+        customerName: result.orderUserData.customerData,
+        resellerName: result.orderUserData.resellerData,
+        totalOrderAmount: result.result.orderAmount,
+        ...result.result,
+      };
+      setInvoiceData(data);
+      console.log(data);
+    } else {
+      navigate(`/`);
+    }
+    setLoading1(false);
+  };
+  const handleGOBack = () => {
+    navigate(-1);
+  };
+
+  const tabs = [
+    {
+      id: "Order Summary",
+      label: "Order Summary",
+      icons: orderSummary,
+      Activeicons: orderActive,
+      content: <OrderSummary data={orderDetails.productsArray} shown={orderDetails.coverageType === "Breakdown"} />,
+    },
+    {
+      id: "Contracts",
+      label: "Contracts",
+      icons: contract,
+      Activeicons: contractActive,
+      content: activeTab === "Contracts" && (
+        <ContractList orderId={orderId} flag={"contracts"} shownEdit={false} />
+      ),
+    },
+  ];
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'buttonColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'buttonTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
+
+  return (
+    <>
+      {loading1 && (
+        <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#fff" />
+          </div>
+        </div>
+      )}
+      <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+        <Headbar />
+        <div className="flex">
+          <Link
+            onClick={handleGOBack}
+            className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
+          >
+            <img
+              src={BackImage}
+              className="m-auto my-auto self-center bg-white"
+              alt="BackImage"
+            />
+          </Link>
+          <div className="pl-3">
+            <p className="font-bold text-[36px] leading-9 mb-[3px]">
+              Order Details
+            </p>
+            <ul className="flex self-center">
+              <li className="text-sm text-neutral-grey font-Regular">
+                <Link to={`/`}>Home / </Link>
+              </li>
+              <li className="text-sm text-neutral-grey font-Regular ml-1">
+                <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order List / </Link>
+              </li>
+              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                {activeTab}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <Grid className="!grid-cols-4 mt-5">
+          <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
+            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+              <Grid>
+                <div className="col-span-9">
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Order ID
+                  </p>
+                  <p className="text-xl text-white font-semibold">
+                    {" "}
+                    {orderDetails.unique_key}{" "}
+                  </p>
+                </div>
+                <div className="col-span-3 text-end"></div>
+              </Grid>
+              <div className="flex my-4">
+                <img
+                  src={Purchase}
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
+                  alt="Purchase"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                    Dealer Purchase Order
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5 w-[78%] break-words">
+                    {orderDetails.venderOrder}
+                  </p>
+                </div>
+              </div>
+              <div className="flex my-4">
+                <img
+                  src={Coverage}
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
+                  alt="Coverage"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                    Service Coverage
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                    {orderDetails.serviceCoverageType}
+                  </p>
+                </div>
+              </div>
+              <div className="flex my-4">
+                <img
+                  src={CoverageType}
+                  className="mr-3 bg-Onyx rounded-[14px] my-auto"
+                  alt="CoverageType"
+                />
+                <div>
+                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                    Coverage Type
+                  </p>
+                  <p className="text-base text-white font-semibold leading-5">
+                    {orderDetails.coverageType}
+                  </p>
+                </div>
+              </div>
+              <div className="flex w-full my-4">
+                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                  Other Details
+                </p>
+                <hr className="self-center border-[#999999] w-[70%]" />
+              </div>
+              {userDetails?.resellerData?.name == null || window.location.pathname.includes("/reseller") ? (
+                <></>
+              ) : (
+                <>
+                  <div className="flex mb-4">
+                    <div className="relative">
+                      <img
+                        src={Name}
+                        className="mr-3 bg-Onyx rounded-[14px]"
+                        alt="Name"
+                      />
+                      {!window.location.pathname.includes("/reseller") ? (
+                        <Link
+                          to={`/dealer/resellerDetails/${orderDetails.resellerId}`}
+                        >
+                          {" "}
+                          <img
+                            src={DealerList}
+                            className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                            alt="DealerList"
+                          />{" "}
+                        </Link>
+                      ) : null}
+                    </div>
+                    <div className="w-[80%]">
+                      <p className="text-sm text-neutral-grey font-Regular">
+                        Reseller Name
+                      </p>
+                      <p className="text-base text-white font-semibold ">
+                        {userDetails?.resellerData?.name}
+                      </p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-Onyx rounded-[14px]"
+                    alt="Name"
+                  />
+                  {!window.location.pathname.includes("/reseller") ? (
+                    <Link
+                      to={`/dealer/customerDetails/${orderDetails.customerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  ) : (
+                    <Link
+                      to={`/reseller/customerDetails/${orderDetails.customerId}`}
+                    >
+                      {" "}
+                      <img
+                        src={DealerList}
+                        className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                        alt="DealerList"
+                      />{" "}
+                    </Link>
+                  )}
+                </div>
+                <div className="w-[80%]">
+                  <p className="text-sm text-neutral-grey font-Regular">
+                    Customer Name
+                  </p>
+                  <p className="text-base text-white font-semibold ">
+                    {userDetails?.customerData?.username}
+                  </p>
+                </div>
+              </div>
+              {userDetails?.servicerData?.name == null ? (
+                ""
+              ) : (
+                <>
+                  <div className="flex mb-4">
+                    <div className="relative">
+                      <img
+                        src={Name}
+                        className="mr-3 bg-Onyx rounded-[14px]"
+                        alt="Name"
+                      />
+                      {/* <Link to={`/dealer/servicerDetails/${orderDetails.servicerId}`}>
+                        {" "}
+                        <img
+                          src={DealerList}
+                          className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                          alt="DealerList"
+                        />{" "}
+                      </Link> */}
+                    </div>
+                    <div className="w-[80%]">
+                      <p className="text-sm text-neutral-grey font-Regular">
+                        Servicer Name
+                      </p>
+                      <p className="text-base text-white font-semibold">
+                        {userDetails?.servicerData?.status
+                          ? userDetails?.servicerData?.name
+                          : ""}
+                      </p>
+
+                    </div>
+                  </div>
+                </>
+              )}
+
+              <Grid className="!py-5">
+                <div className="col-span-6">
+                  <Button className="!bg-white !text-light-black !text-sm border flex">
+                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                    <span className="self-center">
+                      <PdfGenerator
+                        data={orderDetails._id}
+                        setLoading={setLoading1}
+                      />
+                    </span>
+                  </Button>
+                </div>
+                <div className="col-span-6">
+                  {userDetails?.termCondition == '' ? <></> : (
+                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                      <span className="self-center">
+                        {" "}
+                        <FileDownloader
+                          data={orderId}
+                          setLoading={setLoading1}
+                          apiUrlData={baseUrl}
+                        />
+                      </span>
+                    </Button>
+                  )}
+                </div>
+              </Grid>
+            </div>
+          </div>
+          <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
+            <Grid className="">
+              <div className="col-span-5">
+                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <Grid className="!grid-cols-2 !gap-1">
+                    {tabs.map((tab) => (
+                      <div className="col-span-1" key={tab.id}>
+                        <Button
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
+                            ? ""
+                            : "!bg-grayf9 !text-black"
+                            }`}
+                          onClick={() => handleTabClick(tab.id)}
+                        >
+                          <div
+                            style={{
+                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
+                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              maskRepeat: 'no-repeat',
+                              WebkitMaskRepeat: 'no-repeat',
+
+                              maskPosition: 'center',
+                              WebkitMaskPosition: 'center',
+                              maskSize: 'contain',
+                              WebkitMaskSize: 'contain'
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4"
+                          />
+                          <span
+                            style={{
+                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
+                              borderLeftWidth: '1px',
+                              paddingLeft: '7px',
+                              color: activeTab === tab.id ? buttonTextColor : 'black',
+                            }}
+                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
+                          >
+                            {tab.label}
+                          </span>
+                        </Button>
+                      </div>
+                    ))}
+                  </Grid>
+                </div>
+              </div>
+            </Grid>
+
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                className={`${activeTab !== tab.id ? "hidden" : ""}`}
+              >
+                {tab.content}
+              </div>
+            ))}
+          </div>
+        </Grid>
+      </div>
+
+      <Modal isOpen={isServicerModal} onClose={closeServicer}>
+        <Button
+          onClick={closeServicer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <form>
+          <div className="py-3 px-12">
+            <p className="text-center text-3xl font-semibold ">
+              Add Servicer Name
+            </p>
+            <div className="my-5">
+              <SelectBoxWithSearch
+                label="Servicer Name"
+                name="servicerId"
+                placeholder=""
+                className="!bg-white"
+                options={state}
+              />
+            </div>
+            <div className="text-right">
+              <Button>Save</Button>
+            </div>
+          </div>
+        </form>
+      </Modal>
+    </>
+  );
+}
+
+export default OrderDetails;

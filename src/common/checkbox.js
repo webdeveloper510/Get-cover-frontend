@@ -2,12 +2,12 @@ import React from 'react';
 
 function Checkbox({ label, name }) {
   return (
-    <div className="flex items-center gap-x-3">
+    <div className="flex items-center gap-x-3 ">
       <input
         id={`push-nothing-${name}`}
         name={`push-notifications-${name}`}
         type="checkbox"
-        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+        className="h-4 w-4 py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
       />
       <label
         htmlFor={`push-nothing-${name}`}
