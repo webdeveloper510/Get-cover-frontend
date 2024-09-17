@@ -497,14 +497,6 @@ function DealerPriceBook(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg font-bold">
-                Product SKU
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.name}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-bold">
                 Dealer SKU
               </p>
               <p className="text-base font-semibold">
@@ -525,14 +517,6 @@ function DealerPriceBook(props) {
               </p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
-                Product SKU
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.pName}{" "}
               </p>
             </div>
             <div className="col-span-4">

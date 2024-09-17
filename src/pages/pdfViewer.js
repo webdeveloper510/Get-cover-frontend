@@ -281,7 +281,7 @@ function PdfGenerator(props, className) {
             <tr key="${index}">
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${index + 1
             }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.name
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.pName
             }</td>
                <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.dealerSku
             }</td>
