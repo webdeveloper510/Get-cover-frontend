@@ -2407,7 +2407,7 @@ function AddOrder() {
                       {formikStep3.values.productsArray[index].adhDays &&
                         formikStep3.values.productsArray[index].adhDays.map(
                           (coverage, idx) => (
-                            <div className="col-span-4">
+                            <div className="col-span-4 capitalize">
                               <div key={idx} className="mb-4" >
                                 <Input
                                   type="text"

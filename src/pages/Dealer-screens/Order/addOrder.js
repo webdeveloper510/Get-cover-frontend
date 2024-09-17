@@ -40,6 +40,7 @@ import {
 } from "../../../services/dealerServices/orderListServices";
 import { getServiceCoverageDetails } from "../../../services/customerServices";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -54,6 +55,7 @@ function DealerAddOrder() {
   const [customerList, setCustomerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
@@ -118,6 +120,7 @@ function DealerAddOrder() {
       setCurrentStep(1);
       formik.resetForm();
       setNumberOfOrders([]);
+      setSelected([]); //add this
       setFileValues([]);
       formikStep2.resetForm();
       formikStep3.resetForm();
@@ -287,7 +290,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
+          dealerSku: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -306,7 +309,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
+          dealerSku: "",
           coverageType: formikStep2?.values?.coverageType,
         },
         0
@@ -341,7 +344,7 @@ function DealerAddOrder() {
           priceCatId: product.categoryId,
           term: product.term,
           pName: product.pName,
-          dealerSku:"",
+          dealerSku: "",
           coverageType: result?.result?.coverageType,
         },
         index
@@ -509,7 +512,7 @@ function DealerAddOrder() {
       serviceCoverageType: Yup.string().required(
         "Service Coverage Type is Required"
       ),
-      coverageType: Yup.string().required("Coverage Type is Required"),
+      coverageType: Yup.array().required("Coverage Type is Required"),
     }),
     onSubmit: (values) => {
       let data = {
@@ -553,7 +556,7 @@ function DealerAddOrder() {
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
-          dealerSku:"",
+          dealerSku: "",
           checkNumberProducts: "",
           fileValue: "",
           orderFile: {},
@@ -580,6 +583,11 @@ function DealerAddOrder() {
             .integer("value should be an integer")
             .min(0, "value cannot be negative"),
           // additionalNotes: Yup.string().required("Required"),
+          adhDays: Yup.array().of(
+            Yup.object().shape({
+              value: Yup.string().required("Required"),
+            })
+          ), //add this
           QuantityPricing: Yup.array().when("priceType", {
             is: (value) => value === "Quantity Pricing",
             then: (schema) => {
@@ -714,6 +722,16 @@ function DealerAddOrder() {
                 Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
                   formData.append(
                     `${key}[${index}][QuantityPricing][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
+            }
+            if (item.adhDays && Array.isArray(item.adhDays)) {
+              item.adhDays.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][adhDays][${qpIndex}][${qpKey}]`,
                     qpValue
                   );
                 });
@@ -912,7 +930,7 @@ function DealerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"",
+        dealerSku: "",
         coverageType: formikStep2?.values?.coverageType,
       },
       formikStep3.values.productsArray.length
@@ -932,20 +950,20 @@ function DealerAddOrder() {
   const handleDeleteProduct = (index) => {
     handleInputClickReset(index)
     const updatedProduct = [...formikStep3.values.productsArray];
-    console.log(formikStep3.values.productsArray.splice(index,1))
+    console.log(formikStep3.values.productsArray.splice(index, 1))
     updatedProduct.splice(index, 1);
-     formikStep3.setFieldValue("productsArray", updatedProduct);
+    formikStep3.setFieldValue("productsArray", updatedProduct);
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
 
       return newArray;
     });
-   
-      console.log(formikStep3.values.productsArray,updatedProduct)
+
+    console.log(formikStep3.values.productsArray, updatedProduct)
 
   };
-  
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -994,7 +1012,7 @@ function DealerAddOrder() {
             priceCatId: selectedValue,
             pName: "",
             term: "",
-            dealerSku:"",
+            dealerSku: "",
             priceBookId: "",
             coverageType: formikStep2?.values?.coverageType,
           },
@@ -1012,7 +1030,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
           coverageType: formikStep2?.values?.coverageType,
-          dealerSku:"",
+          dealerSku: "",
           pName:
             selectedValue == ""
               ? ""
@@ -1096,7 +1114,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           term: selectedValue,
-          dealerSku:"",
+          dealerSku: "",
           pName:
             formikStep3.values.productsArray[match[1]].pName == undefined
               ? ""
@@ -1116,7 +1134,7 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           pName: selectedValue,
-          dealerSku:"",
+          dealerSku: "",
           term: formikStep3.values.productsArray[match[1]].term,
           coverageType: formikStep2?.values?.coverageType,
         },
@@ -1181,7 +1199,7 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
+          dealerSku: "",
           coverageType: value,
         },
         0
@@ -1308,7 +1326,7 @@ function DealerAddOrder() {
           coverage = [{ label: "Accidental", value: "Accidental" }];
           break;
       }
-
+      console.log(result?.result?.coverageType, '--------------------')
       switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
@@ -1330,7 +1348,7 @@ function DealerAddOrder() {
     }
 
     console.log(coverage, serviceCoverage, type);
-    setCoverage(coverage);
+    setCoverage(result?.result?.coverageType);
     setServiceCoverage(serviceCoverage);
   };
 
@@ -1349,7 +1367,7 @@ function DealerAddOrder() {
             priceCatId: result.result.selectedCategory._id,
             coverageType: formikStep2?.values?.coverageType,
             term: data.term,
-            dealerSku:"",
+            dealerSku: "",
             pName: data.pName,
           },
           index
@@ -1381,7 +1399,8 @@ function DealerAddOrder() {
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
-          dealerSku:item?.dealerSku,
+          dealerSku: item.dealerSku, // add this
+          adhDays: item.adhDays, // add this
           dealerPriceBookDetails: dealerPriceBookDetails,
         }));
 
@@ -1452,7 +1471,7 @@ function DealerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"",
+        dealerSku: "",
         coverageType: formikStep2?.values?.coverageType,
       },
       index
@@ -1733,7 +1752,43 @@ function DealerAddOrder() {
                     )}
                 </div>
                 <div className="col-span-6">
-                  <Select
+                  <div className="relative">
+                    <label
+                      htmlFor="coverageType"
+                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                    >
+                      Coverage Type
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                      <MultiSelect
+                        label="Coverage Type"
+                        name="coverageType"
+                        placeholder=""
+                        className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                        required={true}
+                        disabled={type == "Edit"}
+                        onChange={(value) => {
+                          setSelected(value);
+                          handleSelectChange1("coverageType", value);
+                        }}
+                        options={coverage}
+                        value={selected}
+                        onBlur={formikStep2.handleBlur}
+                        error={
+                          formikStep2.touched.coverageType &&
+                          formikStep2.errors.coverageType
+                        }
+                      />
+                    </div>
+                    {formikStep2.touched.coverageType &&
+                      formikStep2.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikStep2.errors.coverageType}
+                        </div>
+                      )}
+                  </div>
+                  {/* <Select
                     label="Coverage Type"
                     name="coverageType"
                     placeholder=""
@@ -1756,7 +1811,7 @@ function DealerAddOrder() {
                       <div className="text-red-500 text-sm pl-2 pt-2">
                         {formikStep2.errors.coverageType}
                       </div>
-                    )}
+                    )} */}
                 </div>
               </Grid>
             </div>
