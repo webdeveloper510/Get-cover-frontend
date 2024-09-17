@@ -747,7 +747,7 @@ function DealerPriceList() {
                 <tr className="border bg-[#9999]">
                   <th>Coverage Type</th>
                   <th>Waiting Days</th>
-                  <th>Deductive Amount</th>
+                  <th>Deductable Amount</th>
                 </tr>
 
                 {dealerPriceBookDetail?.dealer?.adhDays && dealerPriceBookDetail?.dealer?.adhDays.length > 0 && (
