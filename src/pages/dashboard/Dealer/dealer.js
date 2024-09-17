@@ -133,6 +133,10 @@ function Dealer() {
       console.log("-fun trigger------------------------------------");
     }
   };
+  const optiondeductibles = [
+    { label: '$', value: '$' },
+    { label: '%', value: '%' }
+  ]
 
   const period = [
     { label: "Monthly", value: "Monthly" },
@@ -1337,34 +1341,46 @@ function Dealer() {
                                     }}
                                   />
                                 </div>
-
-                                <Input
-                                  type="number"
-                                  name={`adhDays[${type.value}].value1`}
-                                  label={`Deductible  ($)`}
-                                  className="!bg-white "
-                                  value={
-                                    formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
-                                    )?.value1 || 0
-                                  }
-                                  onBlur={formik.handleBlur}
-                                  onChange={(e) => {
-                                    const updatedadhDays =
-                                      formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
-                                          ? {
-                                            ...item,
-                                            value1: Number(e.target.value),
-                                          }
-                                          : item
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value1`}
+                                    label={`Deductible`}
+                                    className="!bg-white "
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value1 || 0
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
+                                              ...item,
+                                              value1: Number(e.target.value),
+                                            }
+                                            : item
+                                        );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
                                       );
-                                    formik.setFieldValue(
-                                      "adhDays",
-                                      updatedadhDays
-                                    );
-                                  }}
-                                />
+                                    }}
+                                  />
+                                  <div className="absolute top-0 right-0">
+                                    <Select
+                                      name="deductibles"
+                                      label=""
+                                      disableFirstOption={true}
+                                      onChange={handleSelectChange}
+                                      classBox="!bg-transparent"
+                                      className1="!border-0 !border-l !rounded-[0px] !text-light-black !pr-2"
+                                      options={optiondeductibles}
+                                    />
+                                  </div>
+                                </div>
                               </>
                             )}
                         </div>
