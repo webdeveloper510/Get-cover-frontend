@@ -133,6 +133,10 @@ function Dealer() {
       console.log("-fun trigger------------------------------------");
     }
   };
+  const optiondeductibles = [
+    { label: '$', value: '$' },
+    { label: '%', value: '%' }
+  ]
 
   const period = [
     { label: "Monthly", value: "Monthly" },
@@ -598,17 +602,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1265,8 +1269,8 @@ function Dealer() {
                                   type.value
                                 )
                                   ? selected.filter(
-                                      (item) => item !== type.value
-                                    )
+                                    (item) => item !== type.value
+                                  )
                                   : [...selected, type.value];
 
                                 formik.setFieldValue(
@@ -1307,66 +1311,78 @@ function Dealer() {
                           {formik?.values?.coverageType?.includes(
                             type.value
                           ) && (
-                            <>
-                              <div className="my-3">
-                                <Input
-                                  type="number"
-                                  name={`adhDays[${type.value}].value`}
-                                  label={`Waiting Days`}
-                                  className="!bg-white"
-                                  value={
-                                    formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
-                                    )?.value || 0
-                                  }
-                                  onBlur={formik.handleBlur}
-                                  onChange={(e) => {
-                                    const updatedadhDays =
-                                      formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
-                                          ? {
+                              <>
+                                <div className="my-3">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value`}
+                                    label={`Waiting Days`}
+                                    className="!bg-white"
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value || 0
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
                                               ...item,
                                               value: Number(e.target.value),
                                             }
-                                          : item
+                                            : item
+                                        );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
                                       );
-                                    formik.setFieldValue(
-                                      "adhDays",
-                                      updatedadhDays
-                                    );
-                                  }}
-                                />
-                              </div>
-
-                              <Input
-                                type="number"
-                                name={`adhDays[${type.value}].value1`}
-                                label={`Deduction  ($)`}
-                                className="!bg-white "
-                                value={
-                                  formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
-                                  )?.value1 || 0
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) => {
-                                  const updatedadhDays =
-                                    formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
-                                        ? {
-                                            ...item,
-                                            value1: Number(e.target.value),
-                                          }
-                                        : item
-                                    );
-                                  formik.setFieldValue(
-                                    "adhDays",
-                                    updatedadhDays
-                                  );
-                                }}
-                              />
-                            </>
-                          )}
+                                    }}
+                                  />
+                                </div>
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value1`}
+                                    label={`Deductible`}
+                                    className="!bg-white "
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value1 || 0
+                                    }
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
+                                              ...item,
+                                              value1: Number(e.target.value),
+                                            }
+                                            : item
+                                        );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
+                                      );
+                                    }}
+                                  />
+                                  <div className="absolute top-0 right-0">
+                                    <Select
+                                      name="deductibles"
+                                      label=""
+                                      disableFirstOption={true}
+                                      onChange={handleSelectChange}
+                                      classBox="!bg-transparent"
+                                      className1="!border-0 !border-l !rounded-[0px] !text-light-black !pr-2"
+                                      options={optiondeductibles}
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}
                         </div>
                       ))}
 
