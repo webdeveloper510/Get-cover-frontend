@@ -750,13 +750,13 @@ function DealerPriceList() {
                   <th>Deductable Amount</th>
                 </tr>
 
-                {dealerPriceBookDetail?.dealer?.adhDays && dealerPriceBookDetail?.dealer?.adhDays.length > 0 && (
+                {dealerPriceBookDetail?.dealer?.adhDays1 && dealerPriceBookDetail?.dealer?.adhDays1.length > 0 && (
                   <>
-                    {dealerPriceBookDetail?.dealer?.adhDays.map((type, index) => (
+                    {dealerPriceBookDetail?.dealer?.adhDays1.map((type, index) => (
                       <tr key={index} className="border ">
                         <td className="font-semibold  mx-[19px]" >{type.label}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.value}</td>
-                        <td className="font-semibold  mx-[19px]" >$ {type.value1}.00</td>
+                        <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
+                        <td className="font-semibold  mx-[19px]" >$ {type.adhValue1}.00</td>
                       </tr>
                     ))}
                   </>

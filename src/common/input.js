@@ -146,7 +146,7 @@ const Input = ({
                 step={type === "number" ? "1" : undefined} // Ensure step is set to 1 for number type
                 className={`${type === "tel" || (nonumber && "pl-[30px]")
                   } block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
-                  } ${disabled ? "text-[#5D6E66]" : "text-light-black"}`}
+                  } ${disabled ? "text-[#5D6E66] !bg-[#ebebebc4]" : "text-light-black !bg-white"}`}
                 onChange={handleInput}
                 disabled={disabled}
                 required={required}

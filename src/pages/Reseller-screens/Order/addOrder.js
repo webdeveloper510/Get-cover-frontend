@@ -94,7 +94,7 @@ function ResellerAddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1IKZGYxlL4Bo3ifJsDR2QCqmVcwq5XwOQ/edit?pli=1&gid=1553032734#gid=1553032734",
       "_blank"
     );
   };
@@ -2884,8 +2884,8 @@ function ResellerAddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2
@@ -2908,8 +2908,8 @@ function ResellerAddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 2
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 } rounded-full mx-auto w-[26px]`}
             >
               3
@@ -2929,8 +2929,8 @@ function ResellerAddOrder() {
         <div className="text-center">
           <p
             className={`border ${currentStep > 3
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
+              ? "text-black border-black"
+              : "text-[#ADADAD] border-[#ADADAD]"
               } rounded-full mx-auto w-[26px]`}
           >
             4

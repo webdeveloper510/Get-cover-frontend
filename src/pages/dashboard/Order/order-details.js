@@ -333,7 +333,17 @@ function OrderDetails() {
                     Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {orderDetails.coverageType}
+                    {/* {orderDetails.coverageType} */}
+                    {orderDetails?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>

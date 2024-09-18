@@ -55,7 +55,7 @@ const Select = ({
           onBlur={handleBlur}
           disabled={disabled}
           className={`block px-2.5 pb-2.5 pr-8 pt-4 w-full text-base font-semibold text-gray-900 bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
-            }`}
+            } ${disabled ? "text-[#ebebebc4] !bg-grayf9" : "text-light-black !bg-white"}`}
           defaultValue={localDefaultValue}
         >
           <option

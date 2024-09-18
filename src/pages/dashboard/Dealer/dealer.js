@@ -1369,14 +1369,14 @@ function Dealer() {
                                       );
                                     }}
                                   />
-                                  <div className="absolute top-0 right-0">
+                                  <div className="absolute top-[1px] right-[1px]">
                                     <Select
-                                      name="deductibles"
+                                      name="amountType"
                                       label=""
                                       disableFirstOption={true}
                                       onChange={handleSelectChange}
                                       classBox="!bg-transparent"
-                                      className1="!border-0 !border-l !rounded-[0px] !text-light-black !pr-2"
+                                      className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
                                       options={optiondeductibles}
                                     />
                                   </div>
