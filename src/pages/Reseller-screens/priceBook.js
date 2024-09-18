@@ -598,7 +598,7 @@ function ResellerPriceBook(props) {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">
-            {dealerPriceBook?.priceBooks?.name}
+            View Price Book Details
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
@@ -644,14 +644,7 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.priceBooks?.term} Months
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Coverage Type
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBook?.priceBooks?.coverageType}{" "}
-              </p>
-            </div>
+
             <div className="col-span-4">
               <p className="text-lg font-semibold">
                 Dealer SKU
@@ -668,7 +661,28 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.priceBooks?.category[0].description}
               </p>
             </div>
+            <div className="col-span-12">
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductable Amount</th>
+                </tr>
 
+                {dealerPriceBook?.adhDays1 && dealerPriceBook?.adhDays1.length > 0 && (
+                  <>
+                    {dealerPriceBook?.adhDays1.map((type, index) => (
+                      <tr key={index} className="border ">
+                        <td className="font-semibold  mx-[19px]" >{type.label}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.adhValue1}</td>
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </table>
+
+            </div>
             {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">

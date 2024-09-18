@@ -487,16 +487,16 @@ function PriceBookList(props) {
       setIsDisapprovedOpen(false);
     },
   });
+
   const handleFilterIconClick = () => {
     formik.resetForm();
   };
 
-  // useEffect hook to monitor changes to formik.values
   useEffect(() => {
     if (
       JSON.stringify(formik.values) === JSON.stringify(formik.initialValues)
     ) {
-      console.log(formik.values, "================123");
+      console.log(formik.values, "======");
       priceBookData();
     }
   }, [formik.values]);
@@ -504,7 +504,7 @@ function PriceBookList(props) {
   const getTermListData = async () => {
     try {
       const res = await getTermList();
-      console.log(res.result.terms, "==============");
+      console.log(res.result.terms, "===========");
       setTermList(
         res.result.terms.map((item) => ({
           label: item.terms + " Months",
@@ -547,31 +547,9 @@ function PriceBookList(props) {
                       : "!grid-cols-10"
                       }`}
                   >
-                    {/* <div
-                      className={`${
-                        props.flag === "reseller"
-                          ? "col-span-3 self-center"
-                          : "col-span-3 self-center"
-                      }`}
-                    >
-                      <Input
-                        name="name"
-                        type="text"
-                        placeholder="Product SKU"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      />
-                    </div> */}
-
                     <div
                       className={`${props.flag === "reseller"
-                        ? "col-span-3 self-center"
-                        : "col-span-3 self-center"
-                        }`}
+                        ? "col-span-3 self-center" : "col-span-3 self-center"}`}
                     >
                       <Input
                         name="dealerSku"
@@ -592,17 +570,6 @@ function PriceBookList(props) {
                         : "col-span-3 self-center"
                         }`}
                     >
-                      {/* <Input
-                        name="category"
-                        type="text"
-                        placeholder="Category"
-                        className="!text-[14px] !bg-White-Smoke"
-                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                        label=""
-                        value={formik.values.category}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                      /> */}
                       <Select
                         name="category"
                         label=""
@@ -615,19 +582,6 @@ function PriceBookList(props) {
                         onChange={formik.setFieldValue}
                       />
                     </div>
-                    {/* {props.flag === "reseller" ? (<></>) : ( <div className="col-span-2 self-center">
-                      <Select
-                        name="status"
-                        label=""
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-White-Smoke"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
-                      />
-                    </div>)} */}
 
                     <div className="col-span-4 self-center flex justify-center">
                       <Button type="submit" className="!p-2">
@@ -673,11 +627,9 @@ function PriceBookList(props) {
                 data={priceBookList}
                 highlightOnHover
                 draggableColumns={false}
-                sortIcon={
-                  <>
-                    <img src={shorting} className="ml-2" alt="shorting" />
-                  </>
-                }
+                sortIcon={<>
+                  <img src={shorting} className="ml-2" alt="shorting" />
+                </>}
                 noDataComponent={<CustomNoDataComponent />}
                 pagination
                 paginationPerPage={10}
@@ -711,9 +663,8 @@ function PriceBookList(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto ">
-            {dealerPriceBookDetail?.dealer?.name}/
-            {dealerPriceBookDetail?.priceBooks?.name}
+          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+            View Dealer Price Book Details
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
