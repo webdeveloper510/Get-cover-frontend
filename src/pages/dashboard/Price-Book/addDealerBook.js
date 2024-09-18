@@ -106,7 +106,10 @@ function AddDealerBook() {
       console.error("Error fetching dealer list:", error);
     }
   };
-
+  const optiondeductibles = [
+    { label: '$', value: '$' },
+    { label: '%', value: '%' }
+  ]
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -157,7 +160,6 @@ function AddDealerBook() {
         });
       }
       const result = await getCategoryListActiveData({ dealerId: value });
-      console.log(result, "----------------");
       setCoverageType(result.coverageType);
       setCategoryList(
         result.result.map((item) => ({
@@ -228,7 +230,7 @@ function AddDealerBook() {
       formik.setFieldValue("coverageType", response.result);
     }
 
-    // formik.setFieldValue(name, value);
+    formik.setFieldValue(name, value);
   };
 
   const formik = useFormik({
@@ -666,33 +668,6 @@ function AddDealerBook() {
                         }}
                       />
                     </div>
-                    <div className="col-span-12">
-                      <div className="relative">
-                        <label
-                          htmlFor="coverageType"
-                          className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                        >
-                          Coverage Type
-                        </label>
-                        <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                          {formik.values.coverageType &&
-                            formik.values.coverageType.length > 0 ? (
-                            <ol className="flex flex-wrap">
-                              {formik.values.coverageType.map((type, index) => (
-                                <li
-                                  className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
-                                  key={index}
-                                >
-                                  {type.label}
-                                </li>
-                              ))}
-                            </ol>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      </div>
-                    </div>
                   </>
                 )}
                 <div className="col-span-4">
@@ -803,7 +778,6 @@ function AddDealerBook() {
                     <div key={index} className="col-span-3 mt-4">
                       <div className="mb-3">
                         <Input
-                          label={`Waiting Days`}
                           type="number"
                           label="Waiting Days"
                           name={`adhDays[${index}].value`}
@@ -821,9 +795,9 @@ function AddDealerBook() {
                           )}
                       </div>
 
-                      <div>
+                      <div className="relative">
                         <Input
-                          label={"Deductible Amount ($)"}
+                          label={"Deductible "}
                           type="number"
                           name={`adhDays[${index}].value1`}
                           id={`adhDays[${index}].value1`}
@@ -832,6 +806,17 @@ function AddDealerBook() {
                           onBlur={formik.handleBlur}
                           className="form-input"
                         />
+                        <div className="absolute top-[1px] right-[1px]">
+                          <Select
+                            name="amountType"
+                            label=""
+                            disableFirstOption={true}
+                            onChange={handleSelectChange}
+                            classBox="!bg-transparent"
+                            className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                            options={optiondeductibles}
+                          />
+                        </div>
                         {formik.touched.adhDays?.[index]?.value1 &&
                           formik.errors.adhDays?.[index]?.value1 && (
                             <div className="text-red-500 text-sm">

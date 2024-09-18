@@ -62,19 +62,14 @@ function OrderSummary(props) {
                   <div>
                     <div>
                       <Grid className="bg-light-black !gap-2 !grid-cols-10 rounded-t-xl">
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
                           </p>
                         </div>
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
-                          </p>
-                        </div>
-                        <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
-                            Product Name : <b> {res?.pName} </b>
                           </p>
                         </div>
                       </Grid>
@@ -93,10 +88,35 @@ function OrderSummary(props) {
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product Name
+                            </p>
+                            <p className="text-light-black text-base font-semibold">
+                              {res.pName}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
                               Price Type
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {res.priceType}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Unit Price
+                            </p>
+                            <p className="text-light-black text-base font-semibold">
+                              {/* $ {res.unitPrice} */}$
+                              {res.unitPrice === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                  res.unitPrice ?? parseInt(0)
+                                )}
                             </p>
                           </div>
                         </div>
@@ -121,21 +141,7 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Unit Price
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {/* $ {res.unitPrice} */}$
-                              {res.unitPrice === undefined
-                                ? parseInt(0).toLocaleString(2)
-                                : formatOrderValue(
-                                  res.unitPrice ?? parseInt(0)
-                                )}
-                            </p>
-                          </div>
-                        </div>
+
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
