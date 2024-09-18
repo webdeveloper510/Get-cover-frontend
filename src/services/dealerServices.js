@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -84,9 +84,13 @@ export const getDealersListServicerPortal = async (data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.post(`${url}/servicerPortal/getServicerDealers`, data, {
-      headers,
-    });
+    const response = await axios.post(
+      `${url}/servicerPortal/getServicerDealers`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {
@@ -108,6 +112,19 @@ export const getDealersDetailsByid = async (id) => {
   }
 };
 
+export const getDealersSettingsByid = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/dealer/getDealerSettings/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const checkDealersEmailValidation = async (email) => {
   const headers = createHeaders();
   console.log(headers);
@@ -128,7 +145,7 @@ export const checkDealersEmailValidation = async (email) => {
   }
 };
 
-export const getProductListbyProductCategoryId = async (categoryId,data) => {
+export const getProductListbyProductCategoryId = async (categoryId, data) => {
   const headers = createHeaders();
   console.log(headers);
   try {
@@ -174,6 +191,31 @@ export const addNewOrApproveDealer = async (data) => {
     const response = await axios.post(`${url}/admin/createDealer`, data, {
       headers,
     });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editDealerSettings = async (data, dealerId) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+  console.log(headers);
+  try {
+    const response = await axios.put(
+      `${url}/dealer/updateDealerSetting/${dealerId}`,
+      data,
+      {
+        headers,
+      }
+    );
 
     return response.data;
   } catch (error) {

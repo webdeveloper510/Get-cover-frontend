@@ -40,6 +40,7 @@ import {
   createRelationWithDealer,
   editDealerData,
   getDealersDetailsByid,
+  getDealersSettingsByid,
   uploadTermsandCondition,
 } from "../../../services/dealerServices";
 import { cityData } from "../../../stateCityJson";
@@ -87,6 +88,7 @@ function DealerDetails() {
   const [coverage, setCoverage] = useState([]);
   const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
+  const [dealerSettings, setDealerSettings] = useState({});
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
@@ -157,6 +159,11 @@ function DealerDetails() {
     setCreateAccount(valueAsBoolean);
     formik.setFieldValue("isAccountCreate", valueAsBoolean);
   };
+  useEffect(() => {
+    if (activeTab == "Settings") {
+      dealerSettingData();
+    }
+  }, [activeTab, id.id, flag]);
 
   const handleScrollRight = () => {
     if (containerRef.current) {
@@ -270,6 +277,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
+
   useEffect(() => {
     getUserList();
   }, []);
@@ -322,7 +330,20 @@ function DealerDetails() {
     }
     setLoading(false);
   };
+  const dealerSettingData = async (showLoader) => {
+    if (!showLoader) {
+      setLoading(true);
+    }
 
+    const result = await getDealersSettingsByid(id?.id);
+    if (result.code == 200) {
+      console.log(result.result[0]);
+      setDealerSettings(result.result[0]);
+    } else {
+      navigate(`/`);
+    }
+    setLoading(false);
+  };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -714,7 +735,9 @@ function DealerDetails() {
       label: "Settings",
       icons: PriceBook,
       Activeicons: PriceBookActive,
-      content: activeTab === "Settings" && <Setting />,
+      content: activeTab === "Settings"   && (
+        <Setting dealerDetails={dealerSettings} />
+      ),
     },
   ];
 
