@@ -5,6 +5,7 @@ import RadioButton from "../../../../common/radio";
 import Checkbox from "../../../../common/checkbox";
 import Input from "../../../../common/input";
 import Card from "../../../../common/card";
+import Primary from "../../../../assets/images/SetPrimary.png";
 import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
 import { getCovrageList } from "../../../../services/priceBookService";
@@ -12,6 +13,7 @@ import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
 import { editDealerSettings, uploadTermsandCondition } from "../../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
+import Modal from "../../../../common/model";
 
 function Setting(props) {
   console.log("i am looking for this ", props?.dealerDetails);
@@ -21,6 +23,10 @@ function Setting(props) {
   const [shipping, setShipping] = useState("yes");
   const [coverage, setCoverage] = useState([]);
   const [selectedOption, setSelectedOption] = useState("yes");
+  const [isModalOpen, SetIsModalOpen] = useState(false);
+  const [timer, setTimer] = useState(3);
+  const [primaryText, SetPrimaryText] = useState("");
+  const [secondaryText, SetSecondaryText] = useState("");
   const [createAccount, setCreateAccount] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -61,6 +67,34 @@ function Setting(props) {
       return acc;
     }, []),
   });
+
+
+  useEffect(() => {
+    let intervalId;
+
+    if ((isModalOpen && timer > 0)) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      closeModal();
+    }
+
+    if (!isModalOpen) {
+      clearInterval(intervalId);
+      setTimer(3);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isModalOpen, timer]);
+
+  const closeModal = () => {
+    SetIsModalOpen(false);
+  };
 
   useEffect(() => {
     setLoading1(true);
@@ -238,45 +272,10 @@ function Setting(props) {
         formData,
         props.dealerDetails._id
       );
-      //     console.log(result);
-      //     if (result.message === "Successfully Created") {
-      //         setLoading(false);
-      //         setError("done");
-      //         setIsModalOpen(true);
-      //         setMessage("New Dealer Created Successfully");
-      //         setTimer(3);
-      //         setSelected([]);
-      //     } else if (result.message === "Dealer name already exists") {
-      //         setLoading(false);
-      //         formik.setFieldError("name", "Name Already Used");
-      //         setMessage("Some Errors Please Check Form Validations ");
-      //         setIsModalOpen(true);
-      //     } else if (result.message === "Primary user email already exist") {
-      //         setLoading(false);
-      //         formik.setFieldError("email", "Email Already Used");
-      //         setMessage("Some Errors Please Check Form Validations ");
-      //         setIsModalOpen(true);
-      //     } else if (result.message === "Invalid priceBook field") {
-      //         if (
-      //             result.message ===
-      //             "Invalid file format detected. The sheet should contain exactly two columns."
-      //         ) {
-      //             setFileError(
-      //                 "Invalid file format detected. The sheet should contain exactly two columns."
-      //             );
-      //             setLoading(false);
-      //             setIsModalOpen(true);
-      //             setMessage(
-      //                 "Invalid file format detected. The sheet should contain exactly two columns."
-      //             );
-      //         } else {
-      //             setFileError(null);
-      //         }
-      //     } else {
-      //         setLoading(false);
-      //         setIsModalOpen(true);
-      //         setMessage(result.message);
-      //     }
+      SetIsModalOpen(true);
+      SetPrimaryText("Dealer Settings Updated Successfully ");
+      SetSecondaryText("Settings updated successfully ");
+      setTimer(3);
       setLoading(false);
     },
   });
@@ -783,6 +782,20 @@ function Setting(props) {
         </div>
       )
       }
+
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-bold">
+            {primaryText}
+          </p>
+          <p className="text-base font-medium mt-4">
+            {secondaryText} <br />
+            Redirecting Back to User List in {timer} Seconds
+          </p>
+        </div>
+      </Modal>
     </>
   );
 }

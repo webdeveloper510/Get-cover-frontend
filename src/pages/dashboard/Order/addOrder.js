@@ -3485,6 +3485,33 @@ function AddOrder() {
                 </div>
                 <div className="col-span-12">
                   <p className="flex text-sm font-semibold mt-3 mb-6">
+
+                    Is Include manufacturer warranty?
+
+                    <div className="flex">
+                      <RadioButton
+                        className="self-start"
+                        id="yes-warranty"
+                        label="Yes"
+                        value={true}
+                        checked={formik.values.isManufacturerWarranty == true}
+                        onChange={() =>
+                          formik.setFieldValue("isManufacturerWarranty", true)
+                        }
+                      />
+                      <RadioButton
+                        className="self-start"
+                        id="no-warranty"
+                        label="No"
+                        value={false}
+                        checked={formik.values.isManufacturerWarranty === false}
+                        onChange={() =>
+                          formik.setFieldValue("isManufacturerWarranty", false)
+                        }
+                      />
+                    </div>
+                  </p>
+                  <p className="flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -3501,6 +3528,7 @@ function AddOrder() {
                       onChange={handleRadioChange}
                     />
                   </p>
+
                 </div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
