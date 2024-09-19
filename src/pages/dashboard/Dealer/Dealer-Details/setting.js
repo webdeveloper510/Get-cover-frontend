@@ -642,15 +642,20 @@ function Setting(props) {
                                 (item) => item.label === type.value
                               )?.value || 0
                             }
-                            onBlur={(e) => {
-                              const formattedValue = parseFloat(
-                                e.target.value
-                              ).toFixed(2);
-                              formik.handleBlur(e);
-                              formik.setFieldValue(
-                                "rangeStart",
-                                formattedValue
-                              );
+                            onBlur={formik.handleBlur}
+                            onChange={(e) => {
+                              let newValue = parseFloat(e.target.value) || 0;
+                              newValue = newValue.toFixed(2);
+                              const updatedadhDays =
+                                formik?.values?.adhDays?.map((item) =>
+                                  item.label === type.value
+                                    ? {
+                                        ...item,
+                                        value: Number(newValue),
+                                      }
+                                    : item
+                                );
+                              formik.setFieldValue("adhDays", updatedadhDays);
                             }}
                           />
                         </div>
