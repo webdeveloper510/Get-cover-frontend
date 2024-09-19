@@ -71,11 +71,10 @@ function Setting(props) {
     }, []),
   });
 
-
   useEffect(() => {
     let intervalId;
 
-    if ((isModalOpen && timer > 0)) {
+    if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -111,9 +110,7 @@ function Setting(props) {
       setCreateAccountOption(dealer.userAccount ? "yes" : "no");
       setSeparateAccountOption(dealer.isAccountCreat ? "yes" : "no");
       setSelectedFile2(
-        dealer?.termCondition.fileName == ""
-          ? null
-          : dealer?.termCondition.fileNames
+        dealer?.termCondition.fileName === "" ? null : dealer?.termCondition
       );
       console.log(dealer.settings);
       setInitialFormValues((prevValues) => ({
@@ -713,9 +710,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value: Number(newValue),
-                                        }
+                                            ...item,
+                                            value: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -748,9 +745,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value1: Number(newValue),
-                                        }
+                                            ...item,
+                                            value1: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -769,9 +766,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -811,16 +808,12 @@ function Setting(props) {
             </Card>
           </form>
         </div>
-      )
-      }
-
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold">
-            {primaryText}
-          </p>
+          <p className="text-3xl mb-0 mt-2 font-bold">{primaryText}</p>
           <p className="text-base font-medium mt-4">
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
