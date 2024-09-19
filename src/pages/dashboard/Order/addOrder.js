@@ -11,6 +11,7 @@ import Spinner from "../../../assets/images/icons/Spinner.svg";
 import disapproved from "../../../assets/images/Disapproved.png";
 import csvFile from "../../../assets/images/icons/csvFile.svg";
 import AddDealer from "../../../assets/images/dealer-book.svg";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import Delete from "../../../assets/images/icons/DeleteIcon.svg";
 import check from "../../../assets/images/icons/check.svg";
 import Button from "../../../common/button";
@@ -50,9 +51,11 @@ import { MultiSelect } from "react-multi-select-component";
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
   const [dealerName, setDealerName] = useState("");
+  const [selectedFile2, setSelectedFile2] = useState(null);
   const [servicerName, setServicerName] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const inputRef = useRef(null);
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
   const [productList, setProductList] = useState([]);
@@ -113,7 +116,35 @@ function AddOrder() {
       return () => clearTimeout(timer);
     }
   }, [orderId, dealerId, resellerId, dealerValue, customerId]);
+  const handleRemoveFile = () => {
+    if (inputRef) {
+      formik.setFieldValue("termCondition", {});
+      setSelectedFile2(null);
+    }
+  };
 
+  const handleAddFile = () => {
+    if (inputRef) {
+      inputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 10048576; // 10MB in bytes
+
+    if (file?.size > maxSize) {
+      formik.setFieldError(
+        "termCondition",
+        "File is too large. Please upload a file smaller than 10MB."
+      );
+      console.log("Selected file:", file);
+    } else {
+      setSelectedFile2(file);
+      formik.setFieldValue("termCondition", file);
+      console.log("Selected file:", file);
+    }
+  };
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -2139,6 +2170,56 @@ function AddOrder() {
                   </div>
                 </div>
               </Grid>
+            </div>
+            <div className="col-span-4">
+              <div className="relative">
+                <label
+                  htmlFor="term"
+                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
+                >
+                  Term And Condition
+                </label>
+                <input
+                  type="file"
+                  name="term"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  accept="application/pdf"
+                  ref={inputRef}
+                />
+                <div
+                  className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
+                >
+                  {selectedFile2 && (
+                    <button
+                      type="button"
+                      onClick={handleRemoveFile}
+                      className="absolute -right-2 -top-2 mx-auto mb-3"
+                    >
+                      <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
+                    </button>
+                  )}
+                  {selectedFile2 ? (
+                    <p className="w-full break-words">{selectedFile2.name}</p>
+                  ) : (
+                    <p
+                      className="w-full cursor-pointer"
+                      onClick={handleAddFile}
+                    >
+                      {" "}
+                      Select File
+                    </p>
+                  )}
+                </div>
+              </div>
+              {formik.errors.termCondition && (
+                <div className="text-red-500 text-sm pl-2 pt-2">
+                  {formik.errors.termCondition}
+                </div>
+              )}
+              <small className="text-neutral-grey p-10p">
+                Attachment size limit is 10 MB
+              </small>
             </div>
           </Grid>
         </Card>
