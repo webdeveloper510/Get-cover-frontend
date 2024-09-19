@@ -673,9 +673,9 @@ function ResellerPriceBook(props) {
                   <>
                     {dealerPriceBook?.adhDays1.map((type, index) => (
                       <tr key={index} className="border ">
-                        <td className="font-semibold  mx-[19px]" >{type.label}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.adhValue1}</td>
+                        <td className="font-semibold mx-[19px]" >{type.label}</td>
+                        <td className="font-semibold mx-[19px]" >{type.adhValue}</td>
+                        <td className="font-semibold mx-[19px]" >{type.adhValue1}</td>
                       </tr>
                     ))}
                   </>

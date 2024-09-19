@@ -655,17 +655,17 @@ function Dealer() {
       values.priceBook =
         selectedOption === "no"
           ? [
-              {
-                priceBookId: "",
-                categoryId: "",
-                wholesalePrice: "",
-                terms: "",
-                description: "",
-                retailPrice: "",
-                pName: "",
-                status: "",
-              },
-            ]
+            {
+              priceBookId: "",
+              categoryId: "",
+              wholesalePrice: "",
+              terms: "",
+              description: "",
+              retailPrice: "",
+              pName: "",
+              status: "",
+            },
+          ]
           : formik.errors.priceBook || values.priceBook;
       values.file =
         selectedOption === "yes" ? "" : formik.errors.file || values.file;
@@ -1005,7 +1005,7 @@ function Dealer() {
               <div className="col-span-8">
                 <p className="text-lg mb-3 font-semibold">Dealer Setting</p>
                 <Grid>
-                  <div className="col-span-6">
+                  <div className="col-span-6 mt-4">
                     <Select
                       label="Service Coverage"
                       name="serviceCoverageType"
@@ -1029,7 +1029,7 @@ function Dealer() {
                       )}
                   </div>
                   <div className="col-span-6">
-                    <div className="relative">
+                    <div className="relative mt-4">
                       <label
                         htmlFor="term"
                         className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
@@ -1085,7 +1085,7 @@ function Dealer() {
                     </small>
                   </div>
                   <div className="col-span-6">
-                    <p className="flex text-[12px] mb-7 font-semibold ">
+                    <p className="flex text-[12px] mb-7 font-semibold justify-between ">
                       Do you want to create an account?
                       <RadioButton
                         id="yes-create-account"
@@ -1102,7 +1102,7 @@ function Dealer() {
                         onChange={handleRadioChange}
                       />
                     </p>
-                    <p className="flex text-[12px] mb-7 font-semibold ">
+                    <p className="flex text-[12px] mb-7 font-semibold justify-between">
                       <span className="mr-[0.58rem]">
                         Do you want to Provide Shipping?
                       </span>
@@ -1121,7 +1121,7 @@ function Dealer() {
                         onChange={handleRadio}
                       />
                     </p>
-                    <div className="flex justify-between pr-6">
+                    <div className="flex justify-between ">
                       <p className="text-[12px] mb-3 font-semibold">
                         # of Claims Over the Certain Period
                       </p>
@@ -1157,7 +1157,7 @@ function Dealer() {
                       </div>
                     </div>
                     {claimOver === false && (
-                      <div className="flex flex-wrap">
+                      <div className="flex">
                         <Select
                           name={`noOfClaim.period`}
                           options={period}
@@ -1221,7 +1221,7 @@ function Dealer() {
                       </div>
                     </div>
                     {claimInCoveragePeriod === false && (
-                      <div className="flex flex-wrap">
+                      <div className="flex ">
                         <div className="ml-3">
                           <Input
                             className1="!pt-2.5"
@@ -1242,7 +1242,7 @@ function Dealer() {
                     )}
                   </div>
                   <div className="col-span-6">
-                    <p className="flex text-[12px] mb-7 font-semibold self-center">
+                    <p className="flex text-[12px] mb-7 font-semibold self-center justify-between">
                       {" "}
                       <span className="mr-[0.2rem]">
                         {" "}
@@ -1263,7 +1263,7 @@ function Dealer() {
                         onChange={handleServiceChange}
                       />
                     </p>
-                    <p className="flex text-[12px] mb-7 font-semibold">
+                    <p className="flex text-[12px] mb-7 font-semibold justify-between">
                       <span className="w-[60%]">
                         {" "}
                         Do you want to create separate account for customer?{" "}
@@ -1338,8 +1338,8 @@ function Dealer() {
                                   type.value
                                 )
                                   ? selected.filter(
-                                      (item) => item !== type.value
-                                    )
+                                    (item) => item !== type.value
+                                  )
                                   : [...selected, type.value];
 
                                 formik.setFieldValue(
@@ -1381,102 +1381,66 @@ function Dealer() {
                           {formik?.values?.coverageType?.includes(
                             type.value
                           ) && (
-                            <>
-                              <div className="my-3">
-                                <Input
-                                  type="number"
-                                  name={`adhDays[${type.value}].value`}
-                                  label={`Waiting Days`}
-                                  className="!bg-white"
-                                  maxDecimalPlaces={2}
-                                  minLength={"1"}
-                                  maxLength={"10"}
-                                  value={
-                                    formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
-                                    )?.value || 0
-                                  }
-                                  onBlur={formik.handleBlur}
-                                  onChange={(e) => {
-                                    let newValue =
-                                      parseFloat(e.target.value) || 0;
-                                    newValue = newValue.toFixed(2);
-                                    const updatedadhDays =
-                                      formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
-                                          ? {
-                                              ...item,
-                                              value: Number(newValue),
-                                            }
-                                          : item
-                                      );
-                                    formik.setFieldValue(
-                                      "adhDays",
-                                      updatedadhDays
-                                    );
-                                  }}
-                                />
-                              </div>
-                              <div className="relative">
-                                <Input
-                                  type="number"
-                                  name={`adhDays[${type.value}].value1`}
-                                  label="Deductible"
-                                  className="!bg-white"
-                                  maxDecimalPlaces={2}
-                                  minLength={"1"}
-                                  maxLength={"10"}
-                                  onBlur={formik.handleBlur}
-                                  onChange={(e) => {
-                                    let newValue =
-                                      parseFloat(e.target.value) || 0;
-                                    newValue = newValue.toFixed(2);
-                                    const updatedadhDays =
-                                      formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
-                                          ? {
-                                              ...item,
-                                              value1: Number(newValue),
-                                            }
-                                          : item
-                                      );
-
-                                    formik.setFieldValue(
-                                      "adhDays",
-                                      updatedadhDays
-                                    );
-                                  }}
-                                  value={
-                                    formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
-                                    )?.value1 || 0
-                                  }
-                                />
-
-                                {formik.errors?.adhDays?.[type.value]
-                                  ?.value1 ? (
-                                  <div className="text-red-500 text-sm mt-1">
-                                    {
-                                      formik.errors?.adhDays?.[type.value]
-                                        ?.value1
+                              <>
+                                <div className="my-3">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value`}
+                                    label={`Waiting Days`}
+                                    className="!bg-white"
+                                    maxDecimalPlaces={2}
+                                    minLength={"1"}
+                                    maxLength={"10"}
+                                    value={
+                                      formik?.values?.adhDays?.find(
+                                        (item) => item.label === type.value
+                                      )?.value || 0
                                     }
-                                  </div>
-                                ) : null}
-
-                                <div className="absolute top-0 right-0">
-                                  <Select
-                                    name={`adhDays[${type.value}].amountType`}
-                                    label=""
-                                    onChange={(e, value) => {
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      let newValue =
+                                        parseFloat(e.target.value) || 0;
+                                      newValue = newValue.toFixed(2);
                                       const updatedadhDays =
                                         formik?.values?.adhDays?.map((item) =>
                                           item.label === type.value
                                             ? {
-                                                ...item,
-                                                amountType: value,
-                                              }
+                                              ...item,
+                                              value: Number(newValue),
+                                            }
                                             : item
                                         );
+                                      formik.setFieldValue(
+                                        "adhDays",
+                                        updatedadhDays
+                                      );
+                                    }}
+                                  />
+                                </div>
+                                <div className="relative">
+                                  <Input
+                                    type="number"
+                                    name={`adhDays[${type.value}].value1`}
+                                    label="Deductible"
+                                    className="!bg-white"
+                                    maxDecimalPlaces={2}
+                                    minLength={"1"}
+                                    maxLength={"10"}
+                                    onBlur={formik.handleBlur}
+                                    onChange={(e) => {
+                                      let newValue =
+                                        parseFloat(e.target.value) || 0;
+                                      newValue = newValue.toFixed(2);
+                                      const updatedadhDays =
+                                        formik?.values?.adhDays?.map((item) =>
+                                          item.label === type.value
+                                            ? {
+                                              ...item,
+                                              value1: Number(newValue),
+                                            }
+                                            : item
+                                        );
+
                                       formik.setFieldValue(
                                         "adhDays",
                                         updatedadhDays
@@ -1485,25 +1449,62 @@ function Dealer() {
                                     value={
                                       formik?.values?.adhDays?.find(
                                         (item) => item.label === type.value
-                                      )?.amountType || 0
+                                      )?.value1 || 0
                                     }
-                                    classBox="!bg-transparent"
-                                    className1="!border-0 !border-l !rounded-[0px] !text-light-black !pr-2"
-                                    options={optiondeductibles}
                                   />
+
+                                  {formik.errors?.adhDays?.[type.value]
+                                    ?.value1 ? (
+                                    <div className="text-red-500 text-sm mt-1">
+                                      {
+                                        formik.errors?.adhDays?.[type.value]
+                                          ?.value1
+                                      }
+                                    </div>
+                                  ) : null}
+
+                                  <div className="absolute top-[1px] right-[1px]">
+                                    <Select
+                                      name={`adhDays[${type.value}].amountType`}
+                                      label=""
+                                      onChange={(e, value) => {
+                                        const updatedadhDays =
+                                          formik?.values?.adhDays?.map((item) =>
+                                            item.label === type.value
+                                              ? {
+                                                ...item,
+                                                amountType: value,
+                                              }
+                                              : item
+                                          );
+                                        formik.setFieldValue(
+                                          "adhDays",
+                                          updatedadhDays
+                                        );
+                                      }}
+                                      value={
+                                        formik?.values?.adhDays?.find(
+                                          (item) => item.label === type.value
+                                        )?.amountType || 0
+                                      }
+                                      classBox="!bg-transparent"
+                                      className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                                      options={optiondeductibles}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          )}
+                                {formik.touched.coverageType &&
+                                  formik.errors.coverageType && (
+                                    <div className="text-red-500 text-sm">
+                                      {formik.errors.coverageType}
+                                    </div>
+                                  )}
+                              </>
+                            )}
                         </div>
                       ))}
 
-                      {formik.touched.coverageType &&
-                        formik.errors.coverageType && (
-                          <div className="text-red-500 text-sm">
-                            {formik.errors.coverageType}
-                          </div>
-                        )}
+
                     </Grid>
                   </div>
                 </Grid>
