@@ -107,9 +107,9 @@ function AddDealerBook() {
     }
   };
   const optiondeductibles = [
-    { label: '$', value: '$' },
-    { label: '%', value: '%' }
-  ]
+    { label: "$", value: "$" },
+    { label: "%", value: "%" },
+  ];
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -259,7 +259,6 @@ function AddDealerBook() {
       priceBook: Yup.string().trim().required("Required"),
       dealerId: Yup.string().trim().required("Required"),
       categoryId: Yup.string().trim().required("Required"),
-      pName: Yup.string().trim().required("Required"),
       status: Yup.boolean().required("Required"),
       dealerSku: Yup.string().required("Required"),
       adhDays: Yup.array().of(
@@ -465,7 +464,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.optionDropdown &&
-                          priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
+                        priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.optionDropdown.map(
                               (type, index) => (
@@ -752,7 +751,9 @@ function AddDealerBook() {
                   formik.values.adhDays.map((adhDay, index) => (
                     <div key={index} className="col-span-3 mt-4">
                       <div>
-                        <p className="text-lg font-semibold mb-4 capitalize text-left">{adhDay.label}</p>
+                        <p className="text-lg font-semibold mb-4 capitalize text-left">
+                          {adhDay.label}
+                        </p>
                       </div>
                       <div className="mb-3">
                         <Input
