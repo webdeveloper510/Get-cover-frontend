@@ -311,6 +311,7 @@ function Dealer() {
     if (timer === 0 && message === "New Dealer Created Successfully") {
       closeModal();
       navigate(`/dealerDetails/${dealerId}`);
+      localStorage.setItem("menu", "PriceBook");
     }
     return () => {
       clearInterval(intervalId);

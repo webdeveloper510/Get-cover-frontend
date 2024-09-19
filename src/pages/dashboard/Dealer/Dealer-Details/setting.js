@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { getCovrageList } from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
-import { editDealerSettings } from "../../../../services/dealerServices";
+import { editDealerSettings, uploadTermsandCondition } from "../../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 
 function Setting(props) {
@@ -120,8 +120,7 @@ function Setting(props) {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const maxSize = 10048576; // 10MB in bytes
-
+    const maxSize = 10048576;
     if (file?.size > maxSize) {
       formik.setFieldError(
         "termCondition",
@@ -129,10 +128,28 @@ function Setting(props) {
       );
       console.log("Selected file:", file);
     } else {
-      setSelectedFile2(file);
-      formik.setFieldValue("termCondition", file);
-      console.log("Selected file:", file);
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = uploadTermsandCondition(formData).then((res) => {
+        console.log(result);
+        formik.setFieldValue("termCondition", {
+          fileName: res?.file?.filename,
+          name: res?.file?.originalname,
+          size: res?.file?.size,
+        });
+      });
+      if (file != undefined) {
+        setSelectedFile2(file);
+      } else {
+        setSelectedFile2({
+          fileName: "",
+          name: "",
+          size: "",
+        });
+      }
     }
+
+    console.log("Selected file:================", file);
   };
 
   const handleRadio = (event) => {
