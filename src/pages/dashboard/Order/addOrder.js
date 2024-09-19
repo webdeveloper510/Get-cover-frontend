@@ -2054,9 +2054,9 @@ function AddOrder() {
         <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
-            <div className="col-span-6">
+            <div className="col-span-10">
               <Grid>
-                <div className="col-span-12">
+                <div className="col-span-7">
                   <div className="col-span-12 mt-4">
                     <Input
                       type="text"
@@ -2081,6 +2081,56 @@ function AddOrder() {
                         </div>
                       )}
                   </div>
+                </div>
+                <div className="col-span-5 ">
+                  <div className="relative mt-4">
+                    <label
+                      htmlFor="term"
+                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
+                    >
+                      Term And Condition
+                    </label>
+                    <input
+                      type="file"
+                      name="term"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      accept="application/pdf"
+                      ref={inputRef}
+                    />
+                    <div
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
+                    >
+                      {selectedFile2 && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveFile}
+                          className="absolute -right-2 -top-2 mx-auto mb-3"
+                        >
+                          <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
+                        </button>
+                      )}
+                      {selectedFile2 ? (
+                        <p className="w-full break-words">{selectedFile2.name}</p>
+                      ) : (
+                        <p
+                          className="w-full cursor-pointer"
+                          onClick={handleAddFile}
+                        >
+                          {" "}
+                          Select File
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {formik.errors.termCondition && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.termCondition}
+                    </div>
+                  )}
+                  <small className="text-neutral-grey p-10p">
+                    Attachment size limit is 10 MB
+                  </small>
                 </div>
                 <div className="col-span-6">
                   <Select
@@ -2171,56 +2221,7 @@ function AddOrder() {
                 </div>
               </Grid>
             </div>
-            <div className="col-span-4">
-              <div className="relative">
-                <label
-                  htmlFor="term"
-                  className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
-                >
-                  Term And Condition
-                </label>
-                <input
-                  type="file"
-                  name="term"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  accept="application/pdf"
-                  ref={inputRef}
-                />
-                <div
-                  className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
-                >
-                  {selectedFile2 && (
-                    <button
-                      type="button"
-                      onClick={handleRemoveFile}
-                      className="absolute -right-2 -top-2 mx-auto mb-3"
-                    >
-                      <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
-                    </button>
-                  )}
-                  {selectedFile2 ? (
-                    <p className="w-full break-words">{selectedFile2.name}</p>
-                  ) : (
-                    <p
-                      className="w-full cursor-pointer"
-                      onClick={handleAddFile}
-                    >
-                      {" "}
-                      Select File
-                    </p>
-                  )}
-                </div>
-              </div>
-              {formik.errors.termCondition && (
-                <div className="text-red-500 text-sm pl-2 pt-2">
-                  {formik.errors.termCondition}
-                </div>
-              )}
-              <small className="text-neutral-grey p-10p">
-                Attachment size limit is 10 MB
-              </small>
-            </div>
+
           </Grid>
         </Card>
 
