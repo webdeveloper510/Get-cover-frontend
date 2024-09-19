@@ -463,10 +463,10 @@ function AddDealerBook() {
                         Coverage Type
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
-                        {priceBookById?.priceBooks?.optionDropdown &&
-                        priceBookById?.priceBooks?.optionDropdown.length > 0 ? (
+                        {priceBookById?.priceBooks?.coverageType &&
+                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
-                            {priceBookById?.priceBooks?.optionDropdown.map(
+                            {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
                                 <li
                                   className="font-semibold list-disc mx-[19px]"
