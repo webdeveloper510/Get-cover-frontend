@@ -699,6 +699,7 @@ function Setting(props) {
                                       className1="!border-0 !border-l !rounded-[0px] !text-light-black !pr-2"
                                       options={optiondeductibles}
                                     />
+                                    
                                   </div> */}
                         </div>
                       </>

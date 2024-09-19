@@ -2057,8 +2057,7 @@ function AddOrder() {
                     name="serviceCoverageType"
                     disabled={type == "Edit"}
                     placeholder=""
-                    className="!bg-white"
-                    className1={`${type == "Edit"
+                    className={`${type == "Edit"
                       ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
                       : "!bg-white"
                       }`}
@@ -2095,6 +2094,28 @@ function AddOrder() {
                         placeholder=""
                         className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
                         required={true}
+                        styles={{
+                          chips: (provided) => ({
+                            ...provided,
+                            backgroundColor: type === "Edit" ? '#e0e0e0' : '#f0ad4e', // Change chip color when disabled
+                            color: type === "Edit" ? '#a0a0a0' : 'white', // Change chip text color when disabled
+                          }),
+                          searchBox: (provided) => ({
+                            ...provided,
+                            backgroundColor: type === "Edit" ? '#f0f0f0' : '#f7f7f7', // Change search box background when disabled
+                            border: type === "Edit" ? '1px solid #ccc' : '1px solid #ddd', // Change border when disabled
+                            cursor: type === "Edit" ? 'not-allowed' : 'pointer', // Change cursor when disabled
+                          }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: state.isSelected ? '#f0ad4e' : 'white',
+                            color: state.isSelected ? 'white' : 'black',
+                            '&:hover': {
+                              backgroundColor: type === "Edit" ? 'white' : '#f0ad4e', // Prevent hover effect when disabled
+                              color: type == "Edit" ? 'black' : 'white',
+                            },
+                          }),
+                        }}
                         disabled={type == "Edit"}
                         onChange={(value) => {
                           setSelected(value);

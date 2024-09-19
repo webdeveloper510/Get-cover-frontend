@@ -41,7 +41,6 @@ function OrderDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const [invoiceData, setInvoiceData] = useState({});
-  const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
   const baseUrl = apiUrl();
@@ -116,6 +115,7 @@ function OrderDetails() {
   const [backGroundColor, setBackGroundColor] = useState('');
 
   useEffect(() => {
+
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
@@ -133,19 +133,25 @@ function OrderDetails() {
         }
       });
     }
+
   }, []);
 
   return (
     <>
       {loading1 && (
+
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
+
       )}
+
       <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+
         <Headbar />
+
         <div className="flex">
           <Link
             onClick={handleGOBack}
@@ -176,6 +182,7 @@ function OrderDetails() {
         </div>
 
         <Grid className="!grid-cols-4 mt-5">
+
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
             <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
@@ -231,7 +238,16 @@ function OrderDetails() {
                     Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {orderDetails.coverageType}
+                    {orderDetails?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>
@@ -379,8 +395,10 @@ function OrderDetails() {
                   )}
                 </div>
               </Grid>
+
             </div>
           </div>
+
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="">
               <div className="col-span-5">
@@ -439,7 +457,9 @@ function OrderDetails() {
               </div>
             ))}
           </div>
+
         </Grid>
+
       </div>
 
       <Modal isOpen={isServicerModal} onClose={closeServicer}>
@@ -472,6 +492,7 @@ function OrderDetails() {
           </div>
         </form>
       </Modal>
+
     </>
   );
 }

@@ -483,8 +483,8 @@ function DealerPriceBook(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">
-
+          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+            View Price Book Details
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
@@ -493,14 +493,6 @@ function DealerPriceBook(props) {
               </p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.pName}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product SKU
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.name}
               </p>
             </div>
             <div className="col-span-4">
@@ -529,14 +521,6 @@ function DealerPriceBook(props) {
             </div>
             <div className="col-span-4">
               <p className="text-lg text-light-black font-semibold">
-                Product SKU
-              </p>
-              <p className="text-base text-neutral-grey font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.pName}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
                 Retail Price
               </p>
               <p className="text-base font-semibold">
@@ -554,14 +538,7 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Coverage Type
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType}{" "}
-              </p>
-            </div>
+
             <div className="col-span-12">
               <p className="text-lg font-bold">
                 Description
@@ -569,6 +546,28 @@ function DealerPriceBook(props) {
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
+            </div>
+            <div className="col-span-12">
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductable Amount</th>
+                </tr>
+
+                {dealerPriceBookDetail?.adhDays1 && dealerPriceBookDetail?.adhDays1.length > 0 && (
+                  <>
+                    {dealerPriceBookDetail?.adhDays1.map((type, index) => (
+                      <tr key={index} className="border ">
+                        <td className="font-semibold  mx-[19px]" >{type.label}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.adhValue1}</td>
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </table>
+
             </div>
 
             {

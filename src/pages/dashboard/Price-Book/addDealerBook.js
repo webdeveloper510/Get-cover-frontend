@@ -271,6 +271,7 @@ function AddDealerBook() {
           value1: Yup.number()
             .required("Required")
             .min(0, "Value cannot be negative"),
+          amountType: Yup.string().required(""),
         })
       ),
     }),
@@ -745,37 +746,14 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
-                <div className="col-span-12">
-                  <div className="relative">
-                    <label
-                      htmlFor="coverageType"
-                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                    >
-                      Coverage Type
-                    </label>
-                    <div className="block w-full text-base font-semibold min-h-[50px] bg-transparent p-2.5 rounded-lg border border-gray-300">
-                      {formik.values.coverageType &&
-                        formik.values.coverageType.length > 0 ? (
-                        <ol className="flex flex-wrap">
-                          {formik.values.coverageType.map((type, index) => (
-                            <li
-                              className="font-semibold list-disc mx-[19px] text-[#5D6E66]"
-                              key={index}
-                            >
-                              {type.label}
-                            </li>
-                          ))}
-                        </ol>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  </div>
-                </div>
+
                 {formik.values.adhDays &&
                   formik.values.adhDays.length > 0 &&
                   formik.values.adhDays.map((adhDay, index) => (
                     <div key={index} className="col-span-3 mt-4">
+                      <div>
+                        <p className="text-lg font-semibold mb-4 capitalize text-left">{adhDay.label}</p>
+                      </div>
                       <div className="mb-3">
                         <Input
                           type="number"
