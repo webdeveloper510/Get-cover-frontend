@@ -747,7 +747,7 @@ function DealerPriceList() {
                 <tr className="border bg-[#9999]">
                   <th>Coverage Type</th>
                   <th>Waiting Days</th>
-                  <th>Deductable Amount</th>
+                  <th>Deductable</th>
                 </tr>
 
                 {dealerPriceBookDetail?.adhDays1 && dealerPriceBookDetail?.adhDays1.length > 0 && (
@@ -756,7 +756,15 @@ function DealerPriceList() {
                       <tr key={index} className="border ">
                         <td className="font-semibold  mx-[19px]" >{type.label}</td>
                         <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.adhValue1}</td>
+                        <td className="font-semibold  mx-[19px]" >{type.amountType != 'percentage' && '$'}{
+                          type.amountType === 'percentage'
+                            ? type.adhValue1
+                            : (type.adhValue1 === undefined
+                              ? (0).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                              : formatOrderValue(type.adhValue1 ?? 0)
+                            )
+                        }
+                          {type.amountType == 'percentage' && '%'}</td>
                       </tr>
                     ))}
                   </>

@@ -249,11 +249,16 @@ function Setting(props) {
 
       const result = await editDealerSettings(values, props.dealerDetails._id);
       console.log(result);
+      setLoading(false);
+      SetPrimaryText("Dealer Setting Updated Successfully ");
+      SetSecondaryText("Setting updated successfully ");
+      SetIsModalOpen(true);
+      setTimer(3);
       //     if (result.message === "Successfully Created") {
       //         setLoading(false);
       //         setError("done");
-      //         setIsModalOpen(true);
       //         setMessage("New Dealer Created Successfully");
+      //         setIsModalOpen(true);
       //         setTimer(3);
       //         setSelected([]);
       //     } else if (result.message === "Dealer name already exists") {
@@ -710,9 +715,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value: Number(newValue),
-                                          }
+                                          ...item,
+                                          value: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -745,9 +750,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value1: Number(newValue),
-                                          }
+                                          ...item,
+                                          value1: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -766,9 +771,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
+                                            ...item,
+                                            amountType: value,
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(

@@ -50,13 +50,13 @@ function OrderDetails() {
   const [invoiceData, setInvoiceData] = useState({});
   const [timer, setTimer] = useState(3);
   const { orderId } = useParams();
+  const baseUrl = apiUrl();
   const navigate = useNavigate();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const baseUrl = apiUrl();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab);
   const [isServicerModal, setIsServicerModal] = useState(false);
 
