@@ -199,14 +199,7 @@ export const addNewOrApproveDealer = async (data) => {
 };
 
 export const editDealerSettings = async (data, dealerId) => {
-  const accessToken = getAccessToken();
-  const headers = {
-    "Content-Type": "multipart/form-data",
-  };
-
-  if (accessToken) {
-    headers["x-access-token"] = accessToken;
-  }
+  const headers = createHeaders();
   console.log(headers);
   try {
     const response = await axios.put(

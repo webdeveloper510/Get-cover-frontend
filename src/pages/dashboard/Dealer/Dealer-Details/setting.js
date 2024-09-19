@@ -10,7 +10,10 @@ import { useFormik } from "formik";
 import { getCovrageList } from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
-import { editDealerSettings, uploadTermsandCondition } from "../../../../services/dealerServices";
+import {
+  editDealerSettings,
+  uploadTermsandCondition,
+} from "../../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 
 function Setting(props) {
@@ -70,10 +73,15 @@ function Setting(props) {
       setShipping(dealer.isShippingAllowed ? "yes" : "no");
       setServicerCreateAccountOption(dealer.isServicer);
       setClaimInCoveragePeriod(dealer.settings?.noOfClaimPerPeriod === -1);
+      setClaimOver(dealer.settings?.noOfClaim?.value === -1);
       setCreateAccountOption(dealer.userAccount ? "yes" : "no");
       setSeparateAccountOption(dealer.isAccountCreat ? "yes" : "no");
-      setSelectedFile2(dealer.termCondition);
-
+      setSelectedFile2(
+        dealer?.termCondition.fileName == ""
+          ? null
+          : dealer?.termCondition.fileNames
+      );
+      console.log(dealer.settings);
       setInitialFormValues((prevValues) => ({
         ...prevValues,
         isServicer: dealer.isServicer,
@@ -93,8 +101,8 @@ function Setting(props) {
   }, [props]);
 
   const period = [
-    { label: "Monthly ", value: "monthly " },
-    { label: "Annually ", value: "Annually " },
+    { label: "Monthly", value: "Monthly" },
+    { label: "Annually", value: "Annually" },
   ];
   const optiondeductibles = [
     { label: "$", value: "amount" },
@@ -207,38 +215,9 @@ function Setting(props) {
       } else {
         values.isAccountCreate = createAccountOption;
       }
-      const newValues = {
-        ...values,
-      };
-      const formData = new FormData();
-      Object.entries(newValues).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((item, index) => {
-            if (key === "coverageType") {
-              formData.append(`${key}[${index}]`, item);
-            } else {
-              Object.entries(item).forEach(([subKey, subValue]) => {
-                formData.append(`${key}[${index}][${subKey}]`, subValue);
-              });
-            }
-          });
-        } else if (key === "noOfClaim") {
-          let noOfClaim = value;
-          for (let prop in noOfClaim) {
-            if (noOfClaim.hasOwnProperty(prop)) {
-              formData.append(`noOfClaim[${prop}]`, noOfClaim[prop]);
-            }
-          }
-        } else {
-          formData.append(key, value);
-        }
-      });
-      console.log(props.dealerDetails);
-      const result = await editDealerSettings(
-        formData,
-        props.dealerDetails._id
-      );
-      //     console.log(result);
+
+      const result = await editDealerSettings(values, props.dealerDetails._id);
+      console.log(result);
       //     if (result.message === "Successfully Created") {
       //         setLoading(false);
       //         setError("done");
@@ -352,7 +331,9 @@ function Setting(props) {
                         </button>
                       )}
                       {selectedFile2 ? (
-                        <p className="w-full break-words">{selectedFile2.name}</p>
+                        <p className="w-full break-words">
+                          {selectedFile2.name}
+                        </p>
                       ) : (
                         <p
                           className="w-full cursor-pointer"
@@ -528,7 +509,7 @@ function Setting(props) {
                           placeholder="# of claims"
                           type="number"
                           name={`noOfClaimPerPeriod`}
-                          value={formik.values.noOfClaimPerPeriod.value}
+                          value={formik.values.noOfClaimPerPeriod}
                           onBlur={formik.handleBlur}
                           onChange={(e) =>
                             formik.setFieldValue(
@@ -619,7 +600,9 @@ function Setting(props) {
                   </div>
                 </div>
                 <div className="col-span-12">
-                  <p className="text-base mb-3 font-semibold">Coverage Type :</p>
+                  <p className="text-base mb-3 font-semibold">
+                    Coverage Type :
+                  </p>
                   <Grid>
                     {coverage.map((type) => (
                       <div key={type._id} className="col-span-3">
@@ -631,11 +614,16 @@ function Setting(props) {
                             )}
                             onChange={() => {
                               const selected = formik.values.coverageType;
-                              const updatedCoverage = selected.includes(type.value)
+                              const updatedCoverage = selected.includes(
+                                type.value
+                              )
                                 ? selected.filter((item) => item !== type.value)
                                 : [...selected, type.value];
 
-                              formik.setFieldValue("coverageType", updatedCoverage);
+                              formik.setFieldValue(
+                                "coverageType",
+                                updatedCoverage
+                              );
 
                               let updatedadhDays = formik.values.adhDays || [];
 
@@ -684,18 +672,22 @@ function Setting(props) {
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
-                                  let newValue = parseFloat(e.target.value) || 0;
+                                  let newValue =
+                                    parseFloat(e.target.value) || 0;
                                   newValue = newValue.toFixed(2);
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value: Number(newValue),
-                                        }
+                                            ...item,
+                                            value: Number(newValue),
+                                          }
                                         : item
                                     );
-                                  formik.setFieldValue("adhDays", updatedadhDays);
+                                  formik.setFieldValue(
+                                    "adhDays",
+                                    updatedadhDays
+                                  );
                                 }}
                               />
                             </div>
@@ -715,18 +707,22 @@ function Setting(props) {
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
-                                  let newValue = parseFloat(e.target.value) || 0;
+                                  let newValue =
+                                    parseFloat(e.target.value) || 0;
                                   newValue = newValue.toFixed(2);
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value1: Number(newValue),
-                                        }
+                                            ...item,
+                                            value1: Number(newValue),
+                                          }
                                         : item
                                     );
-                                  formik.setFieldValue("adhDays", updatedadhDays);
+                                  formik.setFieldValue(
+                                    "adhDays",
+                                    updatedadhDays
+                                  );
                                 }}
                               />
                               <div className="absolute top-[1px] right-[1px]">
@@ -739,9 +735,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -758,7 +754,6 @@ function Setting(props) {
                                   className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
                                   options={optiondeductibles}
                                 />
-
                               </div>
                             </div>
                           </>
@@ -766,11 +761,12 @@ function Setting(props) {
                       </div>
                     ))}
 
-                    {formik.touched.coverageType && formik.errors.coverageType && (
-                      <div className="text-red-500 text-sm">
-                        {formik.errors.coverageType}
-                      </div>
-                    )}
+                    {formik.touched.coverageType &&
+                      formik.errors.coverageType && (
+                        <div className="text-red-500 text-sm">
+                          {formik.errors.coverageType}
+                        </div>
+                      )}
                   </Grid>
                 </div>
               </Grid>
@@ -781,8 +777,7 @@ function Setting(props) {
             </Card>
           </form>
         </div>
-      )
-      }
+      )}
     </>
   );
 }
