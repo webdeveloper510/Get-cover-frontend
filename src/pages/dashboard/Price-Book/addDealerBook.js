@@ -275,6 +275,12 @@ function AddDealerBook() {
       dealerSku: "",
       coverageType: "",
       adhDays: [],
+      noOfClaimPerPeriod: -1,
+      noOfClaim: {
+        period: "Monthly",
+        value: -1,
+      },
+      isManufacturerWarranty: false,
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -305,7 +311,9 @@ function AddDealerBook() {
       values.brokerFee = (values.retailPrice - values.wholesalePrice).toFixed(
         2
       );
-      delete values.pName;
+      console.log(values);
+    
+       delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
@@ -490,7 +498,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -836,7 +844,9 @@ function AddDealerBook() {
                       ))}
                   </Grid>
                 </div>
-                {formik.values.priceBook == '' ? '' :
+                {formik.values.priceBook == "" ? (
+                  ""
+                ) : (
                   <div className="col-span-4">
                     <Grid className=" my-4 py-3 !gap-0">
                       <div className="col-span-6">
@@ -946,7 +956,7 @@ function AddDealerBook() {
                               placeholder="# of claims"
                               type="number"
                               name={`noOfClaimPerPeriod`}
-                              value={formik.values.noOfClaimPerPeriod.value}
+                              value={formik.values.noOfClaimPerPeriod}
                               onBlur={formik.handleBlur}
                               onChange={(e) =>
                                 formik.setFieldValue(
@@ -981,15 +991,20 @@ function AddDealerBook() {
                           id="no-warranty"
                           label="No"
                           value={false}
-                          checked={formik.values.isManufacturerWarranty == false}
+                          checked={
+                            formik.values.isManufacturerWarranty == false
+                          }
                           onChange={() =>
-                            formik.setFieldValue("isManufacturerWarranty", false)
+                            formik.setFieldValue(
+                              "isManufacturerWarranty",
+                              false
+                            )
                           }
                         />
                       </div>
                     </Grid>
                   </div>
-                }
+                )}
               </Grid>
 
               {type !== "Edit" && (
