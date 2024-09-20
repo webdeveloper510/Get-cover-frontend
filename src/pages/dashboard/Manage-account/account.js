@@ -47,6 +47,8 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
 import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
+import CollapsibleDiv from "../../../common/collapsibleDiv";
+import SwitchButton from "../../../common/switch";
 
 function Account() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -807,6 +809,8 @@ function Account() {
   const [defaults, setDefaults] = useState(true);
   const [city, setCity] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [showdata, setShowdata] = useState(true);
   const handleColorChange = (field, setter) => (event) => {
     const newColor = event.target.value;
     setter(newColor);
@@ -1002,6 +1006,40 @@ function Account() {
     }
   };
 
+  const handleSetActiveIndex = (index) => {
+    setActiveIndex(index); // Update active index based on user action
+  };
+
+  const [rows, setRows] = useState([
+    { id: 1, label: "Label 1", value: "Value 1", status: true, isEditing: false },
+    { id: 2, label: "Label 2", value: "Value 2", status: false, isEditing: false },
+  ]);
+
+  const handleEditClick = (id) => {
+    setRows((prevRows) =>
+      prevRows.map((row) =>
+        row.id === id ? { ...row, isEditing: !row.isEditing } : row
+      )
+    );
+  };
+
+  const handleInputChange = (id, newValue) => {
+    setRows((prevRows) =>
+      prevRows.map((row) =>
+        row.id === id ? { ...row, label: newValue } : row
+      )
+    );
+  };
+
+
+  const handleStatusToggle = (id) => {
+    setRows((prevRows) =>
+      prevRows.map((row) =>
+        row.id === id ? { ...row, status: !row.status } : row
+      )
+    );
+  };
+
   return (
     <>
       {loading ? (
@@ -1041,15 +1079,21 @@ function Account() {
           <div className="mt-5">
             <Button
               onClick={() => handleButtonClick("myAccount")}
-              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton == "siteSetting" ? "!bg-[#ededed] !text-[#333]" : ""
+              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton != "myAccount" ? "!bg-[#ededed] !text-[#333]" : ""
                 }`}>
               My Account
             </Button>
             <Button
               onClick={() => handleButtonClick("siteSetting")}
-              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton == "myAccount" ? "!bg-[#ededed] !text-[#333]" : ""
+              className={`!rounded-[0px] !px-2 !py-1 ${activeButton != "siteSetting" ? "!bg-[#ededed] !text-[#333]" : ""
                 }`}>
               Site Setting
+            </Button>
+            <Button
+              onClick={() => handleButtonClick("Settings")}
+              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton != "Settings" ? "!bg-[#ededed] !text-[#333]" : ""
+                }`}>
+              Settings
             </Button>
           </div>
 
@@ -1705,6 +1749,89 @@ function Account() {
                 </div>
               </form>
             </Card>
+          )}
+          {activeButton === "Settings" && (
+            <>
+              <CollapsibleDiv
+                ShowData={showdata}
+                activeIndex={activeIndex}
+                setActiveIndex={handleSetActiveIndex}
+                title={
+                  <>
+                    <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                      <div className="col-span-12 p-4 ">
+                        <p className="text-2xl font-bold text-white">Coverage Types</p>
+                      </div>
+                    </Grid>
+                    <div className="p-4 border border-black">
+                      <Grid>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Coverage Type Label"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Coverage Type Value"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-2 self-center text-center">
+                          <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                        </div>
+                      </Grid>
+                    </div>
+                  </>
+
+                }>
+                <div className="p-4 border">
+                  <table className="w-full border-collapse border">
+                    <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+                      <tr>
+                        <th>Label</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="w-full border-collapse border text-center">
+                      {rows.map((row) => (
+                        <tr key={row.id} className="w-full border-collapse border">
+                          <td className="py-3">
+                            {row.isEditing ? (
+                              <input
+                                type="text"
+                                value={row.label}
+                                onChange={(e) => handleInputChange(row.id, e.target.value)}
+                              />
+                            ) : (
+                              row.label
+                            )}
+                          </td>
+                          <td>{row.value}</td>
+                          <td>  <SwitchButton
+                            isOn={row.status}
+                            handleToggle={() => handleStatusToggle(row.id)}
+                          />
+                            {row.status ? " Active" : " Inactive"}</td>
+                          <td>
+                            <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
+                              {row.isEditing ? "Save" : "Edit"}
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+              </CollapsibleDiv>
+            </>
           )}
         </div >
       )

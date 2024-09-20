@@ -51,6 +51,7 @@ module.exports = {
         'Dropdown': "url('/src/assets/images/DropdownImage.png')",
         'Edit': "url('/src/assets/images/Edit-Dealer.svg')",
         'Dealer-details': "url('/src/assets/images/Dealer-Details.svg')",
+        'Dealer-detail': "url('/src/assets/images/Dealer-Detail.png')",
         'contract': "url('/src/assets/images/Dealer/contract-head.svg')",
       },
       dropShadow: {
