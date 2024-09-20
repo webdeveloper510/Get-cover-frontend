@@ -8,6 +8,7 @@ import Card from "../../../../common/card";
 import Primary from "../../../../assets/images/SetPrimary.png";
 import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
+import * as Yup from "yup";
 import { getCovrageList } from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
@@ -233,7 +234,35 @@ function Setting(props) {
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
+    validationSchema: Yup.object({
+      serviceCoverageType: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      adhDays: Yup.array().of(
+        Yup.object().shape({
+          value1: Yup.number()
+            .required("Required")
+            .min(0, "Must be at least 0"),
+        })
+      ),
+      coverageType: Yup.array()
+        .min(1, "Required")
+        .test(
+          "validate-adhDays-errors",
+          "Value cannot be more than 99.9%",
+          function () {
+            const { adhDays } = this.parent;
+            const hasErrors = adhDays.some((item) => {
+              if (item.amountType === "percentage" && item.value1 > 99.9) {
+                return true;
+              }
+              return false;
+            });
 
+            return !hasErrors;
+          }
+        ),
+    }),
     onSubmit: async (values) => {
       setLoading(true);
       console.log(values);
@@ -267,6 +296,7 @@ function Setting(props) {
         setLoading(false);
       }
     },
+
   });
 
   useEffect(() => {
@@ -688,9 +718,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value: Number(newValue),
-                                          }
+                                          ...item,
+                                          value: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -723,9 +753,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value1: Number(newValue),
-                                          }
+                                          ...item,
+                                          value1: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -744,9 +774,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
+                                            ...item,
+                                            amountType: value,
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -765,17 +795,18 @@ function Setting(props) {
                                 />
                               </div>
                             </div>
+                            {formik.touched.coverageType &&
+                              formik.errors.coverageType && (
+                                <div className="text-red-500 text-sm">
+                                  {formik.errors.coverageType}
+                                </div>
+                              )}
                           </>
                         )}
                       </div>
                     ))}
 
-                    {formik.touched.coverageType &&
-                      formik.errors.coverageType && (
-                        <div className="text-red-500 text-sm">
-                          {formik.errors.coverageType}
-                        </div>
-                      )}
+
                   </Grid>
                 </div>
               </Grid>
