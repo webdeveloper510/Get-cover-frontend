@@ -25,6 +25,7 @@ import {
   editDealerPriceBook,
   getDealerPricebookDetailById,
   getDealersList,
+  getDealersSettingsByid,
   getProductListbyProductCategoryId,
 } from "../../../services/dealerServices";
 import { useFormik } from "formik";
@@ -158,10 +159,27 @@ function AddDealerBook() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const getDealerSettings = async (dealerId) => {
+    const res = await getDealersSettingsByid(dealerId);
+    console.log(res.result[0]);
+    setClaimInCoveragePeriod(res.result[0].settings?.noOfClaimPerPeriod === -1);
+    setClaimOver(res.result[0].settings?.noOfClaim?.value === -1);
+    formik.setFieldValue("noOfClaim", res.result[0].settings?.noOfClaim);
+    formik.setFieldValue(
+      "noOfClaimPerPeriod",
+      res.result[0].settings?.noOfClaimPerPeriod
+    );
+    formik.setFieldValue(
+      "isManufacturerWarranty",
+      res.result[0].settings?.isManufacturerWarranty
+    );
+  };
   const handleSelectChange = async (name, value) => {
     setError("");
     if (name === "dealerId") {
       if (name === "dealerId") {
+        getDealerSettings(value);
         formik.setValues({
           ...formik.initialValues,
           dealerId: value,
@@ -472,7 +490,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -820,7 +838,6 @@ function AddDealerBook() {
                 </div>
                 <div className="col-span-4">
                   <Grid className=" my-4 py-3 !gap-0">
-
                     <div className="col-span-6">
                       <p className="text-[12px] mb-3 font-semibold">
                         # of Claims Over the Certain Period
@@ -963,21 +980,14 @@ function AddDealerBook() {
                         id="no-warranty"
                         label="No"
                         value={false}
-                        checked={
-                          formik.values.isManufacturerWarranty === false
-                        }
+                        checked={formik.values.isManufacturerWarranty == false}
                         onChange={() =>
-                          formik.setFieldValue(
-                            "isManufacturerWarranty",
-                            false
-                          )
+                          formik.setFieldValue("isManufacturerWarranty", false)
                         }
                       />
                     </div>
                   </Grid>
                 </div>
-
-
               </Grid>
 
               {type !== "Edit" && (
