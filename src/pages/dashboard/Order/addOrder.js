@@ -1531,7 +1531,11 @@ function AddOrder() {
 //add this line
   const getDealerSettingsDetails =async(dealerId)=>{
 const res =await getDealersSettingsByid(dealerId)
-console.log(res)
+console.log(res.result[0])
+setSelectedFile2(
+  res.result[0].termCondition.fileName === "" ? null : res.result[0].termCondition
+);
+
   }
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
