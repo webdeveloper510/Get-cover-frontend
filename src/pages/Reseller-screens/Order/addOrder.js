@@ -306,6 +306,7 @@ function ResellerAddOrder() {
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
   };
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -634,6 +635,7 @@ function ResellerAddOrder() {
     formikStep3.setFieldValue(`productsArray[${index}].file`, "");
     formikStep3.setFieldValue(`productsArray[${index}].orderFile`, {});
   };
+
   const handleFileSelect = (event, index) => {
     setLoading3(true);
     console.log(index);
@@ -693,6 +695,7 @@ function ResellerAddOrder() {
       formikStep3.setFieldError(`productsArray[${index}].file`, "");
     }
   };
+
   const calculateTotalAmount = (data) => {
     let totalAmount = 0;
     data.map((product, index) => {
@@ -700,6 +703,7 @@ function ResellerAddOrder() {
     });
     return totalAmount.toFixed(2);
   };
+
   const formik4 = useFormik({
     initialValues: {
       paymentStatus: "Unpaid",
@@ -802,12 +806,6 @@ function ResellerAddOrder() {
     ]);
   };
 
-  // const handleDeleteProduct = (index) => {
-  //   const updatedProduct = [...formikStep3.values.productsArray];
-  //   updatedProduct.splice(index, 1);
-  //   formikStep3.setFieldValue("productsArray", updatedProduct);
-  // };
-
   const handleDeleteProduct = (index) => {
     handleInputClickReset(index);
     const updatedProduct = [...formikStep3.values.productsArray];
@@ -823,16 +821,13 @@ function ResellerAddOrder() {
 
     console.log(formikStep3.values.productsArray, updatedProduct);
   };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const openError = () => {
-    setIsErrorOpen(true);
   };
 
   const closeError = () => {
@@ -1157,14 +1152,10 @@ function ResellerAddOrder() {
     setCoverage(result?.result?.coverageType);
     setServiceCoverage(serviceCoverage);
   };
+
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-
-    // if (dealerId && dealerValue) {
-    //   newValues.dealerId = currentValues.dealerId;
-    //   newValues.dealerValue = currentValues.dealerValue;
-    // }
 
     if (resellerId) {
       Object.assign(newValues, {
@@ -1185,6 +1176,7 @@ function ResellerAddOrder() {
 
     formik.resetForm({ values: newValues });
   };
+  
   const getCategoryList = async (data, index) => {
     console.log(data);
     try {

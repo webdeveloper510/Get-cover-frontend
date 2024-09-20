@@ -17,7 +17,7 @@ import check from "../../../assets/images/icons/check.svg";
 import Button from "../../../common/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getDealersList } from "../../../services/dealerServices";
+import { getDealersList, getDealersSettingsByid } from "../../../services/dealerServices";
 import { getServicerListByDealerId } from "../../../services/servicerServices";
 import {
   getCustomerListByDealerIdAndResellerId,
@@ -1528,11 +1528,16 @@ function AddOrder() {
       formikStep3.resetForm();
     }
   };
-
+//add this line
+  const getDealerSettingsDetails =async(dealerId)=>{
+const res =await getDealersSettingsByid(dealerId)
+console.log(res)
+  }
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
 
     if (name == "dealerId") {
+      getDealerSettingsDetails(value)
       setProductNameOptions([]);
       formikStep3.resetForm();
       setFileValues([]);
