@@ -764,6 +764,15 @@ function Setting(props) {
                                   );
                                 }}
                               />
+                              {formik.errors?.adhDays?.[type.value]
+                                ?.value1 ? (
+                                <div className="text-red-500 text-sm mt-1">
+                                  {
+                                    formik.errors?.adhDays?.[type.value]
+                                      ?.value1
+                                  }
+                                </div>
+                              ) : null}
                               <div className="absolute top-[1px] right-[1px]">
                                 <Select
                                   name="deductibles"
