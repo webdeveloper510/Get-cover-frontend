@@ -490,7 +490,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -773,7 +773,7 @@ function AddDealerBook() {
                 </div>
               </Grid>
               <Grid className="">
-                <div className="col-span-8 border-r">
+                <div className="col-span-8 ">
                   <Grid>
                     {formik.values.adhDays &&
                       formik.values.adhDays.length > 0 &&
@@ -836,158 +836,160 @@ function AddDealerBook() {
                       ))}
                   </Grid>
                 </div>
-                <div className="col-span-4">
-                  <Grid className=" my-4 py-3 !gap-0">
-                    <div className="col-span-6">
-                      <p className="text-[12px] mb-3 font-semibold">
-                        # of Claims Over the Certain Period
-                      </p>
-                    </div>
-                    <div className="col-span-6 flex self-center">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Unlimited"
-                        value={true}
-                        checked={claimOver === true}
-                        onChange={() => {
-                          setClaimOver(true);
-                          formik.setFieldValue("noOfClaim", {
-                            period: "Monthly",
-                            value: -1,
-                          });
-                        }}
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="Fixed"
-                        value={false}
-                        checked={claimOver === false}
-                        onChange={() => {
-                          setClaimOver(false);
-                          formik.setFieldValue("noOfClaim", {
-                            period: "Monthly",
-                            value: 0,
-                          });
-                        }}
-                      />
-                    </div>
-                    {claimOver === false && (
-                      <div className="flex">
-                        <Select
-                          name={`noOfClaim.period`}
-                          options={period}
-                          className="!bg-grayf9"
-                          placeholder=""
-                          className1="!pt-2.5"
-                          OptionName={"Period"}
-                          maxLength={"30"}
-                          value={formik.values.noOfClaim.period}
-                          onBlur={formik.handleBlur}
-                          onChange={(name, value) =>
-                            formik.setFieldValue(name, value)
+                {formik.values.priceBook == '' ? '' :
+                  <div className="col-span-4">
+                    <Grid className=" my-4 py-3 !gap-0">
+                      <div className="col-span-6">
+                        <p className="text-[12px] mb-3 font-semibold">
+                          # of Claims Over the Certain Period
+                        </p>
+                      </div>
+                      <div className="col-span-6 flex">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Unlimited"
+                          value={true}
+                          checked={claimOver === true}
+                          onChange={() => {
+                            setClaimOver(true);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: -1,
+                            });
+                          }}
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="Fixed"
+                          value={false}
+                          checked={claimOver === false}
+                          onChange={() => {
+                            setClaimOver(false);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: 0,
+                            });
+                          }}
+                        />
+                      </div>
+                      {claimOver === false && (
+                        <div className="flex col-span-12">
+                          <Select
+                            name={`noOfClaim.period`}
+                            options={period}
+                            className="!bg-grayf9"
+                            placeholder=""
+                            className1="!pt-2.5"
+                            OptionName={"Period"}
+                            maxLength={"30"}
+                            value={formik.values.noOfClaim.period}
+                            onBlur={formik.handleBlur}
+                            onChange={(name, value) =>
+                              formik.setFieldValue(name, value)
+                            }
+                          />
+
+                          <div className="ml-3">
+                            <Input
+                              className1="!pt-2.5"
+                              placeholder="# of claims"
+                              type="number"
+                              name={`noOfClaim.value`}
+                              value={formik.values.noOfClaim.value}
+                              onBlur={formik.handleBlur}
+                              onChange={(e) =>
+                                formik.setFieldValue(
+                                  "noOfClaim.value",
+                                  Number(e.target.value)
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <div className="col-span-6 mt-4">
+                        <p className="text-[12px] mb-3 font-semibold">
+                          # of Claims in Coverage Period
+                        </p>
+                      </div>
+                      <div className="col-span-6 flex mt-4 justify-between ">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Unlimited"
+                          value={true}
+                          checked={claimInCoveragePeriod === true}
+                          onChange={() => {
+                            setClaimInCoveragePeriod(true);
+                            formik.setFieldValue("noOfClaimPerPeriod", -1);
+                          }}
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="Fixed"
+                          value={false}
+                          checked={claimInCoveragePeriod === false}
+                          onChange={() => {
+                            setClaimInCoveragePeriod(false);
+                            formik.setFieldValue("noOfClaimPerPeriod", 0);
+                          }}
+                        />
+                      </div>
+                      {claimInCoveragePeriod === false && (
+                        <div className="flex col-span-12">
+                          <div className="">
+                            <Input
+                              className1="!pt-2.5"
+                              placeholder="# of claims"
+                              type="number"
+                              name={`noOfClaimPerPeriod`}
+                              value={formik.values.noOfClaimPerPeriod.value}
+                              onBlur={formik.handleBlur}
+                              onChange={(e) =>
+                                formik.setFieldValue(
+                                  "noOfClaimPerPeriod",
+                                  Number(e.target.value)
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="col-span-6 mt-4">
+                        <p className=" text-[12px] mb-3 font-semibold">
+                          {" "}
+                          Is Include manufacturer <br /> warranty?
+                        </p>
+                      </div>
+                      <div className="flex col-span-6 mt-4 justify-between w-full">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Yes"
+                          value={true}
+                          checked={formik.values.isManufacturerWarranty == true}
+                          onChange={() =>
+                            formik.setFieldValue("isManufacturerWarranty", true)
                           }
                         />
-
-                        <div className="ml-3">
-                          <Input
-                            className1="!pt-2.5"
-                            placeholder="# of claims"
-                            type="number"
-                            name={`noOfClaim.value`}
-                            value={formik.values.noOfClaim.value}
-                            onBlur={formik.handleBlur}
-                            onChange={(e) =>
-                              formik.setFieldValue(
-                                "noOfClaim.value",
-                                Number(e.target.value)
-                              )
-                            }
-                          />
-                        </div>
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="No"
+                          value={false}
+                          checked={formik.values.isManufacturerWarranty == false}
+                          onChange={() =>
+                            formik.setFieldValue("isManufacturerWarranty", false)
+                          }
+                        />
                       </div>
-                    )}
-                    <div className="col-span-6 mt-4">
-                      <p className="text-[12px] mb-3 font-semibold">
-                        # of Claims in Coverage Period
-                      </p>
-                    </div>
-                    <div className="col-span-6 flex justify-between ">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Unlimited"
-                        value={true}
-                        checked={claimInCoveragePeriod === true}
-                        onChange={() => {
-                          setClaimInCoveragePeriod(true);
-                          formik.setFieldValue("noOfClaimPerPeriod", -1);
-                        }}
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="Fixed"
-                        value={false}
-                        checked={claimInCoveragePeriod === false}
-                        onChange={() => {
-                          setClaimInCoveragePeriod(false);
-                          formik.setFieldValue("noOfClaimPerPeriod", 0);
-                        }}
-                      />
-                    </div>
-                    {claimInCoveragePeriod === false && (
-                      <div className="flex ">
-                        <div className="">
-                          <Input
-                            className1="!pt-2.5"
-                            placeholder="# of claims"
-                            type="number"
-                            name={`noOfClaimPerPeriod`}
-                            value={formik.values.noOfClaimPerPeriod.value}
-                            onBlur={formik.handleBlur}
-                            onChange={(e) =>
-                              formik.setFieldValue(
-                                "noOfClaimPerPeriod",
-                                Number(e.target.value)
-                              )
-                            }
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="col-span-6 mt-4">
-                      <p className=" text-[12px] mb-3 font-semibold">
-                        {" "}
-                        Is Include manufacturer <br /> warranty?
-                      </p>
-                    </div>
-                    <div className="flex col-span-6 justify-between w-full">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Yes"
-                        value={true}
-                        checked={formik.values.isManufacturerWarranty == true}
-                        onChange={() =>
-                          formik.setFieldValue("isManufacturerWarranty", true)
-                        }
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="No"
-                        value={false}
-                        checked={formik.values.isManufacturerWarranty == false}
-                        onChange={() =>
-                          formik.setFieldValue("isManufacturerWarranty", false)
-                        }
-                      />
-                    </div>
-                  </Grid>
-                </div>
+                    </Grid>
+                  </div>
+                }
               </Grid>
 
               {type !== "Edit" && (
