@@ -399,243 +399,273 @@ function Setting(props) {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
-                    Do you want to create an account?
-                    <div className="flex">
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        checked={createAccountOption === "yes"}
-                        onChange={handleRadioChange}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        checked={createAccountOption === "no"}
-                        onChange={handleRadioChange}
-                      />
-                    </div>
-                  </p>
-                  <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
-                    <span className="mr-[0.58rem]">
-                      Do you want to Provide Shipping?
-                    </span>
-                    <div className="flex">
-                      <RadioButton
-                        id="yes-create-account"
-                        label="Yes"
-                        value="yes"
-                        checked={shipping === "yes"}
-                        onChange={handleRadio}
-                      />
-                      <RadioButton
-                        id="no-create-account"
-                        label="No"
-                        value="no"
-                        checked={shipping === "no"}
-                        onChange={handleRadio}
-                      />
-                    </div>
-                  </p>
+                  <Grid className="!gap-0">
+                    <div className="col-span-8">
+                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
+                        Do you want to create an account?
 
-                  <div className="flex justify-between pr-6">
-                    <p className="text-[12px] mb-3 font-semibold">
-                      # of Claims Over the Certain Period
-                    </p>
-                    <div className="flex">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Unlimited"
-                        value={true}
-                        checked={claimOver === true}
-                        onChange={() => {
-                          setClaimOver(true);
-                          formik.setFieldValue("noOfClaim", {
-                            period: "Monthly",
-                            value: -1,
-                          });
-                        }}
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="Fixed"
-                        value={false}
-                        checked={claimOver === false}
-                        onChange={() => {
-                          setClaimOver(false);
-                          formik.setFieldValue("noOfClaim", {
-                            period: "Monthly",
-                            value: 0,
-                          });
-                        }}
-                      />
+                      </p>
                     </div>
-                  </div>
-                  {claimOver === false && (
-                    <div className="flex flex-wrap">
-                      <Select
-                        name={`noOfClaim.period`}
-                        options={period}
-                        className="!bg-grayf9"
-                        placeholder=""
-                        className1="!pt-2.5"
-                        OptionName={"Period"}
-                        maxLength={"30"}
-                        value={formik.values.noOfClaim.period}
-                        onBlur={formik.handleBlur}
-                        onChange={(name, value) =>
-                          formik.setFieldValue(name, value)
-                        }
-                      />
-
-                      <div className="ml-3">
-                        <Input
-                          className1="!pt-2.5"
-                          placeholder="# of claims"
-                          type="number"
-                          name={`noOfClaim.value`}
-                          value={formik.values.noOfClaim.value}
-                          onBlur={formik.handleBlur}
-                          onChange={(e) =>
-                            formik.setFieldValue(
-                              "noOfClaim.value",
-                              Number(e.target.value)
-                            )
-                          }
+                    <div className="col-span-4">
+                      <div className="flex w-full justify-between">
+                        <RadioButton
+                          id="yes-create-account"
+                          label="Yes"
+                          value="yes"
+                          checked={createAccountOption === "yes"}
+                          onChange={handleRadioChange}
+                        />
+                        <RadioButton
+                          id="no-create-account"
+                          label="No"
+                          value="no"
+                          checked={createAccountOption === "no"}
+                          onChange={handleRadioChange}
                         />
                       </div>
                     </div>
-                  )}
-                  <div className="flex justify-between pr-6 my-4">
-                    <p className="text-[12px] mb-3 font-semibold">
-                      # of Claims in Coverage Period
-                    </p>
-                    <div className="flex">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Unlimited"
-                        value={true}
-                        checked={claimInCoveragePeriod === true}
-                        onChange={() => {
-                          setClaimInCoveragePeriod(true);
-                          formik.setFieldValue("noOfClaimPerPeriod", -1);
-                        }}
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="Fixed"
-                        value={false}
-                        checked={claimInCoveragePeriod === false}
-                        onChange={() => {
-                          setClaimInCoveragePeriod(false);
-                          formik.setFieldValue("noOfClaimPerPeriod", 0);
-                        }}
-                      />
+                    <div className="col-span-8">
+                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
+                        <span className="mr-[0.58rem]">
+                          Do you want to Provide Shipping?
+                        </span>
+                      </p>
                     </div>
-                  </div>
-                  {claimInCoveragePeriod === false && (
-                    <div className="flex flex-wrap">
-                      <div className="ml-3">
-                        <Input
-                          className1="!pt-2.5"
-                          placeholder="# of claims"
-                          type="number"
-                          name={`noOfClaimPerPeriod`}
-                          value={formik.values.noOfClaimPerPeriod}
-                          onBlur={formik.handleBlur}
-                          onChange={(e) =>
-                            formik.setFieldValue(
-                              "noOfClaimPerPeriod",
-                              Number(e.target.value)
-                            )
-                          }
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          id="yes-create-account"
+                          label="Yes"
+                          value="yes"
+                          checked={shipping === "yes"}
+                          onChange={handleRadio}
+                        />
+                        <RadioButton
+                          id="no-create-account"
+                          label="No"
+                          value="no"
+                          checked={shipping === "no"}
+                          onChange={handleRadio}
                         />
                       </div>
                     </div>
-                  )}
+                    <div className="col-span-8">
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims Over the Certain Period
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Unlimited"
+                          value={true}
+                          checked={claimOver === true}
+                          onChange={() => {
+                            setClaimOver(true);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: -1,
+                            });
+                          }}
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="Fixed"
+                          value={false}
+                          checked={claimOver === false}
+                          onChange={() => {
+                            setClaimOver(false);
+                            formik.setFieldValue("noOfClaim", {
+                              period: "Monthly",
+                              value: 0,
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {claimOver === false && (
+                      <div className="flex col-span-12 my-2">
+                        <Select
+                          name={`noOfClaim.period`}
+                          options={period}
+                          className="!bg-grayf9"
+                          placeholder=""
+                          className1="!pt-2.5"
+                          OptionName={"Period"}
+                          maxLength={"30"}
+                          value={formik.values.noOfClaim.period}
+                          onBlur={formik.handleBlur}
+                          onChange={(name, value) =>
+                            formik.setFieldValue(name, value)
+                          }
+                        />
+                        <div className="ml-3">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaim.value`}
+                            value={formik.values.noOfClaim.value}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaim.value",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <div className="col-span-8">
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims in Coverage Period
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Unlimited"
+                          value={true}
+                          checked={claimInCoveragePeriod === true}
+                          onChange={() => {
+                            setClaimInCoveragePeriod(true);
+                            formik.setFieldValue("noOfClaimPerPeriod", -1);
+                          }}
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="Fixed"
+                          value={false}
+                          checked={claimInCoveragePeriod === false}
+                          onChange={() => {
+                            setClaimInCoveragePeriod(false);
+                            formik.setFieldValue("noOfClaimPerPeriod", 0);
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {claimInCoveragePeriod === false && (
+                      <div className="flex flex-wrap col-span-12 ">
+                        <div className="ml-3">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaimPerPeriod`}
+                            value={formik.values.noOfClaimPerPeriod}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaimPerPeriod",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </Grid>
+
+
+
+
                 </div>
                 <div className="col-span-6">
-                  <p className="flex text-[12px] mb-7 font-semibold self-center justify-between pr-4">
-                    {" "}
-                    <span className="mr-[0.2rem]">
-                      {" "}
-                      Do you want to work as a servicer?
-                    </span>
-                    <div className="flex">
-                      <RadioButton
-                        id="yes"
-                        label="Yes"
-                        value={true}
-                        checked={createServicerAccountOption === true}
-                        onChange={handleServiceChange}
-                      />
-                      <RadioButton
-                        id="no"
-                        label="No"
-                        value={false}
-                        checked={createServicerAccountOption === false}
-                        onChange={handleServiceChange}
-                      />
+                  <Grid className="!gap-0">
+                    <div className="col-span-8">
+                      <p className="flex text-[12px] mb-7 font-semibold self-center justify-between pr-4">
+                        {" "}
+                        <span className="mr-[0.2rem]">
+                          {" "}
+                          Do you want to work as a servicer?
+                        </span>
+                      </p>
                     </div>
-                  </p>
-                  <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
-                    <span className="w-[60%]">
-                      {" "}
-                      Do you want to create separate account for customer?{" "}
-                    </span>
-                    <div className="flex">
-                      <RadioButton
-                        id="yes-separate-account"
-                        label="Yes"
-                        value="yes"
-                        className="!pl-2"
-                        checked={separateAccountOption === "yes"}
-                        disabled={createAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
-                      <RadioButton
-                        id="no-separate-account"
-                        label="No"
-                        value="no"
-                        checked={separateAccountOption === "no"}
-                        onChange={handleSeparateAccountRadioChange}
-                      />
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          id="yes"
+                          label="Yes"
+                          value={true}
+                          checked={createServicerAccountOption === true}
+                          onChange={handleServiceChange}
+                        />
+                        <RadioButton
+                          id="no"
+                          label="No"
+                          value={false}
+                          checked={createServicerAccountOption === false}
+                          onChange={handleServiceChange}
+                        />
+                      </div>
                     </div>
-                  </p>
-                  <div className="flex justify-between pr-4">
-                    <p className=" text-[12px] mb-3 font-semibold ">
-                      {" "}
-                      Is Include manufacturer warranty?
-                    </p>
-                    <div className="flex">
-                      <RadioButton
-                        className="self-start"
-                        id="yes-warranty"
-                        label="Yes"
-                        value={true}
-                        checked={formik.values.isManufacturerWarranty == true}
-                        onChange={() =>
-                          formik.setFieldValue("isManufacturerWarranty", true)
-                        }
-                      />
-                      <RadioButton
-                        className="self-start"
-                        id="no-warranty"
-                        label="No"
-                        value={false}
-                        checked={formik.values.isManufacturerWarranty === false}
-                        onChange={() =>
-                          formik.setFieldValue("isManufacturerWarranty", false)
-                        }
-                      />
+                    <div className="col-span-8">
+                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
+                        <span className="w-[60%]">
+                          {" "}
+                          Do you want to create separate account for customer?{" "}
+                        </span>
+                      </p>
                     </div>
-                  </div>
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          id="yes-separate-account"
+                          label="Yes"
+                          value="yes"
+                          className="!pl-2"
+                          checked={separateAccountOption === "yes"}
+                          disabled={createAccountOption === "no"}
+                          onChange={handleSeparateAccountRadioChange}
+                        />
+                        <RadioButton
+                          id="no-separate-account"
+                          label="No"
+                          value="no"
+                          checked={separateAccountOption === "no"}
+                          onChange={handleSeparateAccountRadioChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-8">
+                      <p className=" text-[12px] mb-3 font-semibold ">
+                        {" "}
+                        Is Include manufacturer warranty?
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Yes"
+                          value={true}
+                          checked={formik.values.isManufacturerWarranty == true}
+                          onChange={() =>
+                            formik.setFieldValue("isManufacturerWarranty", true)
+                          }
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="No"
+                          value={false}
+                          checked={formik.values.isManufacturerWarranty === false}
+                          onChange={() =>
+                            formik.setFieldValue("isManufacturerWarranty", false)
+                          }
+                        />
+                      </div>
+                    </div>
+                  </Grid>
+
                 </div>
                 <div className="col-span-12">
                   <p className="text-base mb-3 font-semibold">
@@ -717,9 +747,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value: Number(newValue),
-                                          }
+                                          ...item,
+                                          value: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -752,9 +782,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            value1: Number(newValue),
-                                          }
+                                          ...item,
+                                          value1: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -778,9 +808,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
+                                            ...item,
+                                            amountType: value,
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -818,8 +848,9 @@ function Setting(props) {
               </div>
             </Card>
           </form>
-        </div>
-      )}
+        </div >
+      )
+      }
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">

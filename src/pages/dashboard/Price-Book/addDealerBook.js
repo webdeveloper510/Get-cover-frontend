@@ -312,8 +312,8 @@ function AddDealerBook() {
         2
       );
       console.log(values);
-    
-       delete values.pName;
+
+      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
@@ -498,7 +498,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -854,7 +854,7 @@ function AddDealerBook() {
                           # of Claims Over the Certain Period
                         </p>
                       </div>
-                      <div className="col-span-6 flex">
+                      <div className="col-span-6 flex justify-between">
                         <RadioButton
                           className="self-start"
                           id="yes-warranty"

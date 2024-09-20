@@ -2,7 +2,7 @@ import React from 'react';
 
 const SwitchButton = ({ isOn, handleToggle }) => {
     return (
-        <div className="flex items-center justify-center  bg-gray-100">
+        <div className="flex items-center justify-center">
             <div
                 onClick={handleToggle}
                 className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer ${isOn ? 'bg-blue-500' : 'bg-gray-300'}`}
