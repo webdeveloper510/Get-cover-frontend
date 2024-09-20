@@ -6,7 +6,7 @@ import { downloadFile } from "../services/userServices";
 
 function FileDownloader(props) {
   const { setLoading } = props;
-  const baseUrl = apiUrl();
+  console.log(props);
   const handleClick = async (apiUrlData) => {
     setLoading(true);
     console.log(apiUrlData);
