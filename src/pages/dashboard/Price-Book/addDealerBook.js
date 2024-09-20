@@ -36,6 +36,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import Checkbox from "../../../common/checkbox";
+import RadioButton from "../../../common/radio";
 
 function AddDealerBook() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -43,6 +44,8 @@ function AddDealerBook() {
   const [activeDealerList, setActiveDealerList] = useState([]);
   const [category, setCategoryList] = useState([]);
   const [error, setError] = useState("");
+  const [claimOver, setClaimOver] = useState(true);
+  const [claimInCoveragePeriod, setClaimInCoveragePeriod] = useState(true);
   const [timer, setTimer] = useState(3);
   const [type, setType] = useState("");
   const [coverageType, setCoverageType] = useState([]);
@@ -86,6 +89,11 @@ function AddDealerBook() {
     formik.setFieldValue("dealerId", data?.dealerId);
     setLoader(false);
   };
+
+  const period = [
+    { label: "Monthly", value: "Monthly" },
+    { label: "Annually", value: "Annually" },
+  ];
 
   const dealerList = async () => {
     try {
@@ -464,7 +472,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -745,66 +753,231 @@ function AddDealerBook() {
                     </div>
                   )}
                 </div>
+              </Grid>
+              <Grid className="">
+                <div className="col-span-8 border-r">
+                  <Grid>
+                    {formik.values.adhDays &&
+                      formik.values.adhDays.length > 0 &&
+                      formik.values.adhDays.map((adhDay, index) => (
+                        <div key={index} className="col-span-6 mt-4">
+                          <div>
+                            <p className="text-lg font-semibold mb-4 capitalize text-left">
+                              {adhDay.label}
+                            </p>
+                          </div>
+                          <div className="mb-3">
+                            <Input
+                              type="number"
+                              label="Waiting Days"
+                              name={`adhDays[${index}].value`}
+                              id={`adhDays[${index}].value`}
+                              value={adhDay.value}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              className="form-input"
+                            />
+                            {formik.touched.adhDays?.[index]?.value &&
+                              formik.errors.adhDays?.[index]?.value && (
+                                <div className="text-red-500 text-sm">
+                                  {formik.errors.adhDays[index].value}
+                                </div>
+                              )}
+                          </div>
 
-                {formik.values.adhDays &&
-                  formik.values.adhDays.length > 0 &&
-                  formik.values.adhDays.map((adhDay, index) => (
-                    <div key={index} className="col-span-3 mt-4">
-                      <div>
-                        <p className="text-lg font-semibold mb-4 capitalize text-left">
-                          {adhDay.label}
-                        </p>
-                      </div>
-                      <div className="mb-3">
-                        <Input
-                          type="number"
-                          label="Waiting Days"
-                          name={`adhDays[${index}].value`}
-                          id={`adhDays[${index}].value`}
-                          value={adhDay.value}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          className="form-input"
-                        />
-                        {formik.touched.adhDays?.[index]?.value &&
-                          formik.errors.adhDays?.[index]?.value && (
-                            <div className="text-red-500 text-sm">
-                              {formik.errors.adhDays[index].value}
+                          <div className="relative">
+                            <Input
+                              label={"Deductible "}
+                              type="number"
+                              name={`adhDays[${index}].value1`}
+                              id={`adhDays[${index}].value1`}
+                              value={adhDay.value1}
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              className="form-input"
+                            />
+                            <div className="absolute top-[1px] right-[1px]">
+                              <Select
+                                name="amountType"
+                                label=""
+                                disableFirstOption={true}
+                                onChange={handleSelectChange}
+                                classBox="!bg-transparent"
+                                className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                                options={optiondeductibles}
+                              />
                             </div>
-                          )}
-                      </div>
+                            {formik.touched.adhDays?.[index]?.value1 &&
+                              formik.errors.adhDays?.[index]?.value1 && (
+                                <div className="text-red-500 text-sm">
+                                  {formik.errors.adhDays[index].value1}
+                                </div>
+                              )}
+                          </div>
+                        </div>
+                      ))}
+                  </Grid>
+                </div>
+                <div className="col-span-4">
+                  <Grid className=" my-4 py-3 !gap-0">
 
-                      <div className="relative">
-                        <Input
-                          label={"Deductible "}
-                          type="number"
-                          name={`adhDays[${index}].value1`}
-                          id={`adhDays[${index}].value1`}
-                          value={adhDay.value1}
-                          onChange={formik.handleChange}
+                    <div className="col-span-6">
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims Over the Certain Period
+                      </p>
+                    </div>
+                    <div className="col-span-6 flex self-center">
+                      <RadioButton
+                        className="self-start"
+                        id="yes-warranty"
+                        label="Unlimited"
+                        value={true}
+                        checked={claimOver === true}
+                        onChange={() => {
+                          setClaimOver(true);
+                          formik.setFieldValue("noOfClaim", {
+                            period: "Monthly",
+                            value: -1,
+                          });
+                        }}
+                      />
+                      <RadioButton
+                        className="self-start"
+                        id="no-warranty"
+                        label="Fixed"
+                        value={false}
+                        checked={claimOver === false}
+                        onChange={() => {
+                          setClaimOver(false);
+                          formik.setFieldValue("noOfClaim", {
+                            period: "Monthly",
+                            value: 0,
+                          });
+                        }}
+                      />
+                    </div>
+                    {claimOver === false && (
+                      <div className="flex">
+                        <Select
+                          name={`noOfClaim.period`}
+                          options={period}
+                          className="!bg-grayf9"
+                          placeholder=""
+                          className1="!pt-2.5"
+                          OptionName={"Period"}
+                          maxLength={"30"}
+                          value={formik.values.noOfClaim.period}
                           onBlur={formik.handleBlur}
-                          className="form-input"
+                          onChange={(name, value) =>
+                            formik.setFieldValue(name, value)
+                          }
                         />
-                        <div className="absolute top-[1px] right-[1px]">
-                          <Select
-                            name="amountType"
-                            label=""
-                            disableFirstOption={true}
-                            onChange={handleSelectChange}
-                            classBox="!bg-transparent"
-                            className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
-                            options={optiondeductibles}
+
+                        <div className="ml-3">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaim.value`}
+                            value={formik.values.noOfClaim.value}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaim.value",
+                                Number(e.target.value)
+                              )
+                            }
                           />
                         </div>
-                        {formik.touched.adhDays?.[index]?.value1 &&
-                          formik.errors.adhDays?.[index]?.value1 && (
-                            <div className="text-red-500 text-sm">
-                              {formik.errors.adhDays[index].value1}
-                            </div>
-                          )}
                       </div>
+                    )}
+                    <div className="col-span-6 mt-4">
+                      <p className="text-[12px] mb-3 font-semibold">
+                        # of Claims in Coverage Period
+                      </p>
                     </div>
-                  ))}
+                    <div className="col-span-6 flex justify-between ">
+                      <RadioButton
+                        className="self-start"
+                        id="yes-warranty"
+                        label="Unlimited"
+                        value={true}
+                        checked={claimInCoveragePeriod === true}
+                        onChange={() => {
+                          setClaimInCoveragePeriod(true);
+                          formik.setFieldValue("noOfClaimPerPeriod", -1);
+                        }}
+                      />
+                      <RadioButton
+                        className="self-start"
+                        id="no-warranty"
+                        label="Fixed"
+                        value={false}
+                        checked={claimInCoveragePeriod === false}
+                        onChange={() => {
+                          setClaimInCoveragePeriod(false);
+                          formik.setFieldValue("noOfClaimPerPeriod", 0);
+                        }}
+                      />
+                    </div>
+                    {claimInCoveragePeriod === false && (
+                      <div className="flex ">
+                        <div className="">
+                          <Input
+                            className1="!pt-2.5"
+                            placeholder="# of claims"
+                            type="number"
+                            name={`noOfClaimPerPeriod`}
+                            value={formik.values.noOfClaimPerPeriod.value}
+                            onBlur={formik.handleBlur}
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                "noOfClaimPerPeriod",
+                                Number(e.target.value)
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="col-span-6 mt-4">
+                      <p className=" text-[12px] mb-3 font-semibold">
+                        {" "}
+                        Is Include manufacturer <br /> warranty?
+                      </p>
+                    </div>
+                    <div className="flex col-span-6 justify-between w-full">
+                      <RadioButton
+                        className="self-start"
+                        id="yes-warranty"
+                        label="Yes"
+                        value={true}
+                        checked={formik.values.isManufacturerWarranty == true}
+                        onChange={() =>
+                          formik.setFieldValue("isManufacturerWarranty", true)
+                        }
+                      />
+                      <RadioButton
+                        className="self-start"
+                        id="no-warranty"
+                        label="No"
+                        value={false}
+                        checked={
+                          formik.values.isManufacturerWarranty === false
+                        }
+                        onChange={() =>
+                          formik.setFieldValue(
+                            "isManufacturerWarranty",
+                            false
+                          )
+                        }
+                      />
+                    </div>
+                  </Grid>
+                </div>
+
+
               </Grid>
 
               {type !== "Edit" && (
