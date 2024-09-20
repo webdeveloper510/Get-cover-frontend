@@ -85,9 +85,18 @@ function AddDealerBook() {
     formik.setFieldValue("wholesalePrice", data?.wholesalePrice);
     formik.setFieldValue("pName", data?.priceBooks.pName);
     formik.setFieldValue("coverageType", data.priceBooks.coverageType);
-    formik.setFieldValue("adhDays", data.dealer.adhDays);
+    formik.setFieldValue("adhDays", data.adhDays);
     formik.setFieldValue("categoryId", data?.priceBooks?.category[0]?._id);
     formik.setFieldValue("dealerId", data?.dealerId);
+    setClaimInCoveragePeriod(data?.noOfClaimPerPeriod === -1);
+    setClaimOver(data?.noOfClaim?.value === -1);
+    formik.setFieldValue(
+      "isManufacturerWarranty",
+      data?.isManufacturerWarranty
+    );
+    formik.setFieldValue("noOfClaim", data?.noOfClaim);
+    formik.setFieldValue("noOfClaimPerPeriod", data?.noOfClaimPerPeriod);
+
     setLoader(false);
   };
 
@@ -151,8 +160,6 @@ function AddDealerBook() {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
       navigate(`/dealerDetails/${dealerIdValue}`);
     } else {
-      // console.log("Navigating to /dealerbook/" + dealerIdValue);
-      //navigate(-1);
       navigate(`/dealerPriceList`);
     }
   };
@@ -175,6 +182,7 @@ function AddDealerBook() {
       res.result[0].settings?.isManufacturerWarranty
     );
   };
+
   const handleSelectChange = async (name, value) => {
     setError("");
     if (name === "dealerId") {
@@ -312,8 +320,8 @@ function AddDealerBook() {
         2
       );
       console.log(values);
-    
-       delete values.pName;
+
+      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
