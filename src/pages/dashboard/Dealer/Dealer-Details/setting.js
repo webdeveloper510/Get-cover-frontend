@@ -246,53 +246,26 @@ function Setting(props) {
       } else {
         values.isAccountCreate = createAccountOption;
       }
-
-      const result = await editDealerSettings(values, props.dealerDetails._id);
-      console.log(result);
-      setLoading(false);
-      SetPrimaryText("Dealer Setting Updated Successfully ");
-      SetSecondaryText("Setting updated successfully ");
-      SetIsModalOpen(true);
-      setTimer(3);
-      //     if (result.message === "Successfully Created") {
-      //         setLoading(false);
-      //         setError("done");
-      //         setMessage("New Dealer Created Successfully");
-      //         setIsModalOpen(true);
-      //         setTimer(3);
-      //         setSelected([]);
-      //     } else if (result.message === "Dealer name already exists") {
-      //         setLoading(false);
-      //         formik.setFieldError("name", "Name Already Used");
-      //         setMessage("Some Errors Please Check Form Validations ");
-      //         setIsModalOpen(true);
-      //     } else if (result.message === "Primary user email already exist") {
-      //         setLoading(false);
-      //         formik.setFieldError("email", "Email Already Used");
-      //         setMessage("Some Errors Please Check Form Validations ");
-      //         setIsModalOpen(true);
-      //     } else if (result.message === "Invalid priceBook field") {
-      //         if (
-      //             result.message ===
-      //             "Invalid file format detected. The sheet should contain exactly two columns."
-      //         ) {
-      //             setFileError(
-      //                 "Invalid file format detected. The sheet should contain exactly two columns."
-      //             );
-      //             setLoading(false);
-      //             setIsModalOpen(true);
-      //             setMessage(
-      //                 "Invalid file format detected. The sheet should contain exactly two columns."
-      //             );
-      //         } else {
-      //             setFileError(null);
-      //         }
-      //     } else {
-      //         setLoading(false);
-      //         setIsModalOpen(true);
-      //         setMessage(result.message);
-      //     }
-      setLoading(false);
+      try {
+        const result = await editDealerSettings(
+          values,
+          props.dealerDetails._id
+        );
+        console.log(result);
+        SetPrimaryText("Dealer Setting Updated Successfully");
+        SetSecondaryText("Setting updated successfully");
+        SetIsModalOpen(true);
+        setTimer(3);
+      } catch (error) {
+        console.error("Error updating dealer settings:", error);
+        SetPrimaryText("Error Updating Settings");
+        SetSecondaryText(
+          "There was an error updating the settings. Please try again."
+        );
+        SetIsModalOpen(true);
+      } finally {
+        setLoading(false);
+      }
     },
   });
 
@@ -715,9 +688,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value: Number(newValue),
-                                        }
+                                            ...item,
+                                            value: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -750,9 +723,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value1: Number(newValue),
-                                        }
+                                            ...item,
+                                            value1: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -771,9 +744,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                           : item
                                       );
                                     formik.setFieldValue(
