@@ -9,7 +9,7 @@ import Primary from "../../../../assets/images/SetPrimary.png";
 import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getCovrageList } from "../../../../services/priceBookService";
+import { DownloadSet, getCovrageList } from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
 import {
@@ -188,10 +188,23 @@ function Setting(props) {
         });
       }
     }
-
-    console.log("Selected file:================", file);
   };
 
+  const handelDownload = async (fileName) => {
+    try {
+      const binaryString = await DownloadSet(fileName);
+      const blob = new Blob([binaryString]);
+      const blobUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = blobUrl;
+      anchor.download = fileName;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      URL.revokeObjectURL(blobUrl);
+    } catch (e) {
+    }
+  };
   const handleRadio = (event) => {
     setShipping(event.target.value);
   };
@@ -393,7 +406,7 @@ function Setting(props) {
                   </small>
                 </div>
                 <div className="col-span-2 pt-1">
-                  <Button className="w-full flex">
+                  <Button className="w-full flex" onClick={() => handelDownload(selectedFile2?.fileName)}>
                     <img src={download} className="w-[20px]" alt="download" />{" "}
                     <span className="self-center pl-2"> Download </span>{" "}
                   </Button>
@@ -746,9 +759,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            waitingDays: Number(newValue),
-                                          }
+                                          ...item,
+                                          waitingDays: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -781,9 +794,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                            ...item,
-                                            deductible: Number(newValue),
-                                          }
+                                          ...item,
+                                          deductible: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -811,9 +824,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
+                                            ...item,
+                                            amountType: value,
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
