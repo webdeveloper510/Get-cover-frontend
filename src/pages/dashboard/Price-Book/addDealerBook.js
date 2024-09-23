@@ -273,7 +273,14 @@ function AddDealerBook() {
       priceType: "",
       dealerSku: "",
       coverageType: "",
-      adhDays: [],
+      adhDays: [
+        {
+          label: type.value,
+          value: 0,
+          value1: 0,
+          amountType: "amount",
+        },
+      ],
       noOfClaimPerPeriod: -1,
       noOfClaim: {
         period: "Monthly",
@@ -842,13 +849,13 @@ function AddDealerBook() {
                              this one is not working  */}
                             <div className="absolute top-[1px] right-[1px]">
                               <Select
-                                name="deductibles"
+                                name={`adhDays[${index}].amountType`}
                                 label=""
                                 disableFirstOption={true}
                                 onChange={(e, value) => {
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
+                                      item.label == adhDay.label
                                         ? {
                                             ...item,
                                             amountType: value,
@@ -862,7 +869,7 @@ function AddDealerBook() {
                                 }}
                                 value={
                                   formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
+                                    (item) => item.label === adhDay.label
                                   )?.amountType || 0
                                 }
                                 classBox="!bg-transparent"
