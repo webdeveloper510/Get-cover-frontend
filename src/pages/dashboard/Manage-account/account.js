@@ -1077,24 +1077,24 @@ function Account() {
             </div>
           </div>
           <div className="mt-5">
-            <Button
-              onClick={() => handleButtonClick("myAccount")}
-              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton != "myAccount" ? "!bg-[#ededed] !text-[#333]" : ""
-                }`}>
-              My Account
-            </Button>
-            <Button
-              onClick={() => handleButtonClick("siteSetting")}
-              className={`!rounded-[0px] !px-2 !py-1 ${activeButton != "siteSetting" ? "!bg-[#ededed] !text-[#333]" : ""
-                }`}>
-              Site Setting
-            </Button>
-            <Button
-              onClick={() => handleButtonClick("Settings")}
-              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton != "Settings" ? "!bg-[#ededed] !text-[#333]" : ""
-                }`}>
-              Settings
-            </Button>
+            <div
+              className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey w-1/2 flex`}>
+              <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "myAccount" ? "!bg-grayf9 !text-black" : ""
+                  }`}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</Button>
+              <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "siteSetting" ? "!bg-grayf9 !text-black" : ""
+                  }`}
+                onClick={() => handleButtonClick("siteSetting")}
+              >   Site Setting</Button>
+              <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "Settings" ? "!bg-grayf9 !text-black" : ""
+                  }`}
+                onClick={() => handleButtonClick("Settings")}
+              >   Option Settings</Button>
+            </div>
           </div>
 
           {activeButton === "myAccount" && (
@@ -1756,20 +1756,111 @@ function Account() {
                 ShowData={showdata}
                 activeIndex={activeIndex}
                 setActiveIndex={handleSetActiveIndex}
+                imageClass='w-10 h-10'
                 title={
                   <>
                     <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
-                      <div className="col-span-12 p-4 ">
-                        <p className="text-2xl font-bold text-white">Coverage Types</p>
+                      <div className="col-span-12 px-4 py-2 ">
+                        <p className="text-lg font-bold text-white">Coverage Types</p>
                       </div>
                     </Grid>
-                    <div className="p-4 border border-black">
+
+                  </>
+
+                }>
+                <div className="p-4 border">
+                  <div className="p-4 ">
+                    <Grid>
+                      <div className="col-span-5">
+                        <Input
+                          type="text"
+                          name="type"
+                          label="Coverage Type Label"
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-5">
+                        <Input
+                          type="text"
+                          name="type"
+                          label="Coverage Type Value"
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-2 self-center text-center">
+                        <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                      </div>
+                    </Grid>
+                  </div>
+                  <div>
+
+                  </div>
+                  <table className="w-full border-collapse border">
+                    <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+                      <tr>
+                        <th>Label</th>
+                        <th>Value</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="w-full border-collapse border text-center">
+                      {rows.map((row) => (
+                        <tr key={row.id} className="w-full border-collapse border">
+                          <td className="py-3">
+                            {row.isEditing ? (
+                              <input
+                                type="text"
+                                value={row.label}
+                                onChange={(e) => handleInputChange(row.id, e.target.value)}
+                              />
+                            ) : (
+                              row.label
+                            )}
+                          </td>
+                          <td>{row.value}</td>
+                          <td>  <SwitchButton
+                            isOn={row.status}
+                            handleToggle={() => handleStatusToggle(row.id)}
+                          />
+                            {row.status ? " Active" : " Inactive"}</td>
+                          <td>
+                            <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
+                              {row.isEditing ? "Save" : "Edit"}
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+              </CollapsibleDiv>
+              <div className="my-5">
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={handleSetActiveIndex}
+                  imageClass='w-10 h-10'
+                  title={
+                    <>
+                      <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                        <div className="col-span-12 px-4 py-2 ">
+                          <p className="text-lg font-bold text-white">Repair Status </p>
+                        </div>
+                      </Grid>
+
+                    </>
+
+                  }>
+                  <div className="p-4 border">
+                    <div className="p-4 ">
                       <Grid>
                         <div className="col-span-5">
                           <Input
                             type="text"
                             name="type"
-                            label="Coverage Type Label"
+                            label="Repair Status Label"
                             placeholder=""
                           />
                         </div>
@@ -1777,7 +1868,7 @@ function Account() {
                           <Input
                             type="text"
                             name="type"
-                            label="Coverage Type Value"
+                            label="Repair Status Value"
                             placeholder=""
                           />
                         </div>
@@ -1786,10 +1877,267 @@ function Account() {
                         </div>
                       </Grid>
                     </div>
+                    <div>
+
+                    </div>
+                    <table className="w-full border-collapse border">
+                      <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+                        <tr>
+                          <th>Label</th>
+                          <th>Value</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="w-full border-collapse border text-center">
+                        {rows.map((row) => (
+                          <tr key={row.id} className="w-full border-collapse border">
+                            <td className="py-3">
+                              {row.isEditing ? (
+                                <input
+                                  type="text"
+                                  value={row.label}
+                                  onChange={(e) => handleInputChange(row.id, e.target.value)}
+                                />
+                              ) : (
+                                row.label
+                              )}
+                            </td>
+                            <td>{row.value}</td>
+                            <td>  <SwitchButton
+                              isOn={row.status}
+                              handleToggle={() => handleStatusToggle(row.id)}
+                            />
+                              {row.status ? " Active" : " Inactive"}</td>
+                            <td>
+                              <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
+                                {row.isEditing ? "Save" : "Edit"}
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                </CollapsibleDiv>
+              </div>
+              <div>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={handleSetActiveIndex}
+                  imageClass='w-10 h-10'
+                  title={
+                    <>
+                      <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                        <div className="col-span-12 px-4 py-2 ">
+                          <p className="text-lg font-bold text-white">Customer Status</p>
+                        </div>
+                      </Grid>
+
+                    </>
+
+                  }>
+                  <div className="p-4 border">
+                    <div className="p-4 ">
+                      <Grid>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Customer Status Label"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Customer Status Value"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-2 self-center text-center">
+                          <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                        </div>
+                      </Grid>
+                    </div>
+                    <div>
+
+                    </div>
+                    <table className="w-full border-collapse border">
+                      <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+                        <tr>
+                          <th>Label</th>
+                          <th>Value</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="w-full border-collapse border text-center">
+                        {rows.map((row) => (
+                          <tr key={row.id} className="w-full border-collapse border">
+                            <td className="py-3">
+                              {row.isEditing ? (
+                                <input
+                                  type="text"
+                                  value={row.label}
+                                  onChange={(e) => handleInputChange(row.id, e.target.value)}
+                                />
+                              ) : (
+                                row.label
+                              )}
+                            </td>
+                            <td>{row.value}</td>
+                            <td>  <SwitchButton
+                              isOn={row.status}
+                              handleToggle={() => handleStatusToggle(row.id)}
+                            />
+                              {row.status ? " Active" : " Inactive"}</td>
+                            <td>
+                              <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
+                                {row.isEditing ? "Save" : "Edit"}
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                </CollapsibleDiv>
+              </div>
+              <div className="my-4">
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={handleSetActiveIndex}
+                  imageClass='w-10 h-10'
+                  title={
+                    <>
+                      <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                        <div className="col-span-12 px-4 py-2 ">
+                          <p className="text-lg font-bold text-white">Shipment Types</p>
+                        </div>
+                      </Grid>
+
+                    </>
+
+                  }>
+                  <div className="p-4 border">
+                    <div className="p-4 ">
+                      <Grid>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Shipment Type Label"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-5">
+                          <Input
+                            type="text"
+                            name="type"
+                            label="Shipment Type Value"
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-2 self-center text-center">
+                          <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                        </div>
+                      </Grid>
+                    </div>
+                    <div>
+
+                    </div>
+                    <table className="w-full border-collapse border">
+                      <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+                        <tr>
+                          <th>Label</th>
+                          <th>Value</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="w-full border-collapse border text-center">
+                        {rows.map((row) => (
+                          <tr key={row.id} className="w-full border-collapse border">
+                            <td className="py-3">
+                              {row.isEditing ? (
+                                <input
+                                  type="text"
+                                  value={row.label}
+                                  onChange={(e) => handleInputChange(row.id, e.target.value)}
+                                />
+                              ) : (
+                                row.label
+                              )}
+                            </td>
+                            <td>{row.value}</td>
+                            <td>  <SwitchButton
+                              isOn={row.status}
+                              handleToggle={() => handleStatusToggle(row.id)}
+                            />
+                              {row.status ? " Active" : " Inactive"}</td>
+                            <td>
+                              <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
+                                {row.isEditing ? "Save" : "Edit"}
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                </CollapsibleDiv>
+              </div>
+
+              <CollapsibleDiv
+                ShowData={showdata}
+                activeIndex={activeIndex}
+                setActiveIndex={handleSetActiveIndex}
+                imageClass='w-10 h-10'
+                title={
+                  <>
+                    <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                      <div className="col-span-12 px-4 py-2 ">
+                        <p className="text-lg font-bold text-white">Claim Status</p>
+                      </div>
+                    </Grid>
+
                   </>
 
                 }>
                 <div className="p-4 border">
+                  <div className="p-4 ">
+                    <Grid>
+                      <div className="col-span-5">
+                        <Input
+                          type="text"
+                          name="type"
+                          label="Claim Status Label"
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-5">
+                        <Input
+                          type="text"
+                          name="type"
+                          label="Claim Status Value"
+                          placeholder=""
+                        />
+                      </div>
+                      <div className="col-span-2 self-center text-center">
+                        <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                      </div>
+                    </Grid>
+                  </div>
+                  <div>
+
+                  </div>
                   <table className="w-full border-collapse border">
                     <thead className="w-full border-collapse border bg-[#F9F9F9] ">
                       <tr>

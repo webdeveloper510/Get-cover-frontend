@@ -842,10 +842,29 @@ function AddDealerBook() {
                              this one is not working  */}
                             <div className="absolute top-[1px] right-[1px]">
                               <Select
-                                name="amountType"
+                                name="deductibles"
                                 label=""
                                 disableFirstOption={true}
-                                onChange={handleSelectChange}
+                                onChange={(e, value) => {
+                                  const updatedadhDays =
+                                    formik?.values?.adhDays?.map((item) =>
+                                      item.label === type.value
+                                        ? {
+                                            ...item,
+                                            amountType: value,
+                                          }
+                                        : item
+                                    );
+                                  formik.setFieldValue(
+                                    "adhDays",
+                                    updatedadhDays
+                                  );
+                                }}
+                                value={
+                                  formik?.values?.adhDays?.find(
+                                    (item) => item.label === type.value
+                                  )?.amountType || 0
+                                }
                                 classBox="!bg-transparent"
                                 className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
                                 options={optiondeductibles}
@@ -872,7 +891,7 @@ function AddDealerBook() {
                           # of Claims Over the Certain Period
                         </p>
                       </div>
-                      <div className="col-span-6 flex">
+                      <div className="col-span-6 flex justify-between">
                         <RadioButton
                           className="self-start"
                           id="yes-warranty"

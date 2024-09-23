@@ -1528,13 +1528,13 @@ function AddOrder() {
       formikStep3.resetForm();
     }
   };
-//add this line
-  const getDealerSettingsDetails =async(dealerId)=>{
-const res =await getDealersSettingsByid(dealerId)
-console.log(res.result[0])
-setSelectedFile2(
-  res.result[0].termCondition.fileName === "" ? null : res.result[0].termCondition
-);
+  //add this line
+  const getDealerSettingsDetails = async (dealerId) => {
+    const res = await getDealersSettingsByid(dealerId)
+    console.log(res.result[0])
+    setSelectedFile2(
+      res.result[0].termCondition.fileName === "" ? null : res.result[0].termCondition
+    );
 
   }
   const handleSelectChange = (name, value) => {
@@ -2671,6 +2671,24 @@ setSelectedFile2(
                           </>
                         )}
                       <div className="col-span-12">
+                        <Input
+                          type="text"
+                          name={`productsArray[${index}].description`}
+                          className="!bg-white"
+                          label="Product Description"
+                          placeholder=""
+                          value={
+                            formikStep3.values.productsArray[index].description
+                          }
+                          onChange={formikStep3.handleChange}
+                          onBlur={formikStep3.handleBlur}
+                          disabled={true}
+                          onWheelCapture={(e) => {
+                            e.preventDefault();
+                          }}
+                        />
+                      </div>
+                      <div className="col-span-12">
                         <Grid className="!grid-cols-3 gap-0">
                           {formikStep3.values.productsArray[index].priceType ===
                             "Quantity Pricing" &&
@@ -2679,7 +2697,7 @@ setSelectedFile2(
                                 index
                               ].QuantityPricing.map((data, index1) => (
                                 <div
-                                  className="bg-grayf9 p-4 relative rounded-xl"
+                                  className="bg-grayf9  relative rounded-xl"
                                   key={index1}
                                 >
                                   <div className=" p-4 pl-0 relative rounded-xl">
@@ -2795,24 +2813,7 @@ setSelectedFile2(
                             })()}
                         </Grid>
                       </div>
-                      <div className="col-span-12">
-                        <Input
-                          type="text"
-                          name={`productsArray[${index}].description`}
-                          className="!bg-white"
-                          label="Product Description"
-                          placeholder=""
-                          value={
-                            formikStep3.values.productsArray[index].description
-                          }
-                          onChange={formikStep3.handleChange}
-                          onBlur={formikStep3.handleBlur}
-                          disabled={true}
-                          onWheelCapture={(e) => {
-                            e.preventDefault();
-                          }}
-                        />
-                      </div>
+
                       <div className="col-span-12">
                         <Grid className=" mb-3">
 
