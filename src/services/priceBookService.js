@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -52,14 +52,13 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
-export const getCategoryListCoverage = async (id,) => {
+export const getCategoryListCoverage = async (id) => {
   const headers = createHeaders();
   console.log(headers);
   try {
-    const response = await axios.get(
-      `${url}/price/getCoverageType/${id}`,
-      { headers }
-    );
+    const response = await axios.get(`${url}/price/getCoverageType/${id}`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -67,7 +66,24 @@ export const getCategoryListCoverage = async (id,) => {
   }
 };
 
-export const getCategoryListActiveData = async (value, id,) => {
+export const getCoverageTypeAndAdhDays = async (id, dealerId) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/price/getCoverageTypeAndAdhDays/${id}`,
+      { dealerId: dealerId },
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getCategoryListActiveData = async (value, id) => {
   const headers = createHeaders();
   console.log(headers);
   try {
@@ -148,7 +164,9 @@ export const getCovrageList = async () => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.get(`${url}/user/getOptions/coverage_type`, { headers });
+    const response = await axios.get(`${url}/user/getOptions/coverage_type`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {

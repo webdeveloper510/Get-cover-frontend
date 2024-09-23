@@ -33,6 +33,7 @@ import * as Yup from "yup";
 import {
   getCategoryListActiveData,
   getCategoryListCoverage,
+  getCoverageTypeAndAdhDays,
 } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
@@ -60,6 +61,7 @@ function AddDealerBook() {
       dealerDetailById(id);
       setType("Edit");
     } else if (dealerIdValue) {
+      getDealerSettings(dealerIdValue);
       formik.setFieldValue("dealerId", dealerIdValue);
       getProductList(dealerIdValue);
     } else {
@@ -74,6 +76,7 @@ function AddDealerBook() {
     const data = result.result[0];
     console.log(data);
     setPriceBookById(data);
+    getDealerSettings(data?.dealerId);
     formik.setFieldValue("retailPrice", data.retailPrice.toFixed(2));
     formik.setFieldValue("status", data.status);
     formik.setFieldValue("dealerSku", data.dealerSku);
@@ -125,8 +128,8 @@ function AddDealerBook() {
     }
   };
   const optiondeductibles = [
-    { label: "$", value: "$" },
-    { label: "%", value: "%" },
+    { label: "$", value: "amount" },
+    { label: "%", value: "percentage" },
   ];
   useEffect(() => {
     let intervalId;
@@ -165,22 +168,6 @@ function AddDealerBook() {
   };
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const getDealerSettings = async (dealerId) => {
-    const res = await getDealersSettingsByid(dealerId);
-    console.log(res.result[0]);
-    setClaimInCoveragePeriod(res.result[0].settings?.noOfClaimPerPeriod === -1);
-    setClaimOver(res.result[0].settings?.noOfClaim?.value === -1);
-    formik.setFieldValue("noOfClaim", res.result[0].settings?.noOfClaim);
-    formik.setFieldValue(
-      "noOfClaimPerPeriod",
-      res.result[0].settings?.noOfClaimPerPeriod
-    );
-    formik.setFieldValue(
-      "isManufacturerWarranty",
-      res.result[0].settings?.isManufacturerWarranty
-    );
   };
 
   const handleSelectChange = async (name, value) => {
@@ -235,22 +222,23 @@ function AddDealerBook() {
     }
 
     if (name === "priceBook") {
-      const dealerDetails = activeDealerList.find(
-        (item) => item.value === formik.values.dealerId
-      );
-
       const selectedProduct = productNameOptions.find(
         (item) => item.value === value
       );
-      const filteredAdhDays = dealerDetails.adhDays.filter((adhDay) =>
-        selectedProduct.coverageType.find(
-          (coverage) => coverage.value === adhDay.label
-        )
+      // const filteredAdhDays = dealerDetails.adhDays.filter((adhDay) =>
+      //   selectedProduct.coverageType.find(
+      //     (coverage) => coverage.value === adhDay.label
+      //   )
+      // );
+      // console.log(filteredAdhDays);
+
+      const response = await getCoverageTypeAndAdhDays(
+        selectedProduct?.value,
+        formik.values.dealerId
       );
-      console.log(filteredAdhDays);
+      console.log(response.result);
       formik.setFieldValue("priceBook", value);
-      formik.setFieldValue("adhDays", filteredAdhDays);
-      const response = await getCategoryListCoverage(selectedProduct?.value);
+      formik.setFieldValue("adhDays", response.result.dealerData.adhDays);
       formik.setFieldValue(
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
@@ -261,7 +249,10 @@ function AddDealerBook() {
       formik.setFieldValue("pName", selectedProduct.pName);
       formik.setFieldValue("term", selectedProduct.term + " Months");
       formik.setFieldValue("dealerSku", selectedProduct.label);
-      formik.setFieldValue("coverageType", response.result);
+      formik.setFieldValue(
+        "coverageType",
+        response.result.priceBook.coverageType
+      );
     }
 
     formik.setFieldValue(name, value);
@@ -340,6 +331,23 @@ function AddDealerBook() {
       }
     },
   });
+
+  const getDealerSettings = async (dealerId) => {
+    const res = await getDealersSettingsByid(dealerId);
+    console.log(res.result[0]);
+    setClaimInCoveragePeriod(res.result[0].settings?.noOfClaimPerPeriod === -1);
+    setClaimOver(res.result[0].settings?.noOfClaim?.value === -1);
+    formik.setFieldValue("noOfClaim", res.result[0].settings?.noOfClaim);
+    formik.setFieldValue(
+      "noOfClaimPerPeriod",
+      res.result[0].settings?.noOfClaimPerPeriod
+    );
+    formik.setFieldValue(
+      "isManufacturerWarranty",
+      res.result[0].settings?.isManufacturerWarranty
+    );
+  };
+
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
@@ -830,6 +838,8 @@ function AddDealerBook() {
                               onBlur={formik.handleBlur}
                               className="form-input"
                             />
+                            {/* 
+                             this one is not working  */}
                             <div className="absolute top-[1px] right-[1px]">
                               <Select
                                 name="amountType"
