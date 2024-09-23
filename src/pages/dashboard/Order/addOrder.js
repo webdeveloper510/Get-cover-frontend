@@ -752,11 +752,11 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          adhDays: Yup.array().of(
-            Yup.object().shape({
-              value: Yup.string().required("Required"),
-            })
-          ), //add this
+          // adhDays: Yup.array().of(
+          //   Yup.object().shape({
+          //     value: Yup.string().required("Required"),
+          //   })
+          // ), //add this
           noOfProducts: Yup.number()
             .typeError("Must be a number")
             .required("Required")
@@ -846,8 +846,8 @@ function AddOrder() {
       if (selectedCoverages.length) {
         const updatedProductsArray = selectedCoverages.map((data) => ({
           label: data.label,
-          value: "00",
-          value1: "",
+          waitingDays: "00",
+          deductible: "",
         }));
         formikStep3.setFieldValue(
           "productsArray[0].adhDays",
@@ -2824,17 +2824,17 @@ function AddOrder() {
                                   <div key={idx} className="my-4">
                                     <Input
                                       type="text"
-                                      name={`productsArray[${index}].adhDays[${idx}].value`}
+                                      name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
                                       className="!bg-white"
                                       label={`${coverage.label} Days `}
                                       placeholder={`${coverage.label} Days`}
                                       value={
                                         formikStep3.values.productsArray[index]
-                                          .adhDays[idx].value
+                                          .adhDays[idx].waitingDays
                                       }
                                       onChange={(e) =>
                                         formikStep3.setFieldValue(
-                                          `productsArray[${index}].adhDays[${idx}].value`,
+                                          `productsArray[${index}].adhDays[${idx}].waitingDays`,
                                           e.target.value
                                         )
                                       }
@@ -2847,11 +2847,11 @@ function AddOrder() {
                                       formikStep3.errors.productsArray[index]
                                         .adhDays[idx] &&
                                       formikStep3.errors.productsArray[index]
-                                        .adhDays[idx].value && (
+                                        .adhDays[idx].waitingDays && (
                                         <div className="text-red-500 text-sm pl-2 pt-2">
                                           {
                                             formikStep3.errors.productsArray[index]
-                                              .adhDays[idx].value
+                                              .adhDays[idx].waitingDays
                                           }
                                         </div>
                                       )}
@@ -2859,17 +2859,17 @@ function AddOrder() {
                                   <div key={idx} className="relative">
                                     <Input
                                       type="text"
-                                      name={`productsArray[${index}].adhDays[${idx}].value1`}
+                                      name={`productsArray[${index}].adhDays[${idx}].deductible`}
                                       className="!bg-white"
                                       label={`Deductable `}
                                       placeholder={``}
                                       value={
                                         formikStep3.values.productsArray[index]
-                                          .adhDays[idx].value1
+                                          .adhDays[idx].deductible
                                       }
                                       onChange={(e) =>
                                         formikStep3.setFieldValue(
-                                          `productsArray[${index}].adhDays[${idx}].value1`,
+                                          `productsArray[${index}].adhDays[${idx}].deductible`,
                                           e.target.value
                                         )
                                       }
@@ -2893,11 +2893,11 @@ function AddOrder() {
                                       formikStep3.errors.productsArray[index]
                                         .adhDays[idx] &&
                                       formikStep3.errors.productsArray[index]
-                                        .adhDays[idx].value1 && (
+                                        .adhDays[idx].deductible && (
                                         <div className="text-red-500 text-sm pl-2 pt-2">
                                           {
                                             formikStep3.errors.productsArray[index]
-                                              .adhDays[idx].value1
+                                              .adhDays[idx].deductible
                                           }
                                         </div>
                                       )}
@@ -3691,7 +3691,7 @@ function AddOrder() {
                                       {Data.label} Waiting{" "}
                                     </p>
                                     <p className="font-bold text-sm">
-                                      {Data.value} Days
+                                      {Data.waitingDays} Days
                                     </p>
                                   </div>
                                   <div className="pt-3 px-4">
@@ -3701,10 +3701,10 @@ function AddOrder() {
                                     </p>
                                     <p className="font-bold text-sm">
                                       $
-                                      {Data.value1 === undefined
+                                      {Data.deductible === undefined
                                         ? parseInt(0).toLocaleString(2)
                                         : formatOrderValue(
-                                          Number(Data.value1) ?? parseInt(0)
+                                          Number(Data.deductible) ?? parseInt(0)
                                         )}{" "}
                                     </p>
                                   </div>
