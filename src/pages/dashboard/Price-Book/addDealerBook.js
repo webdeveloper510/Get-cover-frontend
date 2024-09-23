@@ -273,7 +273,14 @@ function AddDealerBook() {
       priceType: "",
       dealerSku: "",
       coverageType: "",
-      adhDays: [],
+      adhDays: [
+        {
+          label: type.value,
+          waitingDays: 0,
+          deductible: 0,
+          amountType: "amount",
+        },
+      ],
       noOfClaimPerPeriod: -1,
       noOfClaim: {
         period: "Monthly",
@@ -295,10 +302,10 @@ function AddDealerBook() {
       adhDays: Yup.array().of(
         Yup.object().shape({
           label: Yup.string(),
-          value: Yup.number()
+          waitingDays: Yup.number()
             .required("Required")
             .min(0, "Value cannot be negative"),
-          value1: Yup.number()
+          deductible: Yup.number()
             .required("Required")
             .min(0, "Value cannot be negative"),
           amountType: Yup.string().required(""),
@@ -812,17 +819,17 @@ function AddDealerBook() {
                             <Input
                               type="number"
                               label="Waiting Days"
-                              name={`adhDays[${index}].value`}
-                              id={`adhDays[${index}].value`}
-                              value={adhDay.value}
+                              name={`adhDays[${index}].waitingDays`}
+                              id={`adhDays[${index}].waitingDays`}
+                              value={adhDay.waitingDays}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
                               className="form-input"
                             />
-                            {formik.touched.adhDays?.[index]?.value &&
-                              formik.errors.adhDays?.[index]?.value && (
+                            {formik.touched.adhDays?.[index]?.waitingDays &&
+                              formik.errors.adhDays?.[index]?.waitingDays && (
                                 <div className="text-red-500 text-sm">
-                                  {formik.errors.adhDays[index].value}
+                                  {formik.errors.adhDays[index].waitingDays}
                                 </div>
                               )}
                           </div>
@@ -831,9 +838,9 @@ function AddDealerBook() {
                             <Input
                               label={"Deductible "}
                               type="number"
-                              name={`adhDays[${index}].value1`}
-                              id={`adhDays[${index}].value1`}
-                              value={adhDay.value1}
+                              name={`adhDays[${index}].deductible`}
+                              id={`adhDays[${index}].deductible`}
+                              value={adhDay.deductible}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
                               className="form-input"
@@ -842,13 +849,13 @@ function AddDealerBook() {
                              this one is not working  */}
                             <div className="absolute top-[1px] right-[1px]">
                               <Select
-                                name="deductibles"
+                                name={`adhDays[${index}].amountType`}
                                 label=""
                                 disableFirstOption={true}
                                 onChange={(e, value) => {
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
+                                      item.label == adhDay.label
                                         ? {
                                             ...item,
                                             amountType: value,
@@ -862,7 +869,7 @@ function AddDealerBook() {
                                 }}
                                 value={
                                   formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
+                                    (item) => item.label === adhDay.label
                                   )?.amountType || 0
                                 }
                                 classBox="!bg-transparent"
@@ -870,10 +877,10 @@ function AddDealerBook() {
                                 options={optiondeductibles}
                               />
                             </div>
-                            {formik.touched.adhDays?.[index]?.value1 &&
-                              formik.errors.adhDays?.[index]?.value1 && (
+                            {formik.touched.adhDays?.[index]?.deductible &&
+                              formik.errors.adhDays?.[index]?.deductible && (
                                 <div className="text-red-500 text-sm">
-                                  {formik.errors.adhDays[index].value1}
+                                  {formik.errors.adhDays[index].deductible}
                                 </div>
                               )}
                           </div>

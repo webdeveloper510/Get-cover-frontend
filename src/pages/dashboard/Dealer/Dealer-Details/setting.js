@@ -65,8 +65,8 @@ function Setting(props) {
     adhDays: coverage.reduce((acc, type) => {
       acc.push({
         label: type.value,
-        value: 0,
-        value1: 0,
+        waitingDays: 0,
+        deductible: 0,
       });
       return acc;
     }, []),
@@ -240,7 +240,7 @@ function Setting(props) {
         .required("Required"),
       adhDays: Yup.array().of(
         Yup.object().shape({
-          value1: Yup.number()
+          deductible: Yup.number()
             .required("Required")
             .min(0, "Must be at least 0"),
         })
@@ -253,7 +253,7 @@ function Setting(props) {
           function () {
             const { adhDays } = this.parent;
             const hasErrors = adhDays.some((item) => {
-              if (item.amountType === "percentage" && item.value1 > 99.9) {
+              if (item.amountType === "percentage" && item.deductible > 99.9) {
                 return true;
               }
               return false;
@@ -403,7 +403,6 @@ function Setting(props) {
                     <div className="col-span-8">
                       <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
                         Do you want to create an account?
-
                       </p>
                     </div>
                     <div className="col-span-4">
@@ -572,10 +571,6 @@ function Setting(props) {
                       </div>
                     )}
                   </Grid>
-
-
-
-
                 </div>
                 <div className="col-span-6">
                   <Grid className="!gap-0">
@@ -657,15 +652,19 @@ function Setting(props) {
                           id="no-warranty"
                           label="No"
                           value={false}
-                          checked={formik.values.isManufacturerWarranty === false}
+                          checked={
+                            formik.values.isManufacturerWarranty === false
+                          }
                           onChange={() =>
-                            formik.setFieldValue("isManufacturerWarranty", false)
+                            formik.setFieldValue(
+                              "isManufacturerWarranty",
+                              false
+                            )
                           }
                         />
                       </div>
                     </div>
                   </Grid>
-
                 </div>
                 <div className="col-span-12">
                   <p className="text-base mb-3 font-semibold">
@@ -705,8 +704,8 @@ function Setting(props) {
                                     ...updatedadhDays,
                                     {
                                       label: type.value,
-                                      value: 0,
-                                      value1: 0,
+                                      waitingDays: 0,
+                                      deductible: 0,
                                     },
                                   ];
                                 }
@@ -727,7 +726,7 @@ function Setting(props) {
                             <div className="my-3">
                               <Input
                                 type="number"
-                                name={`adhDays[${type.value}].value`}
+                                name={`adhDays[${type.value}].waitingDays`}
                                 label={`Waiting Days`}
                                 className="!bg-white"
                                 maxDecimalPlaces={2}
@@ -736,7 +735,7 @@ function Setting(props) {
                                 value={
                                   formik?.values?.adhDays?.find(
                                     (item) => item.label === type.value
-                                  )?.value || 0
+                                  )?.waitingDays || 0
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
@@ -747,9 +746,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value: Number(newValue),
-                                        }
+                                            ...item,
+                                            waitingDays: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -762,7 +761,7 @@ function Setting(props) {
                             <div className="relative">
                               <Input
                                 type="number"
-                                name={`adhDays[${type.value}].value1`}
+                                name={`adhDays[${type.value}].deductible`}
                                 label={`Deductible`}
                                 maxDecimalPlaces={2}
                                 minLength={"1"}
@@ -771,7 +770,7 @@ function Setting(props) {
                                 value={
                                   formik?.values?.adhDays?.find(
                                     (item) => item.label === type.value
-                                  )?.value1 || 0
+                                  )?.deductible || 0
                                 }
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
@@ -782,9 +781,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label === type.value
                                         ? {
-                                          ...item,
-                                          value1: Number(newValue),
-                                        }
+                                            ...item,
+                                            deductible: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -793,9 +792,13 @@ function Setting(props) {
                                   );
                                 }}
                               />
-                              {formik.errors?.adhDays?.[type.value]?.value1 ? (
+                              {formik.errors?.adhDays?.[type.value]
+                                ?.deductible ? (
                                 <div className="text-red-500 text-sm mt-1">
-                                  {formik.errors?.adhDays?.[type.value]?.value1}
+                                  {
+                                    formik.errors?.adhDays?.[type.value]
+                                      ?.deductible
+                                  }
                                 </div>
                               ) : null}
                               <div className="absolute top-[1px] right-[1px]">
@@ -808,9 +811,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.label === type.value
                                           ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -848,9 +851,8 @@ function Setting(props) {
               </div>
             </Card>
           </form>
-        </div >
-      )
-      }
+        </div>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">
