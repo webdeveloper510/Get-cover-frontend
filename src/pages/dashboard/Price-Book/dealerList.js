@@ -716,7 +716,7 @@ function DealerPriceList() {
                   # of Claims Over the Certain <br /> Period
                 </p>
                 <p className="text-[14px] font-semibold">
-                  {dealerPriceBookDetail?.noOfClaim?.period} - {dealerPriceBookDetail?.noOfClaim?.value}
+                  {dealerPriceBookDetail?.noOfClaim?.period} - {dealerPriceBookDetail?.noOfClaim?.value == -1 ? 'Unlimited' : dealerPriceBookDetail?.noOfClaim?.value}
                 </p>
               </div>
               <div className="col-span-4">
@@ -724,7 +724,7 @@ function DealerPriceList() {
                   # of Claims in Coverage <br /> Period
                 </p>
                 <p className="text-[14px] font-semibold">
-                  {dealerPriceBookDetail?.noOfClaimPerPeriod}
+                  {dealerPriceBookDetail?.noOfClaimPerPeriod == -1 ? 'Unlimited' : dealerPriceBookDetail?.noOfClaimPerPeriod}
                 </p>
               </div>
               <div className="col-span-4">
