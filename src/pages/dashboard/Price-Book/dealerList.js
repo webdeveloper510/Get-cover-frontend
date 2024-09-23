@@ -587,7 +587,7 @@ function DealerPriceList() {
         </Card>
       </div>
 
-      <Modal isOpen={isViewOpen} onClose={closeView}>
+      <Modal className="!w-[900px]" isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
@@ -612,193 +612,221 @@ function DealerPriceList() {
           <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
             View Dealer Price Book Detail
           </p>
-          <Grid className="mt-5 px-6">
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Dealer Name
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.dealer?.name}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Product Name
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.pName}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Product Category
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Price Type
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.priceType}
-              </p>
-            </div>
+          <div className="overflow-y-scroll max-h-[500px]">
 
-            <div className="col-span-8">
-              <p className="text-lg font-semibold">
-                Description
-              </p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.description}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg  font-semibold">
-                Product SKU
-              </p>
-              <p className="text-base  font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.name}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg  font-semibold">
-                Dealer SKU
-              </p>
-              <p className="text-base  font-semibold">
-                {dealerPriceBookDetail?.dealerSku}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Wholesale Price
-              </p>
-              <p className="text-base font-semibold">
-                $
-                {dealerPriceBookDetail?.wholesalePrice === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(
-                    dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
-                  )}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Retail Price
-              </p>
-              <p className="text-base font-semibold">
-                $
-                {dealerPriceBookDetail?.retailPrice === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(
-                    dealerPriceBookDetail?.retailPrice ?? parseInt(0)
-                  )}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">Term</p>
-              <p className="text-base font-bold">
-                {dealerPriceBookDetail?.priceBooks?.term} Months
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">Status</p>
-              <p className="text-base font-bold">
-                {" "}
-                {dealerPriceBookDetail?.status === true ? "Active" : "Inactive"}
-              </p>
-            </div>
+            <Grid className="mt-5 px-6">
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Dealer Name
+                </p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.dealer?.name}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Product Name
+                </p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.pName}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Product Category
+                </p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Price Type
+                </p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.priceType}
+                </p>
+              </div>
 
-            {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
-              <>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">
-                    Start Range
-                  </p>
-                  <p className="text-base  font-semibold">
-                    $
-                    {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(
-                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                        parseInt(0)
-                      )}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">
-                    End Range
-                  </p>
-                  <p className="text-base font-semibold">
-                    $
-                    {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(
-                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                        parseInt(0)
-                      )}
-                  </p>
-                </div>
-              </>
-            )}
-            <div className="col-span-12">
-              <table className="w-full border text-center">
-                <tr className="border bg-[#9999]">
-                  <th>Coverage Type</th>
-                  <th>Waiting Days</th>
-                  <th>Deductable</th>
-                </tr>
-
-                {dealerPriceBookDetail?.adhDays1 && dealerPriceBookDetail?.adhDays1.length > 0 && (
-                  <>
-                    {dealerPriceBookDetail?.adhDays1.map((type, index) => (
-                      <tr key={index} className="border ">
-                        <td className="font-semibold  mx-[19px]" >{type.label}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
-                        <td className="font-semibold  mx-[19px]" >{type.amountType != 'percentage' && '$'}{
-                          type.amountType === 'percentage'
-                            ? type.adhValue1
-                            : (type.adhValue1 === undefined
-                              ? (0).toLocaleString(undefined, { minimumFractionDigits: 2 })
-                              : formatOrderValue(type.adhValue1 ?? 0)
-                            )
-                        }
-                          {type.amountType == 'percentage' && '%'}</td>
-                      </tr>
-                    ))}
-                  </>
-                )}
-              </table>
-
-            </div>
-            {dealerPriceBookDetail?.priceBooks?.priceType ==
-              "Quantity Pricing" && (
+              <div className="col-span-8">
+                <p className="text-lg font-semibold">
+                  Description
+                </p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.description}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg  font-semibold">
+                  Product SKU
+                </p>
+                <p className="text-base  font-semibold">
+                  {dealerPriceBookDetail?.priceBooks?.name}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg  font-semibold">
+                  Dealer SKU
+                </p>
+                <p className="text-base  font-semibold">
+                  {dealerPriceBookDetail?.dealerSku}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Wholesale Price
+                </p>
+                <p className="text-base font-semibold">
+                  $
+                  {dealerPriceBookDetail?.wholesalePrice === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                    )}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">
+                  Retail Price
+                </p>
+                <p className="text-base font-semibold">
+                  $
+                  {dealerPriceBookDetail?.retailPrice === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                    )}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Term</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.term} Months
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Status</p>
+                <p className="text-base font-bold">
+                  {" "}
+                  {dealerPriceBookDetail?.status === true ? "Active" : "Inactive"}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-base mb-3 font-semibold">
+                  # of Claims Over the Certain <br /> Period
+                </p>
+                <p className="text-[14px] font-semibold">
+                  {dealerPriceBookDetail?.noOfClaim?.period} - {dealerPriceBookDetail?.noOfClaim?.value}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-base mb-3 font-semibold">
+                  # of Claims in Coverage <br /> Period
+                </p>
+                <p className="text-[14px] font-semibold">
+                  {dealerPriceBookDetail?.noOfClaimPerPeriod}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className=" text-base mb-3 font-semibold">
+                  {" "}
+                  Is Include manufacturer <br /> warranty?
+                </p>
+                <p className="text-[14px] font-semibold">
+                  {dealerPriceBookDetail?.isManufacturerWarranty == true ? 'Yes' : 'No'}
+                </p>
+              </div>
+              {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
                 <>
-                  <div className="col-span-12">
-                    <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
-                        <th colSpan={"2"}>Quantity Pricing List </th>
-                      </tr>
-                      <tr className="border bg-[#9999]">
-                        <th>Name</th>
-                        <th>Max Quantity</th>
-                      </tr>
-                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                        .length !== 0 &&
-                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                          (item, index) => (
-                            <tr key={index} className="border">
-                              <td>{item.name}</td>
-                              <td>{item.quantity}</td>
-                            </tr>
-                          )
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">
+                      Start Range
+                    </p>
+                    <p className="text-base  font-semibold">
+                      $
+                      {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                          parseInt(0)
                         )}
-                    </table>
+                    </p>
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">
+                      End Range
+                    </p>
+                    <p className="text-base font-semibold">
+                      $
+                      {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                        ? parseInt(0).toLocaleString(2)
+                        : formatOrderValue(
+                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                          parseInt(0)
+                        )}
+                    </p>
                   </div>
                 </>
               )}
-          </Grid>
+              <div className="col-span-12">
+                <table className="w-full border text-center">
+                  <tr className="border bg-[#9999]">
+                    <th>Coverage Type</th>
+                    <th>Waiting Days</th>
+                    <th>Deductable</th>
+                  </tr>
+
+                  {dealerPriceBookDetail?.adhDays1 && dealerPriceBookDetail?.adhDays1.length > 0 && (
+                    <>
+                      {dealerPriceBookDetail?.adhDays1.map((type, index) => (
+                        <tr key={index} className="border ">
+                          <td className="font-semibold  mx-[19px]" >{type.label}</td>
+                          <td className="font-semibold  mx-[19px]" >{type.adhValue}</td>
+                          <td className="font-semibold  mx-[19px]" >{type.amountType != 'percentage' && '$'}{
+                            type.amountType === 'percentage'
+                              ? type.adhValue1
+                              : (type.adhValue1 === undefined
+                                ? (0).toLocaleString(undefined, { minimumFractionDigits: 2 })
+                                : formatOrderValue(type.adhValue1 ?? 0)
+                              )
+                          }
+                            {type.amountType == 'percentage' && '%'}</td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+                </table>
+
+              </div>
+              {dealerPriceBookDetail?.priceBooks?.priceType ==
+                "Quantity Pricing" && (
+                  <>
+                    <div className="col-span-12">
+                      <table className="w-full border text-center">
+                        <tr className="border bg-[#9999]">
+                          <th colSpan={"2"}>Quantity Pricing List </th>
+                        </tr>
+                        <tr className="border bg-[#9999]">
+                          <th>Name</th>
+                          <th>Max Quantity</th>
+                        </tr>
+                        {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                          .length !== 0 &&
+                          dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                            (item, index) => (
+                              <tr key={index} className="border">
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                              </tr>
+                            )
+                          )}
+                      </table>
+                    </div>
+                  </>
+                )}
+
+            </Grid>
+          </div>
         </div >
       </Modal >
 
