@@ -120,225 +120,232 @@ function PriceBookList(props) {
   const columns =
     props.flag === "reseller"
       ? [
-        {
-          name: "ID",
-          selector: (row) => row.unique_key,
-          sortable: true,
-          minWidth: "auto", // Set a custom minimum width
-          maxWidth: "70px", // Set a custom maximum width
-        },
-        {
-          name: <div>
-            Dealer
-            <br />
-            SKU
-          </div>,
-          selector: (row) => row?.dealerSku,
-          sortable: true,
-        },
-        {
-          name: (
-            <div>
-              Product
-              <br />
-              SKU
-            </div>
-          ),
-          selector: (row) => row?.priceBooks?.name,
-          sortable: true,
-        },
-        {
-          name: "Category",
-          selector: (row) => row?.priceBooks?.category[0]?.name,
-          sortable: true,
-        },
-        {
-          name: "Term",
-          selector: (row) => {
-            const months = row.priceBooks?.term;
-            if (months) {
-              const years = (months / 12);
-              return `${years} ${years == 1 ? 'Year' : 'Years'} `;
-            }
-            return "N/A";
+          {
+            name: "ID",
+            selector: (row) => row.unique_key,
+            sortable: true,
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
           },
-          sortable: true,
-        },
-        {
-          name: "WholeSale Cost",
-          selector: (row) =>
-            `$${row?.wholesalePrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
-            }`,
-          sortable: true,
-        },
-        {
-          name: "Retail Cost",
-          selector: (row) =>
-            `$${row?.retailPrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.retailPrice ?? parseInt(0))
-            }`,
-          sortable: true,
-        }
-      ]
-      : [
-        {
-          name: "Sr.#",
-          selector: (row, index) => index + 1,
-          sortable: true,
-          minWidth: "auto",
-          maxWidth: "90px",
-        },
-        {
-          name: (
-            <div>
-              Dealer
-              <br />
-              SKU
-            </div>
-          ),
-          selector: (row) => row?.dealerSku,
-          sortable: true,
-        },
-        {
-          name: (
-            <div>
-              Product
-              <br />
-              SKU
-            </div>
-          ),
-          selector: (row) => row?.priceBooks?.name,
-          sortable: true,
-        },
-        {
-          name: (
-            <div>
-              Product
-              <br />
-              Name
-            </div>
-          ),
-          selector: (row) => row?.priceBooks?.pName,
-          sortable: true,
-        },
-        {
-          name: "Category",
-          selector: (row) => row?.priceBooks?.category[0]?.name,
-          sortable: true,
-        },
-        {
-          name: "Term",
-          selector: (row) => {
-            const months = row.priceBooks?.term;
-            if (months) {
-              const years = (months / 12);
-              return `${years} ${years == 1 ? 'Year' : 'Years'} `;
-            }
-            return "N/A";
-          },
-          sortable: true,
-        },
-        {
-          name: (
-            <div>
-              Wholesale <br /> Cost{" "}
-            </div>
-          ),
-          selector: (row) =>
-            `$${row?.wholesalePrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.wholesalePrice)
-            }`,
-          sortable: true,
-        },
-        {
-          name: (
-            <div>
-              Retail
-              <br />
-              Cost
-            </div>
-          ),
-          selector: (row) =>
-            `$${row?.retailPrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(row?.retailPrice)
-            }`,
-          sortable: true,
-        },
-        {
-          name: "Status",
-          selector: (row) => row.status,
-          sortable: true,
-
-          cell: (row) => (
-            <div className="relative">
-              <div
-                className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-              ></div>
-              <select
-                value={row.status === true ? "active" : "inactive"}
-                disabled={
-                  row.priceBooks.category[0].status === false ||
-                  row.dealer?.accountStatus === false ||
-                  row.priceBooks?.status === false
-                }
-                onChange={(e) => handleStatusChange(row, e.target.value)}
-                className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-          ),
-        },
-        {
-          name: "Action",
-          minWidth: "auto", // Set a custom minimum width
-          maxWidth: "70px", // Set a custom maximum width
-          cell: (row, index) => {
-            return (
-              <div className="relative">
-                <div onClick={() => setSelectedAction(row._id)}>
-                  <img
-                    src={ActiveIcon}
-                    className="cursor-pointer	w-[35px]"
-                    alt="Active Icon"
-                  />
-                </div>
-                {selectedAction === row._id && (
-                  <div
-                    ref={dropdownRef}
-                    className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-                      index
-                    )}`}
-                  >
-                    {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
-                    <div
-                      onClick={() => {
-                        routeToEditPage(row);
-                      }}
-                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                    >
-                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
-                    </div>
-                    <div
-                      onClick={() => openView(row._id)}
-                      className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
-                    >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
-                    </div>
-                  </div>
-                )}
+          {
+            name: (
+              <div>
+                Dealer
+                <br />
+                SKU
               </div>
-            );
+            ),
+            selector: (row) => row?.dealerSku,
+            sortable: true,
           },
-        },
-      ];
+          {
+            name: (
+              <div>
+                Product
+                <br />
+                SKU
+              </div>
+            ),
+            selector: (row) => row?.priceBooks?.name,
+            sortable: true,
+          },
+          {
+            name: "Category",
+            selector: (row) => row?.priceBooks?.category[0]?.name,
+            sortable: true,
+          },
+          {
+            name: "Term",
+            selector: (row) => {
+              const months = row.priceBooks?.term;
+              if (months) {
+                const years = months / 12;
+                return `${years} ${years == 1 ? "Year" : "Years"} `;
+              }
+              return "N/A";
+            },
+            sortable: true,
+          },
+          {
+            name: "WholeSale Cost",
+            selector: (row) =>
+              `$${
+                row?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+              }`,
+            sortable: true,
+          },
+          {
+            name: "Retail Cost",
+            selector: (row) =>
+              `$${
+                row?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.retailPrice ?? parseInt(0))
+              }`,
+            sortable: true,
+          },
+        ]
+      : [
+          {
+            name: "Sr.#",
+            selector: (row, index) => index + 1,
+            sortable: true,
+            minWidth: "auto",
+            maxWidth: "90px",
+          },
+          {
+            name: (
+              <div>
+                Dealer
+                <br />
+                SKU
+              </div>
+            ),
+            selector: (row) => row?.dealerSku,
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Product
+                <br />
+                SKU
+              </div>
+            ),
+            selector: (row) => row?.priceBooks?.name,
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Product
+                <br />
+                Name
+              </div>
+            ),
+            selector: (row) => row?.priceBooks?.pName,
+            sortable: true,
+          },
+          {
+            name: "Category",
+            selector: (row) => row?.priceBooks?.category[0]?.name,
+            sortable: true,
+          },
+          {
+            name: "Term",
+            selector: (row) => {
+              const months = row.priceBooks?.term;
+              if (months) {
+                const years = months / 12;
+                return `${years} ${years == 1 ? "Year" : "Years"} `;
+              }
+              return "N/A";
+            },
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Wholesale <br /> Cost{" "}
+              </div>
+            ),
+            selector: (row) =>
+              `$${
+                row?.wholesalePrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.wholesalePrice)
+              }`,
+            sortable: true,
+          },
+          {
+            name: (
+              <div>
+                Retail
+                <br />
+                Cost
+              </div>
+            ),
+            selector: (row) =>
+              `$${
+                row?.retailPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(row?.retailPrice)
+              }`,
+            sortable: true,
+          },
+          {
+            name: "Status",
+            selector: (row) => row.status,
+            sortable: true,
+
+            cell: (row) => (
+              <div className="relative">
+                <div
+                  className={` ${
+                    row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+                  } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+                ></div>
+                <select
+                  value={row.status === true ? "active" : "inactive"}
+                  disabled={
+                    row.priceBooks.category[0].status === false ||
+                    row.dealer?.accountStatus === false ||
+                    row.priceBooks?.status === false
+                  }
+                  onChange={(e) => handleStatusChange(row, e.target.value)}
+                  className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
+                >
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+            ),
+          },
+          {
+            name: "Action",
+            minWidth: "auto", // Set a custom minimum width
+            maxWidth: "70px", // Set a custom maximum width
+            cell: (row, index) => {
+              return (
+                <div className="relative">
+                  <div onClick={() => setSelectedAction(row._id)}>
+                    <img
+                      src={ActiveIcon}
+                      className="cursor-pointer	w-[35px]"
+                      alt="Active Icon"
+                    />
+                  </div>
+                  {selectedAction === row._id && (
+                    <div
+                      ref={dropdownRef}
+                      className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                    >
+                      {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
+                      <div
+                        onClick={() => {
+                          routeToEditPage(row);
+                        }}
+                        className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      >
+                        <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                      </div>
+                      <div
+                        onClick={() => openView(row._id)}
+                        className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                      >
+                        <img src={view} className="w-4 h-4 mr-2" /> View
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            },
+          },
+        ];
 
   const coverage = [
     { label: "Breakdown", value: "Breakdown" },
@@ -528,28 +535,34 @@ function PriceBookList(props) {
         <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div
-              className={` ${props.flag === "reseller"
-                ? "col-span-4 self-center"
-                : "col-span-3 self-center"
-                }`}
+              className={` ${
+                props.flag === "reseller"
+                  ? "col-span-4 self-center"
+                  : "col-span-3 self-center"
+              }`}
             >
               <p className="text-xl font-semibold">Price Book List</p>
             </div>
             <div
-              className={` ${props.flag === "reseller" ? "col-span-8" : "col-span-9"
-                }`}
+              className={` ${
+                props.flag === "reseller" ? "col-span-8" : "col-span-9"
+              }`}
             >
               <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid
-                    className={` ${props.flag === "reseller"
-                      ? "!grid-cols-10"
-                      : "!grid-cols-10"
-                      }`}
+                    className={` ${
+                      props.flag === "reseller"
+                        ? "!grid-cols-10"
+                        : "!grid-cols-10"
+                    }`}
                   >
                     <div
-                      className={`${props.flag === "reseller"
-                        ? "col-span-3 self-center" : "col-span-3 self-center"}`}
+                      className={`${
+                        props.flag === "reseller"
+                          ? "col-span-3 self-center"
+                          : "col-span-3 self-center"
+                      }`}
                     >
                       <Input
                         name="dealerSku"
@@ -565,10 +578,11 @@ function PriceBookList(props) {
                     </div>
 
                     <div
-                      className={`${props.flag === "reseller"
-                        ? "col-span-3 self-center"
-                        : "col-span-3 self-center"
-                        }`}
+                      className={`${
+                        props.flag === "reseller"
+                          ? "col-span-3 self-center"
+                          : "col-span-3 self-center"
+                      }`}
                     >
                       <Select
                         name="category"
@@ -627,9 +641,11 @@ function PriceBookList(props) {
                 data={priceBookList}
                 highlightOnHover
                 draggableColumns={false}
-                sortIcon={<>
-                  <img src={shorting} className="ml-2" alt="shorting" />
-                </>}
+                sortIcon={
+                  <>
+                    <img src={shorting} className="ml-2" alt="shorting" />
+                  </>
+                }
                 noDataComponent={<CustomNoDataComponent />}
                 pagination
                 paginationPerPage={10}
@@ -668,37 +684,31 @@ function PriceBookList(props) {
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg  font-semibold">
-                Product Category
-              </p>
+              <p className="text-lg  font-semibold">Product Category</p>
               <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Wholesale Price
-              </p>
+              <p className="text-lg font-semibold">Wholesale Price</p>
               <p className="text-base font-semibold">
                 $
                 {dealerPriceBookDetail?.wholesalePrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                    dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
-                  )}
+                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Retail Price
-              </p>
+              <p className="text-lg font-semibold">Retail Price</p>
               <p className="text-base font-semibold">
                 $
                 {dealerPriceBookDetail?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                    dealerPriceBookDetail?.retailPrice ?? parseInt(0)
-                  )}
+                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -717,42 +727,40 @@ function PriceBookList(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Price Type
-              </p>
+              <p className="text-lg font-semibold">Price Type</p>
               <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Product SKU
-              </p>
+              <p className="text-lg font-semibold">Product SKU</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.name}
               </p>
             </div>
 
             <div className="col-span-8">
-              <p className="text-lg font-semibold">
-                Description
-              </p>
+              <p className="text-lg font-semibold">Description</p>
               <p className="text-base font-bold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
             <div className="col-span-12">
-              <p className="text-lg  font-semibold">
-                Coverage Type
-              </p>
+              <p className="text-lg  font-semibold">Coverage Type</p>
               <p className="text-base font-bold">
-
-                {dealerPriceBookDetail?.priceBooks?.optionDropdown && dealerPriceBookDetail?.priceBooks?.optionDropdown.length > 0 ? (
-
+                {dealerPriceBookDetail?.priceBooks?.coverageType &&
+                dealerPriceBookDetail?.priceBooks?.coverageType.length > 0 ? (
                   <ol className="flex flex-wrap">
-                    {dealerPriceBookDetail?.priceBooks?.optionDropdown.map((label, index) => (
-                      <li className="font-semibold list-disc mx-[19px]" key={index}>{label.label}</li>
-                    ))}
+                    {dealerPriceBookDetail?.priceBooks?.coverageType.map(
+                      (label, index) => (
+                        <li
+                          className="font-semibold list-disc mx-[19px]"
+                          key={index}
+                        >
+                          {label.label}
+                        </li>
+                      )
+                    )}
                   </ol>
                 ) : (
                   "No coverage types available"
@@ -762,62 +770,58 @@ function PriceBookList(props) {
             {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg font-semibold">
-                    Start Range
-                  </p>
+                  <p className="text-lg font-semibold">Start Range</p>
                   <p className="text-base font-semibold">
                     {" "}
                     $
                     {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                        parseInt(0)
-                      )}
+                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg  font-semibold">
-                    End Range
-                  </p>
+                  <p className="text-lg  font-semibold">End Range</p>
                   <p className="text-base  font-semibold">
                     $
                     {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                        parseInt(0)
-                      )}
+                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                            parseInt(0)
+                        )}
                   </p>
                 </div>
               </>
             )}
             {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
-                <>
-                  <div className="col-span-12">
-                    <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
-                        <th colSpan={"2"}>Quantity Pricing List </th>
-                      </tr>
-                      <tr className="border bg-[#9999]">
-                        <th>Name</th>
-                        <th>Max Quantity</th>
-                      </tr>
-                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                        .length !== 0 &&
-                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                          (item, index) => (
-                            <tr key={index} className="border">
-                              <td>{item.name}</td>
-                              <td>{item.quantity}</td>
-                            </tr>
-                          )
-                        )}
-                    </table>
-                  </div>
-                </>
-              )}
+              <>
+                <div className="col-span-12">
+                  <table className="w-full border text-center">
+                    <tr className="border bg-[#9999]">
+                      <th colSpan={"2"}>Quantity Pricing List </th>
+                    </tr>
+                    <tr className="border bg-[#9999]">
+                      <th>Name</th>
+                      <th>Max Quantity</th>
+                    </tr>
+                    {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                      .length !== 0 &&
+                      dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                        (item, index) => (
+                          <tr key={index} className="border">
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                          </tr>
+                        )
+                      )}
+                  </table>
+                </div>
+              </>
+            )}
           </Grid>
         </div>
       </Modal>
