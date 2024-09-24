@@ -3588,40 +3588,13 @@ function AddOrder() {
                             </div>
                           </div>
                         </div>
-                        <div className="flex justify-between w-full">
+                        <div className=" w-full">
                           <p className="text-[12px] mb-3 font-semibold">
                             # of Claims Over the Certain Period
                           </p>
-                          <div className="flex">
-                            <RadioButton
-                              className="self-start"
-                              id="yes-warranty"
-                              label="Unlimited"
-                              value={true}
-                              checked={claimOver === true}
-                              onChange={() => {
-                                setClaimOver(true);
-                                formik.setFieldValue("noOfClaim", {
-                                  period: "Monthly",
-                                  value: -1,
-                                });
-                              }}
-                            />
-                            <RadioButton
-                              className="self-start"
-                              id="no-warranty"
-                              label="Fixed"
-                              value={false}
-                              checked={claimOver === false}
-                              onChange={() => {
-                                setClaimOver(false);
-                                formik.setFieldValue("noOfClaim", {
-                                  period: "Monthly",
-                                  value: 0,
-                                });
-                              }}
-                            />
-                          </div>
+                          <p className="text-[12px] mb-3 font-semibold">
+                            Certain Period
+                          </p>
                         </div>
                         {/* {claimOver === false && (
                           <div className="flex">
@@ -3640,75 +3613,16 @@ function AddOrder() {
                               }
                             />
 
-                            <div className="ml-3">
-                              <Input
-                                className1="!pt-2.5"
-                                placeholder="# of claims"
-                                type="number"
-                                name={`noOfClaim.value`}
-                                value={formik.values.noOfClaim.value}
-                                onBlur={formik.handleBlur}
-                                onChange={(e) =>
-                                  formik.setFieldValue(
-                                    "noOfClaim.value",
-                                    Number(e.target.value)
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
-                        )}
-                        <div className="flex justify-between my-4 w-full">
+                        <div className=" my-4 w-full">
                           <p className="text-[12px] font-semibold">
                             # of Claims in Coverage Period
                           </p>
-                          <div className="flex">
-                            <RadioButton
-                              className="self-start"
-                              id="yes-warranty"
-                              label="Unlimited"
-                              value={true}
-                              checked={claimInCoveragePeriod === true}
-                              onChange={() => {
-                                setClaimInCoveragePeriod(true);
-                                formik.setFieldValue("noOfClaimPerPeriod", -1);
-                              }}
-                            />
-                            <RadioButton
-                              className="self-start"
-                              id="no-warranty"
-                              label="Fixed"
-                              value={false}
-                              checked={claimInCoveragePeriod === false}
-                              onChange={() => {
-                                setClaimInCoveragePeriod(false);
-                                formik.setFieldValue("noOfClaimPerPeriod", 0);
-                              }}
-                            />
-                          </div>
+                          <p className="text-[12px] font-semibold">
+                            # of Claims
+                          </p>
                         </div>
-                        {claimInCoveragePeriod === false && (
-                          <div className="flex ">
-                            <div className="">
-                              <Input
-                                className1="!pt-2.5"
-                                placeholder="# of claims"
-                                type="number"
-                                name={`noOfClaimPerPeriod`}
-                                value={formik.values.noOfClaimPerPeriod.value}
-                                onBlur={formik.handleBlur}
-                                onChange={(e) =>
-                                  formik.setFieldValue(
-                                    "noOfClaimPerPeriod",
-                                    Number(e.target.value)
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
-                        )}
 
-                        <div className="flex justify-between">
+                        <div className="">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
                             Is Include manufacturer <br /> warranty?

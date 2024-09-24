@@ -160,6 +160,22 @@ export const getTermList = async () => {
   }
 };
 
+export const DownloadSet = async (fileName) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/user/downloadFile`, { key: fileName }, {
+      headers,
+      responseType: "arraybuffer",
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
 export const getCovrageList = async () => {
   const headers = createHeaders();
 

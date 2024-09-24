@@ -1322,7 +1322,7 @@ function Dealer() {
                   </div>
                   <div className="col-span-12">
                     <p className="text-base mb-3 font-semibold">
-                      Coverage Type :
+                      Coverage Type<span className="text-red text-sm">* </span> :
                     </p>
                     <Grid>
                       {coverage.map((type) => (

@@ -49,8 +49,14 @@ import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import SwitchButton from "../../../common/switch";
+import { getOptions } from "../../../services/claimServices";
 
 function Account() {
+  const [repairValue, repair_status] = useState({});
+  const [customerValue, customer_status] = useState({});
+  const [coverageType, coverage_type] = useState({});
+  const [claimvalues, claim_status] = useState({});
+  const [shipment, shipment_type] = useState({});
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -681,6 +687,7 @@ function Account() {
   };
 
   useEffect(() => {
+    getClaimOptions()
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -1007,7 +1014,7 @@ function Account() {
   };
 
   const handleSetActiveIndex = (index) => {
-    setActiveIndex(index); // Update active index based on user action
+    setActiveIndex(index);
   };
 
   const [rows, setRows] = useState([
@@ -1039,6 +1046,31 @@ function Account() {
       )
     );
   };
+
+  const getClaimOptions = async () => {
+    try {
+      const data = [
+        "repair_status",
+        "shipment_type",
+        "customer_status",
+        "coverage_type",
+        "claim_status",
+      ];
+      const result = await getOptions(data);
+
+      const stateSetters = {
+        repair_status,
+        shipment_type,
+        customer_status,
+        coverage_type,
+        claim_status,
+      };
+      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+    } catch (error) {
+      console.error("Error fetching claim options:", error);
+    }
+  };
+  console.log(repairValue, customerValue, shipment, claimvalues, coverageType, '--------')
 
   return (
     <>
@@ -1750,6 +1782,7 @@ function Account() {
               </form>
             </Card>
           )}
+
           {activeButton === "Settings" && (
             <>
               <CollapsibleDiv
@@ -1805,7 +1838,7 @@ function Account() {
                       </tr>
                     </thead>
                     <tbody className="w-full border-collapse border text-center">
-                      {rows.map((row) => (
+                      {coverageType?.value.map((row) => (
                         <tr key={row.id} className="w-full border-collapse border">
                           <td className="py-3">
                             {row.isEditing ? (
@@ -1823,7 +1856,7 @@ function Account() {
                             isOn={row.status}
                             handleToggle={() => handleStatusToggle(row.id)}
                           />
-                            {row.status ? " Active" : " Inactive"}</td>
+                          </td>
                           <td>
                             <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
                               {row.isEditing ? "Save" : "Edit"}
@@ -1890,7 +1923,7 @@ function Account() {
                         </tr>
                       </thead>
                       <tbody className="w-full border-collapse border text-center">
-                        {rows.map((row) => (
+                        {repairValue?.value.map((row) => (
                           <tr key={row.id} className="w-full border-collapse border">
                             <td className="py-3">
                               {row.isEditing ? (
@@ -1908,7 +1941,7 @@ function Account() {
                               isOn={row.status}
                               handleToggle={() => handleStatusToggle(row.id)}
                             />
-                              {row.status ? " Active" : " Inactive"}</td>
+                            </td>
                             <td>
                               <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
                                 {row.isEditing ? "Save" : "Edit"}
@@ -1963,9 +1996,6 @@ function Account() {
                         </div>
                       </Grid>
                     </div>
-                    <div>
-
-                    </div>
                     <table className="w-full border-collapse border">
                       <thead className="w-full border-collapse border bg-[#F9F9F9] ">
                         <tr>
@@ -1976,7 +2006,7 @@ function Account() {
                         </tr>
                       </thead>
                       <tbody className="w-full border-collapse border text-center">
-                        {rows.map((row) => (
+                        {customerValue?.value.map((row) => (
                           <tr key={row.id} className="w-full border-collapse border">
                             <td className="py-3">
                               {row.isEditing ? (
@@ -1993,8 +2023,7 @@ function Account() {
                             <td>  <SwitchButton
                               isOn={row.status}
                               handleToggle={() => handleStatusToggle(row.id)}
-                            />
-                              {row.status ? " Active" : " Inactive"}</td>
+                            /></td>
                             <td>
                               <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
                                 {row.isEditing ? "Save" : "Edit"}
@@ -2062,7 +2091,7 @@ function Account() {
                         </tr>
                       </thead>
                       <tbody className="w-full border-collapse border text-center">
-                        {rows.map((row) => (
+                        {shipment?.value.map((row) => (
                           <tr key={row.id} className="w-full border-collapse border">
                             <td className="py-3">
                               {row.isEditing ? (
@@ -2079,8 +2108,7 @@ function Account() {
                             <td>  <SwitchButton
                               isOn={row.status}
                               handleToggle={() => handleStatusToggle(row.id)}
-                            />
-                              {row.status ? " Active" : " Inactive"}</td>
+                            /></td>
                             <td>
                               <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
                                 {row.isEditing ? "Save" : "Edit"}
@@ -2148,7 +2176,7 @@ function Account() {
                       </tr>
                     </thead>
                     <tbody className="w-full border-collapse border text-center">
-                      {rows.map((row) => (
+                      {claimvalues?.value.map((row) => (
                         <tr key={row.id} className="w-full border-collapse border">
                           <td className="py-3">
                             {row.isEditing ? (
@@ -2165,8 +2193,7 @@ function Account() {
                           <td>  <SwitchButton
                             isOn={row.status}
                             handleToggle={() => handleStatusToggle(row.id)}
-                          />
-                            {row.status ? " Active" : " Inactive"}</td>
+                          /></td>
                           <td>
                             <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
                               {row.isEditing ? "Save" : "Edit"}

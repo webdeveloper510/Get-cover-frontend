@@ -307,10 +307,49 @@ function AddDealerBook() {
             .min(0, "Value cannot be negative"),
           deductible: Yup.number()
             .required("Required")
-            .min(0, "Value cannot be negative"),
+            .min(0, "Must be at least 0")
+            .when("amountType", {
+              is: (value) => value === "percentage",
+              then: () =>
+                Yup.number()
+                  .max(99.9, "Cannot exceed 99.9%")
+                  .test(
+                    "is-decimal",
+                    "Percentage must have up to 2 decimal places",
+                    (value) =>
+                      value === undefined ||
+                      value === null ||
+                      /^\d+(\.\d{1,2})?$/.test(value)
+                  ),
+              otherwise: () => Yup.number().min(0, "Must be at least 0"),
+            }),
           amountType: Yup.string().required(""),
         })
       ),
+      adhDays: Yup.array().of(
+        Yup.object().shape({
+          deductible: Yup.number()
+            .required("Required")
+            .min(0, "Must be at least 0"),
+        })
+      ),
+      coverageType: Yup.array()
+        .min(1, "Required")
+        .test(
+          "validate-adhDays-errors",
+          "Value cannot be more than 99.9%",
+          function () {
+            const { adhDays } = this.parent;
+            const hasErrors = adhDays.some((item) => {
+              if (item.amountType === "percentage" && item.deductible > 99.9) {
+                return true;
+              }
+              return false;
+            });
+
+            return !hasErrors;
+          }
+        ),
     }),
     onSubmit: async (values) => {
       setLoader(true);
@@ -521,7 +560,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -841,6 +880,9 @@ function AddDealerBook() {
                               name={`adhDays[${index}].deductible`}
                               id={`adhDays[${index}].deductible`}
                               value={adhDay.deductible}
+                              maxDecimalPlaces={2}
+                              minLength={"1"}
+                              maxLength={"10"}
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
                               className="form-input"
@@ -857,9 +899,9 @@ function AddDealerBook() {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.label == adhDay.label
                                         ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                          ...item,
+                                          amountType: value,
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -877,10 +919,10 @@ function AddDealerBook() {
                                 options={optiondeductibles}
                               />
                             </div>
-                            {formik.touched.adhDays?.[index]?.deductible &&
-                              formik.errors.adhDays?.[index]?.deductible && (
+                            {formik.touched.coverageType &&
+                              formik.errors.coverageType && (
                                 <div className="text-red-500 text-sm">
-                                  {formik.errors.adhDays[index].deductible}
+                                  {formik.errors.coverageType}
                                 </div>
                               )}
                           </div>
