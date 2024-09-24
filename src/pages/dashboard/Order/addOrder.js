@@ -20,6 +20,7 @@ import * as Yup from "yup";
 import {
   getDealersList,
   getDealersSettingsByid,
+  uploadTermsandCondition,
 } from "../../../services/dealerServices";
 import { getServicerListByDealerId } from "../../../services/servicerServices";
 import {
@@ -142,17 +143,26 @@ function AddOrder() {
     const maxSize = 10048576; // 10MB in bytes
 
     if (file?.size > maxSize) {
-      formik.setFieldError(
+      formikStep2.setFieldError(
         "termCondition",
         "File is too large. Please upload a file smaller than 10MB."
       );
       console.log("Selected file:", file);
     } else {
       setSelectedFile2(file);
-      formik.setFieldValue("termCondition", file);
-      console.log("Selected file:", file);
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = uploadTermsandCondition(formData).then((res) => {
+        console.log(result);
+        formikStep2.setFieldValue("termCondition", {
+          fileName: res?.file?.filename,
+          name: res?.file?.originalname,
+          size: res?.file?.size,
+        });
+      });
     }
   };
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -703,12 +713,12 @@ function AddOrder() {
       coverageType: Yup.array().min(1, "Coverage Type is Required"),
     }),
     onSubmit: (values) => {
+      console.log(values);
       let data = {
         dealerPurchaseOrder: values.dealerPurchaseOrder,
         dealerId: formik.values.dealerId,
         oldDealerPurchaseOrder: order?.venderOrder,
       };
-      console.log(values);
       const result = getStep2Validation(data).then((res) => {
         if (res.code == 401) {
           formikStep2.setFieldError(
@@ -772,11 +782,60 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-          // adhDays: Yup.array().of(
-          //   Yup.object().shape({
-          //     value: Yup.string().required("Required"),
-          //   })
-          // ), //add this
+          adhDays: Yup.array().of(
+            Yup.object().shape({
+              label: Yup.string(),
+              waitingDays: Yup.number()
+                .required("Required")
+                .min(0, "Value cannot be negative"),
+              deductible: Yup.number()
+                .required("Required")
+                .min(0, "Must be at least 0")
+                .when("amountType", {
+                  is: (value) => value === "percentage",
+                  then: () =>
+                    Yup.number()
+                      .max(99.9, "Cannot exceed 99.9%")
+                      .test(
+                        "is-decimal",
+                        "Percentage must have up to 2 decimal places",
+                        (value) =>
+                          value === undefined ||
+                          value === null ||
+                          /^\d+(\.\d{1,2})?$/.test(value)
+                      ),
+                  otherwise: () => Yup.number().min(0, "Must be at least 0"),
+                }),
+              amountType: Yup.string().required(""),
+            })
+          ),
+          adhDays: Yup.array().of(
+            Yup.object().shape({
+              deductible: Yup.number()
+                .required("Required")
+                .min(0, "Must be at least 0"),
+            })
+          ),
+          coverageType: Yup.array()
+            .min(1, "Required")
+            .test(
+              "validate-adhDays-errors",
+              "Value cannot be more than 99.9%",
+              function () {
+                const { adhDays } = this.parent;
+                const hasErrors = adhDays.some((item) => {
+                  if (
+                    item.amountType === "percentage" &&
+                    item.deductible > 99.9
+                  ) {
+                    return true;
+                  }
+                  return false;
+                });
+
+                return !hasErrors;
+              }
+            ),
           noOfProducts: Yup.number()
             .typeError("Must be a number")
             .required("Required")
@@ -2207,72 +2266,91 @@ function AddOrder() {
                     )}
                 </div>
                 <div className="col-span-6">
-                  <div className="relative">
-                    <label
-                      htmlFor="coverageType"
-                      className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                    >
-                      Coverage Type
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                      <MultiSelect
-                        label="Coverage Type"
-                        name="coverageType"
-                        placeholder=""
-                        className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
-                        required={true}
-                        styles={{
-                          chips: (provided) => ({
-                            ...provided,
-                            backgroundColor:
-                              type === "Edit" ? "#e0e0e0" : "#f0ad4e", // Change chip color when disabled
-                            color: type === "Edit" ? "#a0a0a0" : "white", // Change chip text color when disabled
-                          }),
-                          searchBox: (provided) => ({
-                            ...provided,
-                            backgroundColor:
-                              type === "Edit" ? "#f0f0f0" : "#f7f7f7", // Change search box background when disabled
-                            border:
-                              type === "Edit"
-                                ? "1px solid #ccc"
-                                : "1px solid #ddd", // Change border when disabled
-                            cursor: type === "Edit" ? "not-allowed" : "pointer", // Change cursor when disabled
-                          }),
-                          option: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: state.isSelected
-                              ? "#f0ad4e"
-                              : "white",
-                            color: state.isSelected ? "white" : "black",
-                            "&:hover": {
+                  {type === "Edit" ? (
+                    <>
+                      <p className="text-[12px]">Coverage Type</p>
+                      <ol className="flex flex-wrap">
+                        {selected.map((data) => {
+                          return (
+                            <li
+                              key={data.label}
+                              className="font-bold text-sm list-disc mx-[19px]"
+                            >
+                              {data.label}
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </>
+                  ) : (
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type"
+                          name="coverageType"
+                          placeholder=""
+                          className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                          required={true}
+                          styles={{
+                            chips: (provided) => ({
+                              ...provided,
                               backgroundColor:
-                                type === "Edit" ? "white" : "#f0ad4e", // Prevent hover effect when disabled
-                              color: type == "Edit" ? "black" : "white",
-                            },
-                          }),
-                        }}
-                        disabled={type == "Edit"}
-                        onChange={(value) => {
-                          setSelected(value);
-                          handleSelectChange1("coverageType", value);
-                        }}
-                        options={coverage}
-                        value={selected}
-                        onBlur={formikStep2.handleBlur}
-                        error={
-                          formikStep2.touched.coverageType &&
-                          formikStep2.errors.coverageType
-                        }
-                      />
+                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", // Change chip color when disabled
+                              color: type === "Edit" ? "#a0a0a0" : "white", // Change chip text color when disabled
+                            }),
+                            searchBox: (provided) => ({
+                              ...provided,
+                              backgroundColor:
+                                type === "Edit" ? "#f0f0f0" : "#f7f7f7", // Change search box background when disabled
+                              border:
+                                type === "Edit"
+                                  ? "1px solid #ccc"
+                                  : "1px solid #ddd", // Change border when disabled
+                              cursor:
+                                type === "Edit" ? "not-allowed" : "pointer", // Change cursor when disabled
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? "#f0ad4e"
+                                : "white",
+                              color: state.isSelected ? "white" : "black",
+                              "&:hover": {
+                                backgroundColor:
+                                  type === "Edit" ? "white" : "#f0ad4e", // Prevent hover effect when disabled
+                                color: type == "Edit" ? "black" : "white",
+                              },
+                            }),
+                          }}
+                          disabled={type == "Edit"}
+                          onChange={(value) => {
+                            setSelected(value);
+                            handleSelectChange1("coverageType", value);
+                          }}
+                          options={coverage}
+                          value={selected}
+                          onBlur={formikStep2.handleBlur}
+                          error={
+                            formikStep2.touched.coverageType &&
+                            formikStep2.errors.coverageType
+                          }
+                        />
+                      </div>
+                      {formikStep2.touched.coverageType &&
+                        formikStep2.errors.coverageType && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep2.errors.coverageType}
+                          </div>
+                        )}
                     </div>
-                    {formikStep2.touched.coverageType &&
-                      formikStep2.errors.coverageType && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formikStep2.errors.coverageType}
-                        </div>
-                      )}
-                  </div>
+                  )}
                 </div>
               </Grid>
             </div>
@@ -2924,20 +3002,10 @@ function AddOrder() {
                                         options={optiondeductibles}
                                       />
                                     </div>
-                                    {formikStep3.errors.productsArray &&
-                                      formikStep3.errors.productsArray[index] &&
-                                      formikStep3.errors.productsArray[index]
-                                        .adhDays &&
-                                      formikStep3.errors.productsArray[index]
-                                        .adhDays[idx] &&
-                                      formikStep3.errors.productsArray[index]
-                                        .adhDays[idx].deductible && (
-                                        <div className="text-red-500 text-sm pl-2 pt-2">
-                                          {
-                                            formikStep3.errors.productsArray[
-                                              index
-                                            ].adhDays[idx].deductible
-                                          }
+                                    {formik.touched.coverageType &&
+                                      formik.errors.coverageType && (
+                                        <div className="text-red-500 text-sm">
+                                          {formik.errors.coverageType}
                                         </div>
                                       )}
                                   </div>
@@ -3068,181 +3136,185 @@ function AddOrder() {
                           {formikStep3.errors.productsArray[index].file}
                         </div>
                       )}
-
-                    <div className="col-span-12 my-4 border-t py-3">
-                      <div className="flex justify-between w-full">
-                        <p className="text-[12px] mb-3 font-semibold">
-                          # of Claims Over the Certain Period
-                        </p>
-                        <div className="flex">
-                          <RadioButton
-                            className="self-start"
-                            id="yes-warranty"
-                            label="Unlimited"
-                            value={true}
-                            checked={claimOver === true}
-                            onChange={() => {
-                              setClaimOver(true);
-                              formik.setFieldValue("noOfClaim", {
-                                period: "Monthly",
-                                value: -1,
-                              });
-                            }}
-                          />
-                          <RadioButton
-                            className="self-start"
-                            id="no-warranty"
-                            label="Fixed"
-                            value={false}
-                            checked={claimOver === false}
-                            onChange={() => {
-                              setClaimOver(false);
-                              formik.setFieldValue("noOfClaim", {
-                                period: "Monthly",
-                                value: 0,
-                              });
-                            }}
-                          />
+                    {formikStep3.values.productsArray[index].dealerSku ===
+                    "" ? (
+                      ""
+                    ) : (
+                      <div className="col-span-12 my-4 border-t py-3">
+                        <div className="flex justify-between w-full">
+                          <p className="text-[12px] mb-3 font-semibold">
+                            # of Claims Over the Certain Period
+                          </p>
+                          <div className="flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Unlimited"
+                              value={true}
+                              checked={claimOver === true}
+                              onChange={() => {
+                                setClaimOver(true);
+                                formik.setFieldValue("noOfClaim", {
+                                  period: "Monthly",
+                                  value: -1,
+                                });
+                              }}
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="Fixed"
+                              value={false}
+                              checked={claimOver === false}
+                              onChange={() => {
+                                setClaimOver(false);
+                                formik.setFieldValue("noOfClaim", {
+                                  period: "Monthly",
+                                  value: 0,
+                                });
+                              }}
+                            />
+                          </div>
                         </div>
-                      </div>
-                      {claimOver === false && (
-                        <div className="flex">
-                          <Select
-                            name={`productsArray[${index}].noOfClaim.period`}
-                            options={period}
-                            className="!bg-grayf9"
-                            placeholder=""
-                            className1="!pt-2.5"
-                            OptionName={"Period"}
-                            maxLength={"30"}
-                            value={
-                              formikStep3?.values?.productsArray[index]
-                                ?.noOfClaim?.period
-                            }
-                            onBlur={formik.handleBlur}
-                            onChange={(name, value) =>
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].noOfClaim.period`,
-                                value
-                              )
-                            }
-                          />
-
-                          <div className="ml-3">
-                            <Input
+                        {claimOver === false && (
+                          <div className="flex">
+                            <Select
+                              name={`productsArray[${index}].noOfClaim.period`}
+                              options={period}
+                              className="!bg-grayf9"
+                              placeholder=""
                               className1="!pt-2.5"
-                              placeholder="# of claims"
-                              type="number"
-                              name={`productsArray[${index}].noOfClaim.value`}
+                              OptionName={"Period"}
+                              maxLength={"30"}
                               value={
                                 formikStep3?.values?.productsArray[index]
-                                  ?.noOfClaim?.value
+                                  ?.noOfClaim?.period
                               }
                               onBlur={formik.handleBlur}
-                              onChange={(e) =>
+                              onChange={(name, value) =>
                                 formikStep3.setFieldValue(
-                                  `productsArray[${index}].noOfClaim.value`,
-                                  Number(e.target.value)
+                                  `productsArray[${index}].noOfClaim.period`,
+                                  value
+                                )
+                              }
+                            />
+
+                            <div className="ml-3">
+                              <Input
+                                className1="!pt-2.5"
+                                placeholder="# of claims"
+                                type="number"
+                                name={`productsArray[${index}].noOfClaim.value`}
+                                value={
+                                  formikStep3?.values?.productsArray[index]
+                                    ?.noOfClaim?.value
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={(e) =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaim.value`,
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        )}
+                        <div className="flex justify-between my-4 w-full">
+                          <p className="text-[12px] font-semibold">
+                            # of Claims in Coverage Period
+                          </p>
+                          <div className="flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Unlimited"
+                              value={true}
+                              checked={claimInCoveragePeriod === true}
+                              onChange={() => {
+                                setClaimInCoveragePeriod(true);
+                                formik.setFieldValue("noOfClaimPerPeriod", -1);
+                              }}
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="Fixed"
+                              value={false}
+                              checked={claimInCoveragePeriod === false}
+                              onChange={() => {
+                                setClaimInCoveragePeriod(false);
+                                formik.setFieldValue("noOfClaimPerPeriod", 0);
+                              }}
+                            />
+                          </div>
+                        </div>
+                        {claimInCoveragePeriod === false && (
+                          <div className="flex ">
+                            <div className="">
+                              <Input
+                                className1="!pt-2.5"
+                                placeholder="# of claims"
+                                type="number"
+                                name={`productsArray[${index}].noOfClaimPerPeriod`}
+                                value={
+                                  formikStep3?.values?.productsArray[index]
+                                    ?.noOfClaimPerPeriod
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={(e) =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaimPerPeriod`,
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex justify-between">
+                          <p className=" text-[12px] mb-3 font-semibold">
+                            {" "}
+                            Is Include manufacturer <br /> warranty?
+                          </p>
+                          <div className="flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Yes"
+                              value={true}
+                              checked={
+                                formikStep3.values.productsArray[index]
+                                  .isManufacturerWarranty == true
+                              }
+                              onChange={() =>
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].isManufacturerWarranty`,
+                                  true
+                                )
+                              }
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="No"
+                              value={false}
+                              checked={
+                                formikStep3.values.productsArray[index]
+                                  .isManufacturerWarranty === false
+                              }
+                              onChange={() =>
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].isManufacturerWarranty`,
+                                  false
                                 )
                               }
                             />
                           </div>
                         </div>
-                      )}
-                      <div className="flex justify-between my-4 w-full">
-                        <p className="text-[12px] font-semibold">
-                          # of Claims in Coverage Period
-                        </p>
-                        <div className="flex">
-                          <RadioButton
-                            className="self-start"
-                            id="yes-warranty"
-                            label="Unlimited"
-                            value={true}
-                            checked={claimInCoveragePeriod === true}
-                            onChange={() => {
-                              setClaimInCoveragePeriod(true);
-                              formik.setFieldValue("noOfClaimPerPeriod", -1);
-                            }}
-                          />
-                          <RadioButton
-                            className="self-start"
-                            id="no-warranty"
-                            label="Fixed"
-                            value={false}
-                            checked={claimInCoveragePeriod === false}
-                            onChange={() => {
-                              setClaimInCoveragePeriod(false);
-                              formik.setFieldValue("noOfClaimPerPeriod", 0);
-                            }}
-                          />
-                        </div>
                       </div>
-                      {claimInCoveragePeriod === false && (
-                        <div className="flex ">
-                          <div className="">
-                            <Input
-                              className1="!pt-2.5"
-                              placeholder="# of claims"
-                              type="number"
-                              name={`productsArray[${index}].noOfClaimPerPeriod`}
-                              value={
-                                formikStep3?.values?.productsArray[index]
-                                  ?.noOfClaimPerPeriod
-                              }
-                              onBlur={formik.handleBlur}
-                              onChange={(e) =>
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].noOfClaimPerPeriod`,
-                                  Number(e.target.value)
-                                )
-                              }
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex justify-between">
-                        <p className=" text-[12px] mb-3 font-semibold">
-                          {" "}
-                          Is Include manufacturer <br /> warranty?
-                        </p>
-                        <div className="flex">
-                          <RadioButton
-                            className="self-start"
-                            id="yes-warranty"
-                            label="Yes"
-                            value={true}
-                            checked={
-                              formikStep3.values.productsArray[index]
-                                .isManufacturerWarranty == true
-                            }
-                            onChange={() =>
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].isManufacturerWarranty`,
-                                true
-                              )
-                            }
-                          />
-                          <RadioButton
-                            className="self-start"
-                            id="no-warranty"
-                            label="No"
-                            value={false}
-                            checked={
-                              formikStep3.values.productsArray[index]
-                                .isManufacturerWarranty === false
-                            }
-                            onChange={() =>
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].isManufacturerWarranty`,
-                                false
-                              )
-                            }
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </Grid>
               </Card>
@@ -3331,19 +3403,20 @@ function AddOrder() {
                       <img src={csvFile} className="mr-2" alt="Dropbox" />
                       <div className="flex justify-between w-full">
                         <p className="self-center text-black">
-                          {formikStep2?.values?.termCondition?.file === "" ||
-                          formikStep2?.values?.termCondition?.file?.name === ""
+                          {formikStep2?.values?.termCondition?.fileName ===
+                            "" ||
+                          formikStep2?.values?.termCondition?.name === ""
                             ? "No File Selected"
-                            : formikStep2?.values?.termCondition?.file?.name}
+                            : formikStep2?.values?.termCondition?.name}
                         </p>
 
                         <p className="self-center">
-                          {formikStep2?.values?.termCondition?.file === "" ||
-                          formikStep2?.values?.termCondition?.file?.name === ""
+                          {formikStep2?.values?.termCondition?.fileName ===
+                            "" ||
+                          formikStep2?.values?.termCondition?.name === ""
                             ? ""
                             : (
-                                formikStep2?.values?.termCondition?.file?.size /
-                                1000
+                                formikStep2?.values?.termCondition?.size / 1000
                               )?.toFixed(2) + "kb"}
                         </p>
                       </div>
