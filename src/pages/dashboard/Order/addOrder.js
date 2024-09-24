@@ -1612,9 +1612,12 @@ function AddOrder() {
         ? null
         : res.result[0].termCondition
     );
-    formikStep2.setFieldValue("termCondition", res.result[0].termCondition.fileName === ""
-      ? null
-      : res.result[0].termCondition)
+    formikStep2.setFieldValue(
+      "termCondition",
+      res.result[0].termCondition.fileName === ""
+        ? null
+        : res.result[0].termCondition
+    );
   };
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
@@ -3401,27 +3404,29 @@ function AddOrder() {
                           : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-5 py-4">
+                    <div className="col-span-5 py-4 ">
                       <p className="text-[12px]">Term And Condition</p>
-                      <img src={csvFile} className="mr-2" alt="Dropbox" />
-                      <div className="flex justify-between w-full">
-                        <p className="self-center text-black">
+                      <div className="flex justify-between self-center">
+                        <img
+                          src={csvFile}
+                          className="mr-2 h-[23px]"
+                          alt="Dropbox"
+                        />
+                        <p className="self-center text-[11px] font-bold text-black">
                           {formikStep2?.values?.termCondition?.fileName ===
-                            "" ||
-                          formikStep2?.values?.termCondition === null
+                            "" || formikStep2?.values?.termCondition === null
                             ? "No File Selected"
                             : formikStep2?.values?.termCondition?.name}
                         </p>
 
-                        <p className="self-center">
+                        {/* <p className="self-center font-bold text-[11px]">
                           {formikStep2?.values?.termCondition?.fileName ===
-                            "" ||
-                          formikStep2?.values?.termCondition === null
+                            "" || formikStep2?.values?.termCondition === null
                             ? ""
                             : (
                                 formikStep2?.values?.termCondition?.size / 1000
                               )?.toFixed(2) + "kb"}
-                        </p>
+                        </p> */}
                       </div>
                       {/* <div className="self-center flex">
                         <img src={csvFile} className="mr-2 h-[23px]" alt="Dropbox" />
@@ -3664,181 +3669,52 @@ function AddOrder() {
                             </div>
                           </div>
                         </div>
-                          <div className="col-span-12 my-4 border-t py-3">
-                        <div className="flex justify-between w-full">
-                          <p className="text-[12px] mb-3 font-semibold">
-                            # of Claims Over the Certain Period
-                          </p>
-                          <div className="flex">
-                            <RadioButton
-                              className="self-start"
-                              id="yes-warranty"
-                              label="Unlimited"
-                              value={true}
-                              checked={claimOver === true}
-                              onChange={() => {
-                                setClaimOver(true);
-                                formik.setFieldValue("noOfClaim", {
-                                  period: "Monthly",
-                                  value: -1,
-                                });
-                              }}
-                            />
-                            <RadioButton
-                              className="self-start"
-                              id="no-warranty"
-                              label="Fixed"
-                              value={false}
-                              checked={claimOver === false}
-                              onChange={() => {
-                                setClaimOver(false);
-                                formik.setFieldValue("noOfClaim", {
-                                  period: "Monthly",
-                                  value: 0,
-                                });
-                              }}
-                            />
-                          </div>
-                        </div>
-                        {claimOver === false && (
-                          <div className="flex">
-                            <Select
-                              name={`productsArray[${index}].noOfClaim.period`}
-                              options={period}
-                              className="!bg-grayf9"
-                              placeholder=""
-                              className1="!pt-2.5"
-                              OptionName={"Period"}
-                              maxLength={"30"}
-                              value={
+                        <div className="col-span-12 my-4 border-t py-3">
+                          <div className=" w-full">
+                            <p className="text-base mb-1 font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                            <p className="text-sm">
+                              {" "}
+                              {
                                 formikStep3?.values?.productsArray[index]
                                   ?.noOfClaim?.period
-                              }
-                              onBlur={formik.handleBlur}
-                              onChange={(name, value) =>
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].noOfClaim.period`,
-                                  value
-                                )
-                              }
-                            />
+                              }{" "}
+                              -{" "}
+                              {formikStep3?.values?.productsArray[index]
+                                ?.noOfClaim?.value === "-1"
+                                ? "Unlimited"
+                                : formikStep3?.values?.productsArray[index]
+                                    ?.noOfClaim?.value}{" "}
+                            </p>
+                          </div>
 
-                            <div className="ml-3">
-                              <Input
-                                className1="!pt-2.5"
-                                placeholder="# of claims"
-                                type="number"
-                                name={`productsArray[${index}].noOfClaim.value`}
-                                value={
-                                  formikStep3?.values?.productsArray[index]
-                                    ?.noOfClaim?.value
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) =>
-                                  formikStep3.setFieldValue(
-                                    `productsArray[${index}].noOfClaim.value`,
-                                    Number(e.target.value)
-                                  )
-                                }
-                              />
-                            </div>
+                          <div className=" my-1 w-full">
+                            <p className="text-base font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
                           </div>
-                        )}
-                        <div className="flex justify-between my-4 w-full">
-                          <p className="text-[12px] font-semibold">
-                            # of Claims in Coverage Period
-                          </p>
-                          <div className="flex">
-                            <RadioButton
-                              className="self-start"
-                              id="yes-warranty"
-                              label="Unlimited"
-                              value={true}
-                              checked={claimInCoveragePeriod === true}
-                              onChange={() => {
-                                setClaimInCoveragePeriod(true);
-                                formik.setFieldValue("noOfClaimPerPeriod", -1);
-                              }}
-                            />
-                            <RadioButton
-                              className="self-start"
-                              id="no-warranty"
-                              label="Fixed"
-                              value={false}
-                              checked={claimInCoveragePeriod === false}
-                              onChange={() => {
-                                setClaimInCoveragePeriod(false);
-                                formik.setFieldValue("noOfClaimPerPeriod", 0);
-                              }}
-                            />
-                          </div>
-                        </div>
-                        {claimInCoveragePeriod === false && (
-                          <div className="flex ">
-                            <div className="">
-                              <Input
-                                className1="!pt-2.5"
-                                placeholder="# of claims"
-                                type="number"
-                                name={`productsArray[${index}].noOfClaimPerPeriod`}
-                                value={
-                                  formikStep3?.values?.productsArray[index]
-                                    ?.noOfClaimPerPeriod
-                                }
-                                onBlur={formik.handleBlur}
-                                onChange={(e) =>
-                                  formikStep3.setFieldValue(
-                                    `productsArray[${index}].noOfClaimPerPeriod`,
-                                    Number(e.target.value)
-                                  )
-                                }
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="flex justify-between">
-                          <p className=" text-[12px] mb-3 font-semibold">
+                          <p className="text-sm">
                             {" "}
-                            Is Include manufacturer <br /> warranty?
+                            {
+                              formikStep3?.values?.productsArray[index]
+                                ?.noOfClaimPerPeriod
+                            }{" "}
                           </p>
-                          <div className="flex">
-                            <RadioButton
-                              className="self-start"
-                              id="yes-warranty"
-                              label="Yes"
-                              value={true}
-                              checked={
-                                formikStep3.values.productsArray[index]
-                                  .isManufacturerWarranty == true
-                              }
-                              onChange={() =>
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].isManufacturerWarranty`,
-                                  true
-                                )
-                              }
-                            />
-                            <RadioButton
-                              className="self-start"
-                              id="no-warranty"
-                              label="No"
-                              value={false}
-                              checked={
-                                formikStep3.values.productsArray[index]
-                                  .isManufacturerWarranty === false
-                              }
-                              onChange={() =>
-                                formikStep3.setFieldValue(
-                                  `productsArray[${index}].isManufacturerWarranty`,
-                                  false
-                                )
-                              }
-                            />
+
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is Include manufacturer warranty?
+                            </p>
                           </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isManufacturerWarranty == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
                         </div>
-                      </div>
-               
                       </div>
 
                       <div className="col-span-12">
