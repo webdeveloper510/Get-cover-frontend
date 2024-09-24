@@ -510,7 +510,7 @@ function AddOrder() {
           paidAmount,
           coverageType,
           paymentStatus,
-          termCondition
+          termCondition,
         } = result.result;
         setSelected(result.result.coverageType);
         getResellerList(dealerId);
@@ -599,7 +599,7 @@ function AddOrder() {
         formik4.setFieldValue("pendingAmount", orderAmount - paidAmount);
         formik4.setFieldError("paidAmount", "");
         formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
-        setSelectedFile2(termCondition)
+        setSelectedFile2(termCondition);
         formikStep2.setFieldValue("termCondition", termCondition);
         formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
         formikStep2.setFieldValue("coverageType", coverageType);
@@ -3385,13 +3385,13 @@ function AddOrder() {
                     </div>
                     <div className="col-span-5 py-4 ">
                       <p className="text-[12px]">Term And Condition</p>
-                      <div className="flex justify-between self-center">
+                      <div className="flex self-center">
                         <img
                           src={csvFile}
                           className="mr-2 h-[23px]"
                           alt="Dropbox"
                         />
-                        <p className="self-center text-[11px] font-bold text-black">
+                        <p className="self-center text-[11px] font-bold pl-2 text-black">
                           {formikStep2?.values?.termCondition?.fileName ===
                             "" || formikStep2?.values?.termCondition === null
                             ? "No File Selected"
@@ -3436,14 +3436,24 @@ function AddOrder() {
                     </div>
                   </Grid>
                 </div>
-                {formikStep3.values.productsArray.map((data, index) => {
-                  return (
-                    <>
+              </Grid>
+
+              {formikStep3.values.productsArray.map((data, index) => {
+                return (
+                  <>
+                    <Grid className="mt-4">
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold mb-4">
+                        <p className="text-2xl font-bold mb-2 pl-3">
                           Product Details
                         </p>
-                        <div className=" border-Light-Grey border rounded-xl ">
+                      </div>
+                      <div className="col-span-4">
+                        <p className="text-2xl font-bold mb-2">Uploaded Data</p>
+                      </div>
+                    </Grid>
+                    <Grid className=" !border-Light-Grey !border !rounded-xl !gap-0">
+                      <div className="col-span-8">
+                        <div className=" border-r border-b">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -3627,9 +3637,8 @@ function AddOrder() {
                           {/* Loops */}
                         </div>
                       </div>
-                      <div className="col-span-4">
-                        <p className="text-2xl font-bold mb-4">Uploaded Data</p>
-                        <div className="border border-dashed w-full h-[30%] relative mb-4 flex">
+                      <div className="col-span-4 pt-3 px-2">
+                        <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
@@ -3697,10 +3706,10 @@ function AddOrder() {
                       </div>
 
                       <div className="col-span-12">
-                        <p className="text-base font-bold mb-4">
+                        <p className="text-base font-bold mb-4 pl-3">
                           Coverage Type Details
                         </p>
-                        <div className=" border-Light-Grey border rounded-xl ">
+                        <div className=" border-Light-Grey border rounded-b-xl ">
                           <Grid className="!gap-0">
                             {data.adhDays &&
                               data.adhDays.map((Data, idx) => (
@@ -3720,22 +3729,27 @@ function AddOrder() {
                                   <div className="pt-3 px-4">
                                     <p className="text-[12px] capitalize">
                                       {" "}
-                                      Deductable
+                                      Deductible
                                     </p>
                                     <p className="font-bold text-sm">
-  {Data.amountType === "percentage" ? `${formatOrderValue(Number(Data.deductible) ?? 0)} %` : `$${formatOrderValue(Number(Data.deductible) ?? 0)}`}
-</p>
-
+                                      {Data.amountType === "percentage"
+                                        ? `${formatOrderValue(
+                                            Number(Data.deductible) ?? 0
+                                          )} %`
+                                        : `$${formatOrderValue(
+                                            Number(Data.deductible) ?? 0
+                                          )}`}
+                                    </p>
                                   </div>
                                 </div>
                               ))}
                           </Grid>
                         </div>
                       </div>
-                    </>
-                  );
-                })}
-              </Grid>
+                    </Grid>
+                  </>
+                );
+              })}
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
