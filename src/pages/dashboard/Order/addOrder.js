@@ -510,7 +510,7 @@ function AddOrder() {
           paidAmount,
           coverageType,
           paymentStatus,
-          termCondition
+          termCondition,
         } = result.result;
         setSelected(result.result.coverageType);
         getResellerList(dealerId);
@@ -599,7 +599,7 @@ function AddOrder() {
         formik4.setFieldValue("pendingAmount", orderAmount - paidAmount);
         formik4.setFieldError("paidAmount", "");
         formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
-        setSelectedFile2(termCondition)
+        setSelectedFile2(termCondition);
         formikStep2.setFieldValue("termCondition", termCondition);
         formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
         formikStep2.setFieldValue("coverageType", coverageType);
@@ -3002,18 +3002,19 @@ function AddOrder() {
                                     />
                                     <div className="absolute top-[1px] right-[1px]">
                                       <Select
-                                       name={`productsArray[${index}].adhDays[${idx}].amountType`}
+                                        name={`productsArray[${index}].adhDays[${idx}].amountType`}
                                         label=""
                                         disableFirstOption={true}
-                                        onChange={ (e,name) =>
+                                        onChange={(e, name) =>
                                           formikStep3.setFieldValue(
                                             `productsArray[${index}].adhDays[${idx}].amountType`,
                                             name
-                                          
-                                        )}
+                                          )
+                                        }
                                         value={
-                                          formikStep3.values.productsArray[index]
-                                            .adhDays[idx].amountType
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].amountType
                                         }
                                         classBox="!bg-transparent"
                                         className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
@@ -3765,9 +3766,14 @@ function AddOrder() {
                                       Deductible
                                     </p>
                                     <p className="font-bold text-sm">
-  {Data.amountType === "percentage" ? `${formatOrderValue(Number(Data.deductible) ?? 0)} %` : `$${formatOrderValue(Number(Data.deductible) ?? 0)}`}
-</p>
-
+                                      {Data.amountType === "percentage"
+                                        ? `${formatOrderValue(
+                                            Number(Data.deductible) ?? 0
+                                          )} %`
+                                        : `$${formatOrderValue(
+                                            Number(Data.deductible) ?? 0
+                                          )}`}
+                                    </p>
                                   </div>
                                 </div>
                               ))}
