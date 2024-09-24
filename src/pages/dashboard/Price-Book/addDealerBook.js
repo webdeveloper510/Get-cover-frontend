@@ -180,6 +180,7 @@ function AddDealerBook() {
           dealerId: value,
         });
       }
+      setProductNameOptions([])
       const result = await getCategoryListActiveData({ dealerId: value });
       setCoverageType(result.coverageType);
       setCategoryList(
