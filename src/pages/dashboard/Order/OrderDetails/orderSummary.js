@@ -115,8 +115,8 @@ function OrderSummary(props) {
                               {res.unitPrice === undefined
                                 ? parseInt(0).toLocaleString(2)
                                 : formatOrderValue(
-                                  res.unitPrice ?? parseInt(0)
-                                )}
+                                    res.unitPrice ?? parseInt(0)
+                                  )}
                             </p>
                           </div>
                         </div>
@@ -205,88 +205,151 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        {
-                          res.priceType == "Flat Pricing" && (
-                            <>
-                              <div className="col-span-3 border border-Light-Grey">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    Start Range
-                                  </p>
-                                  <p className="text-light-black text-base font-semibold">
-                                    {/* ${res.rangeStart.toLocaleString(2)} */}$
-                                    {res.rangeStart === undefined
-                                      ? parseInt(0).toLocaleString(2)
-                                      : formatOrderValue(
+                        {res.priceType == "Flat Pricing" && (
+                          <>
+                            <div className="col-span-3 border border-Light-Grey">
+                              <div className="py-4 pl-3">
+                                <p className="text-[#5D6E66] text-sm font-Regular">
+                                  Start Range
+                                </p>
+                                <p className="text-light-black text-base font-semibold">
+                                  {/* ${res.rangeStart.toLocaleString(2)} */}$
+                                  {res.rangeStart === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
                                         res.rangeStart ?? parseInt(0)
                                       )}
-                                  </p>
-                                </div>
+                                </p>
                               </div>
-                              <div className="col-span-3 border border-Light-Grey">
-                                <div className="py-4 pl-3">
-                                  <p className="text-[#5D6E66] text-sm font-Regular">
-                                    End Range
-                                  </p>
-                                  <p className="text-light-black text-base font-semibold">
-                                    $
-                                    {res.rangeEnd === undefined
-                                      ? parseInt(0).toLocaleString(2)
-                                      : formatOrderValue(
+                            </div>
+                            <div className="col-span-3 border border-Light-Grey">
+                              <div className="py-4 pl-3">
+                                <p className="text-[#5D6E66] text-sm font-Regular">
+                                  End Range
+                                </p>
+                                <p className="text-light-black text-base font-semibold">
+                                  $
+                                  {res.rangeEnd === undefined
+                                    ? parseInt(0).toLocaleString(2)
+                                    : formatOrderValue(
                                         res.rangeEnd ?? parseInt(0)
                                       )}
-                                  </p>
-                                </div>
+                                </p>
                               </div>
-                            </>
-                          )
-                        }
-                        {
-                          res.priceType == "Quantity Pricing" && (
-                            <div className="col-span-12">
-                              <table className="w-full border text-center">
-                                <tr className="border bg-white">
-                                  <td colSpan={"4"} className="font-bold text-sm">
-                                    Quantity Pricing List{" "}
-                                  </td>
-                                </tr>
-                                <tr className="border bg-white">
-                                  <th className="font-bold text-sm">Name</th>
-                                  <th className="font-bold text-sm">
-                                    Quantity Per Unit
-                                  </th>
-                                  <th className="font-bold text-sm">Quantity</th>
-                                  <th className="font-bold text-sm"># of Unit</th>
-                                </tr>
-                                {res.QuantityPricing &&
-                                  res.QuantityPricing.map((value, index) => {
-                                    return (
-                                      <tr key={index} className="border bg-white">
-                                        <td className="text-[12px]">
-                                          {value.name}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {value.quantity}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {value.enterQuantity}
-                                        </td>
-                                        <td className="text-[12px]">
-                                          {Math.max(
-                                            1,
-                                            Math.ceil(
-                                              value.enterQuantity /
-                                              parseFloat(value.quantity)
-                                            )
-                                          )}
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                              </table>
                             </div>
-                          )
-                        }
+                          </>
+                        )}
+                        {res.priceType == "Quantity Pricing" && (
+                          <div className="col-span-12">
+                            <table className="w-full border text-center">
+                              <tr className="border bg-white">
+                                <td colSpan={"4"} className="font-bold text-sm">
+                                  Quantity Pricing List{" "}
+                                </td>
+                              </tr>
+                              <tr className="border bg-white">
+                                <th className="font-bold text-sm">Name</th>
+                                <th className="font-bold text-sm">
+                                  Quantity Per Unit
+                                </th>
+                                <th className="font-bold text-sm">Quantity</th>
+                                <th className="font-bold text-sm"># of Unit</th>
+                              </tr>
+                              {res.QuantityPricing &&
+                                res.QuantityPricing.map((value, index) => {
+                                  return (
+                                    <tr key={index} className="border bg-white">
+                                      <td className="text-[12px]">
+                                        {value.name}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {value.quantity}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {value.enterQuantity}
+                                      </td>
+                                      <td className="text-[12px]">
+                                        {Math.max(
+                                          1,
+                                          Math.ceil(
+                                            value.enterQuantity /
+                                              parseFloat(value.quantity)
+                                          )
+                                        )}
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                            </table>
+                          </div>
+                        )}
+                        <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims Over the Certain Period
+                          </p>
+                          <p className="text-[14px] mb-2 text-left font-semibold">
+                            {res?.noOfClaim?.period} -{" "}
+                            {res?.noOfClaim?.value == -1
+                              ? "Unlimited"
+                              : res?.noOfClaim?.value}
+                          </p>
+                        </div>
+                        <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims in Coverage Period
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.noOfClaimPerPeriod == -1
+                              ? "Unlimited"
+                              : res?.noOfClaimPerPeriod}
+                          </p>
+                        </div>
+                        <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className=" text-base mb-2 text-left font-semibold">
+                            {" "}
+                            Is Include manufacturer warranty?
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.isManufacturerWarranty == true ? "Yes" : "No"}
+                          </p>
+                        </div>
+                        <div className="col-span-12">
+                          <table className="w-full border text-center">
+                            <tr className="border bg-[#9999]">
+                              <th>Coverage Type</th>
+                              <th>Waiting Days</th>
+                              <th>Deductable</th>
+                            </tr>
+
+                            {res?.adhDays && res?.adhDays.length > 0 && (
+                              <>
+                                {res?.adhDays.map((type, index) => (
+                                  <tr key={index} className="border ">
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.label}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.waitingDays}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.amountType != "percentage" && "$"}
+                                      {type.amountType === "percentage"
+                                        ? type.deductible
+                                        : type.deductible === undefined
+                                        ? (0).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                          })
+                                        : formatOrderValue(
+                                            type.deductible ?? 0
+                                          )}
+                                      {type.amountType == "percentage" && "%"}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+                          </table>
+                        </div>
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
                             <div className="col-span-9 py-4 pl-3">
@@ -319,10 +382,10 @@ function OrderSummary(props) {
                             </div>
                           </Grid>
                         </div>
-                      </Grid >
-                    </div >
-                  </div >
-                </div >
+                      </Grid>
+                    </div>
+                  </div>
+                </div>
               );
             })
           ) : (

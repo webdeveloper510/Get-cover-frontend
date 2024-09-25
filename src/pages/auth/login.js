@@ -20,14 +20,14 @@ function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [buttonTextColor, setButtonTextColor] = useState('');
-  const [backGroundColor, setBackGroundColor] = useState('');
-  const [siteDetails, setSiteDetails] = useState({})
+  const [buttonTextColor, setButtonTextColor] = useState("");
+  const [backGroundColor, setBackGroundColor] = useState("");
+  const [siteDetails, setSiteDetails] = useState({});
 
   useEffect(() => {
-    const data = localStorage.getItem("siteSettings")
-    setSiteDetails(JSON.parse(data))
-    console.log(JSON.parse(data))
+    const data = localStorage.getItem("siteSettings");
+    setSiteDetails(JSON.parse(data));
+    console.log(JSON.parse(data));
   }, []);
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
@@ -84,10 +84,18 @@ function Login() {
             </div>
             <div className="col-span-6 self-center h-screen md:h-full flex relative ">
               <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
-                <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
+                <img
+                  src={`${
+                    siteDetails?.logoDark?.baseUrl
+                  }uploads/logo/${encodeURIComponent(
+                    siteDetails?.logoDark?.fileName
+                  )}`}
+                  className="w-[224px]"
+                  alt="Logo "
+                />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
                   <span className="text-neutral-grey"> Welcome to </span>{" "}
-                  {siteDetails?.title} B2B Hub
+                  {siteDetails?.title}
                 </p>
                 <p className="text-neutral-grey text-xl font-medium mb-5">
                   <span className="font-semibold"> Sign in </span> to your
@@ -150,7 +158,10 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
-                    style={{ backgroundColor: backGroundColor, color: buttonTextColor }}
+                    style={{
+                      backgroundColor: backGroundColor,
+                      color: buttonTextColor,
+                    }}
                     className="w-full !bg-[#333] !text-white h-[50px] text-xl font-semibold"
                   >
                     Sign in
@@ -163,11 +174,22 @@ function Login() {
                     </Link>{" "}
                   </p>
                   <div>
-                    <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Designed, Developed & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad India </a></p>
+                    <p
+                      className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0"
+                      style={{ bottom: "20px" }}
+                    >
+                      Designed, Developed & Maintain by{" "}
+                      <a
+                        href="https://codenomad.net/"
+                        className="underline"
+                        target="_blank"
+                      >
+                        Codenomad India{" "}
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>
-
             </div>
             <div className="col-span-1"></div>
           </Grid>

@@ -7,8 +7,8 @@ import { ToWords } from "to-words";
 
 function PdfGenerator(props, className) {
   const { setLoading } = props;
-  const [selectedFile2, setSelectedFile2] = useState('');
-  const [url, setUrl] = useState('');
+  const [selectedFile2, setSelectedFile2] = useState("");
+  const [url, setUrl] = useState("");
   const toWords = new ToWords({
     localeCode: "en-IN",
     converterOptions: {
@@ -29,8 +29,11 @@ function PdfGenerator(props, className) {
     },
   });
   useEffect(() => {
-    console.log(localStorage.getItem("siteSettings"), '-----------------siteSettings');
-    let data = JSON.parse(localStorage.getItem("siteSettings"))
+    console.log(
+      localStorage.getItem("siteSettings"),
+      "-----------------siteSettings"
+    );
+    let data = JSON.parse(localStorage.getItem("siteSettings"));
     setUrl(data.logoLight ? data.logoLight.baseUrl : null);
     setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
   }, []);
@@ -65,7 +68,7 @@ function PdfGenerator(props, className) {
     setLoading(true);
     try {
       const result = await orderDetailsById(props.data);
-      console.log(result, '-----Invoice--------------')
+      console.log(result, "-----Invoice--------------");
       let value = {
         dealerName: result.orderUserData.dealerData,
         customerName: result.orderUserData.customerData,
@@ -77,7 +80,9 @@ function PdfGenerator(props, className) {
         websiteSetting: result.orderUserData.websiteSetting,
         ...result.result,
       };
-      const logoBase64 = await getBase64ImageFromUrl(value.websiteSetting.darkLogo);
+      const logoBase64 = await getBase64ImageFromUrl(
+        value.websiteSetting.darkLogo
+      );
       if (!logoBase64) {
         throw new Error("Failed to convert logo to base64");
       }
@@ -124,9 +129,13 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src=${url}uploads/logo/${encodeURIComponent(selectedFile2)} style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
-                <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
-                <pre style="margin: 0; padding: 0; width: 50%;font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address}</pre>
+                <img src=${logo} style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
+                <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${
+                  data.websiteSetting.title
+                }</b></h1>
+                <pre style="margin: 0; padding: 0; width: 50%;font-family: Arial, Helvetica, sans-serif;">${
+                  data.websiteSetting.address
+                }</pre>
               </td>
               <td style="width: 50%;">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -138,15 +147,24 @@ function PdfGenerator(props, className) {
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                      <td style="border: none; padding: 4px;">${format(new Date(data?.createdAt), "MM/dd/yyyy")}</td>
+                      <td style="border: none; padding: 4px;">${format(
+                        new Date(data?.createdAt),
+                        "MM/dd/yyyy"
+                      )}</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                      <td style="border: none; padding: 4px;">${data?.unique_key}</td>
+                      <td style="border: none; padding: 4px;">${
+                        data?.unique_key
+                      }</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                      <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined ? parseInt(0).toLocaleString(2) : formatOrderValue(data?.totalOrderAmount)}</td>
+                      <td style="border: none; padding: 4px;">$${
+                        data?.totalOrderAmount === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(data?.totalOrderAmount)
+                      }</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -163,12 +181,14 @@ function PdfGenerator(props, className) {
                 <tr>
                     <td style="text-align: left; width: 50%;">
                         <h4 style="margin: 0; padding: 0;"><b>Dealer Details: </b></h4>
-                        <h4 style="margin: 0; padding: 0;"><b> ${data?.dealerName?.name
-      } </b></h4>
-                        <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Dealer"
-        ? " <b> Bill To:</b>"
-        : "Address :"
-      } ${data?.username?.firstName} 
+                        <h4 style="margin: 0; padding: 0;"><b> ${
+                          data?.dealerName?.name
+                        } </b></h4>
+                        <p style="margin: 0; padding: 0;">${
+                          data.billDetail.billTo === "Dealer"
+                            ? " <b> Bill To:</b>"
+                            : "Address :"
+                        } ${data?.username?.firstName} 
                          ${data?.username?.lastName} <br/>
                           ${data?.dealerName?.street}, 
                           ${data?.dealerName?.city}, 
@@ -177,19 +197,23 @@ function PdfGenerator(props, className) {
                            
                             </p>
                             <p> +1 ${formatPhoneNumber(
-        data?.username?.phoneNumber
-      )} | ${data?.username?.email}  </p>
+                              data?.username?.phoneNumber
+                            )} | ${data?.username?.email}  </p>
                     </td>
-                    ${data?.resellerId != null
-        ? `    <td style="text-align: left; width: 50%;">
+                    ${
+                      data?.resellerId != null
+                        ? `    <td style="text-align: left; width: 50%;">
                     <h4 style="margin: 0; padding: 0;"><b>Reseller Details:</b></h4>
-                    <h4 style="margin: 0; padding: 0;"><b>${data?.resellerName?.name ?? ""
-        }</b></h4>
-                    <p style="margin: 0; padding: 0;">${data.billDetail.billTo === "Reseller"
-          ? " <b> Bill To:</b>"
-          : "Address :"
-        } ${data?.resellerUsername?.firstName} ${data?.resellerUsername?.lastName
-        } <br/>
+                    <h4 style="margin: 0; padding: 0;"><b>${
+                      data?.resellerName?.name ?? ""
+                    }</b></h4>
+                    <p style="margin: 0; padding: 0;">${
+                      data.billDetail.billTo === "Reseller"
+                        ? " <b> Bill To:</b>"
+                        : "Address :"
+                    } ${data?.resellerUsername?.firstName} ${
+                            data?.resellerUsername?.lastName
+                          } <br/>
                       ${data?.resellerName?.street ?? ""}, 
                       ${data?.resellerName?.city ?? ""},  
                       ${data?.resellerName?.state ?? ""}, 
@@ -197,68 +221,78 @@ function PdfGenerator(props, className) {
                      
                     </p>
                     <p> +1 ${formatPhoneNumber(
-          data?.resellerUsername?.phoneNumber
-        )} | ${data?.resellerUsername?.email}  </p>
+                      data?.resellerUsername?.phoneNumber
+                    )} | ${data?.resellerUsername?.email}  </p>
                   </td> `
-        : ""
-      }
+                        : ""
+                    }
                 </tr>
                 <tr>
                 <td style="text-align: left; width: 50%; padding-top: 20px;">
-                ${data?.customerId != null
-        ? `
+                ${
+                  data?.customerId != null
+                    ? `
                 <h4 style="margin: 0; padding: 0;"><b>Customer Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${data?.customerName?.username
-        } </b></h4>
-                <p style="margin: 0; padding: 0;">Address: ${data?.customerUserData?.firstName
-        } ${data?.customerUserData?.lastName} <br/>
-                     ${data?.customerName?.street}, ${data?.customerName?.city
-        }, ${data?.customerName?.state}, ${data?.customerName?.zip
-        } <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${
+                  data?.customerName?.username
+                } </b></h4>
+                <p style="margin: 0; padding: 0;">Address: ${
+                  data?.customerUserData?.firstName
+                } ${data?.customerUserData?.lastName} <br/>
+                     ${data?.customerName?.street}, ${
+                        data?.customerName?.city
+                      }, ${data?.customerName?.state}, ${
+                        data?.customerName?.zip
+                      } <br/>
                    
                     </p>
                     <p> +1 ${formatPhoneNumber(
-          data?.customerUserData?.phoneNumber
-        )} | ${data?.customerUserData?.email}  </p>
+                      data?.customerUserData?.phoneNumber
+                    )} | ${data?.customerUserData?.email}  </p>
             </td>
             `
-        : ""
-      }
+                    : ""
+                }
          
                 </tr>
                 </tbody>
                 </table>
-                ${data.billDetail.billTo === "Custom"
-        ? `
+                ${
+                  data.billDetail.billTo === "Custom"
+                    ? `
                 <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
                     <tbody>
                     <tr>
                 <td style="text-align: left; width: 50%;">
                 <h4 style="margin: 0; padding: 0;"><b>Billing Details: </b></h4>
-                <h4 style="margin: 0; padding: 0;"><b> ${data?.billDetail?.detail?.name
-        } </b></h4>
-                <p style="margin: 0; padding: 0;">Address : ${data?.billDetail?.detail?.address
-        } <br/>
+                <h4 style="margin: 0; padding: 0;"><b> ${
+                  data?.billDetail?.detail?.name
+                } </b></h4>
+                <p style="margin: 0; padding: 0;">Address : ${
+                  data?.billDetail?.detail?.address
+                } <br/>
                    
                     </p>
                     <p>
-                    ${data?.billDetail?.detail?.phoneNumber !== ""
-          ? `+1 ${formatPhoneNumber(
-            data?.billDetail?.detail?.phoneNumber
-          )} |`
-          : ""
-        }
-                       ${data?.billDetail?.detail?.email !== ""
-          ? `${data?.billDetail?.detail?.email}`
-          : ""
-        }   </p>
+                    ${
+                      data?.billDetail?.detail?.phoneNumber !== ""
+                        ? `+1 ${formatPhoneNumber(
+                            data?.billDetail?.detail?.phoneNumber
+                          )} |`
+                        : ""
+                    }
+                       ${
+                         data?.billDetail?.detail?.email !== ""
+                           ? `${data?.billDetail?.detail?.email}`
+                           : ""
+                       }   </p>
             </td>
                 </tr> 
                
             </tbody>
         </table> `
-        : `  `
-      }
+                    : `  `
+                }
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;text-shadow: none !important;outline: none;">
         <tbody>
             <tr>
@@ -281,52 +315,59 @@ function PdfGenerator(props, className) {
         </thead>
         <tbody>
           ${data?.productsArray
-        ?.map(
-          (product, index) => `
+            ?.map(
+              (product, index) => `
             <tr key="${index}">
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${index + 1
-            }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.name
-            }</td>
-               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.dealerSku
-            }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${product.noOfProducts
-            }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.unitPrice === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(product.unitPrice)
-            }</td>
-              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${product.price === undefined
-              ? parseInt(0).toLocaleString(2)
-              : formatOrderValue(product.price)
-            }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                index + 1
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                product.name
+              }</td>
+               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                 product.dealerSku
+               }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
+                product.noOfProducts
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
+                product.unitPrice === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(product.unitPrice)
+              }</td>
+              <td style="border-bottom: 1px solid #ddd; padding: 8px;">$${
+                product.price === undefined
+                  ? parseInt(0).toLocaleString(2)
+                  : formatOrderValue(product.price)
+              }</td>
             </tr>
           `
-        )
-        .join("")}
+            )
+            .join("")}
         </tbody>
         <tfoot>
           <tr>
             <td colspan="5" style="font-weight: bold; padding: 8px; text-align: right;">Total:</td>
             <td style={{ fontWeight: 'bold', padding: '8px' }}>
-            $${Number(
-          data?.productsArray.reduce(
-            (total, product) =>
-              total + product.noOfProducts * product.unitPrice,
-            0
-          )
-        ) === undefined
-        ? parseInt(0).toLocaleString(2)
-        : formatOrderValue(
-          Number(
-            data?.productsArray.reduce(
-              (total, product) =>
-                total + product.noOfProducts * product.unitPrice,
-              0
-            )
-          )
-        )
-      }
+            $${
+              Number(
+                data?.productsArray.reduce(
+                  (total, product) =>
+                    total + product.noOfProducts * product.unitPrice,
+                  0
+                )
+              ) === undefined
+                ? parseInt(0).toLocaleString(2)
+                : formatOrderValue(
+                    Number(
+                      data?.productsArray.reduce(
+                        (total, product) =>
+                          total + product.noOfProducts * product.unitPrice,
+                        0
+                      )
+                    )
+                  )
+            }
         
           </td>
          
@@ -334,13 +375,13 @@ function PdfGenerator(props, className) {
           <tr>
           <th colspan='6' style="text-align:left; padding-right:20px;">
           ${toWords.convert(
-        data?.productsArray.reduce(
-          (total, product) =>
-            total + product.noOfProducts * product.unitPrice,
-          0
-        ),
-        { currency: true }
-      )}
+            data?.productsArray.reduce(
+              (total, product) =>
+                total + product.noOfProducts * product.unitPrice,
+              0
+            ),
+            { currency: true }
+          )}
         </th>
           </tr>
         </tfoot>
@@ -355,7 +396,9 @@ function PdfGenerator(props, className) {
           <th></th>
          </tr>
          <tr>
-            <td colspan="2"><pre style="font-family: Arial, Helvetica, sans-serif;">${data?.websiteSetting?.paymentDetail} </pre></td>
+            <td colspan="2"><pre style="font-family: Arial, Helvetica, sans-serif;">${
+              data?.websiteSetting?.paymentDetail
+            } </pre></td>
          </tr>
         
         
@@ -366,7 +409,10 @@ function PdfGenerator(props, className) {
   };
 
   return (
-    <div className={`text-left flex py-1 px-2 ${className}`} onClick={convertToPDF}>
+    <div
+      className={`text-left flex py-1 px-2 ${className}`}
+      onClick={convertToPDF}
+    >
       <img src={download} className="w-4 h-4 mr-2" alt="Download" />
       <button className="text-black">Invoice</button>
     </div>

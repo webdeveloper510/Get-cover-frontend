@@ -65,6 +65,8 @@ function DealerAddOrder() {
   const [loading3, setLoading3] = useState(false);
   const [loading14, setloader] = useState(false);
   const [loading5, setLoading5] = useState(false);
+  const [claimOver, setClaimOver] = useState(true);
+  const [claimInCoveragePeriod, setClaimInCoveragePeriod] = useState(true);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
@@ -84,6 +86,15 @@ function DealerAddOrder() {
       return () => clearTimeout(timer);
     }
   }, [orderId, resellerId, customerId]);
+
+  const period = [
+    { label: "Monthly", value: "Monthly" },
+    { label: "Annually", value: "Annually" },
+  ];
+  const optiondeductibles = [
+    { label: "$", value: "amount" },
+    { label: "%", value: "percentage" },
+  ];
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -593,9 +604,32 @@ function DealerAddOrder() {
           // additionalNotes: Yup.string().required("Required"),
           adhDays: Yup.array().of(
             Yup.object().shape({
-              value: Yup.string().required("Required"),
+              label: Yup.string(),
+              waitingDays: Yup.number()
+                .required("Required")
+                .min(0, "Value cannot be negative")
+                .nullable(),
+              deductible: Yup.number()
+                .required("Required")
+                .min(0, "Must be at least 0")
+                .when("amountType", {
+                  is: (value) => value === "percentage",
+                  then: () =>
+                    Yup.number()
+                      .max(99.99, "Cannot exceed 99.99%")
+                      .test(
+                        "is-decimal",
+                        "Percentage must have up to 2 decimal places",
+                        (value) =>
+                          value === undefined ||
+                          value === null ||
+                          /^\d+(\.\d{1,2})?$/.test(value)
+                      ),
+                  otherwise: () => Yup.number().min(0, "Must be at least 0"),
+                }),
+              amountType: Yup.string().required(""),
             })
-          ), //add this
+          ),
           QuantityPricing: Yup.array().when("priceType", {
             is: (value) => value === "Quantity Pricing",
             then: (schema) => {
@@ -1747,8 +1781,9 @@ function DealerAddOrder() {
                     placeholder=""
                     className="!bg-white"
                     disabled={type == "Edit"}
-                    className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
-                      }`}
+                    className1={`${
+                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                    }`}
                     required={true}
                     onChange={handleSelectChange1}
                     options={serviceCoverage}
@@ -1780,8 +1815,9 @@ function DealerAddOrder() {
                         label="Coverage Type"
                         name="coverageType"
                         placeholder=""
-                        className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]  ${type == "Edit" ? "readonly !bg-[#ededed]" : ""
-                          }`}
+                        className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]  ${
+                          type == "Edit" ? "readonly !bg-[#ededed]" : ""
+                        }`}
                         required={true}
                         disabled={type == "Edit"}
                         onChange={(value) => {
@@ -1804,7 +1840,6 @@ function DealerAddOrder() {
                         </div>
                       )}
                   </div>
-
                 </div>
               </Grid>
             </div>
@@ -2024,124 +2059,6 @@ function DealerAddOrder() {
                               )}
                           </>
                         </div>
-                        <div className="col-span-12">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].description`}
-                            className="!bg-white"
-                            label="Product Description"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .description
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                        {formikStep3.values.productsArray[index].adhDays &&
-                          formikStep3.values.productsArray[index].adhDays.map(
-                            (coverage, idx) => (
-                              <div className="col-span-4 capitalize">
-                                <div key={idx} className="mb-4">
-                                  <Input
-                                    type="text"
-                                    name={`productsArray[${index}].adhDays[${idx}].value`}
-                                    className="!bg-white"
-                                    label={`${coverage.label} Days `}
-                                    placeholder={`${coverage.label} Days`}
-                                    value={
-                                      formikStep3.values.productsArray[index]
-                                        .adhDays[idx].value
-                                    }
-                                    disabled={true}
-                                    onChange={(e) =>
-                                      formikStep3.setFieldValue(
-                                        `productsArray[${index}].adhDays[${idx}].value`,
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={formikStep3.handleBlur}
-                                  />
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays[idx] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays[idx].value && (
-                                      <div className="text-red-500 text-sm pl-2 pt-2">
-                                        {
-                                          formikStep3.errors.productsArray[
-                                            index
-                                          ].adhDays[idx].value
-                                        }
-                                      </div>
-                                    )}
-                                </div>
-                                <div key={idx}>
-                                  <Input
-                                    type="text"
-                                    name={`productsArray[${index}].adhDays[${idx}].value1`}
-                                    className="!bg-white"
-                                    label={`Deductable `}
-                                    placeholder={`Deductable`}
-                                    disabled={true}
-                                    value={
-                                      formikStep3.values.productsArray[index]
-                                        .adhDays[idx].value1
-                                    }
-                                    onChange={(e) =>
-                                      formikStep3.setFieldValue(
-                                        `productsArray[${index}].adhDays[${idx}].value1`,
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={formikStep3.handleBlur}
-                                  />
-                                  {formikStep3.errors.productsArray &&
-                                    formikStep3.errors.productsArray[index] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays[idx] &&
-                                    formikStep3.errors.productsArray[index]
-                                      .adhDays[idx].value1 && (
-                                      <div className="text-red-500 text-sm pl-2 pt-2">
-                                        {
-                                          formikStep3.errors.productsArray[
-                                            index
-                                          ].adhDays[idx].value1
-                                        }
-                                      </div>
-                                    )}
-                                </div>
-                              </div>
-                            )
-                          )}
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].priceType`}
-                            className="!bg-white"
-                            label="Product Price Type"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].priceType
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
                         <div className="col-span-4">
                           <Input
                             type="text"
@@ -2251,15 +2168,15 @@ function DealerAddOrder() {
                               formikStep3.values.productsArray[index]
                                 .coverageStartDate == ""
                                 ? formikStep3.values.productsArray[index]
-                                  .coverageStartDate
+                                    .coverageStartDate
                                 : format(
-                                  new Date(
-                                    formikStep3.values.productsArray[
-                                      index
-                                    ].coverageStartDate
-                                  ),
-                                  "MM/dd/yyyy"
-                                )
+                                    new Date(
+                                      formikStep3.values.productsArray[
+                                        index
+                                      ].coverageStartDate
+                                    ),
+                                    "MM/dd/yyyy"
+                                  )
                             }
                             onChange={(e) => {
                               formikStep3.handleChange(e);
@@ -2310,51 +2227,90 @@ function DealerAddOrder() {
                               </div>
                             )}
                         </div>
+
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].priceType`}
+                            className="!bg-white"
+                            label="Product Price Type"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].priceType
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+
                         {(formikStep3.values.productsArray[index].priceType ===
                           "FlatPricing" ||
                           formikStep3.values.productsArray[index].priceType ===
-                          "Flat Pricing") && (
-                            <>
-                              <div className="col-span-4">
-                                <Input
-                                  type="text"
-                                  name={`productsArray[${index}].rangeStart`}
-                                  className="!bg-white"
-                                  label="Start Range"
-                                  placeholder=""
-                                  value={
-                                    formikStep3.values.productsArray[index]
-                                      .rangeStart
-                                  }
-                                  onChange={formikStep3.handleChange}
-                                  onBlur={formikStep3.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-                              <div className="col-span-4">
-                                <Input
-                                  type="text"
-                                  name={`productsArray[${index}].rangeEnd`}
-                                  className="!bg-white"
-                                  label="End Range"
-                                  placeholder=""
-                                  value={
-                                    formikStep3.values.productsArray[index]
-                                      .rangeEnd
-                                  }
-                                  onChange={formikStep3.handleChange}
-                                  onBlur={formikStep3.handleBlur}
-                                  disabled={true}
-                                  onWheelCapture={(e) => {
-                                    e.preventDefault();
-                                  }}
-                                />
-                              </div>
-                            </>
-                          )}
+                            "Flat Pricing") && (
+                          <>
+                            <div className="col-span-4">
+                              <Input
+                                type="text"
+                                name={`productsArray[${index}].rangeStart`}
+                                className="!bg-white"
+                                label="Start Range"
+                                placeholder=""
+                                value={
+                                  formikStep3.values.productsArray[index]
+                                    .rangeStart
+                                }
+                                onChange={formikStep3.handleChange}
+                                onBlur={formikStep3.handleBlur}
+                                disabled={true}
+                                onWheelCapture={(e) => {
+                                  e.preventDefault();
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-4">
+                              <Input
+                                type="text"
+                                name={`productsArray[${index}].rangeEnd`}
+                                className="!bg-white"
+                                label="End Range"
+                                placeholder=""
+                                value={
+                                  formikStep3.values.productsArray[index]
+                                    .rangeEnd
+                                }
+                                onChange={formikStep3.handleChange}
+                                onBlur={formikStep3.handleBlur}
+                                disabled={true}
+                                onWheelCapture={(e) => {
+                                  e.preventDefault();
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
+                        <div className="col-span-12">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].description`}
+                            className="!bg-white"
+                            label="Product Description"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index]
+                                .description
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
                         <div className="col-span-12">
                           <Grid className="!grid-cols-3">
                             {formikStep3.values.productsArray[index]
@@ -2443,7 +2399,7 @@ function DealerAddOrder() {
                                           />
                                           {formikStep3.touched.productsArray &&
                                             formikStep3.touched.productsArray[
-                                            index
+                                              index
                                             ] &&
                                             formikStep3.touched.productsArray[
                                               index
@@ -2480,7 +2436,131 @@ function DealerAddOrder() {
                               })()}
                           </Grid>
                         </div>
-
+                        {formikStep3.values.productsArray[index].dealerSku ===
+                        "" ? (
+                          ""
+                        ) : (
+                          <div className="col-span-12">
+                            <Grid className=" mb-3">
+                              {formikStep3.values.productsArray[index]
+                                .adhDays &&
+                                formikStep3.values.productsArray[
+                                  index
+                                ].adhDays.map((coverage, idx) => (
+                                  <div
+                                    className="col-span-4 capitalize"
+                                    key={idx}
+                                  >
+                                    <div className="my-4">
+                                      <Input
+                                        type="text"
+                                        name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
+                                        className="!bg-white"
+                                        label={`${coverage.label} Days `}
+                                        placeholder={`${coverage.label} Days`}
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].waitingDays ?? 0
+                                        }
+                                        onChange={(e) =>
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].waitingDays`,
+                                            e.target.value === ""
+                                              ? 0
+                                              : e.target.value
+                                          )
+                                        }
+                                        onBlur={formikStep3.handleBlur}
+                                      />
+                                      {formikStep3.errors.productsArray &&
+                                        formikStep3.errors.productsArray[
+                                          index
+                                        ] &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx] &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx].waitingDays && (
+                                          <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {
+                                              formikStep3.errors.productsArray[
+                                                index
+                                              ].adhDays[idx].waitingDays
+                                            }
+                                          </div>
+                                        )}
+                                    </div>
+                                    <div className="relative">
+                                      <Input
+                                        type="text"
+                                        name={`productsArray[${index}].adhDays[${idx}].deductible`}
+                                        className="!bg-white"
+                                        label="Deductible"
+                                        placeholder=""
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].deductible ?? 0
+                                        }
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+                                          // Allow up to two decimal places
+                                          if (/^\d+(\.\d{0,2})?$/.test(value)) {
+                                            formikStep3.setFieldValue(
+                                              `productsArray[${index}].adhDays[${idx}].deductible`,
+                                              value === "" ? 0 : value
+                                            );
+                                          }
+                                        }}
+                                        onBlur={formikStep3.handleBlur}
+                                      />
+                                      <div className="absolute top-[1px] right-[1px]">
+                                        <Select
+                                          name={`productsArray[${index}].adhDays[${idx}].amountType`}
+                                          label=""
+                                          disableFirstOption={true}
+                                          onChange={(e, name) =>
+                                            formikStep3.setFieldValue(
+                                              `productsArray[${index}].adhDays[${idx}].amountType`,
+                                              name
+                                            )
+                                          }
+                                          value={
+                                            formikStep3.values.productsArray[
+                                              index
+                                            ].adhDays[idx].amountType
+                                          }
+                                          classBox="!bg-transparent"
+                                          className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                                          options={optiondeductibles}
+                                        />
+                                      </div>
+                                      {formikStep3.errors.productsArray &&
+                                        formikStep3.errors.productsArray[
+                                          index
+                                        ] &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx] &&
+                                        formikStep3.errors.productsArray[index]
+                                          .adhDays[idx].deductible && (
+                                          <div className="text-red-500 text-sm">
+                                            {
+                                              formikStep3.errors.productsArray[
+                                                index
+                                              ].adhDays[idx].deductible
+                                            }
+                                          </div>
+                                        )}
+                                    </div>
+                                  </div>
+                                ))}
+                            </Grid>
+                          </div>
+                        )}
                         <div className="col-span-12">
                           <div className="relative">
                             <label
@@ -2518,7 +2598,7 @@ function DealerAddOrder() {
                       </Grid>
                     </div>
                     <div className="col-span-4">
-                      <div className="border border-dashed w-full h-[80%] relative flex justify-center">
+                      <div className="border border-dashed w-full h-[40%] relative flex justify-center">
                         <label
                           htmlFor="description"
                           className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
@@ -2603,6 +2683,189 @@ function DealerAddOrder() {
                             {formikStep3.errors.productsArray[index].file}
                           </div>
                         )}
+
+                      {formikStep3.values.productsArray[index].dealerSku ===
+                      "" ? (
+                        ""
+                      ) : (
+                        <div className="col-span-12 my-4 border-t py-3">
+                          <div className="flex justify-between w-full">
+                            <p className="text-[12px] mb-3 font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Unlimited"
+                                value={true}
+                                checked={claimOver === true}
+                                onChange={() => {
+                                  setClaimOver(true);
+                                  formik.setFieldValue("noOfClaim", {
+                                    period: "Monthly",
+                                    value: -1,
+                                  });
+                                }}
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="Fixed"
+                                value={false}
+                                checked={claimOver === false}
+                                onChange={() => {
+                                  setClaimOver(false);
+                                  formik.setFieldValue("noOfClaim", {
+                                    period: "Monthly",
+                                    value: 0,
+                                  });
+                                }}
+                              />
+                            </div>
+                          </div>
+                          {claimOver === false && (
+                            <div className="flex">
+                              <Select
+                                name={`productsArray[${index}].noOfClaim.period`}
+                                options={period}
+                                className="!bg-grayf9"
+                                placeholder=""
+                                className1="!pt-2.5"
+                                OptionName={"Period"}
+                                maxLength={"30"}
+                                value={
+                                  formikStep3?.values?.productsArray[index]
+                                    ?.noOfClaim?.period
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={(name, value) =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaim.period`,
+                                    value
+                                  )
+                                }
+                              />
+
+                              <div className="ml-3">
+                                <Input
+                                  className1="!pt-2.5"
+                                  placeholder="# of claims"
+                                  type="number"
+                                  name={`productsArray[${index}].noOfClaim.value`}
+                                  value={
+                                    formikStep3?.values?.productsArray[index]
+                                      ?.noOfClaim?.value
+                                  }
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].noOfClaim.value`,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex justify-between my-4 w-full">
+                            <p className="text-[12px] font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Unlimited"
+                                value={true}
+                                checked={claimInCoveragePeriod === true}
+                                onChange={() => {
+                                  setClaimInCoveragePeriod(true);
+                                  formik.setFieldValue(
+                                    "noOfClaimPerPeriod",
+                                    -1
+                                  );
+                                }}
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="Fixed"
+                                value={false}
+                                checked={claimInCoveragePeriod === false}
+                                onChange={() => {
+                                  setClaimInCoveragePeriod(false);
+                                  formik.setFieldValue("noOfClaimPerPeriod", 0);
+                                }}
+                              />
+                            </div>
+                          </div>
+                          {claimInCoveragePeriod === false && (
+                            <div className="flex ">
+                              <div className="">
+                                <Input
+                                  className1="!pt-2.5"
+                                  placeholder="# of claims"
+                                  type="number"
+                                  name={`productsArray[${index}].noOfClaimPerPeriod`}
+                                  value={
+                                    formikStep3?.values?.productsArray[index]
+                                      ?.noOfClaimPerPeriod
+                                  }
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].noOfClaimPerPeriod`,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between">
+                            <p className=" text-[12px] mb-3 font-semibold">
+                              {" "}
+                              Is Include manufacturer <br /> warranty?
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Yes"
+                                value={true}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isManufacturerWarranty == true
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isManufacturerWarranty`,
+                                    true
+                                  )
+                                }
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="No"
+                                value={false}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isManufacturerWarranty === false
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isManufacturerWarranty`,
+                                    false
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="col-span-12"></div>
                   </Grid>
@@ -2622,7 +2885,6 @@ function DealerAddOrder() {
       </>
     );
   };
-  console.log(formikStep3.values.productsArray, "hello");
   const renderStep4 = () => {
     // Step 4 content
     return (
@@ -2674,8 +2936,8 @@ function DealerAddOrder() {
                           ? "Labor"
                           : formikStep2.values.serviceCoverageType ===
                             "Parts & Labour"
-                            ? "Parts & Labor"
-                            : formikStep2.values.serviceCoverageType}
+                          ? "Parts & Labor"
+                          : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4">
@@ -2695,14 +2957,23 @@ function DealerAddOrder() {
                     </div>
                   </Grid>
                 </div>
-                {formikStep3.values.productsArray.map((data, index) => {
-                  return (
-                    <>
+              </Grid>
+              {formikStep3.values.productsArray.map((data, index) => {
+                return (
+                  <>
+                    <Grid className="mt-4">
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-2 pl-3">
                           Product Details
                         </p>
-                        <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
+                      </div>
+                      <div className="col-span-4">
+                        <p className="text-2xl font-bold mb-2">Uploaded Data</p>
+                      </div>
+                    </Grid>
+                    <Grid className="bg-grayf9 !border-Light-Grey !border !rounded-xl !gap-0">
+                      <div className="col-span-8">
+                        <div className=" rounded-xl ">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -2743,8 +3014,8 @@ function DealerAddOrder() {
                                 {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                    Number(data.unitPrice) ?? parseInt(0)
-                                  )}
+                                      Number(data.unitPrice) ?? parseInt(0)
+                                    )}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -2762,8 +3033,8 @@ function DealerAddOrder() {
                                 {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                    Number(data.price) ?? parseInt(0)
-                                  )}{" "}
+                                      Number(data.price) ?? parseInt(0)
+                                    )}{" "}
                               </p>
                             </div>
                           </Grid>
@@ -2793,8 +3064,8 @@ function DealerAddOrder() {
                                       {Data.value1 === undefined
                                         ? parseInt(0).toLocaleString(2)
                                         : formatOrderValue(
-                                          Number(Data.value1) ?? parseInt(0)
-                                        )}{" "}
+                                            Number(Data.value1) ?? parseInt(0)
+                                          )}{" "}
                                     </p>
                                   </div>
                                 </div>
@@ -2809,8 +3080,8 @@ function DealerAddOrder() {
                                   {data.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      Number(data.rangeStart) ?? parseInt(0)
-                                    )}{" "}
+                                        Number(data.rangeStart) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
@@ -2820,8 +3091,8 @@ function DealerAddOrder() {
                                   {data.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      Number(data.rangeEnd) ?? parseInt(0)
-                                    )}{" "}
+                                        Number(data.rangeEnd) ?? parseInt(0)
+                                      )}{" "}
                                 </p>
                               </div>
                             </Grid>
@@ -2872,7 +3143,7 @@ function DealerAddOrder() {
                                               1,
                                               Math.ceil(
                                                 value.enterQuantity /
-                                                parseFloat(value.quantity)
+                                                  parseFloat(value.quantity)
                                               )
                                             )}
                                           </td>
@@ -2911,9 +3182,6 @@ function DealerAddOrder() {
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                          Uploaded Data
-                        </p>
                         <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
@@ -2928,16 +3196,16 @@ function DealerAddOrder() {
                                 {data?.file === "" || data?.file?.name === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
-                                  "kb"}
+                                    "kb"}
                               </p>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </>
-                  );
-                })}
-              </Grid>
+                    </Grid>
+                  </>
+                );
+              })}
 
               <Grid className="mt-5">
                 <div className="col-span-5 pt-2">
@@ -3040,8 +3308,9 @@ function DealerAddOrder() {
           )}
 
           <p
-            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Order Details
           </p>
@@ -3052,61 +3321,69 @@ function DealerAddOrder() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${currentStep > 1
+              className={`border ${
+                currentStep > 1
                   ? "text-black border-black"
                   : "text-[#ADADAD] border-[#ADADAD]"
-                }  rounded-full mx-auto w-[26px]`}
+              }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
           <p
-            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-              } text-sm font-bold`}
+            className={` ${
+              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+            } text-sm font-bold`}
           >
             Dealer Order Details
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 2 ? "border-black" : "border-[#ADADAD]"
-            } mt-3`}
+          className={`w-[150px]  ${
+            currentStep > 2 ? "border-black" : "border-[#ADADAD]"
+          } mt-3`}
         />
         <div className="text-center">
           {currentStep > 3 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${currentStep > 2
+              className={`border ${
+                currentStep > 2
                   ? "text-black border-black"
                   : "text-[#ADADAD] border-[#ADADAD]"
-                } rounded-full mx-auto w-[26px]`}
+              } rounded-full mx-auto w-[26px]`}
             >
               3
             </p>
           )}
           <p
-            className={` ${currentStep == 3 ? "text-black" : "text-[#ADADAD] "
-              }text-sm font-bold`}
+            className={` ${
+              currentStep == 3 ? "text-black" : "text-[#ADADAD] "
+            }text-sm font-bold`}
           >
             Add Product
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 3 ? "border-black" : "border-[#ADADAD]"
-            } mt-3`}
+          className={`w-[150px]  ${
+            currentStep > 3 ? "border-black" : "border-[#ADADAD]"
+          } mt-3`}
         />
         <div className="text-center">
           <p
-            className={`border ${currentStep > 3
+            className={`border ${
+              currentStep > 3
                 ? "text-black border-black"
                 : "text-[#ADADAD] border-[#ADADAD]"
-              } rounded-full mx-auto w-[26px]`}
+            } rounded-full mx-auto w-[26px]`}
           >
             4
           </p>
           <p
-            className={` ${currentStep == 4 ? "text-black" : "text-[#ADADAD] "
-              }text-sm font-bold`}
+            className={` ${
+              currentStep == 4 ? "text-black" : "text-[#ADADAD] "
+            }text-sm font-bold`}
           >
             Order Details
           </p>
