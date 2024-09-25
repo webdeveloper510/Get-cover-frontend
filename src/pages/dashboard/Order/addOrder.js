@@ -119,7 +119,7 @@ function AddOrder() {
   useEffect(() => {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
-      getDealerSettingsDetails(dealerId!=undefined?dealerId:dealerValue)
+      getDealerSettingsDetails(dealerId != undefined ? dealerId : dealerValue);
       const timer = setTimeout(() => {}, 3000);
 
       return () => clearTimeout(timer);
@@ -3700,7 +3700,7 @@ function AddOrder() {
                               }{" "}
                               -{" "}
                               {formikStep3?.values?.productsArray[index]
-                                ?.noOfClaim?.value === "-1"
+                                ?.noOfClaim?.value === -1
                                 ? "Unlimited"
                                 : formikStep3?.values?.productsArray[index]
                                     ?.noOfClaim?.value}{" "}
@@ -3714,10 +3714,11 @@ function AddOrder() {
                           </div>
                           <p className="text-sm">
                             {" "}
-                            {
-                              formikStep3?.values?.productsArray[index]
-                                ?.noOfClaimPerPeriod
-                            }{" "}
+                            {formikStep3?.values?.productsArray[index]
+                              ?.noOfClaimPerPeriod == -1
+                              ? "Unlimited"
+                              : formikStep3?.values?.productsArray[index]
+                                  ?.noOfClaimPerPeriod}
                           </p>
 
                           <div className="">
