@@ -127,10 +127,12 @@ function AddDealerBook() {
       console.error("Error fetching dealer list:", error);
     }
   };
+
   const optiondeductibles = [
     { label: "$", value: "amount" },
     { label: "%", value: "percentage" },
   ];
+
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -158,6 +160,7 @@ function AddDealerBook() {
     setCoverageType(result.coverageType);
     setLoader(false);
   };
+
   const handleLinkClick = () => {
     if (dealerIdValue !== undefined) {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
@@ -166,6 +169,7 @@ function AddDealerBook() {
       navigate(`/dealerPriceList`);
     }
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -239,7 +243,7 @@ function AddDealerBook() {
       );
       console.log(response.result);
       formik.setFieldValue("priceBook", value);
-      formik.setFieldValue("adhDays", response.result.dealerData.adhDays);
+      formik.setFieldValue("adhDays", response.result.mergedData);
       formik.setFieldValue(
         "wholesalePrice",
         selectedProduct.wholesalePrice.toFixed(2)
@@ -399,10 +403,7 @@ function AddDealerBook() {
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
-  const handleGOBack = () => {
-    navigate(-1);
-  };
-  console.log(coverageType);
+
   return (
     <div className="mb-8 ml-3">
       <Headbar />
