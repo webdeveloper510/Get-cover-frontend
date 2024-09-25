@@ -180,7 +180,7 @@ function AddDealerBook() {
           dealerId: value,
         });
       }
-      setProductNameOptions([])
+      setProductNameOptions([]);
       const result = await getCategoryListActiveData({ dealerId: value });
       setCoverageType(result.coverageType);
       setCategoryList(
@@ -679,169 +679,184 @@ function AddDealerBook() {
                         </div>
                       )}
                     </div>
-                    <div className="col-span-4">
-                      <Input
-                        type="text"
-                        name="pName"
-                        className="!bg-white"
-                        label="Product Name"
-                        // required={true}
-                        placeholder=""
-                        value={formik.values.pName}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
-                        }}
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <Input
-                        type="text"
-                        name="wholesalePrice"
-                        className="!bg-white"
-                        label="Wholesale Price($)"
-                        // required={true}
-                        placeholder=""
-                        value={formik.values.wholesalePrice}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
-                        }}
-                      />
-                    </div>
+                    {formik.values.priceBook == "" ? (
+                      ""
+                    ) : (
+                      <>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name="pName"
+                            className="!bg-white"
+                            label="Product Name"
+                            // required={true}
+                            placeholder=""
+                            value={formik.values.pName}
+                            onBlur={formik.handleBlur}
+                            onChange={formik.handleChange}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name="wholesalePrice"
+                            className="!bg-white"
+                            label="Wholesale Price($)"
+                            // required={true}
+                            placeholder=""
+                            value={formik.values.wholesalePrice}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
 
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name="term"
+                            className="!bg-white"
+                            label="Term"
+                            // required={true}
+                            placeholder=""
+                            value={formik.values.term}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name="priceType"
+                            className="!bg-white"
+                            label="Price Type"
+                            // required={true}
+                            placeholder=""
+                            value={formik.values.priceType}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                        <div className="col-span-8">
+                          <Input
+                            type="text"
+                            name="description"
+                            className="!bg-white"
+                            label="Description"
+                            // required={true}
+                            placeholder=""
+                            value={formik.values.description}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+                {formik.values.priceBook == "" ? (
+                  ""
+                ) : (
+                  <>
                     <div className="col-span-4">
                       <Input
                         type="text"
-                        name="term"
+                        name="dealerSku"
                         className="!bg-white"
-                        label="Term"
-                        // required={true}
+                        label="Dealer SKU"
+                        required={true}
                         placeholder=""
-                        value={formik.values.term}
+                        value={formik.values.dealerSku}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        disabled={true}
                         onWheelCapture={(e) => {
                           e.preventDefault();
                         }}
+                        error={
+                          formik.touched.dealerSku && formik.errors.dealerSku
+                        }
                       />
+                      {formik.touched.dealerSku && formik.errors.dealerSku && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.dealerSku}
+                        </div>
+                      )}
                     </div>
                     <div className="col-span-4">
                       <Input
-                        type="text"
-                        name="priceType"
+                        type="number"
+                        name="retailPrice"
                         className="!bg-white"
-                        label="Price Type"
-                        // required={true}
+                        label="Retail Price($)"
                         placeholder=""
-                        value={formik.values.priceType}
+                        required={true}
+                        maxLength={"10"}
                         onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
+                        onBlur={(e) => {
+                          const inputValue = e.target.value.trim();
+                          const formattedValue =
+                            inputValue !== ""
+                              ? parseFloat(inputValue).toFixed(2)
+                              : "";
+                          formik.handleBlur(e);
+                          formik.setFieldValue("retailPrice", formattedValue);
                         }}
+                        value={formik.values.retailPrice}
+                        maxDecimalPlaces={2}
                       />
+                      {formik.touched.retailPrice &&
+                        formik.errors.retailPrice && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.retailPrice}
+                          </div>
+                        )}
                     </div>
-                    <div className="col-span-8">
-                      <Input
-                        type="text"
-                        name="description"
-                        className="!bg-white"
-                        label="Description"
-                        // required={true}
+                    <div className="col-span-4">
+                      <Select
+                        label="Status"
+                        required={true}
+                        name="status"
                         placeholder=""
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
+                        onChange={handleSelectChange}
+                        disabled={
+                          priceBookById.dealer?.accountStatus === false ||
+                          priceBookById.priceBooks?.status === false ||
+                          priceBookById?.priceBooks?.category[0]?.status ===
+                            false
+                        }
+                        className="!bg-white"
+                        options={status}
+                        value={formik.values.status}
                         onBlur={formik.handleBlur}
-                        disabled={true}
-                        onWheelCapture={(e) => {
-                          e.preventDefault();
-                        }}
+                        error={formik.touched.status && formik.errors.status}
                       />
+                      {formik.touched.status && formik.errors.status && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.status}
+                        </div>
+                      )}
                     </div>
                   </>
                 )}
-                <div className="col-span-4">
-                  <Input
-                    type="text"
-                    name="dealerSku"
-                    className="!bg-white"
-                    label="Dealer SKU"
-                    required={true}
-                    placeholder=""
-                    value={formik.values.dealerSku}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    onWheelCapture={(e) => {
-                      e.preventDefault();
-                    }}
-                    error={formik.touched.dealerSku && formik.errors.dealerSku}
-                  />
-                  {formik.touched.dealerSku && formik.errors.dealerSku && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.dealerSku}
-                    </div>
-                  )}
-                </div>
-                <div className="col-span-4">
-                  <Input
-                    type="number"
-                    name="retailPrice"
-                    className="!bg-white"
-                    label="Retail Price($)"
-                    placeholder=""
-                    required={true}
-                    maxLength={"10"}
-                    onChange={formik.handleChange}
-                    onBlur={(e) => {
-                      const inputValue = e.target.value.trim();
-                      const formattedValue =
-                        inputValue !== ""
-                          ? parseFloat(inputValue).toFixed(2)
-                          : "";
-                      formik.handleBlur(e);
-                      formik.setFieldValue("retailPrice", formattedValue);
-                    }}
-                    value={formik.values.retailPrice}
-                    maxDecimalPlaces={2}
-                  />
-                  {formik.touched.retailPrice && formik.errors.retailPrice && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.retailPrice}
-                    </div>
-                  )}
-                </div>
-
-                <div className="col-span-4">
-                  <Select
-                    label="Status"
-                    required={true}
-                    name="status"
-                    placeholder=""
-                    onChange={handleSelectChange}
-                    disabled={
-                      priceBookById.dealer?.accountStatus === false ||
-                      priceBookById.priceBooks?.status === false ||
-                      priceBookById?.priceBooks?.category[0]?.status === false
-                    }
-                    className="!bg-white"
-                    options={status}
-                    value={formik.values.status}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.status && formik.errors.status}
-                  />
-                  {formik.touched.status && formik.errors.status && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {formik.errors.status}
-                    </div>
-                  )}
-                </div>
               </Grid>
               <Grid className="">
                 {formik.values.priceBook == "" ? (
