@@ -3671,7 +3671,7 @@ function AddOrder() {
                               }{" "}
                               -{" "}
                               {formikStep3?.values?.productsArray[index]
-                                ?.noOfClaim?.value === "-1"
+                                ?.noOfClaim?.value == "-1"
                                 ? "Unlimited"
                                 : formikStep3?.values?.productsArray[index]
                                     ?.noOfClaim?.value}{" "}
@@ -3687,6 +3687,8 @@ function AddOrder() {
                             {" "}
                             {
                               formikStep3?.values?.productsArray[index]
+                                ?.noOfClaimPerPeriod == "-1" ? "Unlimited"
+                                :  formikStep3?.values?.productsArray[index]
                                 ?.noOfClaimPerPeriod
                             }{" "}
                           </p>
