@@ -119,12 +119,13 @@ function AddOrder() {
   useEffect(() => {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
-
+      getDealerSettingsDetails(dealerId!=undefined?dealerId:dealerValue)
       const timer = setTimeout(() => {}, 3000);
 
       return () => clearTimeout(timer);
     }
   }, [orderId, dealerId, resellerId, dealerValue, customerId]);
+
   const handleRemoveFile = () => {
     if (inputRef) {
       formikStep2.setFieldValue("termCondition", null);
