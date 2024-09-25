@@ -60,13 +60,12 @@ function AddOrder() {
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const inputRef = useRef(null);
-  const [claimOver, setClaimOver] = useState(true);
+  const [claimOver, setClaimOver] = useState([true]);
+  const [claimInCoveragePeriod, setClaimInCoveragePeriod] = useState([true]);
   const [resellerName, setResellerName] = useState("");
   const [termList, setTermList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [claimInCoveragePeriod, setClaimInCoveragePeriod] = useState(true);
-  const [productLoading, setProductLoading] = useState(false);
   const [isErrorOpen, setIsErrorOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [dealerList, setDealerList] = useState([]);
@@ -554,12 +553,11 @@ function AddOrder() {
         formik.setFieldValue("phoneNumber", billDetail?.detail?.phoneNumber);
         formik.setFieldValue("email", billDetail?.detail?.email);
 
-        setClaimOver(
-          productsArray?.some((product) => product?.noOfClaim?.value === -1)
-        );
-        setClaimInCoveragePeriod(
-          productsArray?.some((product) => product?.noOfClaimPerPeriod === -1)
-        );
+        // setClaimOver(
+        //   productsArray?.some((product) => product?.noOfClaim?.value === -1)
+        // );
+        setClaimOver(productsArray?.map((product) => product?.noOfClaim?.value === -1));
+        setClaimInCoveragePeriod(productsArray?.map((product) => product?.noOfClaimPerPeriod === -1));
 
         formikStep3.setValues({
           ...formikStep3.values,
@@ -1342,9 +1340,16 @@ function AddOrder() {
 
       console.log(data1);
       if (data1) {
-        setClaimOver(data1?.noOfClaim?.value === -1);
-        setClaimInCoveragePeriod(data1?.noOfClaimPerPeriod === -1);
-
+        setClaimOver(prevState => {
+          const newClaimOver = [...prevState];
+          newClaimOver[productIndex] = data1?.noOfClaim?.value === -1;
+          return newClaimOver;
+        });
+        setClaimInCoveragePeriod(prevState => {
+          const newClaimInCoveragePeriod = [...prevState];
+          newClaimInCoveragePeriod[productIndex] = data1?.noOfClaimPerPeriod === -1;
+          return newClaimInCoveragePeriod;
+        });
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].adhDays`,
           data1.adhDays
@@ -3166,10 +3171,15 @@ function AddOrder() {
                               id="yes-warranty"
                               label="Unlimited"
                               value={true}
-                              checked={claimOver === true}
+                              checked={claimOver[index] === true}
                               onChange={() => {
-                                setClaimOver(true);
-                                formik.setFieldValue("noOfClaim", {
+                                setClaimOver(prevState => {
+                                  const newClaimOver = [...prevState];
+                                  newClaimOver[index] = true;
+                                  return newClaimOver;
+                                });
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].noOfClaim`, {
                                   period: "Monthly",
                                   value: -1,
                                 });
@@ -3180,10 +3190,15 @@ function AddOrder() {
                               id="no-warranty"
                               label="Fixed"
                               value={false}
-                              checked={claimOver === false}
+                              checked={claimOver[index] === false}
                               onChange={() => {
-                                setClaimOver(false);
-                                formik.setFieldValue("noOfClaim", {
+                                setClaimOver(prevState => {
+                                  const newClaimOver = [...prevState];
+                                  newClaimOver[index] = false; 
+                                  return newClaimOver;
+                                });
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].noOfClaim`, {
                                   period: "Monthly",
                                   value: 0,
                                 });
@@ -3191,7 +3206,7 @@ function AddOrder() {
                             />
                           </div>
                         </div>
-                        {claimOver === false && (
+                        {claimOver[index] === false && (
                           <div className="flex">
                             <Select
                               name={`productsArray[${index}].noOfClaim.period`}
@@ -3245,10 +3260,18 @@ function AddOrder() {
                               id="yes-warranty"
                               label="Unlimited"
                               value={true}
-                              checked={claimInCoveragePeriod === true}
+                              checked={claimInCoveragePeriod[index] === true}
                               onChange={() => {
-                                setClaimInCoveragePeriod(true);
-                                formik.setFieldValue("noOfClaimPerPeriod", -1);
+                                setClaimInCoveragePeriod(prevState => {
+                                  const newClaimInCoveragePeriod = [...prevState];
+                                  newClaimInCoveragePeriod[index] = true;
+                                  return newClaimInCoveragePeriod;
+                                });
+                     
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].noOfClaimPerPeriod`,
+                                  -1
+                                )
                               }}
                             />
                             <RadioButton
@@ -3256,15 +3279,22 @@ function AddOrder() {
                               id="no-warranty"
                               label="Fixed"
                               value={false}
-                              checked={claimInCoveragePeriod === false}
+                              checked={claimInCoveragePeriod[index] === false}
                               onChange={() => {
-                                setClaimInCoveragePeriod(false);
-                                formik.setFieldValue("noOfClaimPerPeriod", 0);
+                                setClaimInCoveragePeriod(prevState => {
+                                  const newClaimInCoveragePeriod = [...prevState];
+                                  newClaimInCoveragePeriod[index] = false;
+                                  return newClaimInCoveragePeriod;
+                                });
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].noOfClaimPerPeriod`,
+                                  0
+                                )
                               }}
                             />
                           </div>
                         </div>
-                        {claimInCoveragePeriod === false && (
+                        {claimInCoveragePeriod[index] === false && (
                           <div className="flex ">
                             <div className="">
                               <Input
