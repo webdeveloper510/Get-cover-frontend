@@ -556,8 +556,12 @@ function AddOrder() {
         // setClaimOver(
         //   productsArray?.some((product) => product?.noOfClaim?.value === -1)
         // );
-        setClaimOver(productsArray?.map((product) => product?.noOfClaim?.value === -1));
-        setClaimInCoveragePeriod(productsArray?.map((product) => product?.noOfClaimPerPeriod === -1));
+        setClaimOver(
+          productsArray?.map((product) => product?.noOfClaim?.value === -1)
+        );
+        setClaimInCoveragePeriod(
+          productsArray?.map((product) => product?.noOfClaimPerPeriod === -1)
+        );
 
         formikStep3.setValues({
           ...formikStep3.values,
@@ -1340,14 +1344,15 @@ function AddOrder() {
 
       console.log(data1);
       if (data1) {
-        setClaimOver(prevState => {
+        setClaimOver((prevState) => {
           const newClaimOver = [...prevState];
           newClaimOver[productIndex] = data1?.noOfClaim?.value === -1;
           return newClaimOver;
         });
-        setClaimInCoveragePeriod(prevState => {
+        setClaimInCoveragePeriod((prevState) => {
           const newClaimInCoveragePeriod = [...prevState];
-          newClaimInCoveragePeriod[productIndex] = data1?.noOfClaimPerPeriod === -1;
+          newClaimInCoveragePeriod[productIndex] =
+            data1?.noOfClaimPerPeriod === -1;
           return newClaimInCoveragePeriod;
         });
         formikStep3.setFieldValue(
@@ -3173,16 +3178,18 @@ function AddOrder() {
                               value={true}
                               checked={claimOver[index] === true}
                               onChange={() => {
-                                setClaimOver(prevState => {
+                                setClaimOver((prevState) => {
                                   const newClaimOver = [...prevState];
                                   newClaimOver[index] = true;
                                   return newClaimOver;
                                 });
                                 formikStep3.setFieldValue(
-                                  `productsArray[${index}].noOfClaim`, {
-                                  period: "Monthly",
-                                  value: -1,
-                                });
+                                  `productsArray[${index}].noOfClaim`,
+                                  {
+                                    period: "Monthly",
+                                    value: -1,
+                                  }
+                                );
                               }}
                             />
                             <RadioButton
@@ -3192,16 +3199,18 @@ function AddOrder() {
                               value={false}
                               checked={claimOver[index] === false}
                               onChange={() => {
-                                setClaimOver(prevState => {
+                                setClaimOver((prevState) => {
                                   const newClaimOver = [...prevState];
-                                  newClaimOver[index] = false; 
+                                  newClaimOver[index] = false;
                                   return newClaimOver;
                                 });
                                 formikStep3.setFieldValue(
-                                  `productsArray[${index}].noOfClaim`, {
-                                  period: "Monthly",
-                                  value: 0,
-                                });
+                                  `productsArray[${index}].noOfClaim`,
+                                  {
+                                    period: "Monthly",
+                                    value: 0,
+                                  }
+                                );
                               }}
                             />
                           </div>
@@ -3262,16 +3271,18 @@ function AddOrder() {
                               value={true}
                               checked={claimInCoveragePeriod[index] === true}
                               onChange={() => {
-                                setClaimInCoveragePeriod(prevState => {
-                                  const newClaimInCoveragePeriod = [...prevState];
+                                setClaimInCoveragePeriod((prevState) => {
+                                  const newClaimInCoveragePeriod = [
+                                    ...prevState,
+                                  ];
                                   newClaimInCoveragePeriod[index] = true;
                                   return newClaimInCoveragePeriod;
                                 });
-                     
+
                                 formikStep3.setFieldValue(
                                   `productsArray[${index}].noOfClaimPerPeriod`,
                                   -1
-                                )
+                                );
                               }}
                             />
                             <RadioButton
@@ -3281,15 +3292,17 @@ function AddOrder() {
                               value={false}
                               checked={claimInCoveragePeriod[index] === false}
                               onChange={() => {
-                                setClaimInCoveragePeriod(prevState => {
-                                  const newClaimInCoveragePeriod = [...prevState];
+                                setClaimInCoveragePeriod((prevState) => {
+                                  const newClaimInCoveragePeriod = [
+                                    ...prevState,
+                                  ];
                                   newClaimInCoveragePeriod[index] = false;
                                   return newClaimInCoveragePeriod;
                                 });
                                 formikStep3.setFieldValue(
                                   `productsArray[${index}].noOfClaimPerPeriod`,
                                   0
-                                )
+                                );
                               }}
                             />
                           </div>
@@ -3744,12 +3757,11 @@ function AddOrder() {
                           </div>
                           <p className="text-sm">
                             {" "}
-                            {
-                              formikStep3?.values?.productsArray[index]
-                                ?.noOfClaimPerPeriod == "-1" ? "Unlimited"
-                                :  formikStep3?.values?.productsArray[index]
-                                ?.noOfClaimPerPeriod
-                            }{" "}
+                            {formikStep3?.values?.productsArray[index]
+                              ?.noOfClaimPerPeriod == "-1"
+                              ? "Unlimited"
+                              : formikStep3?.values?.productsArray[index]
+                                  ?.noOfClaimPerPeriod}{" "}
                           </p>
 
                           <div className="">

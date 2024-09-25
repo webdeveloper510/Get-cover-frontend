@@ -7,8 +7,7 @@ import { ToWords } from "to-words";
 
 function PdfGenerator(props, className) {
   const { setLoading } = props;
-  const [selectedFile2, setSelectedFile2] = useState("");
-  const [url, setUrl] = useState("");
+
   const toWords = new ToWords({
     localeCode: "en-IN",
     converterOptions: {
@@ -28,15 +27,6 @@ function PdfGenerator(props, className) {
       },
     },
   });
-  useEffect(() => {
-    console.log(
-      localStorage.getItem("siteSettings"),
-      "-----------------siteSettings"
-    );
-    let data = JSON.parse(localStorage.getItem("siteSettings"));
-    setUrl(data.logoLight ? data.logoLight.baseUrl : null);
-    setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-  }, []);
 
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, "");
@@ -49,9 +39,12 @@ function PdfGenerator(props, className) {
 
   const [data, setData] = useState({});
   const getBase64ImageFromUrl = async (imageUrl) => {
+    const proxyUrl = "https://api.allorigins.win/get?url=";
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
+      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl));
+
+      const data = await response.json();
+      const blob = await fetch(data.contents).then((res) => res.blob());
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
@@ -129,7 +122,7 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src=${logo} style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
+                <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
                 <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${
                   data.websiteSetting.title
                 }</b></h1>
@@ -322,7 +315,7 @@ function PdfGenerator(props, className) {
                 index + 1
               }</td>
               <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
-                product.name
+                product.pName
               }</td>
                <td style="border-bottom: 1px solid #ddd; padding: 8px;">${
                  product.dealerSku

@@ -99,6 +99,7 @@ function Dealer() {
     // ],
     isAccountCreate: false,
     customerAccountCreated: false,
+    isMaxClaimAmount: false,
     serviceCoverageType: "",
     coverageType: [],
     isShippingAllowed: false,
@@ -116,6 +117,7 @@ function Dealer() {
     adhDays: coverage.reduce((acc, type) => {
       acc.push({
         label: type.value,
+        value: type.value,
         waitingDays: 0,
         deductible: 0,
         amountType: "amount",
@@ -202,6 +204,7 @@ function Dealer() {
         },
         isShippingAllowed: false,
         isManufacturerWarranty: false,
+        isMaxClaimAmount: false,
         noOfClaimPerPeriod: 0,
         dealers: [],
         // priceBook: [
@@ -224,6 +227,7 @@ function Dealer() {
         adhDays: coverage.reduce((acc, type) => {
           acc.push({
             label: type.value,
+            value: type.value,
             waitingDays: 0,
             deductible: 0,
             amountType: "amount",
@@ -262,6 +266,7 @@ function Dealer() {
             coverageType: [],
             isShippingAllowed: false,
             isManufacturerWarranty: false,
+            isMaxClaimAmount: false,
             noOfClaimPerPeriod: 0,
             noOfClaim: {
               period: "Monthly",
@@ -1315,6 +1320,34 @@ function Dealer() {
                               "isManufacturerWarranty",
                               false
                             )
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <p className=" text-[12px] mb-3 font-semibold">
+                        {" "}
+                        Is Maximum Claim Amount ?
+                      </p>
+                      <div className="flex">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-max-claim"
+                          label="Yes"
+                          value={true}
+                          checked={formik.values.isMaxClaimAmount == true}
+                          onChange={() =>
+                            formik.setFieldValue("isMaxClaimAmount", true)
+                          }
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-max-claim"
+                          label="No"
+                          value={false}
+                          checked={formik.values.isMaxClaimAmount === false}
+                          onChange={() =>
+                            formik.setFieldValue("isMaxClaimAmount", false)
                           }
                         />
                       </div>

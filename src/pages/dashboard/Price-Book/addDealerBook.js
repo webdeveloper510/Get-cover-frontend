@@ -236,7 +236,7 @@ function AddDealerBook() {
       //   )
       // );
       // console.log(filteredAdhDays);
-
+      setLoader(true);
       const response = await getCoverageTypeAndAdhDays(
         selectedProduct?.value,
         formik.values.dealerId
@@ -259,7 +259,7 @@ function AddDealerBook() {
         response.result.priceBook.coverageType
       );
     }
-
+    setLoader(false);
     formik.setFieldValue(name, value);
   };
 
