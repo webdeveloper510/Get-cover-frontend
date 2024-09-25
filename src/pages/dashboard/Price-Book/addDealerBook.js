@@ -76,7 +76,7 @@ function AddDealerBook() {
     const data = result.result[0];
     console.log(data);
     setPriceBookById(data);
-    getDealerSettings(data?.dealerId);
+    // getDealerSettings(data?.dealerId);
     formik.setFieldValue("retailPrice", data.retailPrice.toFixed(2));
     formik.setFieldValue("status", data.status);
     formik.setFieldValue("dealerSku", data.dealerSku);
