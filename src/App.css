@@ -77,9 +77,9 @@
 }
 
 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
-  right: -20px;
+  /* right: -20px; */
   min-width: 30px !important;
-  left: unset;
+  left: -4px;
   min-height: 30px !important;
 }
 

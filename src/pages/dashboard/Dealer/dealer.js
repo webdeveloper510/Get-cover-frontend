@@ -1192,7 +1192,7 @@ function Dealer() {
                         </div>
                       </div>
                     )}
-                    <div className="flex justify-between pr-6 my-4">
+                    <div className="flex justify-between my-4">
                       <p className="text-[12px] mb-3 font-semibold">
                         # of Claims in Coverage Period
                       </p>
@@ -1322,7 +1322,8 @@ function Dealer() {
                   </div>
                   <div className="col-span-12">
                     <p className="text-base mb-3 font-semibold">
-                      Coverage Type<span className="text-red text-sm">* </span> :
+                      Coverage Type<span className="text-red text-sm">* </span>{" "}
+                      :
                     </p>
                     <Grid>
                       {coverage.map((type) => (
