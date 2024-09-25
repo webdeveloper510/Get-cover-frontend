@@ -785,35 +785,34 @@ function AddOrder() {
             .typeError("Required")
             .required("Required")
             .nullable(),
-            adhDays: Yup.array().of(
-              Yup.object().shape({
-                label: Yup.string(),
-                waitingDays: Yup.number()
-                  .required("Required")
-                  .min(0, "Value cannot be negative")
-                  .nullable(),
-                deductible: Yup.number()
-                  .required("Required")
-                  .min(0, "Must be at least 0")
-                  .when("amountType", {
-                    is: (value) => value === "percentage",
-                    then: () =>
-                      Yup.number()
-                        .max(99.99, "Cannot exceed 99.99%")
-                        .test(
-                          "is-decimal",
-                          "Percentage must have up to 2 decimal places",
-                          (value) =>
-                            value === undefined ||
-                            value === null ||
-                            /^\d+(\.\d{1,2})?$/.test(value)
-                        ),
-                    otherwise: () => Yup.number().min(0, "Must be at least 0"),
-                  }),
-                amountType: Yup.string().required(""),
-              })
-            ),
-       
+          adhDays: Yup.array().of(
+            Yup.object().shape({
+              label: Yup.string(),
+              waitingDays: Yup.number()
+                .required("Required")
+                .min(0, "Value cannot be negative")
+                .nullable(),
+              deductible: Yup.number()
+                .required("Required")
+                .min(0, "Must be at least 0")
+                .when("amountType", {
+                  is: (value) => value === "percentage",
+                  then: () =>
+                    Yup.number()
+                      .max(99.99, "Cannot exceed 99.99%")
+                      .test(
+                        "is-decimal",
+                        "Percentage must have up to 2 decimal places",
+                        (value) =>
+                          value === undefined ||
+                          value === null ||
+                          /^\d+(\.\d{1,2})?$/.test(value)
+                      ),
+                  otherwise: () => Yup.number().min(0, "Must be at least 0"),
+                }),
+              amountType: Yup.string().required(""),
+            })
+          ),
 
           noOfProducts: Yup.number()
             .typeError("Must be a number")
@@ -2918,85 +2917,115 @@ function AddOrder() {
 
                       <div className="col-span-12">
                         <Grid className=" mb-3">
-                        {formikStep3.values.productsArray[index].adhDays &&
-  formikStep3.values.productsArray[index].adhDays.map((coverage, idx) => (
-    <div className="col-span-4 capitalize" key={idx}>
-      <div className="my-4">
-        <Input
-          type="text"
-          name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
-          className="!bg-white"
-          label={`${coverage.label} Days `}
-          placeholder={`${coverage.label} Days`}
-          value={formikStep3.values.productsArray[index].adhDays[idx].waitingDays ?? 0}
-          onChange={(e) =>
-            formikStep3.setFieldValue(
-              `productsArray[${index}].adhDays[${idx}].waitingDays`,
-              e.target.value === '' ? 0 : e.target.value
-            )
-          }
-          onBlur={formikStep3.handleBlur}
-        />
-        {formikStep3.errors.productsArray &&
-          formikStep3.errors.productsArray[index] &&
-          formikStep3.errors.productsArray[index].adhDays &&
-          formikStep3.errors.productsArray[index].adhDays[idx] &&
-          formikStep3.errors.productsArray[index].adhDays[idx].waitingDays && (
-          <div className="text-red-500 text-sm pl-2 pt-2">
-            {formikStep3.errors.productsArray[index].adhDays[idx].waitingDays}
-          </div>
-        )}
-      </div>
-      <div className="relative">
-        <Input
-          type="text"
-          name={`productsArray[${index}].adhDays[${idx}].deductible`}
-          className="!bg-white"
-          label="Deductible"
-          placeholder=""
-          value={formikStep3.values.productsArray[index].adhDays[idx].deductible ?? 0}
-          onChange={(e) => {
-            const value = e.target.value;
-            // Allow up to two decimal places
-            if (/^\d+(\.\d{0,2})?$/.test(value)) {
-              formikStep3.setFieldValue(
-                `productsArray[${index}].adhDays[${idx}].deductible`,
-                value === '' ? 0 : value
-              );
-            }
-          }}
-          onBlur={formikStep3.handleBlur}
-        />
-        <div className="absolute top-[1px] right-[1px]">
-          <Select
-            name={`productsArray[${index}].adhDays[${idx}].amountType`}
-            label=""
-            disableFirstOption={true}
-            onChange={(e, name) =>
-              formikStep3.setFieldValue(
-                `productsArray[${index}].adhDays[${idx}].amountType`,
-                name
-              )
-            }
-            value={formikStep3.values.productsArray[index].adhDays[idx].amountType}
-            classBox="!bg-transparent"
-            className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
-            options={optiondeductibles}
-          />
-        </div>
-        {formikStep3.errors.productsArray &&
-          formikStep3.errors.productsArray[index] &&
-          formikStep3.errors.productsArray[index].adhDays &&
-          formikStep3.errors.productsArray[index].adhDays[idx] &&
-          formikStep3.errors.productsArray[index].adhDays[idx].deductible && (
-          <div className="text-red-500 text-sm">
-            {formikStep3.errors.productsArray[index].adhDays[idx].deductible}
-          </div>
-        )}
-      </div>
-    </div>
-  ))}
-
+                          {formikStep3.values.productsArray[index].adhDays &&
+                            formikStep3.values.productsArray[index].adhDays.map(
+                              (coverage, idx) => (
+                                <div
+                                  className="col-span-4 capitalize"
+                                  key={idx}
+                                >
+                                  <div className="my-4">
+                                    <Input
+                                      type="text"
+                                      name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
+                                      className="!bg-white"
+                                      label={`${coverage.label} Days `}
+                                      placeholder={`${coverage.label} Days`}
+                                      value={
+                                        formikStep3.values.productsArray[index]
+                                          .adhDays[idx].waitingDays ?? 0
+                                      }
+                                      onChange={(e) =>
+                                        formikStep3.setFieldValue(
+                                          `productsArray[${index}].adhDays[${idx}].waitingDays`,
+                                          e.target.value === ""
+                                            ? 0
+                                            : e.target.value
+                                        )
+                                      }
+                                      onBlur={formikStep3.handleBlur}
+                                    />
+                                    {formikStep3.errors.productsArray &&
+                                      formikStep3.errors.productsArray[index] &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays[idx] &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays[idx].waitingDays && (
+                                        <div className="text-red-500 text-sm pl-2 pt-2">
+                                          {
+                                            formikStep3.errors.productsArray[
+                                              index
+                                            ].adhDays[idx].waitingDays
+                                          }
+                                        </div>
+                                      )}
+                                  </div>
+                                  <div className="relative">
+                                    <Input
+                                      type="text"
+                                      name={`productsArray[${index}].adhDays[${idx}].deductible`}
+                                      className="!bg-white"
+                                      label="Deductible"
+                                      placeholder=""
+                                      value={
+                                        formikStep3.values.productsArray[index]
+                                          .adhDays[idx].deductible ?? 0
+                                      }
+                                      onChange={(e) => {
+                                        const value = e.target.value;
+                                        // Allow up to two decimal places
+                                        if (/^\d+(\.\d{0,2})?$/.test(value)) {
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].deductible`,
+                                            value === "" ? 0 : value
+                                          );
+                                        }
+                                      }}
+                                      onBlur={formikStep3.handleBlur}
+                                    />
+                                    <div className="absolute top-[1px] right-[1px]">
+                                      <Select
+                                        name={`productsArray[${index}].adhDays[${idx}].amountType`}
+                                        label=""
+                                        disableFirstOption={true}
+                                        onChange={(e, name) =>
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].amountType`,
+                                            name
+                                          )
+                                        }
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].amountType
+                                        }
+                                        classBox="!bg-transparent"
+                                        className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                                        options={optiondeductibles}
+                                      />
+                                    </div>
+                                    {formikStep3.errors.productsArray &&
+                                      formikStep3.errors.productsArray[index] &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays[idx] &&
+                                      formikStep3.errors.productsArray[index]
+                                        .adhDays[idx].deductible && (
+                                        <div className="text-red-500 text-sm">
+                                          {
+                                            formikStep3.errors.productsArray[
+                                              index
+                                            ].adhDays[idx].deductible
+                                          }
+                                        </div>
+                                      )}
+                                  </div>
+                                </div>
+                              )
+                            )}
                         </Grid>
                       </div>
                       <div className="col-span-12">
