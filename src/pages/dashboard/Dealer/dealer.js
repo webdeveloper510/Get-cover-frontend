@@ -292,6 +292,7 @@ function Dealer() {
             adhDays: coverage.reduce((acc, type) => {
               acc.push({
                 label: type.value,
+                value: type.value,
                 waitingDays: 0,
                 deductible: 0,
                 amountType: "amount",
@@ -1284,6 +1285,7 @@ function Dealer() {
                                 className="!bg-grayf9"
                                 placeholder=""
                                 className1="!pt-2.5"
+                                disableFirstOption={true}
                                 OptionName={"Period"}
                                 maxLength={"30"}
                                 value={formik.values.noOfClaim.period}
@@ -1419,6 +1421,7 @@ function Dealer() {
                                       ...updatedadhDays,
                                       {
                                         label: type.value,
+                                        value: type.value,
                                         waitingDays: 0,
                                         deductible: 0,
                                         amountType: "amount",

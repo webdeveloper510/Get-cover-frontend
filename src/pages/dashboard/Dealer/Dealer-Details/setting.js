@@ -506,6 +506,7 @@ function Setting(props) {
                           className="!bg-grayf9"
                           placeholder=""
                           className1="!pt-2.5"
+                          disableFirstOption={true}
                           OptionName={"Period"}
                           maxLength={"30"}
                           value={formik.values.noOfClaim.period}

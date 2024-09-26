@@ -694,9 +694,9 @@ function DealerPriceList() {
                     : "Inactive"}
                 </p>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className="text-base mb-3 font-semibold">
-                  # of Claims Over the Certain <br /> Period
+                  # of Claims Over the Certain Period
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.noOfClaim?.period} -{" "}
@@ -705,7 +705,7 @@ function DealerPriceList() {
                     : dealerPriceBookDetail?.noOfClaim?.value}
                 </p>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className="text-base mb-3 font-semibold">
                   # of Claims in Coverage <br /> Period
                 </p>
@@ -715,13 +715,24 @@ function DealerPriceList() {
                     : dealerPriceBookDetail?.noOfClaimPerPeriod}
                 </p>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className=" text-base mb-3 font-semibold">
                   {" "}
                   Is Include manufacturer <br /> warranty?
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.isManufacturerWarranty == true
+                    ? "Yes"
+                    : "No"}
+                </p>
+              </div>
+              <div className="col-span-3">
+                <p className=" text-base mb-3 font-semibold">
+                  {" "}
+                  Is Maximum Claim Amount ?
+                </p>
+                <p className="text-[14px] font-semibold">
+                  {dealerPriceBookDetail?.isMaxClaimAmount == true
                     ? "Yes"
                     : "No"}
                 </p>

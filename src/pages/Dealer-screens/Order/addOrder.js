@@ -1789,7 +1789,7 @@ function DealerAddOrder() {
             <div className="col-span-10">
               <Grid>
                 <div className="col-span-6">
-                  <div className="col-span-12 mt-4">
+                  <div className="col-span-12 mt-8">
                     <Input
                       type="text"
                       name="dealerPurchaseOrder"
@@ -2822,6 +2822,7 @@ function DealerAddOrder() {
                                 className="!bg-grayf9"
                                 placeholder=""
                                 className1="!pt-2.5"
+                                disableFirstOption={true}
                                 OptionName={"Period"}
                                 maxLength={"30"}
                                 value={
