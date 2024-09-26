@@ -288,10 +288,9 @@ function DealerPriceList() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.wholesalePrice === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
+        `$${row?.wholesalePrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.wholesalePrice ?? parseInt(0))
         } `,
       sortable: true,
       minWidth: "130px",
@@ -305,10 +304,9 @@ function DealerPriceList() {
         </div>
       ),
       selector: (row) =>
-        `$${
-          row?.retailPrice === undefined
-            ? parseInt(0).toLocaleString(2)
-            : formatOrderValue(row?.retailPrice ?? parseInt(0))
+        `$${row?.retailPrice === undefined
+          ? parseInt(0).toLocaleString(2)
+          : formatOrderValue(row?.retailPrice ?? parseInt(0))
         } `,
       sortable: true,
       minWidth: "120px",
@@ -320,9 +318,8 @@ function DealerPriceList() {
       cell: (row) => (
         <div className="relative">
           <div
-            className={` ${
-              row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-            } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
+            className={` ${row.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
+              } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
             value={row.status === true ? "active" : "inactive"}
@@ -667,8 +664,8 @@ function DealerPriceList() {
                   {dealerPriceBookDetail?.wholesalePrice === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
-                      )}
+                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                    )}
                 </p>
               </div>
               <div className="col-span-4">
@@ -678,8 +675,8 @@ function DealerPriceList() {
                   {dealerPriceBookDetail?.retailPrice === undefined
                     ? parseInt(0).toLocaleString(2)
                     : formatOrderValue(
-                        dealerPriceBookDetail?.retailPrice ?? parseInt(0)
-                      )}
+                      dealerPriceBookDetail?.retailPrice ?? parseInt(0)
+                    )}
                 </p>
               </div>
               <div className="col-span-4">
@@ -731,40 +728,40 @@ function DealerPriceList() {
               </div>
               {dealerPriceBookDetail?.priceBooks?.priceType ==
                 "Flat Pricing" && (
-                <>
-                  <div className="col-span-4">
-                    <p className="text-lg font-semibold">Start Range</p>
-                    <p className="text-base  font-semibold">
-                      $
-                      {dealerPriceBookDetail?.priceBooks?.rangeStart ===
-                      undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(
+                  <>
+                    <div className="col-span-4">
+                      <p className="text-lg font-semibold">Start Range</p>
+                      <p className="text-base  font-semibold">
+                        $
+                        {dealerPriceBookDetail?.priceBooks?.rangeStart ===
+                          undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
                             dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                              parseInt(0)
+                            parseInt(0)
                           )}
-                    </p>
-                  </div>
-                  <div className="col-span-4">
-                    <p className="text-lg font-semibold">End Range</p>
-                    <p className="text-base font-semibold">
-                      $
-                      {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(
+                      </p>
+                    </div>
+                    <div className="col-span-4">
+                      <p className="text-lg font-semibold">End Range</p>
+                      <p className="text-base font-semibold">
+                        $
+                        {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                          ? parseInt(0).toLocaleString(2)
+                          : formatOrderValue(
                             dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                              parseInt(0)
+                            parseInt(0)
                           )}
-                    </p>
-                  </div>
-                </>
-              )}
+                      </p>
+                    </div>
+                  </>
+                )}
               <div className="col-span-12">
                 <table className="w-full border text-center">
                   <tr className="border bg-[#9999]">
                     <th>Coverage Type</th>
                     <th>Waiting Days</th>
-                    <th>Deductable</th>
+                    <th>Deductible</th>
                   </tr>
 
                   {dealerPriceBookDetail?.adhDays1 &&
@@ -783,10 +780,10 @@ function DealerPriceList() {
                               {type.amountType === "percentage"
                                 ? type.deductible
                                 : type.deductible === undefined
-                                ? (0).toLocaleString(undefined, {
+                                  ? (0).toLocaleString(undefined, {
                                     minimumFractionDigits: 2,
                                   })
-                                : formatOrderValue(type.deductible ?? 0)}
+                                  : formatOrderValue(type.deductible ?? 0)}
                               {type.amountType == "percentage" && "%"}
                             </td>
                           </tr>
@@ -797,30 +794,30 @@ function DealerPriceList() {
               </div>
               {dealerPriceBookDetail?.priceBooks?.priceType ==
                 "Quantity Pricing" && (
-                <>
-                  <div className="col-span-12">
-                    <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
-                        <th colSpan={"2"}>Quantity Pricing List </th>
-                      </tr>
-                      <tr className="border bg-[#9999]">
-                        <th>Name</th>
-                        <th>Max Quantity</th>
-                      </tr>
-                      {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
-                        .length !== 0 &&
-                        dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
-                          (item, index) => (
-                            <tr key={index} className="border">
-                              <td>{item.name}</td>
-                              <td>{item.quantity}</td>
-                            </tr>
-                          )
-                        )}
-                    </table>
-                  </div>
-                </>
-              )}
+                  <>
+                    <div className="col-span-12">
+                      <table className="w-full border text-center">
+                        <tr className="border bg-[#9999]">
+                          <th colSpan={"2"}>Quantity Pricing List </th>
+                        </tr>
+                        <tr className="border bg-[#9999]">
+                          <th>Name</th>
+                          <th>Max Quantity</th>
+                        </tr>
+                        {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail
+                          .length !== 0 &&
+                          dealerPriceBookDetail?.priceBooks?.quantityPriceDetail.map(
+                            (item, index) => (
+                              <tr key={index} className="border">
+                                <td>{item.name}</td>
+                                <td>{item.quantity}</td>
+                              </tr>
+                            )
+                          )}
+                      </table>
+                    </div>
+                  </>
+                )}
             </Grid>
           </div>
         </div>

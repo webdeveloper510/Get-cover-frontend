@@ -49,7 +49,7 @@ import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import SwitchButton from "../../../common/switch";
-import { getOptions } from "../../../services/claimServices";
+import { editOption, getOptions } from "../../../services/claimServices";
 
 function Account() {
   const [repairValue, repair_status] = useState({});
@@ -609,6 +609,7 @@ function Account() {
       },
     },
   ];
+
   const columns1 = [
     {
       name: "Name",
@@ -1070,8 +1071,57 @@ function Account() {
       console.error("Error fetching claim options:", error);
     }
   };
-  console.log(repairValue, customerValue, shipment, claimvalues, coverageType, '--------')
+  const [label, setLabel] = useState('');
+  const [value, setValue] = useState('');
+  const [editingRowId, setEditingRowId] = useState(null); // Track the row being edited
 
+  // Handle Edit button click
+  const handleEditoption = (id) => {
+    const row = coverageType.value.find((item) => item.id === id);
+    if (row) {
+      setLabel(row.label);   // Populate input fields with the row data
+      setValue(row.value);
+      setEditingRowId(id);   // Set the current row as the one being edited
+    }
+  };
+
+  const handleAddOrUpdate = async (editingRowId, labelId) => {
+    if (editingRowId && labelId) {
+      console.log('Adding row', editingRowId, labelId)
+      const updatedData = {
+        label, // New label value
+        value, // Keep the value the same, as it is non-changeable
+        labelId, // The ID of the label inside the value array
+      };
+
+      try {
+        // Send PUT request to the API
+        const res = await editOption(labelId, updatedData)
+
+        // Update the local state with the updated data
+        const updatedCoverageType = coverageType.value.map((item) =>
+          item.id === editingRowId
+            ? {
+              ...item,
+              value: item.value.map((val) =>
+                val.id === labelId ? { ...val, label } : val
+              ),
+            }
+            : item
+        );
+        coverageType({ ...coverageType, value: updatedCoverageType });
+
+        // Clear the input fields and reset the editing state
+        setLabel('');
+        setValue('');
+        setEditingRowId(null);
+      } catch (error) {
+        console.error('Failed to update coverage type:', error);
+      }
+    } else {
+      // Logic for adding a new item if you're not editing
+    }
+  };
   return (
     <>
       {loading ? (
@@ -1809,6 +1859,8 @@ function Account() {
                           type="text"
                           name="type"
                           label="Coverage Type Label"
+                          value={label}
+                          onChange={(e) => setLabel(e.target.value)}
                           placeholder=""
                         />
                       </div>
@@ -1817,17 +1869,23 @@ function Account() {
                           type="text"
                           name="type"
                           label="Coverage Type Value"
+                          value={value}
+                          onChange={(e) => setValue(e.target.value)}
                           placeholder=""
                         />
                       </div>
                       <div className="col-span-2 self-center text-center">
-                        <Button className="text-sm! font-semibold !border-light-black !border-[1px]" type="button">Add</Button>
+                        <Button
+                          className="text-sm! font-semibold !border-light-black !border-[1px]"
+                          type="button"
+                          onClick={handleAddOrUpdate}
+                        >
+                          {editingRowId ? 'Update' : 'Add'}
+                        </Button>
                       </div>
                     </Grid>
                   </div>
-                  <div>
 
-                  </div>
                   <table className="w-full border-collapse border">
                     <thead className="w-full border-collapse border bg-[#F9F9F9] ">
                       <tr>
@@ -1840,26 +1898,20 @@ function Account() {
                     <tbody className="w-full border-collapse border text-center">
                       {coverageType?.value.map((row) => (
                         <tr key={row.id} className="w-full border-collapse border">
-                          <td className="py-3">
-                            {row.isEditing ? (
-                              <input
-                                type="text"
-                                value={row.label}
-                                onChange={(e) => handleInputChange(row.id, e.target.value)}
-                              />
-                            ) : (
-                              row.label
-                            )}
-                          </td>
+                          <td className="py-3">{row.label}</td>
                           <td>{row.value}</td>
-                          <td>  <SwitchButton
-                            isOn={row.status}
-                            handleToggle={() => handleStatusToggle(row.id)}
-                          />
+                          <td>
+                            <SwitchButton
+                              isOn={row.status}
+                              handleToggle={() => handleStatusToggle(row.id)}
+                            />
                           </td>
                           <td>
-                            <Button onClick={() => handleEditClick(row.id)} className="text-sm! font-semibold !border-light-black !border-[1px]">
-                              {row.isEditing ? "Save" : "Edit"}
+                            <Button
+                              onClick={() => handleEditoption(row.id)}
+                              className="text-sm! font-semibold !border-light-black !border-[1px]"
+                            >
+                              Edit
                             </Button>
                           </td>
                         </tr>

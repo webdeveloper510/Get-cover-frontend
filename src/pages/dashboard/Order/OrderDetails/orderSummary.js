@@ -115,8 +115,8 @@ function OrderSummary(props) {
                               {res.unitPrice === undefined
                                 ? parseInt(0).toLocaleString(2)
                                 : formatOrderValue(
-                                    res.unitPrice ?? parseInt(0)
-                                  )}
+                                  res.unitPrice ?? parseInt(0)
+                                )}
                             </p>
                           </div>
                         </div>
@@ -217,8 +217,8 @@ function OrderSummary(props) {
                                   {res.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        res.rangeStart ?? parseInt(0)
-                                      )}
+                                      res.rangeStart ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </div>
@@ -232,8 +232,8 @@ function OrderSummary(props) {
                                   {res.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        res.rangeEnd ?? parseInt(0)
-                                      )}
+                                      res.rangeEnd ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </div>
@@ -273,7 +273,7 @@ function OrderSummary(props) {
                                           1,
                                           Math.ceil(
                                             value.enterQuantity /
-                                              parseFloat(value.quantity)
+                                            parseFloat(value.quantity)
                                           )
                                         )}
                                       </td>
@@ -318,7 +318,7 @@ function OrderSummary(props) {
                             <tr className="border bg-[#9999]">
                               <th>Coverage Type</th>
                               <th>Waiting Days</th>
-                              <th>Deductable</th>
+                              <th>Deductible</th>
                             </tr>
 
                             {res?.adhDays && res?.adhDays.length > 0 && (
@@ -336,10 +336,10 @@ function OrderSummary(props) {
                                       {type.amountType === "percentage"
                                         ? type.deductible
                                         : type.deductible === undefined
-                                        ? (0).toLocaleString(undefined, {
+                                          ? (0).toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                           })
-                                        : formatOrderValue(
+                                          : formatOrderValue(
                                             type.deductible ?? 0
                                           )}
                                       {type.amountType == "percentage" && "%"}

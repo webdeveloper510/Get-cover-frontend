@@ -1176,7 +1176,7 @@ function ResellerAddOrder() {
 
     formik.resetForm({ values: newValues });
   };
-  
+
   const getCategoryList = async (data, index) => {
     console.log(data);
     try {
@@ -1927,8 +1927,8 @@ function ResellerAddOrder() {
                                   type="text"
                                   name={`productsArray[${index}].adhDays[${idx}].deductible`}
                                   className="!bg-white"
-                                  label={`Deductable `}
-                                  placeholder={`Deductable`}
+                                  label={`Deductible `}
+                                  placeholder={`Deductible`}
                                   disabled={true}
                                   value={
                                     formikStep3.values.productsArray[index]
@@ -2612,7 +2612,7 @@ function ResellerAddOrder() {
                                   <div className="pt-3 px-4">
                                     <p className="text-[12px] capitalize">
                                       {" "}
-                                      Deductable Amount
+                                      Deductible Amount
                                     </p>
                                     <p className="font-bold text-sm">
                                       $

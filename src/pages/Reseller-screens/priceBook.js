@@ -666,7 +666,7 @@ function ResellerPriceBook(props) {
                 <tr className="border bg-[#9999]">
                   <th>Coverage Type</th>
                   <th>Waiting Days</th>
-                  <th>Deductable Amount</th>
+                  <th>Deductible Amount</th>
                 </tr>
 
                 {dealerPriceBook?.adhDays1 && dealerPriceBook?.adhDays1.length > 0 && (

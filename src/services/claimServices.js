@@ -171,6 +171,27 @@ export const getUnpaidClaims = async (id, data) => {
     throw error;
   }
 };
+
+export const editOption = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(
+      `${url}/user/editOption/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+
 export const getPaidClaims = async (id, data) => {
   const headers = createHeaders();
 
