@@ -22,7 +22,6 @@ import {
   getDealersSettingsByid,
   uploadTermsandCondition,
 } from "../../../services/dealerServices";
-import { getServicerListByDealerId } from "../../../services/servicerServices";
 import {
   getCustomerListByDealerIdAndResellerId,
   getServiceCoverageDetails,
