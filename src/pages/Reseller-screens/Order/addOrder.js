@@ -3174,6 +3174,18 @@ function ResellerAddOrder() {
                               ? "Yes"
                               : "No"}
                           </p>
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is Maximum Claim Amount ?
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isMaxClaimAmount == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
                         </div>
                       </div>
 

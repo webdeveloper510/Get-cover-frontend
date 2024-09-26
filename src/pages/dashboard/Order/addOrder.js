@@ -3154,7 +3154,7 @@ function AddOrder() {
                           {formikStep3.errors.productsArray[index].file}
                         </div>
                       )}
-           
+
                     {formikStep3.values.productsArray[index].dealerSku ===
                       "" ? (
                       ""
@@ -3344,6 +3344,46 @@ function AddOrder() {
                               onChange={() =>
                                 formikStep3.setFieldValue(
                                   `productsArray[${index}].isManufacturerWarranty`,
+                                  true
+                                )
+                              }
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="No"
+                              value={false}
+                              checked={
+                                formikStep3.values.productsArray[index]
+                                  .isManufacturerWarranty === false
+                              }
+                              onChange={() =>
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].isManufacturerWarranty`,
+                                  false
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="flex justify-between">
+                          <p className=" text-[12px] mb-3 font-semibold">
+                            {" "}
+                            Is Maximum Claim Amount ?
+                          </p>
+                          <div className="flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Yes"
+                              value={true}
+                              checked={
+                                formikStep3.values.productsArray[index]
+                                  .isMaxClaimAmount == true
+                              }
+                              onChange={() =>
+                                formikStep3.setFieldValue(
+                                  `productsArray[${index}].isMaxClaimAmount`,
                                   true
                                 )
                               }
@@ -3768,6 +3808,18 @@ function AddOrder() {
                           <p className="text-sm">
                             {formikStep3.values.productsArray[index]
                               .isManufacturerWarranty == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is Maximum Claim Amount ?
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isMaxClaimAmount == true
                               ? "Yes"
                               : "No"}
                           </p>
