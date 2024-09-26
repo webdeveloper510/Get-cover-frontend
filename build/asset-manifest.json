@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.08c17c4f.css",
-    "main.js": "/static/js/main.946f41be.js",
+    "main.js": "/static/js/main.c0466c4b.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -150,10 +150,10 @@
     "static/media/activeReporting.svg": "/static/media/activeReporting.96af81026d89b5cad478eb2f46a0ed90.svg",
     "static/media/productName.svg": "/static/media/productName.53f94dce91468b9b520a9f08fad18a03.svg",
     "static/media/wholePrice.svg": "/static/media/wholePrice.2eaa1c208d2540012a904e8ce008f109.svg",
-    "index.html": "/index.html",
     "static/media/Notification-icon.svg": "/static/media/Notification-icon.676b7930c991dd4c3e0f1879420717ff.svg",
     "static/media/activeClaim.svg": "/static/media/activeClaim.228584133579369b6fa95e419969fe04.svg",
     "static/media/claim.svg": "/static/media/claim.d33290289acdfbd6b60fb692d3bb8b66.svg",
+    "index.html": "/index.html",
     "static/media/SearchIcon.svg": "/static/media/SearchIcon.7c1a2019d42923ddd4b9f92d7fa8635d.svg",
     "static/media/SerachWhite.svg": "/static/media/SerachWhite.7c1a2019d42923ddd4b9f92d7fa8635d.svg",
     "static/media/check.svg": "/static/media/check.65286e30fe24e4c18e3d195deececc33.svg",
@@ -179,13 +179,13 @@
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
     "main.08c17c4f.css.map": "/static/css/main.08c17c4f.css.map",
-    "main.946f41be.js.map": "/static/js/main.946f41be.js.map",
+    "main.c0466c4b.js.map": "/static/js/main.c0466c4b.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.08c17c4f.css",
-    "static/js/main.946f41be.js"
+    "static/js/main.c0466c4b.js"
   ]
 }
