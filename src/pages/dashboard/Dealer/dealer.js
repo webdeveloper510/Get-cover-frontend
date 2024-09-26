@@ -976,7 +976,7 @@ function Dealer() {
               </div>
               <div className="col-span-8">
                 <p className="text-lg mb-3 font-semibold">Dealer Setting</p>
-                <Grid>
+                <Grid className="!gap-1">
                   <div className="col-span-6 mt-4">
                     <Select
                       label="Service Coverage"
@@ -1137,82 +1137,7 @@ function Dealer() {
                         />
                       </div>
                     </Grid>
-                    <Grid className="!gap-0 mt-3">
-                      <div className="col-span-7">
-                        <p className="text-[12px] font-semibold">
-                          # of Claims Over the Certain Period
-                        </p>
-                      </div>
-                      <div className="col-span-5 flex">
-                        <RadioButton
-                          className="self-start"
-                          id="yes-warranty"
-                          label="Unlimited"
-                          value={true}
-                          checked={claimOver === true}
-                          onChange={() => {
-                            setClaimOver(true);
-                            formik.setFieldValue("noOfClaim", {
-                              period: "Monthly",
-                              value: -1,
-                            });
-                          }}
-                        />
-                        <RadioButton
-                          className="self-start"
-                          id="no-warranty"
-                          label="Fixed"
-                          value={false}
-                          checked={claimOver === false}
-                          onChange={() => {
-                            setClaimOver(false);
-                            formik.setFieldValue("noOfClaim", {
-                              period: "Monthly",
-                              value: 0,
-                            });
-                          }}
-                        />
-                      </div>
-                    </Grid>
-                    {claimOver === false && (
-                      <Grid>
-                        <div className="col-span-6">
-                          <Select
-                            name={`noOfClaim.period`}
-                            options={period}
-                            className="!bg-grayf9"
-                            placeholder=""
-                            className1="!pt-2.5"
-                            OptionName={"Period"}
-                            maxLength={"30"}
-                            value={formik.values.noOfClaim.period}
-                            onBlur={formik.handleBlur}
-                            onChange={(name, value) =>
-                              formik.setFieldValue(name, value)
-                            }
-                          />
-                        </div>
-                        <div className="col-span-6">
-                          <div className="">
-                            <Input
-                              className1="!pt-2.5"
-                              placeholder="# of claims"
-                              type="number"
-                              name={`noOfClaim.value`}
-                              value={formik.values.noOfClaim.value}
-                              onBlur={formik.handleBlur}
-                              onChange={(e) =>
-                                formik.setFieldValue(
-                                  "noOfClaim.value",
-                                  Number(e.target.value)
-                                )
-                              }
-                            />
-                          </div>
-                        </div>
-                      </Grid>
 
-                    )}
 
                   </div>
                   <div className="col-span-6">
@@ -1306,57 +1231,151 @@ function Dealer() {
                         />
                       </div>
                     </Grid>
-                    <Grid className="!gap-0 mt-3">
+
+                  </div>
+                  <div className="col-span-12">
+                    <Grid>
                       <div className="col-span-7">
-                        <p className="text-[12px] mb-3 font-semibold">
-                          # of Claims in Coverage Period
-                        </p>
+                        <Grid className="!gap-0 mt-3">
+                          <div className="col-span-7">
+                            <p className="text-[12px] font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                          </div>
+                          <div className="col-span-5 flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Unlimited"
+                              value={true}
+                              checked={claimOver === true}
+                              onChange={() => {
+                                setClaimOver(true);
+                                formik.setFieldValue("noOfClaim", {
+                                  period: "Monthly",
+                                  value: -1,
+                                });
+                              }}
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="Fixed"
+                              value={false}
+                              checked={claimOver === false}
+                              onChange={() => {
+                                setClaimOver(false);
+                                formik.setFieldValue("noOfClaim", {
+                                  period: "Monthly",
+                                  value: 0,
+                                });
+                              }}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                      <div className="col-span-5 flex">
-                        <RadioButton
-                          className="self-start"
-                          id="yes-warranty"
-                          label="Unlimited"
-                          value={true}
-                          checked={claimInCoveragePeriod === true}
-                          onChange={() => {
-                            setClaimInCoveragePeriod(true);
-                            formik.setFieldValue("noOfClaimPerPeriod", -1);
-                          }}
-                        />
-                        <RadioButton
-                          className="self-start"
-                          id="no-warranty"
-                          label="Fixed"
-                          value={false}
-                          checked={claimInCoveragePeriod === false}
-                          onChange={() => {
-                            setClaimInCoveragePeriod(false);
-                            formik.setFieldValue("noOfClaimPerPeriod", 0);
-                          }}
-                        />
+                      <div className="col-span-5">
+                        {claimOver === false && (
+                          <Grid>
+                            <div className="col-span-6">
+                              <Select
+                                name={`noOfClaim.period`}
+                                options={period}
+                                className="!bg-grayf9"
+                                placeholder=""
+                                className1="!pt-2.5"
+                                OptionName={"Period"}
+                                maxLength={"30"}
+                                value={formik.values.noOfClaim.period}
+                                onBlur={formik.handleBlur}
+                                onChange={(name, value) =>
+                                  formik.setFieldValue(name, value)
+                                }
+                              />
+                            </div>
+                            <div className="col-span-6">
+                              <div className="">
+                                <Input
+                                  className1="!pt-2.5"
+                                  placeholder="# of claims"
+                                  type="number"
+                                  name={`noOfClaim.value`}
+                                  value={formik.values.noOfClaim.value}
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) =>
+                                    formik.setFieldValue(
+                                      "noOfClaim.value",
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </Grid>
+
+                        )}
                       </div>
                     </Grid>
-                    {claimInCoveragePeriod === false && (
-                      <Grid className="!gap-0 ">
-                        <div className="col-span-12">
-                          <Input
-                            className1="!pt-2.5"
-                            placeholder="# of claims"
-                            type="number"
-                            name={`noOfClaimPerPeriod`}
-                            value={formik.values.noOfClaimPerPeriod.value}
-                            onBlur={formik.handleBlur}
-                            onChange={(e) =>
-                              formik.setFieldValue(
-                                "noOfClaimPerPeriod",
-                                Number(e.target.value)
-                              )
-                            }
-                          />
-                        </div>
-                      </Grid>
-                    )}
+                  </div>
+                  <div className="col-span-12">
+                    <Grid>
+                      <div className="col-span-7">
+                        <Grid className="!gap-0 mt-3">
+                          <div className="col-span-7">
+                            <p className="text-[12px] mb-3 font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
+                          </div>
+                          <div className="col-span-5 flex">
+                            <RadioButton
+                              className="self-start"
+                              id="yes-warranty"
+                              label="Unlimited"
+                              value={true}
+                              checked={claimInCoveragePeriod === true}
+                              onChange={() => {
+                                setClaimInCoveragePeriod(true);
+                                formik.setFieldValue("noOfClaimPerPeriod", -1);
+                              }}
+                            />
+                            <RadioButton
+                              className="self-start"
+                              id="no-warranty"
+                              label="Fixed"
+                              value={false}
+                              checked={claimInCoveragePeriod === false}
+                              onChange={() => {
+                                setClaimInCoveragePeriod(false);
+                                formik.setFieldValue("noOfClaimPerPeriod", 0);
+                              }}
+                            />
+                          </div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-5">
+                        {claimInCoveragePeriod === false && (
+                          <Grid className="!gap-0 ">
+                            <div className="col-span-12">
+                              <Input
+                                className1="!pt-2.5"
+                                placeholder="# of claims"
+                                type="number"
+                                name={`noOfClaimPerPeriod`}
+                                value={formik.values.noOfClaimPerPeriod.value}
+                                onBlur={formik.handleBlur}
+                                onChange={(e) =>
+                                  formik.setFieldValue(
+                                    "noOfClaimPerPeriod",
+                                    Number(e.target.value)
+                                  )
+                                }
+                              />
+                            </div>
+                          </Grid>
+                        )}
+                      </div>
+                    </Grid>
+
                   </div>
                   <div className="col-span-12">
                     <p className="text-base mb-3 font-semibold">
