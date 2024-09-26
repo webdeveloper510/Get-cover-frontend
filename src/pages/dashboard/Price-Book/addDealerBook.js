@@ -97,10 +97,7 @@ function AddDealerBook() {
       "isManufacturerWarranty",
       data?.isManufacturerWarranty
     );
-    formik.setFieldValue(
-      "isMaxClaimAmount",
-      data?.isMaxClaimAmount
-    );
+    formik.setFieldValue("isMaxClaimAmount", data?.isMaxClaimAmount);
     formik.setFieldValue("noOfClaim", data?.noOfClaim);
     formik.setFieldValue("noOfClaimPerPeriod", data?.noOfClaimPerPeriod);
 
@@ -314,7 +311,8 @@ function AddDealerBook() {
           label: Yup.string(),
           waitingDays: Yup.number()
             .required("Required")
-            .min(0, "Value cannot be negative"),
+            .min(0, "Value cannot be negative")
+            .nullable(),
           deductible: Yup.number()
             .required("Required")
             .min(0, "Must be at least 0")
@@ -322,7 +320,7 @@ function AddDealerBook() {
               is: (value) => value === "percentage",
               then: () =>
                 Yup.number()
-                  .max(99.9, "Cannot exceed 99.9%")
+                  .max(99.99, "Cannot exceed 99.99%")
                   .test(
                     "is-decimal",
                     "Percentage must have up to 2 decimal places",
@@ -336,30 +334,8 @@ function AddDealerBook() {
           amountType: Yup.string().required(""),
         })
       ),
-      adhDays: Yup.array().of(
-        Yup.object().shape({
-          deductible: Yup.number()
-            .required("Required")
-            .min(0, "Must be at least 0"),
-        })
-      ),
-      coverageType: Yup.array()
-        .min(1, "Required")
-        .test(
-          "validate-adhDays-errors",
-          "Value cannot be more than 99.9%",
-          function () {
-            const { adhDays } = this.parent;
-            const hasErrors = adhDays.some((item) => {
-              if (item.amountType === "percentage" && item.deductible > 99.9) {
-                return true;
-              }
-              return false;
-            });
 
-            return !hasErrors;
-          }
-        ),
+      coverageType: Yup.array().min(1, "Required"),
     }),
     onSubmit: async (values) => {
       setLoader(true);
@@ -571,7 +547,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -851,7 +827,7 @@ function AddDealerBook() {
                           priceBookById.dealer?.accountStatus === false ||
                           priceBookById.priceBooks?.status === false ||
                           priceBookById?.priceBooks?.category[0]?.status ===
-                          false
+                            false
                         }
                         className="!bg-white"
                         options={status}
@@ -918,8 +894,8 @@ function AddDealerBook() {
                                   onBlur={formik.handleBlur}
                                   className="form-input"
                                 />
-                                {/* 
-                             this one is not working  */}
+
+                                {/* Select component for amountType */}
                                 <div className="absolute top-[1px] right-[1px]">
                                   <Select
                                     name={`adhDays[${index}].amountType`}
@@ -927,13 +903,14 @@ function AddDealerBook() {
                                     disableFirstOption={true}
                                     onChange={(e, value) => {
                                       const updatedadhDays =
-                                        formik?.values?.adhDays?.map((item) =>
-                                          item.label == adhDay.label
-                                            ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
-                                            : item
+                                        formik?.values?.adhDays?.map(
+                                          (item, i) =>
+                                            i === index
+                                              ? {
+                                                  ...item,
+                                                  amountType: value || 0,
+                                                }
+                                              : item
                                         );
                                       formik.setFieldValue(
                                         "adhDays",
@@ -941,21 +918,22 @@ function AddDealerBook() {
                                       );
                                     }}
                                     value={
-                                      formik?.values?.adhDays?.find(
-                                        (item) => item.label === adhDay.label
-                                      )?.amountType || 0
+                                      formik?.values?.adhDays?.[index]
+                                        ?.amountType || 0
                                     }
                                     classBox="!bg-transparent"
                                     className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
                                     options={optiondeductibles}
                                   />
                                 </div>
-                                {formik.touched.coverageType &&
-                                  formik.errors.coverageType && (
-                                    <div className="text-red-500 text-sm">
-                                      {formik.errors.coverageType}
-                                    </div>
-                                  )}
+
+                                {/* Error Message Rendering */}
+                                {formik.errors?.adhDays?.[index]?.deductible &&
+                                formik.touched?.adhDays?.[index]?.deductible ? (
+                                  <div className="text-red-500 text-sm">
+                                    {formik.errors.adhDays[index].deductible}
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
                           ))}
@@ -1135,14 +1113,9 @@ function AddDealerBook() {
                             id="yes-max-claim"
                             label="Yes"
                             value={true}
-                            checked={
-                              formik.values.isMaxClaimAmount == true
-                            }
+                            checked={formik.values.isMaxClaimAmount == true}
                             onChange={() =>
-                              formik.setFieldValue(
-                                "isMaxClaimAmount",
-                                true
-                              )
+                              formik.setFieldValue("isMaxClaimAmount", true)
                             }
                           />
                           <RadioButton
@@ -1150,14 +1123,9 @@ function AddDealerBook() {
                             id="no-max-claim"
                             label="No"
                             value={false}
-                            checked={
-                              formik.values.isMaxClaimAmount == false
-                            }
+                            checked={formik.values.isMaxClaimAmount == false}
                             onChange={() =>
-                              formik.setFieldValue(
-                                "isMaxClaimAmount",
-                                false
-                              )
+                              formik.setFieldValue("isMaxClaimAmount", false)
                             }
                           />
                         </div>
