@@ -414,7 +414,7 @@ function Setting(props) {
                 <div className="col-span-6">
                   <Grid className="!gap-0">
                     <div className="col-span-8">
-                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
+                      <p className="flex text-[12px]  font-semibold justify-between pr-4">
                         Do you want to create an account?
                       </p>
                     </div>
@@ -436,14 +436,14 @@ function Setting(props) {
                         />
                       </div>
                     </div>
-                    <div className="col-span-8">
-                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
+                    <div className="col-span-8 mt-3">
+                      <p className="flex text-[12px] font-semibold justify-between pr-4">
                         <span className="mr-[0.58rem]">
                           Do you want to Provide Shipping?
                         </span>
                       </p>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 mt-3">
                       <div className="flex justify-between">
                         <RadioButton
                           id="yes-create-account"
@@ -461,12 +461,12 @@ function Setting(props) {
                         />
                       </div>
                     </div>
-                    <div className="col-span-8">
-                      <p className="text-[12px] mb-3 font-semibold">
+                    <div className="col-span-8 mt-3">
+                      <p className="text-[12px] font-semibold">
                         # of Claims Over the Certain Period
                       </p>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 mt-3">
                       <div className="flex justify-between">
                         <RadioButton
                           className="self-start"
@@ -532,12 +532,12 @@ function Setting(props) {
                         </div>
                       </div>
                     )}
-                    <div className="col-span-8">
-                      <p className="text-[12px] mb-3 font-semibold">
+                    <div className="col-span-8 mt-3">
+                      <p className="text-[12px] font-semibold">
                         # of Claims in Coverage Period
                       </p>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 mt-3">
                       <div className="flex justify-between">
                         <RadioButton
                           className="self-start"
@@ -565,7 +565,7 @@ function Setting(props) {
                     </div>
                     {claimInCoveragePeriod === false && (
                       <div className="flex flex-wrap col-span-12 ">
-                        <div className="ml-3">
+                        <div className="">
                           <Input
                             className1="!pt-2.5"
                             placeholder="# of claims"
@@ -588,7 +588,7 @@ function Setting(props) {
                 <div className="col-span-6">
                   <Grid className="!gap-0">
                     <div className="col-span-8">
-                      <p className="flex text-[12px] mb-7 font-semibold self-center justify-between pr-4">
+                      <p className="flex text-[12px] font-semibold self-center justify-between pr-4">
                         {" "}
                         <span className="mr-[0.2rem]">
                           {" "}
@@ -614,21 +614,20 @@ function Setting(props) {
                         />
                       </div>
                     </div>
-                    <div className="col-span-8">
-                      <p className="flex text-[12px] mb-7 font-semibold justify-between pr-4">
-                        <span className="w-[60%]">
+                    <div className="col-span-8 mt-3">
+                      <p className="flex text-[12px] font-semibold justify-between">
+                        <span className="">
                           {" "}
-                          Do you want to create separate account for customer?{" "}
+                          Do you want account for customer?{" "}
                         </span>
                       </p>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 mt-3">
                       <div className="flex justify-between">
                         <RadioButton
                           id="yes-separate-account"
                           label="Yes"
                           value="yes"
-                          className="!pl-2"
                           checked={separateAccountOption === "yes"}
                           disabled={createAccountOption === "no"}
                           onChange={handleSeparateAccountRadioChange}
@@ -642,13 +641,13 @@ function Setting(props) {
                         />
                       </div>
                     </div>
-                    <div className="col-span-8">
-                      <p className=" text-[12px] mb-3 font-semibold ">
+                    <div className="col-span-8 mt-3">
+                      <p className=" text-[12px] font-semibold ">
                         {" "}
                         Is Include manufacturer warranty?
                       </p>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 mt-3">
                       <div className="flex justify-between">
                         <RadioButton
                           className="self-start"

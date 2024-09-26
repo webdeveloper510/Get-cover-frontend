@@ -97,6 +97,10 @@ function AddDealerBook() {
       "isManufacturerWarranty",
       data?.isManufacturerWarranty
     );
+    formik.setFieldValue(
+      "isMaxClaimAmount",
+      data?.isMaxClaimAmount
+    );
     formik.setFieldValue("noOfClaim", data?.noOfClaim);
     formik.setFieldValue("noOfClaimPerPeriod", data?.noOfClaimPerPeriod);
 
@@ -292,6 +296,7 @@ function AddDealerBook() {
         value: -1,
       },
       isManufacturerWarranty: false,
+      isMaxClaimAmount: false,
     },
     validationSchema: Yup.object({
       retailPrice: Yup.number()
@@ -396,6 +401,10 @@ function AddDealerBook() {
     formik.setFieldValue(
       "isManufacturerWarranty",
       res.result[0].settings?.isManufacturerWarranty
+    );
+    formik.setFieldValue(
+      "isMaxClaimAmount",
+      res.result[0].settings?.isMaxClaimAmount
     );
   };
 
@@ -562,7 +571,7 @@ function AddDealerBook() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
-                        priceBookById?.priceBooks?.coverageType.length > 0 ? (
+                          priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
                             {priceBookById?.priceBooks?.coverageType.map(
                               (type, index) => (
@@ -842,7 +851,7 @@ function AddDealerBook() {
                           priceBookById.dealer?.accountStatus === false ||
                           priceBookById.priceBooks?.status === false ||
                           priceBookById?.priceBooks?.category[0]?.status ===
-                            false
+                          false
                         }
                         className="!bg-white"
                         options={status}
@@ -921,9 +930,9 @@ function AddDealerBook() {
                                         formik?.values?.adhDays?.map((item) =>
                                           item.label == adhDay.label
                                             ? {
-                                                ...item,
-                                                amountType: value,
-                                              }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                             : item
                                         );
                                       formik.setFieldValue(
@@ -997,6 +1006,7 @@ function AddDealerBook() {
                               options={period}
                               className="!bg-grayf9"
                               placeholder=""
+                              disableFirstOption={true}
                               className1="!pt-2.5"
                               OptionName={"Period"}
                               maxLength={"30"}
@@ -1108,6 +1118,44 @@ function AddDealerBook() {
                             onChange={() =>
                               formik.setFieldValue(
                                 "isManufacturerWarranty",
+                                false
+                              )
+                            }
+                          />
+                        </div>
+                        <div className="col-span-6 mt-4">
+                          <p className=" text-[12px] mb-3 font-semibold">
+                            {" "}
+                            Is Maximum Claim Amount ?
+                          </p>
+                        </div>
+                        <div className="flex col-span-6 mt-4 justify-between w-full">
+                          <RadioButton
+                            className="self-start"
+                            id="yes-max-claim"
+                            label="Yes"
+                            value={true}
+                            checked={
+                              formik.values.isMaxClaimAmount == true
+                            }
+                            onChange={() =>
+                              formik.setFieldValue(
+                                "isMaxClaimAmount",
+                                true
+                              )
+                            }
+                          />
+                          <RadioButton
+                            className="self-start"
+                            id="no-max-claim"
+                            label="No"
+                            value={false}
+                            checked={
+                              formik.values.isMaxClaimAmount == false
+                            }
+                            onChange={() =>
+                              formik.setFieldValue(
+                                "isMaxClaimAmount",
                                 false
                               )
                             }
