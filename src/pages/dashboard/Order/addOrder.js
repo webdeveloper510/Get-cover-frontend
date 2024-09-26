@@ -553,9 +553,6 @@ function AddOrder() {
         formik.setFieldValue("phoneNumber", billDetail?.detail?.phoneNumber);
         formik.setFieldValue("email", billDetail?.detail?.email);
 
-        // setClaimOver(
-        //   productsArray?.some((product) => product?.noOfClaim?.value === -1)
-        // );
         setClaimOver(
           productsArray?.map((product) => product?.noOfClaim?.value === -1)
         );
@@ -1780,7 +1777,7 @@ function AddOrder() {
             label: item.dealerSku,
             value: item.dealerSku,
             priceBookId: item.priceBook,
-            adhDays: item.adhDays,
+            adhDays: result.result.mergedData,
             isManufacturerWarranty: item.isManufacturerWarranty,
             noOfClaim: item.noOfClaim,
             noOfClaimPerPeriod: item.noOfClaimPerPeriod,
@@ -3161,6 +3158,7 @@ function AddOrder() {
                           {formikStep3.errors.productsArray[index].file}
                         </div>
                       )}
+           
                     {formikStep3.values.productsArray[index].dealerSku ===
                     "" ? (
                       ""

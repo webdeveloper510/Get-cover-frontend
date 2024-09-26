@@ -9,7 +9,10 @@ import Primary from "../../../../assets/images/SetPrimary.png";
 import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { DownloadSet, getCovrageList } from "../../../../services/priceBookService";
+import {
+  DownloadSet,
+  getCovrageList,
+} from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
 import {
@@ -64,7 +67,7 @@ function Setting(props) {
     isServicer: createServicerAccountOption,
     adhDays: coverage.reduce((acc, type) => {
       acc.push({
-        label: type.value,
+        value: type.value,
         waitingDays: 0,
         deductible: 0,
       });
@@ -202,8 +205,7 @@ function Setting(props) {
       anchor.click();
       document.body.removeChild(anchor);
       URL.revokeObjectURL(blobUrl);
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const handleRadio = (event) => {
     setShipping(event.target.value);
@@ -212,6 +214,7 @@ function Setting(props) {
   const getCovrageListData = async () => {
     try {
       const res = await getCovrageList();
+      console.log(res.result.value);
       setCoverage(res.result.value);
     } catch (error) {
       console.error("Error fetching category list:", error);
@@ -406,7 +409,10 @@ function Setting(props) {
                   </small>
                 </div>
                 <div className="col-span-2 pt-1">
-                  <Button className="w-full flex" onClick={() => handelDownload(selectedFile2?.fileName)}>
+                  <Button
+                    className="w-full flex"
+                    onClick={() => handelDownload(selectedFile2?.fileName)}
+                  >
                     <img src={download} className="w-[20px]" alt="download" />{" "}
                     <span className="self-center pl-2"> Download </span>{" "}
                   </Button>
@@ -706,17 +712,18 @@ function Setting(props) {
                               );
 
                               let updatedadhDays = formik.values.adhDays || [];
+                              console.log(updatedadhDays, type.value);
 
                               if (updatedCoverage.includes(type.value)) {
                                 if (
                                   !updatedadhDays?.find(
-                                    (item) => item.label === type.value
+                                    (item) => item.value === type.value
                                   )
                                 ) {
                                   updatedadhDays = [
                                     ...updatedadhDays,
                                     {
-                                      label: type.value,
+                                      value: type.value,
                                       waitingDays: 0,
                                       deductible: 0,
                                     },
@@ -724,7 +731,7 @@ function Setting(props) {
                                 }
                               } else {
                                 updatedadhDays = updatedadhDays.filter(
-                                  (item) => item.label !== type.value
+                                  (item) => item.value !== type.value
                                 );
                               }
 
@@ -747,7 +754,7 @@ function Setting(props) {
                                 maxLength={"10"}
                                 value={
                                   formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
+                                    (item) => item.value === type.value
                                   )?.waitingDays || 0
                                 }
                                 onBlur={formik.handleBlur}
@@ -757,11 +764,11 @@ function Setting(props) {
                                   newValue = newValue.toFixed(2);
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
+                                      item.value === type.value
                                         ? {
-                                          ...item,
-                                          waitingDays: Number(newValue),
-                                        }
+                                            ...item,
+                                            waitingDays: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -782,7 +789,7 @@ function Setting(props) {
                                 className="!bg-white "
                                 value={
                                   formik?.values?.adhDays?.find(
-                                    (item) => item.label === type.value
+                                    (item) => item.value === type.value
                                   )?.deductible || 0
                                 }
                                 onBlur={formik.handleBlur}
@@ -792,11 +799,11 @@ function Setting(props) {
                                   newValue = newValue.toFixed(2);
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
-                                      item.label === type.value
+                                      item.value === type.value
                                         ? {
-                                          ...item,
-                                          deductible: Number(newValue),
-                                        }
+                                            ...item,
+                                            deductible: Number(newValue),
+                                          }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -822,11 +829,11 @@ function Setting(props) {
                                   onChange={(e, value) => {
                                     const updatedadhDays =
                                       formik?.values?.adhDays?.map((item) =>
-                                        item.label === type.value
+                                        item.value === type.value
                                           ? {
-                                            ...item,
-                                            amountType: value,
-                                          }
+                                              ...item,
+                                              amountType: value,
+                                            }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -836,7 +843,7 @@ function Setting(props) {
                                   }}
                                   value={
                                     formik?.values?.adhDays?.find(
-                                      (item) => item.label === type.value
+                                      (item) => item.value === type.value
                                     )?.amountType || 0
                                   }
                                   classBox="!bg-transparent"
