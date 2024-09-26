@@ -837,8 +837,8 @@ function ContractList(props) {
               navigate(`/editContract/${contractDetails._id}`);
             }}
             className={`absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-                ? "!bg-[#343434]"
-                : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
+              ? "!bg-[#343434]"
+              : "!bg-gradient-to-t !from-[#454545] !to-[#575757]"
               } `}
           >
             <img
@@ -851,8 +851,8 @@ function ContractList(props) {
         <Button
           onClick={closeView}
           className={`absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full ${props?.orderId == null && props?.flag == undefined
-              ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
-              : "!bg-Granite-Gray"
+            ? "!bg-gradient-to-t !from-[#4f4f4f] !to-[#616060]"
+            : "!bg-Granite-Gray"
             } `}
         >
           <img
@@ -1332,15 +1332,15 @@ function ContractList(props) {
                           <th>Deductible</th>
                         </tr>
 
-                        {contractDetails?.adhDays &&
-                          contractDetails?.adhDays.length > 0 && (
+                        {contractDetails?.mergedData &&
+                          contractDetails?.mergedData.length > 0 && (
                             <>
-                              {contractDetails?.adhDays.map((type, index) => (
+                              {contractDetails?.mergedData.map((type, index) => (
                                 <tr key={index} className="border ">
                                   <td className="font-semibold  mx-[19px]">
                                     {type.label}
                                   </td>
-                                  <td className="font-semibold  mx-[19px]">
+                                  <td className="font-semibold mx-[19px]">
                                     {type.waitingDays}
                                   </td>
                                   <td className="font-semibold  mx-[19px]">

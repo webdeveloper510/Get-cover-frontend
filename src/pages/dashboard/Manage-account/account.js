@@ -1079,9 +1079,9 @@ function Account() {
   const handleEditoption = (id) => {
     const row = coverageType.value.find((item) => item.id === id);
     if (row) {
-      setLabel(row.label);   // Populate input fields with the row data
+      setLabel(row.label);
       setValue(row.value);
-      setEditingRowId(id);   // Set the current row as the one being edited
+      setEditingRowId(id);
     }
   };
 
@@ -1089,16 +1089,15 @@ function Account() {
     if (editingRowId && labelId) {
       console.log('Adding row', editingRowId, labelId)
       const updatedData = {
-        label, // New label value
-        value, // Keep the value the same, as it is non-changeable
-        labelId, // The ID of the label inside the value array
+        label,
+        value,
+        labelId,
       };
 
       try {
-        // Send PUT request to the API
+
         const res = await editOption(labelId, updatedData)
 
-        // Update the local state with the updated data
         const updatedCoverageType = coverageType.value.map((item) =>
           item.id === editingRowId
             ? {
@@ -1111,7 +1110,6 @@ function Account() {
         );
         coverageType({ ...coverageType, value: updatedCoverageType });
 
-        // Clear the input fields and reset the editing state
         setLabel('');
         setValue('');
         setEditingRowId(null);
@@ -1119,7 +1117,6 @@ function Account() {
         console.error('Failed to update coverage type:', error);
       }
     } else {
-      // Logic for adding a new item if you're not editing
     }
   };
   return (
