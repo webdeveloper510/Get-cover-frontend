@@ -321,9 +321,9 @@ function OrderSummary(props) {
                               <th>Deductible</th>
                             </tr>
 
-                            {res?.adhDays && res?.adhDays.length > 0 && (
+                            {res?.mergedData && res?.mergedData.length > 0 && (
                               <>
-                                {res?.adhDays.map((type, index) => (
+                                {res?.mergedData.map((type, index) => (
                                   <tr key={index} className="border ">
                                     <td className="font-semibold  mx-[19px]">
                                       {type.label}

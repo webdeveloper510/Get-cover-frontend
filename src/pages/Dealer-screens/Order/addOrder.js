@@ -30,6 +30,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import {
   addOrderforDealerPortal,
   editOrderforDealerPortal,
@@ -41,6 +42,7 @@ import {
 import { getServiceCoverageDetails } from "../../../services/customerServices";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
+import { uploadTermsandCondition } from "../../../services/dealerServices";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -56,6 +58,8 @@ function DealerAddOrder() {
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [selectedFile2, setSelectedFile2] = useState(null);
+  const inputRef = useRef(null);
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
@@ -1217,7 +1221,43 @@ function DealerAddOrder() {
   const handleReload = () => {
     window.location.reload();
   };
+  const handleRemoveFile = () => {
+    if (inputRef) {
+      formikStep2.setFieldValue("termCondition", null);
+      setSelectedFile2(null);
+    }
+  };
 
+  const handleAddFile = () => {
+    if (inputRef) {
+      inputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 10048576; // 10MB in bytes
+
+    if (file?.size > maxSize) {
+      formikStep2.setFieldError(
+        "termCondition",
+        "File is too large. Please upload a file smaller than 10MB."
+      );
+      console.log("Selected file:", file);
+    } else {
+      setSelectedFile2(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = uploadTermsandCondition(formData).then((res) => {
+        console.log(result);
+        formikStep2.setFieldValue("termCondition", {
+          fileName: res?.file?.filename,
+          name: res?.file?.originalname,
+          size: res?.file?.size,
+        });
+      });
+    }
+  };
   useEffect(() => {
     for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
       if (
@@ -1746,9 +1786,9 @@ function DealerAddOrder() {
         <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
-            <div className="col-span-6">
+            <div className="col-span-10">
               <Grid>
-                <div className="col-span-12">
+                <div className="col-span-6">
                   <div className="col-span-12 mt-4">
                     <Input
                       type="text"
@@ -1773,6 +1813,58 @@ function DealerAddOrder() {
                         </div>
                       )}
                   </div>
+                </div>
+                <div className="col-span-6 ">
+                  <small className="text-neutral-grey p-10p">
+                    Attachment size limit is 10 MB
+                  </small>
+                  <div className="relative mt-[0.6rem]">
+                    <label
+                      htmlFor="term"
+                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
+                    >
+                      Term And Condition
+                    </label>
+                    <input
+                      type="file"
+                      name="term"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      accept="application/pdf"
+                      ref={inputRef}
+                    />
+                    <div
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
+                    >
+                      {selectedFile2 && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveFile}
+                          className="absolute -right-2 -top-2 mx-auto mb-3"
+                        >
+                          <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
+                        </button>
+                      )}
+                      {selectedFile2 ? (
+                        <p className="w-full break-words">
+                          {selectedFile2.name}
+                        </p>
+                      ) : (
+                        <p
+                          className="w-full cursor-pointer"
+                          onClick={handleAddFile}
+                        >
+                          {" "}
+                          Select File
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {formik.errors.termCondition && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.termCondition}
+                    </div>
+                  )}
                 </div>
                 <div className="col-span-6">
                   <Select
@@ -2969,9 +3061,9 @@ function DealerAddOrder() {
                         <p className="text-2xl font-bold mb-2">Uploaded Data</p>
                       </div>
                     </Grid>
-                    <Grid className="bg-grayf9 !border-Light-Grey !border !rounded-xl !gap-0">
+                    <Grid className=" !border-Light-Grey !border !rounded-xl !gap-0">
                       <div className="col-span-8">
-                        <div className=" rounded-xl ">
+                        <div className=" border-r border-b">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -2979,13 +3071,14 @@ function DealerAddOrder() {
                                 {categoryName[index]}
                               </p>
                             </div>
+
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-6 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">{data.pName}</p>
                             </div>
@@ -3036,39 +3129,7 @@ function DealerAddOrder() {
                               </p>
                             </div>
                           </Grid>
-                          <Grid className="border-b !gap-0">
-                            {data.adhDays &&
-                              data.adhDays.map((Data, idx) => (
-                                <div
-                                  key={idx}
-                                  className="col-span-3 py-4  border-r"
-                                >
-                                  <div className="pb-3 border-b px-4">
-                                    <p className="text-[12px] capitalize">
-                                      {" "}
-                                      {Data.label} Waiting{" "}
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      {Data.value} Days
-                                    </p>
-                                  </div>
-                                  <div className="pt-3 px-4">
-                                    <p className="text-[12px] capitalize">
-                                      {" "}
-                                      Deductible Amount
-                                    </p>
-                                    <p className="font-bold text-sm">
-                                      $
-                                      {Data.value1 === undefined
-                                        ? parseInt(0).toLocaleString(2)
-                                        : formatOrderValue(
-                                          Number(Data.value1) ?? parseInt(0)
-                                        )}{" "}
-                                    </p>
-                                  </div>
-                                </div>
-                              ))}
-                          </Grid>
+
                           {data.priceType == "Flat Pricing" && (
                             <Grid className="border-b px-4">
                               <div className="col-span-6 py-4 border-r">
@@ -3079,7 +3140,7 @@ function DealerAddOrder() {
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
                                       Number(data.rangeStart) ?? parseInt(0)
-                                    )}{" "}
+                                    )}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
@@ -3089,12 +3150,14 @@ function DealerAddOrder() {
                                   {data.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      Number(data.rangeEnd) ?? parseInt(0)
-                                    )}{" "}
+                                      data.rangeEnd ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </Grid>
                           )}
+
+                          {/* Add this */}
 
                           <Grid>
                             {data.priceType == "Quantity Pricing" && (
@@ -3153,14 +3216,14 @@ function DealerAddOrder() {
                             )}
                           </Grid>
                           <Grid className=" px-4">
-                            <div className="col-span-8 py-4 border-r">
+                            <div className="col-span-8 border-r py-4">
                               <p className="text-[12px]">Note</p>
                               <p className="font-bold text-sm">
                                 {data.additionalNotes}
                               </p>
                             </div>
                             <div className="col-span-4 py-4">
-                              <p className="text-[12px]">Start Coverage Date</p>
+                              <p className="text-[12px]">Coverage Start Date</p>
                               <p className="font-bold text-sm">
                                 {data?.coverageStartDate == "" ? (
                                   <></>
@@ -3179,12 +3242,12 @@ function DealerAddOrder() {
                           {/* Loops */}
                         </div>
                       </div>
-                      <div className="col-span-4">
-                        <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
+                      <div className="col-span-4 pt-3 px-2">
+                        <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
-                              <p className="self-center">
+                              <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
@@ -3198,6 +3261,95 @@ function DealerAddOrder() {
                               </p>
                             </div>
                           </div>
+                        </div>
+                        <div className="col-span-12 my-4 border-t py-3">
+                          <div className=" w-full">
+                            <p className="text-base mb-1 font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                            <p className="text-sm">
+                              {" "}
+                              {
+                                formikStep3?.values?.productsArray[index]
+                                  ?.noOfClaim?.period
+                              }{" "}
+                              -{" "}
+                              {formikStep3?.values?.productsArray[index]
+                                ?.noOfClaim?.value == "-1"
+                                ? "Unlimited"
+                                : formikStep3?.values?.productsArray[index]
+                                  ?.noOfClaim?.value}{" "}
+                            </p>
+                          </div>
+
+                          <div className=" my-1 w-full">
+                            <p className="text-base font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {" "}
+                            {formikStep3?.values?.productsArray[index]
+                              ?.noOfClaimPerPeriod == "-1"
+                              ? "Unlimited"
+                              : formikStep3?.values?.productsArray[index]
+                                ?.noOfClaimPerPeriod}{" "}
+                          </p>
+
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is Include manufacturer warranty?
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isManufacturerWarranty == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="col-span-12">
+                        <p className="text-base font-bold mb-4 pl-3">
+                          Coverage Type Details
+                        </p>
+                        <div className=" border-Light-Grey border rounded-b-xl ">
+                          <Grid className="!gap-0">
+                            {data.adhDays &&
+                              data.adhDays.map((Data, idx) => (
+                                <div
+                                  key={idx}
+                                  className="col-span-3 py-4  border-r"
+                                >
+                                  <div className="pb-3 border-b px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      {Data.label} Waiting{" "}
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      {Data.waitingDays} Days
+                                    </p>
+                                  </div>
+                                  <div className="pt-3 px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      Deductible
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      {Data.amountType === "percentage"
+                                        ? `${formatOrderValue(
+                                          Number(Data.deductible) ?? 0
+                                        )} %`
+                                        : `$${formatOrderValue(
+                                          Number(Data.deductible) ?? 0
+                                        )}`}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                          </Grid>
                         </div>
                       </div>
                     </Grid>
@@ -3319,8 +3471,8 @@ function DealerAddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2
@@ -3343,8 +3495,8 @@ function DealerAddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 2
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 } rounded-full mx-auto w-[26px]`}
             >
               3
@@ -3364,8 +3516,8 @@ function DealerAddOrder() {
         <div className="text-center">
           <p
             className={`border ${currentStep > 3
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
+              ? "text-black border-black"
+              : "text-[#ADADAD] border-[#ADADAD]"
               } rounded-full mx-auto w-[26px]`}
           >
             4
