@@ -82,7 +82,7 @@ function Dealer() {
     role: "dealer",
     // savePriceBookType: selectedOption,
     dealers: [],
-    noOfClaimPerPeriod: 0,
+    noOfClaimPerPeriod: -1,
 
     // priceBook: [
     //   {
@@ -108,7 +108,7 @@ function Dealer() {
       value: -1,
     },
     isManufacturerWarranty: false,
-    noOfClaimPerPeriod: 0,
+    noOfClaimPerPeriod: -1,
     file: "",
     oldName: "",
     oldEmail: "",
@@ -205,7 +205,7 @@ function Dealer() {
         isShippingAllowed: false,
         isManufacturerWarranty: false,
         isMaxClaimAmount: false,
-        noOfClaimPerPeriod: 0,
+        noOfClaimPerPeriod: -1,
         dealers: [],
         // priceBook: [
         //   {
@@ -267,7 +267,7 @@ function Dealer() {
             isShippingAllowed: false,
             isManufacturerWarranty: false,
             isMaxClaimAmount: false,
-            noOfClaimPerPeriod: 0,
+            noOfClaimPerPeriod: -1,
             noOfClaim: {
               period: "Monthly",
               value: -1,
@@ -1365,7 +1365,7 @@ function Dealer() {
                                 placeholder="# of claims"
                                 type="tel"
                                 name={`noOfClaimPerPeriod`}
-                                value={formik.values.noOfClaimPerPeriod.value}
+                                value={formik.values.noOfClaimPerPeriod}
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
                                   const sanitizedValue =

@@ -308,6 +308,7 @@ function ResellerAddOrder() {
         noOfClaim: product?.noOfClaim || {},
         noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 0,
         isManufacturerWarranty: product?.isManufacturerWarranty,
+        isMaxClaimAmount: product?.isMaxClaimAmount,
       })),
     });
     orderDetail(result.result);
@@ -452,6 +453,13 @@ function ResellerAddOrder() {
           dealerPriceBookDetails: {},
           dealerSku: "",
           adhDays: [],
+          noOfClaimPerPeriod: -1,
+          noOfClaim: {
+            period: "Monthly",
+            value: -1,
+          },
+          isManufacturerWarranty: false,
+          isMaxClaimAmount: false,
         },
       ],
     },
@@ -834,6 +842,10 @@ function ResellerAddOrder() {
       fileValue: "",
       orderFile: {},
       adhDays: [],
+      noOfClaimPerPeriod: -1,
+      noOfClaim: {},
+      isManufacturerWarranty: false,
+      isMaxClaimAmount: false,
     };
     getCategoryList(
       {
@@ -939,6 +951,7 @@ function ResellerAddOrder() {
       const data1 = data.dealerPriceBookDetails.find(
         (value) => value.priceBook === selectedValue
       );
+      console.log(data1);
       if (data1) {
         setClaimOver((prevState) => {
           const newClaimOver = [...prevState];
@@ -966,6 +979,10 @@ function ResellerAddOrder() {
         formikStep3.setFieldValue(
           `productsArray[${match[1]}].isManufacturerWarranty`,
           data1.isManufacturerWarranty
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${match[1]}].isMaxClaimAmount`,
+          data1.isMaxClaimAmount
         );
       }
       if (data) {
@@ -2943,11 +2960,11 @@ function ResellerAddOrder() {
                               value={false}
                               checked={
                                 formikStep3.values.productsArray[index]
-                                  .isManufacturerWarranty === false
+                                  .isMaxClaimAmount === false
                               }
                               onChange={() =>
                                 formikStep3.setFieldValue(
-                                  `productsArray[${index}].isManufacturerWarranty`,
+                                  `productsArray[${index}].isMaxClaimAmount`,
                                   false
                                 )
                               }
@@ -3601,4 +3618,4 @@ function ResellerAddOrder() {
   );
 }
 
-export default ResellerAddOrder;
+export default ResellerAddOrder;  

@@ -162,8 +162,8 @@ function ResellerPriceBook(props) {
       selector: (row) => {
         const months = row.priceBooks?.term;
         if (months) {
-          const years = (months / 12);
-          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+          const years = months / 12;
+          return `${years} ${years == 1 ? "Year" : "Years"} `;
         }
         return "N/A";
       },
@@ -602,40 +602,32 @@ function ResellerPriceBook(props) {
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Name
-              </p>
+              <p className="text-lg font-bold">Product Name</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.pName}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Price Type
-              </p>
+              <p className="text-lg font-bold">Price Type</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Category
-              </p>
+              <p className="text-lg font-bold">Product Category</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Retail Price
-              </p>
+              <p className="text-lg font-bold">Retail Price</p>
               <p className="text-base font-semibold">
                 $
                 {dealerPriceBook?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                    dealerPriceBook?.retailPrice ?? parseInt(0)
-                  )}
+                      dealerPriceBook?.retailPrice ?? parseInt(0)
+                    )}
               </p>
             </div>
             <div className="col-span-4">
@@ -646,17 +638,13 @@ function ResellerPriceBook(props) {
             </div>
 
             <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Dealer SKU
-              </p>
+              <p className="text-lg font-semibold">Dealer SKU</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.dealerSku}
               </p>
             </div>
             <div className="col-span-8">
-              <p className="text-lg font-bold">
-                Description
-              </p>
+              <p className="text-lg font-bold">Description</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].description}
               </p>
@@ -669,52 +657,57 @@ function ResellerPriceBook(props) {
                   <th>Deductible Amount</th>
                 </tr>
 
-                {dealerPriceBook?.adhDays1 && dealerPriceBook?.adhDays1.length > 0 && (
-                  <>
-                    {dealerPriceBook?.adhDays1.map((type, index) => (
-                      <tr key={index} className="border ">
-                        <td className="font-semibold mx-[19px]" >{type.label}</td>
-                        <td className="font-semibold mx-[19px]" >{type.adhValue}</td>
-                        <td className="font-semibold mx-[19px]" >{type.adhValue1}</td>
-                      </tr>
-                    ))}
-                  </>
-                )}
+                {dealerPriceBook?.adhDays1 &&
+                  dealerPriceBook?.adhDays1.length > 0 && (
+                    <>
+                      {dealerPriceBook?.adhDays1.map((type, index) => (
+                        <tr key={index} className="border">
+                          <td className="font-semibold mx-5">{type.label}</td>
+                          <td className="font-semibold mx-5">
+                            {type.waitingDays} Days
+                          </td>
+                          <td className="font-semibold mx-5">
+                            {type.amountType === "percentage"
+                              ? `${formatOrderValue(
+                                  Number(type.deductible) ?? 0
+                                )} %`
+                              : `$${formatOrderValue(
+                                  Number(type.deductible) ?? 0
+                                )}`}
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
               </table>
-
             </div>
             {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg font-bold">
-                    Start Range
-                  </p>
+                  <p className="text-lg font-bold">Start Range</p>
                   <p className="text-base font-semibold">
                     {" "}
                     $
                     {dealerPriceBook?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBook?.priceBooks?.rangeStart ?? parseInt(0)
-                      )}
+                          dealerPriceBook?.priceBooks?.rangeStart ?? parseInt(0)
+                        )}
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg font-bold">
-                    End Range
-                  </p>
+                  <p className="text-lg font-bold">End Range</p>
                   <p className="text-base font-semibold">
                     $
                     {dealerPriceBook?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                        dealerPriceBook?.priceBooks?.rangeEnd ?? parseInt(0)
-                      )}
+                          dealerPriceBook?.priceBooks?.rangeEnd ?? parseInt(0)
+                        )}
                   </p>
                 </div>
               </>
             )}
-
 
             {dealerPriceBook?.priceBooks?.priceType == "Quantity Pricing" && (
               <>

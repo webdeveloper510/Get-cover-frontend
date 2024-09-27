@@ -587,8 +587,9 @@ function AddOrder() {
             dealerSku: product.dealerSku || "",
             dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
             noOfClaim: product?.noOfClaim || {},
-            noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 0,
+            noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 1,
             isManufacturerWarranty: product?.isManufacturerWarranty,
+            isMaxClaimAmount: product?.isMaxClaimAmount,
           })),
         });
 
@@ -769,6 +770,7 @@ function AddOrder() {
             value: -1,
           },
           isManufacturerWarranty: false,
+          isMaxClaimAmount: false,
         },
       ],
     },
@@ -1226,9 +1228,10 @@ function AddOrder() {
       fileValue: "",
       dealerSku: "",
       adhDays: [],
-      noOfClaimPerPeriod: "",
+      noOfClaimPerPeriod: -1,
       noOfClaim: {},
       isManufacturerWarranty: false,
+      isMaxClaimAmount: false,
     };
     getCategoryList(
       formik.values.dealerId,
@@ -1367,6 +1370,10 @@ function AddOrder() {
         formikStep3.setFieldValue(
           `productsArray[${productIndex}].isManufacturerWarranty`,
           data1.isManufacturerWarranty
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${productIndex}].isMaxClaimAmount`,
+          data1.isMaxClaimAmount
         );
       }
       if (data) {
@@ -1778,6 +1785,7 @@ function AddOrder() {
             priceBookId: item.priceBook,
             adhDays: result.result.mergedData,
             isManufacturerWarranty: item.isManufacturerWarranty,
+            isMaxClaimAmount: item.isMaxClaimAmount,
             noOfClaim: item.noOfClaim,
             noOfClaimPerPeriod: item.noOfClaimPerPeriod,
           })
@@ -3417,11 +3425,11 @@ function AddOrder() {
                               value={false}
                               checked={
                                 formikStep3.values.productsArray[index]
-                                  .isManufacturerWarranty === false
+                                  .isMaxClaimAmount === false
                               }
                               onChange={() =>
                                 formikStep3.setFieldValue(
-                                  `productsArray[${index}].isManufacturerWarranty`,
+                                  `productsArray[${index}].isMaxClaimAmount`,
                                   false
                                 )
                               }

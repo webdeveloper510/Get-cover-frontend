@@ -62,6 +62,7 @@ function Setting(props) {
       value: -1,
     },
     isManufacturerWarranty: false,
+    isMaxClaimAmount:false,
     file: "",
     oldName: "",
     isServicer: createServicerAccountOption,
@@ -127,6 +128,7 @@ function Setting(props) {
         adhDays: dealer.adhDays,
         termCondition: dealer.termCondition,
         isManufacturerWarranty: dealer.settings?.isManufacturerWarranty,
+        isMaxClaimAmount: dealer.settings?.isMaxClaimAmount,
         noOfClaimPerPeriod: dealer.settings?.noOfClaimPerPeriod,
         noOfClaim: dealer.settings?.noOfClaim,
         userAccount: dealer.userAccount,
@@ -660,6 +662,41 @@ function Setting(props) {
                           value="no"
                           checked={separateAccountOption === "no"}
                           onChange={handleSeparateAccountRadioChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-8 mt-3">
+                      <p className=" text-[12px] font-semibold ">
+                        {" "}
+                        Is Maximum Claim Amount ?
+                      </p>
+                    </div>
+                    <div className="col-span-4 mt-3">
+                      <div className="flex justify-between">
+                        <RadioButton
+                          className="self-start"
+                          id="yes-warranty"
+                          label="Yes"
+                          value={true}
+                          checked={formik.values.isMaxClaimAmount == true}
+                          onChange={() =>
+                            formik.setFieldValue("isMaxClaimAmount", true)
+                          }
+                        />
+                        <RadioButton
+                          className="self-start"
+                          id="no-warranty"
+                          label="No"
+                          value={false}
+                          checked={
+                            formik.values.isMaxClaimAmount === false
+                          }
+                          onChange={() =>
+                            formik.setFieldValue(
+                              "isMaxClaimAmount",
+                              false
+                            )
+                          }
                         />
                       </div>
                     </div>
