@@ -1690,7 +1690,7 @@ function ClaimList(props) {
                                             value={claimType}
                                             onChange={handleSelectChange}
                                             white
-                                            disableFirstOption={true}
+
                                             disabled={
                                               claimStatus.status ===
                                               "Rejected" ||
