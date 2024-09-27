@@ -62,7 +62,12 @@ function CustomerOrderDetails() {
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: <CustomerOrderSummary data={orderList?.productsArray} shown={orderList?.coverageType === "Breakdown"} />,
+      content: (
+        <CustomerOrderSummary
+          data={orderList?.productsArray}
+          shown={orderList?.coverageType === "Breakdown"}
+        />
+      ),
     },
     {
       id: "Contracts",
@@ -185,7 +190,16 @@ function CustomerOrderDetails() {
                     Coverage Type
                   </p>
                   <p className="text-base text-white font-semibold leading-5">
-                    {orderList?.coverageType}
+                    {orderList?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>
@@ -196,10 +210,7 @@ function CustomerOrderDetails() {
                 <Button className="!bg-white !text-light-black w-full justify-center mt-[10%] !text-sm border flex cursor-pointer hover:font-semibold">
                   <span className="self-center">
                     {" "}
-                    <FileDownloader
-                      data={orderId}
-                      setLoading={setLoading}
-                    />
+                    <FileDownloader data={orderId} setLoading={setLoading} />
                   </span>
                 </Button>
               )}
@@ -213,10 +224,11 @@ function CustomerOrderDetails() {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? "!bg-[#2A2A2A] !text-white"
-                            : "!bg-grayf9 !text-black"
-                            }`}
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
+                            activeTab === tab.id
+                              ? "!bg-[#2A2A2A] !text-white"
+                              : "!bg-grayf9 !text-black"
+                          }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -227,8 +239,9 @@ function CustomerOrderDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
+                            className={`ml-1 py-1 text-sm font-normal ${
+                              activeTab === tab.id ? "text-white" : "text-black"
+                            }`}
                           >
                             {tab.label}
                           </span>
