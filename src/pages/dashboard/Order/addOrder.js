@@ -1281,7 +1281,7 @@ function AddOrder() {
 
   const handleSelectChange2 = async (name, selectedValue) => {
     const match = name.match(/\[(\d+)\]/);
-
+    console.log(name, selectedValue);
     if (!match) {
       return;
     }
