@@ -1292,7 +1292,7 @@ function ContractList(props) {
                     )}
                   </Grid>
                   <Grid className="!gap-0 ">
-                    <div className="col-span-4 border border-Light-Grey pl-4">
+                    <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className="text-base mb-2 text-left font-semibold">
                         # of Claims Over the Certain Period
                       </p>
@@ -1303,9 +1303,9 @@ function ContractList(props) {
                           : contractDetails?.noOfClaim?.value}
                       </p>
                     </div>
-                    <div className="col-span-4 border border-Light-Grey pl-4">
+                    <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className="text-base mb-2 text-left font-semibold">
-                        # of Claims in Coverage Period
+                        # of Claims in Coverage<br /> Period
                       </p>
                       <p className="text-[14px] text-left font-semibold">
                         {contractDetails?.noOfClaimPerPeriod == -1
@@ -1313,13 +1313,24 @@ function ContractList(props) {
                           : contractDetails?.noOfClaimPerPeriod}
                       </p>
                     </div>
-                    <div className="col-span-4 border border-Light-Grey pl-4">
+                    <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className=" text-base mb-2 text-left font-semibold">
                         {" "}
                         Is Include manufacturer warranty?
                       </p>
                       <p className="text-[14px] text-left font-semibold">
                         {contractDetails?.isManufacturerWarranty == true
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className=" text-base mb-2 text-left font-semibold">
+                        {" "}
+                        Is Maximum Claim <br /> Amount ?
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.isMaxClaimAmount == true
                           ? "Yes"
                           : "No"}
                       </p>

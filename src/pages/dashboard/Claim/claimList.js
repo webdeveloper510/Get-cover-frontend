@@ -1598,16 +1598,43 @@ function ClaimList(props) {
                                             </span>
                                           </p>
                                         )}
+                                      <Grid>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px]  font-Regular">
+                                            GetCover Cost :{" "}
+                                          </p>
+                                          <p className="font-semibold text-[11px] text-white  mb-3">
+                                            {" "}
+                                            ${calculateTotalCost(
+                                              res.repairParts
+                                            )}{" "}
+                                          </p>
+                                        </div>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px]  font-Regular">
+                                            Customer Cost :{" "}
+                                          </p>
+                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                            {" "}
+                                            ${calculateTotalCost(
+                                              res.repairParts
+                                            )}{" "}
+                                          </p>
+                                        </div>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                            Total Cost :{" "}
+                                            <span className="font-semibold text-white ml-3">
+                                              {" "}
+                                              ${calculateTotalCost(
+                                                res.repairParts
+                                              )}{" "}
+                                            </span>
+                                          </p>
+                                        </div>
+                                      </Grid>
 
-                                      <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                        Claim Cost :{" "}
-                                        <span className="font-semibold text-white ml-3">
-                                          {" "}
-                                          ${calculateTotalCost(
-                                            res.repairParts
-                                          )}{" "}
-                                        </span>
-                                      </p>
+
                                       {location.pathname.includes(
                                         "/reseller/claimList"
                                       ) ? (
@@ -2074,8 +2101,8 @@ function ClaimList(props) {
                                       </p>
                                       <div
                                         className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                            ? "h-[130px] max-h-[130px]"
-                                            : "h-[164px] max-h-[164px]"
+                                          ? "h-[130px] max-h-[130px]"
+                                          : "h-[164px] max-h-[164px]"
                                           }`}
                                       >
                                         <p className="text-sm text-light-green">
@@ -2332,8 +2359,8 @@ function ClaimList(props) {
                             </div>
                             <div
                               className={` self-center flex justify-end ${msg.messageFile.originalName !== ""
-                                  ? "col-span-5"
-                                  : "col-span-6 text-right"
+                                ? "col-span-5"
+                                : "col-span-6 text-right"
                                 }`}
                             >
                               <p className="text-sm pr-3">

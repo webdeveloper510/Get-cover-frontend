@@ -688,6 +688,87 @@ function ContractList(props) {
                     ""
                   )}
                 </Grid>
+                <Grid className="!gap-0 ">
+                  <div className="col-span-3 border border-Light-Grey pl-4">
+                    <p className="text-base mb-2 text-left font-semibold">
+                      # of Claims Over the Certain Period
+                    </p>
+                    <p className="text-[14px] mb-2 text-left font-semibold">
+                      {singleContract?.noOfClaim?.period} - {" "}
+                      {singleContract?.noOfClaim?.value == -1
+                        ? "Unlimited"
+                        : singleContract?.noOfClaim?.value}
+                    </p>
+                  </div>
+                  <div className="col-span-3 border border-Light-Grey pl-4">
+                    <p className="text-base mb-2 text-left font-semibold">
+                      # of Claims in Coverage<br /> Period
+                    </p>
+                    <p className="text-[14px] text-left font-semibold">
+                      {singleContract?.noOfClaimPerPeriod == -1
+                        ? "Unlimited"
+                        : singleContract?.noOfClaimPerPeriod}
+                    </p>
+                  </div>
+                  <div className="col-span-3 border border-Light-Grey pl-4">
+                    <p className=" text-base mb-2 text-left font-semibold">
+                      {" "}
+                      Is Include manufacturer warranty?
+                    </p>
+                    <p className="text-[14px] text-left font-semibold">
+                      {singleContract?.isManufacturerWarranty == true
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="col-span-3 border border-Light-Grey pl-4">
+                    <p className=" text-base mb-2 text-left font-semibold">
+                      {" "}
+                      Is Maximum Claim <br /> Amount ?
+                    </p>
+                    <p className="text-[14px] text-left font-semibold">
+                      {singleContract?.isMaxClaimAmount == true
+                        ? "Yes"
+                        : "No"}
+                    </p>
+                  </div>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th>Coverage Type</th>
+                        <th>Waiting Days</th>
+                        <th>Deductible</th>
+                      </tr>
+
+                      {singleContract?.mergedData &&
+                        singleContract?.mergedData.length > 0 && (
+                          <>
+                            {singleContract?.mergedData.map((type, index) => (
+                              <tr key={index} className="border ">
+                                <td className="font-semibold  mx-[19px]">
+                                  {type.label}
+                                </td>
+                                <td className="font-semibold mx-[19px]">
+                                  {type.waitingDays}
+                                </td>
+                                <td className="font-semibold  mx-[19px]">
+                                  {type.amountType != "percentage" && "$"}
+                                  {type.amountType === "percentage"
+                                    ? type.deductible
+                                    : type.deductible === undefined
+                                      ? (0).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2,
+                                      })
+                                      : formatOrderValue(type.deductible ?? 0)}
+                                  {type.amountType == "percentage" && "%"}
+                                </td>
+                              </tr>
+                            ))}
+                          </>
+                        )}
+                    </table>
+                  </div>
+                </Grid>
               </>
             )}
           </div>
