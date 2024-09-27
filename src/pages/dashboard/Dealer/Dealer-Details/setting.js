@@ -86,6 +86,7 @@ function Setting(props) {
 
     if (timer === 0) {
       closeModal();
+      window.location.reload();
     }
 
     if (!isModalOpen) {
@@ -256,28 +257,33 @@ function Setting(props) {
         .required("Required"),
       adhDays: Yup.array().of(
         Yup.object().shape({
+          label: Yup.string(),
+          waitingDays: Yup.number()
+            .required("Required")
+            .min(0, "Value cannot be negative")
+            .nullable(),
           deductible: Yup.number()
             .required("Required")
-            .min(0, "Must be at least 0"),
+            .min(0, "Must be at least 0")
+            .when("amountType", {
+              is: (value) => value === "percentage",
+              then: () =>
+                Yup.number()
+                  .max(99.99, "Cannot exceed 99.99%")
+                  .test(
+                    "is-decimal",
+                    "Percentage must have up to 2 decimal places",
+                    (value) =>
+                      value === undefined ||
+                      value === null ||
+                      /^\d+(\.\d{1,2})?$/.test(value)
+                  ),
+              otherwise: () => Yup.number().min(0, "Must be at least 0"),
+            }),
+          amountType: Yup.string().required(""),
         })
       ),
-      coverageType: Yup.array()
-        .min(1, "Required")
-        .test(
-          "validate-adhDays-errors",
-          "Value cannot be more than 99.9%",
-          function () {
-            const { adhDays } = this.parent;
-            const hasErrors = adhDays.some((item) => {
-              if (item.amountType === "percentage" && item.deductible > 99.9) {
-                return true;
-              }
-              return false;
-            });
-
-            return !hasErrors;
-          }
-        ),
+      coverageType: Yup.array().min(1, "Required"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -498,7 +504,7 @@ function Setting(props) {
                             setClaimOver(false);
                             formik.setFieldValue("noOfClaim", {
                               period: "Monthly",
-                              value: 0,
+                              value: 1,
                             });
                           }}
                         />
@@ -525,16 +531,20 @@ function Setting(props) {
                           <Input
                             className1="!pt-2.5"
                             placeholder="# of claims"
-                            type="number"
+                            type="tel"
                             name={`noOfClaim.value`}
                             value={formik.values.noOfClaim.value}
                             onBlur={formik.handleBlur}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              const finalValue =
+                                e.target.value === ""
+                                  ? 1
+                                  : Math.max(1, parseInt(e.target.value, 10));
                               formik.setFieldValue(
                                 "noOfClaim.value",
-                                Number(e.target.value)
-                              )
-                            }
+                                finalValue
+                              );
+                            }}
                           />
                         </div>
                       </div>
@@ -565,7 +575,7 @@ function Setting(props) {
                           checked={claimInCoveragePeriod === false}
                           onChange={() => {
                             setClaimInCoveragePeriod(false);
-                            formik.setFieldValue("noOfClaimPerPeriod", 0);
+                            formik.setFieldValue("noOfClaimPerPeriod", 1);
                           }}
                         />
                       </div>
@@ -576,16 +586,21 @@ function Setting(props) {
                           <Input
                             className1="!pt-2.5"
                             placeholder="# of claims"
-                            type="number"
+                            type="tel"
                             name={`noOfClaimPerPeriod`}
                             value={formik.values.noOfClaimPerPeriod}
                             onBlur={formik.handleBlur}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                              const finalValue =
+                                e.target.value === ""
+                                  ? 1
+                                  : Math.max(1, parseInt(e.target.value, 10));
+
                               formik.setFieldValue(
                                 "noOfClaimPerPeriod",
-                                Number(e.target.value)
-                              )
-                            }
+                                finalValue
+                              );
+                            }}
                           />
                         </div>
                       </div>
@@ -690,7 +705,7 @@ function Setting(props) {
                     Coverage Type :
                   </p>
                   <Grid>
-                    {coverage.map((type) => (
+                    {coverage.map((type, index) => (
                       <div key={type._id} className="col-span-3">
                         <div className="flex">
                           <Checkbox
@@ -745,7 +760,7 @@ function Setting(props) {
                           <>
                             <div className="my-3">
                               <Input
-                                type="number"
+                                type="tel"
                                 name={`adhDays[${type.value}].waitingDays`}
                                 label={`Waiting Days`}
                                 className="!bg-white"
@@ -760,8 +775,12 @@ function Setting(props) {
                                 onBlur={formik.handleBlur}
                                 onChange={(e) => {
                                   let newValue =
-                                    parseFloat(e.target.value) || 0;
-                                  newValue = newValue.toFixed(2);
+                                    e.target.value === ""
+                                      ? 0
+                                      : Math.max(
+                                          1,
+                                          parseInt(e.target.value, 10)
+                                        );
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
                                       item.value === type.value
@@ -852,12 +871,12 @@ function Setting(props) {
                                 />
                               </div>
                             </div>
-                            {formik.touched.coverageType &&
-                              formik.errors.coverageType && (
-                                <div className="text-red-500 text-sm">
-                                  {formik.errors.coverageType}
-                                </div>
-                              )}
+                            {formik.errors?.adhDays?.[index]?.deductible &&
+                            formik.touched?.adhDays?.[index]?.deductible ? (
+                              <div className="text-red-500 text-sm">
+                                {formik.errors.adhDays[index].deductible}
+                              </div>
+                            ) : null}
                           </>
                         )}
                       </div>

@@ -2670,8 +2670,8 @@ function DealerAddOrder() {
                                         type="text"
                                         name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
                                         className="!bg-white"
-                                        label={`${coverage.label} Days `}
-                                        placeholder={`${coverage.label} Days`}
+                                        label={`${coverage.value} Days `}
+                                        placeholder={`${coverage.value} Days`}
                                         disabled={true}
                                         value={
                                           formikStep3.values.productsArray[

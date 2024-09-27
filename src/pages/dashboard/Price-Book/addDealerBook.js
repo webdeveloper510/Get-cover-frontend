@@ -862,12 +862,22 @@ function AddDealerBook() {
                               </div>
                               <div className="mb-3">
                                 <Input
-                                  type="number"
+                                  type="tel"
                                   label="Waiting Days"
                                   name={`adhDays[${index}].waitingDays`}
                                   id={`adhDays[${index}].waitingDays`}
                                   value={adhDay.waitingDays}
-                                  onChange={formik.handleChange}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    const sanitizedValue = value.replace(
+                                      /[^0-9]/g,
+                                      ""
+                                    );
+                                    formik.setFieldValue(
+                                      `adhDays[${index}].waitingDays`,
+                                      sanitizedValue
+                                    );
+                                  }}
                                   onBlur={formik.handleBlur}
                                   className="form-input"
                                 />
@@ -972,7 +982,7 @@ function AddDealerBook() {
                               setClaimOver(false);
                               formik.setFieldValue("noOfClaim", {
                                 period: "Monthly",
-                                value: 0,
+                                value: 1,
                               });
                             }}
                           />
@@ -999,16 +1009,24 @@ function AddDealerBook() {
                               <Input
                                 className1="!pt-2.5"
                                 placeholder="# of claims"
-                                type="number"
+                                type="tel"
                                 name={`noOfClaim.value`}
                                 value={formik.values.noOfClaim.value}
                                 onBlur={formik.handleBlur}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                  const finalValue =
+                                    e.target.value === ""
+                                      ? 1
+                                      : Math.max(
+                                          1,
+                                          parseInt(e.target.value, 10)
+                                        );
+
                                   formik.setFieldValue(
                                     "noOfClaim.value",
-                                    Number(e.target.value)
-                                  )
-                                }
+                                    Math.max(1, finalValue)
+                                  );
+                                }}
                               />
                             </div>
                           </div>
@@ -1038,7 +1056,7 @@ function AddDealerBook() {
                             checked={claimInCoveragePeriod === false}
                             onChange={() => {
                               setClaimInCoveragePeriod(false);
-                              formik.setFieldValue("noOfClaimPerPeriod", 0);
+                              formik.setFieldValue("noOfClaimPerPeriod", 1);
                             }}
                           />
                         </div>
@@ -1048,16 +1066,24 @@ function AddDealerBook() {
                               <Input
                                 className1="!pt-2.5"
                                 placeholder="# of claims"
-                                type="number"
+                                type="tel"
                                 name={`noOfClaimPerPeriod`}
                                 value={formik.values.noOfClaimPerPeriod}
                                 onBlur={formik.handleBlur}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                  const finalValue =
+                                    e.target.value === ""
+                                      ? 1
+                                      : Math.max(
+                                          1,
+                                          parseInt(e.target.value, 10)
+                                        );
+
                                   formik.setFieldValue(
                                     "noOfClaimPerPeriod",
-                                    Number(e.target.value)
-                                  )
-                                }
+                                    Math.max(1, finalValue)
+                                  );
+                                }}
                               />
                             </div>
                           </div>
