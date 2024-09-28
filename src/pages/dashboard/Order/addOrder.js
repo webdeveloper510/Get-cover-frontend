@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import { format, addMonths } from "date-fns";
+import { format, addMonths, subDays } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Spinner from "../../../assets/images/icons/Spinner.svg";
@@ -1139,9 +1139,10 @@ function AddOrder() {
     );
 
     const termInMonths = formikStep3.values.productsArray[index].term || 0;
-    const newEndDate = addMonths(selectedDate, termInMonths);
-    const formattedEndDate = newEndDate.toISOString();
-
+    const newEndDate = addMonths(selectedDate, termInMonths); 
+    const adjustedEndDate = subDays(newEndDate, 1); 
+    const formattedEndDate = adjustedEndDate.toISOString(); 
+    
     formikStep3.setFieldValue(
       `productsArray[${index}].coverageEndDate`,
       formattedEndDate
