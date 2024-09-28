@@ -1297,7 +1297,13 @@ function ContractList(props) {
                         # of Claims Over the Certain Period
                       </p>
                       <p className="text-[14px] mb-2 text-left font-semibold">
-                        {contractDetails?.noOfClaim?.period} -{" "}
+                 
+                        {
+ contractDetails?.noOfClaim?.value == "-1"
+    ? ""
+    : `${contractDetails?.noOfClaim?.period} - `
+}
+{" "}
                         {contractDetails?.noOfClaim?.value == -1
                           ? "Unlimited"
                           : contractDetails?.noOfClaim?.value}

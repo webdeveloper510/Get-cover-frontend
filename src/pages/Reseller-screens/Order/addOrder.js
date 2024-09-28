@@ -2484,8 +2484,8 @@ function ResellerAddOrder() {
                                       type="text"
                                       name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
                                       className="!bg-white"
-                                      label={`${coverage.value} Days `}
-                                      placeholder={`${coverage.value} Days`}
+                                      label={`${coverage.label} Days `}
+                                      placeholder={`${coverage.label} Days`}
                                       value={
                                         formikStep3.values.productsArray[index]
                                           .adhDays[idx].waitingDays ?? 0
@@ -3283,12 +3283,14 @@ function ResellerAddOrder() {
                               # of Claims Over the Certain Period
                             </p>
                             <p className="text-sm">
-                              {" "}
-                              {
-                                formikStep3?.values?.productsArray[index]
-                                  ?.noOfClaim?.period
-                              }{" "}
-                              -{" "}
+                            {" "}
+{
+  formikStep3?.values?.productsArray[index]?.noOfClaim?.value == "-1"
+    ? ""
+    : `${formikStep3?.values?.productsArray[index]?.noOfClaim?.period} - `
+}
+{" "}
+
                               {formikStep3?.values?.productsArray[index]
                                 ?.noOfClaim?.value == "-1"
                                 ? "Unlimited"

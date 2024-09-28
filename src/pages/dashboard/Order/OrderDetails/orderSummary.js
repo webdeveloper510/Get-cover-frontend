@@ -289,6 +289,11 @@ function OrderSummary(props) {
                           </p>
                           <p className="text-[14px] mb-2 text-left font-semibold">
                             {res?.noOfClaim?.period} -{" "}
+                            {
+ res?.noOfClaim?.value == "-1"
+    ? ""
+    : `${res?.noOfClaim?.period} - `
+}
                             {res?.noOfClaim?.value == -1
                               ? "Unlimited"
                               : res?.noOfClaim?.value}

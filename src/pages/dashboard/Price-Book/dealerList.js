@@ -699,7 +699,12 @@ function DealerPriceList() {
                   # of Claims Over the Certain Period
                 </p>
                 <p className="text-[14px] font-semibold">
-                  {dealerPriceBookDetail?.noOfClaim?.period} -{" "}
+                  {/* {dealerPriceBookDetail?.noOfClaim?.period} -{" "} */}
+                  {
+ dealerPriceBookDetail?.noOfClaim?.value == "-1"
+    ? ""
+    : `${dealerPriceBookDetail?.noOfClaim?.period} - `
+}
                   {dealerPriceBookDetail?.noOfClaim?.value == -1
                     ? "Unlimited"
                     : dealerPriceBookDetail?.noOfClaim?.value}

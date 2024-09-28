@@ -2651,8 +2651,8 @@ function DealerAddOrder() {
                                         type="text"
                                         name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
                                         className="!bg-white"
-                                        label={`${coverage.value} Days `}
-                                        placeholder={`${coverage.value} Days`}
+                                        label={`${coverage.label} Days `}
+                                        placeholder={`${coverage.label} Days`}
                                         disabled={true}
                                         value={
                                           formikStep3.values.productsArray[
@@ -3425,10 +3425,10 @@ function DealerAddOrder() {
                             <p className="text-sm">
                               {" "}
                               {
-                                formikStep3?.values?.productsArray[index]
-                                  ?.noOfClaim?.period
-                              }{" "}
-                              -{" "}
+  formikStep3?.values?.productsArray[index]?.noOfClaim?.value == "-1"
+    ? ""
+    : `${formikStep3?.values?.productsArray[index]?.noOfClaim?.period} - `
+}
                               {formikStep3?.values?.productsArray[index]
                                 ?.noOfClaim?.value == "-1"
                                 ? "Unlimited"
