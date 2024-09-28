@@ -61,6 +61,20 @@ export const getContractValues = async (id) => {
   }
 };
 
+export const checkClaimAmount = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/checkClaimAmount/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const uploadClaimEvidence = async (data) => {
   const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
   const headers = {
@@ -88,6 +102,21 @@ export const addClaim = async (data) => {
 
   try {
     const response = await axios.post(`${url}/claim/createClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+export const checkCoverageTypeDate = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/checkCoverageTypeDate`, data, {
       headers,
     });
 
