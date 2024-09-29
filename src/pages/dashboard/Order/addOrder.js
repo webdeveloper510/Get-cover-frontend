@@ -574,7 +574,7 @@ function AddOrder() {
             term: product.term || "",
             priceType: product.priceType || "",
             adh: product.adh || 0,
-            adhDays: product.adhDays || [],
+            adhDays: product.mergedData || [],
             additionalNotes: product.additionalNotes || "",
             QuantityPricing: product.QuantityPricing || [],
             pName: product.pName || "",
@@ -1508,7 +1508,7 @@ function AddOrder() {
               ? ""
               : formikStep3.values.productsArray[match[1]].pName,
           term: selectedValue,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
         },
         productIndex
       );
@@ -1525,7 +1525,7 @@ function AddOrder() {
             formikStep3.values.productsArray[productIndex].priceBookId,
           pName: selectedValue,
           term: formikStep3.values.productsArray[productIndex].term,
-          coverageType: formikStep2?.values?.coverageType,
+  coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
         },
         productIndex
       );
@@ -2945,7 +2945,7 @@ function AddOrder() {
                                       type="text"
                                       name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
                                       className="!bg-white"
-                                      label={`${coverage.label} Days `}
+                                      label={`${coverage?.label} Days `}
                                       placeholder={`${coverage.label} Days`}
                                       value={
                                         formikStep3.values.productsArray[index]

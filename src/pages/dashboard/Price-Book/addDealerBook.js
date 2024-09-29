@@ -161,9 +161,11 @@ function AddDealerBook() {
     setCoverageType(result.coverageType);
     setLoader(false);
   };
-
+  // const data =useParams()
   const handleLinkClick = () => {
-    if (dealerIdValue !== undefined) {
+
+    console.log(dealerIdValue)
+    if (dealerIdValue != undefined) {
       console.log("Navigating to /dealerDetails/" + dealerIdValue);
       navigate(`/dealerDetails/${dealerIdValue}`);
     } else {
@@ -348,8 +350,6 @@ function AddDealerBook() {
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
-
-      console.log("Form values:", values);
 
       console.log(result);
       if (result.code !== 200) {

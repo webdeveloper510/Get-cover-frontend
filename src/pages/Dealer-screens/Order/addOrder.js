@@ -449,7 +449,7 @@ function DealerAddOrder() {
         dealerSku: product.dealerSku || "",
         fileValue: "",
         priceBookDetails: product?.priceBookDetail || {},
-        adhDays: product.adhDays || [],
+        adhDays: product.mergedData || [],
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
         noOfClaim: product?.noOfClaim || {},
         noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 0,

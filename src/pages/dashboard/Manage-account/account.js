@@ -1234,11 +1234,11 @@ const handleCancelEdit = () => {
                   }`}
                 onClick={() => handleButtonClick("siteSetting")}
               >   Site Setting</Button>
-              <Button
+              {/* <Button
                 className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "Settings" ? "!bg-grayf9 !text-black" : ""
                   }`}
                 onClick={() => handleButtonClick("Settings")}
-              >   Option Settings</Button>
+              >   Option Settings</Button> */}
             </div>
           </div>
 

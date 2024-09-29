@@ -557,7 +557,7 @@ function Dealer() {
         .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
-      // coverageType: Yup.array().min(1, "Required"),
+       coverageType: Yup.array().min(1, "Required"),
 
       phoneNumber: Yup.string()
         .required("Required")
@@ -584,7 +584,7 @@ function Dealer() {
                   ),
               otherwise: () => Yup.number().min(0, "Must be at least 0"),
             }),
-          amountType: Yup.string().required("Amount type is required"),
+          // amountType: Yup.string().required("Amount type is required"),
         })
       ),
 
@@ -618,23 +618,6 @@ function Dealer() {
             .min(0, "Must be at least 0"),
         })
       ),
-      coverageType: Yup.array()
-        .min(1, "Required")
-        .test(
-          "validate-adhDays-errors",
-          "Value cannot be more than 99.9%",
-          function () {
-            const { adhDays } = this.parent;
-            const hasErrors = adhDays.some((item) => {
-              if (item.amountType === "percentage" && item.deductible > 99.9) {
-                return true;
-              }
-              return false;
-            });
-
-            return !hasErrors;
-          }
-        ),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -1577,6 +1560,12 @@ function Dealer() {
                           )}
                         </div>
                       ))}
+                          {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
                     </Grid>
                   </div>
                 </Grid>

@@ -190,7 +190,7 @@ function ResellerOrderList() {
     validationSchema,
     onSubmit: (values) => {
       getOrderList(values);
-
+      closeDisapproved()
       console.log(values);
     },
   });

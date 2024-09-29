@@ -577,14 +577,9 @@ function ClaimList(props) {
     setClaimLoading(false);
   };
 
-  const calculateTotalCost = (repairParts) => {
-    // Calculate the total cost by summing up the prices of all repair parts
-    const totalCost = repairParts.reduce((sum, part) => {
-      // Convert the price to a number and add it to the sum
-      return sum + Number(part.price || 0);
-    }, 0);
-
-    // Return the total cost rounded to two decimal places
+  const calculateTotalCost = (cost1,cost2) => {
+    console.log(typeof(cost1),typeof(cost2))
+    const totalCost = cost1+cost2
     return totalCost.toFixed(2);
   };
 
@@ -1540,9 +1535,7 @@ function ClaimList(props) {
                                           </p>
                                           <p className="font-semibold text-[11px] text-white  mb-3">
                                             {" "}
-                                            ${
-                                              res?.getCoverClaimAmount?.toFixed(2)
-                                            }{" "}
+                                            ${calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
@@ -1550,10 +1543,7 @@ function ClaimList(props) {
                                             Customer Cost :{" "}
                                           </p>
                                           <p className="font-semibold text-[11px] text-white mb-3">
-                                            {" "}
-                                            ${
-                                              res?.customerClaimAmount?.toFixed(2)
-                                            }{" "}
+                                          ${calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">

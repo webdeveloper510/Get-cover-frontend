@@ -205,16 +205,25 @@ function AddClaim() {
   };
 
   const uploadEvidence = async (d) => {
-    const formData = new FormData();
-    d.forEach((file, index) => {
-      formData.append(`file`, file.file);
-    });
-
-    const data = await uploadClaimEvidence(formData);
-
-    formikStep2.setFieldValue("file", data.file);
+    setLoading21(true);
+  
+    try {
+      const formData = new FormData();
+      d.forEach((file, index) => {
+        formData.append(`file`, file.file);
+      });
+  
+      const data = await uploadClaimEvidence(formData); 
+  
+      formikStep2.setFieldValue("file", data.file); 
+  
+    } catch (error) {
+      console.error("Error uploading evidence:", error); 
+    } finally {
+      setLoading21(false); 
+    }
   };
-
+  
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };

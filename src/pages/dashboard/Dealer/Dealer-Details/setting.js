@@ -52,7 +52,6 @@ function Setting(props) {
       size: "",
     },
     isAccountCreate: false,
-    customerAccountCreated: false,
     noOfClaimPerPeriod: -1,
     serviceCoverageType: "",
     coverageType: [],
@@ -113,8 +112,8 @@ function Setting(props) {
       setServicerCreateAccountOption(dealer.isServicer);
       setClaimInCoveragePeriod(dealer.settings?.noOfClaimPerPeriod === -1);
       setClaimOver(dealer.settings?.noOfClaim?.value === -1);
-      setCreateAccountOption(dealer.userAccount ? "yes" : "no");
-      setSeparateAccountOption(dealer.isAccountCreat ? "yes" : "no");
+      setCreateAccountOption(dealer.isAccountCreate ? "yes" : "no");
+       setSeparateAccountOption(dealer.userAccount ? "yes" : "no");
       setSelectedFile2(
         dealer?.termCondition.fileName === "" ? null : dealer?.termCondition
       );
@@ -231,7 +230,7 @@ function Setting(props) {
     if (selectedValue === "no") {
       setSeparateAccountOption("no");
       formik.setFieldValue("isAccountCreate", false);
-      formik.setFieldValue("customerAccountCreated", false);
+      formik.setFieldValue("userAccount", false);
     } else {
       formik.setFieldValue("isAccountCreate", true);
     }
@@ -259,7 +258,7 @@ function Setting(props) {
         .required("Required"),
       adhDays: Yup.array().of(
         Yup.object().shape({
-          label: Yup.string(),
+          // label: Yup.string(),
           waitingDays: Yup.number()
             .required("Required")
             .min(0, "Value cannot be negative")
@@ -282,7 +281,7 @@ function Setting(props) {
                   ),
               otherwise: () => Yup.number().min(0, "Must be at least 0"),
             }),
-          amountType: Yup.string().required(""),
+          // amountType: Yup.string().required(""),
         })
       ),
       coverageType: Yup.array().min(1, "Required"),
@@ -292,7 +291,7 @@ function Setting(props) {
       console.log(values);
       values.isServicer = createServicerAccountOption;
       values.isShippingAllowed = shipping === "yes" ? true : false;
-      values.customerAccountCreated =
+      values.userAccount =
         separateAccountOption === "yes" ? true : false;
       if (createAccountOption === "yes" || createAccountOption === "no") {
         values.isAccountCreate = createAccountOption === "yes" ? true : false;
@@ -627,6 +626,7 @@ function Setting(props) {
                           label="Yes"
                           value={true}
                           checked={createServicerAccountOption === true}
+                          disabled={props?.dealerDetails?.isServicer}
                           onChange={handleServiceChange}
                         />
                         <RadioButton
@@ -634,6 +634,7 @@ function Setting(props) {
                           label="No"
                           value={false}
                           checked={createServicerAccountOption === false}
+                          disabled={props?.dealerDetails?.isServicer}
                           onChange={handleServiceChange}
                         />
                       </div>
@@ -916,8 +917,15 @@ function Setting(props) {
                             ) : null}
                           </>
                         )}
+                       
                       </div>
                     ))}
+                       {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
                   </Grid>
                 </div>
               </Grid>

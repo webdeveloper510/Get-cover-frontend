@@ -502,31 +502,31 @@ const Lists = [
       },
     ],
   },
-  {
-    name: "Reporting",
-    image: ReportImage,
-    active: ActiveReport,
-    items: [
-      {
-        name: "Sale",
-        url: "/Reporting/sale",
-        image: Dropdown1,
-        active: Actives,
-      },
-      {
-        name: "Claims",
-        url: "/Reporting/claims",
-        image: Dropdown2,
-        active: SeacondActive,
-      },
-      // {
-      //   name: "Accounting",
-      //   url: "#",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
-    ],
-  },
+  // {
+  //   name: "Reporting",
+  //   image: ReportImage,
+  //   active: ActiveReport,
+  //   items: [
+  //     {
+  //       name: "Sale",
+  //       url: "/Reporting/sale",
+  //       image: Dropdown1,
+  //       active: Actives,
+  //     },
+  //     {
+  //       name: "Claims",
+  //       url: "/Reporting/claims",
+  //       image: Dropdown2,
+  //       active: SeacondActive,
+  //     },
+  //     // {
+  //     //   name: "Accounting",
+  //     //   url: "#",
+  //     //   image: Dropdown2,
+  //     //   active: ForthActive,
+  //     // },
+  //   ],
+  // },
   {
     name: "Price Book",
     image: PriceImage,
@@ -545,12 +545,12 @@ const Lists = [
         image: Dropdown2,
         active: SeacondActive,
       },
-      {
-        name: "Upload Dealer Price Book",
-        url: "/uploadDealerBook",
-        image: Dropdown2,
-        active: ForthActive,
-      },
+      // {
+      //   name: "Upload Dealer Price Book",
+      //   url: "/uploadDealerBook",
+      //   image: Dropdown2,
+      //   active: ForthActive,
+      // },
       {
         name: "Category",
         url: "/category",
@@ -747,25 +747,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/dealer/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/dealer/reportingclaim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/dealer/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/dealer/reportingclaim",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -867,25 +867,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/reseller/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/reseller/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/reseller/reporting",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/reseller/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/reseller/reporting",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -912,12 +912,12 @@ function SideBar() {
       active: ActiveClaim,
       url: "/servicer/claimList",
     },
-    {
-      name: "Claims Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      url: "/servicer/claims",
-    },
+    // {
+    //   name: "Claims Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   url: "/servicer/claims",
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -969,12 +969,12 @@ function SideBar() {
       active: ActiveProduct,
       image: ProductImage,
     },
-    {
-      name: "Claims Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      url: "/customer/claims",
-    },
+    // {
+    //   name: "Claims Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   url: "/customer/claims",
+    // },
     {
       name: "Manage Account",
       image: manageAccount,

@@ -304,7 +304,7 @@ function ResellerAddOrder() {
         priceBookDetails: product?.priceBookDetail || {},
         dealerSku: product?.dealerSku || "",
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
-        adhDays: product.adhDays || [],
+        adhDays: product.mergedData || [],
         noOfClaim: product?.noOfClaim || {},
         noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 0,
         isManufacturerWarranty: product?.isManufacturerWarranty,
@@ -346,6 +346,8 @@ function ResellerAddOrder() {
       result?.result?.serviceCoverageType
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
+    formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
+        formik4.setFieldValue("paidAmount",result?.result?.paidAmount);
   };
 
   const renderStep = () => {
