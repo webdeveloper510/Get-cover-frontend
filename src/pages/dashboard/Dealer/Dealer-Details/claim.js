@@ -224,12 +224,12 @@ function ClaimList(props) {
   const handleSelectChange = (selectedValue, value) => {
     console.log(claimId)
     if (selectedValue === "claimStatus") {
-      if (value === "Rejected") {
+      if (value === "rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-        value.claimStatus = "Rejected";
-        editClaimRejectedValue(claimList.result[activeIndex]._id, value);
+        value.claimStatus = "rejected";
+        editClaimrejectedValue(claimList.result[activeIndex]._id, value);
       } else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
@@ -315,7 +315,7 @@ function ClaimList(props) {
     }, 3000);
   };
 
-  const editClaimRejectedValue = (claimId, data) => {
+  const editClaimrejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
