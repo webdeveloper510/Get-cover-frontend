@@ -2835,7 +2835,6 @@ function AddOrder() {
 
                       <div className="col-span-12">
                         <Grid className=" mb-3">
-                          {formikStep3?.values?.productsArray?.[index]?.adhDays.length}
                           {formikStep3?.values?.productsArray?.[index]?.adhDays &&
                             formikStep3?.values?.productsArray?.[index]?.adhDays.map(
                               (coverage, idx) => (
