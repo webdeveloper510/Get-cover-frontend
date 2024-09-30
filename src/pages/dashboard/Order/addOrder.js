@@ -574,7 +574,7 @@ function AddOrder() {
             term: product.term || "",
             priceType: product.priceType || "",
             adh: product.adh || 0,
-            adhDays: product.mergedData || [],
+            adhDays: product?.mergedData || [],
             additionalNotes: product.additionalNotes || "",
             QuantityPricing: product.QuantityPricing || [],
             pName: product.pName || "",
@@ -1283,257 +1283,159 @@ function AddOrder() {
     setIsErrorOpen(false);
   };
 
-  const handleSelectChange2 = async (name, selectedValue) => {
-    const match = name.match(/\[(\d+)\]/);
-    console.log(name, selectedValue);
-    if (!match) {
-      return;
-    }
+ const handleSelectChange2 = async (name, selectedValue) => {
+  const match = name.match(/\[(\d+)\]/);
+  if (!match) {
+    return;
+  }
 
-    const productIndex = match[1];
+  const productIndex = match[1];
 
-    const clearProductFields = () => {
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].priceBookId`,
-        ""
-      );
-      formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
-      formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
-      formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].noOfProducts`,
-        ""
-      );
-      formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`, []);
-      //add this
-      formikStep3.setFieldValue(`productsArray[${productIndex}].dealerSku`, "");
-      formikStep3.setFieldValue(`productsArray[${productIndex}].unitPrice`, "");
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].description`,
-        ""
-      );
-      formikStep3.setFieldValue(`productsArray[${productIndex}].rangeEnd`, "");
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].rangeStart`,
-        ""
-      );
-      formikStep3.setFieldValue(`productsArray[${productIndex}].priceType`, "");
-      formikStep3.setFieldValue(`productsArray[${productIndex}].adh`, "");
+  const clearProductFields = () => {
+    const fieldsToClear = {
+      priceBookId: "",
+      term: "",
+      price: "",
+      pName: "",
+      noOfProducts: "",
+      adhDays: [],
+      dealerSku: "",
+      unitPrice: "",
+      description: "",
+      rangeEnd: "",
+      rangeStart: "",
+      priceType: "",
+      adh: "",
     };
-
-    const updateQuantityPricing = (quantityPriceDetail) => {
-      return quantityPriceDetail.map((item) => ({
-        ...item,
-        enterQuantity: "",
-      }));
-    };
-
-    setNumberOfOrders((prevFileValues) => {
-      const newArray = [...prevFileValues];
-      newArray.splice(productIndex, 1);
-      return newArray;
+    Object.keys(fieldsToClear).forEach((field) => {
+      formikStep3.setFieldValue(`productsArray[${productIndex}].${field}`, fieldsToClear[field]);
     });
-
-    const updateProductFields = (selectedValue) => {
-      const data = productNameOptions[productIndex]?.data.find(
-        (value) => value.value === selectedValue
-      );
-      const data1 = dealerSkuList[productIndex]?.data.find(
-        (value) => value.priceBookId === selectedValue
-      );
-
-      console.log(data1);
-      if (data1) {
-        setClaimOver((prevState) => {
-          const newClaimOver = [...prevState];
-          newClaimOver[productIndex] = data1?.noOfClaim?.value === -1;
-          return newClaimOver;
-        });
-        setClaimInCoveragePeriod((prevState) => {
-          const newClaimInCoveragePeriod = [...prevState];
-          newClaimInCoveragePeriod[productIndex] =
-            data1?.noOfClaimPerPeriod === -1;
-          return newClaimInCoveragePeriod;
-        });
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].adhDays`,
-          data1.adhDays
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].noOfClaim`,
-          data1.noOfClaim
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].noOfClaimPerPeriod`,
-          data1.noOfClaimPerPeriod
-        );
-
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].isManufacturerWarranty`,
-          data1.isManufacturerWarranty
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].isMaxClaimAmount`,
-          data1.isMaxClaimAmount
-        );
-      }
-      if (data) {
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].noOfProducts`,
-          ""
-        );
-        // Update QuantityPricing
-        const updatedQuantityPricing = updateQuantityPricing(
-          data.quantityPriceDetail
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].QuantityPricing`,
-          updatedQuantityPricing
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].dealerSku`,
-          data.dealerSku
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].price`,
-          data.price
-        );
-        // add this
-
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].priceType`,
-          data.priceType
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].adh`,
-          data.adh
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].description`,
-          data.description
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].rangeEnd`,
-          data.rangeEnd
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].rangeStart`,
-          data.rangeStart
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].unitPrice`,
-          data.wholesalePrice
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].term`,
-          data?.term
-        );
-        formikStep3.setFieldValue(
-          `productsArray[${productIndex}].pName`,
-          data?.pName
-        );
-      }
-    };
-    if (name.includes("categoryId")) {
-      clearProductFields();
-      formikStep3.setFieldValue(
-        `productsArray[${productIndex}].categoryId`,
-        selectedValue
-      );
-
-      console.log(formikStep3.values.productsArray[productIndex]);
-      getCategoryList(
-        formik.values.dealerId,
-        {
-          priceCatId: selectedValue,
-          pName: "",
-          term: "",
-          priceBookId: "",
-          dealerSku: "", //add this
-          coverageType: formikStep2?.values?.coverageType.map(
-            (item) => item.value
-          ),
-        },
-        productIndex
-      );
-    }
-
-    if (name.includes("priceBookId")) {
-      clearProductFields();
-      updateProductFields(selectedValue);
-      console.log(selectedValue);
-
-      getCategoryList(
-        formik.values.dealerId,
-        {
-          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          priceBookId: selectedValue,
-          dealerSku: "", //add this
-          pName:
-            selectedValue == ""
-              ? ""
-              : formikStep3.values.productsArray[productIndex].pName,
-          term:
-            selectedValue == ""
-              ? ""
-              : formikStep3.values.productsArray[productIndex].term,
-          coverageType: formikStep2?.values?.coverageType.map(
-            (item) => item.value
-          ),
-        },
-        productIndex
-      );
-    }
-    if (name.includes("dealerSku")) {
-      clearProductFields();
-      const data = dealerSkuList[productIndex]?.data.find(
-        (value) => value.value === selectedValue
-      );
-
-      handleSelectChange2(
-        `productsArray[${productIndex}].priceBookId`,
-        data == undefined ? "" : data.priceBookId
-      );
-    }
-    if (name.includes("term")) {
-      getCategoryList(
-        formik.values.dealerId,
-        {
-          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          dealerSku: "", //add this
-          priceBookId:
-            formikStep3.values.productsArray[productIndex].priceBookId,
-          pName:
-            formikStep3.values.productsArray[match[1]].pName == undefined
-              ? ""
-              : formikStep3.values.productsArray[match[1]].pName,
-          term: selectedValue,
-          coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
-        },
-        productIndex
-      );
-
-      // console.log(name,selectedValue)
-    }
-    if (name.includes("pName")) {
-      getCategoryList(
-        formik.values.dealerId,
-        {
-          priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
-          dealerSku: "", //add this
-          priceBookId:
-            formikStep3.values.productsArray[productIndex].priceBookId,
-          pName: selectedValue,
-          term: formikStep3.values.productsArray[productIndex].term,
-  coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
-        },
-        productIndex
-      );
-
-      // console.log(name,selectedValue)
-    }
-    formikStep3.setFieldValue(name, selectedValue);
   };
+
+  const updateQuantityPricing = (quantityPriceDetail) => {
+    return quantityPriceDetail.map((item) => ({
+      ...item,
+      enterQuantity: "",
+    }));
+  };
+  const updateProductFields = (selectedValue) => {
+    const productData = productNameOptions[productIndex]?.data.find(
+      (value) => value.value === selectedValue
+    );
+    console.log(productData)
+    const dealerSkuData = dealerSkuList[productIndex]?.data.find(
+      (value) => value.priceBookId === selectedValue
+    );
+
+    if (dealerSkuData) {
+      setClaimOver((prevState) => {
+        const newClaimOver = [...prevState];
+        newClaimOver[productIndex] = dealerSkuData.noOfClaim?.value === -1;
+        return newClaimOver;
+      });
+      setClaimInCoveragePeriod((prevState) => {
+        const newClaimInCoveragePeriod = [...prevState];
+        newClaimInCoveragePeriod[productIndex] =
+          dealerSkuData.noOfClaimPerPeriod === -1;
+        return newClaimInCoveragePeriod;
+      });
+
+      formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`, dealerSkuData.adhDays);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaim`, dealerSkuData.noOfClaim);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaimPerPeriod`, dealerSkuData.noOfClaimPerPeriod);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].isManufacturerWarranty`, dealerSkuData.isManufacturerWarranty);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].isMaxClaimAmount`, dealerSkuData.isMaxClaimAmount);
+    }
+
+    if (productData) {
+      const updatedQuantityPricing = updateQuantityPricing(productData.quantityPriceDetail);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].QuantityPricing`, updatedQuantityPricing);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].dealerSku`, productData.dealerSku);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].price`, productData.price);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].priceType`, productData.priceType);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].adh`, productData.adh);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].description`, productData.description);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].rangeEnd`, productData.rangeEnd);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].rangeStart`, productData.rangeStart);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].unitPrice`, productData.wholesalePrice);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].term`, productData.term);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, productData.pName);
+    }
+  };
+
+  if (name.includes("categoryId")) {
+    clearProductFields();
+    formikStep3.setFieldValue(`productsArray[${productIndex}].categoryId`, selectedValue);
+    await getCategoryList(
+      formik.values.dealerId,
+      {
+        priceCatId: selectedValue,
+        pName: "",
+        term: "",
+        priceBookId: "",
+        dealerSku: "", // add this
+        coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
+      },
+      productIndex
+    );
+  } else if (name.includes("priceBookId")) {
+    clearProductFields();
+    updateProductFields(selectedValue);
+    await getCategoryList(
+      formik.values.dealerId,
+      {
+        priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+        priceBookId: selectedValue,
+        dealerSku: "", // add this
+        pName: selectedValue ? formikStep3.values.productsArray[productIndex].pName : "",
+        term: selectedValue ? formikStep3.values.productsArray[productIndex].term : "",
+        coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
+      },
+      productIndex
+    );
+  } else if (name.includes("dealerSku")) {
+    clearProductFields();
+    const data = dealerSkuList[productIndex]?.data.find(
+      (value) => value.value === selectedValue
+    );
+    handleSelectChange2(
+      `productsArray[${productIndex}].priceBookId`,
+      data ? data.priceBookId : ""
+    );
+  } else if (name.includes("term")) {
+    await getCategoryList(
+      formik.values.dealerId,
+      {
+        priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+        dealerSku: "", // add this
+        priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
+        pName: formikStep3.values.productsArray[productIndex].pName || "",
+        term: selectedValue,
+        coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
+      },
+      productIndex
+    );
+  } else if (name.includes("pName")) {
+    await getCategoryList(
+      formik.values.dealerId,
+      {
+        priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
+        dealerSku: "", // add this
+        priceBookId: formikStep3.values.productsArray[productIndex].priceBookId,
+        pName: selectedValue,
+        term: formikStep3.values.productsArray[productIndex].term,
+        coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
+      },
+      productIndex
+    );
+  }
+  const data = dealerSkuList[productIndex]?.data.find(
+    (value) => value.value === selectedValue
+  );
+  console.log(selectedValue,dealerSkuList)
+  formikStep3.setFieldValue(name, selectedValue);
+};
+
 
   useEffect(() => {
     for (let i = 0; i < formikStep3?.values?.productsArray?.length; i++) {
@@ -1746,7 +1648,7 @@ function AddOrder() {
 
         const priceBookDetails = result?.result?.priceBookDetail;
         const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
-        console.log("result.result?.priceBooks", result.result?.priceBooks);
+        console.log("result.result?.priceBooks", result.result?.mergedData);
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.name,
           value: item._id,
@@ -1763,7 +1665,7 @@ function AddOrder() {
           priceBookDetails: priceBookDetails,
           dealerPriceBookDetails: dealerPriceBookDetails,
           dealerSku: item.dealerSku, // add this
-          adhDays: item.adhDays, // add this
+          adhDays: result.result?.mergedData, // add this
         }));
 
         const category = result.result?.priceCategories.map((item) => ({
@@ -1784,7 +1686,7 @@ function AddOrder() {
             label: item.dealerSku,
             value: item.dealerSku,
             priceBookId: item.priceBook,
-            adhDays: result.result.mergedData,
+            adhDays: result?.result?.mergedData,
             isManufacturerWarranty: item.isManufacturerWarranty,
             isMaxClaimAmount: item.isMaxClaimAmount,
             noOfClaim: item.noOfClaim,
@@ -2807,7 +2709,7 @@ function AddOrder() {
                       </div>
                       <div className="col-span-12">
                         <Grid className="!grid-cols-3 gap-0">
-                          {formikStep3.values.productsArray[index].priceType ===
+                          {formikStep3?.values?.productsArray?.[index]?.priceType ===
                             "Quantity Pricing" &&
                             (() => {
                               return formikStep3.values.productsArray[
@@ -2933,8 +2835,9 @@ function AddOrder() {
 
                       <div className="col-span-12">
                         <Grid className=" mb-3">
-                          {formikStep3.values.productsArray[index].adhDays &&
-                            formikStep3.values.productsArray[index].adhDays.map(
+                          {formikStep3?.values?.productsArray?.[index]?.adhDays.length}
+                          {formikStep3?.values?.productsArray?.[index]?.adhDays &&
+                            formikStep3?.values?.productsArray?.[index]?.adhDays.map(
                               (coverage, idx) => (
                                 <div
                                   className="col-span-4 capitalize"

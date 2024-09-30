@@ -117,7 +117,6 @@ function ClaimList(props) {
   });
   const [repairValue, repair_status] = useState({});
   const [customerValue, customer_status] = useState({});
-  const [coverageType, coverage_type] = useState({});
   const [claimvalues, claim_status] = useState({});
   const [shipment, shipment_type] = useState({});
   const [claim, setClaim] = useState([
@@ -249,7 +248,8 @@ function ClaimList(props) {
             console.error("here");
         }
       }
-    } else if (selectedValue === "claimType") {
+    } 
+    else if (selectedValue === "claimType") {
       setLoading1(true);
       let data={
         claimId:claimList.result[activeIndex]._id,
@@ -266,6 +266,7 @@ function ClaimList(props) {
             );
           };
           updateAndCallAPI(setClaimType);
+          setErrorForCoverageType("")
         }
       else{
         setErrorForCoverageType(res.message)
@@ -385,6 +386,18 @@ function ClaimList(props) {
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
+          if (updatedClaimListCopy.result) {
+            updatedClaimListCopy.result[activeIndex]["claimType"] =
+              res.result.claimType;
+              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+              res.result.customerClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+              res.result.customerOverAmount;
+              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+              res.result.getCoverClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+              res.result.getcoverOverAmount;
+          }
       }
       setClaimList(updatedClaimListCopy);
       setClaimType(res.result.claimType);
@@ -577,11 +590,16 @@ function ClaimList(props) {
     setClaimLoading(false);
   };
 
-  const calculateTotalCost = (cost1,cost2) => {
-    console.log(typeof(cost1),typeof(cost2))
-    const totalCost = cost1+cost2
-    return totalCost.toFixed(2);
+  const calculateTotalCost = (cost1, cost2) => {
+    console.log(typeof(cost1), typeof(cost2));
+    const totalCost = cost1 + cost2;
+    if (totalCost === 0) {
+      return "N/A";
+    }
+  
+    return `$${totalCost.toFixed(2)}`;
   };
+  
 
   const closeView = () => {
     formik.resetForm();
@@ -886,9 +904,6 @@ function ClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
-      checkClaimAmount(claimId).then((res) => {
-        console.log(res)
-      })
       setError("");
 
       let totalPrice = 0;
@@ -1535,7 +1550,7 @@ function ClaimList(props) {
                                           </p>
                                           <p className="font-semibold text-[11px] text-white  mb-3">
                                             {" "}
-                                            ${calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                            {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
@@ -1543,7 +1558,7 @@ function ClaimList(props) {
                                             Customer Cost :{" "}
                                           </p>
                                           <p className="font-semibold text-[11px] text-white mb-3">
-                                          ${calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
+                                          {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
