@@ -1043,13 +1043,8 @@ function DealerAddOrder() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  const [BillCheck, setbillCheck] = useState();
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const openError = () => {
-    setIsErrorOpen(true);
   };
 
   const closeError = () => {

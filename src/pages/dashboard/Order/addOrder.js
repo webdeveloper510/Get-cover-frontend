@@ -1305,6 +1305,7 @@ function AddOrder() {
       rangeStart: "",
       priceType: "",
       adh: "",
+      adhDays:[]
     };
     Object.keys(fieldsToClear).forEach((field) => {
       formikStep3.setFieldValue(`productsArray[${productIndex}].${field}`, fieldsToClear[field]);
@@ -2853,17 +2854,13 @@ function AddOrder() {
                                           .adhDays[idx].waitingDays ?? 0
                                       }
                                       onChange={(e) => {
-                                        const value =
-                                          e.target.value === ""
-                                            ? 0
-                                            : Math.max(
-                                                1,
-                                                parseInt(e.target.value, 10)
-                                              );
-                                        formikStep3.setFieldValue(
-                                          `productsArray[${index}].adhDays[${idx}].waitingDays`,
-                                          value
-                                        );
+                                        const value = e.target.value;
+                                        if (/^\d+(\.\d{0,2})?$/.test(value)) {
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].waitingDays`,
+                                            value === "" ? 0 : value
+                                          );
+                                        }
                                       }}
                                       onBlur={formikStep3.handleBlur}
                                     />
@@ -2897,7 +2894,6 @@ function AddOrder() {
                                       }
                                       onChange={(e) => {
                                         const value = e.target.value;
-                                        // Allow up to two decimal places
                                         if (/^\d+(\.\d{0,2})?$/.test(value)) {
                                           formikStep3.setFieldValue(
                                             `productsArray[${index}].adhDays[${idx}].deductible`,
