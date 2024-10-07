@@ -300,16 +300,6 @@ function DealerAddOrder() {
       getServicerList({
         resellerId: resellerId,
       });
-      // getCategoryList(
-      //   {
-      //     priceBookId: "",
-      //     priceCatId: "",
-      //     pName: "",
-      //     term: "",
-      //     coverageType: formikStep2?.values?.coverageType,
-      //   },
-      //   0
-      // );
     }
     if (customerId) {
       formik.setFieldValue("customerId", customerId);
@@ -356,7 +346,6 @@ function DealerAddOrder() {
         0
       );
     }
-    // getProductList()
     getTermListData();
     getServiceCoverage();
   }, [orderId, resellerId, customerId]);
@@ -374,8 +363,6 @@ function DealerAddOrder() {
       resellerId: result?.result?.resellerId,
     });
     getServiceCoverage(undefined, "Edit");
-    //     console.log (result.result.paymentStatus)
-    // alert (result.result.paymentStatus)
     formik4.setFieldValue("paymentStatus", result.result.paymentStatus);
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
     formik4.setFieldValue("dueAmount", result.result.dueAmount);
@@ -1131,10 +1118,6 @@ function DealerAddOrder() {
           return newClaimInCoveragePeriod;
         });
         formikStep3.setFieldValue(
-          `productsArray[${match[1]}].adhDays`,
-          data1.adhDays
-        );
-        formikStep3.setFieldValue(
           `productsArray[${match[1]}].noOfClaim`,
           data1.noOfClaim
         );
@@ -1155,7 +1138,7 @@ function DealerAddOrder() {
       }
 
       console.log(data);
-      getCategoryList(
+   const priceBookValue=await getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
@@ -1174,7 +1157,11 @@ function DealerAddOrder() {
         },
         match[1]
       );
-
+      console.log('priceBookValue',priceBookValue.result.mergedData)
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].adhDays`,
+        priceBookValue.result.mergedData
+      );
       const updatedQuantityPricing = data?.quantityPriceDetail.map(
         (item, index) => {
           const updatedItem = {
@@ -1219,10 +1206,6 @@ function DealerAddOrder() {
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].dealerSku`,
         data?.dealerSku
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].adhDays`,
-        data.adhDays
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
@@ -1381,12 +1364,6 @@ function DealerAddOrder() {
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-
-    // if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
-    //   newValues.dealerId = currentValues.dealerId;
-    //   newValues.dealerId = currentValues.dealerValue;
-    // }
-
     if (resellerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
@@ -1566,6 +1543,7 @@ function DealerAddOrder() {
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);

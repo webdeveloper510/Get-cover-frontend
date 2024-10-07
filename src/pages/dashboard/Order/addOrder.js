@@ -46,7 +46,7 @@ import {
   getResellerListOrderByDealerIdCustomerId,
 } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
-import { BeatLoader, RotateLoader } from "react-spinners";
+import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
@@ -113,7 +113,7 @@ function AddOrder() {
       "_blank"
     );
   };
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+ 
   useEffect(() => {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
@@ -139,7 +139,7 @@ function AddOrder() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const maxSize = 10048576; // 10MB in bytes
+    const maxSize = 10048576; 
 
     if (file?.size > maxSize) {
       formikStep2.setFieldError(
@@ -1241,7 +1241,7 @@ function AddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku: "", //add this
+        dealerSku: "",
         coverageType: formikStep2?.values?.coverageType.map(
           (item) => item.value
         ),
@@ -1268,7 +1268,7 @@ function AddOrder() {
       return newArray;
     });
 
-    console.log(formikStep3.values.productsArray, updatedProduct);
+   
   };
 
   const openModal = () => {
@@ -1298,7 +1298,6 @@ function AddOrder() {
       price: "",
       pName: "",
       noOfProducts: "",
-      adhDays: [],
       dealerSku: "",
       unitPrice: "",
       description: "",
@@ -1340,7 +1339,6 @@ function AddOrder() {
         return newClaimInCoveragePeriod;
       });
 
-      formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`, dealerSkuData.adhDays);
       formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaim`, dealerSkuData.noOfClaim);
       formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaimPerPeriod`, dealerSkuData.noOfClaimPerPeriod);
       formikStep3.setFieldValue(`productsArray[${productIndex}].isManufacturerWarranty`, dealerSkuData.isManufacturerWarranty);
@@ -1379,9 +1377,8 @@ function AddOrder() {
       productIndex
     );
   } else if (name.includes("priceBookId")) {
-    clearProductFields();
-    updateProductFields(selectedValue);
-    await getCategoryList(
+ clearProductFields();
+  const priceBookData=  await getCategoryList(
       formik.values.dealerId,
       {
         priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
@@ -1393,6 +1390,8 @@ function AddOrder() {
       },
       productIndex
     );
+    formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`,priceBookData.result.mergedData);
+    updateProductFields(selectedValue);
   } else if (name.includes("dealerSku")) {
     clearProductFields();
     const data = dealerSkuList[productIndex]?.data.find(
@@ -1435,7 +1434,6 @@ function AddOrder() {
   console.log(selectedValue,dealerSkuList)
   formikStep3.setFieldValue(name, selectedValue);
 };
-
 
   useEffect(() => {
     for (let i = 0; i < formikStep3?.values?.productsArray?.length; i++) {
@@ -1499,7 +1497,7 @@ function AddOrder() {
       formikStep3.resetForm();
     }
   };
-  //add this line
+ 
   const getDealerSettingsDetails = async (dealerId) => {
     const res = await getDealersSettingsByid(dealerId);
     console.log(res.result[0]);
@@ -1515,6 +1513,7 @@ function AddOrder() {
         : res.result[0].termCondition
     );
   };
+
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
 
@@ -1699,6 +1698,7 @@ function AddOrder() {
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);
@@ -2054,7 +2054,6 @@ function AddOrder() {
   };
 
   const renderStep2 = () => {
-    // Step 2 content
     return (
       <>
         <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
@@ -2205,19 +2204,19 @@ function AddOrder() {
                             chips: (provided) => ({
                               ...provided,
                               backgroundColor:
-                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", // Change chip color when disabled
-                              color: type === "Edit" ? "#a0a0a0" : "white", // Change chip text color when disabled
+                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", 
+                              color: type === "Edit" ? "#a0a0a0" : "white", 
                             }),
                             searchBox: (provided) => ({
                               ...provided,
                               backgroundColor:
-                                type === "Edit" ? "#f0f0f0" : "#f7f7f7", // Change search box background when disabled
+                                type === "Edit" ? "#f0f0f0" : "#f7f7f7",
                               border:
                                 type === "Edit"
                                   ? "1px solid #ccc"
-                                  : "1px solid #ddd", // Change border when disabled
+                                  : "1px solid #ddd",
                               cursor:
-                                type === "Edit" ? "not-allowed" : "pointer", // Change cursor when disabled
+                                type === "Edit" ? "not-allowed" : "pointer",
                             }),
                             option: (provided, state) => ({
                               ...provided,
@@ -2227,7 +2226,7 @@ function AddOrder() {
                               color: state.isSelected ? "white" : "black",
                               "&:hover": {
                                 backgroundColor:
-                                  type === "Edit" ? "white" : "#f0ad4e", // Prevent hover effect when disabled
+                                  type === "Edit" ? "white" : "#f0ad4e", 
                                 color: type == "Edit" ? "black" : "white",
                               },
                             }),
