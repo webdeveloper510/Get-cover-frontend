@@ -864,7 +864,7 @@ function CustomerContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="font-bold text-sm font-Regular">
-                        Labour Warranty Start Date
+                        Manufacturer Labour Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
@@ -880,7 +880,7 @@ function CustomerContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="font-bold text-sm font-Regular">
-                        Part Warranty Start Date
+                        Manufacturer Parts Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(

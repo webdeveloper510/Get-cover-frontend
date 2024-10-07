@@ -1094,7 +1094,7 @@ function Dealer() {
                       <div className="col-span-8">
                         <p className=" text-[12px] font-semibold">
                           {" "}
-                          Is Maximum Claim Amount ?
+                          Is There a Maximum Claim Amount?
                         </p>
                       </div>
                       <div className="col-span-4 flex">
@@ -1181,7 +1181,7 @@ function Dealer() {
                       <div className="col-span-8">
                         <p className=" text-[12px] font-semibold">
                           {" "}
-                          Is Include manufacturer warranty?
+                          Is manufacturer warranty included?
                         </p>
                       </div>
                       <div className="col-span-4 flex">

@@ -1215,7 +1215,7 @@ function ContractList(props) {
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
-                          Labour Warranty Start Date
+                          Manufacturer Labour Warranty End Date
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
@@ -1231,7 +1231,7 @@ function ContractList(props) {
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
-                          Part Warranty Start Date
+                          Manufacturer Parts Warranty End Date
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
@@ -1322,7 +1322,7 @@ function ContractList(props) {
                     <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className=" text-base mb-2 text-left font-semibold">
                         {" "}
-                        Is Include manufacturer warranty?
+                        Is manufacturer warranty included?
                       </p>
                       <p className="text-[14px] text-left font-semibold">
                         {contractDetails?.isManufacturerWarranty == true

@@ -669,7 +669,7 @@ function Setting(props) {
                     <div className="col-span-8 mt-3">
                       <p className=" text-[12px] font-semibold ">
                         {" "}
-                        Is Maximum Claim Amount ?
+                        Is There a Maximum Claim Amount?
                       </p>
                     </div>
                     <div className="col-span-4 mt-3">
@@ -704,7 +704,7 @@ function Setting(props) {
                     <div className="col-span-8 mt-3">
                       <p className=" text-[12px] font-semibold ">
                         {" "}
-                        Is Include manufacturer warranty?
+                        Is manufacturer warranty included?
                       </p>
                     </div>
                     <div className="col-span-4 mt-3">

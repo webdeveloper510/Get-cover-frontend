@@ -2932,7 +2932,7 @@ function ResellerAddOrder() {
                         <div className="flex justify-between">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Maximum Claim Amount ?
+                            Is There a Maximum Claim Amount?
                           </p>
                           <div className="flex">
                             <RadioButton
@@ -3316,7 +3316,7 @@ function ResellerAddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Include manufacturer warranty?
+                              Is manufacturer warranty included?
                             </p>
                           </div>
                           <p className="text-sm">
@@ -3328,7 +3328,7 @@ function ResellerAddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Maximum Claim Amount ?
+                              Is There a Maximum Claim Amount?
                             </p>
                           </div>
                           <p className="text-sm">

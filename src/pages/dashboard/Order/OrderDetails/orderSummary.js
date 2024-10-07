@@ -312,7 +312,7 @@ function OrderSummary(props) {
                         <div className="col-span-4 border border-Light-Grey pl-4">
                           <p className=" text-base mb-2 text-left font-semibold">
                             {" "}
-                            Is Include manufacturer warranty?
+                            Is manufacturer warranty included?
                           </p>
                           <p className="text-[14px] text-left font-semibold">
                             {res?.isManufacturerWarranty == true ? "Yes" : "No"}
