@@ -564,29 +564,33 @@ function Dealer() {
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters")
         .matches(/^[0-9]+$/, "Must contain only digits"),
-      adhDays: Yup.array().of(
-        Yup.object().shape({
-          deductible: Yup.number()
-            .required("Required")
-            .min(0, "Must be at least 0")
-            .when("amountType", {
-              is: (value) => value === "percentage",
-              then: () =>
-                Yup.number()
-                  .max(99.9, "Cannot exceed 99.9%")
-                  .test(
-                    "is-decimal",
-                    "Percentage must have up to 2 decimal places",
-                    (value) =>
-                      value === undefined ||
-                      value === null ||
-                      /^\d+(\.\d{1,2})?$/.test(value)
-                  ),
-              otherwise: () => Yup.number().min(0, "Must be at least 0"),
-            }),
-          // amountType: Yup.string().required("Amount type is required"),
-        })
-      ),
+        adhDays: Yup.array().of(
+          Yup.object().shape({
+            label: Yup.string(),
+            waitingDays: Yup.number()
+              .required("Required")
+              .min(0, "Value cannot be negative")
+              .nullable(),
+            deductible: Yup.number()
+              .required("Required")
+              .min(0, "Must be at least 0")
+              .when("amountType", {
+                is: (value) => value === "percentage",
+                then: () =>
+                  Yup.number()
+                    .max(99.99, "Cannot exceed 99.99%")
+                    .test(
+                      "is-decimal",
+                      "Percentage must have up to 2 decimal places",
+                      (value) =>
+                        value === undefined ||
+                        value === null ||
+                        /^\d+(\.\d{1,2})?$/.test(value)
+                    ),
+                otherwise: () => Yup.number().min(0, "Must be at least 0"),
+              }),
+          })
+        ),
 
       dealers: Yup.array().of(
         Yup.object().shape({
@@ -608,14 +612,6 @@ function Dealer() {
             .required("Required"),
 
           status: Yup.boolean().required("Required"),
-        })
-      ),
-
-      adhDays: Yup.array().of(
-        Yup.object().shape({
-          deductible: Yup.number()
-            .required("Required")
-            .min(0, "Must be at least 0"),
         })
       ),
     }),
@@ -1376,7 +1372,7 @@ function Dealer() {
                       :
                     </p>
                     <Grid>
-                      {coverage.map((type) => (
+                      {coverage.map((type,index) => (
                         <div key={type._id} className="col-span-3">
                           <div className="flex">
                             <Checkbox
@@ -1550,14 +1546,15 @@ function Dealer() {
                                   />
                                 </div>
                               </div>
-                              {formik.touched.coverageType &&
-                                formik.errors.coverageType && (
+                              {formik.errors?.adhDays?.[index]?.deductible &&
+                                formik.touched?.adhDays?.[index]?.deductible ? (
                                   <div className="text-red-500 text-sm">
-                                    {formik.errors.coverageType}
+                                    {formik.errors.adhDays[index].deductible}
                                   </div>
-                                )}
+                                ) : null}
                             </>
                           )}
+                       
                         </div>
                       ))}
                           {formik.touched.coverageType &&

@@ -811,7 +811,6 @@ function AddOrder() {
                       ),
                   otherwise: () => Yup.number().min(0, "Must be at least 0"),
                 }),
-              amountType: Yup.string().required(""),
             })
           ),
 
@@ -1580,7 +1579,8 @@ function AddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null);
+            if (res.customerData.resellerId != null)
+           {
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
               dealerId: formik.values.dealerId,
@@ -1588,6 +1588,7 @@ function AddOrder() {
             };
             getServicerList(data);
             getCustomerList(data);
+           }
           }
         });
 

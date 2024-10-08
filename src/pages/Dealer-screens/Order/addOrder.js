@@ -1404,13 +1404,15 @@ function DealerAddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null);
-            formik.setFieldValue("resellerId", res.customerData.resellerId);
-            let data = {
-              resellerId: res.customerData.resellerId,
-            };
-            // getServicerList(data);
-            // getCustomerList(data);
+            if (res.customerData.resellerId != null){
+              formik.setFieldValue("resellerId", res.customerData.resellerId);
+              let data = {
+                resellerId: res.customerData.resellerId,
+              };
+              // getServicerList(data);
+              // getCustomerList(data);
+            }
+         
           }
         });
     }

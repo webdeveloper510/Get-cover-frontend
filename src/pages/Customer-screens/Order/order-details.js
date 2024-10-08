@@ -30,13 +30,14 @@ import CustomerOrderSummary from "./OrderDetails/orderSummary";
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState();
+  const [userDetails, setUserDetails] = useState(null);
   const { orderId } = useParams();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
 
   useEffect(() => {
@@ -48,6 +49,7 @@ function CustomerOrderDetails() {
   const getOrderdetails = async () => {
     setLoading(true);
     const result = await getOrderDetailCustomer([orderId]);
+    setUserDetails(result.orderUserData);
     console.log(result.result);
     setOrderList(result.result);
     setLoading(false);
@@ -201,6 +203,29 @@ function CustomerOrderDetails() {
                       );
                     })}
                   </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-Onyx rounded-[14px]"
+                    alt="Name"
+                  />
+                </div>
+
+                <div className="flex justify-between w-[85%] ml-auto">
+                  <div>
+                    <p className="text-sm text-neutral-grey font-Regular">
+                      Servicer Name
+                    </p>
+                    <p className="text-base text-white font-semibold">
+                      {userDetails?.servicerData?.status
+                        ? userDetails?.servicerData?.name
+                        : ""}
+                    </p>
+                  </div>
+        
                 </div>
               </div>
 

@@ -66,8 +66,7 @@ import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
 
 function ClaimList(props) {
-  const baseUrl = apiUrl();
-  console.log(baseUrl.bucket);
+  console.log('here')
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -207,7 +206,6 @@ function ClaimList(props) {
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
-    // console.log(selectedValue, value);
   };
   const handleSelectChange21 = (selectedValue, value) => {
     Shipment.setFieldValue(selectedValue, value);
@@ -222,7 +220,6 @@ function ClaimList(props) {
   }, [location]);
 
   const handleSelectChange = (selectedValue, value) => {
-    console.log(claimId)
     if (selectedValue === "claimStatus") {
       if (value === "Rejected") {
         setIsRejectOpen(true);
@@ -256,7 +253,6 @@ function ClaimList(props) {
         coverageType:value
       }
       checkCoverageTypeDate(data).then((res)=>{
-        console.log(res)
         if(res.code==200){
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
@@ -273,11 +269,8 @@ function ClaimList(props) {
         setLoading1(false);
       }
       })
-      console.log(loading1, "------2--------------");
-     
     } else if (selectedValue === "servicer") {
       setLoading1(true);
-      console.log(loading1, "------3--------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -290,7 +283,6 @@ function ClaimList(props) {
       updateAndCallAPI(setServicer);
     } else {
       setLoading1(true);
-      console.log(loading1, "-------4-------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
@@ -381,7 +373,6 @@ function ClaimList(props) {
 
     editClaimTypeValue(claimId, data).then((res) => {
       const updatedClaimListCopy = { ...claimList };
-      console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
@@ -529,7 +520,6 @@ function ClaimList(props) {
         price: part.price || "",
         value: true,
       }));
-      console.log("repairPartsValues", repairPartsValues);
       formik.setValues({
         repairParts: repairPartsValues,
         note: claimList.result[index].note || " ",
@@ -591,7 +581,6 @@ function ClaimList(props) {
   };
 
   const calculateTotalCost = (cost1, cost2) => {
-    console.log(typeof(cost1), typeof(cost2));
     const totalCost = cost1 + cost2;
     if (totalCost === 0) {
       return "N/A";
@@ -620,7 +609,8 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    let typeValue = "Admin";
+    console.log('role',role)
+    let typeValue = "";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes("/dealer/claimList");
@@ -631,15 +621,13 @@ function ClaimList(props) {
       "/customer/claimList"
     );
 
-    console.log("isResellerPath", isResellerPath);
-
-    if (!isAdminView && !isResellerPath && !isCustomerPath) {
+    if (role == "Super Admin") {
       typeValue = "Admin";
-    } else if (isAdminView && !isResellerPath && !isCustomerPath) {
+    } else if (role == "Dealer") {
       typeValue = "Dealer";
-    } else if (!isAdminView && isResellerPath && !isCustomerPath) {
+    } else if (role =="Reseller") {
       typeValue = "Reseller";
-    } else if (!isAdminView && !isResellerPath && isCustomerPath) {
+    } else if (role=="Customer") {
       typeValue = "Customer";
     }
 
@@ -649,21 +637,21 @@ function ClaimList(props) {
       [
         {
           label:
-            !isAdminView && !isResellerPath && !isCustomerPath
+            role=="Super Admin"
               ? "Admin (To Self)"
               : "Admin ",
           value: "Admin",
         },
         {
           label:
-            isAdminView && !isResellerPath && !isCustomerPath
+           role=="Dealer"
               ? "Dealer (To Self)"
               : "Dealer ",
           value: "Dealer",
         },
         isValidReseller && {
           label:
-            !isAdminView && isResellerPath && !isCustomerPath
+           role=="Reseller"
               ? "Reseller (To Self)"
               : "Reseller",
           value: "Reseller",
@@ -671,7 +659,7 @@ function ClaimList(props) {
         !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
         {
           label:
-            !isAdminView && !isResellerPath && isCustomerPath
+             role=="Customer"
               ? "Customer (To Self)"
               : "Customer",
           value: "Customer",
@@ -912,7 +900,6 @@ function ClaimList(props) {
       });
       values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
-        // console.log(res);
         if (res.code == 401) {
           setError(res.message);
         } else {
@@ -1041,7 +1028,6 @@ function ClaimList(props) {
     validationSchema,
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
-      console.log("Form submitted with values:", values);
       setIsDisapprovedOpen(false);
       getAllClaims();
       setShowdata(false);
@@ -1054,7 +1040,6 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
-    console.log(isFormSubmittedRef.current);
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1137,7 +1122,6 @@ function ClaimList(props) {
       formData.append("file", file);
 
       addUploadCommentImage(formData).then((res) => {
-        // console.log(res.messageFile);
         formik2.setFieldValue("messageFile", res.messageFile);
       });
       reader.onload = (event) => {
@@ -1179,7 +1163,6 @@ function ClaimList(props) {
     isFormSubmittedRef.current = false;
     getAllClaims();
   };
-  // console.log(activeIndex, "++++++++++++++++_-------------------");
   const addTracker = () => { };
   return (
     <>
@@ -2197,8 +2180,6 @@ function ClaimList(props) {
                   }}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSelectChange("claimStatus", values);
-                    // Submit logic here
-                    // console.log(values);
                     setSubmitting(false);
                     setActiveIndex(null);
                   }}

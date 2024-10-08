@@ -333,7 +333,6 @@ function AddDealerBook() {
                   ),
               otherwise: () => Yup.number().min(0, "Must be at least 0"),
             }),
-          amountType: Yup.string().required(""),
         })
       ),
 

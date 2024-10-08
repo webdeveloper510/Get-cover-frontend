@@ -943,14 +943,16 @@ function CustomerAddOrder() {
         customerList.find((res) => {
           if (res.value == value) {
             console.log("----", res.customerData.resellerId);
-            if (res.customerData.resellerId != null);
-            formik.setFieldValue("resellerId", res.customerData.resellerId);
-            let data = {
-              dealerId: formik.values.dealerId,
-              resellerId: res.customerData.resellerId,
-            };
-            getServicerList(data);
-            getCustomerList(data);
+            if (res.customerData.resellerId != null){
+              formik.setFieldValue("resellerId", res.customerData.resellerId);
+              let data = {
+                dealerId: formik.values.dealerId,
+                resellerId: res.customerData.resellerId,
+              };
+              getServicerList(data);
+              getCustomerList(data);
+            }
+        
           }
         });
     }

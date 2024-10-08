@@ -35,6 +35,7 @@ import Card from "../../../common/card";
 
 function ContractList(props) {
   console.log(props);
+  const userData = JSON.parse(localStorage.getItem("userDetails"));
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -602,8 +603,9 @@ function ContractList(props) {
                     {...formik.getFieldProps("serial")}
                   />
                 </div>
-                {window.location.pathname.includes("/reseller/") ||
-                  window.location.pathname.includes("/dealer/") ? (
+                {userData.role=="Reseller" ||
+                 userData.role=="Dealer" ||
+                 userData.role=="Customer"  ? (
                   ""
                 ) : (
                   <div className="col-span-6">
@@ -1037,8 +1039,9 @@ function ContractList(props) {
                         </p>
                       </div>
                     </div>
-                    {window.location.pathname.includes("/reseller/") ||
-                      window.location.pathname.includes("/dealer/") ? (
+                    {userData.role=="Reseller" ||
+                 userData.role=="Dealer" ||
+                 userData.role=="Customer"  ? (
                       ""
                     ) : (
                       <div className="col-span-1 border border-Light-Grey">
