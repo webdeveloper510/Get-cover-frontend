@@ -943,7 +943,7 @@ function CustomerAddOrder() {
         customerList.find((res) => {
           if (res.value == value) {
             console.log("----", res.customerData.resellerId);
-            if (res.customerData.resellerId != null){
+            if (res.customerData.resellerStatus != false){
               formik.setFieldValue("resellerId", res.customerData.resellerId);
               let data = {
                 dealerId: formik.values.dealerId,

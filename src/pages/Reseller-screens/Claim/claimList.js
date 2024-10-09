@@ -162,12 +162,12 @@ function ResellerClaimList(props) {
     getLoginUser();
   }, [messageList, claimId]);
   const getLoginUser = async () => {
-    setLoading1(true);
+    setModelLoading(true);
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
     setServicerCreateAccountOption(result?.result?.isServicer);
-    setLoading1(false);
+    setModelLoading(false);
   };
   const downloadImage = async (file) => {
     try {

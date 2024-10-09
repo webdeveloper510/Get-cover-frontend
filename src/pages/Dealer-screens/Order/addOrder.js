@@ -1404,7 +1404,7 @@ function DealerAddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null){
+            if (res.customerData.resellerStatus != false){
               formik.setFieldValue("resellerId", res.customerData.resellerId);
               let data = {
                 resellerId: res.customerData.resellerId,
@@ -1550,53 +1550,44 @@ function DealerAddOrder() {
       // setLoading1(false);
     }
   };
+
   const handleInputClickReset = (index) => {
     const updatedProductsArray = formikStep3.values.productsArray.map(
-      (product, i) => {
-        if (i === index) {
-          setFileValues((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = null;
-            console.log(newArray);
-            return newArray;
-          });
-          const newProduct = { ...product };
-          Object.keys(newProduct).forEach((key) => {
-            if (key === "unitPrice" || key === "price") {
-              newProduct[key] = 0; // Resetting to 0
-            } else if (Array.isArray(newProduct[key])) {
-              newProduct[key] = [];
-            } else if (
-              typeof newProduct[key] === "object" &&
-              newProduct[key] !== null
-            ) {
-              newProduct[key] = {};
-            } else {
-              newProduct[key] = "";
-            }
-          });
-          return newProduct;
-        }
-
-        return product;
-      }
+      (product, i) => i === index ? {
+        ...product,
+        coverageStartDate: "",
+        coverageEndDate: "",
+        unitPrice: 0,
+        price: 0,
+        ...Object.fromEntries(Object.keys(product).map(key => [
+          key,
+          Array.isArray(product[key]) ? [] : (typeof product[key] === "object" && product[key] !== null ? {} : "")
+        ]))
+      } : product
     );
-
+  
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+  
+    const fieldsToReset = ["priceBookId", "categoryId", "term", "dealerSku", "pName", "noOfProducts"];
+    fieldsToReset.forEach(field => {
+      formikStep3.setFieldTouched(`productsArray[${index}].${field}`, false, false);
+      formikStep3.setFieldError(`productsArray[${index}].${field}`, "");
+    });
+  
     getCategoryList(
+      formik.values.dealerId,
       {
         priceBookId: "",
         priceCatId: "",
         pName: "",
         term: "",
         dealerSku: "",
-        coverageType: formikStep2?.values?.coverageType.map(
-          (item) => item.value
-        ),
+        coverageType: formikStep2?.values?.coverageType.map(item => item.value),
       },
       index
     );
   };
+  
   const renderStep1 = () => {
     return (
       <>
