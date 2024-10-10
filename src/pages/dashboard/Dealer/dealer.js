@@ -557,41 +557,37 @@ function Dealer() {
         .transform((originalValue) => originalValue.trim())
         .required("Required")
         .max(30, "Must be exactly 30 characters"),
-       coverageType: Yup.array().min(1, "Required"),
+      //  coverageType: Yup.array().min(1, "Required"),
 
       phoneNumber: Yup.string()
         .required("Required")
         .min(10, "Must be at least 10 characters")
         .max(10, "Must be exactly 10 characters")
         .matches(/^[0-9]+$/, "Must contain only digits"),
-        adhDays: Yup.array().of(
-          Yup.object().shape({
-            label: Yup.string(),
-            waitingDays: Yup.number()
-              .required("Required")
-              .min(0, "Value cannot be negative")
-              .nullable(),
-            deductible: Yup.number()
-              .required("Required")
-              .min(0, "Must be at least 0")
-              .when("amountType", {
-                is: (value) => value === "percentage",
-                then: () =>
-                  Yup.number()
-                    .max(99.99, "Cannot exceed 99.99%")
-                    .test(
-                      "is-decimal",
-                      "Percentage must have up to 2 decimal places",
-                      (value) =>
-                        value === undefined ||
-                        value === null ||
-                        /^\d+(\.\d{1,2})?$/.test(value)
-                    ),
-                otherwise: () => Yup.number().min(0, "Must be at least 0"),
-              }),
-          })
+    coverageType: Yup.array()
+        .min(1, "Required")
+        .test(
+          "adhDays-error-check",
+          "Error in Coverage Type , Check Deductible Field",
+          function () {
+            const { adhDays } = this.parent;
+            if (adhDays) {
+              const adhErrors = adhDays.some((day) => {
+                if (day.amountType === "percentage") {
+                  return (
+                    day.deductible === undefined ||
+                    day.deductible > 99.99 ||
+                    !/^\d+(\.\d{1,2})?$/.test(day.deductible)
+                  );
+                }
+                return day.deductible < 0 || day.deductible === undefined;
+              });
+    
+              return !adhErrors; 
+            }
+            return true; 
+          }
         ),
-
       dealers: Yup.array().of(
         Yup.object().shape({
           firstName: Yup.string()
@@ -615,6 +611,7 @@ function Dealer() {
         })
       ),
     }),
+    
     onSubmit: async (values) => {
       setLoading(true);
       values.priceBook =
@@ -1506,16 +1503,6 @@ function Dealer() {
                                   }
                                 />
 
-                                {formik.errors?.adhDays?.[type.value]
-                                  ?.deductible ? (
-                                  <div className="text-red-500 text-sm mt-1">
-                                    {
-                                      formik.errors?.adhDays?.[type.value]
-                                        ?.deductible
-                                    }
-                                  </div>
-                                ) : null}
-
                                 <div className="absolute top-[1px] right-[1px]">
                                   <Select
                                     name={`adhDays[${type.value}].amountType`}
@@ -1557,13 +1544,14 @@ function Dealer() {
                        
                         </div>
                       ))}
-                          {formik.touched.coverageType &&
+                        
+                    </Grid>
+                    {formik.touched.coverageType &&
                     formik.errors.coverageType && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
                         {formik.errors.coverageType}
                       </div>
                     )}
-                    </Grid>
                   </div>
                 </Grid>
               </div>

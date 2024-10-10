@@ -1093,7 +1093,7 @@ function AddDealerBook() {
                         <div className="col-span-6 mt-4">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Include manufacturer <br /> warranty?
+                            Is manufacturer warranty included?
                           </p>
                         </div>
                         <div className="flex col-span-6 mt-4 justify-between w-full">

@@ -283,35 +283,30 @@ function Setting(props) {
       serviceCoverageType: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
-      adhDays: Yup.array().of(
-        Yup.object().shape({
-          // label: Yup.string(),
-          waitingDays: Yup.number()
-            .required("Required")
-            .min(0, "Value cannot be negative")
-            .nullable(),
-          deductible: Yup.number()
-            .required("Required")
-            .min(0, "Must be at least 0")
-            .when("amountType", {
-              is: (value) => value === "percentage",
-              then: () =>
-                Yup.number()
-                  .max(99.99, "Cannot exceed 99.99%")
-                  .test(
-                    "is-decimal",
-                    "Percentage must have up to 2 decimal places",
-                    (value) =>
-                      value === undefined ||
-                      value === null ||
-                      /^\d+(\.\d{1,2})?$/.test(value)
-                  ),
-              otherwise: () => Yup.number().min(0, "Must be at least 0"),
-            }),
-          // amountType: Yup.string().required(""),
-        })
-      ),
-      coverageType: Yup.array().min(1, "Required"),
+        coverageType: Yup.array()
+        .min(1, "Required")
+        .test(
+          "adhDays-error-check",
+          "Error in Coverage Type , Check Deductible Field",
+          function () {
+            const { adhDays } = this.parent;
+            if (adhDays) {
+              const adhErrors = adhDays.some((day) => {
+                if (day.amountType === "percentage") {
+                  return (
+                    day.deductible === undefined ||
+                    day.deductible > 99.99 ||
+                    !/^\d+(\.\d{1,2})?$/.test(day.deductible)
+                  );
+                }
+                return day.deductible < 0 || day.deductible === undefined;
+              });
+    
+              return !adhErrors; 
+            }
+            return true; 
+          }
+        ),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -444,17 +439,18 @@ function Setting(props) {
                   </small>
                 </div>
                 
-                {props?.dealerDetails?.termCondition?.fileName != undefined && (
+                {props?.dealerDetails?.termCondition?.fileName ? (
   <div className="col-span-2 pt-1">
     <Button
       className="w-full flex"
       onClick={() => handelDownload(selectedFile2?.fileName)}
     >
-      <img src={download} className="w-[20px]" alt="download" />{" "}
+      <img src={download} className="w-[20px]" alt="download" />
       <span className="self-center pl-2"> Download </span>
     </Button>
   </div>
-)}
+) : null}
+
 
                 <div className="col-span-6">
                   <Grid className="!gap-0">
@@ -901,15 +897,7 @@ function Setting(props) {
                                   );
                                 }}
                               />
-                              {formik.errors?.adhDays?.[type.value]
-                                ?.deductible ? (
-                                <div className="text-red-500 text-sm mt-1">
-                                  {
-                                    formik.errors?.adhDays?.[type.value]
-                                      ?.deductible
-                                  }
-                                </div>
-                              ) : null}
+                            
                               <div className="absolute top-[1px] right-[1px]">
                                 <Select
                                   name="deductibles"
@@ -941,24 +929,19 @@ function Setting(props) {
                                 />
                               </div>
                             </div>
-                            {formik.errors?.adhDays?.[index]?.deductible &&
-                            formik.touched?.adhDays?.[index]?.deductible ? (
-                              <div className="text-red-500 text-sm">
-                                {formik.errors.adhDays[index].deductible}
-                              </div>
-                            ) : null}
                           </>
                         )}
                        
                       </div>
                     ))}
-                       {formik.touched.coverageType &&
+                     
+                  </Grid>
+                  {formik.touched.coverageType &&
                     formik.errors.coverageType && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
                         {formik.errors.coverageType}
                       </div>
                     )}
-                  </Grid>
                 </div>
               </Grid>
 

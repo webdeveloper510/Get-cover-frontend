@@ -66,7 +66,6 @@ import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
 
 function ClaimList(props) {
-  console.log('here')
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -221,11 +220,11 @@ function ClaimList(props) {
 
   const handleSelectChange = (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
-      if (value === "Rejected") {
+      if (value === "rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-        value.claimStatus = "Rejected";
+        value.claimStatus = "rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
         const updateAndCallAPI = (setter) => {
@@ -2768,7 +2767,9 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("serial")}
                 />
               </div>
-              <div className="col-span-6">
+              {
+                role == "Super Admin" && (
+<div className="col-span-6">
                 <Input
                   type="text"
                   name="productName"
@@ -2778,6 +2779,9 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("productName")}
                 />
               </div>
+                )
+              }
+              
               <div className="col-span-6">
                 <Input
                   type="text"

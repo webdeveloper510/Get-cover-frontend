@@ -3242,7 +3242,7 @@ function AddOrder() {
                         <div className="flex justify-between">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Include manufacturer <br /> warranty?
+                            Is manufacturer warranty included?
                           </p>
                           <div className="flex">
                             <RadioButton
