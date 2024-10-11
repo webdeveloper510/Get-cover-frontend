@@ -104,8 +104,10 @@ function ClaimList(props) {
   const [servicerList, setServicerList] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
+  
   const [error, setError] = useState("");
-  const [errorForCoverageType, setErrorForCoverageType] = useState("");
+  const [coverageTypeError, setCoverageTypeError] = useState({});
+  const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [selfServicer, setSelfServicer] = useState("");
   const [showdata, setShowdata] = useState(false);
   const [showdata1, setShowdata1] = useState(true);
@@ -265,10 +267,10 @@ function ClaimList(props) {
             );
           };
           updateAndCallAPI(setClaimType);
-          setErrorForCoverageType("")
         }
       else{
-        setErrorForCoverageType(res.message)
+        setCoverageTypeError(res)
+        setErrorForCoverageType(true)
         setLoading1(false);
       }
       })
@@ -315,8 +317,13 @@ function ClaimList(props) {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+      if(data.claimStatus=="rejected"){
+        const updatedClaimListCopy = { ...claimList };
+        updatedClaimListCopy.result[activeIndex][claimType] = "rejected";
+      }
     });
     closeReject();
+    closeCoveragType();
   };
 
   const updateAndSetStatus = (statusObject, name, res) => {
@@ -482,6 +489,9 @@ function ClaimList(props) {
   const closeReject = () => {
     setIsRejectOpen(false);
     setShowForm(false); 
+  };
+  const closeCoveragType = () => {
+    setErrorForCoverageType(false);; 
   };
 
   const handleYesClick = () => {
@@ -817,7 +827,6 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
-       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
         getClaimOptions(claimList.result[activeIndex].claimType);
@@ -959,7 +968,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-    getClaimOptions();
+    // getClaimOptions();
     
   }, []);
 
@@ -988,7 +997,7 @@ function ClaimList(props) {
       };
 
       const filterOptions = (key, options) => {
-        if (value === "") {
+        if (value === "" || value == "New") {
           if (key === "claim_status") {
             return {
               ...options,
@@ -1668,7 +1677,6 @@ function ClaimList(props) {
                                         </>
                                       )}
                                              <span className="self-center w-[75px] mr-[1rem] text-red-500">
-  {/* {errorForCoverageType && `${errorForCoverageType}`} */}
 </span>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center w-[75px]  mr-[1rem]">
@@ -1869,7 +1877,7 @@ function ClaimList(props) {
                                       >
                                      
                                         <p className="text-white text-sm">
-  {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+  {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
 </p>
                                  
                                         <span className="text-light-green">
@@ -1923,7 +1931,7 @@ function ClaimList(props) {
                                         onClick={handleToggleDropdown2}
                                       >
                                     <p className="text-white text-sm">
-  {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+  {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
 </p>
                                         <p className="text-light-green">
                                           {" "}
@@ -1981,7 +1989,7 @@ function ClaimList(props) {
                                         onClick={handleToggleDropdown1}
                                       >
                                         <p className="text-white text-sm">
-                                        {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                        {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                         
                                         </p>
                                         <p className="text-light-green">
@@ -2246,6 +2254,54 @@ function ClaimList(props) {
               </div>
             </div>
           )}
+        </div>
+      </Modal>
+
+      <Modal isOpen={errorForCoverageType} onClose={closeCoveragType}>
+        <Button
+          onClick={closeCoveragType}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+            <Grid>
+              <div className="col-span-12">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
+                  {" "}
+                  <span className=""> {coverageTypeError.tittle} </span>
+                </p>
+                <p className="text-base font-medium mt-2 ">
+                 {coverageTypeError.message}
+                </p>
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+              <Button onClick={() => {
+                                    handleSelectChange("claimStatus" ,{
+                                      value: "rejected",
+                                      reason: coverageTypeError.message,
+                                    });
+}}
+                 className="w-full">
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-3">
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  onClick={closeCoveragType}
+                >
+                  No
+                </Button>
+              </div>
+              <div className="col-span-3"></div>
+            </Grid>
         </div>
       </Modal>
 
@@ -2737,7 +2793,7 @@ function ClaimList(props) {
           </div>
         </div>
       </Modal>
-
+ 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
