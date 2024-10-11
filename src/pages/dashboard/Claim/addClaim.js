@@ -1482,7 +1482,7 @@ function AddClaim() {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -1498,7 +1498,7 @@ function AddClaim() {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",

@@ -162,7 +162,7 @@ function CustomerOrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageStartDate),
+                                new Date(res.coverageStartDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
@@ -175,7 +175,7 @@ function CustomerOrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageEndDate),
+                                new Date(res.coverageEndDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>

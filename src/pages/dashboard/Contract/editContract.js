@@ -88,7 +88,7 @@ function EditContract() {
       productValue: result.result.productValue || "",
       condition: result.result.condition || "",
       coverageStartDate:
-        result.result.order[0].productsArray[0].coverageStartDate || "",
+        result.result.order[0].productsArray[0].coverageStartDate1 || "",
     });
     console.log(result.result);
     setLoading(false);
@@ -289,7 +289,7 @@ function EditContract() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -310,7 +310,7 @@ function EditContract() {
                       </p>
                       <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",

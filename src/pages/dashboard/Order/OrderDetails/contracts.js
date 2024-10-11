@@ -84,8 +84,8 @@ function Contracts(props) {
             foundDate = format(
               new Date(
                 type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
+                  ? matchingProduct.coverageStartDate1
+                  : matchingProduct.coverageEndDate1
               ),
               "MM/dd/yyyy"
             );
@@ -584,7 +584,7 @@ function Contracts(props) {
                       </p>
                       <p className="text-base font-bold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -600,7 +600,7 @@ function Contracts(props) {
                       </p>
                       <p className="text-base font-bold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",

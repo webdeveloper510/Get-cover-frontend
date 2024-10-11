@@ -119,7 +119,7 @@ function ContractList(props) {
         const formattedDates = selectedProduct.productsArray.map((res) => {
           return format(
             new Date(
-              type === "start" ? res.coverageStartDate : res.coverageEndDate
+              type === "start" ? res.coverageStartDate1 : res.coverageEndDate1
             ),
             "MM/dd/yyyy"
           );
@@ -664,7 +664,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -680,7 +680,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",

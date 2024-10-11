@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import { format, addMonths, subDays } from "date-fns";
+import {  addMonths, subDays,format, parseISO } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Spinner from "../../../assets/images/icons/Spinner.svg";
@@ -568,7 +568,8 @@ function AddOrder() {
             noOfProducts: product.noOfProducts || "",
             price: product.price || null,
             file: product.orderFile || "",
-            coverageStartDate: product.coverageStartDate || "",
+            coverageStartDate: product.coverageStartDate1 || "",
+            coverageStartDate1: product.coverageStartDate1 || "",
             coverageEndDate: product.coverageEndDate || "",
             description: product.description || "",
             term: product.term || "",
@@ -617,6 +618,19 @@ function AddOrder() {
   };
 
   useEffect(() => {
+   
+
+// Assuming you retrieved this timestamp from MongoDB
+const timestampFromDB = "2032-10-08T18:30:00.000Z";
+
+// Parse the ISO string into a Date object
+const date = parseISO(timestampFromDB);
+
+// Format to MM-DD-YYYY in the local timezone
+const formattedDate = format(date, 'MM-dd-yyyy');
+
+console.log('new date',new Date(timestampFromDB)); 
+// Output will be in local time
     if (location.pathname.includes("/editOrder")) {
       // setLoading1(true);
     }
@@ -746,6 +760,7 @@ function AddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
+          coverageStartDate1: "",
           coverageEndDate: "",
           description: "",
           term: "",
@@ -1132,9 +1147,10 @@ function AddOrder() {
     selectedDate.setDate(selectedDate.getDate());
 
     const gmtDate = selectedDate.toISOString();
+    console.log(gmtDate,selectedDate)
     formikStep3.setFieldValue(
       `productsArray[${index}].coverageStartDate`,
-      gmtDate
+      selectedDate
     );
 
     const termInMonths = formikStep3.values.productsArray[index].term || 0;
@@ -1214,6 +1230,7 @@ function AddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
+      coverageStartDate1: "",
       coverageEndDate: "",
       description: "",
       term: "",
@@ -1746,6 +1763,7 @@ function AddOrder() {
       (product, i) => i === index ? {
         ...product,
         coverageStartDate: "",
+        coverageStartDate1: "",
         coverageEndDate: "",
         unitPrice: 0,
         price: 0,
