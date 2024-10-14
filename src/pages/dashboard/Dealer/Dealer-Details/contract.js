@@ -112,7 +112,7 @@ function ContractList(props) {
         const formattedDates = selectedProduct.productsArray.map((res) => {
           return format(
             new Date(
-              type === "start" ? res.coverageStartDate : res.coverageEndDate
+              type === "start" ? res.coverageStartDate1 : res.coverageEndDate1
             ),
             "MM/dd/yyyy"
           );
@@ -632,7 +632,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -648,7 +648,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -718,7 +718,7 @@ function ContractList(props) {
                   <div className="col-span-3 border border-Light-Grey pl-4">
                     <p className=" text-base mb-2 text-left font-semibold">
                       {" "}
-                      Is Include manufacturer warranty?
+                      Is manufacturer warranty included?
                     </p>
                     <p className="text-[14px] text-left font-semibold">
                       {singleContract?.isManufacturerWarranty == true
@@ -729,7 +729,7 @@ function ContractList(props) {
                   <div className="col-span-3 border border-Light-Grey pl-4">
                     <p className=" text-base mb-2 text-left font-semibold">
                       {" "}
-                      Is Maximum Claim <br /> Amount ?
+                      Is There a Maximum Claim <br /> Amount ?
                     </p>
                     <p className="text-[14px] text-left font-semibold">
                       {singleContract?.isMaxClaimAmount == true

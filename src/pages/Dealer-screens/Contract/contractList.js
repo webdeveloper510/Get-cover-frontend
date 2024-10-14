@@ -116,8 +116,8 @@ function ContractList(props) {
             foundDate = format(
               new Date(
                 type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
+                  ? matchingProduct.coverageStartDate1
+                  : matchingProduct.coverageEndDate1
               ),
               "MM/dd/yyyy"
             );
@@ -922,7 +922,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -938,7 +938,7 @@ function ContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -950,7 +950,7 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Labour Warranty Start Date
+                        Manufacturer Labour Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
@@ -966,7 +966,7 @@ function ContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Part Warranty Start Date
+                        Manufacturer Parts Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(

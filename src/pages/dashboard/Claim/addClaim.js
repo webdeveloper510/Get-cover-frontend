@@ -832,6 +832,12 @@ function AddClaim() {
                   {" "}
                   Upload Receipt or Image{" "}
                 </p>
+                <div>
+                <p className="text-xl font-bold mb-4">
+                  {" "}
+                  For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
+                </p>
+                </div>
                 <Grid>
                   <div className="col-span-6 mt-5">
                     <Grid className="my-3">
@@ -969,7 +975,7 @@ function AddClaim() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Diagnosis <span className="text-red-500">*</span>
+                        Diagnosis & Cause - Upload image Theft or Lost <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         id="description"
@@ -1476,7 +1482,7 @@ function AddClaim() {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -1492,7 +1498,7 @@ function AddClaim() {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetail?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -1504,7 +1510,7 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Labour Warranty Start Date
+                        Manufacturer Labour Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
@@ -1520,7 +1526,7 @@ function AddClaim() {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
-                        Part Warranty Start Date
+                        Manufacturer Parts Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(

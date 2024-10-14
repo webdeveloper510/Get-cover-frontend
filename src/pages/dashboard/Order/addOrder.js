@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import { format, addMonths, subDays } from "date-fns";
+import {  addMonths, subDays,format, parseISO } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Spinner from "../../../assets/images/icons/Spinner.svg";
@@ -46,7 +46,7 @@ import {
   getResellerListOrderByDealerIdCustomerId,
 } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
-import { BeatLoader, RotateLoader } from "react-spinners";
+import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
@@ -113,7 +113,7 @@ function AddOrder() {
       "_blank"
     );
   };
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+ 
   useEffect(() => {
     if (orderId || dealerId || resellerId || dealerValue || customerId) {
       setLoading(true);
@@ -139,7 +139,7 @@ function AddOrder() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    const maxSize = 10048576; // 10MB in bytes
+    const maxSize = 10048576; 
 
     if (file?.size > maxSize) {
       formikStep2.setFieldError(
@@ -568,7 +568,8 @@ function AddOrder() {
             noOfProducts: product.noOfProducts || "",
             price: product.price || null,
             file: product.orderFile || "",
-            coverageStartDate: product.coverageStartDate || "",
+            coverageStartDate: product.coverageStartDate1 || "",
+            coverageStartDate1: product.coverageStartDate1 || "",
             coverageEndDate: product.coverageEndDate || "",
             description: product.description || "",
             term: product.term || "",
@@ -617,6 +618,19 @@ function AddOrder() {
   };
 
   useEffect(() => {
+   
+
+// Assuming you retrieved this timestamp from MongoDB
+const timestampFromDB = "2032-10-08T18:30:00.000Z";
+
+// Parse the ISO string into a Date object
+const date = parseISO(timestampFromDB);
+
+// Format to MM-DD-YYYY in the local timezone
+const formattedDate = format(date, 'MM-dd-yyyy');
+
+console.log('new date',new Date(timestampFromDB)); 
+// Output will be in local time
     if (location.pathname.includes("/editOrder")) {
       // setLoading1(true);
     }
@@ -746,6 +760,7 @@ function AddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
+          coverageStartDate1: "",
           coverageEndDate: "",
           description: "",
           term: "",
@@ -811,7 +826,6 @@ function AddOrder() {
                       ),
                   otherwise: () => Yup.number().min(0, "Must be at least 0"),
                 }),
-              amountType: Yup.string().required(""),
             })
           ),
 
@@ -1133,9 +1147,10 @@ function AddOrder() {
     selectedDate.setDate(selectedDate.getDate());
 
     const gmtDate = selectedDate.toISOString();
+    console.log(gmtDate,selectedDate)
     formikStep3.setFieldValue(
       `productsArray[${index}].coverageStartDate`,
-      gmtDate
+      selectedDate
     );
 
     const termInMonths = formikStep3.values.productsArray[index].term || 0;
@@ -1215,6 +1230,7 @@ function AddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
+      coverageStartDate1: "",
       coverageEndDate: "",
       description: "",
       term: "",
@@ -1241,7 +1257,7 @@ function AddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku: "", //add this
+        dealerSku: "",
         coverageType: formikStep2?.values?.coverageType.map(
           (item) => item.value
         ),
@@ -1268,7 +1284,7 @@ function AddOrder() {
       return newArray;
     });
 
-    console.log(formikStep3.values.productsArray, updatedProduct);
+   
   };
 
   const openModal = () => {
@@ -1298,7 +1314,6 @@ function AddOrder() {
       price: "",
       pName: "",
       noOfProducts: "",
-      adhDays: [],
       dealerSku: "",
       unitPrice: "",
       description: "",
@@ -1306,6 +1321,7 @@ function AddOrder() {
       rangeStart: "",
       priceType: "",
       adh: "",
+      adhDays:[]
     };
     Object.keys(fieldsToClear).forEach((field) => {
       formikStep3.setFieldValue(`productsArray[${productIndex}].${field}`, fieldsToClear[field]);
@@ -1340,7 +1356,6 @@ function AddOrder() {
         return newClaimInCoveragePeriod;
       });
 
-      formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`, dealerSkuData.adhDays);
       formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaim`, dealerSkuData.noOfClaim);
       formikStep3.setFieldValue(`productsArray[${productIndex}].noOfClaimPerPeriod`, dealerSkuData.noOfClaimPerPeriod);
       formikStep3.setFieldValue(`productsArray[${productIndex}].isManufacturerWarranty`, dealerSkuData.isManufacturerWarranty);
@@ -1379,9 +1394,8 @@ function AddOrder() {
       productIndex
     );
   } else if (name.includes("priceBookId")) {
-    clearProductFields();
-    updateProductFields(selectedValue);
-    await getCategoryList(
+ clearProductFields();
+  const priceBookData=  await getCategoryList(
       formik.values.dealerId,
       {
         priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
@@ -1393,6 +1407,8 @@ function AddOrder() {
       },
       productIndex
     );
+    formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`,priceBookData.result.mergedData);
+    updateProductFields(selectedValue);
   } else if (name.includes("dealerSku")) {
     clearProductFields();
     const data = dealerSkuList[productIndex]?.data.find(
@@ -1435,7 +1451,6 @@ function AddOrder() {
   console.log(selectedValue,dealerSkuList)
   formikStep3.setFieldValue(name, selectedValue);
 };
-
 
   useEffect(() => {
     for (let i = 0; i < formikStep3?.values?.productsArray?.length; i++) {
@@ -1499,7 +1514,7 @@ function AddOrder() {
       formikStep3.resetForm();
     }
   };
-  //add this line
+ 
   const getDealerSettingsDetails = async (dealerId) => {
     const res = await getDealersSettingsByid(dealerId);
     console.log(res.result[0]);
@@ -1515,6 +1530,7 @@ function AddOrder() {
         : res.result[0].termCondition
     );
   };
+
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
 
@@ -1580,7 +1596,8 @@ function AddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null);
+            if (res.customerData.resellerStatus != false)
+           {
             formik.setFieldValue("resellerId", res.customerData.resellerId);
             let data = {
               dealerId: formik.values.dealerId,
@@ -1588,6 +1605,7 @@ function AddOrder() {
             };
             getServicerList(data);
             getCustomerList(data);
+           }
           }
         });
 
@@ -1699,6 +1717,7 @@ function AddOrder() {
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);
@@ -1741,41 +1760,28 @@ function AddOrder() {
 
   const handleInputClickReset = (index) => {
     const updatedProductsArray = formikStep3.values.productsArray.map(
-      (product, i) => {
-        if (i === index) {
-          setFileValues((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = null;
-            console.log(newArray);
-            return newArray;
-          });
-
-          const newProduct = {
-            ...product,
-            coverageStartDate: "",
-            coverageEndDate: "",
-          };
-          Object.keys(newProduct).forEach((key) => {
-            if (key === "unitPrice" || key === "price") {
-              newProduct[key] = 0;
-            } else if (Array.isArray(newProduct[key])) {
-              newProduct[key] = [];
-            } else if (
-              typeof newProduct[key] === "object" &&
-              newProduct[key] !== null
-            ) {
-              newProduct[key] = {};
-            } else {
-              newProduct[key] = "";
-            }
-          });
-          return newProduct;
-        }
-
-        return product;
-      }
+      (product, i) => i === index ? {
+        ...product,
+        coverageStartDate: "",
+        coverageStartDate1: "",
+        coverageEndDate: "",
+        unitPrice: 0,
+        price: 0,
+        ...Object.fromEntries(Object.keys(product).map(key => [
+          key,
+          Array.isArray(product[key]) ? [] : (typeof product[key] === "object" && product[key] !== null ? {} : "")
+        ]))
+      } : product
     );
+  
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+  
+    const fieldsToReset = ["priceBookId", "categoryId", "term", "dealerSku", "pName", "noOfProducts"];
+    fieldsToReset.forEach(field => {
+      formikStep3.setFieldTouched(`productsArray[${index}].${field}`, false, false);
+      formikStep3.setFieldError(`productsArray[${index}].${field}`, "");
+    });
+  
     getCategoryList(
       formik.values.dealerId,
       {
@@ -1783,15 +1789,13 @@ function AddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku: "", //add this
-        coverageType: formikStep2?.values?.coverageType.map(
-          (item) => item.value
-        ),
+        dealerSku: "",
+        coverageType: formikStep2?.values?.coverageType.map(item => item.value),
       },
       index
     );
   };
-
+  
   const calculatePendingAmount = (paidAmount) => {
     const totalAmount = calculateTotalAmount(formikStep3.values.productsArray);
 
@@ -2054,7 +2058,6 @@ function AddOrder() {
   };
 
   const renderStep2 = () => {
-    // Step 2 content
     return (
       <>
         <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
@@ -2205,19 +2208,19 @@ function AddOrder() {
                             chips: (provided) => ({
                               ...provided,
                               backgroundColor:
-                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", // Change chip color when disabled
-                              color: type === "Edit" ? "#a0a0a0" : "white", // Change chip text color when disabled
+                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", 
+                              color: type === "Edit" ? "#a0a0a0" : "white", 
                             }),
                             searchBox: (provided) => ({
                               ...provided,
                               backgroundColor:
-                                type === "Edit" ? "#f0f0f0" : "#f7f7f7", // Change search box background when disabled
+                                type === "Edit" ? "#f0f0f0" : "#f7f7f7",
                               border:
                                 type === "Edit"
                                   ? "1px solid #ccc"
-                                  : "1px solid #ddd", // Change border when disabled
+                                  : "1px solid #ddd",
                               cursor:
-                                type === "Edit" ? "not-allowed" : "pointer", // Change cursor when disabled
+                                type === "Edit" ? "not-allowed" : "pointer",
                             }),
                             option: (provided, state) => ({
                               ...provided,
@@ -2227,7 +2230,7 @@ function AddOrder() {
                               color: state.isSelected ? "white" : "black",
                               "&:hover": {
                                 backgroundColor:
-                                  type === "Edit" ? "white" : "#f0ad4e", // Prevent hover effect when disabled
+                                  type === "Edit" ? "white" : "#f0ad4e", 
                                 color: type == "Edit" ? "black" : "white",
                               },
                             }),
@@ -2854,17 +2857,13 @@ function AddOrder() {
                                           .adhDays[idx].waitingDays ?? 0
                                       }
                                       onChange={(e) => {
-                                        const value =
-                                          e.target.value === ""
-                                            ? 0
-                                            : Math.max(
-                                                1,
-                                                parseInt(e.target.value, 10)
-                                              );
-                                        formikStep3.setFieldValue(
-                                          `productsArray[${index}].adhDays[${idx}].waitingDays`,
-                                          value
-                                        );
+                                        const value = e.target.value;
+                                        if (/^\d+(\.\d{0,2})?$/.test(value)) {
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].waitingDays`,
+                                            value === "" ? 0 : value
+                                          );
+                                        }
                                       }}
                                       onBlur={formikStep3.handleBlur}
                                     />
@@ -2898,7 +2897,6 @@ function AddOrder() {
                                       }
                                       onChange={(e) => {
                                         const value = e.target.value;
-                                        // Allow up to two decimal places
                                         if (/^\d+(\.\d{0,2})?$/.test(value)) {
                                           formikStep3.setFieldValue(
                                             `productsArray[${index}].adhDays[${idx}].deductible`,
@@ -3262,7 +3260,7 @@ function AddOrder() {
                         <div className="flex justify-between">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Include manufacturer <br /> warranty?
+                            Is manufacturer warranty included?
                           </p>
                           <div className="flex">
                             <RadioButton
@@ -3302,7 +3300,7 @@ function AddOrder() {
                         <div className="flex justify-between">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Maximum Claim Amount ?
+                            Is There a Maximum Claim Amount?
                           </p>
                           <div className="flex">
                             <RadioButton
@@ -3738,7 +3736,7 @@ function AddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Include manufacturer warranty?
+                              Is manufacturer warranty included?
                             </p>
                           </div>
                           <p className="text-sm">
@@ -3750,7 +3748,7 @@ function AddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Maximum Claim Amount ?
+                              Is There a Maximum Claim Amount?
                             </p>
                           </div>
                           <p className="text-sm">

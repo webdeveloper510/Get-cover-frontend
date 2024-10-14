@@ -72,6 +72,7 @@ function CustomerContractList(props) {
     serial: "",
     productName: "",
     eligibilty: "",
+    dealerSku:""
   };
 
   const formik = useFormik({
@@ -138,8 +139,8 @@ function CustomerContractList(props) {
             foundDate = format(
               new Date(
                 type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
+                  ? matchingProduct.coverageStartDate1
+                  : matchingProduct.coverageEndDate1
               ),
               "MM/dd/yyyy"
             );
@@ -495,6 +496,16 @@ function CustomerContractList(props) {
                     <div className="col-span-6">
                       <Input
                         type="text"
+                        name="dealerSku"
+                        className="!bg-white"
+                        label="Dealer SKU"
+                        placeholder=""
+                        {...formik.getFieldProps("dealerSku")}
+                      />
+                    </div>
+                    <div className="col-span-6">
+                      <Input
+                        type="text"
                         name="servicerName"
                         className="!bg-white"
                         label="Servicer Name"
@@ -698,10 +709,10 @@ function CustomerContractList(props) {
                   <div className="col-span-1 border border-Light-Grey">
                     <div className="py-4 pl-3">
                       <p className="font-bold text-sm font-Regular">
-                        Product SKU
+                        Dealer SKU
                       </p>
                       <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.productName}
+                        {contractDetails?.dealerSku}
                       </p>
                     </div>
                   </div>
@@ -836,7 +847,7 @@ function CustomerContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -852,7 +863,7 @@ function CustomerContractList(props) {
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -864,7 +875,7 @@ function CustomerContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="font-bold text-sm font-Regular">
-                        Labour Warranty Start Date
+                        Manufacturer Labour Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
@@ -880,7 +891,7 @@ function CustomerContractList(props) {
                   <div className="col-span-1 border border-Light-Grey ">
                     <div className="py-4 pl-3">
                       <p className="font-bold text-sm font-Regular">
-                        Part Warranty Start Date
+                        Manufacturer Parts Warranty End Date
                       </p>
                       <p className="text-light-black text-base font-semibold">
                         {new Date(
@@ -940,6 +951,93 @@ function CustomerContractList(props) {
                     ""
                   )}
                 </Grid>
+                <Grid className="!gap-0 ">
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className="text-base mb-2 text-left font-semibold">
+                        # of Claims Over the Certain Period
+                      </p>
+                      <p className="text-[14px] mb-2 text-left font-semibold">
+                 
+                        {
+ contractDetails?.noOfClaim?.value == "-1"
+    ? ""
+    : `${contractDetails?.noOfClaim?.period} - `
+}
+{" "}
+                        {contractDetails?.noOfClaim?.value == -1
+                          ? "Unlimited"
+                          : contractDetails?.noOfClaim?.value}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className="text-base mb-2 text-left font-semibold">
+                        # of Claims in Coverage<br /> Period
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.noOfClaimPerPeriod == -1
+                          ? "Unlimited"
+                          : contractDetails?.noOfClaimPerPeriod}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className=" text-base mb-2 text-left font-semibold">
+                        {" "}
+                        Is manufacturer warranty included?
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.isManufacturerWarranty == true
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className=" text-base mb-2 text-left font-semibold">
+                        {" "}
+                        Is There a Maximum Claim <br /> Amount ?
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.isMaxClaimAmount == true
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div className="col-span-12">
+                      <table className="w-full border text-center">
+                        <tr className="border bg-[#9999]">
+                          <th>Coverage Type</th>
+                          <th>Waiting Days</th>
+                          <th>Deductible</th>
+                        </tr>
+
+                        {contractDetails?.mergedData &&
+                          contractDetails?.mergedData.length > 0 && (
+                            <>
+                              {contractDetails?.mergedData.map((type, index) => (
+                                <tr key={index} className="border ">
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.label}
+                                  </td>
+                                  <td className="font-semibold mx-[19px]">
+                                    {type.waitingDays}
+                                  </td>
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.amountType != "percentage" && "$"}
+                                    {type.amountType === "percentage"
+                                      ? type.deductible
+                                      : type.deductible === undefined
+                                        ? (0).toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                        })
+                                        : formatOrderValue(type.deductible ?? 0)}
+                                    {type.amountType == "percentage" && "%"}
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          )}
+                      </table>
+                    </div>
+                  </Grid>
               </>
             )}
           </div>

@@ -177,7 +177,7 @@ function OrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageStartDate),
+                                new Date(res.coverageStartDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
@@ -190,7 +190,7 @@ function OrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageEndDate),
+                                new Date(res.coverageEndDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
@@ -264,6 +264,78 @@ function OrderSummary(props) {
                             </table>
                           </div>
                         )}
+                         <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims Over the Certain Period
+                          </p>
+                          <p className="text-[14px] mb-2 text-left font-semibold">
+                            {/* {res?.noOfClaim?.period} -{" "} */}
+                            {
+ res?.noOfClaim?.value == "-1"
+    ? ""
+    : `${res?.noOfClaim?.period} - `
+}
+                            {res?.noOfClaim?.value == -1
+                              ? "Unlimited"
+                              : res?.noOfClaim?.value}
+                          </p>
+                        </div>
+                        <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims in Coverage Period
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.noOfClaimPerPeriod == -1
+                              ? "Unlimited"
+                              : res?.noOfClaimPerPeriod}
+                          </p>
+                        </div>
+                        <div className="col-span-4 border border-Light-Grey pl-4">
+                          <p className=" text-base mb-2 text-left font-semibold">
+                            {" "}
+                            Is manufacturer warranty included?
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.isManufacturerWarranty == true ? "Yes" : "No"}
+                          </p>
+                        </div>
+                        <div className="col-span-12">
+                          <table className="w-full border text-center">
+                            <tr className="border bg-[#9999]">
+                              <th>Coverage Type</th>
+                              <th>Waiting Days</th>
+                              <th>Deductible</th>
+                            </tr>
+
+                            {res?.mergedData && res?.mergedData.length > 0 && (
+                              <>
+                                {res?.mergedData.map((type, index) => (
+                                  <tr key={index} className="border ">
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.label}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.waitingDays}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.amountType != "percentage" && "$"}
+                                      {type.amountType === "percentage"
+                                        ? type.deductible
+                                        : type.deductible === undefined
+                                          ? (0).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                          })
+                                          : formatOrderValue(
+                                            type.deductible ?? 0
+                                          )}
+                                      {type.amountType == "percentage" && "%"}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+                          </table>
+                        </div>
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
                             <div className="col-span-9 py-4 pl-3">

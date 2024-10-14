@@ -4,7 +4,6 @@ import Headbar from "../../../common/headBar";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import Loader from "../../../assets/images/Loader.gif";
 
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
@@ -333,7 +332,6 @@ function AddDealerBook() {
                   ),
               otherwise: () => Yup.number().min(0, "Must be at least 0"),
             }),
-          amountType: Yup.string().required(""),
         })
       ),
 
@@ -861,90 +859,93 @@ function AddDealerBook() {
                                 </p>
                               </div>
                               <div className="mb-3">
-                                <Input
-                                  type="tel"
-                                  label="Waiting Days"
-                                  name={`adhDays[${index}].waitingDays`}
-                                  id={`adhDays[${index}].waitingDays`}
-                                  value={adhDay.waitingDays}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    const sanitizedValue = value.replace(
-                                      /[^0-9]/g,
-                                      ""
-                                    );
-                                    formik.setFieldValue(
-                                      `adhDays[${index}].waitingDays`,
-                                      sanitizedValue
-                                    );
-                                  }}
-                                  onBlur={formik.handleBlur}
-                                  className="form-input"
-                                />
-                                {formik.touched.adhDays?.[index]?.waitingDays &&
-                                  formik.errors.adhDays?.[index]
-                                    ?.waitingDays && (
-                                    <div className="text-red-500 text-sm">
-                                      {formik.errors.adhDays[index].waitingDays}
-                                    </div>
-                                  )}
-                              </div>
+  <Input
+    type="tel"
+    label="Waiting Days"
+    name={`adhDays[${index}].waitingDays`}
+    id={`adhDays[${index}].waitingDays`}
+    value={adhDay.waitingDays}
+    onChange={(e) => {
+      let value = e.target.value;
+      const sanitizedValue = value.replace(/[^0-9]/g, ""); 
+      if (sanitizedValue === "") {
+        value = "0";
+      }
 
-                              <div className="relative">
-                                <Input
-                                  label={"Deductible "}
-                                  type="number"
-                                  name={`adhDays[${index}].deductible`}
-                                  id={`adhDays[${index}].deductible`}
-                                  value={adhDay.deductible}
-                                  maxDecimalPlaces={2}
-                                  minLength={"1"}
-                                  maxLength={"10"}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  className="form-input"
-                                />
+      formik.setFieldValue(`adhDays[${index}].waitingDays`, value);
+    }}
+    onBlur={formik.handleBlur}
+    className="form-input"
+  />
+  {formik.touched.adhDays?.[index]?.waitingDays &&
+    formik.errors.adhDays?.[index]?.waitingDays && (
+      <div className="text-red-500 text-sm">
+        {formik.errors.adhDays[index].waitingDays}
+      </div>
+    )}
+</div>
 
-                                {/* Select component for amountType */}
-                                <div className="absolute top-[1px] right-[1px]">
-                                  <Select
-                                    name={`adhDays[${index}].amountType`}
-                                    label=""
-                                    disableFirstOption={true}
-                                    onChange={(e, value) => {
-                                      const updatedadhDays =
-                                        formik?.values?.adhDays?.map(
-                                          (item, i) =>
-                                            i === index
-                                              ? {
-                                                  ...item,
-                                                  amountType: value || 0,
-                                                }
-                                              : item
-                                        );
-                                      formik.setFieldValue(
-                                        "adhDays",
-                                        updatedadhDays
-                                      );
-                                    }}
-                                    value={
-                                      formik?.values?.adhDays?.[index]
-                                        ?.amountType || 0
-                                    }
-                                    classBox="!bg-transparent"
-                                    className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
-                                    options={optiondeductibles}
-                                  />
-                                </div>
 
-                                {/* Error Message Rendering */}
-                                {formik.errors?.adhDays?.[index]?.deductible &&
-                                formik.touched?.adhDays?.[index]?.deductible ? (
-                                  <div className="text-red-500 text-sm">
-                                    {formik.errors.adhDays[index].deductible}
-                                  </div>
-                                ) : null}
-                              </div>
+<div className="relative">
+  <Input
+    label="Deductible"
+    type="number"
+    name={`adhDays[${index}].deductible`}
+    id={`adhDays[${index}].deductible`}
+    value={adhDay.deductible}
+    maxDecimalPlaces={2}
+    minLength={"1"}
+    maxLength={"10"}
+    onChange={(e) => {
+      let value = e.target.value;
+
+      // Restrict to two decimal places
+      const sanitizedValue = value.replace(/[^0-9.]/g, ""); // allows only numbers and decimal point
+
+      // If user removes everything, set it back to 0
+      if (sanitizedValue === "" || sanitizedValue === ".") {
+        value = "0";
+      }
+
+      formik.setFieldValue(`adhDays[${index}].deductible`, value);
+    }}
+    onBlur={formik.handleBlur}
+    className="form-input"
+  />
+
+  {/* Select component for amountType */}
+  <div className="absolute top-[1px] right-[1px]">
+    <Select
+      name={`adhDays[${index}].amountType`}
+      label=""
+      disableFirstOption={true}
+      onChange={(e, value) => {
+        const updatedadhDays = formik?.values?.adhDays?.map(
+          (item, i) =>
+            i === index
+              ? {
+                  ...item,
+                  amountType: value || 0,
+                }
+              : item
+        );
+        formik.setFieldValue("adhDays", updatedadhDays);
+      }}
+      value={formik?.values?.adhDays?.[index]?.amountType || 0}
+      classBox="!bg-transparent"
+      className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+      options={optiondeductibles}
+    />
+  </div>
+
+  {/* Error Message Rendering */}
+  {formik.touched.adhDays?.[index]?.deductible && formik.errors?.adhDays?.[index]?.deductible && (
+    <div className="text-red-500 text-sm">
+      {formik.errors.adhDays[index].deductible}
+    </div>
+  )}
+</div>
+
                             </div>
                           ))}
                       </Grid>
@@ -1092,7 +1093,7 @@ function AddDealerBook() {
                         <div className="col-span-6 mt-4">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Include manufacturer <br /> warranty?
+                            Is manufacturer warranty included?
                           </p>
                         </div>
                         <div className="flex col-span-6 mt-4 justify-between w-full">
@@ -1130,7 +1131,7 @@ function AddDealerBook() {
                         <div className="col-span-6 mt-4">
                           <p className=" text-[12px] mb-3 font-semibold">
                             {" "}
-                            Is Maximum Claim Amount ?
+                            Is There a Maximum Claim Amount?
                           </p>
                         </div>
                         <div className="flex col-span-6 mt-4 justify-between w-full">

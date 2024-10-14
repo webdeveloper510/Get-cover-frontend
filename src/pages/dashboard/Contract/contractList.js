@@ -35,6 +35,7 @@ import Card from "../../../common/card";
 
 function ContractList(props) {
   console.log(props);
+  const userData = JSON.parse(localStorage.getItem("userDetails"));
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -602,8 +603,9 @@ function ContractList(props) {
                     {...formik.getFieldProps("serial")}
                   />
                 </div>
-                {window.location.pathname.includes("/reseller/") ||
-                  window.location.pathname.includes("/dealer/") ? (
+                {userData.role=="Reseller" ||
+                 userData.role=="Dealer" ||
+                 userData.role=="Customer"  ? (
                   ""
                 ) : (
                   <div className="col-span-6">
@@ -1037,8 +1039,9 @@ function ContractList(props) {
                         </p>
                       </div>
                     </div>
-                    {window.location.pathname.includes("/reseller/") ||
-                      window.location.pathname.includes("/dealer/") ? (
+                    {userData.role=="Reseller" ||
+                 userData.role=="Dealer" ||
+                 userData.role=="Customer"  ? (
                       ""
                     ) : (
                       <div className="col-span-1 border border-Light-Grey">
@@ -1187,7 +1190,7 @@ function ContractList(props) {
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
-                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                           ).toLocaleDateString("en-US", {
                             month: "2-digit",
                             day: "2-digit",
@@ -1203,7 +1206,7 @@ function ContractList(props) {
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
-                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                           ).toLocaleDateString("en-US", {
                             month: "2-digit",
                             day: "2-digit",
@@ -1215,7 +1218,7 @@ function ContractList(props) {
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
-                          Labour Warranty Start Date
+                          Manufacturer Labour Warranty End Date
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
@@ -1231,7 +1234,7 @@ function ContractList(props) {
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
-                          Part Warranty Start Date
+                          Manufacturer Parts Warranty End Date
                         </p>
                         <p className="text-light-black text-base font-semibold">
                           {new Date(
@@ -1322,7 +1325,7 @@ function ContractList(props) {
                     <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className=" text-base mb-2 text-left font-semibold">
                         {" "}
-                        Is Include manufacturer warranty?
+                        Is manufacturer warranty included?
                       </p>
                       <p className="text-[14px] text-left font-semibold">
                         {contractDetails?.isManufacturerWarranty == true
@@ -1333,7 +1336,7 @@ function ContractList(props) {
                     <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className=" text-base mb-2 text-left font-semibold">
                         {" "}
-                        Is Maximum Claim <br /> Amount ?
+                        Is There a Maximum Claim <br /> Amount ?
                       </p>
                       <p className="text-[14px] text-left font-semibold">
                         {contractDetails?.isMaxClaimAmount == true

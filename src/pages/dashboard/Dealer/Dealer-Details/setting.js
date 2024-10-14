@@ -24,7 +24,11 @@ import Modal from "../../../../common/model";
 
 function Setting(props) {
   console.log("i am looking for this ", props?.dealerDetails);
-  const [selectedFile2, setSelectedFile2] = useState(null);
+  const [selectedFile2, setSelectedFile2] = useState({
+    fileName: "",
+    name: "",
+    size: "",
+  });
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [shipping, setShipping] = useState("yes");
@@ -86,7 +90,7 @@ function Setting(props) {
 
     if (timer === 0) {
       closeModal();
-      window.location.reload();
+       window.location.reload();
     }
 
     if (!isModalOpen) {
@@ -106,6 +110,7 @@ function Setting(props) {
   useEffect(() => {
     setLoading1(true);
     const dealer = props?.dealerDetails;
+    console.log( dealer?.termCondition?.fileName==undefined)
 
     if (dealer?.serviceCoverageType) {
       setShipping(dealer.isShippingAllowed ? "yes" : "no");
@@ -115,7 +120,11 @@ function Setting(props) {
       setCreateAccountOption(dealer.isAccountCreate ? "yes" : "no");
        setSeparateAccountOption(dealer.userAccount ? "yes" : "no");
       setSelectedFile2(
-        dealer?.termCondition.fileName === "" ? null : dealer?.termCondition
+        dealer?.termCondition.fileName == undefined ? {
+          fileName: "",
+          name: "",
+          size: "",
+        } : dealer?.termCondition
       );
       console.log(dealer.settings);
       setInitialFormValues((prevValues) => ({
@@ -125,7 +134,11 @@ function Setting(props) {
         coverageType: dealer.coverageType,
         serviceCoverageType: dealer.serviceCoverageType,
         adhDays: dealer.adhDays,
-        termCondition: dealer.termCondition,
+        termCondition:  dealer?.termCondition.fileName == undefined ? {
+          fileName: "",
+          name: "",
+          size: "",
+        } : dealer?.termCondition,
         isManufacturerWarranty: dealer.settings?.isManufacturerWarranty,
         isMaxClaimAmount: dealer.settings?.isMaxClaimAmount,
         noOfClaimPerPeriod: dealer.settings?.noOfClaimPerPeriod,
@@ -163,7 +176,7 @@ function Setting(props) {
     setSeparateAccountOption(event.target.value);
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange =async (event) => {
     const file = event.target.files[0];
     const maxSize = 10048576;
     if (file?.size > maxSize) {
@@ -172,25 +185,35 @@ function Setting(props) {
         "File is too large. Please upload a file smaller than 10MB."
       );
       console.log("Selected file:", file);
-    } else {
-      const formData = new FormData();
-      formData.append("file", file);
-      const result = uploadTermsandCondition(formData).then((res) => {
-        console.log(result);
-        formik.setFieldValue("termCondition", {
-          fileName: res?.file?.filename,
-          name: res?.file?.originalname,
-          size: res?.file?.size,
-        });
-      });
-      if (file != undefined) {
-        setSelectedFile2(file);
-      } else {
-        setSelectedFile2({
-          fileName: "",
-          name: "",
-          size: "",
-        });
+    } 
+    else {
+      setLoading1(true); 
+      try {
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+    
+          const result = await uploadTermsandCondition(formData);
+          
+          console.log(result);
+          formik.setFieldValue("termCondition", {
+            fileName: result?.file?.filename,
+            name: result?.file?.originalname,
+            size: result?.file?.size,
+          });
+    
+          setSelectedFile2(file); 
+        } else {
+          setSelectedFile2({
+            fileName: "",
+            name: "",
+            size: "",
+          });
+        }
+      } catch (error) {
+        console.error("File upload failed:", error);
+      } finally {
+        setLoading1(false)
       }
     }
   };
@@ -245,7 +268,11 @@ function Setting(props) {
   const handleRemoveFile = () => {
     if (inputRef) {
       formik.setFieldValue("termCondition", {});
-      setSelectedFile2(null);
+      setSelectedFile2({
+        fileName: "",
+        name: "",
+        size: "",
+      });
     }
   };
 
@@ -256,35 +283,30 @@ function Setting(props) {
       serviceCoverageType: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
-      adhDays: Yup.array().of(
-        Yup.object().shape({
-          // label: Yup.string(),
-          waitingDays: Yup.number()
-            .required("Required")
-            .min(0, "Value cannot be negative")
-            .nullable(),
-          deductible: Yup.number()
-            .required("Required")
-            .min(0, "Must be at least 0")
-            .when("amountType", {
-              is: (value) => value === "percentage",
-              then: () =>
-                Yup.number()
-                  .max(99.99, "Cannot exceed 99.99%")
-                  .test(
-                    "is-decimal",
-                    "Percentage must have up to 2 decimal places",
-                    (value) =>
-                      value === undefined ||
-                      value === null ||
-                      /^\d+(\.\d{1,2})?$/.test(value)
-                  ),
-              otherwise: () => Yup.number().min(0, "Must be at least 0"),
-            }),
-          // amountType: Yup.string().required(""),
-        })
-      ),
-      coverageType: Yup.array().min(1, "Required"),
+        coverageType: Yup.array()
+        .min(1, "Required")
+        .test(
+          "adhDays-error-check",
+          "Error in Coverage Type , Check Deductible Field",
+          function () {
+            const { adhDays } = this.parent;
+            if (adhDays) {
+              const adhErrors = adhDays.some((day) => {
+                if (day.amountType === "percentage") {
+                  return (
+                    day.deductible === undefined ||
+                    day.deductible > 99.99 ||
+                    !/^\d+(\.\d{1,2})?$/.test(day.deductible)
+                  );
+                }
+                return day.deductible < 0 || day.deductible === undefined;
+              });
+    
+              return !adhErrors; 
+            }
+            return true; 
+          }
+        ),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -369,7 +391,7 @@ function Setting(props) {
                       htmlFor="term"
                       className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
                     >
-                      Term And Condition
+                       {selectedFile2.name == ""}
                     </label>
                     <input
                       type="file"
@@ -382,7 +404,8 @@ function Setting(props) {
                     <div
                       className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
                     >
-                      {selectedFile2 && (
+                     
+                      {selectedFile2?.name != "" && (
                         <button
                           type="button"
                           onClick={handleRemoveFile}
@@ -391,7 +414,7 @@ function Setting(props) {
                           <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
                         </button>
                       )}
-                      {selectedFile2 ? (
+                      {selectedFile2?.name != "" ? (
                         <p className="w-full break-words">
                           {selectedFile2.name}
                         </p>
@@ -415,15 +438,20 @@ function Setting(props) {
                     Attachment size limit is 10 MB
                   </small>
                 </div>
-                <div className="col-span-2 pt-1">
-                  <Button
-                    className="w-full flex"
-                    onClick={() => handelDownload(selectedFile2?.fileName)}
-                  >
-                    <img src={download} className="w-[20px]" alt="download" />{" "}
-                    <span className="self-center pl-2"> Download </span>{" "}
-                  </Button>
-                </div>
+                
+                {props?.dealerDetails?.termCondition?.fileName ? (
+  <div className="col-span-2 pt-1">
+    <Button
+      className="w-full flex"
+      onClick={() => handelDownload(selectedFile2?.fileName)}
+    >
+      <img src={download} className="w-[20px]" alt="download" />
+      <span className="self-center pl-2"> Download </span>
+    </Button>
+  </div>
+) : null}
+
+
                 <div className="col-span-6">
                   <Grid className="!gap-0">
                     <div className="col-span-8">
@@ -669,7 +697,7 @@ function Setting(props) {
                     <div className="col-span-8 mt-3">
                       <p className=" text-[12px] font-semibold ">
                         {" "}
-                        Is Maximum Claim Amount ?
+                        Is There a Maximum Claim Amount?
                       </p>
                     </div>
                     <div className="col-span-4 mt-3">
@@ -704,7 +732,7 @@ function Setting(props) {
                     <div className="col-span-8 mt-3">
                       <p className=" text-[12px] font-semibold ">
                         {" "}
-                        Is Include manufacturer warranty?
+                        Is manufacturer warranty included?
                       </p>
                     </div>
                     <div className="col-span-4 mt-3">
@@ -869,15 +897,7 @@ function Setting(props) {
                                   );
                                 }}
                               />
-                              {formik.errors?.adhDays?.[type.value]
-                                ?.deductible ? (
-                                <div className="text-red-500 text-sm mt-1">
-                                  {
-                                    formik.errors?.adhDays?.[type.value]
-                                      ?.deductible
-                                  }
-                                </div>
-                              ) : null}
+                            
                               <div className="absolute top-[1px] right-[1px]">
                                 <Select
                                   name="deductibles"
@@ -909,24 +929,19 @@ function Setting(props) {
                                 />
                               </div>
                             </div>
-                            {formik.errors?.adhDays?.[index]?.deductible &&
-                            formik.touched?.adhDays?.[index]?.deductible ? (
-                              <div className="text-red-500 text-sm">
-                                {formik.errors.adhDays[index].deductible}
-                              </div>
-                            ) : null}
                           </>
                         )}
                        
                       </div>
                     ))}
-                       {formik.touched.coverageType &&
+                     
+                  </Grid>
+                  {formik.touched.coverageType &&
                     formik.errors.coverageType && (
                       <div className="text-red-500 text-sm pl-2 pt-2">
                         {formik.errors.coverageType}
                       </div>
                     )}
-                  </Grid>
                 </div>
               </Grid>
 

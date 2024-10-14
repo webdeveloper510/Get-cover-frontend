@@ -13,15 +13,11 @@ import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Coverage from "../../../assets/images/order/Coverage.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
-import Csv from "../../../assets/images/icons/csvWhite.svg";
-import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
-import PdfGenerator from "../../pdfViewer";
-import PdfMake from "../../pdfMakeOrder";
 import { getOrderDetailCustomer } from "../../../services/orderServices";
 import ContractList from "../../dashboard/Contract/contractList";
 import FileDownloader from "../../termAndCondition";
@@ -30,13 +26,15 @@ import CustomerOrderSummary from "./OrderDetails/orderSummary";
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState();
+  const [userDetails, setUserDetails] = useState(null);
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
 
   useEffect(() => {
@@ -45,11 +43,23 @@ function CustomerOrderDetails() {
     setLoading(false);
   }, [activeTab]);
 
+  // const getOrderdetails = async () => {
+  //   setLoading(true);
+  //   
+  //   
+  //   console.log(result.result);
+  //   setOrderList(result.result);
+  //   setLoading(false);
+  // };
   const getOrderdetails = async () => {
     setLoading(true);
     const result = await getOrderDetailCustomer([orderId]);
-    console.log(result.result);
-    setOrderList(result.result);
+    if (result.code === 200) {
+      setUserDetails(result.orderUserData);
+      setOrderList(result.result);
+    } else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   useEffect(() => {
@@ -201,6 +211,29 @@ function CustomerOrderDetails() {
                       );
                     })}
                   </p>
+                </div>
+              </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-Onyx rounded-[14px]"
+                    alt="Name"
+                  />
+                </div>
+
+                <div className="flex justify-between w-[85%] ml-auto">
+                  <div>
+                    <p className="text-sm text-neutral-grey font-Regular">
+                      Servicer Name
+                    </p>
+                    <p className="text-base text-white font-semibold">
+                      {userDetails?.servicerData?.status
+                        ? userDetails?.servicerData?.name
+                        : ""}
+                    </p>
+                  </div>
+        
                 </div>
               </div>
 

@@ -40,12 +40,14 @@ import {
   addClaimMessages,
   addClaimsRepairParts,
   addUploadCommentImage,
+  checkCoverageTypeDate,
   editClaimServicerValue,
   editClaimStatus,
   editClaimTypeValue,
   getClaimListForResellerPortal,
   getClaimMessages,
   getContractPrice,
+  getOptions,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -119,8 +121,9 @@ function ResellerClaimList(props) {
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
-  });
-  const [coverage, setCoverage] = useState([]);
+  });  
+  const [coverageTypeError, setCoverageTypeError] = useState({});
+  const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [claim, setClaim] = useState([
     { label: "Breakdown", value: "Breakdown" },
     { label: "Accidental", value: "Accidental" },
@@ -133,6 +136,10 @@ function ResellerClaimList(props) {
     note: "",
     totalAmount: "",
   });
+  const [repairValue, repair_status] = useState({});
+  const [customerValue, customer_status] = useState({});
+  const [claimvalues, claim_status] = useState({});
+  const [shipment, shipment_type] = useState({});
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { claimIdValue } = useParams();
@@ -162,12 +169,12 @@ function ResellerClaimList(props) {
     getLoginUser();
   }, [messageList, claimId]);
   const getLoginUser = async () => {
-    setLoading1(true);
+    setModelLoading(true);
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
     setServicerCreateAccountOption(result?.result?.isServicer);
-    setLoading1(false);
+    setModelLoading(false);
   };
   const downloadImage = async (file) => {
     try {
@@ -214,21 +221,25 @@ function ResellerClaimList(props) {
     // console.log(selectedValue, value);
   };
 
-  const handleSelectChange = (selectedValue, value) => {
-    setLoading1(true);
+  const handleSelectChange = async (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
-      if (value === "Rejected") {
+      if (value === "rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
-        value.claimStatus = "Rejected";
+        setLoading1(true);
+        value.claimStatus = "rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
-      } else {
+      }
+      // else if(value === "completed" ){
+      //   setIsComplete(true)
+      // }
+       else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
-            value
+            value.type== "completed" ? value.type :value
           );
         };
 
@@ -240,16 +251,32 @@ function ResellerClaimList(props) {
             console.error("here");
         }
       }
-    } else if (selectedValue === "claimType") {
-      const updateAndCallAPI = (setter) => {
-        editClaimClaimType(
-          claimList.result[activeIndex]._id,
-          selectedValue,
-          value
-        );
-      };
-      updateAndCallAPI(setClaimType);
+    } 
+    else if (selectedValue === "claimType") {
+      setLoading1(true);
+      let data={
+        claimId:claimList.result[activeIndex]._id,
+        coverageType:value
+      }
+      checkCoverageTypeDate(data).then((res)=>{
+        if(res.code==200){
+          const updateAndCallAPI = (setter) => {
+            editClaimClaimType(
+              claimList.result[activeIndex]._id,
+              selectedValue,
+              value
+            );
+          };
+          updateAndCallAPI(setClaimType);
+        }
+      else{
+        setCoverageTypeError(res)
+        setErrorForCoverageType(true)
+        setLoading1(false);
+      }
+      })
     } else if (selectedValue === "servicer") {
+      setLoading1(true);
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -261,6 +288,7 @@ function ResellerClaimList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
+      setLoading1(true);
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
@@ -284,6 +312,7 @@ function ResellerClaimList(props) {
       setLoading1(false);
     }, 3000);
   };
+
   const [activeTab, setActiveTab] = useState("All Claims");
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -297,6 +326,8 @@ function ResellerClaimList(props) {
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
     });
     closeReject();
+    closeCoveragType();
+    
   };
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
@@ -353,21 +384,37 @@ function ResellerClaimList(props) {
       });
   };
 
+  const closeCoveragType = () => {
+    setErrorForCoverageType(false);; 
+  };
+
   const editClaimClaimType = (claimId, statusType, statusValue) => {
     let data = {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then((res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
+      setClaimType(res.result.claimType);
       const updatedClaimListCopy = { ...claimList };
-      console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
-
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
+          if (updatedClaimListCopy.result) {
+            updatedClaimListCopy.result[activeIndex]["claimType"] =
+              res.result.claimType;
+              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+              res.result.customerClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+              res.result.customerOverAmount;
+              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+              res.result.getCoverClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+              res.result.getcoverOverAmount;
+             await getClaimOptions(res.result.claimType)
+          }
       }
       setClaimList(updatedClaimListCopy);
-      setClaimType(res.result.claimType);
+    
     });
   };
 
@@ -425,6 +472,62 @@ function ResellerClaimList(props) {
     setShowdata(false);
   };
 
+  const getClaimOptions = async (value) => {
+    console.log(claimType,value)
+    try {
+      const data = [
+        "repair_status",
+        "shipment_type",
+        "customer_status",
+        "claim_status",
+      ];
+      
+      const result = await getOptions(data);
+      const stateSetters = {
+        repair_status,
+        shipment_type,
+        customer_status,
+        claim_status,
+      };
+
+      const filterOptions = (key, options) => {
+        if (value === "" || value == "New") {
+          if (key === "claim_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "completed"),
+            };
+          }
+          if (key === "repair_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(
+                option =>
+                  option.value !== "repair_complete" &&
+                  option.value !== "servicer_shipped"
+              ),
+            };
+          }
+          if (key === "customer_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "product_received"),
+            };
+          }
+        }
+        return options;
+      };
+      
+
+      data.forEach((key, index) => {
+        const filteredOptions = filterOptions(key, result.result[index]);
+        console.log(result.result[index],filteredOptions)
+         stateSetters[key]?.(filteredOptions);
+      });
+    } catch (error) {
+      console.error("Error fetching claim options:", error);
+    }
+  };
   const [recordsPerPage, setRecordsPerPage] = useState(10);
 
   const handlePageChange = async (page, rowsPerPage) => {
@@ -585,16 +688,15 @@ function ResellerClaimList(props) {
     setClaimLoading(false);
   };
 
-  const calculateTotalCost = (repairParts) => {
-    // Calculate the total cost by summing up the prices of all repair parts
-    const totalCost = repairParts.reduce((sum, part) => {
-      // Convert the price to a number and add it to the sum
-      return sum + Number(part.price || 0);
-    }, 0);
-
-    // Return the total cost rounded to two decimal places
-    return totalCost.toFixed(2);
+  const calculateTotalCost = (cost1, cost2) => {
+    const totalCost = cost1 + cost2;
+    if (totalCost === 0) {
+      return "N/A";
+    }
+  
+    return `$${totalCost.toFixed(2)}`;
   };
+  
 
   const closeView = () => {
     formik.resetForm();
@@ -827,6 +929,7 @@ function ResellerClaimList(props) {
     if (activeIndex != null) {
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
+        getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -961,12 +1064,15 @@ function ResellerClaimList(props) {
 
   const Claimstatus = [
     { label: "Open", value: "Open" },
-    { label: "Completed", value: "Completed" },
-    { label: "Rejected", value: "Rejected" },
+    { label: "completed", value: "completed" },
+    { label: "rejected", value: "rejected" },
   ];
 
   useEffect(() => {
+    getClaimOptions(claimList?.result?.[activeIndex]?.claimType);
+
     getAllClaims();
+
   }, []);
 
   useEffect(() => {
@@ -999,69 +1105,10 @@ function ResellerClaimList(props) {
       // setIsLoading(false);
     }
   };
-  const tracker = [
-    { label: "UPS", value: "ups" },
-    { label: "USPS", value: "usps" },
-    { label: "FedX", value: "fedx" },
-  ];
 
-  const customerValue = [
-    {
-      value: "Request Submitted",
-      label: "Request Submitted",
-    },
-    {
-      value: "Shipping Label Received",
-      label: "Shipping Label Received",
-    },
-    {
-      value: "Product Sent",
-      label: "Product Sent",
-    },
-    {
-      value: "Product Received",
-      label: "Product Received",
-    },
-  ];
 
-  const repairValue = [
-    {
-      value: "Request Sent",
-      label: "Request Sent",
-    },
-    {
-      value: "Request Approved",
-      label: "Request Approved",
-    },
-    {
-      value: "Product Received",
-      label: "Product Received",
-    },
-    {
-      value: "Repair in Process",
-      label: "Repair in Process",
-    },
-    {
-      value: "Parts Needed",
-      label: "Parts Needed",
-    },
-    {
-      value: "Parts Ordered",
-      label: "Parts Ordered",
-    },
-    {
-      value: "Parts Received",
-      label: "Parts Received",
-    },
-    {
-      value: "Repair Complete",
-      label: "Repair Complete",
-    },
-    {
-      value: "Servicer Shipped",
-      label: "Servicer Shipped",
-    },
-  ];
+
+ 
 
   const claimPaid = [
     {
@@ -1074,20 +1121,7 @@ function ResellerClaimList(props) {
     },
   ];
 
-  const claimvalues = [
-    {
-      value: "Open",
-      label: "Open",
-    },
-    {
-      value: "Completed",
-      label: "Completed",
-    },
-    {
-      value: "Rejected",
-      label: "Rejected",
-    },
-  ];
+ 
 
   const validationSchema = Yup.object().shape({});
 
@@ -1333,7 +1367,7 @@ function ResellerClaimList(props) {
                                 />
 
                                 {res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "Open" && (
+                                  res?.claimStatus?.[0]?.status === "open" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1473,15 +1507,38 @@ function ResellerClaimList(props) {
                                         }{" "}
                                       </span>
                                     </p>
-                                    <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                      Claim Cost :{" "}
-                                      <span className="font-semibold text-white ml-3">
-                                        {" "}
-                                        ${calculateTotalCost(
-                                          res.repairParts
-                                        )}{" "}
-                                      </span>
-                                    </p>
+
+                                    <Grid>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px]  font-Regular">
+                                            GetCover Cost :{" "}
+                                          </p>
+                                          <p className="font-semibold text-[11px] text-white  mb-3">
+                                            {" "}
+                                            {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                          </p>
+                                        </div>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px]  font-Regular">
+                                            Customer Cost :{" "}
+                                          </p>
+                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                          {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
+                                          </p>
+                                        </div>
+                                        <div className="col-span-4">
+                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                            Total Cost :{" "}
+                                            <span className="font-semibold text-white ml-3">
+                                              {" "}
+                                              ${
+                                                res.totalAmount.toFixed(2)
+                                              }{" "}
+                                            </span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       {" "}
                                       <span className="self-center mr-4">
@@ -1499,8 +1556,8 @@ function ResellerClaimList(props) {
                                           label=""
                                           value={servicer}
                                           disabled={
-                                            claimStatus.status === "Rejected" ||
-                                            claimStatus.status === "Completed"
+                                            claimStatus.status === "rejected" ||
+                                            claimStatus.status === "completed"
                                           }
                                           onChange={handleSelectChange}
                                           OptionName="Servicer"
@@ -1514,48 +1571,45 @@ function ResellerClaimList(props) {
                                       )}
                                     </p>
 
-                                    {!location.pathname.includes(
-                                      "customer/claimList"
-                                    ) &&
-                                      !location.pathname.includes(
-                                        "/reseller/claimList"
-                                      ) &&
-                                      !location.pathname.includes(
-                                        "/dealer/claimList"
-                                      ) && (
-                                        <>
-                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                            <span className="self-center mr-8">
-                                              Claim Type :
-                                            </span>
-                                            <Select
-                                              name="claimType"
-                                              label=""
-                                              value={claimType}
-                                              onChange={handleSelectChange}
-                                              white
-                                              disabled={
-                                                claimStatus.status ==
-                                                "Rejected" ||
-                                                claimStatus.status ==
-                                                "Completed"
-                                              }
-                                              options={claim}
-                                              OptionName="Claim Type"
-                                              className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                              classBox="w-[55%]"
-                                            />
-                                          </p>
-                                        </>
+                                    {res.selfServicer && (
+                                      <>
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center mr-4">
+                                        
+                                          Coverage Type:
+                                        </span>
+                                        <Select
+                                          name="claimType"
+                                          label=""
+                                          value={claimType}
+                                          onChange={handleSelectChange}
+                                          white
+
+                                          disabled={
+                                            claimStatus.status ===
+                                            "rejected" ||
+                                            claimStatus.status === "completed"
+                                          }
+                                          options={ claimList?.result?.[
+                                            activeIndex
+                                          ]?.contracts?.mergedData}
+                                          OptionName="Claim Type"
+                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
+                                        />
+                            
+                                      </p>
+                                      </>
                                       )}
-                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+
+                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
-                                        Shipment :
+                                      {shipment.label}:
                                       </span>
                                       {trackerView ? (
                                         <>
-                                          {claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed" ? (
+                                          {claimStatus.status == "rejected" ||
+                                            claimStatus.status == "completed" ? (
                                             <></>
                                           ) : (
                                             <form
@@ -1573,7 +1627,9 @@ function ResellerClaimList(props) {
                                                   }
                                                   white
                                                   // OptionName="Tracker"
-                                                  options={tracker}
+                                                  options={
+                                                    shipment.value
+                                                  }
                                                   className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                   classBox="w-[35%]"
                                                 />
@@ -1588,9 +1644,9 @@ function ResellerClaimList(props) {
                                                   }
                                                   disabled={
                                                     claimStatus.status ==
-                                                    "Rejected" ||
+                                                    "rejected" ||
                                                     claimStatus.status ==
-                                                    "Completed"
+                                                    "completed"
                                                   }
                                                   // options={state}
                                                   className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
@@ -1617,9 +1673,9 @@ function ResellerClaimList(props) {
                                           {res?.trackingType == "" ? (
                                             <>
                                               {claimStatus.status ==
-                                                "Rejected" ||
+                                                "rejected" ||
                                                 claimStatus.status ==
-                                                "Completed" ? (
+                                                "completed" ? (
                                                 <></>
                                               ) : (
                                                 <>
@@ -1641,7 +1697,9 @@ function ResellerClaimList(props) {
                                                         }
                                                         white
                                                         // OptionName="Tracker"
-                                                        options={tracker}
+                                                        options={
+                                                          shipment.value
+                                                        }
                                                         className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
                                                         classBox="w-[35%]"
                                                       />
@@ -1707,9 +1765,9 @@ function ResellerClaimList(props) {
                                                 </a>
                                               )}
                                               {claimStatus.status ==
-                                                "Rejected" ||
+                                                "rejected" ||
                                                 claimStatus.status ==
-                                                "Completed" ? (
+                                                "completed" ? (
                                                 <></>
                                               ) : (
                                                 <img
@@ -1728,7 +1786,7 @@ function ResellerClaimList(props) {
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-4">
-                                  <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
                                         Customer Status
@@ -1739,7 +1797,9 @@ function ResellerClaimList(props) {
                                       onClick={handleToggleDropdown}
                                     >
                                       <p className="text-white text-sm">
-                                        {customerStatus.status}
+                                        <p className="text-white text-sm">
+  {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+</p>
                                       </p>
                                       <span className="text-light-green">
                                         {format(
@@ -1752,8 +1812,8 @@ function ResellerClaimList(props) {
                                         )}
                                       </span>
                                     </div>
-                                    {claimStatus.status == "Rejected" ||
-                                      claimStatus.status == "Completed" ? (
+                                    {claimStatus.status == "rejected" ||
+                                      claimStatus.status == "completed" || role != "Super Admin" ? (
                                       <></>
                                     ) : (
                                       <div
@@ -1766,14 +1826,15 @@ function ResellerClaimList(props) {
                                           label=""
                                           value={customerStatus.status}
                                           onChange={handleSelectChange}
+                                          disableFirstOption={true}
                                           disabled={
-                                            claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed"
+                                            claimStatus.status == "rejected" ||
+                                            claimStatus.status == "completed"
                                           }
+                                          classBox='!bg-transparent'
                                           white
-                                          classBox='!bg-[transparent]'
                                           className1="!border-0 !text-light-black"
-                                          options={customerValue}
+                                          options={customerValue?.value}
                                           visible={dropdownVisible}
                                         />
                                       </div>
@@ -1782,17 +1843,16 @@ function ResellerClaimList(props) {
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                        Claim Status
+                                      {claimvalues?.label}
                                       </p>
                                     </div>
                                     <div
                                       className="pl-1 self-center w-[50%] cursor-pointer "
                                       onClick={handleToggleDropdown2}
                                     >
-                                      <p className="text-white text-sm">
-                                        {" "}
-                                        {claimStatus.status}
-                                      </p>
+                                                   <p className="text-white text-sm">
+  {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+</p>
                                       <p className="text-light-green">
                                         {" "}
                                         {format(
@@ -1807,8 +1867,8 @@ function ResellerClaimList(props) {
                                     </div>
                                     {role == "Super Admin" && (
                                       <>
-                                        {claimStatus.status == "Rejected" ||
-                                          claimStatus.status == "Completed" ? (
+                                        {claimStatus.status == "rejected" ||
+                                          claimStatus.status == "completed" ? (
                                           <></>
                                         ) : (
                                           <div
@@ -1819,16 +1879,18 @@ function ResellerClaimList(props) {
                                               name="claimStatus"
                                               label=""
                                               value={claimStatus.status}
+                                              disableFirstOption={true}
                                               disabled={
                                                 claimStatus.status ==
-                                                "Rejected" ||
+                                                "rejected" ||
                                                 claimStatus.status ==
-                                                "Completed"
+                                                "completed"
                                               }
+                                              classBox='!bg-transparent'
                                               onChange={handleSelectChange}
                                               white
                                               className1="!border-0 !text-light-black"
-                                              options={claimvalues}
+                                              options={claimvalues?.value}
                                               visible={dropdownVisible}
                                             />
                                           </div>
@@ -1839,7 +1901,7 @@ function ResellerClaimList(props) {
                                   <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                        Repair Status
+                                      {repairValue?.label}
                                       </p>
                                     </div>
                                     <div
@@ -1847,7 +1909,7 @@ function ResellerClaimList(props) {
                                       onClick={handleToggleDropdown1}
                                     >
                                       <p className="text-white text-sm">
-                                        {repairStatus.status}
+                                      {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                       </p>
                                       <p className="text-light-green">
                                         {format(
@@ -1862,8 +1924,8 @@ function ResellerClaimList(props) {
                                     </div>
                                     {/* {res?.selfServicer === true && 
                                    <>
-                                    { claimStatus.status == "Rejected" ||
-                                       claimStatus.status == "Completed" ? (
+                                    { claimStatus.status == "rejected" ||
+                                       claimStatus.status == "completed" ? (
                                     <></>
                                     ) : (
                                       <div
@@ -1877,8 +1939,8 @@ function ResellerClaimList(props) {
                                           value={repairStatus.status}
                                           onChange={handleSelectChange}
                                           disabled={
-                                            claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed"
+                                            claimStatus.status == "rejected" ||
+                                            claimStatus.status == "completed"
                                           }
                                           white
                                           className1="!border-0 !text-light-black"
@@ -1892,8 +1954,8 @@ function ResellerClaimList(props) {
                                       claimList.result[activeIndex]
                                         ?.selfServicer) && (
                                         <>
-                                          {claimStatus.status == "Rejected" ||
-                                            claimStatus.status == "Completed" ? (
+                                          {claimStatus.status == "rejected" ||
+                                            claimStatus.status == "completed" ? (
                                             <></>
                                           ) : (
                                             <div
@@ -1906,16 +1968,17 @@ function ResellerClaimList(props) {
                                                 label=""
                                                 value={repairStatus.status}
                                                 onChange={handleSelectChange}
+                                                disableFirstOption={true}
+                                                classBox='!bg-transparent'
                                                 disabled={
                                                   claimStatus.status ==
-                                                  "Rejected" ||
+                                                  "rejected" ||
                                                   claimStatus.status ==
-                                                  "Completed"
+                                                  "completed"
                                                 }
                                                 white
-                                                classBox='bg-[transparent]'
                                                 className1="!border-0 !text-light-black"
-                                                options={repairValue}
+                                                options={repairValue?.value}
                                                 visible={dropdownVisible}
                                               />
                                             </div>
@@ -2462,6 +2525,55 @@ function ResellerClaimList(props) {
           </form>
         </div>
       </Modal>
+
+      <Modal isOpen={errorForCoverageType} onClose={closeCoveragType}>
+        <Button
+          onClick={closeCoveragType}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+            <Grid>
+              <div className="col-span-12">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
+                  {" "}
+                  <span className=""> {coverageTypeError.tittle} </span>
+                </p>
+                <p className="text-base font-medium mt-2 ">
+                 {coverageTypeError.message}
+                </p>
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+              <Button onClick={() => {
+                                    handleSelectChange("claimStatus" ,{
+                                      value: "rejected",
+                                      reason: coverageTypeError.message,
+                                    });
+}}
+                 className="w-full">
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-3">
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  onClick={closeCoveragType}
+                >
+                  No
+                </Button>
+              </div>
+              <div className="col-span-3"></div>
+            </Grid>
+        </div>
+      </Modal>
+
       <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
         <Button
           onClick={closeEdit}
@@ -2696,6 +2808,7 @@ function ResellerClaimList(props) {
           )}
         </div>
       </Modal>
+
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -2711,6 +2824,7 @@ function ResellerClaimList(props) {
           </p>
         </div>
       </Modal>
+
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
@@ -2827,7 +2941,7 @@ function ResellerClaimList(props) {
                   value={formik1.values.claimStatus}
                 />
               </div>
-              {formik1.values.claimStatus == "Completed" ? (
+              {formik1.values.claimStatus == "completed" ? (
                 <div className="col-span-6">
                   <Select
                     options={claimPaid}

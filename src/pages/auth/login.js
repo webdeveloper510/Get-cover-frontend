@@ -6,29 +6,21 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../common/button";
 import Layout from "../../utils/layout";
+import { RotateLoader } from "react-spinners";
 
 // Media imports
 import Logo from "../../assets/images/Get-Cover.png";
 import Logi from "../../assets/images/login.png";
 import PasswordInput from "../../common/passwordInput";
 
-//Importing services
+// Importing services
 import { authlogin } from "../../services/authServices";
-import { getSetting } from "../../services/extraServices";
 
 function Login() {
   const [userDetails, setUserDetails] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [buttonTextColor, setButtonTextColor] = useState("");
-  const [backGroundColor, setBackGroundColor] = useState("");
-  const [siteDetails, setSiteDetails] = useState({});
-
-  useEffect(() => {
-    const data = localStorage.getItem("siteSettings");
-    setSiteDetails(JSON.parse(data));
-    console.log(JSON.parse(data));
-  }, []);
+  const [siteDetails, setSiteDetails] = useState(null); // Set initial state to null
 
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,50}$/i;
 
@@ -54,25 +46,52 @@ function Login() {
         setError("");
         setUserDetails(result.result);
         localStorage.setItem("userDetails", JSON.stringify(result.result));
-        if (result.result.role == "Super Admin") {
-          navigate("/dashboard");
-        } else if (result.result.role == "Servicer") {
-          navigate("/servicer/dashboard");
-        } else if (result.result.role == "Dealer") {
-          navigate("/dealer/dashboard");
-        } else if (result.result.role == "Reseller") {
-          navigate("/reseller/dashboard");
-        } else if (result.result.role == "Customer") {
-          navigate("/customer/dashboard");
-        }
+        navigateToRole(result.result.role);
       }
     },
   });
 
+  const navigateToRole = (role) => {
+    const routes = {
+      "Super Admin": "/dashboard",
+      Servicer: "/servicer/dashboard",
+      Dealer: "/dealer/dashboard",
+      Reseller: "/reseller/dashboard",
+      Customer: "/customer/dashboard",
+    };
+    navigate(routes[role] || "/"); // Default to home if role is not recognized
+  };
+
+  useEffect(() => {
+    const fetchData = () => {
+      const data = localStorage.getItem("siteSettings");
+      const parsedData = JSON.parse(data);
+      
+      if (parsedData !== null) {
+        setSiteDetails(parsedData);
+        console.log(parsedData);
+        clearInterval(intervalId);
+      } else {
+        console.log('Data is null, will check again...');
+      }
+    };
+
+    const intervalId = setInterval(fetchData, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if (siteDetails === null) {
+    return <div className=" fixed top-0 h-screen bg-[#cfcfcf8f] left-0 w-full flex py-5">
+    <div className="self-center mx-auto">
+      <RotateLoader color="#333" />
+    </div>
+  </div>; 
+  }
+
   return (
     <Layout>
       <form onSubmit={formik.handleSubmit}>
-        <div className="relative bg-hero-pattern bg-cover	bg-no-repeat	bg-center	">
+        <div className="relative bg-hero-pattern bg-cover bg-no-repeat bg-center">
           <Grid className="px-8 s:grid-cols-6 md:grid-cols-12 xl:grid-cols-12">
             <div className="col-span-5 hidden md:block">
               <img
@@ -82,12 +101,10 @@ function Login() {
                 alt="Logo "
               />
             </div>
-            <div className="col-span-6 self-center h-screen md:h-full flex relative ">
-              <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
+            <div className="col-span-6 self-center h-screen md:h-full flex relative">
+              <div className="mx-auto md:w-4/6 s:w-full py-5 self-center">
                 <img
-                  src={`${
-                    siteDetails?.logoDark?.baseUrl
-                  }uploads/logo/${encodeURIComponent(
+                  src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(
                     siteDetails?.logoDark?.fileName
                   )}`}
                   className="w-[224px]"
@@ -119,7 +136,6 @@ function Login() {
                     }}
                     onBlur={formik.handleBlur}
                   />
-
                   {formik.touched.email && formik.errors.email && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
                       {formik.errors.email}
@@ -145,7 +161,6 @@ function Login() {
                     </div>
                   )}
                 </div>
-
                 <div className="my-3 text-end">
                   <Link
                     to={"/forgot"}
@@ -158,15 +173,10 @@ function Login() {
                 <div>
                   <Button
                     type="submit"
-                    style={{
-                      backgroundColor: backGroundColor,
-                      color: buttonTextColor,
-                    }}
                     className="w-full !bg-[#333] !text-white h-[50px] text-xl font-semibold"
                   >
                     Sign in
                   </Button>
-
                   <p className="text-base text-neutral-grey font-medium mt-4">
                     Don’t have an account?{" "}
                     <Link to={"/register"} className="text-light-black ml-3">
@@ -175,7 +185,7 @@ function Login() {
                   </p>
                   <div>
                     <p
-                      className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0"
+                      className="text-base text-neutral-grey font-medium mt-4 text-center absolute bottom-0 left-0 right-0"
                       style={{ bottom: "20px" }}
                     >
                       Designed, Developed & Maintain by{" "}

@@ -300,16 +300,6 @@ function DealerAddOrder() {
       getServicerList({
         resellerId: resellerId,
       });
-      // getCategoryList(
-      //   {
-      //     priceBookId: "",
-      //     priceCatId: "",
-      //     pName: "",
-      //     term: "",
-      //     coverageType: formikStep2?.values?.coverageType,
-      //   },
-      //   0
-      // );
     }
     if (customerId) {
       formik.setFieldValue("customerId", customerId);
@@ -356,7 +346,6 @@ function DealerAddOrder() {
         0
       );
     }
-    // getProductList()
     getTermListData();
     getServiceCoverage();
   }, [orderId, resellerId, customerId]);
@@ -374,8 +363,6 @@ function DealerAddOrder() {
       resellerId: result?.result?.resellerId,
     });
     getServiceCoverage(undefined, "Edit");
-    //     console.log (result.result.paymentStatus)
-    // alert (result.result.paymentStatus)
     formik4.setFieldValue("paymentStatus", result.result.paymentStatus);
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
     formik4.setFieldValue("dueAmount", result.result.dueAmount);
@@ -1056,13 +1043,8 @@ function DealerAddOrder() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  const [BillCheck, setbillCheck] = useState();
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const openError = () => {
-    setIsErrorOpen(true);
   };
 
   const closeError = () => {
@@ -1131,10 +1113,6 @@ function DealerAddOrder() {
           return newClaimInCoveragePeriod;
         });
         formikStep3.setFieldValue(
-          `productsArray[${match[1]}].adhDays`,
-          data1.adhDays
-        );
-        formikStep3.setFieldValue(
           `productsArray[${match[1]}].noOfClaim`,
           data1.noOfClaim
         );
@@ -1155,7 +1133,7 @@ function DealerAddOrder() {
       }
 
       console.log(data);
-      getCategoryList(
+   const priceBookValue=await getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
@@ -1174,7 +1152,11 @@ function DealerAddOrder() {
         },
         match[1]
       );
-
+      console.log('priceBookValue',priceBookValue.result.mergedData)
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].adhDays`,
+        priceBookValue.result.mergedData
+      );
       const updatedQuantityPricing = data?.quantityPriceDetail.map(
         (item, index) => {
           const updatedItem = {
@@ -1219,10 +1201,6 @@ function DealerAddOrder() {
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].dealerSku`,
         data?.dealerSku
-      );
-      formikStep3.setFieldValue(
-        `productsArray[${match[1]}].adhDays`,
-        data.adhDays
       );
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
@@ -1381,12 +1359,6 @@ function DealerAddOrder() {
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-
-    // if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
-    //   newValues.dealerId = currentValues.dealerId;
-    //   newValues.dealerId = currentValues.dealerValue;
-    // }
-
     if (resellerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
@@ -1432,13 +1404,15 @@ function DealerAddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null);
-            formik.setFieldValue("resellerId", res.customerData.resellerId);
-            let data = {
-              resellerId: res.customerData.resellerId,
-            };
-            // getServicerList(data);
-            // getCustomerList(data);
+            if (res.customerData.resellerStatus != false){
+              formik.setFieldValue("resellerId", res.customerData.resellerId);
+              let data = {
+                resellerId: res.customerData.resellerId,
+              };
+              // getServicerList(data);
+              // getCustomerList(data);
+            }
+         
           }
         });
     }
@@ -1566,6 +1540,7 @@ function DealerAddOrder() {
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);
@@ -1575,53 +1550,44 @@ function DealerAddOrder() {
       // setLoading1(false);
     }
   };
+
   const handleInputClickReset = (index) => {
     const updatedProductsArray = formikStep3.values.productsArray.map(
-      (product, i) => {
-        if (i === index) {
-          setFileValues((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = null;
-            console.log(newArray);
-            return newArray;
-          });
-          const newProduct = { ...product };
-          Object.keys(newProduct).forEach((key) => {
-            if (key === "unitPrice" || key === "price") {
-              newProduct[key] = 0; // Resetting to 0
-            } else if (Array.isArray(newProduct[key])) {
-              newProduct[key] = [];
-            } else if (
-              typeof newProduct[key] === "object" &&
-              newProduct[key] !== null
-            ) {
-              newProduct[key] = {};
-            } else {
-              newProduct[key] = "";
-            }
-          });
-          return newProduct;
-        }
-
-        return product;
-      }
+      (product, i) => i === index ? {
+        ...product,
+        coverageStartDate: "",
+        coverageEndDate: "",
+        unitPrice: 0,
+        price: 0,
+        ...Object.fromEntries(Object.keys(product).map(key => [
+          key,
+          Array.isArray(product[key]) ? [] : (typeof product[key] === "object" && product[key] !== null ? {} : "")
+        ]))
+      } : product
     );
-
+  
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+  
+    const fieldsToReset = ["priceBookId", "categoryId", "term", "dealerSku", "pName", "noOfProducts"];
+    fieldsToReset.forEach(field => {
+      formikStep3.setFieldTouched(`productsArray[${index}].${field}`, false, false);
+      formikStep3.setFieldError(`productsArray[${index}].${field}`, "");
+    });
+  
     getCategoryList(
+      formik.values.dealerId,
       {
         priceBookId: "",
         priceCatId: "",
         pName: "",
         term: "",
         dealerSku: "",
-        coverageType: formikStep2?.values?.coverageType.map(
-          (item) => item.value
-        ),
+        coverageType: formikStep2?.values?.coverageType.map(item => item.value),
       },
       index
     );
   };
+  
   const renderStep1 = () => {
     return (
       <>
@@ -3025,7 +2991,7 @@ function DealerAddOrder() {
                           <div className="flex justify-between">
                             <p className=" text-[12px] mb-3 font-semibold">
                               {" "}
-                              Is Include manufacturer <br /> warranty?
+                              Is manufacturer warranty included?
                             </p>
                             <div className="flex">
                               <RadioButton
@@ -3067,7 +3033,7 @@ function DealerAddOrder() {
                           <div className="flex justify-between">
                             <p className=" text-[12px] mb-3 font-semibold">
                               {" "}
-                              Is Maximum Claim Amount ?
+                              Is There a Maximum Claim Amount?
                             </p>
                             <div className="flex">
                               <RadioButton
@@ -3452,7 +3418,7 @@ function DealerAddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Include manufacturer warranty?
+                              Is manufacturer warranty included?
                             </p>
                           </div>
                           <p className="text-sm">
@@ -3464,7 +3430,7 @@ function DealerAddOrder() {
                           <div className="">
                             <p className=" text-base mb-1 font-semibold">
                               {" "}
-                              Is Maximum Claim Amount ?
+                              Is There a Maximum Claim Amount?
                             </p>
                           </div>
                           <p className="text-sm">

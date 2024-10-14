@@ -66,8 +66,6 @@ import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
 
 function ClaimList(props) {
-  const baseUrl = apiUrl();
-  console.log(baseUrl.bucket);
   const location = useLocation();
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
@@ -106,8 +104,10 @@ function ClaimList(props) {
   const [servicerList, setServicerList] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
+  
   const [error, setError] = useState("");
-  const [errorForCoverageType, setErrorForCoverageType] = useState("");
+  const [coverageTypeError, setCoverageTypeError] = useState({});
+  const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [selfServicer, setSelfServicer] = useState("");
   const [showdata, setShowdata] = useState(false);
   const [showdata1, setShowdata1] = useState(true);
@@ -207,7 +207,6 @@ function ClaimList(props) {
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
-    // console.log(selectedValue, value);
   };
   const handleSelectChange21 = (selectedValue, value) => {
     Shipment.setFieldValue(selectedValue, value);
@@ -221,22 +220,25 @@ function ClaimList(props) {
     }
   }, [location]);
 
-  const handleSelectChange = (selectedValue, value) => {
-    console.log(claimId)
+  const handleSelectChange = async (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
-      if (value === "Rejected") {
+      if (value === "rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-        value.claimStatus = "Rejected";
+        value.claimStatus = "rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
-      } else {
+      }
+      else if(value === "completed" ){
+        setIsComplete(true)
+      }
+       else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
-            value
+            value.type== "completed" ? value.type :value
           );
         };
 
@@ -256,7 +258,6 @@ function ClaimList(props) {
         coverageType:value
       }
       checkCoverageTypeDate(data).then((res)=>{
-        console.log(res)
         if(res.code==200){
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
@@ -266,18 +267,15 @@ function ClaimList(props) {
             );
           };
           updateAndCallAPI(setClaimType);
-          setErrorForCoverageType("")
         }
       else{
-        setErrorForCoverageType(res.message)
+        setCoverageTypeError(res)
+        setErrorForCoverageType(true)
         setLoading1(false);
       }
       })
-      console.log(loading1, "------2--------------");
-     
     } else if (selectedValue === "servicer") {
       setLoading1(true);
-      console.log(loading1, "------3--------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -290,7 +288,6 @@ function ClaimList(props) {
       updateAndCallAPI(setServicer);
     } else {
       setLoading1(true);
-      console.log(loading1, "-------4-------------");
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
@@ -320,8 +317,13 @@ function ClaimList(props) {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+      if(data.claimStatus=="rejected"){
+        const updatedClaimListCopy = { ...claimList };
+        updatedClaimListCopy.result[activeIndex][claimType] = "rejected";
+      }
     });
     closeReject();
+    closeCoveragType();
   };
 
   const updateAndSetStatus = (statusObject, name, res) => {
@@ -346,6 +348,7 @@ function ClaimList(props) {
     };
 
     editClaimStatus(claimId, data).then((res) => {
+      setIsComplete(false)
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
@@ -379,10 +382,9 @@ function ClaimList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then((res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
+      setClaimType(res.result.claimType);
       const updatedClaimListCopy = { ...claimList };
-      console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
-
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
@@ -397,10 +399,11 @@ function ClaimList(props) {
               res.result.getCoverClaimAmount;
               updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
               res.result.getcoverOverAmount;
+             await getClaimOptions(res.result.claimType)
           }
       }
       setClaimList(updatedClaimListCopy);
-      setClaimType(res.result.claimType);
+    
     });
   };
 
@@ -483,21 +486,16 @@ function ClaimList(props) {
     setIsEditOpen(false);
   };
 
-  const openReject = () => {
-    setIsRejectOpen(true);
-  };
-
   const closeReject = () => {
     setIsRejectOpen(false);
-    setShowForm(false); // Reset the form state
+    setShowForm(false); 
+  };
+  const closeCoveragType = () => {
+    setErrorForCoverageType(false);; 
   };
 
   const handleYesClick = () => {
     setShowForm(true);
-  };
-
-  const handleToggle = () => {
-    setShowDetails(!showDetails);
   };
 
   const handleSetActiveIndex = (index) => {
@@ -529,7 +527,6 @@ function ClaimList(props) {
         price: part.price || "",
         value: true,
       }));
-      console.log("repairPartsValues", repairPartsValues);
       formik.setValues({
         repairParts: repairPartsValues,
         note: claimList.result[index].note || " ",
@@ -591,7 +588,6 @@ function ClaimList(props) {
   };
 
   const calculateTotalCost = (cost1, cost2) => {
-    console.log(typeof(cost1), typeof(cost2));
     const totalCost = cost1 + cost2;
     if (totalCost === 0) {
       return "N/A";
@@ -620,7 +616,8 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    let typeValue = "Admin";
+    console.log('role',role)
+    let typeValue = "";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes("/dealer/claimList");
@@ -631,15 +628,13 @@ function ClaimList(props) {
       "/customer/claimList"
     );
 
-    console.log("isResellerPath", isResellerPath);
-
-    if (!isAdminView && !isResellerPath && !isCustomerPath) {
+    if (role == "Super Admin") {
       typeValue = "Admin";
-    } else if (isAdminView && !isResellerPath && !isCustomerPath) {
+    } else if (role == "Dealer") {
       typeValue = "Dealer";
-    } else if (!isAdminView && isResellerPath && !isCustomerPath) {
+    } else if (role =="Reseller") {
       typeValue = "Reseller";
-    } else if (!isAdminView && !isResellerPath && isCustomerPath) {
+    } else if (role=="Customer") {
       typeValue = "Customer";
     }
 
@@ -649,21 +644,21 @@ function ClaimList(props) {
       [
         {
           label:
-            !isAdminView && !isResellerPath && !isCustomerPath
+            role=="Super Admin"
               ? "Admin (To Self)"
               : "Admin ",
           value: "Admin",
         },
         {
           label:
-            isAdminView && !isResellerPath && !isCustomerPath
+           role=="Dealer"
               ? "Dealer (To Self)"
               : "Dealer ",
           value: "Dealer",
         },
         isValidReseller && {
           label:
-            !isAdminView && isResellerPath && !isCustomerPath
+           role=="Reseller"
               ? "Reseller (To Self)"
               : "Reseller",
           value: "Reseller",
@@ -671,7 +666,7 @@ function ClaimList(props) {
         !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
         {
           label:
-            !isAdminView && !isResellerPath && isCustomerPath
+             role=="Customer"
               ? "Customer (To Self)"
               : "Customer",
           value: "Customer",
@@ -832,9 +827,9 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
-       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
+        getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -912,7 +907,6 @@ function ClaimList(props) {
       });
       values.totalAmount = totalPrice;
       addClaimsRepairParts(claimId, values).then((res) => {
-        // console.log(res);
         if (res.code == 401) {
           setError(res.message);
         } else {
@@ -974,7 +968,8 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-    getClaimOptions();
+    // getClaimOptions();
+    
   }, []);
 
   useEffect(() => {
@@ -983,7 +978,8 @@ function ClaimList(props) {
     }
   }, [props]);
 
-  const getClaimOptions = async () => {
+  const getClaimOptions = async (value) => {
+    console.log(claimType,value)
     try {
       const data = [
         "repair_status",
@@ -991,19 +987,54 @@ function ClaimList(props) {
         "customer_status",
         "claim_status",
       ];
+      
       const result = await getOptions(data);
-
       const stateSetters = {
         repair_status,
         shipment_type,
         customer_status,
         claim_status,
       };
-      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+
+      const filterOptions = (key, options) => {
+        if (value === "" || value == "New") {
+          if (key === "claim_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "completed"),
+            };
+          }
+          if (key === "repair_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(
+                option =>
+                  option.value !== "repair_complete" &&
+                  option.value !== "servicer_shipped"
+              ),
+            };
+          }
+          if (key === "customer_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "product_received"),
+            };
+          }
+        }
+        return options;
+      };
+      
+
+      data.forEach((key, index) => {
+        const filteredOptions = filterOptions(key, result.result[index]);
+        console.log(result.result[index],filteredOptions)
+         stateSetters[key]?.(filteredOptions);
+      });
     } catch (error) {
       console.error("Error fetching claim options:", error);
     }
   };
+  
 
   const claimPaid = [
     {
@@ -1041,7 +1072,6 @@ function ClaimList(props) {
     validationSchema,
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
-      console.log("Form submitted with values:", values);
       setIsDisapprovedOpen(false);
       getAllClaims();
       setShowdata(false);
@@ -1054,7 +1084,6 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
-    console.log(isFormSubmittedRef.current);
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1137,7 +1166,6 @@ function ClaimList(props) {
       formData.append("file", file);
 
       addUploadCommentImage(formData).then((res) => {
-        // console.log(res.messageFile);
         formik2.setFieldValue("messageFile", res.messageFile);
       });
       reader.onload = (event) => {
@@ -1179,7 +1207,6 @@ function ClaimList(props) {
     isFormSubmittedRef.current = false;
     getAllClaims();
   };
-  // console.log(activeIndex, "++++++++++++++++_-------------------");
   const addTracker = () => { };
   return (
     <>
@@ -1636,7 +1663,7 @@ function ClaimList(props) {
                                             disabled={
                                               claimStatus.status ===
                                               "rejected" ||
-                                              claimStatus.status === "completed"
+                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                             }
                                             options={ claimList?.result?.[
                                               activeIndex
@@ -1650,7 +1677,6 @@ function ClaimList(props) {
                                         </>
                                       )}
                                              <span className="self-center w-[75px] mr-[1rem] text-red-500">
-  {errorForCoverageType && `${errorForCoverageType}`}
 </span>
                                       <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center w-[75px]  mr-[1rem]">
@@ -1851,7 +1877,7 @@ function ClaimList(props) {
                                       >
                                      
                                         <p className="text-white text-sm">
-  {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+  {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
 </p>
                                  
                                         <span className="text-light-green">
@@ -1905,7 +1931,7 @@ function ClaimList(props) {
                                         onClick={handleToggleDropdown2}
                                       >
                                     <p className="text-white text-sm">
-  {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+  {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
 </p>
                                         <p className="text-light-green">
                                           {" "}
@@ -1963,7 +1989,7 @@ function ClaimList(props) {
                                         onClick={handleToggleDropdown1}
                                       >
                                         <p className="text-white text-sm">
-                                        {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                        {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                         
                                         </p>
                                         <p className="text-light-green">
@@ -2197,8 +2223,6 @@ function ClaimList(props) {
                   }}
                   onSubmit={(values, { setSubmitting }) => {
                     handleSelectChange("claimStatus", values);
-                    // Submit logic here
-                    // console.log(values);
                     setSubmitting(false);
                     setActiveIndex(null);
                   }}
@@ -2230,6 +2254,54 @@ function ClaimList(props) {
               </div>
             </div>
           )}
+        </div>
+      </Modal>
+
+      <Modal isOpen={errorForCoverageType} onClose={closeCoveragType}>
+        <Button
+          onClick={closeCoveragType}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+            <Grid>
+              <div className="col-span-12">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
+                  {" "}
+                  <span className=""> {coverageTypeError.tittle} </span>
+                </p>
+                <p className="text-base font-medium mt-2 ">
+                 {coverageTypeError.message}
+                </p>
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+              <Button onClick={() => {
+                                    handleSelectChange("claimStatus" ,{
+                                      value: "rejected",
+                                      reason: coverageTypeError.message,
+                                    });
+}}
+                 className="w-full">
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-3">
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  onClick={closeCoveragType}
+                >
+                  No
+                </Button>
+              </div>
+              <div className="col-span-3"></div>
+            </Grid>
         </div>
       </Modal>
 
@@ -2714,14 +2786,14 @@ function ClaimList(props) {
             You want to complete this Claim ?
           </p>
           <div className="mt-3">
-            <Button type="submit">Yes</Button>
+            <Button type="submit" onClick={()=>{   handleSelectChange("claimStatus", {type:'completed'});}}>Yes</Button>
             <Button className="!bg-white !text-black" onClick={closeComplete}>
               No
             </Button>
           </div>
         </div>
       </Modal>
-
+ 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
           onClick={closeDisapproved}
@@ -2787,7 +2859,9 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("serial")}
                 />
               </div>
-              <div className="col-span-6">
+              {
+                role == "Super Admin" && (
+<div className="col-span-6">
                 <Input
                   type="text"
                   name="productName"
@@ -2797,6 +2871,9 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("productName")}
                 />
               </div>
+                )
+              }
+              
               <div className="col-span-6">
                 <Input
                   type="text"

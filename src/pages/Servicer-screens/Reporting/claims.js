@@ -390,10 +390,21 @@ function AllList(props) {
     editClaimTypeValue(claimId, data).then((res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
-
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
+          if (updatedClaimListCopy.result) {
+            updatedClaimListCopy.result[activeIndex]["claimType"] =
+              res.result.claimType;
+              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+              res.result.customerClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+              res.result.customerOverAmount;
+              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+              res.result.getCoverClaimAmount;
+              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+              res.result.getcoverOverAmount;
+          }
       }
       setClaimList(updatedClaimListCopy);
       setClaimType(res.result.claimType);

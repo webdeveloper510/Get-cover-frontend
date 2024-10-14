@@ -67,7 +67,7 @@ function CustomerOrderSummary(props) {
                       <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
-                            Product SKU : <b> {res.name} </b>
+                            Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
@@ -162,7 +162,7 @@ function CustomerOrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageStartDate),
+                                new Date(res.coverageStartDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
@@ -175,7 +175,7 @@ function CustomerOrderSummary(props) {
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageEndDate),
+                                new Date(res.coverageEndDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>

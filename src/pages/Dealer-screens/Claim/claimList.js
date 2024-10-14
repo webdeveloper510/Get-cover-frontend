@@ -100,7 +100,7 @@ function ClaimList(props) {
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
   const [price, setPrice] = useState("");
-  const [errorForCoverageType, setErrorForCoverageType] = useState("");
+  const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [serviceType, setServiceType] = useState([]);
   const [serviceType1, setServiceType1] = useState([
     { label: "Parts", value: "Parts" },
@@ -111,6 +111,7 @@ function ClaimList(props) {
   const [customerValue, customer_status] = useState({});
   const [claimvalues, claim_status] = useState({});
   const [shipment, shipment_type] = useState({});
+  const [coverageTypeError, setCoverageTypeError] = useState({});
 
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(true);
@@ -171,12 +172,12 @@ function ClaimList(props) {
     getLoginUser();
   }, [messageList, claimId]);
   const getLoginUser = async () => {
-    setLoading1(true);
+    setModelLoading(true);
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
     setServicerCreateAccountOption(result?.result?.isServicer);
-    setLoading1(false);
+    setModelLoading(false);
   };
   const downloadImage = async (file) => {
     try {
@@ -238,7 +239,7 @@ function ClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         value.claimStatus = "rejected";
-        editClaimrejectedValue(claimList.result[activeIndex]._id, value);
+        editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
@@ -257,14 +258,14 @@ function ClaimList(props) {
             console.error("here");
         }
       }
-    }  else if (selectedValue === "claimType") {
+    } 
+    else if (selectedValue === "claimType") {
       setLoading1(true);
       let data={
         claimId:claimList.result[activeIndex]._id,
         coverageType:value
       }
       checkCoverageTypeDate(data).then((res)=>{
-        console.log(res)
         if(res.code==200){
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
@@ -274,15 +275,13 @@ function ClaimList(props) {
             );
           };
           updateAndCallAPI(setClaimType);
-          setErrorForCoverageType("")
         }
       else{
-        setErrorForCoverageType(res.message)
+        setCoverageTypeError(res)
+        setErrorForCoverageType(true)
         setLoading1(false);
       }
       })
-      console.log(loading1, "------2--------------");
-     
     } else if (selectedValue === "servicer") {
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
@@ -325,13 +324,14 @@ function ClaimList(props) {
     handleFilterIconClick();
   };
   // console.log(coverage, "---------------------->>>>>");
-  const editClaimrejectedValue = (claimId, data) => {
+  const editClaimRejectedValue = (claimId, data) => {
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
     });
     closeReject();
+    closeCoveragType();
   };
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
@@ -381,12 +381,16 @@ function ClaimList(props) {
       });
   };
 
+  const closeCoveragType = () => {
+    setErrorForCoverageType(false);; 
+  }
+  
   const editClaimClaimType = (claimId, statusType, statusValue) => {
     let data = {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then((res) => {
+    editClaimTypeValue(claimId, data).then(async(res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
@@ -401,6 +405,7 @@ function ClaimList(props) {
           res.result.getCoverClaimAmount;
           updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
           res.result.getcoverOverAmount;
+          await getClaimOptions(res.result.claimType)
       }
       console.log(updatedClaimListCopy)
       setClaimList(updatedClaimListCopy);
@@ -668,8 +673,10 @@ function ClaimList(props) {
     if (totalCost === 0) {
       return "N/A";
     }
+  
     return `$${totalCost.toFixed(2)}`;
   };
+  
 
   const closeView = () => {
     formik.resetForm();
@@ -903,6 +910,7 @@ function ClaimList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
+        getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1049,11 +1057,12 @@ function ClaimList(props) {
   useEffect(() => {
     if (activeTab === "All Claims") {
       getAllClaims();
-      getClaimOptions();
+      // getClaimOptions();
     }
   }, [props]);
 
-  const getClaimOptions = async () => {
+  const getClaimOptions = async (value) => {
+    console.log(claimType,value)
     try {
       const data = [
         "repair_status",
@@ -1061,15 +1070,49 @@ function ClaimList(props) {
         "customer_status",
         "claim_status",
       ];
+      
       const result = await getOptions(data);
-
       const stateSetters = {
         repair_status,
         shipment_type,
         customer_status,
         claim_status,
       };
-      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+
+      const filterOptions = (key, options) => {
+        if (value === "" || value == "New") {
+          if (key === "claim_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "completed"),
+            };
+          }
+          if (key === "repair_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(
+                option =>
+                  option.value !== "repair_complete" &&
+                  option.value !== "servicer_shipped"
+              ),
+            };
+          }
+          if (key === "customer_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "product_received"),
+            };
+          }
+        }
+        return options;
+      };
+      
+
+      data.forEach((key, index) => {
+        const filteredOptions = filterOptions(key, result.result[index]);
+        console.log(result.result[index],filteredOptions)
+         stateSetters[key]?.(filteredOptions);
+      });
     } catch (error) {
       console.error("Error fetching claim options:", error);
     }
@@ -1561,9 +1604,9 @@ function ClaimList(props) {
                                       </p>
                                       </>
                                       )}
-                                       <span className="self-center w-[75px] mr-[1rem] text-red-500">
+                                       {/* <span className="self-center w-[75px] mr-[1rem] text-red-500">
   {errorForCoverageType && `${errorForCoverageType}`}
-</span>
+</span> */}
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
                                       {shipment.label}:
@@ -1775,7 +1818,8 @@ function ClaimList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "rejected" ||
-                                      claimStatus.status == "completed" ? (
+                                      claimStatus.status == "completed" ||
+                                      role != "Super Admin"? (
                                       <></>
                                     ) : (
                                       <div
@@ -1791,7 +1835,7 @@ function ClaimList(props) {
                                           disableFirstOption={true}
                                           disabled={
                                             claimStatus.status == "rejected" ||
-                                            claimStatus.status == "completed"
+                                            claimStatus.status == "completed" 
                                           }
                                           classBox='!bg-transparent'
                                           white
@@ -2780,6 +2824,55 @@ function ClaimList(props) {
           <p className="text-neutral-grey text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
+        </div>
+      </Modal>
+
+
+      <Modal isOpen={errorForCoverageType} onClose={closeCoveragType}>
+        <Button
+          onClick={closeCoveragType}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+            <Grid>
+              <div className="col-span-12">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
+                  {" "}
+                  <span className=""> {coverageTypeError?.tittle} </span>
+                </p>
+                <p className="text-base font-medium mt-2 ">
+                 {coverageTypeError?.message}
+                </p>
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+              <Button onClick={() => {
+                                    handleSelectChange("claimStatus" ,{
+                                      value: "rejected",
+                                      reason: coverageTypeError.message,
+                                    });
+}}
+                 className="w-full">
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-3">
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  onClick={closeCoveragType}
+                >
+                  No
+                </Button>
+              </div>
+              <div className="col-span-3"></div>
+            </Grid>
         </div>
       </Modal>
 

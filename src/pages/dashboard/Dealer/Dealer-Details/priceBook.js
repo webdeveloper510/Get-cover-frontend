@@ -774,7 +774,12 @@ function PriceBookList(props) {
                   # of Claims Over the Certain <br /> Period
                 </p>
                 <p className="text-[14px] font-semibold">
-                  {dealerPriceBookDetail?.noOfClaim?.period} -{" "}
+                  
+                {
+ dealerPriceBookDetail?.noOfClaim?.value == "-1"
+    ? ""
+    : `${dealerPriceBookDetail?.noOfClaim?.period} - `
+}
                   {dealerPriceBookDetail?.noOfClaim?.value == -1
                     ? "Unlimited"
                     : dealerPriceBookDetail?.noOfClaim?.value}
@@ -793,7 +798,7 @@ function PriceBookList(props) {
               <div className="col-span-4">
                 <p className=" text-base mb-3 font-semibold">
                   {" "}
-                  Is Include manufacturer <br /> warranty?
+                  Is manufacturer warranty included?
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.isManufacturerWarranty == true

@@ -6,6 +6,7 @@ import routes from './routes/routes';
 import { getSetting } from './services/extraServices';
 
 function App() {
+  const [siteSettings, setSiteSettings] = useState(null);
   const routing = useRoutes(routes);
 
   useEffect(() => {
@@ -14,20 +15,11 @@ function App() {
         console.log("Fetching user details...");
         const userDetails = await getSetting();
         console.log("User details fetched:", userDetails);
-        const fetchedData = userDetails.result[0];
-        localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
-        if (userDetails && userDetails.result && userDetails.result.length > 0) {
 
-          console.log("User details are valid, updating favicon...");
-          let link = document.querySelector("link[rel~='icon']");
-          if (!link) {
-            link = document.createElement('link');
-            link.rel = 'icon';
-            document.getElementsByTagName('head')[0].appendChild(link);
-          }
-          console.log(`${userDetails?.result[0]?.favIcon.baseUrl}uploads/logo/${userDetails.result[0].favIcon.fileName}`)
-          link.href = `${userDetails?.result[0]?.favIcon.baseUrl}uploads/logo/${userDetails.result[0].favIcon.fileName}`;
-          document.title = userDetails.result[0].title || 'Default Title';
+        if (userDetails && userDetails.result && userDetails.result.length > 0) {
+          const fetchedData = userDetails.result[0];
+          localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
+          setSiteSettings(fetchedData); 
         } else {
           console.log("User details are invalid or empty.");
         }
@@ -39,6 +31,21 @@ function App() {
     fetchUserDetails();
   }, []);
 
+  useEffect(() => {
+    console.log('herrrrrrrrrrrrrrrrrrrrrr',siteSettings)
+    if (siteSettings) {
+      console.log("User details are valid, updating favicon...");
+      let link = document.querySelector("link[rel~='icon']");
+      if (!link) {
+        link = document.createElement('link');
+        link.rel = 'icon';
+        document.getElementsByTagName('head')[0].appendChild(link);
+      }
+      console.log(`${siteSettings?.favIcon?.baseUrl}uploads/logo/${siteSettings?.favIcon?.fileName}`);
+      link.href = `${siteSettings?.favIcon?.baseUrl}uploads/logo/${siteSettings?.favIcon?.fileName}`;
+      document.title = siteSettings?.title || 'Default Title';
+    }
+  }, [siteSettings]);
 
   return (
     <MyContextProvider>

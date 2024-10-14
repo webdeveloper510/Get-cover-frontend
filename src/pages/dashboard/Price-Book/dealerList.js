@@ -723,7 +723,7 @@ function DealerPriceList() {
               <div className="col-span-3">
                 <p className=" text-base mb-3 font-semibold">
                   {" "}
-                  Is Include manufacturer <br /> warranty?
+                  Is manufacturer warranty included?
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.isManufacturerWarranty == true
@@ -734,7 +734,7 @@ function DealerPriceList() {
               <div className="col-span-3">
                 <p className=" text-base mb-3 font-semibold">
                   {" "}
-                  Is Maximum Claim Amount ?
+                  Is There a Maximum Claim Amount?
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.isMaxClaimAmount == true
