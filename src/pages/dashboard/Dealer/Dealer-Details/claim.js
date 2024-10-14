@@ -30,6 +30,8 @@ import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White
 import arrowImage from "../../../../assets/images/dropdownArrow.png";
 import checkIcon from "../../../../assets/images/check-mark.png";
 import upload from "../../../../assets/images/icons/upload.svg";
+import Primary from "../../../../assets/images/SetPrimary.png";
+import request from "../../../../assets/images/request.png";
 import Select from "../../../../common/select";
 import Cross from "../../../../assets/images/Cross.png";
 import Headbar from "../../../../common/headBar";
@@ -54,6 +56,10 @@ import {
   checkCoverageTypeDate,
   checkClaimAmount,
   getOptions,
+  getUnpaidClaims,
+  getPaidClaims,
+  markasPaidClaims,
+  getClaimUnpaid,
 } from "../../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -124,6 +130,11 @@ function ClaimList(props) {
     { label: "Accidental", value: "Accidental" },
   ]);
   const navigate = useNavigate();
+  const [isPayOpen, setIsPayOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [claims, setClaims] = useState();
+  const [claimValues, setClaimValues] = useState();
+  const [isCheckBox, setIsCheckbox] = useState(false);
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
   const [initialValues, setInitialValues] = useState({
@@ -133,7 +144,39 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const { claimIdValue } = useParams();
+  const { claimIdValue } = useParams();  const [checkboxStates, setCheckboxStates] = useState([]);
+
+  const handleCheckboxChange = (id) => {
+    console.log(id, "----------");
+    const isChecked = checkboxStates.includes(id);
+    if (isChecked) {
+      const newCheckboxStates = checkboxStates.filter(
+        (checkboxId) => checkboxId !== id
+      );
+      setCheckboxStates(newCheckboxStates);
+    } else {
+      setCheckboxStates([...checkboxStates, id]);
+    }
+  };
+
+  const handleSelectAll = (claimList) => {
+    const ids = claimList.result.map((item) => item._id);
+    const newCheckboxStates = [...checkboxStates, ...ids];
+    const uniqueCheckboxStates = Array.from(new Set(newCheckboxStates));
+    setCheckboxStates(uniqueCheckboxStates);
+    console.log(checkboxStates, "----------------:::::::::");
+  };
+
+  const handleUnselectAll = () => {
+    setCheckboxStates([]);
+  };
+
+  const anyCheckboxChecked = () => {
+    return checkboxStates.some((isChecked) => isChecked);
+  };
+
+  const selectedCount = checkboxStates.filter((isChecked) => isChecked).length;
+  const totalCount = claimList?.result?.length || 0;
 
   const excludedPaths = [
     "/customer/claimList",
@@ -191,7 +234,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     let intervalId;
-    if (isAttachmentsOpen && timer > 0) {
+    if (isAttachmentsOpen  || (isSuccessOpen && timer > 0)) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -199,11 +242,12 @@ function ClaimList(props) {
 
     if (timer === 0) {
       setIsAttachmentsOpen(false);
+      setIsSuccessOpen(false);
     }
     return () => {
       clearInterval(intervalId);
     };
-  }, [isAttachmentsOpen, timer]);
+  }, [isAttachmentsOpen,isSuccessOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -313,6 +357,37 @@ function ClaimList(props) {
     setTimeout(() => {
       setLoading1(false);
     }, 3000);
+  };
+
+  const closePay = () => {
+    setIsPayOpen(false);
+  };
+
+  const markClaimsasPaid = async (data) => {
+    const apiResponse = await markasPaidClaims(data);
+    setLoading1(true);
+    setIsPayOpen(false);
+    setIsSuccessOpen(true);
+    console.log(apiResponse);
+    if (apiResponse) {
+      getAllClaims();
+    }
+    setLoading1(false);
+  };
+
+  const openPay = () => {
+    setIsPayOpen(true);
+    setLoading1(true);
+    getClaimUnpaid(checkboxStates).then((res) => {
+      setClaims(res.result.totalClaims);
+      setClaimValues(res.result.unpaidValue);
+      setLoading1(false);
+    });
+  };
+
+  const closeModal1 = () => {
+    getAllClaims();
+    setIsSuccessOpen(false);
   };
 
   const editClaimrejectedValue = (claimId, data) => {
@@ -846,7 +921,7 @@ function ClaimList(props) {
             ];
       setClaim(claims);
       const bdAdhValue = claimList.result[activeIndex]?.claimType;
-
+console.log(claimList.result[activeIndex]?.claimType)
       setClaimType(bdAdhValue);
 
       setError("");
@@ -1066,15 +1141,24 @@ function ClaimList(props) {
     };
     let getClaimListPromise;
 
-    if (props.flag === "dealer") {
+    if (props.flag === "dealer" && props.activeTab != "Unpaid Claims" && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForDealer(props.id, data);
-    } else if (props.flag === "servicer") {
+    }
+   else if (props.activeTab === "Unpaid Claims") {
+    data.flag=0
+    getClaimListPromise =  getUnpaidClaims(props.id, data);
+    } 
+    else if (props.activeTab === "Paid Claims"){
+    data.flag=1
+      getClaimListPromise =  getPaidClaims(props.id, data);
+    }
+     else if (props.flag === "servicer" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller") {
+    } else if (props.flag === "reseller" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForReseller(props.id, data);
-    } else if (window.location.pathname.includes("/reseller/claimList")) {
+    } else if (window.location.pathname.includes("/reseller/claimList")  && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForResellerPortal(props.id, data);
-    } else if (props.flag === "customer") {
+    } else if (props.flag === "customer" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       if (claimIdValue == undefined) {
@@ -1305,6 +1389,26 @@ function ClaimList(props) {
           </Grid>
 
           <div className="px-3 mt-5">
+          {totalRecords == 0 ? (
+                <></>
+              ) : (
+                <>
+                  {props.activeTab == "Unpaid Claims" && (
+                    <>
+                      {!isCheckBox && (
+                        <div className="text-right mt-8">
+                          <Button
+                            className="mx-3 !text-[14px] !py-[4px]"
+                            onClick={() => setIsCheckbox(true)}
+                          >
+                            Pay Now
+                          </Button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
             {loaderType == true ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
@@ -1313,6 +1417,38 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
+                 {anyCheckboxChecked() && (
+                        <Grid>
+                          <div className="col-span-3">
+                            <p>
+                              {selectedCount} Of {totalCount}
+                            </p>
+                          </div>
+                          <div className="col-span-4"></div>
+                          <div className="col-span-5">
+                            <div className="flex justify-end">
+                              <Button
+                                className="!text-[14px] !py-[4px]"
+                                onClick={() => handleSelectAll(claimList)}
+                              >
+                                Select All
+                              </Button>
+                              <Button
+                                className="mx-3 !text-[14px] !py-[4px]"
+                                onClick={() => openPay()}
+                              >
+                                Mark As Paid
+                              </Button>
+                              <Button
+                                onClick={handleUnselectAll}
+                                className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
+                              >
+                                Unselect
+                              </Button>
+                            </div>
+                          </div>
+                        </Grid>
+                      )}
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -1383,6 +1519,33 @@ function ClaimList(props) {
                                     />
                                   )}
                               </div>
+                              {props.activeTab == "Unpaid Claims" ? (
+                                        isCheckBox ? (
+                                          <>
+                                            <div
+                                              key={index}
+                                              className="border p-[11px] px-[18px] rounded-3xl self-center"
+                                            >
+                                              <input
+                                                id={`push-nothing-${index}`}
+                                                name={`push-notifications-${index}`}
+                                                type="checkbox"
+                                                className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
+                                                onChange={() =>
+                                                  handleCheckboxChange(res._id)
+                                                }
+                                                checked={checkboxStates.includes(
+                                                  res._id
+                                                )}
+                                              />
+                                            </div>
+                                          </>
+                                        ) : (
+                                          <></>
+                                        )
+                                      ) : (
+                                        <></>
+                                      )}
                             </Grid>
                             <Grid
                               className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
@@ -1617,8 +1780,7 @@ function ClaimList(props) {
                                           )}
                                         </p>
                                       )}
-
-                                      {!isExcludedPath && (
+      {!isExcludedPath && (
                                         <>
                                         <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                           <span className="self-center mr-4">
@@ -1636,7 +1798,7 @@ function ClaimList(props) {
                                             disabled={
                                               claimStatus.status ===
                                               "rejected" ||
-                                              claimStatus.status === "completed"
+                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                             }
                                             options={ claimList?.result?.[
                                               activeIndex
@@ -2109,6 +2271,7 @@ function ClaimList(props) {
             )}
           </div>
           <div>
+            
             {totalRecords === 0 && !loaderType ? (
               <>
                 <div className="text-center my-5">
@@ -2136,6 +2299,20 @@ function ClaimList(props) {
           </div>
         </Card>
       </div>
+      <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
+        <div className="text-center py-3">
+          <img src={Primary} alt="email Image" className="mx-auto my-4" />
+          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            <span className="text-light-black"> Claim Successfully Paid </span>
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2 ">
+            You have successfully marked the Claim as paid
+          </p>
+          <p className="text-neutral-grey text-base font-medium mt-2">
+            Redirecting you on Claim List Page {timer} seconds.
+          </p>
+        </div>
+      </Modal>
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
@@ -2908,6 +3085,68 @@ function ClaimList(props) {
             </Grid>
           </form>
         </div>
+      </Modal>
+
+      <Modal isOpen={isPayOpen} onClose={closePay}>
+        <Button
+          onClick={closePay}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        {loading1 ? (
+          <>
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="p-3 text-center">
+            <img src={request} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+              {" "}
+              <span className="text-light-black"> Marked As Paid </span>
+            </p>
+            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
+              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+              claim with{" "}
+              <span className="text-light-black">
+                ${formatOrderValue(claimValues ?? parseInt(0))}
+              </span>{" "}
+              amount.
+              <br /> Do you want to paid ?
+            </p>
+            <div className="mt-4">
+              <Grid>
+                <div className="col-span-3"></div>
+                <div className="col-span-3">
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      markClaimsasPaid(checkboxStates);
+                    }}
+                  >
+                    Yes
+                  </Button>
+                </div>
+                <div className="col-span-3">
+                  <Button
+                    onClick={closePay}
+                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                  >
+                    No
+                  </Button>
+                </div>
+                <div className="col-span-3"></div>
+              </Grid>
+            </div>
+          </div>
+        )}
       </Modal>
     </>
   );
