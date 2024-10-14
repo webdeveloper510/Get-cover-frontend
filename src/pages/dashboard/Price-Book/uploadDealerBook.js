@@ -239,7 +239,7 @@ function UploadDealerBook() {
 
           {/* Form Start */}
           <Grid className="">
-            <div className="col-span-12">
+            <div className="col-span-6">
 
               <form className="mt-8" onSubmit={formik.handleSubmit}>
                 <Card className="px-8 pb-8  drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
@@ -344,7 +344,7 @@ function UploadDealerBook() {
                 </Card>
               </form>
             </div>
-            {/* <div className="col-span-6">
+            <div className="col-span-6">
               <form className="mt-8" onSubmit={formik.handleSubmit}>
                 <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
                   <p className="text-xl font-semibold ">Company PriceBook</p>
@@ -427,7 +427,7 @@ function UploadDealerBook() {
                   </Button>
                 </Card>
               </form>
-            </div> */}
+            </div>
           </Grid>
 
           {/* Modal Email Popop */}
