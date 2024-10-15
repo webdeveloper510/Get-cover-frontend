@@ -33,7 +33,6 @@ function Setting(props) {
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [shipping, setShipping] = useState("yes");
   const [coverage, setCoverage] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("yes");
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const [primaryText, SetPrimaryText] = useState("");
@@ -232,6 +231,7 @@ function Setting(props) {
       URL.revokeObjectURL(blobUrl);
     } catch (e) {}
   };
+
   const handleRadio = (event) => {
     setShipping(event.target.value);
   };
@@ -443,7 +443,7 @@ function Setting(props) {
   <div className="col-span-2 pt-1">
     <Button
       className="w-full flex"
-      onClick={() => handelDownload(selectedFile2?.fileName)}
+      onClick={() => handelDownload(props?.dealerDetails?.termCondition?.fileName)}
     >
       <img src={download} className="w-[20px]" alt="download" />
       <span className="self-center pl-2"> Download </span>

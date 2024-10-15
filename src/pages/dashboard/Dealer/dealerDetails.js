@@ -143,11 +143,6 @@ function DealerDetails() {
   const state = cityData;
   const containerRef = useRef(null);
 
-  const handleSeparateAccountRadioChange = (event) => {
-    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    setSeparateAccountOption(valueAsBoolean);
-    formik.setFieldValue("userAccount", valueAsBoolean);
-  };
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
@@ -164,14 +159,6 @@ function DealerDetails() {
       dealerSettingData();
     }
   }, [activeTab, id.id, flag]);
-
-  const handleScrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.add("scroll-transition");
-      containerRef.current.scrollLeft += 120; // Adjust scroll distance as needed
-      setScrolling(true);
-    }
-  };
 
   const handleTransitionEnd = () => {
     if (containerRef.current) {
@@ -301,16 +288,6 @@ function DealerDetails() {
         zip: result?.result[0]?.dealerData?.zip,
         state: result?.result[0]?.dealerData?.state,
         country: "USA",
-        // serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
-        // coverageType: result?.result[0]?.dealerData?.coverageType,
-        // userAccount: result?.result[0]?.dealerData?.userAccount,
-        // isShippingAllowed:
-        //   result?.result[0]?.dealerData?.isShippingAllowed === true
-        //     ? "yes"
-        //     : "no",
-        // isServicer: result?.result[0]?.dealerData?.isServicer,
-        // termCondition: result?.result[0]?.dealerData?.termCondition,
-        // isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
       });
       setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
 
@@ -409,55 +386,7 @@ function DealerDetails() {
     },
   });
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const maxSize = 10048576;
-    if (file?.size > maxSize) {
-      formik.setFieldError(
-        "termCondition",
-        "File is too large. Please upload a file smaller than 10MB."
-      );
-      console.log("Selected file:", file);
-    } else {
-      const formData = new FormData();
-      formData.append("file", file);
-      const result = uploadTermsandCondition(formData).then((res) => {
-        console.log(result);
-        formik.setFieldValue("termCondition", {
-          fileName: res?.file?.filename,
-          name: res?.file?.originalname,
-          size: res?.file?.size,
-        });
-      });
-      if (file != undefined) {
-        setSelectedFile2(file);
-      } else {
-        setSelectedFile2({
-          fileName: "",
-          name: "",
-          size: "",
-        });
-      }
-    }
-
-    console.log("Selected file:================", file);
-  };
-
-  const handleRemoveFile = () => {
-    if (inputRef) {
-      inputRef.current.click();
-      formik.setFieldValue("termCondition", {
-        fileName: "",
-        name: "",
-        size: "",
-      });
-      setSelectedFile2({
-        fileName: "",
-        name: "",
-        size: "",
-      });
-    }
-  };
+ 
   const servicerForm = useFormik({
     initialValues: {
       selectedItems: [],

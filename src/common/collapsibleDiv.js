@@ -16,36 +16,25 @@ const CollapsibleDiv = ({
 
   const handleToggleCollapse = () => {
     const newIsCollapsed = !isCollapsed;
-    setIsCollapsed(newIsCollapsed);
+
+    // If opening this collapsible, close any others
     if (!newIsCollapsed) {
-      localStorage.setItem("activeIndex", index);
       setActiveIndex(index);
-    } else {
-      localStorage.removeItem("activeIndex");
+    } else if (activeIndex === index) {
       setActiveIndex(null);
     }
+
+    setIsCollapsed(newIsCollapsed);
   };
 
   useEffect(() => {
-    const storedActiveIndex = localStorage.getItem("activeIndex");
-    if (storedActiveIndex !== null) {
-      setIsCollapsed(index !== parseInt(storedActiveIndex, 10));
-    }
-  }, [index]);
-
-  useEffect(() => {
-    if (activeIndex !== null && activeIndex !== index) {
-      setIsCollapsed(true);
-    }
+    // Set the collapsed state based on activeIndex prop
+    setIsCollapsed(activeIndex !== index);
   }, [activeIndex, index]);
 
   useEffect(() => {
     if (contentRef.current) {
-      if (isCollapsed) {
-        contentRef.current.style.maxHeight = "0px";
-      } else {
-        contentRef.current.style.maxHeight = `${contentRef.current.scrollHeight}px`;
-      }
+      contentRef.current.style.maxHeight = isCollapsed ? "0px" : `${contentRef.current.scrollHeight}px`;
     }
   }, [isCollapsed]);
 

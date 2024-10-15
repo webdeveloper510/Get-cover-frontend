@@ -101,6 +101,7 @@ function Account() {
   });
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
+ const [sections, setSections] = useState([]);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedAction(null);
@@ -265,14 +266,6 @@ function Account() {
     openModal2();
     fetchUserMembers();
   };
-
-  const sections = [
-    { title: "Coverage Types", data: coverageType },
-    { title: "Repair Status", data: repairValue },
-    { title: "Customer Status", data: customerValue },
-    { title: "Shipment Types", data: shipment },
-    { title: "Claim Status", data: claimvalues }, // Add claimStatus to your state
-  ];
 
   const deleteUser = async () => {
     const result = await deleteUserByUserId(deleteId);
@@ -823,8 +816,6 @@ function Account() {
   const [bankDetails, setBankDetails] = useState('');
   const [address, setAddress] = useState('');
   const [defaults, setDefaults] = useState(true);
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
   const [activeIndex, setActiveIndex] = useState(null);
   const [showdata, setShowdata] = useState(true);
   const handleColorChange = (field, setter) => (event) => {
@@ -1048,12 +1039,23 @@ function Account() {
   };
 
 
-  const handleStatusToggle = (id) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row._id === id ? { ...row, status: !row.status } : row
-      )
-    );
+  const handleStatusToggle = async (rowId, sectionData, index) => {
+    console.log(sectionData)
+    if (activeIndex != index) return;
+    const updatedSectionData = sectionData.value.map((item) => {
+      if (item._id === rowId) {
+        return {
+          ...item,
+          status: !item.status,
+        };
+      }
+      return item;
+    });
+  console.log(updatedSectionData)
+    const newSectionData = [...sections]; 
+    newSectionData[index].data.value = updatedSectionData;
+    console.log(newSectionData)
+    setSections(newSectionData)
   };
 
   const getClaimOptions = async () => {
@@ -1066,7 +1068,6 @@ function Account() {
         "claim_status",
       ];
       const result = await getOptions(data);
-
       const stateSetters = {
         repair_status,
         shipment_type,
@@ -1074,13 +1075,25 @@ function Account() {
         coverage_type,
         claim_status,
       };
-      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+  
+      data.forEach((key, index) => {
+        stateSetters[key]?.(result.result[index]);
+      });
+
+      setSections([
+        { title: "Coverage Types", data: result.result[3] },
+        { title: "Repair Status", data: result.result[0] },  
+        { title: "Customer Status", data: result.result[2] },
+        { title: "Shipment Types", data: result.result[1] },  
+        { title: "Claim Status", data: result.result[4] }, 
+      ]);
     } catch (error) {
       console.error("Error fetching claim options:", error);
     }
   };
-  const [labels, setLabels] = useState(['']);
-  const [values, setValues] = useState(['']);
+  
+  const [labels, setLabels] = useState(Array(sections.length).fill(""));
+  const [values, setValues] = useState(Array(sections.length).fill(""));
   const [editingIndex, setEditingIndex] = useState(null);
   
   const [editingRowId, setEditingRowId] = useState(null); 
@@ -1099,84 +1112,82 @@ const handleEditOption = (id, sectionData, index) => {
       newValues[index] = row.value;
       return newValues;
     });
-    
+    setEditingRowId(id)
     setEditingIndex(index);
   }
 };
-const handleLabelChange = (e) => {
-  const newLabel = e.target.value;
-  setLabels((prev) => {
-    const newLabels = [...prev];
-    newLabels[editingIndex] = newLabel;
-    return newLabels;
-  });
+const handleLabelChange = (index, value) => {
+  const newLabels = [...labels];
+  newLabels[index] = value;
+  setLabels(newLabels);
 };
 
-const handleValueChange = (e) => {
-  console.log(e)
-  const newValue = e.target.value;
-  setValues((prev) => {
-    const newValues = [...prev];
-    newValues[editingIndex] = newValue;
-    return newValues;
-  });
+const handleValueChange = (index, value) => {
+  const newValues = [...values];
+  newValues[index] = value;
+  setValues(newValues);
 };
 
-const handleAddOrUpdate = async (editingRowId, labelId) => {
-  if (editingRowId !== null && labelId) {
-    console.log('Updating row', editingRowId, labelId);
-    
-    // Get the current label and value based on the editing index
-    const currentLabel = labels[editingRowId];
-    const currentValue = values[editingRowId];
+const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex) => { 
+  const currentLabel = labels[sectionIndex]; 
+  const currentValue = values[sectionIndex]; 
 
-    const updatedData = {
-      label: currentLabel,
-      value: currentValue,
-      labelId,
-    };
+  const newData = {
+    label: currentLabel,
+    value: currentValue,
+    labelId,
+  };
 
-    try {
-      // Make the API call to edit the option
-      const res = await editOption(labelId, updatedData);
+  try {
+    if (editingRowId !== null && labelId) {
+      // Update case
+      console.log('Updating row', editingRowId, labelId);
+      const res = await editOption(labelId, newData);
+      setSections((prevSections) => {
+        const updatedSections = [...prevSections]; // Using updatedSections correctly
+        const updatedSectionData = updatedSections[sectionIndex].data.value.map((item) =>
+          item._id === editingRowId
+            ? { ...item, label: currentLabel, value: currentValue } 
+            : item
+        );
 
-      // Update the coverage type in state
-      const updatedCoverageType = coverageType.value.map((item) =>
-        item.id === editingRowId
-          ? {
-              ...item,
-              value: item.value.map((val) =>
-                val.id === labelId ? { ...val, label: currentLabel } : val
-              ),
-            }
-          : item
-      );
-
-      coverageType({ ...coverageType, value: updatedCoverageType });
-
-      // Reset label and value states
-      setLabels((prev) => {
-        const newLabels = [...prev];
-        newLabels[editingRowId] = '';
-        return newLabels;
+        updatedSections[sectionIndex].data.value = updatedSectionData;  
+        return updatedSections;
       });
-      
-      setValues((prev) => {
-        const newValues = [...prev];
-        newValues[editingRowId] = '';
-        return newValues;
+    } else {
+      // Add case
+      console.log('Adding new row');
+      setSections((prevSections) => {
+        const addOptionupdatedSections = [...prevSections]; 
+        addOptionupdatedSections[sectionIndex].data.value = [
+          ...addOptionupdatedSections[sectionIndex].data.value,
+          {status: true,value: currentValue, label: currentLabel, value: currentValue,  _id: '66d6d8a08e8d1db1d80033b10',},  
+        ];
+        console.log(addOptionupdatedSections)
+        return addOptionupdatedSections; 
       });
-
-      // Reset editing index
-      setEditingIndex(null);
-    } catch (error) {
-      console.error('Failed to update coverage type:', error);
     }
-  } else {
-    // Handle case when no editing row is defined
-    console.log('No editing row or label ID provided');
+
+    // Resetting the label and value after the add/update operation
+    setLabels((prev) => {
+      const newLabels = [...prev];
+      newLabels[sectionIndex] = '';  
+      return newLabels;
+    });
+    
+    setValues((prev) => {
+      const newValues = [...prev];
+      newValues[sectionIndex] = ''; 
+      return newValues;
+    });
+
+    setEditingIndex(null);  // Reset the editing index
+  } catch (error) {
+    console.error('Failed to add/update option:', error);
   }
 };
+
+
 
 const handleCancelEdit = () => {
   setEditingRowId(null);
@@ -1234,11 +1245,11 @@ const handleCancelEdit = () => {
                   }`}
                 onClick={() => handleButtonClick("siteSetting")}
               >   Site Setting</Button>
-              {/* <Button
+              <Button
                 className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "Settings" ? "!bg-grayf9 !text-black" : ""
                   }`}
                 onClick={() => handleButtonClick("Settings")}
-              >   Option Settings</Button> */}
+              >   Option Settings</Button>
             </div>
           </div>
 
@@ -1903,7 +1914,8 @@ const handleCancelEdit = () => {
         <CollapsibleDiv
           ShowData={showdata}
           activeIndex={activeIndex}
-          setActiveIndex={handleSetActiveIndex}
+          setActiveIndex={setActiveIndex}
+          index={index} // Pass the index to the child
           imageClass="w-10 h-10"
           title={
             <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
@@ -1919,36 +1931,29 @@ const handleCancelEdit = () => {
                 <Input
                   type="text"
                   label="Coverage Type Label"
-                  value={labels[index] || labels[0]}
-                  onChange={handleLabelChange}
+                  value={labels[index] || ''}
+                  onChange={(e) => handleLabelChange(index, e.target.value)}
                   placeholder=""
+                 // Disable if not editing this section
                 />
               </div>
               <div className="col-span-5">
                 <Input
                   type="text"
                   label="Coverage Type Value"
-                  value={values[index] || values[0]}
-                  onChange={editingRowId === null ? handleValueChange : null} // Disable input on edit
-                  disabled={editingRowId !== null} // Disable if editing
+                  value={values[index] || ''}
+                  onChange={(e) => handleValueChange(index, e.target.value)}
+                  disabled={editingIndex === index} // Disable in edit mode for the current section
                   placeholder=""
                 />
               </div>
               <div className="col-span-2 self-center text-center">
-                {editingRowId === null ? (
-                  <Button
-                    className="text-sm! font-semibold !border-light-black !border-[1px]"
-                    type="button"
-                    onClick={handleAddOrUpdate}
-                  >
-                    Add
-                  </Button>
-                ) : (
+                {editingIndex === index ? (
                   <>
                     <Button
                       className="text-sm! font-semibold !border-light-black !border-[1px]"
                       type="button"
-                      onClick={handleAddOrUpdate}
+                      onClick={() =>handleAddOrUpdate(editingRowId, labels[index], index)}
                     >
                       Update
                     </Button>
@@ -1960,12 +1965,20 @@ const handleCancelEdit = () => {
                       Cancel
                     </Button>
                   </>
+                ) : (
+                  <Button
+                    className="text-sm! font-semibold !border-light-black !border-[1px]"
+                    type="button"
+                    onClick={() => handleAddOrUpdate(null, labels[index], index)}
+                  >
+                    Add
+                  </Button>
                 )}
               </div>
             </Grid>
 
             <table className="w-full border-collapse border">
-              <thead className="w-full border-collapse border bg-[#F9F9F9] ">
+              <thead className="w-full border-collapse border bg-[#F9F9F9]">
                 <tr>
                   <th>Label</th>
                   <th>Value</th>
@@ -1981,7 +1994,7 @@ const handleCancelEdit = () => {
                     <td>
                       <SwitchButton
                         isOn={row.status}
-                        handleToggle={() => handleStatusToggle(row._id, section.data)}
+                        handleToggle={() =>  handleStatusToggle(row._id, section.data, index)}
                       />
                     </td>
                     <td>
@@ -2001,7 +2014,9 @@ const handleCancelEdit = () => {
       </div>
     ))
   )}
-</>
+</>;
+s
+
 
 
 
