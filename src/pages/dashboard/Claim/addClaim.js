@@ -206,24 +206,24 @@ function AddClaim() {
 
   const uploadEvidence = async (d) => {
     setLoading21(true);
-  
+
     try {
       const formData = new FormData();
       d.forEach((file, index) => {
         formData.append(`file`, file.file);
       });
-  
-      const data = await uploadClaimEvidence(formData); 
-  
-      formikStep2.setFieldValue("file", data.file); 
-  
+
+      const data = await uploadClaimEvidence(formData);
+
+      formikStep2.setFieldValue("file", data.file);
+
     } catch (error) {
-      console.error("Error uploading evidence:", error); 
+      console.error("Error uploading evidence:", error);
     } finally {
-      setLoading21(false); 
+      setLoading21(false);
     }
   };
-  
+
   const prevStep = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -479,9 +479,8 @@ function AddClaim() {
                     )}
 
                     <div
-                      className={`col-span-4 self-end justify-end flex ${
-                        isFormEmpty() == true ? "opacity-0" : "opacity-1"
-                      }`}
+                      className={`col-span-4 self-end justify-end flex ${isFormEmpty() == true ? "opacity-0" : "opacity-1"
+                        }`}
                     >
                       <Button type="submit" disabled={isFormEmpty()}>
                         Search
@@ -508,10 +507,10 @@ function AddClaim() {
                               {!location.pathname.includes(
                                 "/customer/addClaim"
                               ) && (
-                                <th className="font-semibold !py-3">
-                                  Customer Name
-                                </th>
-                              )}
+                                  <th className="font-semibold !py-3">
+                                    Customer Name
+                                  </th>
+                                )}
                               <th className="font-semibold">
                                 Serial # / Device ID
                               </th>
@@ -754,9 +753,9 @@ function AddClaim() {
                           {contractDetail?.productValue === undefined
                             ? parseInt(0).toLocaleString(2)
                             : formatOrderValue(
-                                Number(contractDetail?.productValue) ??
-                                  parseInt(0)
-                              )}
+                              Number(contractDetail?.productValue) ??
+                              parseInt(0)
+                            )}
                           {/* ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
                               contractDetail?.productValue ?? parseInt(0)
@@ -833,10 +832,10 @@ function AddClaim() {
                   Upload Receipt or Image{" "}
                 </p>
                 <div>
-                <p className="text-xl font-bold mb-4">
-                  {" "}
-                  For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
-                </p>
+                  <p className="text-xl font-bold mb-4">
+                    {" "}
+                    For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
+                  </p>
                 </div>
                 <Grid>
                   <div className="col-span-6 mt-5">
@@ -1067,9 +1066,8 @@ function AddClaim() {
           )}
 
           <p
-            className={` ${
-              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 1
           </p>
@@ -1080,20 +1078,18 @@ function AddClaim() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 1
+              className={`border ${currentStep > 1
                   ? "text-black border-black"
                   : "text-[#ADADAD] border-[#ADADAD]"
-              }  rounded-full mx-auto w-[26px]`}
+                }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
 
           <p
-            className={` ${
-              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Step 2
           </p>
@@ -1234,7 +1230,7 @@ function AddClaim() {
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial # / Device ID
                       </p>
-                      <p className="text-light-black text-base font-semibold">
+                      <p className="text-light-black text-base font-semibold break-words">
                         {contractDetail?.serial}
                       </p>
                     </div>
@@ -1259,9 +1255,9 @@ function AddClaim() {
                         {contractDetail?.productValue === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail?.productValue) ??
-                                parseInt(0)
-                            )}
+                            Number(contractDetail?.productValue) ??
+                            parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
@@ -1428,14 +1424,14 @@ function AddClaim() {
                         {contractDetail?.claimAmount === undefined
                           ? parseInt(0).toLocaleString(2)
                           : formatOrderValue(
-                              Number(contractDetail?.claimAmount) ?? parseInt(0)
-                            )}
+                            Number(contractDetail?.claimAmount) ?? parseInt(0)
+                          )}
                       </p>
                     </div>
                   </div>
 
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Flat Pricing" ? (
+                    "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 pl-3">
@@ -1448,9 +1444,9 @@ function AddClaim() {
                               ?.rangeStart === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetail?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeStart ?? parseInt(0)
-                                )}
+                                contractDetail?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeStart ?? parseInt(0)
+                              )}
                           </p>
                         </div>
                       </div>
@@ -1465,9 +1461,9 @@ function AddClaim() {
                               ?.rangeEnd === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                  contractDetail?.order?.[0]?.productsArray?.[0]
-                                    ?.rangeEnd ?? parseInt(0)
-                                )}{" "}
+                                contractDetail?.order?.[0]?.productsArray?.[0]
+                                  ?.rangeEnd ?? parseInt(0)
+                              )}{" "}
                           </p>
                         </div>
                       </div>
@@ -1556,7 +1552,7 @@ function AddClaim() {
                     </div>
                   </div>
                   {contractDetail?.order?.[0]?.productsArray?.[0]?.priceType ==
-                  "Quantity Pricing" ? (
+                    "Quantity Pricing" ? (
                     <>
                       <div className="col-span-5 border border-Light-Grey ">
                         <table className="w-full">
