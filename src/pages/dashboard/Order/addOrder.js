@@ -1146,8 +1146,6 @@ console.log('new date',new Date(timestampFromDB));
     const selectedDate = new Date(inputValue);
     selectedDate.setDate(selectedDate.getDate());
 
-    const gmtDate = selectedDate.toISOString();
-    console.log(gmtDate,selectedDate)
     formikStep3.setFieldValue(
       `productsArray[${index}].coverageStartDate`,
       selectedDate
@@ -1157,6 +1155,7 @@ console.log('new date',new Date(timestampFromDB));
     const newEndDate = addMonths(selectedDate, termInMonths); 
     const adjustedEndDate = subDays(newEndDate, 1); 
     const formattedEndDate = adjustedEndDate.toISOString(); 
+    console.log(formattedEndDate)
     
     formikStep3.setFieldValue(
       `productsArray[${index}].coverageEndDate`,
