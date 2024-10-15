@@ -265,12 +265,12 @@ const routes = [
         element: <AddCompanyPriceBook />,
       },
       {
-        path: "/uploadDealerBook",
+        path: "/uploadPriceBook",
         element: (
           <PrivateRoute
             element={<UploadDealerBook />}
             role={"Super Admin"}
-            path="/uploadDealerBook"
+            path="/uploadPriceBook"
           />
         ),
       },

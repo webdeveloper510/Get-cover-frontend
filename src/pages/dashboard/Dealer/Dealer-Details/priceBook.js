@@ -20,6 +20,7 @@ import {
 } from "../../../../services/dealerServices";
 import {
   getCategoryList,
+  getCovrageList,
   getTermList,
 } from "../../../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
@@ -30,11 +31,14 @@ import * as Yup from "yup";
 import Modal from "../../../../common/model";
 import { getPriceBookListByResellerId } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
 function PriceBookList(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [coverageTypes, setCoverageTypes] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -68,6 +72,27 @@ function PriceBookList(props) {
       <p>No records found.</p>
     </div>
   );
+
+  const handleSelectChange1 = (name, value) => {
+    formik.setFieldValue(name, value.map((item) => item.value))
+  };
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverageTypes(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
+
 
   const pricetype = [
     { label: "Regular Pricing", value: "Regular Pricing" },
@@ -399,6 +424,7 @@ function PriceBookList(props) {
   }, [props]);
   useEffect(() => {
     getTermListData();
+    getCovrageListData();
     getCategoryListData();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -478,7 +504,7 @@ function PriceBookList(props) {
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
-      coverageType: Yup.string(),
+      coverageType: Yup.array(),
       term: Yup.string(),
       range: Yup.string(),
       dealerSku: Yup.string(),
@@ -531,8 +557,8 @@ function PriceBookList(props) {
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div
               className={` ${props.flag === "reseller"
-                  ? "col-span-4 self-center"
-                  : "col-span-3 self-center"
+                ? "col-span-4 self-center"
+                : "col-span-3 self-center"
                 }`}
             >
               <p className="text-xl font-semibold">Price Book List</p>
@@ -545,14 +571,14 @@ function PriceBookList(props) {
                 <form onSubmit={formik.handleSubmit}>
                   <Grid
                     className={` ${props.flag === "reseller"
-                        ? "!grid-cols-10"
-                        : "!grid-cols-10"
+                      ? "!grid-cols-10"
+                      : "!grid-cols-10"
                       }`}
                   >
                     <div
                       className={`${props.flag === "reseller"
-                          ? "col-span-3 self-center"
-                          : "col-span-3 self-center"
+                        ? "col-span-3 self-center"
+                        : "col-span-3 self-center"
                         }`}
                     >
                       <Input
@@ -570,8 +596,8 @@ function PriceBookList(props) {
 
                     <div
                       className={`${props.flag === "reseller"
-                          ? "col-span-3 self-center"
-                          : "col-span-3 self-center"
+                        ? "col-span-3 self-center"
+                        : "col-span-3 self-center"
                         }`}
                     >
                       <Select
@@ -658,7 +684,7 @@ function PriceBookList(props) {
           />
         </Button>
         <Button
-          onClick={()=>{
+          onClick={() => {
             routeToEditPage(dealerPriceBookDetail)
           }}
           className="absolute left-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-gradient-to-r !from-[#424242] !to-[#5c5c5c]"
@@ -774,12 +800,12 @@ function PriceBookList(props) {
                   # of Claims Over the Certain <br /> Period
                 </p>
                 <p className="text-[14px] font-semibold">
-                  
-                {
- dealerPriceBookDetail?.noOfClaim?.value == "-1"
-    ? ""
-    : `${dealerPriceBookDetail?.noOfClaim?.period} - `
-}
+
+                  {
+                    dealerPriceBookDetail?.noOfClaim?.value == "-1"
+                      ? ""
+                      : `${dealerPriceBookDetail?.noOfClaim?.period} - `
+                  }
                   {dealerPriceBookDetail?.noOfClaim?.value == -1
                     ? "Unlimited"
                     : dealerPriceBookDetail?.noOfClaim?.value}
@@ -987,16 +1013,67 @@ function PriceBookList(props) {
                 </div>
               )}
               <div className="col-span-6">
-                <Select
-                  name="coverageType"
-                  label="Coverage Type"
-                  options={coverage}
-                  OptionName="Coverage Type"
-                  color="text-Black-Russian opacity-50"
-                  className="!text-[14px] !bg-white"
-                  value={formik.values.coverageType}
-                  onChange={formik.setFieldValue}
-                />
+                <div className="relative">
+                  <label
+                    htmlFor="coverageType"
+                    className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Coverage Type
+                  </label>
+                  <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                    <MultiSelect
+                      label="Coverage Type"
+                      name="coverageType"
+                      placeholder=""
+                      className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                      styles={{
+                        chips: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f0ad4e",
+                          color: "white",
+                        }),
+                        searchBox: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f7f7f7",
+                          border:
+                            "1px solid #ddd",
+                          cursor: "pointer",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#f0ad4e"
+                            : "white",
+                          color: state.isSelected ? "white" : "black",
+                          "&:hover": {
+                            backgroundColor:
+                              "#f0ad4e",
+                            color: "white",
+                          },
+                        }),
+                      }}
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleSelectChange1("coverageType", value);
+                      }}
+                      options={coverageTypes}
+                      value={selected}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
+                  </div>
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                </div>
               </div>
               <div className="col-span-6">
                 <Select

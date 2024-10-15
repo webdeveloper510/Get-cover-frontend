@@ -195,7 +195,7 @@ function DealerPriceList() {
       priceType: "",
       term: "",
       range: "",
-      coverageType: "",
+      coverageType: '',
       dealerSku: "",
     },
     validationSchema: Yup.object({
