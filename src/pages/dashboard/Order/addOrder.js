@@ -569,8 +569,6 @@ function AddOrder() {
             price: product.price || null,
             file: product.orderFile || "",
             coverageStartDate: product.coverageStartDate1 || "",
-            coverageStartDate1: product.coverageStartDate1 || "",
-            coverageEndDate: product.coverageEndDate || "",
             description: product.description || "",
             term: product.term || "",
             priceType: product.priceType || "",
@@ -760,15 +758,12 @@ console.log('new date',new Date(timestampFromDB));
           price: null,
           file: "",
           coverageStartDate: "",
-          coverageStartDate1: "",
-          coverageEndDate: "",
           description: "",
           term: "",
           pName: "",
           priceType: "",
           adh: 0,
           additionalNotes: "",
-          coverageEndDate: "",
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
@@ -1150,17 +1145,6 @@ console.log('new date',new Date(timestampFromDB));
       `productsArray[${index}].coverageStartDate`,
       selectedDate
     );
-
-    const termInMonths = formikStep3.values.productsArray[index].term || 0;
-    const newEndDate = addMonths(selectedDate, termInMonths); 
-    const adjustedEndDate = subDays(newEndDate, 1); 
-    const formattedEndDate = adjustedEndDate.toISOString(); 
-    console.log(formattedEndDate)
-    
-    formikStep3.setFieldValue(
-      `productsArray[${index}].coverageEndDate`,
-      formattedEndDate
-    );
   };
 
   const handlePaymentStatusChange = (e) => {
@@ -1229,8 +1213,6 @@ console.log('new date',new Date(timestampFromDB));
       price: null,
       file: "",
       coverageStartDate: "",
-      coverageStartDate1: "",
-      coverageEndDate: "",
       description: "",
       term: "",
       priceType: "",
@@ -1320,7 +1302,8 @@ console.log('new date',new Date(timestampFromDB));
       rangeStart: "",
       priceType: "",
       adh: "",
-      adhDays:[]
+      adhDays:[],
+      coverageStartDate:""
     };
     Object.keys(fieldsToClear).forEach((field) => {
       formikStep3.setFieldValue(`productsArray[${productIndex}].${field}`, fieldsToClear[field]);
@@ -1762,8 +1745,6 @@ console.log('new date',new Date(timestampFromDB));
       (product, i) => i === index ? {
         ...product,
         coverageStartDate: "",
-        coverageStartDate1: "",
-        coverageEndDate: "",
         unitPrice: 0,
         price: 0,
         ...Object.fromEntries(Object.keys(product).map(key => [

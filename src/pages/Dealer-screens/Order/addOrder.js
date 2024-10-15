@@ -420,8 +420,7 @@ function DealerAddOrder() {
         noOfProducts: product.noOfProducts || "",
         price: product.price || null,
         file: product.orderFile || "",
-        coverageStartDate: product.coverageStartDate || "",
-        coverageEndDate: product.coverageEndDate || "",
+        coverageStartDate: product.coverageStartDate1 || "",
         description: product.description || "",
         term: product.term || "",
         pName: product.pName || "",
@@ -593,14 +592,12 @@ function DealerAddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
-          coverageEndDate: "",
           description: "",
           term: "",
           pName: "",
           priceType: "",
           adh: 0,
           additionalNotes: "",
-          coverageEndDate: "",
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
@@ -981,7 +978,6 @@ function DealerAddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
-      coverageEndDate: "",
       description: "",
       term: "",
       priceType: "",
@@ -1071,6 +1067,7 @@ function DealerAddOrder() {
       formikStep3.setFieldValue(`productsArray[${match[1]}].rangeEnd`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].rangeStart`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceType`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
       if (match) {
         setNumberOfOrders((prevFileValues) => {
           const newArray = [...prevFileValues];
@@ -1556,7 +1553,6 @@ function DealerAddOrder() {
       (product, i) => i === index ? {
         ...product,
         coverageStartDate: "",
-        coverageEndDate: "",
         unitPrice: 0,
         price: 0,
         ...Object.fromEntries(Object.keys(product).map(key => [
@@ -2341,24 +2337,13 @@ function DealerAddOrder() {
                             }
                             onChange={(e) => {
                               formikStep3.handleChange(e);
-                              const selectedDate = new Date(e.target.value);
+                              const inputValue = e.target.value;
+                              const selectedDate = new Date(inputValue);
                               selectedDate.setDate(selectedDate.getDate());
-
-                              const gmtDate = selectedDate.toISOString();
+                          
                               formikStep3.setFieldValue(
                                 `productsArray[${index}].coverageStartDate`,
-                                gmtDate
-                              );
-                              const termInMonths =
-                                formikStep3.values.productsArray[index].term ||
-                                0;
-                                const newEndDate = addMonths(selectedDate, termInMonths); 
-    const adjustedEndDate = subDays(newEndDate, 1); 
-    const formattedEndDate = adjustedEndDate.toISOString(); 
-
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].coverageEndDate`,
-                                formattedEndDate
+                                selectedDate
                               );
                             }}
                             onBlur={formikStep3.handleBlur}

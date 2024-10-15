@@ -288,8 +288,7 @@ function ResellerAddOrder() {
         noOfProducts: product.noOfProducts || "",
         price: product.price || null,
         file: product.orderFile || "",
-        coverageStartDate: product.coverageStartDate || "",
-        coverageEndDate: product.coverageEndDate || "",
+        coverageStartDate: product.coverageStartDate1 || "",
         description: product.description || "",
         term: product.term || "",
         adh: product.adh || 0,
@@ -437,12 +436,10 @@ function ResellerAddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
-          coverageEndDate: "",
           description: "",
           term: "",
           priceType: "",
           additionalNotes: "",
-          coverageEndDate: "",
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
@@ -832,7 +829,6 @@ function ResellerAddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
-      coverageEndDate: "",
       description: "",
       term: "",
       priceType: "",
@@ -912,6 +908,8 @@ function ResellerAddOrder() {
         ""
       );
       formikStep3.setFieldValue(`productsArray[${productIndex}].pName`, "");
+      formikStep3.setFieldValue(`productsArray[${productIndex}].coverageStartDate`, "");
+
       formikStep3.setFieldValue(`productsArray[${productIndex}].term`, "");
       formikStep3.setFieldValue(`productsArray[${productIndex}].price`, "");
 
@@ -1410,7 +1408,6 @@ function ResellerAddOrder() {
       (product, i) => i === index ? {
         ...product,
         coverageStartDate: "",
-        coverageEndDate: "",
         unitPrice: 0,
         price: 0,
         ...Object.fromEntries(Object.keys(product).map(key => [
@@ -2204,24 +2201,14 @@ function ResellerAddOrder() {
                           }
                           onChange={(e) => {
                             formikStep3.handleChange(e);
-                            const selectedDate = new Date(e.target.value);
-                            selectedDate.setDate(selectedDate.getDate());
-
-                            const gmtDate = selectedDate.toISOString();
-                            formikStep3.setFieldValue(
-                              `productsArray[${index}].coverageStartDate`,
-                              gmtDate
-                            );
-                            const termInMonths =
-                              formikStep3.values.productsArray[index].term || 0;
-                              const newEndDate = addMonths(selectedDate, termInMonths); 
-                              const adjustedEndDate = subDays(newEndDate, 1); 
-                              const formattedEndDate = adjustedEndDate.toISOString(); 
-
-                            formikStep3.setFieldValue(
-                              `productsArray[${index}].coverageEndDate`,
-                              formattedEndDate
-                            );
+                              const inputValue = e.target.value;
+                              const selectedDate = new Date(inputValue);
+                              selectedDate.setDate(selectedDate.getDate());
+                          
+                              formikStep3.setFieldValue(
+                                `productsArray[${index}].coverageStartDate`,
+                                selectedDate
+                              );
                           }}
                           onBlur={formikStep3.handleBlur}
                           onWheelCapture={(e) => {
