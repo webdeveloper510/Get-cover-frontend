@@ -38,6 +38,7 @@ import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
+import SingleView from "../../../common/singleView";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -279,7 +280,7 @@ function OrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -514,7 +515,7 @@ function OrderDetails() {
                   )}
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">

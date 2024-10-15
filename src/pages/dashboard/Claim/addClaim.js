@@ -48,6 +48,7 @@ import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DataTable from "react-data-table-component";
 import Card from "../../../common/card";
+import SingleView from "../../../common/singleView";
 
 function AddClaim() {
   // do this
@@ -1079,8 +1080,8 @@ function AddClaim() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2
@@ -1173,36 +1174,38 @@ function AddClaim() {
               </div>
             ) : (
               <>
-                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {contractDetail?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Order ID :{" "}
-                      <b> {contractDetail?.order?.[0]?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Dealer P.O. # :{" "}
-                      <b> {contractDetail?.order?.[0]?.venderOrder} </b>
-                    </p>
-                  </div>
-                  {/* <div className="col-span-1"></div> */}
-                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center">
-                    <Button
-                      className="!bg-[#817f7f] !text-white !py-[5px] !px-[20px] !rounded-[30px] !my-[4px] !font-Regular"
-                      onClick={() => {
-                        handleSelectValue(contractDetail);
-                      }}
-                    >
-                      Select
-                    </Button>
-                  </div>
-                </Grid>
+                <SingleView className='rounded-t-xl'>
+                  <Grid className="!gap-2 !grid-cols-11">
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                      <p className="text-white py-2 font-Regular">
+                        Contract ID : <b> {contractDetail?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="text-white py-2 font-Regular">
+                        Order ID :{" "}
+                        <b> {contractDetail?.order?.[0]?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="text-white py-2 font-Regular">
+                        Dealer P.O. # :{" "}
+                        <b> {contractDetail?.order?.[0]?.venderOrder} </b>
+                      </p>
+                    </div>
+                    {/* <div className="col-span-1"></div> */}
+                    <div className="col-span-1 self-center justify-end rounded-[20px] text-center">
+                      <Button
+                        className="!bg-[#817f7f] !text-white !py-[5px] !px-[20px] !rounded-[30px] !my-[4px] !font-Regular"
+                        onClick={() => {
+                          handleSelectValue(contractDetail);
+                        }}
+                      >
+                        Select
+                      </Button>
+                    </div>
+                  </Grid>
+                </SingleView>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5 ">
                   <div className="col-span-1 border border-Light-Grey">

@@ -50,9 +50,9 @@ module.exports = {
         'hero-register': "url('/src/assets/images/register_banner.png')",
         'Dropdown': "url('/src/assets/images/DropdownImage.png')",
         'Edit': "url('/src/assets/images/Edit-Dealer.svg')",
-        'Dealer-details': "url('/src/assets/images/Dealer-Details.svg')",
+        'Dealer-details': "url('/src/assets/images/Mask_group.png')",
         'Dealer-detail': "url('/src/assets/images/Dealer-Detail.png')",
-        'contract': "url('/src/assets/images/Dealer/contract-head.svg')",
+        'contract': "url('/src/assets/images/contract-head.svg')",
       },
       dropShadow: {
         '3xl': '0 4px 84px rgba(0, 0, 0, 0.25)',

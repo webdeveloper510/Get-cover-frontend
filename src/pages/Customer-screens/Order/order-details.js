@@ -22,6 +22,7 @@ import { getOrderDetailCustomer } from "../../../services/orderServices";
 import ContractList from "../../dashboard/Contract/contractList";
 import FileDownloader from "../../termAndCondition";
 import CustomerOrderSummary from "./OrderDetails/orderSummary";
+import SingleView from "../../../common/singleView";
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -141,7 +142,7 @@ function CustomerOrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[80vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -233,7 +234,7 @@ function CustomerOrderDetails() {
                         : ""}
                     </p>
                   </div>
-        
+
                 </div>
               </div>
 
@@ -247,7 +248,7 @@ function CustomerOrderDetails() {
                   </span>
                 </Button>
               )}
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
@@ -257,11 +258,10 @@ function CustomerOrderDetails() {
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${
-                            activeTab === tab.id
+                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
                               ? "!bg-[#2A2A2A] !text-white"
                               : "!bg-grayf9 !text-black"
-                          }`}
+                            }`}
                           onClick={() => handleTabClick(tab.id)}
                         >
                           <img
@@ -272,9 +272,8 @@ function CustomerOrderDetails() {
                             alt={tab.label}
                           />
                           <span
-                            className={`ml-1 py-1 text-sm font-normal ${
-                              activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
+                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
+                              }`}
                           >
                             {tab.label}
                           </span>

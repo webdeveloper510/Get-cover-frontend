@@ -233,7 +233,9 @@ function CompanyPriceBook() {
       sortable: true,
     },
     {
-      name: "Name",
+      name: (<div>
+        Product <br /> Name
+      </div>),
       selector: (row) => row.pName,
       sortable: true,
       minWidth: "auto",

@@ -19,6 +19,7 @@ import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import Select from "../../../../common/select";
 import Card from "../../../../common/card";
+import SingleView from "../../../../common/singleView";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -383,27 +384,29 @@ function Contracts(props) {
               </div>
             ) : (
               <>
-                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="py-2 font-Regular">
-                      Contract ID : <b> {singleContract?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="py-2 font-Regular">
-                      Order ID :{" "}
-                      <b> {singleContract?.order?.[0]?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="py-2 font-Regular">
-                      Dealer P.O. # :{" "}
-                      <b> {singleContract?.order?.[0]?.venderOrder} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
-                </Grid>
+                <SingleView className='rounded-t-xl'>
+                  <Grid className="!gap-2 !grid-cols-11">
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                      <p className="py-2 font-Regular">
+                        Contract ID : <b> {singleContract?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Order ID :{" "}
+                        <b> {singleContract?.order?.[0]?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Dealer P.O. # :{" "}
+                        <b> {singleContract?.order?.[0]?.venderOrder} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-1"></div>
+                    <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                  </Grid>
+                </SingleView>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
