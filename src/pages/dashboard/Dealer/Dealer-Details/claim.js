@@ -1267,13 +1267,13 @@ console.log(claimList.result[activeIndex]?.claimType)
   const addTracker = () => { };
   return (
     <>
-      {loading1 && (
-        <div className=" fixed z-[999999] bg-[#f9f9f99c] backdrop-blur-xl top-0 h-screen w-full flex py-5">
+      {loading1 ? (
+        <div className=" bg-[#f9f9f99c] backdrop-blur-xl top-0 h-screen w-full flex py-5">
           <div className="self-center ml-[40%]">
             <RotateLoader color="#333" />
           </div>
         </div>
-      )}
+      ) : 
       <div className="mb-8 ml-3">
         {props && Object.keys(props).length === 0 && (
           <>
@@ -1518,8 +1518,8 @@ console.log(claimList.result[activeIndex]?.claimType)
                                       alt="edit"
                                     />
                                   )}
-                              </div>
-                              {props.activeTab == "Unpaid Claims" ? (
+
+{props.activeTab == "Unpaid Claims" ? (
                                         isCheckBox ? (
                                           <>
                                             <div
@@ -1546,6 +1546,8 @@ console.log(claimList.result[activeIndex]?.claimType)
                                       ) : (
                                         <></>
                                       )}
+                              </div>
+                              
                             </Grid>
                             <Grid
                               className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
@@ -2299,6 +2301,8 @@ console.log(claimList.result[activeIndex]?.claimType)
           </div>
         </Card>
       </div>
+      }
+      
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
