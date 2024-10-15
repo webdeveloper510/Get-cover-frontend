@@ -146,11 +146,11 @@ function PriceBookList(props) {
     props.flag === "reseller"
       ? [
         {
-          name: "ID",
-          selector: (row) => row.unique_key,
+          name: "Sr.#",
+          selector: (row, index) => (1 - 1) * 10 + index + 1,
           sortable: true,
-          minWidth: "auto", // Set a custom minimum width
-          maxWidth: "70px", // Set a custom maximum width
+          minWidth: "auto",
+          maxWidth: "90px",
         },
         {
           name: (
@@ -213,7 +213,7 @@ function PriceBookList(props) {
       : [
         {
           name: "Sr.#",
-          selector: (row, index) => index + 1,
+          selector: (row, index) => (1 - 1) * 10 + index + 1,
           sortable: true,
           minWidth: "auto",
           maxWidth: "90px",
@@ -330,14 +330,18 @@ function PriceBookList(props) {
           cell: (row, index) => {
             return (
               <div className="relative">
-                <div onClick={() => setSelectedAction(row._id)}>
+                <div
+                  onClick={() =>
+                    setSelectedAction(selectedAction === index ? null : index)
+                  }
+                >
                   <img
                     src={ActiveIcon}
-                    className="cursor-pointer	w-[35px]"
+                    className="cursor-pointer w-[35px]"
                     alt="Active Icon"
                   />
                 </div>
-                {selectedAction === row._id && (
+                {selectedAction === index && (
                   <div
                     ref={dropdownRef}
                     className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -795,12 +799,12 @@ function PriceBookList(props) {
                     <div className="col-span-4"></div>
                   </>
                 )}
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className="text-base mb-3 font-semibold">
-                  # of Claims Over the Certain <br /> Period
+                  # of Claims Over the Certain Period
                 </p>
                 <p className="text-[14px] font-semibold">
-
+                  {/* {dealerPriceBookDetail?.noOfClaim?.period} -{" "} */}
                   {
                     dealerPriceBookDetail?.noOfClaim?.value == "-1"
                       ? ""
@@ -811,7 +815,7 @@ function PriceBookList(props) {
                     : dealerPriceBookDetail?.noOfClaim?.value}
                 </p>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className="text-base mb-3 font-semibold">
                   # of Claims in Coverage <br /> Period
                 </p>
@@ -821,13 +825,24 @@ function PriceBookList(props) {
                     : dealerPriceBookDetail?.noOfClaimPerPeriod}
                 </p>
               </div>
-              <div className="col-span-4">
+              <div className="col-span-3">
                 <p className=" text-base mb-3 font-semibold">
                   {" "}
                   Is manufacturer warranty included?
                 </p>
                 <p className="text-[14px] font-semibold">
                   {dealerPriceBookDetail?.isManufacturerWarranty == true
+                    ? "Yes"
+                    : "No"}
+                </p>
+              </div>
+              <div className="col-span-3">
+                <p className=" text-base mb-3 font-semibold">
+                  {" "}
+                  Is There a Maximum Claim Amount?
+                </p>
+                <p className="text-[14px] font-semibold">
+                  {dealerPriceBookDetail?.isMaxClaimAmount == true
                     ? "Yes"
                     : "No"}
                 </p>

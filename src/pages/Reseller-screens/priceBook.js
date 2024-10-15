@@ -9,7 +9,7 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import Cross from "../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
-import { getDealerPricebookDetailById } from "../../services/dealerServices";
+import { getdealerPriceBookById } from "../../services/dealerServices";
 import { getCategoryList, getTermList } from "../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -126,8 +126,8 @@ function ResellerPriceBook(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.priceBooks.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
@@ -191,14 +191,18 @@ function ResellerPriceBook(props) {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div
+              onClick={() =>
+                setSelectedAction(selectedAction === index ? null : index)
+              }
+            >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === index && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg text-light-black shadow-md ${calculateDropdownPosition(
@@ -562,20 +566,6 @@ function ResellerPriceBook(props) {
                   />
                 </div>
               )}
-
-              {/* <div className="col-span-6">
-                  <Select
-                        name="status"
-                        label="Status"
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
-                    />
-                  </div> */}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
@@ -586,7 +576,7 @@ function ResellerPriceBook(props) {
         </form>
       </Modal>
 
-      <Modal isOpen={isViewOpen} onClose={closeView}>
+      <Modal className="!w-[900px]" isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
@@ -626,8 +616,8 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.retailPrice === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
-                      dealerPriceBook?.retailPrice ?? parseInt(0)
-                    )}
+                    dealerPriceBook?.retailPrice ?? parseInt(0)
+                  )}
               </p>
             </div>
             <div className="col-span-4">
@@ -649,38 +639,7 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.priceBooks?.category[0].description}
               </p>
             </div>
-            <div className="col-span-12">
-              <table className="w-full border text-center">
-                <tr className="border bg-[#9999]">
-                  <th>Coverage Type</th>
-                  <th>Waiting Days</th>
-                  <th>Deductible Amount</th>
-                </tr>
 
-                {dealerPriceBook?.adhDays1 &&
-                  dealerPriceBook?.adhDays1.length > 0 && (
-                    <>
-                      {dealerPriceBook?.adhDays1.map((type, index) => (
-                        <tr key={index} className="border">
-                          <td className="font-semibold mx-5">{type.label}</td>
-                          <td className="font-semibold mx-5">
-                            {type.waitingDays} Days
-                          </td>
-                          <td className="font-semibold mx-5">
-                            {type.amountType === "percentage"
-                              ? `${formatOrderValue(
-                                  Number(type.deductible) ?? 0
-                                )} %`
-                              : `$${formatOrderValue(
-                                  Number(type.deductible) ?? 0
-                                )}`}
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  )}
-              </table>
-            </div>
             {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
@@ -691,8 +650,8 @@ function ResellerPriceBook(props) {
                     {dealerPriceBook?.priceBooks?.rangeStart === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBook?.priceBooks?.rangeStart ?? parseInt(0)
-                        )}
+                        dealerPriceBook?.priceBooks?.rangeStart ?? parseInt(0)
+                      )}
                   </p>
                 </div>
                 <div className="col-span-4">
@@ -702,8 +661,8 @@ function ResellerPriceBook(props) {
                     {dealerPriceBook?.priceBooks?.rangeEnd === undefined
                       ? parseInt(0).toLocaleString(2)
                       : formatOrderValue(
-                          dealerPriceBook?.priceBooks?.rangeEnd ?? parseInt(0)
-                        )}
+                        dealerPriceBook?.priceBooks?.rangeEnd ?? parseInt(0)
+                      )}
                   </p>
                 </div>
               </>
@@ -734,6 +693,144 @@ function ResellerPriceBook(props) {
                 </div>
               </>
             )}
+          </Grid>
+          <Grid className="px-6 mt-5">
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims Over the Certain Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {/* {dealerPriceBook?.noOfClaim?.period} -{" "} */}
+                {
+                  dealerPriceBook?.noOfClaim?.value == "-1"
+                    ? ""
+                    : `${dealerPriceBook?.noOfClaim?.period} - `
+                }
+                {dealerPriceBook?.noOfClaim?.value == -1
+                  ? "Unlimited"
+                  : dealerPriceBook?.noOfClaim?.value}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims in Coverage <br /> Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.noOfClaimPerPeriod == -1
+                  ? "Unlimited"
+                  : dealerPriceBook?.noOfClaimPerPeriod}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is manufacturer warranty included?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.isManufacturerWarranty == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is There a Maximum Claim Amount?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.isMaxClaimAmount == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-12">
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductible Amount</th>
+                </tr>
+
+                {dealerPriceBook?.adhDays1 &&
+                  dealerPriceBook?.adhDays1.length > 0 && (
+                    <>
+                      {dealerPriceBook?.adhDays1.map((type, index) => (
+                        <tr key={index} className="border">
+                          <td className="font-semibold mx-5">{type.label}</td>
+                          <td className="font-semibold mx-5">
+                            {type.waitingDays}
+                          </td>
+                          <td className="font-semibold mx-5">
+                            {type.amountType === "percentage"
+                              ? `${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )} %`
+                              : `$${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )}`}
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+              </table>
+            </div>
+
+            {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
+              <>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">Start Range</p>
+                  <p className="text-base font-semibold">
+                    {" "}
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">End Range</p>
+                  <p className="text-base font-semibold">
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+              </>
+            )}
+            {dealerPriceBook?.priceBooks?.priceType ==
+              "Quantity Pricing" && (
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th className="w-[50%]">Name</th>
+                        <th className="w-[50%]">Max Quantity</th>
+                      </tr>
+                      {dealerPriceBook?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBook?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>

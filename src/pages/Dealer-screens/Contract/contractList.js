@@ -24,6 +24,7 @@ import { getAllContractsForDealerPortal } from "../../../services/dealerServices
 import { getContractValues } from "../../../services/extraServices";
 import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
+import SingleView from "../../../common/singleView";
 function ContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -299,42 +300,44 @@ function ContractList(props) {
                   return (
                     <div className="px-3 mt-5" key={index}>
                       <div>
-                        <Grid className="bg-light-black !gap-2 !grid-cols-11 rounded-t-xl">
-                          <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                            <p className="text-white py-2 font-Regular">
-                              Contract ID : <b> {res.unique_key} </b>
-                            </p>
-                          </div>
-                          {props.orderId == null ? (
-                            <>
-                              <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Order ID : <b> {res?.orderUniqueKey} </b>
-                                </p>
-                              </div>
-                              <div className="col-span-4 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                <p className="text-white py-2 font-Regular">
-                                  Dealer P.O. # : <b> {res?.venderOrder} </b>
-                                </p>
-                              </div>
-                            </>
-                          ) : (
-                            <div className="col-span-7 self-center justify-end"></div>
-                          )}
-                          <div className="col-span-1 self-center flex justify-end">
-                            <div
-                              onClick={() => openView(res._id)}
-                              className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                            >
-                              {" "}
-                              <img
-                                src={view}
-                                className="ml-auto w-[23px] h-[23px] "
-                                alt="edit"
-                              />{" "}
+                        <SingleView className='rounded-t-xl'>
+                          <Grid className="!gap-2 !grid-cols-11">
+                            <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                              <p className="text-white py-2 font-Regular">
+                                Contract ID : <b> {res.unique_key} </b>
+                              </p>
                             </div>
-                          </div>
-                        </Grid>
+                            {props.orderId == null ? (
+                              <>
+                                <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                  <p className="text-white py-2 font-Regular">
+                                    Order ID : <b> {res?.orderUniqueKey} </b>
+                                  </p>
+                                </div>
+                                <div className="col-span-4 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                  <p className="text-white py-2 font-Regular">
+                                    Dealer P.O. # : <b> {res?.venderOrder} </b>
+                                  </p>
+                                </div>
+                              </>
+                            ) : (
+                              <div className="col-span-7 self-center justify-end"></div>
+                            )}
+                            <div className="col-span-1 self-center flex justify-end">
+                              <div
+                                onClick={() => openView(res._id)}
+                                className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
+                              >
+                                {" "}
+                                <img
+                                  src={view}
+                                  className="ml-auto w-[23px] h-[23px] "
+                                  alt="edit"
+                                />{" "}
+                              </div>
+                            </div>
+                          </Grid>
+                        </SingleView>
 
                         <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                           <div className="col-span-1 border border-Light-Grey rounded-es-xl">
@@ -644,27 +647,29 @@ function ContractList(props) {
               </div>
             ) : (
               <>
-                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {contractDetails.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Order ID :{" "}
-                      <b> {contractDetails?.order?.[0]?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Dealer P.O. # :{" "}
-                      <b> {contractDetails?.order?.[0]?.venderOrder} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end"></div>
-                </Grid>
+                <SingleView className='rounded-t-xl'>
+                  <Grid className="!gap-2 !grid-cols-11">
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                      <p className="text-white py-2 font-Regular">
+                        Contract ID : <b> {contractDetails.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="text-white py-2 font-Regular">
+                        Order ID :{" "}
+                        <b> {contractDetails?.order?.[0]?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="text-white py-2 font-Regular">
+                        Dealer P.O. # :{" "}
+                        <b> {contractDetails?.order?.[0]?.venderOrder} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-1"></div>
+                    <div className="col-span-1 self-center justify-end"></div>
+                  </Grid>
+                </SingleView>
                 <div className="bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
                   <Grid className="!gap-0 !grid-cols-5 bg-grayf9 ">
                     <div className="col-span-1 border border-Light-Grey">

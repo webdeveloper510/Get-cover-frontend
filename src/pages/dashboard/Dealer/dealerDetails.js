@@ -70,6 +70,7 @@ import { getUserDetailsFromLocalStorage } from "../../../services/extraServices"
 import { MultiSelect } from "react-multi-select-component";
 import { getCovrageList } from "../../../services/priceBookService";
 import Setting from "./Dealer-Details/setting";
+import SingleView from "../../../common/singleView";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -852,7 +853,7 @@ function DealerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -988,14 +989,14 @@ function DealerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
               <div
                 className={` ${isStatus == true
-                    ? "col-span-10 relative"
-                    : "col-span-10 mr-[30px] relative"
+                  ? "col-span-10 relative"
+                  : "col-span-10 mr-[30px] relative"
                   }`}
               >
                 <div

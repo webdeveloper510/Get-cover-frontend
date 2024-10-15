@@ -83,11 +83,11 @@ function DealerPriceBook(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: (
@@ -160,14 +160,18 @@ function DealerPriceBook(props) {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div
+              onClick={() =>
+                setSelectedAction(selectedAction === index ? null : index)
+              }
+            >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === index && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border text-light-black rounded-lg shadow-md ${calculateDropdownPosition(
@@ -603,7 +607,7 @@ function DealerPriceBook(props) {
                         <tr key={index} className="border">
                           <td className="font-semibold mx-5">{type.label}</td>
                           <td className="font-semibold mx-5">
-                            {type.waitingDays} Days
+                            {type.waitingDays}
                           </td>
                           <td className="font-semibold mx-5">
                             {type.amountType === "percentage"

@@ -52,6 +52,7 @@ import Primary from "../../.././assets/images/SetPrimary.png";
 import { cityData } from "../../../stateCityJson";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import SingleView from "../../../common/singleView";
 
 function ServicerDetails() {
   const getInitialActiveTab = () => {
@@ -598,7 +599,7 @@ function ServicerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -757,7 +758,7 @@ function ServicerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
