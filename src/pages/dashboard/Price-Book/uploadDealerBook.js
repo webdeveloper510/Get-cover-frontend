@@ -200,6 +200,25 @@ function UploadDealerBook() {
       }
     }
   });
+  const downloadCSVQuantity = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1fyeInEcdJQWEeTfvtjI2ioJNzzynjLqHeIpNHECI3fs/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+  const downloadCSVFlat = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1nOLApCRcKHeXE7y7Ry5AhXX6XizzSKA37ZzHLi9n4X4/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+  const downloadCSVReguler = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1EWMjTa_ep2z2x2IS9MxPZsuBZncHq6L0dzFrM71hH-w/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+
 
   const downloadCSVTemplate = async () => {
     window.open(
@@ -207,6 +226,13 @@ function UploadDealerBook() {
       "_blank"
     );
   };
+
+
+  const pricetype = [
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
+  ];
 
   return (
     <div className="mb-8 ml-3">
@@ -222,7 +248,7 @@ function UploadDealerBook() {
           <div className="flex mt-2">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Upload DealerPrice Book
+                Upload Price Book
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
@@ -231,7 +257,7 @@ function UploadDealerBook() {
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                  Upload DealerPrice Book{" "}
+                  Upload Price Book{" "}
                 </li>
               </ul>
             </div>
@@ -242,8 +268,8 @@ function UploadDealerBook() {
             <div className="col-span-6">
 
               <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <Card className="px-8 pb-8  drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
-                  {/* <p className="text-xl font-semibold ">Dealer PriceBook</p> */}
+                <Card className="px-8 pb-8 pt-5 border-[1px] !bg-[#ffff] border-Light-Grey rounded-xl">
+                  <p className="text-xl font-semibold ">Dealer Price Book</p>
                   {error ? (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                       <span className="font-semibold"> {error} </span>
@@ -255,27 +281,25 @@ function UploadDealerBook() {
                   )}
                   <Grid className="">
                     <div className="col-span-12">
-                      <div className="col-span-12">
-                        <Select
-                          label="Dealer Name"
-                          required={true}
-                          name="dealerId"
-                          placeholder=""
-                          onChange={handleSelectChange}
-                          className="!bg-white"
-                          options={activeDealers}
-                          value={formik.values.dealerId}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.dealerId && formik.errors.dealerId}
-                        />
-                        {formik.touched.dealerId && formik.errors.dealerId && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            <span className="font-semibold"> {formik.errors.dealerId} </span>
-                          </div>
-                        )}
-                      </div>
+                      <Select
+                        label="Dealer Name"
+                        required={true}
+                        name="dealerId"
+                        placeholder=""
+                        onChange={handleSelectChange}
+                        className="!bg-white"
+                        options={activeDealers}
+                        value={formik.values.dealerId}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.dealerId && formik.errors.dealerId}
+                      />
+                      {formik.touched.dealerId && formik.errors.dealerId && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          <span className="font-semibold"> {formik.errors.dealerId} </span>
+                        </div>
+                      )}
                     </div>
-                    <div className="col-span-12">
+                    {formik.values.dealerId != '' ? <div className="col-span-12">
                       <p className="text-base mb-2 font-semibold">
                         Upload In Bulk
                       </p>
@@ -333,7 +357,8 @@ function UploadDealerBook() {
                           Clicking here.
                         </span> The file must be saved with csv , xls and xlsx Format.
                       </p>
-                    </div>
+                    </div> : ''}
+
                   </Grid>
                   <Button
                     type="submit"
@@ -346,7 +371,7 @@ function UploadDealerBook() {
             </div>
             <div className="col-span-6">
               <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
+                <Card className="px-8 pb-8 pt-5 border-[1px] !bg-[#ffff] border-Light-Grey rounded-xl">
                   <p className="text-xl font-semibold ">Company PriceBook</p>
                   {error ? (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
@@ -359,6 +384,35 @@ function UploadDealerBook() {
                   )}
                   <Grid className="">
                     <div className="col-span-12">
+                      <Select
+                        label="Price Type"
+                        name="priceType"
+                        required={true}
+                        placeholder=""
+                        onChange={handleSelectChange}
+                        className="!bg-white"
+                        options={pricetype}
+                        value={
+                          (
+                            pricetype.find(
+                              (option) =>
+                                option.value ==
+                                (formik.values.priceType
+                                  ? formik.values.priceType.toString()
+                                  : "")
+                            ) || {}
+                          ).value || ""
+                        }
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.priceType && formik.errors.priceType}
+                      />
+                      {formik.touched.priceType && formik.errors.priceType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.priceType}
+                        </div>
+                      )}
+                    </div>
+                    {formik.values.priceType === '' ? '' : <div className="col-span-12">
                       <p className="text-base mb-2 font-semibold">
                         Upload In Bulk
                       </p>
@@ -411,13 +465,25 @@ function UploadDealerBook() {
                         template, by{" "}
                         <span
                           className="underline cursor-pointer"
-                          onClick={downloadCSVTemplate}
+                          onClick={() => {
+                            if (formik.values.priceType === "Regular Pricing") {
+                              downloadCSVReguler();
+                            } else if (formik.values.priceType === "Flat Pricing") {
+                              downloadCSVFlat();
+                            } else if (formik.values.priceType === "Quantity Pricing") {
+                              downloadCSVQuantity();
+                            } else {
+
+                            }
+                          }}
                         >
                           Clicking here
                         </span>
                         The file must be saved with csv , xls and xlsx Format.
                       </p>
                     </div>
+                    }
+
                   </Grid>
                   <Button
                     type="submit"

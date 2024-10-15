@@ -545,12 +545,12 @@ const Lists = [
         image: Dropdown2,
         active: SeacondActive,
       },
-      // {
-      //   name: "Upload Dealer Price Book",
-      //   url: "/uploadDealerBook",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
+      {
+        name: "Upload Price Book",
+        url: "/uploadPriceBook",
+        image: Dropdown2,
+        active: ForthActive,
+      },
       {
         name: "Category",
         url: "/category",
