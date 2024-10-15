@@ -470,7 +470,7 @@ function ContractList(props) {
                                     <p className="text-[#5D6E66] text-sm font-Regular">
                                       Serial # / Device ID
                                     </p>
-                                    <p className="text-light-black text-base font-semibold">
+                                    <p className="text-light-black text-base font-semibold break-words">
                                       {res.serial}
                                     </p>
                                   </div>
@@ -603,9 +603,9 @@ function ContractList(props) {
                     {...formik.getFieldProps("serial")}
                   />
                 </div>
-                {userData.role=="Reseller" ||
-                 userData.role=="Dealer" ||
-                 userData.role=="Customer"  ? (
+                {userData.role == "Reseller" ||
+                  userData.role == "Dealer" ||
+                  userData.role == "Customer" ? (
                   ""
                 ) : (
                   <div className="col-span-6">
@@ -920,7 +920,7 @@ function ContractList(props) {
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Serial # / Device ID
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className="text-light-black text-base font-semibold break-words">
                           {contractDetails?.serial}
                         </p>
                       </div>
@@ -1039,9 +1039,9 @@ function ContractList(props) {
                         </p>
                       </div>
                     </div>
-                    {userData.role=="Reseller" ||
-                 userData.role=="Dealer" ||
-                 userData.role=="Customer"  ? (
+                    {userData.role == "Reseller" ||
+                      userData.role == "Dealer" ||
+                      userData.role == "Customer" ? (
                       ""
                     ) : (
                       <div className="col-span-1 border border-Light-Grey">
@@ -1300,13 +1300,13 @@ function ContractList(props) {
                         # of Claims Over the Certain Period
                       </p>
                       <p className="text-[14px] mb-2 text-left font-semibold">
-                 
+
                         {
- contractDetails?.noOfClaim?.value == "-1"
-    ? ""
-    : `${contractDetails?.noOfClaim?.period} - `
-}
-{" "}
+                          contractDetails?.noOfClaim?.value == "-1"
+                            ? ""
+                            : `${contractDetails?.noOfClaim?.period} - `
+                        }
+                        {" "}
                         {contractDetails?.noOfClaim?.value == -1
                           ? "Unlimited"
                           : contractDetails?.noOfClaim?.value}

@@ -362,7 +362,7 @@ function ContractList(props) {
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 Serial # / Device ID
                               </p>
-                              <p className="text-light-black text-base font-semibold">
+                              <p className="text-light-black text-base font-semibold break-words">
                                 {res.serial}
                               </p>
                             </div>
@@ -666,7 +666,7 @@ function ContractList(props) {
                   <div className="col-span-1 self-center justify-end"></div>
                 </Grid>
                 <div className="bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
-                  <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
+                  <Grid className="!gap-0 !grid-cols-5 bg-grayf9 ">
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
@@ -692,7 +692,7 @@ function ContractList(props) {
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Serial # / Device ID
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className="text-light-black text-base font-semibold break-words">
                           {contractDetails?.serial}
                         </p>
                       </div>
@@ -1026,7 +1026,7 @@ function ContractList(props) {
                       ""
                     )}
                   </Grid>
-                  <Grid className="!gap-0 ">
+                  <Grid className="!gap-0 mb-5">
                     <div className="col-span-3 border border-Light-Grey pl-4">
                       <p className="text-base mb-2 text-left font-semibold">
                         # of Claims Over the Certain Period

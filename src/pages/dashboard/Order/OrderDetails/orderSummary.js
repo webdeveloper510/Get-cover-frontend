@@ -74,7 +74,7 @@ function OrderSummary(props) {
                         </div>
                       </Grid>
 
-                      <Grid className="!gap-0 bg-grayf9 mb-5">
+                      <Grid className="!gap-0 bg-grayf9">
                         <div className="col-span-3 border border-Light-Grey">
                           <div className="py-4 pl-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
@@ -283,23 +283,26 @@ function OrderSummary(props) {
                             </table>
                           </div>
                         )}
-                        <div className="col-span-4 border border-Light-Grey pl-4">
+
+                      </Grid>
+                      <Grid className="!gap-0 bg-grayf9 mb-5">
+                        <div className="col-span-3 border border-Light-Grey pl-4">
                           <p className="text-base mb-2 text-left font-semibold">
                             # of Claims Over the Certain Period
                           </p>
                           <p className="text-[14px] mb-2 text-left font-semibold">
                             {/* {res?.noOfClaim?.period} -{" "} */}
                             {
- res?.noOfClaim?.value == "-1"
-    ? ""
-    : `${res?.noOfClaim?.period} - `
-}
+                              res?.noOfClaim?.value == "-1"
+                                ? ""
+                                : `${res?.noOfClaim?.period} - `
+                            }
                             {res?.noOfClaim?.value == -1
                               ? "Unlimited"
                               : res?.noOfClaim?.value}
                           </p>
                         </div>
-                        <div className="col-span-4 border border-Light-Grey pl-4">
+                        <div className="col-span-3 border border-Light-Grey pl-4">
                           <p className="text-base mb-2 text-left font-semibold">
                             # of Claims in Coverage Period
                           </p>
@@ -309,13 +312,24 @@ function OrderSummary(props) {
                               : res?.noOfClaimPerPeriod}
                           </p>
                         </div>
-                        <div className="col-span-4 border border-Light-Grey pl-4">
+                        <div className="col-span-3 border border-Light-Grey pl-4">
                           <p className=" text-base mb-2 text-left font-semibold">
                             {" "}
                             Is manufacturer warranty included?
                           </p>
                           <p className="text-[14px] text-left font-semibold">
                             {res?.isManufacturerWarranty == true ? "Yes" : "No"}
+                          </p>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey pl-4">
+                          <p className=" text-base mb-3 font-semibold">
+                            {" "}
+                            Is There a Maximum Claim Amount?
+                          </p>
+                          <p className="text-[14px] font-semibold">
+                            {res?.isMaxClaimAmount == true
+                              ? "Yes"
+                              : "No"}
                           </p>
                         </div>
                         <div className="col-span-12">
