@@ -1022,7 +1022,7 @@ function Account() {
         "coverage_type",
         "claim_status",
       ];
-      const result = await getOptions(data);
+      const result = await getOptions(data,0);
       const stateSetters = {
         repair_status,
         shipment_type,
