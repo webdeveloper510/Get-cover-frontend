@@ -412,77 +412,66 @@ function UploadDealerBook() {
                         </div>
                       )}
                     </div>
-                    {formik.values.priceType === '' ? '' : <div className="col-span-12">
-                      <p className="text-base mb-2 font-semibold">
-                        Upload In Bulk
-                      </p>
-                      <div className="relative">
-                        <button
-                          type="button"
-                          onClick={handleDropdownClick}
-                          className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                        >
-                          {selectedFile ? (
-                            <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                              <img src={csvFile} className="mr-2" alt="Dropbox" />
-                              <div className="flex justify-between w-full">
-                                <p className="self-center">{selectedFile.name}</p>
-                                <p className="self-center">
-                                  {(selectedFile.size / 1000).toFixed(2)} kb
-                                </p>
-                              </div>
-                            </div>
-                          ) : (
-                            <>
-                              <img
-                                src={Dropbox}
-                                className="mx-auto mb-3"
-                                alt="Dropbox"
-                              />
-                              <p className="">
-                                Accepted file types: csv, xlsx, xls Max. file size:
-                                50 MB.
-                              </p>
-                            </>
-                          )}
-                        </button>
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          style={{ display: "none" }}
-                          onChange={handleFileSelect}
-                        />
-                      </div>
-                      {formik.touched.file && formik.errors.file && (
-                        <p className="text-red-500 text-sm pl-2 pt-2">
-                          <span className="font-semibold">{formik.errors.file} </span>
-                        </p>
-                      )}
-                      <p className="text-[12px] mt-1 font-medium">
-                        Please click on file option and make a copy. Upload the list
-                        of Product Name and Price using our provided Google Sheets
-                        template, by{" "}
-                        <span
-                          className="underline cursor-pointer"
-                          onClick={() => {
-                            if (formik.values.priceType === "Regular Pricing") {
-                              downloadCSVReguler();
-                            } else if (formik.values.priceType === "Flat Pricing") {
-                              downloadCSVFlat();
-                            } else if (formik.values.priceType === "Quantity Pricing") {
-                              downloadCSVQuantity();
-                            } else {
+                    {formik.values.priceType ? (
+  <div className="col-span-12">
+    <p className="text-base mb-2 font-semibold">Upload In Bulk</p>
+    <div className="relative">
+      <button
+        type="button"
+        onClick={handleDropdownClick}
+        className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+      >
+        {selectedFile ? (
+          <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+            <img src={csvFile} className="mr-2" alt="Dropbox" />
+            <div className="flex justify-between w-full">
+              <p className="self-center">{selectedFile.name}</p>
+              <p className="self-center">{(selectedFile.size / 1000).toFixed(2)} kb</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+            <p>
+              Accepted file types: csv, xlsx, xls. Max. file size: 50 MB.
+            </p>
+          </>
+        )}
+      </button>
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+        style={{ display: "none" }}
+        onChange={handleFileSelect}
+      />
+    </div>
+    {formik.touched.file && formik.errors.file && (
+      <p className="text-red-500 text-sm pl-2 pt-2">
+        <span className="font-semibold">{formik.errors.file}</span>
+      </p>
+    )}
+    <p className="text-[12px] mt-1 font-medium">
+      Please click on file option and make a copy. Upload the list of Product Name and Price using our provided Google Sheets template, by{" "}
+      <span
+        className="underline cursor-pointer"
+        onClick={() => {
+          if (formik.values.priceType === "Regular Pricing") {
+            downloadCSVReguler();
+          } else if (formik.values.priceType === "Flat Pricing") {
+            downloadCSVFlat();
+          } else if (formik.values.priceType === "Quantity Pricing") {
+            downloadCSVQuantity();
+          }
+        }}
+      >
+        Clicking here
+      </span>
+      The file must be saved with csv, xls, or xlsx format.
+    </p>
+  </div>
+) : null}
 
-                            }
-                          }}
-                        >
-                          Clicking here
-                        </span>
-                        The file must be saved with csv , xls and xlsx Format.
-                      </p>
-                    </div>
-                    }
 
                   </Grid>
                   <Button
