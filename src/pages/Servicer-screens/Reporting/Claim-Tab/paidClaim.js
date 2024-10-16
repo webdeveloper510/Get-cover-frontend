@@ -185,6 +185,7 @@ function ClaimList(props) {
     "/dealer/customerDetails/",
     "/dealer/claimList",
     "/dealer/resellerDetails",
+    "/servicer/claimList"
   ];
 
   const isExcludedPath = excludedPaths.some((path) =>
@@ -695,69 +696,34 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    let typeValue = "Admin";
+    const roleTypeMap = {
+      'Super Admin': 'Admin',
+      'Dealer': 'Dealer',
+      'Reseller': 'Reseller',
+      'Customer': 'Customer',
+      'Servicer': 'Servicer',
+    };
+  
+    const typeValue = roleTypeMap[role] || 'Admin'; // Default to 'Admin' if role doesn't match
     const isValidReseller = !!claim?.contracts.orders.resellerId;
-    const selfServicer = claim?.selfServicer;
-    const isAdminView = window.location.pathname.includes("/dealer/claimList");
-    const isResellerPath =
-      window.location.pathname.includes("/reseller/claimList") ||
-      window.location.pathname.includes("/reseller/customerDetails");
-    const isCustomerPath = window.location.pathname.includes(
-      "/customer/claimList"
-    );
-
-    console.log("isResellerPath", isResellerPath);
-
-    if (!isAdminView && !isResellerPath && !isCustomerPath) {
-      typeValue = "Admin";
-    } else if (isAdminView && !isResellerPath && !isCustomerPath) {
-      typeValue = "Dealer";
-    } else if (!isAdminView && isResellerPath && !isCustomerPath) {
-      typeValue = "Reseller";
-    } else if (!isAdminView && !isResellerPath && isCustomerPath) {
-      typeValue = "Customer";
-    }
-
+  
     formik2.setFieldValue("type", typeValue);
-
+  
     setSendto(
       [
-        {
-          label:
-            !isAdminView && !isResellerPath && !isCustomerPath
-              ? "Admin (To Self)"
-              : "Admin ",
-          value: "Admin",
-        },
-        {
-          label:
-            isAdminView && !isResellerPath && !isCustomerPath
-              ? "Dealer (To Self)"
-              : "Dealer ",
-          value: "Dealer",
-        },
-        isValidReseller && {
-          label:
-            !isAdminView && isResellerPath && !isCustomerPath
-              ? "Reseller (To Self)"
-              : "Reseller",
-          value: "Reseller",
-        },
-        !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
-        {
-          label:
-            !isAdminView && !isResellerPath && isCustomerPath
-              ? "Customer (To Self)"
-              : "Customer",
-          value: "Customer",
-        },
+        { label: "Admin", value: "Admin" },
+        { label: "Dealer", value: "Dealer" },
+        isValidReseller && { label: "Reseller", value: "Reseller" },
+        { label: typeValue === "Servicer" ? "Servicer (To Self)" : "Servicer", value: "Servicer" },
+        { label: "Customer", value: "Customer" },
       ].filter(Boolean)
     );
-
+  
     setClaimDetail(claim);
     getClaimMessage(claim._id, true);
     setIsViewOpen(true);
   };
+  
 
   const getClaimMessage = (claimId, loader = true) => {
     setModelLoading(loader);
@@ -1489,63 +1455,6 @@ function ClaimList(props) {
                                     onClick={() => openView(res)}
                                     alt="chat"
                                   />
-                                  {role === "Super Admin" &&
-                                    res?.claimStatus?.[0]?.status === "open" && (
-                                      <img
-                                        src={Edit}
-                                        className="mr-2 cursor-pointer"
-                                        onClick={() => openEdit(res, index)}
-                                        alt="edit"
-                                      />
-                                    )}
-
-                                  {role != "Super Admin" &&
-                                    res.selfServicer &&
-                                    res?.claimStatus?.[0]?.status === "open" &&
-                                    !location.pathname.includes(
-                                      "customer/claimList"
-                                    ) &&
-                                    !location.pathname.includes(
-                                      "/reseller/claimList"
-                                    ) &&
-                                    !location.pathname.includes(
-                                      "/dealer/claimList"
-                                    ) && (
-                                      <img
-                                        src={Edit}
-                                        className="mr-2 cursor-pointer"
-                                        onClick={() => openEdit(res, index)}
-                                        alt="edit"
-                                      />
-                                    )}
-
-                                  {props.activeTab == "Unpaid Claims" ? (
-                                    isCheckBox ? (
-                                      <>
-                                        <div
-                                          key={index}
-                                          className="border p-[11px] px-[18px] rounded-3xl self-center"
-                                        >
-                                          <input
-                                            id={`push-nothing-${index}`}
-                                            name={`push-notifications-${index}`}
-                                            type="checkbox"
-                                            className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
-                                            onChange={() =>
-                                              handleCheckboxChange(res._id)
-                                            }
-                                            checked={checkboxStates.includes(
-                                              res._id
-                                            )}
-                                          />
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <></>
-                                    )
-                                  ) : (
-                                    <></>
-                                  )}
                                 </div>
 
                               </Grid>
@@ -1568,26 +1477,7 @@ function ClaimList(props) {
                                     </p>
                                   </div>
                                 </div>
-                                {isExcludedPath ? (
-                                  ""
-                                ) : (
-                                  <div className="col-span-1 flex ">
-                                    <img
-                                      src={productName}
-                                      className="self-center h-[50px] w-[50px] ml-3"
-                                      alt="productName"
-                                    />
-                                    <div className="py-4 pl-3 self-center">
-                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                        Product SKU
-                                      </p>
-                                      <p className="text-light-black text-sm font-semibold">
-                                        {res?.contracts?.productName}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-
+                          
                                 <div className="col-span-1 flex">
                                   <img
                                     src={Manufacturer}
@@ -1694,9 +1584,7 @@ function ClaimList(props) {
                                   <Grid className="!gap-2">
                                     <div className="col-span-4 py-4 pl-1 ">
                                       <div className="bg-Eclipse py-2 px-2">
-                                        {!location.pathname.includes(
-                                          "customer/claimList"
-                                        ) && (
+                                
                                             <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                               Customer Name :{" "}
                                               <span className="font-semibold text-white">
@@ -1707,7 +1595,7 @@ function ClaimList(props) {
                                                 }{" "}
                                               </span>
                                             </p>
-                                          )}
+                                       
                                         <Grid>
                                           <div className="col-span-4">
                                             <p className="text-light-green text-[11px]  font-Regular">
@@ -1739,10 +1627,6 @@ function ClaimList(props) {
                                           </div>
                                         </Grid>
 
-
-                                        {location.pathname.includes(
-                                          "/reseller/claimList"
-                                        ) ? (
                                           <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                             {" "}
                                             <span className="self-center mr-4">
@@ -1750,38 +1634,7 @@ function ClaimList(props) {
                                             </span>
                                             {res?.servicerData?.name}
                                           </p>
-                                        ) : (
-                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                            {" "}
-                                            <span className="self-center mr-4">
-                                              Servicer Name :{" "}
-                                            </span>
-                                            {role == "Super Admin" ? (
-                                              <Select
-                                                name="servicer"
-                                                label=""
-                                                value={servicer}
-                                                disabled={
-                                                  claimStatus.status ===
-                                                  "rejected" ||
-                                                  claimStatus.status ===
-                                                  "completed" ||
-                                                  location.pathname.includes(
-                                                    "/reseller/customerDetails"
-                                                  )
-                                                }
-                                                onChange={handleSelectChange}
-                                                OptionName="Servicer"
-                                                white
-                                                className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                classBox="w-[55%]"
-                                                options={servicerList}
-                                              />
-                                            ) : (
-                                              <>{res?.servicerData?.name}</>
-                                            )}
-                                          </p>
-                                        )}
+                                    
                                         {!isExcludedPath && (
                                           <>
                                             <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
@@ -1813,9 +1666,7 @@ function ClaimList(props) {
                                             </p>
                                           </>
                                         )}
-                                        <span className="self-center w-[75px] mr-[1rem] text-red-500">
-                                          {errorForCoverageType && `${errorForCoverageType}`}
-                                        </span>
+                                  
                                         <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                           <span className="self-center w-[75px]  mr-[1rem]">
 
@@ -2291,13 +2142,7 @@ function ClaimList(props) {
                     setRecordsPerPage={setRecordsPerPage}
                   />
                 </>
-                // <CustomPagination
-                //   totalRecords={totalRecords}
-                //   rowsPerPageOptions={[10, 20, 50, 100]}
-                //   onPageChange={handlePageChange}
-                //   setRecordsPerPage={setRecordsPerPage}
-                // />
-              )}
+                           )}
             </div>
           </Card>
         </div>
@@ -2317,6 +2162,7 @@ function ClaimList(props) {
           </p>
         </div>
       </Modal>
+
       <Modal isOpen={isRejectOpen} onClose={closeReject}>
         <Button
           onClick={closeReject}
@@ -2632,244 +2478,6 @@ function ClaimList(props) {
         </div>
       </Modal>
 
-      <Modal isOpen={isEditOpen} onClose={closeEdit} className="!w-[1100px]">
-        <Button
-          onClick={closeEdit}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-4 mt-[-9px] !rounded-full !bg-Granite-Gray"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
-        <div className="">
-          <p className="text-center text-3xl font-semibold ">
-            Edit Claim / {claimUnique}
-          </p>
-          {claimLoading ? (
-            <div className=" h-[400px] w-full flex py-5">
-              <div className="self-center mx-auto">
-                <RotateLoader color="#333" />
-              </div>
-            </div>
-          ) : (
-            <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
-                <div className="flex justify-between">
-                  <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                  <p className="pb-5 text-lg font-semibold">
-                    {" "}
-                    Max Claim Amount : $
-                    {price === undefined
-                      ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(price ?? parseInt(0))}
-                  </p>
-                </div>
-                <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
-                  {formik?.values?.repairParts?.map((part, index) => {
-                    return (
-                      <div className="mb-5 grid grid-cols-12 gap-4">
-                        <div className="col-span-2">
-                          {formik?.values?.repairParts[index]?.value ? (
-                            <Select
-                              name={`repairParts[${index}].serviceType`}
-                              label="Service Type"
-                              options={serviceType1}
-                              required={true}
-                              className="!bg-white"
-                              disabled={true} // or you can keep it as formik?.values?.repairParts[index]?.value
-                              placeholder=""
-                              maxLength={"30"}
-                              className1="!pt-[0.4rem]"
-                              value={
-                                formik.values.repairParts[index].serviceType ||
-                                ""
-                              }
-                              onChange={handleChange}
-                              onBlur={formik.handleBlur}
-                              error={
-                                formik.touched.repairParts &&
-                                formik.touched.repairParts[index] &&
-                                formik.errors.repairParts &&
-                                formik.errors.repairParts[index] &&
-                                formik.errors.repairParts[index].serviceType
-                              }
-                            />
-                          ) : (
-                            <Select
-                              name={`repairParts[${index}].serviceType`}
-                              label="Service Type"
-                              options={
-                                index === 0
-                                  ? serviceType.filter(
-                                    (option) => option.label !== "Shipping"
-                                  )
-                                  : serviceType
-                              }
-                              required={true}
-                              className="!bg-white"
-                              disabled={
-                                formik?.values?.repairParts[index]?.value
-                              }
-                              placeholder=""
-                              maxLength={"30"}
-                              className1="!pt-[0.4rem]"
-                              value={
-                                formik.values.repairParts[index].serviceType ||
-                                ""
-                              }
-                              onChange={handleChange}
-                              onBlur={formik.handleBlur}
-                              error={
-                                formik.touched.repairParts &&
-                                formik.touched.repairParts[index] &&
-                                formik.errors.repairParts &&
-                                formik.errors.repairParts[index] &&
-                                formik.errors.repairParts[index].serviceType
-                              }
-                            />
-                          )}
-                          {formik.touched.repairParts &&
-                            formik.touched.repairParts[index] &&
-                            formik.errors.repairParts &&
-                            formik.errors.repairParts[index]?.serviceType && (
-                              <div className="text-red-500 text-[13px]">
-                                {formik.errors.repairParts[index].serviceType}
-                              </div>
-                            )}
-                        </div>
-
-                        <div className="col-span-7">
-                          <Input
-                            type="text"
-                            label="Description"
-                            id={`description-${index}`}
-                            name={`repairParts[${index}].description`}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.repairParts[index].description}
-                            className="!bg-white"
-                            className1="w-full !p-2 border rounded-md"
-                          />
-                          {formik.touched.repairParts &&
-                            formik.touched.repairParts[index] &&
-                            formik.errors.repairParts &&
-                            formik.errors.repairParts[index]?.description && (
-                              <div className="text-red-500 text-[13px]">
-                                {formik.errors.repairParts[index].description}
-                              </div>
-                            )}
-                        </div>
-
-                        <div
-                          className={`${index > 0 ? "col-span-2" : "col-span-3"
-                            }  `}
-                        >
-                          {/* <label htmlFor={`price-${index}`}>Price ($)</label> */}
-                          <Input
-                            type="number"
-                            id={`price-${index}`}
-                            label="Price ($)"
-                            name={`repairParts[${index}].price`}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.repairParts[index].price}
-                            className="!bg-white"
-                            className1="w-full !p-2 border rounded-md"
-                          />
-                          {formik.touched.repairParts &&
-                            formik.touched.repairParts[index] &&
-                            formik.errors.repairParts &&
-                            formik.errors.repairParts[index]?.price && (
-                              <div className="text-red-500 text-[13px]">
-                                {formik.errors.repairParts[index].price}
-                              </div>
-                            )}
-                        </div>
-
-                        {index > 0 && (
-                          <div className="col-span-1 self-center bg-Smoke rounded-[4px] flex justify-center">
-                            <div
-                              className="flex h-full bg-Smoke justify-center cursor-pointer"
-                              onClick={() => handleRemove(index)}
-                            >
-                              <img
-                                src={DeleteImage}
-                                className="self-center p-1 py-[8px] cursor-pointer"
-                                alt="Delete Icon"
-                              />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                  <div ref={messagesEndRef} />
-                </div>
-                <Grid>
-                  <div className="col-span-6">
-                    {Object.keys(formik.errors).some(
-                      (key) =>
-                        Array.isArray(formik.touched[key]) &&
-                        formik.touched[key].some((t) => t) &&
-                        Array.isArray(formik.errors[key]) &&
-                        formik.errors[key].some((e) => Boolean(e))
-                    ) ? (
-                      <div>
-                        <p className="text-red-500">
-                          Error Please Check the Repair Parts Form
-                        </p>
-                      </div>
-                    ) : null}
-                    {error && <p className="text-red-500">{error}</p>}
-                  </div>
-
-                  <div className="col-span-6 text-end">
-                    <Button
-                      type="button"
-                      className="!text-sm"
-                      onClick={handleAddMore}
-                    >
-                      + Add More
-                    </Button>
-                  </div>
-                </Grid>
-              </Card>
-              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
-                <div className="relative">
-                  <label
-                    htmlFor="description"
-                    className="absolute text-base text-[#999] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                  >
-                    Note
-                  </label>
-                  <textarea
-                    id="note"
-                    rows="3"
-                    name="note"
-                    maxLength={150}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.note}
-                    className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                  ></textarea>
-                </div>
-              </div>
-
-              <div className="mt-3">
-                <Button
-                  className="!bg-white !text-black mr-2"
-                  onClick={closeEdit}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Update</Button>
-              </div>
-            </form>
-          )}
-        </div>
-      </Modal>
-
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
@@ -2884,24 +2492,6 @@ function ClaimList(props) {
         </div>
       </Modal>
 
-      <Modal isOpen={isComplete} onClose={closeComplete}>
-        <div className="py-1 text-center">
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold">
-            Are you
-            <span className=""> sure ? </span>
-          </p>
-          <p className="text-base font-medium mt-2">
-            You want to complete this Claim ?
-          </p>
-          <div className="mt-3">
-            <Button type="submit">Yes</Button>
-            <Button className="!bg-white !text-black" onClick={closeComplete}>
-              No
-            </Button>
-          </div>
-        </div>
-      </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
@@ -2966,16 +2556,6 @@ function ClaimList(props) {
                   label="Serial # / Device ID"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="productName"
-                  className="!bg-white"
-                  label="Product SKU"
-                  placeholder=""
-                  {...formik1.getFieldProps("productName")}
                 />
               </div>
               <div className="col-span-6">

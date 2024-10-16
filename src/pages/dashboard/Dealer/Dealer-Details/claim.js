@@ -1568,25 +1568,6 @@ function ClaimList(props) {
                                     </p>
                                   </div>
                                 </div>
-                                {isExcludedPath ? (
-                                  ""
-                                ) : (
-                                  <div className="col-span-1 flex ">
-                                    <img
-                                      src={productName}
-                                      className="self-center h-[50px] w-[50px] ml-3"
-                                      alt="productName"
-                                    />
-                                    <div className="py-4 pl-3 self-center">
-                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                        Product SKU
-                                      </p>
-                                      <p className="text-light-black text-sm font-semibold">
-                                        {res?.contracts?.productName}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
 
                                 <div className="col-span-1 flex">
                                   <img
@@ -2966,16 +2947,6 @@ function ClaimList(props) {
                   label="Serial # / Device ID"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="productName"
-                  className="!bg-white"
-                  label="Product SKU"
-                  placeholder=""
-                  {...formik1.getFieldProps("productName")}
                 />
               </div>
               <div className="col-span-6">
