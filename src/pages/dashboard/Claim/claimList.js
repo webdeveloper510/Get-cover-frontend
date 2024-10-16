@@ -1645,12 +1645,12 @@ function ClaimList(props) {
                                         </p>
                                       )}
 
-                                      {!isExcludedPath && (
+                                      {!isExcludedPath ?
+                                       (
                                         <>
                                         <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                           <span className="self-center mr-4">
                                             {" "}
-                                            {/* {coverageType?.label} : */}
                                             Coverage Type:
                                           </span>
                                           <Select
@@ -1675,6 +1675,11 @@ function ClaimList(props) {
                               
                                         </p>
                                         </>
+                                      ) : (
+                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+  <span className="self-center mr-4">Coverage Type:</span>
+  <>{claimType}</>
+  </p>
                                       )}
                                              <span className="self-center w-[75px] mr-[1rem] text-red-500">
 </span>

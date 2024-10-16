@@ -1574,39 +1574,33 @@ function ClaimList(props) {
                                       )}
                                     </p>
 
-                                    {res.selfServicer && (
-                                      <>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center mr-4">
-                                        
-                                          Coverage Type:
-                                        </span>
-                                        <Select
-                                          name="claimType"
-                                          label=""
-                                          value={claimType}
-                                          onChange={handleSelectChange}
-                                          white
+                                    {res.selfServicer ? (
+  <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+    <span className="self-center mr-4">Coverage Type:</span>
+    <Select
+      name="claimType"
+      label=""
+      value={claimType}
+      onChange={handleSelectChange}
+      white
+      disabled={
+        claimStatus.status === "rejected" ||
+        claimStatus.status === "completed"
+      }
+      options={claimList?.result?.[activeIndex]?.contracts?.mergedData}
+      OptionName="Claim Type"
+      className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+      classBox="w-[55%]"
+    />
+  </p>
+) : (
+  <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+  <span className="self-center mr-4">Coverage Type:</span>
+  <>{claimType}</>
+  </p>
+)}
 
-                                          disabled={
-                                            claimStatus.status ===
-                                            "rejected" ||
-                                            claimStatus.status === "completed"
-                                          }
-                                          options={ claimList?.result?.[
-                                            activeIndex
-                                          ]?.contracts?.mergedData}
-                                          OptionName="Claim Type"
-                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[55%]"
-                                        />
-                            
-                                      </p>
-                                      </>
-                                      )}
-                                       {/* <span className="self-center w-[75px] mr-[1rem] text-red-500">
-  {errorForCoverageType && `${errorForCoverageType}`}
-</span> */}
+                      
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
                                       {shipment.label}:

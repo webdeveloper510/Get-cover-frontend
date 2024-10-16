@@ -421,28 +421,16 @@ function ContractList(props) {
                                         alt="edit"
                                       />{" "}
                                     </div>
-                                    {!window.location.pathname.includes(
-                                      "/reseller/"
-                                    ) ||
-                                      !window.location.pathname.includes(
-                                        "/dealer/"
-                                      ) ||
-                                      !window.location.pathname.includes(
-                                        "/reseller/contractList"
-                                      ) ? (
-                                      props.shownEdit ||
-                                        props.shownEdit === undefined ? (
-                                        <Link to={`/editContract/${res._id}`}>
-                                          <img
-                                            src={Edit}
-                                            className="ml-auto mr-2"
-                                            alt="edit"
-                                          />
-                                        </Link>
-                                      ) : null
-                                    ) : (
-                                      ""
-                                    )}
+                                    {userData.role === 'Super Admin' && (
+  <Link to={`/editContract/${res._id}`}>
+    <img
+      src={Edit}
+      className="ml-auto mr-2"
+      alt="edit"
+    />
+  </Link>
+)}
+
                                   </div>
                                 </Grid>
                               </SingleView>
