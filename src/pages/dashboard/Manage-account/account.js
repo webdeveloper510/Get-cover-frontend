@@ -101,7 +101,7 @@ function Account() {
   });
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
- const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState([]);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedAction(null);
@@ -1051,8 +1051,8 @@ function Account() {
       }
       return item;
     });
-  console.log(updatedSectionData)
-    const newSectionData = [...sections]; 
+    console.log(updatedSectionData)
+    const newSectionData = [...sections];
     newSectionData[index].data.value = updatedSectionData;
     console.log(newSectionData)
     setSections(newSectionData)
@@ -1075,126 +1075,126 @@ function Account() {
         coverage_type,
         claim_status,
       };
-  
+
       data.forEach((key, index) => {
         stateSetters[key]?.(result.result[index]);
       });
 
       setSections([
         { title: "Coverage Types", data: result.result[3] },
-        { title: "Repair Status", data: result.result[0] },  
+        { title: "Repair Status", data: result.result[0] },
         { title: "Customer Status", data: result.result[2] },
-        { title: "Shipment Types", data: result.result[1] },  
-        { title: "Claim Status", data: result.result[4] }, 
+        { title: "Shipment Types", data: result.result[1] },
+        { title: "Claim Status", data: result.result[4] },
       ]);
     } catch (error) {
       console.error("Error fetching claim options:", error);
     }
   };
-  
+
   const [labels, setLabels] = useState(Array(sections.length).fill(""));
   const [values, setValues] = useState(Array(sections.length).fill(""));
   const [editingIndex, setEditingIndex] = useState(null);
-  
-  const [editingRowId, setEditingRowId] = useState(null); 
 
-const handleEditOption = (id, sectionData, index) => {
-  const row = sectionData.value.find(item => item._id === id);
-  if (row) {
-    setLabels((prev) => {
-      const newLabels = [...prev];
-      newLabels[index] = row.label;
-      return newLabels;
-    });
-    
-    setValues((prev) => {
-      const newValues = [...prev];
-      newValues[index] = row.value;
-      return newValues;
-    });
-    setEditingRowId(id)
-    setEditingIndex(index);
-  }
-};
-const handleLabelChange = (index, value) => {
-  const newLabels = [...labels];
-  newLabels[index] = value;
-  setLabels(newLabels);
-};
+  const [editingRowId, setEditingRowId] = useState(null);
 
-const handleValueChange = (index, value) => {
-  const newValues = [...values];
-  newValues[index] = value;
-  setValues(newValues);
-};
+  const handleEditOption = (id, sectionData, index) => {
+    const row = sectionData.value.find(item => item._id === id);
+    if (row) {
+      setLabels((prev) => {
+        const newLabels = [...prev];
+        newLabels[index] = row.label;
+        return newLabels;
+      });
 
-const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex) => { 
-  const currentLabel = labels[sectionIndex]; 
-  const currentValue = values[sectionIndex]; 
-
-  const newData = {
-    label: currentLabel,
-    value: currentValue,
-    labelId,
+      setValues((prev) => {
+        const newValues = [...prev];
+        newValues[index] = row.value;
+        return newValues;
+      });
+      setEditingRowId(id)
+      setEditingIndex(index);
+    }
+  };
+  const handleLabelChange = (index, value) => {
+    const newLabels = [...labels];
+    newLabels[index] = value;
+    setLabels(newLabels);
   };
 
-  try {
-    if (editingRowId !== null && labelId) {
-      // Update case
-      console.log('Updating row', editingRowId, labelId);
-      const res = await editOption(labelId, newData);
-      setSections((prevSections) => {
-        const updatedSections = [...prevSections]; // Using updatedSections correctly
-        const updatedSectionData = updatedSections[sectionIndex].data.value.map((item) =>
-          item._id === editingRowId
-            ? { ...item, label: currentLabel, value: currentValue } 
-            : item
-        );
+  const handleValueChange = (index, value) => {
+    const newValues = [...values];
+    newValues[index] = value;
+    setValues(newValues);
+  };
 
-        updatedSections[sectionIndex].data.value = updatedSectionData;  
-        return updatedSections;
+  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex) => {
+    const currentLabel = labels[sectionIndex];
+    const currentValue = values[sectionIndex];
+
+    const newData = {
+      label: currentLabel,
+      value: currentValue,
+      labelId,
+    };
+
+    try {
+      if (editingRowId !== null && labelId) {
+        // Update case
+        console.log('Updating row', editingRowId, labelId);
+        const res = await editOption(labelId, newData);
+        setSections((prevSections) => {
+          const updatedSections = [...prevSections]; // Using updatedSections correctly
+          const updatedSectionData = updatedSections[sectionIndex].data.value.map((item) =>
+            item._id === editingRowId
+              ? { ...item, label: currentLabel, value: currentValue }
+              : item
+          );
+
+          updatedSections[sectionIndex].data.value = updatedSectionData;
+          return updatedSections;
+        });
+      } else {
+        // Add case
+        console.log('Adding new row');
+        setSections((prevSections) => {
+          const addOptionupdatedSections = [...prevSections];
+          addOptionupdatedSections[sectionIndex].data.value = [
+            ...addOptionupdatedSections[sectionIndex].data.value,
+            { status: true, value: currentValue, label: currentLabel, value: currentValue, _id: '66d6d8a08e8d1db1d80033b10', },
+          ];
+          console.log(addOptionupdatedSections)
+          return addOptionupdatedSections;
+        });
+      }
+
+      // Resetting the label and value after the add/update operation
+      setLabels((prev) => {
+        const newLabels = [...prev];
+        newLabels[sectionIndex] = '';
+        return newLabels;
       });
-    } else {
-      // Add case
-      console.log('Adding new row');
-      setSections((prevSections) => {
-        const addOptionupdatedSections = [...prevSections]; 
-        addOptionupdatedSections[sectionIndex].data.value = [
-          ...addOptionupdatedSections[sectionIndex].data.value,
-          {status: true,value: currentValue, label: currentLabel, value: currentValue,  _id: '66d6d8a08e8d1db1d80033b10',},  
-        ];
-        console.log(addOptionupdatedSections)
-        return addOptionupdatedSections; 
+
+      setValues((prev) => {
+        const newValues = [...prev];
+        newValues[sectionIndex] = '';
+        return newValues;
       });
+
+      setEditingIndex(null);  // Reset the editing index
+    } catch (error) {
+      console.error('Failed to add/update option:', error);
     }
-
-    // Resetting the label and value after the add/update operation
-    setLabels((prev) => {
-      const newLabels = [...prev];
-      newLabels[sectionIndex] = '';  
-      return newLabels;
-    });
-    
-    setValues((prev) => {
-      const newValues = [...prev];
-      newValues[sectionIndex] = ''; 
-      return newValues;
-    });
-
-    setEditingIndex(null);  // Reset the editing index
-  } catch (error) {
-    console.error('Failed to add/update option:', error);
-  }
-};
+  };
 
 
 
-const handleCancelEdit = () => {
-  setEditingRowId(null);
-  setEditingIndex(null);
-  setLabels((prev) => prev.map(() => ''));
-  setValues((prev) => prev.map(() => ''));
-};
+  const handleCancelEdit = () => {
+    setEditingRowId(null);
+    setEditingIndex(null);
+    setLabels((prev) => prev.map(() => ''));
+    setValues((prev) => prev.map(() => ''));
+  };
 
   return (
     <>
@@ -1907,119 +1907,116 @@ const handleCancelEdit = () => {
             </Card>
           )}
 
-<>
-  {activeButton === "Settings" && (
-    sections.map((section, index) => (
-      <div key={index} className="my-5">
-        <CollapsibleDiv
-          ShowData={showdata}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
-          index={index} // Pass the index to the child
-          imageClass="w-10 h-10"
-          title={
-            <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
-              <div className="col-span-12 px-4 py-2">
-                <p className="text-lg font-bold text-white">{section.title}</p>
-              </div>
-            </Grid>
-          }
-        >
-          <div className="p-4 border">
-            <Grid>
-              <div className="col-span-5">
-                <Input
-                  type="text"
-                  label="Coverage Type Label"
-                  value={labels[index] || ''}
-                  onChange={(e) => handleLabelChange(index, e.target.value)}
-                  placeholder=""
-                 // Disable if not editing this section
-                />
-              </div>
-              <div className="col-span-5">
-                <Input
-                  type="text"
-                  label="Coverage Type Value"
-                  value={values[index] || ''}
-                  onChange={(e) => handleValueChange(index, e.target.value)}
-                  disabled={editingIndex === index} // Disable in edit mode for the current section
-                  placeholder=""
-                />
-              </div>
-              <div className="col-span-2 self-center text-center">
-                {editingIndex === index ? (
-                  <>
-                    <Button
-                      className="text-sm! font-semibold !border-light-black !border-[1px]"
-                      type="button"
-                      onClick={() =>handleAddOrUpdate(editingRowId, labels[index], index)}
-                    >
-                      Update
-                    </Button>
-                    <Button
-                      className="text-sm! font-semibold !border-light-black !border-[1px] ml-2"
-                      type="button"
-                      onClick={handleCancelEdit}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    className="text-sm! font-semibold !border-light-black !border-[1px]"
-                    type="button"
-                    onClick={() => handleAddOrUpdate(null, labels[index], index)}
+          <>
+            {activeButton === "Settings" && (
+              sections.map((section, index) => (
+                <div key={index} className="my-5">
+                  <CollapsibleDiv
+                    ShowData={showdata}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    index={index} // Pass the index to the child
+                    imageClass="w-10 h-10"
+                    title={
+                      <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
+                        <div className="col-span-12 px-4 py-2">
+                          <p className="text-lg font-bold text-white">{section.title}</p>
+                        </div>
+                      </Grid>
+                    }
                   >
-                    Add
-                  </Button>
-                )}
-              </div>
-            </Grid>
+                    <div className="p-4 border">
+                      <Grid className="!grid-cols-11 !gap-2">
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            label="Coverage Type Label"
+                            value={labels[index] || ''}
+                            onChange={(e) => handleLabelChange(index, e.target.value)}
+                            placeholder=""
+                            className='!bg-white'
+                          // Disable if not editing this section
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            label="Coverage Type Value"
+                            value={values[index] || ''}
+                            onChange={(e) => handleValueChange(index, e.target.value)}
+                            disabled={editingIndex === index} // Disable in edit mode for the current section
+                            className='!bg-white'
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-3 self-center text-center">
+                          {editingIndex === index ? (
+                            <>
+                              <Button
+                                className="text-sm! font-semibold !border-light-black !border-[1px]"
+                                type="button"
+                                onClick={() => handleAddOrUpdate(editingRowId, labels[index], index)}
+                              >
+                                Update
+                              </Button>
+                              <Button
+                                className="text-sm! font-semibold !border-light-black !border-[1px] ml-2"
+                                type="button"
+                                onClick={handleCancelEdit}
+                              >
+                                Cancel
+                              </Button>
+                            </>
+                          ) : (
+                            <Button
+                              className="text-sm! font-semibold !border-light-black !border-[1px]"
+                              type="button"
+                              onClick={() => handleAddOrUpdate(null, labels[index], index)}
+                            >
+                              Add
+                            </Button>
+                          )}
+                        </div>
+                      </Grid>
 
-            <table className="w-full border-collapse border">
-              <thead className="w-full border-collapse border bg-[#F9F9F9]">
-                <tr>
-                  <th>Label</th>
-                  <th>Value</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody className="w-full border-collapse border text-center">
-                {section.data?.value.map((row) => (
-                  <tr key={row._id} className="w-full border-collapse border">
-                    <td className="py-3">{row.label}</td>
-                    <td>{row.value}</td>
-                    <td>
-                      <SwitchButton
-                        isOn={row.status}
-                        handleToggle={() =>  handleStatusToggle(row._id, section.data, index)}
-                      />
-                    </td>
-                    <td>
-                      <Button
-                        onClick={() => handleEditOption(row._id, section.data, index)}
-                        className="text-sm! font-semibold !border-light-black !border-[1px]"
-                      >
-                        Edit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CollapsibleDiv>
-      </div>
-    ))
-  )}
-</>;
-s
-
-
-
-
+                      <table className="w-full border-collapse border mt-5">
+                        <thead className="w-full border-collapse border bg-[#F9F9F9]">
+                          <tr>
+                            <th>Label</th>
+                            <th>Value</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full border-collapse border text-center">
+                          {section.data?.value.map((row) => (
+                            <tr key={row._id} className="w-full border-collapse border">
+                              <td className="py-3">{row.label}</td>
+                              <td>{row.value}</td>
+                              <td>
+                                <SwitchButton
+                                  isOn={row.status}
+                                  handleToggle={() => handleStatusToggle(row._id, section.data, index)}
+                                />
+                              </td>
+                              <td>
+                                <Button
+                                  onClick={() => handleEditOption(row._id, section.data, index)}
+                                  className="text-sm! font-semibold !border-light-black !border-[1px]"
+                                >
+                                  Edit
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CollapsibleDiv>
+                </div>
+              ))
+            )}
+          </>
         </div >
       )
       }
