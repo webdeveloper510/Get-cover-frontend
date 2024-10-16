@@ -686,25 +686,19 @@ function AllList(props) {
   };
 
   const openView = (claim) => {
-    const isValidReseller = !!claim?.contracts.orders.resellerId;
-    const selfServicer = claim?.selfServicer;
-    const isAdminView = window.location.pathname.includes("/dealer/claimList");
-    const isResellerPath = window.location.pathname.includes(
-      "/reseller/claimList"
-    );
-    const isCustomerPath = window.location.pathname.includes(
-      "/customer/claimList"
-    );
-
     let typeValue = "Admin";
+    const isValidReseller = !!claim?.contracts.orders.resellerId;
 
-    if (!isAdminView && !isResellerPath && !isCustomerPath) {
+    if (role=="Super Admin") {
       typeValue = "Admin";
-    } else if (isAdminView && !isResellerPath && !isCustomerPath) {
+    } else if (role=="Dealer") {
       typeValue = "Dealer";
-    } else if (!isAdminView && isResellerPath && !isCustomerPath) {
+    } else if (role=="Reseller") {
       typeValue = "Reseller";
-    } else if (!isAdminView && !isResellerPath && isCustomerPath) {
+    } else if (role == "Servicer") {
+      typeValue = "Servicer";
+    }
+    else if (role == "Customer") {
       typeValue = "Customer";
     }
 
@@ -1777,7 +1771,34 @@ function AllList(props) {
                                         )}
                                       </span>
                                     </div>
-                                   
+                                    {claimStatus.status == "rejected" ||
+                                        claimStatus.status == "completed" || role != "Servicer" ? (
+                                        <></>
+                                      ) : (
+                                        <div
+                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                          ref={dropdownRef}
+                                          onClick={handleToggleDropdown}
+                                        >
+                                          <Select
+                                            name="customerStatus"
+                                            label=""
+                                            disableFirstOption={true}
+                                            value={customerStatus.status}
+                                            onChange={handleSelectChange}
+                                            classBox="!bg-transparent"
+                                            disabled={
+                                              claimStatus.status ==
+                                              "rejected" ||
+                                              claimStatus.status == "completed" 
+                                            }
+                                            white
+                                            className1="!border-0 !text-light-black"
+                                            options={customerValue?.value}
+                                            visible={dropdownVisible}
+                                          />
+                                        </div>
+                                      )}
                                   </div>
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
@@ -1790,7 +1811,7 @@ function AllList(props) {
                                       onClick={handleToggleDropdown2}
                                     >
                                                    <p className="text-white text-sm">
-  {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+  {claimvalues?.value?.find((data) => data.value == claimStatus.status)?.label || "No matching value"}
 </p>
                                       <p className="text-light-green">
                                         {" "}

@@ -1013,26 +1013,6 @@ function Account() {
     }
   };
 
-
-  const handleStatusToggle = async (rowId, sectionData, index) => {
-    console.log(sectionData)
-    if (activeIndex != index) return;
-    const updatedSectionData = sectionData.value.map((item) => {
-      if (item._id === rowId) {
-        return {
-          ...item,
-          status: !item.status,
-        };
-      }
-      return item;
-    });
-    console.log(updatedSectionData)
-    const newSectionData = [...sections];
-    newSectionData[index].data.value = updatedSectionData;
-    console.log(newSectionData)
-    setSections(newSectionData)
-  };
-
   const getClaimOptions = async () => {
     try {
       const data = [
@@ -1107,6 +1087,11 @@ function Account() {
   const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex,toggleValue=false) => {
     const currentLabel = labels[sectionIndex];
     const currentValue = values[sectionIndex];
+    if (!toggleValue && (!currentLabel || !currentValue)) {
+      console.error('Label or value is empty, operation aborted.');
+      return; 
+    }
+
     try {
       const updatedSections = [...sections];
       if(toggleValue){
