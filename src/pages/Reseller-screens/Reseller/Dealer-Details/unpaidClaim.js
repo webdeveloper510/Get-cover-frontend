@@ -497,15 +497,13 @@ function ClaimList12(props) {
     setIsEditOpen(true);
   };
 
-  const calculateTotalCost = (repairParts) => {
-    // Calculate the total cost by summing up the prices of all repair parts
-    const totalCost = repairParts.reduce((sum, part) => {
-      // Convert the price to a number and add it to the sum
-      return sum + Number(part.price || 0);
-    }, 0);
+  const calculateTotalCost = (cost1, cost2) => {
+    const totalCost = cost1 + cost2;
+    if (totalCost === 0) {
+      return "N/A";
+    }
 
-    // Return the total cost rounded to two decimal places
-    return totalCost.toFixed(2);
+    return `$${totalCost.toFixed(2)}`;
   };
 
   const closeView = () => {
@@ -1347,11 +1345,11 @@ function ClaimList12(props) {
                                         className="self-center h-[50px] w-[50px] ml-3"
                                         alt=""
                                       />
-                                      <div className="py-4 pl-3 self-center">
+                                      <div className="py-4 pl-3 self-center w-[67%]">
                                         <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                           Product Serial  / Device ID
                                         </p>
-                                        <p className="text-light-black text-sm font-semibold">
+                                        <p className="text-light-black text-sm font-semibold break-words w-full">
                                           {res?.contracts?.serial}
                                         </p>
                                       </div>

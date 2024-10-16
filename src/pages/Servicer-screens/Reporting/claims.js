@@ -248,16 +248,16 @@ function AllList(props) {
             console.error("here");
         }
       }
-    } 
+    }
     else if (selectedValue === "claimType") {
       setLoading1(true);
-      let data={
-        claimId:claimList.result[activeIndex]._id,
-        coverageType:value
+      let data = {
+        claimId: claimList.result[activeIndex]._id,
+        coverageType: value
       }
-      checkCoverageTypeDate(data).then((res)=>{
+      checkCoverageTypeDate(data).then((res) => {
         console.log(res)
-        if(res.code==200){
+        if (res.code == 200) {
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
               claimList.result[activeIndex]._id,
@@ -268,14 +268,14 @@ function AllList(props) {
           updateAndCallAPI(setClaimType);
           setErrorForCoverageType("")
         }
-      else{
-        setErrorForCoverageType(res.message)
-        setLoading1(false);
-      }
+        else {
+          setErrorForCoverageType(res.message)
+          setLoading1(false);
+        }
       })
       console.log(loading1, "------2--------------");
-     
-    }else if (selectedValue === "servicer") {
+
+    } else if (selectedValue === "servicer") {
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -393,18 +393,18 @@ function AllList(props) {
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
-          if (updatedClaimListCopy.result) {
-            updatedClaimListCopy.result[activeIndex]["claimType"] =
-              res.result.claimType;
-              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
-              res.result.customerClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
-              res.result.customerOverAmount;
-              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
-              res.result.getCoverClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
-              res.result.getcoverOverAmount;
-          }
+        if (updatedClaimListCopy.result) {
+          updatedClaimListCopy.result[activeIndex]["claimType"] =
+            res.result.claimType;
+          updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+            res.result.customerClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+            res.result.customerOverAmount;
+          updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+            res.result.getCoverClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+            res.result.getcoverOverAmount;
+        }
       }
       setClaimList(updatedClaimListCopy);
       setClaimType(res.result.claimType);
@@ -689,11 +689,11 @@ function AllList(props) {
     let typeValue = "Admin";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
 
-    if (role=="Super Admin") {
+    if (role == "Super Admin") {
       typeValue = "Admin";
-    } else if (role=="Dealer") {
+    } else if (role == "Dealer") {
       typeValue = "Dealer";
-    } else if (role=="Reseller") {
+    } else if (role == "Reseller") {
       typeValue = "Reseller";
     } else if (role == "Servicer") {
       typeValue = "Servicer";
@@ -1391,11 +1391,11 @@ function AllList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt=""
                                 />
-                                <div className="py-4 pl-3 self-center">
+                                <div className="py-4 pl-3 self-center w-[67%]">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Product Serial  / Device ID
                                   </p>
-                                  <p className="text-light-black text-sm font-semibold">
+                                  <p className="text-light-black text-sm font-semibold break-words w-full">
                                     {res?.contracts?.serial}
                                   </p>
                                 </div>
@@ -1470,35 +1470,35 @@ function AllList(props) {
                                       </span>
                                     </p>
                                     <Grid>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            GetCover Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
-                                            {" "}
-                                            {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            Customer Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px]  font-Regular">
+                                          GetCover Cost :{" "}
+                                        </p>
+                                        <p className="font-semibold text-[11px] text-white  mb-3">
+                                          {" "}
+                                          {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                        </p>
+                                      </div>
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px]  font-Regular">
+                                          Customer Cost :{" "}
+                                        </p>
+                                        <p className="font-semibold text-[11px] text-white mb-3">
                                           {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                            Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
-                                              {" "}
-                                              ${
-                                                res.totalAmount.toFixed(2)
-                                              }{" "}
-                                            </span>
-                                          </p>
-                                        </div>
-                                      </Grid>
+                                        </p>
+                                      </div>
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                          Total Cost :{" "}
+                                          <span className="font-semibold text-white ml-3">
+                                            {" "}
+                                            ${
+                                              res.totalAmount.toFixed(2)
+                                            }{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </Grid>
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       {" "}
                                       <span className="self-center mr-4">
@@ -1508,62 +1508,62 @@ function AllList(props) {
                                         !location.pathname.includes(
                                           "/servicer/claimList"
                                         ) ? (
-                                        <Select
-                                          name="servicer"
-                                          label=""
-                                          value={servicer}
-                                          disabled={
-                                            claimStatus.status === "rejected" ||
-                                            claimStatus.status === "completed"
-                                          }
-                                          onChange={handleSelectChange}
-                                          OptionName="Servicer"
-                                          white
-                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[55%]"
-                                          options={servicerList}
-                                        />
-                                      ) : (
-                                        <>{res?.servicerData?.name}</>
-                                      )}
+                                          <Select
+                                            name="servicer"
+                                            label=""
+                                            value={servicer}
+                                            disabled={
+                                              claimStatus.status === "rejected" ||
+                                              claimStatus.status === "completed"
+                                            }
+                                            onChange={handleSelectChange}
+                                            OptionName="Servicer"
+                                            white
+                                            className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                            classBox="w-[55%]"
+                                            options={servicerList}
+                                          />
+                                        ) : (
+                                          <>{res?.servicerData?.name}</>
+                                        )}
                                     </p>
 
                                     {
                                       <>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center mr-4">
-                                        
-                                          Coverage Type:
-                                        </span>
-                                        <Select
-                                          name="claimType"
-                                          label=""
-                                          value={claimType}
-                                          onChange={handleSelectChange}
-                                          white
+                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                          <span className="self-center mr-4">
 
-                                          disabled={
-                                            claimStatus.status ===
-                                            "rejected" ||
-                                            claimStatus.status === "completed"
-                                          }
-                                          options={ claimList?.result?.[
-                                            activeIndex
-                                          ]?.contracts?.mergedData}
-                                          OptionName="Claim Type"
-                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[55%]"
-                                        />
-                            
-                                      </p>
+                                            Coverage Type:
+                                          </span>
+                                          <Select
+                                            name="claimType"
+                                            label=""
+                                            value={claimType}
+                                            onChange={handleSelectChange}
+                                            white
+
+                                            disabled={
+                                              claimStatus.status ===
+                                              "rejected" ||
+                                              claimStatus.status === "completed"
+                                            }
+                                            options={claimList?.result?.[
+                                              activeIndex
+                                            ]?.contracts?.mergedData}
+                                            OptionName="Claim Type"
+                                            className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                            classBox="w-[55%]"
+                                          />
+
+                                        </p>
                                       </>
-                                      }
-                                       <span className="self-center w-[75px] mr-[1rem] text-red-500">
-  {errorForCoverageType && `${errorForCoverageType}`}
-</span>
+                                    }
+                                    <span className="self-center w-[75px] mr-[1rem] text-red-500">
+                                      {errorForCoverageType && `${errorForCoverageType}`}
+                                    </span>
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
-                                      {shipment.label}:
+                                        {shipment.label}:
                                       </span>
                                       {trackerView ? (
                                         <>
@@ -1757,8 +1757,8 @@ function AllList(props) {
                                     >
                                       <p className="text-white text-sm">
                                         <p className="text-white text-sm">
-  {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
-</p>
+                                          {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+                                        </p>
                                       </p>
                                       <span className="text-light-green">
                                         {format(
@@ -1772,47 +1772,47 @@ function AllList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "rejected" ||
-                                        claimStatus.status == "completed" || role != "Servicer" ? (
-                                        <></>
-                                      ) : (
-                                        <div
-                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                          ref={dropdownRef}
-                                          onClick={handleToggleDropdown}
-                                        >
-                                          <Select
-                                            name="customerStatus"
-                                            label=""
-                                            disableFirstOption={true}
-                                            value={customerStatus.status}
-                                            onChange={handleSelectChange}
-                                            classBox="!bg-transparent"
-                                            disabled={
-                                              claimStatus.status ==
-                                              "rejected" ||
-                                              claimStatus.status == "completed" 
-                                            }
-                                            white
-                                            className1="!border-0 !text-light-black"
-                                            options={customerValue?.value}
-                                            visible={dropdownVisible}
-                                          />
-                                        </div>
-                                      )}
+                                      claimStatus.status == "completed" || role != "Servicer" ? (
+                                      <></>
+                                    ) : (
+                                      <div
+                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                        ref={dropdownRef}
+                                        onClick={handleToggleDropdown}
+                                      >
+                                        <Select
+                                          name="customerStatus"
+                                          label=""
+                                          disableFirstOption={true}
+                                          value={customerStatus.status}
+                                          onChange={handleSelectChange}
+                                          classBox="!bg-transparent"
+                                          disabled={
+                                            claimStatus.status ==
+                                            "rejected" ||
+                                            claimStatus.status == "completed"
+                                          }
+                                          white
+                                          className1="!border-0 !text-light-black"
+                                          options={customerValue?.value}
+                                          visible={dropdownVisible}
+                                        />
+                                      </div>
+                                    )}
                                   </div>
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                      {claimvalues?.label}
+                                        {claimvalues?.label}
                                       </p>
                                     </div>
                                     <div
                                       className="pl-1 self-center w-[50%] cursor-pointer "
                                       onClick={handleToggleDropdown2}
                                     >
-                                                   <p className="text-white text-sm">
-  {claimvalues?.value?.find((data) => data.value == claimStatus.status)?.label || "No matching value"}
-</p>
+                                      <p className="text-white text-sm">
+                                        {claimvalues?.value?.find((data) => data.value == claimStatus.status)?.label || "No matching value"}
+                                      </p>
                                       <p className="text-light-green">
                                         {" "}
                                         {format(
@@ -1829,7 +1829,7 @@ function AllList(props) {
                                   <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                      {repairValue?.label}
+                                        {repairValue?.label}
                                       </p>
                                     </div>
                                     <div
@@ -1837,7 +1837,7 @@ function AllList(props) {
                                       onClick={handleToggleDropdown1}
                                     >
                                       <p className="text-white text-sm">
-                                      {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                        {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                       </p>
                                       <p className="text-light-green">
                                         {format(
@@ -1851,38 +1851,38 @@ function AllList(props) {
                                       </p>
                                     </div>
 
-                                        <>
-                                          {claimStatus.status == "rejected" ||
-                                            claimStatus.status == "completed" ? (
-                                            <></>
-                                          ) : (
-                                            <div
-                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                              ref={dropdownRef}
-                                              onClick={handleToggleDropdown1}
-                                            >
-                                              <Select
-                                                name="repairStatus"
-                                                label=""
-                                                value={repairStatus.status}
-                                                onChange={handleSelectChange}
-                                                disableFirstOption={true}
-                                                classBox='!bg-transparent'
-                                                disabled={
-                                                  claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed"
-                                                }
-                                                white
-                                                className1="!border-0 !text-light-black"
-                                                options={repairValue?.value}
-                                                visible={dropdownVisible}
-                                              />
-                                            </div>
-                                          )}
-                                        </>
-                                      
+                                    <>
+                                      {claimStatus.status == "rejected" ||
+                                        claimStatus.status == "completed" ? (
+                                        <></>
+                                      ) : (
+                                        <div
+                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                          ref={dropdownRef}
+                                          onClick={handleToggleDropdown1}
+                                        >
+                                          <Select
+                                            name="repairStatus"
+                                            label=""
+                                            value={repairStatus.status}
+                                            onChange={handleSelectChange}
+                                            disableFirstOption={true}
+                                            classBox='!bg-transparent'
+                                            disabled={
+                                              claimStatus.status ==
+                                              "rejected" ||
+                                              claimStatus.status ==
+                                              "completed"
+                                            }
+                                            white
+                                            className1="!border-0 !text-light-black"
+                                            options={repairValue?.value}
+                                            visible={dropdownVisible}
+                                          />
+                                        </div>
+                                      )}
+                                    </>
+
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-2">
@@ -1991,7 +1991,7 @@ function AllList(props) {
                 onPageChange={handlePageChange}
                 setRecordsPerPage={setRecordsPerPage}
               />
-              
+
             )}
           </div>
         </Card>

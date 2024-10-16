@@ -8,9 +8,11 @@
     right: -33px !important;
   }
 }
+
 .readonly .dropdown-container {
   background-color: #ededed !important;
 }
+
 .focused label,
 .react-select__control--is-focused label {
   transform: translateY(-1.25rem) scale(0.75);
@@ -89,16 +91,14 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
   min-height: 30px !important;
 }
 
-.reseller
-  button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
-  right: 10px;
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
+  /* right: 10px; */
   min-width: 30px !important;
-  left: unset;
+  /* left: 0; */
   min-height: 30px !important;
 }
 
-.reseller
-  button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
+.reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
   right: 10px !important;
   min-width: 30px !important;
   min-height: 30px !important;

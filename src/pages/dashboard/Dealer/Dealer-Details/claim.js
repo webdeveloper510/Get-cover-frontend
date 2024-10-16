@@ -1624,7 +1624,7 @@ function ClaimList(props) {
                                     className="self-center h-[50px] w-[50px] ml-3"
                                     alt=""
                                   />
-                                  <div className="py-4 pl-3 self-center">
+                                  <div className="py-4 pl-3 self-center w-[67%]">
                                     <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                       Product Serial / Device ID
                                     </p>

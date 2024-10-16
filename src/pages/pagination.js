@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { getUserDetailsFromLocalStorage } from "../services/extraServices";
 
 const CustomPagination = ({
   totalRecords,
@@ -10,6 +11,34 @@ const CustomPagination = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(page);
   const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+  const [buttonTextColor, setButtonTextColor] = useState('');
+  const [backGroundColor, setBackGroundColor] = useState('');
+
+  useEffect(() => {
+    const storedUserDetails = getUserDetailsFromLocalStorage();
+
+    if (storedUserDetails) {
+      const colorScheme = storedUserDetails.colorScheme;
+      colorScheme.forEach(color => {
+        switch (color.colorType) {
+          case 'sideBarColor':
+            setBackGroundColor(color.colorCode);
+            break;
+          case 'sideBarTextColor':
+            setButtonTextColor(color.colorCode);
+            break;
+          default:
+            break;
+        }
+      });
+    }
+  }, []);
+
+  // Define styles for the parent div
+  const parentStyle = {
+    backgroundColor: backGroundColor,
+    color: buttonTextColor,
+  };
 
   useEffect(() => {
     setCurrentPage(page);
@@ -43,13 +72,13 @@ const CustomPagination = ({
 
   return (
     <div
-      className={`flex items-center justify-between bg-light-black rounded-[17px] p-[11px] mx-3 mb-3 ${className}`}
+      className={`flex items-center justify-between rounded-[17px] p-[11px] mx-3 mb-3 ${className}`} style={parentStyle}
     >
       <div>
-        <label className="text-white pr-3">Rows per page:</label>
+        <label className=" pr-3">Rows per page:</label>
         <select
           value={rowsPerPage}
-          className=" bg-light-black text-white"
+          style={parentStyle}
           onChange={handleRowsPerPageChange}
         >
           {rowsPerPageOptions.map((option) => (
@@ -59,19 +88,18 @@ const CustomPagination = ({
           ))}
         </select>
       </div>
-      <div className="flex items-center text-white">
-        <span className="px-3 text-[13px]">{`${
-          (currentPage - 1) * rowsPerPage + 1
-        }-${Math.min(
-          currentPage * rowsPerPage,
-          totalRecords
-        )} of ${totalRecords}`}</span>
+      <div className="flex items-center">
+        <span className="px-3 text-[13px]">{`${(currentPage - 1) * rowsPerPage + 1
+          }-${Math.min(
+            currentPage * rowsPerPage,
+            totalRecords
+          )} of ${totalRecords}`}</span>
         <button onClick={handleFirstPage} disabled={currentPage === 1}>
           {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
-              fill="#fff"
+              fill={buttonTextColor}
               height="24"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -91,7 +119,7 @@ const CustomPagination = ({
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
-              fill="#fff"
+              fill={buttonTextColor}
               height="24"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -111,7 +139,7 @@ const CustomPagination = ({
           {
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="#fff"
+              fill={buttonTextColor}
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -127,7 +155,7 @@ const CustomPagination = ({
           {
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="#fff"
+              fill={buttonTextColor}
               width="24"
               height="24"
               viewBox="0 0 24 24"
