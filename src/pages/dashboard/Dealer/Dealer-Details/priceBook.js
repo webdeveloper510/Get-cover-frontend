@@ -892,7 +892,7 @@ function PriceBookList(props) {
                           <th colSpan={"2"}>Quantity Pricing List </th>
                         </tr>
                         <tr className="border bg-[#9999]">
-                          <th>Name</th>
+                          <th className="w-1/2">Name</th>
                           <th>Max Quantity</th>
                         </tr>
                         {dealerPriceBookDetail?.priceBooks?.quantityPriceDetail

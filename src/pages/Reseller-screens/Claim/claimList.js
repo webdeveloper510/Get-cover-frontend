@@ -121,7 +121,7 @@ function ResellerClaimList(props) {
   const [customerStatus, setCustomerStatus] = useState({
     status: "",
     date: "",
-  });  
+  });
   const [coverageTypeError, setCoverageTypeError] = useState({});
   const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [claim, setClaim] = useState([
@@ -233,13 +233,13 @@ function ResellerClaimList(props) {
       // else if(value === "completed" ){
       //   setIsComplete(true)
       // }
-       else {
+      else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
-            value.type== "completed" ? value.type :value
+            value.type == "completed" ? value.type : value
           );
         };
 
@@ -251,15 +251,15 @@ function ResellerClaimList(props) {
             console.error("here");
         }
       }
-    } 
+    }
     else if (selectedValue === "claimType") {
       setLoading1(true);
-      let data={
-        claimId:claimList.result[activeIndex]._id,
-        coverageType:value
+      let data = {
+        claimId: claimList.result[activeIndex]._id,
+        coverageType: value
       }
-      checkCoverageTypeDate(data).then((res)=>{
-        if(res.code==200){
+      checkCoverageTypeDate(data).then((res) => {
+        if (res.code == 200) {
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
               claimList.result[activeIndex]._id,
@@ -269,11 +269,11 @@ function ResellerClaimList(props) {
           };
           updateAndCallAPI(setClaimType);
         }
-      else{
-        setCoverageTypeError(res)
-        setErrorForCoverageType(true)
-        setLoading1(false);
-      }
+        else {
+          setCoverageTypeError(res)
+          setErrorForCoverageType(true)
+          setLoading1(false);
+        }
       })
     } else if (selectedValue === "servicer") {
       setLoading1(true);
@@ -327,7 +327,7 @@ function ResellerClaimList(props) {
     });
     closeReject();
     closeCoveragType();
-    
+
   };
   const updateAndSetStatus = (statusObject, name, res) => {
     if (res.code === 200) {
@@ -385,7 +385,7 @@ function ResellerClaimList(props) {
   };
 
   const closeCoveragType = () => {
-    setErrorForCoverageType(false);; 
+    setErrorForCoverageType(false);;
   };
 
   const editClaimClaimType = (claimId, statusType, statusValue) => {
@@ -399,22 +399,22 @@ function ResellerClaimList(props) {
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
-          if (updatedClaimListCopy.result) {
-            updatedClaimListCopy.result[activeIndex]["claimType"] =
-              res.result.claimType;
-              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
-              res.result.customerClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
-              res.result.customerOverAmount;
-              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
-              res.result.getCoverClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
-              res.result.getcoverOverAmount;
-             await getClaimOptions(res.result.claimType)
-          }
+        if (updatedClaimListCopy.result) {
+          updatedClaimListCopy.result[activeIndex]["claimType"] =
+            res.result.claimType;
+          updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+            res.result.customerClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+            res.result.customerOverAmount;
+          updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+            res.result.getCoverClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+            res.result.getcoverOverAmount;
+          await getClaimOptions(res.result.claimType)
+        }
       }
       setClaimList(updatedClaimListCopy);
-    
+
     });
   };
 
@@ -473,7 +473,7 @@ function ResellerClaimList(props) {
   };
 
   const getClaimOptions = async (value) => {
-    console.log(claimType,value)
+    console.log(claimType, value)
     try {
       const data = [
         "repair_status",
@@ -481,7 +481,7 @@ function ResellerClaimList(props) {
         "customer_status",
         "claim_status",
       ];
-      
+
       const result = await getOptions(data);
       const stateSetters = {
         repair_status,
@@ -517,12 +517,12 @@ function ResellerClaimList(props) {
         }
         return options;
       };
-      
+
 
       data.forEach((key, index) => {
         const filteredOptions = filterOptions(key, result.result[index]);
-        console.log(result.result[index],filteredOptions)
-         stateSetters[key]?.(filteredOptions);
+        console.log(result.result[index], filteredOptions)
+        stateSetters[key]?.(filteredOptions);
       });
     } catch (error) {
       console.error("Error fetching claim options:", error);
@@ -693,10 +693,10 @@ function ResellerClaimList(props) {
     if (totalCost === 0) {
       return "N/A";
     }
-  
+
     return `$${totalCost.toFixed(2)}`;
   };
-  
+
 
   const closeView = () => {
     formik.resetForm();
@@ -929,7 +929,7 @@ function ResellerClaimList(props) {
     if (activeIndex != null) {
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
-        getClaimOptions(claimList.result[activeIndex].claimType);
+      getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1108,7 +1108,7 @@ function ResellerClaimList(props) {
 
 
 
- 
+
 
   const claimPaid = [
     {
@@ -1121,7 +1121,7 @@ function ResellerClaimList(props) {
     },
   ];
 
- 
+
 
   const validationSchema = Yup.object().shape({});
 
@@ -1429,11 +1429,11 @@ function ResellerClaimList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt=""
                                 />
-                                <div className="py-4 pl-3 self-center">
+                                <div className="py-4 pl-3 self-center w-[67%]">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Product Serial  / Device ID
                                   </p>
-                                  <p className="text-light-black text-sm font-semibold">
+                                  <p className="text-light-black text-sm font-semibold break-words w-full">
                                     {res?.contracts?.serial}
                                   </p>
                                 </div>
@@ -1509,35 +1509,35 @@ function ResellerClaimList(props) {
                                     </p>
 
                                     <Grid>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            GetCover Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
-                                            {" "}
-                                            {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            Customer Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px]  font-Regular">
+                                          GetCover Cost :{" "}
+                                        </p>
+                                        <p className="font-semibold text-[11px] text-white  mb-3">
+                                          {" "}
+                                          {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                        </p>
+                                      </div>
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px]  font-Regular">
+                                          Customer Cost :{" "}
+                                        </p>
+                                        <p className="font-semibold text-[11px] text-white mb-3">
                                           {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                            Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
-                                              {" "}
-                                              ${
-                                                res.totalAmount.toFixed(2)
-                                              }{" "}
-                                            </span>
-                                          </p>
-                                        </div>
-                                      </Grid>
+                                        </p>
+                                      </div>
+                                      <div className="col-span-4">
+                                        <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                          Total Cost :{" "}
+                                          <span className="font-semibold text-white ml-3">
+                                            {" "}
+                                            ${
+                                              res.totalAmount.toFixed(2)
+                                            }{" "}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    </Grid>
 
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       {" "}
@@ -1573,38 +1573,38 @@ function ResellerClaimList(props) {
 
                                     {res.selfServicer && (
                                       <>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center mr-4">
-                                        
-                                          Coverage Type:
-                                        </span>
-                                        <Select
-                                          name="claimType"
-                                          label=""
-                                          value={claimType}
-                                          onChange={handleSelectChange}
-                                          white
+                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                          <span className="self-center mr-4">
 
-                                          disabled={
-                                            claimStatus.status ===
-                                            "rejected" ||
-                                            claimStatus.status === "completed"
-                                          }
-                                          options={ claimList?.result?.[
-                                            activeIndex
-                                          ]?.contracts?.mergedData}
-                                          OptionName="Claim Type"
-                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                          classBox="w-[55%]"
-                                        />
-                            
-                                      </p>
+                                            Coverage Type:
+                                          </span>
+                                          <Select
+                                            name="claimType"
+                                            label=""
+                                            value={claimType}
+                                            onChange={handleSelectChange}
+                                            white
+
+                                            disabled={
+                                              claimStatus.status ===
+                                              "rejected" ||
+                                              claimStatus.status === "completed"
+                                            }
+                                            options={claimList?.result?.[
+                                              activeIndex
+                                            ]?.contracts?.mergedData}
+                                            OptionName="Claim Type"
+                                            className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                            classBox="w-[55%]"
+                                          />
+
+                                        </p>
                                       </>
-                                      )}
+                                    )}
 
-                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                    <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
-                                      {shipment.label}:
+                                        {shipment.label}:
                                       </span>
                                       {trackerView ? (
                                         <>
@@ -1786,7 +1786,7 @@ function ResellerClaimList(props) {
                                   </div>
                                 </div>
                                 <div className="col-span-4 pt-4">
-                                <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                  <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
                                         Customer Status
@@ -1798,8 +1798,8 @@ function ResellerClaimList(props) {
                                     >
                                       <p className="text-white text-sm">
                                         <p className="text-white text-sm">
-  {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
-</p>
+                                          {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+                                        </p>
                                       </p>
                                       <span className="text-light-green">
                                         {format(
@@ -1843,16 +1843,16 @@ function ResellerClaimList(props) {
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                      {claimvalues?.label}
+                                        {claimvalues?.label}
                                       </p>
                                     </div>
                                     <div
                                       className="pl-1 self-center w-[50%] cursor-pointer "
                                       onClick={handleToggleDropdown2}
                                     >
-                                                   <p className="text-white text-sm">
-  {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
-</p>
+                                      <p className="text-white text-sm">
+                                        {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+                                      </p>
                                       <p className="text-light-green">
                                         {" "}
                                         {format(
@@ -1901,7 +1901,7 @@ function ResellerClaimList(props) {
                                   <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                       <p className="text-white text-[11px] p-4">
-                                      {repairValue?.label}
+                                        {repairValue?.label}
                                       </p>
                                     </div>
                                     <div
@@ -1909,7 +1909,7 @@ function ResellerClaimList(props) {
                                       onClick={handleToggleDropdown1}
                                     >
                                       <p className="text-white text-sm">
-                                      {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                        {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                       </p>
                                       <p className="text-light-green">
                                         {format(
@@ -2538,39 +2538,39 @@ function ResellerClaimList(props) {
         </Button>
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
-            <Grid>
-              <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold">
-                  {" "}
-                  <span className=""> {coverageTypeError.tittle} </span>
-                </p>
-                <p className="text-base font-medium mt-2 ">
-                 {coverageTypeError.message}
-                </p>
-              </div>
-              <div className="col-span-3"></div>
-              <div className="col-span-3">
+          <Grid>
+            <div className="col-span-12">
+              <p className="text-3xl mb-0 mt-4 font-semibold">
+                {" "}
+                <span className=""> {coverageTypeError.tittle} </span>
+              </p>
+              <p className="text-base font-medium mt-2 ">
+                {coverageTypeError.message}
+              </p>
+            </div>
+            <div className="col-span-3"></div>
+            <div className="col-span-3">
               <Button onClick={() => {
-                                    handleSelectChange("claimStatus" ,{
-                                      value: "rejected",
-                                      reason: coverageTypeError.message,
-                                    });
-}}
-                 className="w-full">
-                  Yes
-                </Button>
-              </div>
-              <div className="col-span-3">
-                <Button
-                  type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
-                  onClick={closeCoveragType}
-                >
-                  No
-                </Button>
-              </div>
-              <div className="col-span-3"></div>
-            </Grid>
+                handleSelectChange("claimStatus", {
+                  value: "rejected",
+                  reason: coverageTypeError.message,
+                });
+              }}
+                className="w-full">
+                Yes
+              </Button>
+            </div>
+            <div className="col-span-3">
+              <Button
+                type="button"
+                className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                onClick={closeCoveragType}
+              >
+                No
+              </Button>
+            </div>
+            <div className="col-span-3"></div>
+          </Grid>
         </div>
       </Modal>
 

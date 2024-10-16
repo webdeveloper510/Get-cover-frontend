@@ -144,7 +144,7 @@ function ClaimList(props) {
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const { claimIdValue } = useParams();  const [checkboxStates, setCheckboxStates] = useState([]);
+  const { claimIdValue } = useParams(); const [checkboxStates, setCheckboxStates] = useState([]);
 
   const handleCheckboxChange = (id) => {
     console.log(id, "----------");
@@ -234,7 +234,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     let intervalId;
-    if (isAttachmentsOpen  || (isSuccessOpen && timer > 0)) {
+    if (isAttachmentsOpen || (isSuccessOpen && timer > 0)) {
       intervalId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -247,7 +247,7 @@ function ClaimList(props) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [isAttachmentsOpen,isSuccessOpen, timer]);
+  }, [isAttachmentsOpen, isSuccessOpen, timer]);
 
   const handleSelectChange2 = (selectedValue, value) => {
     formik1.setFieldValue(selectedValue, value);
@@ -292,16 +292,16 @@ function ClaimList(props) {
             console.error("here");
         }
       }
-    } 
+    }
     else if (selectedValue === "claimType") {
       setLoading1(true);
-      let data={
-        claimId:claimList.result[activeIndex]._id,
-        coverageType:value
+      let data = {
+        claimId: claimList.result[activeIndex]._id,
+        coverageType: value
       }
-      checkCoverageTypeDate(data).then((res)=>{
+      checkCoverageTypeDate(data).then((res) => {
         console.log(res)
-        if(res.code==200){
+        if (res.code == 200) {
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
               claimList.result[activeIndex]._id,
@@ -312,13 +312,13 @@ function ClaimList(props) {
           updateAndCallAPI(setClaimType);
           setErrorForCoverageType("")
         }
-      else{
-        setErrorForCoverageType(res.message)
-        setLoading1(false);
-      }
+        else {
+          setErrorForCoverageType(res.message)
+          setLoading1(false);
+        }
       })
       console.log(loading1, "------2--------------");
-     
+
     } else if (selectedValue === "servicer") {
       setLoading1(true);
       console.log(loading1, "------3--------------");
@@ -461,18 +461,18 @@ function ClaimList(props) {
       if (updatedClaimListCopy.result) {
         updatedClaimListCopy.result[activeIndex]["claimType"] =
           res.result.claimType;
-          if (updatedClaimListCopy.result) {
-            updatedClaimListCopy.result[activeIndex]["claimType"] =
-              res.result.claimType;
-              updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
-              res.result.customerClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
-              res.result.customerOverAmount;
-              updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
-              res.result.getCoverClaimAmount;
-              updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
-              res.result.getcoverOverAmount;
-          }
+        if (updatedClaimListCopy.result) {
+          updatedClaimListCopy.result[activeIndex]["claimType"] =
+            res.result.claimType;
+          updatedClaimListCopy.result[activeIndex]["customerClaimAmount"] =
+            res.result.customerClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["customerOverAmount"] =
+            res.result.customerOverAmount;
+          updatedClaimListCopy.result[activeIndex]["getCoverClaimAmount"] =
+            res.result.getCoverClaimAmount;
+          updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
+            res.result.getcoverOverAmount;
+        }
       }
       setClaimList(updatedClaimListCopy);
       setClaimType(res.result.claimType);
@@ -666,15 +666,15 @@ function ClaimList(props) {
   };
 
   const calculateTotalCost = (cost1, cost2) => {
-    console.log(typeof(cost1), typeof(cost2));
+    console.log(typeof (cost1), typeof (cost2));
     const totalCost = cost1 + cost2;
     if (totalCost === 0) {
       return "N/A";
     }
-  
+
     return `$${totalCost.toFixed(2)}`;
   };
-  
+
 
   const closeView = () => {
     formik.resetForm();
@@ -907,7 +907,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     if (activeIndex != null) {
-       setErrorForCoverageType(null);
+      setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
       const claims =
@@ -921,7 +921,7 @@ function ClaimList(props) {
             ];
       setClaim(claims);
       const bdAdhValue = claimList.result[activeIndex]?.claimType;
-console.log(claimList.result[activeIndex]?.claimType)
+      console.log(claimList.result[activeIndex]?.claimType)
       setClaimType(bdAdhValue);
 
       setError("");
@@ -1144,21 +1144,21 @@ console.log(claimList.result[activeIndex]?.claimType)
     if (props.flag === "dealer" && props.activeTab != "Unpaid Claims" && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForDealer(props.id, data);
     }
-   else if (props.activeTab === "Unpaid Claims") {
-    data.flag=0
-    getClaimListPromise =  getUnpaidClaims(props.id, data);
-    } 
-    else if (props.activeTab === "Paid Claims"){
-    data.flag=1
-      getClaimListPromise =  getPaidClaims(props.id, data);
+    else if (props.activeTab === "Unpaid Claims") {
+      data.flag = 0
+      getClaimListPromise = getUnpaidClaims(props.id, data);
     }
-     else if (props.flag === "servicer" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
+    else if (props.activeTab === "Paid Claims") {
+      data.flag = 1
+      getClaimListPromise = getPaidClaims(props.id, data);
+    }
+    else if (props.flag === "servicer" && props.activeTab != "Unpaid Claims" && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForServicer(props.id, data);
-    } else if (props.flag === "reseller" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
+    } else if (props.flag === "reseller" && props.activeTab != "Unpaid Claims" && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForReseller(props.id, data);
-    } else if (window.location.pathname.includes("/reseller/claimList")  && props.activeTab != "Paid Claims") {
+    } else if (window.location.pathname.includes("/reseller/claimList") && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForResellerPortal(props.id, data);
-    } else if (props.flag === "customer" && props.activeTab != "Unpaid Claims"  && props.activeTab != "Paid Claims") {
+    } else if (props.flag === "customer" && props.activeTab != "Unpaid Claims" && props.activeTab != "Paid Claims") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       if (claimIdValue == undefined) {
@@ -1273,123 +1273,123 @@ console.log(claimList.result[activeIndex]?.claimType)
             <RotateLoader color="#333" />
           </div>
         </div>
-      ) : 
-      <div className="mb-8 ml-3">
-        {props && Object.keys(props).length === 0 && (
-          <>
-            <Headbar />
-            <div className="flex mt-2">
-              <div className="pl-3">
-                <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                  Claim
-                </p>
-                <ul className="flex self-center">
-                  <li className="text-sm text-neutral-grey font-Regular">
-                    <Link to={"/"}>Home </Link> /
-                  </li>
-                  <li className="text-sm text-neutral-grey font-semibold ml-1">
-                    {" "}
-                    Claim Listing
-                  </li>
-                </ul>
+      ) :
+        <div className="mb-8 ml-3">
+          {props && Object.keys(props).length === 0 && (
+            <>
+              <Headbar />
+              <div className="flex mt-2">
+                <div className="pl-3">
+                  <p className="font-bold text-[36px] leading-9 mb-[3px]">
+                    Claim
+                  </p>
+                  <ul className="flex self-center">
+                    <li className="text-sm text-neutral-grey font-Regular">
+                      <Link to={"/"}>Home </Link> /
+                    </li>
+                    <li className="text-sm text-neutral-grey font-semibold ml-1">
+                      {" "}
+                      Claim Listing
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
 
-            <button
-              onClick={handleAddClaim}
-              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
-            >
-              <img src={AddItem} className="self-center" alt="AddItem" />
-              <span className="text-black ml-3 text-[14px] font-Regular">
-                Add Claim
-              </span>
-            </button>
-          </>
-        )}
+              <button
+                onClick={handleAddClaim}
+                className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
+              >
+                <img src={AddItem} className="self-center" alt="AddItem" />
+                <span className="text-black ml-3 text-[14px] font-Regular">
+                  Add Claim
+                </span>
+              </button>
+            </>
+          )}
 
-        <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
-          <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
-            <div className="col-span-2 self-center">
-              <p className="text-xl font-semibold">Claims List</p>
-            </div>
-            <div className="col-span-10">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                <form onSubmit={formik1.handleSubmit}>
-                  <Grid className="!gap-1">
-                    <div className="col-span-8 self-center">
-                      <Grid className="!gap-2">
-                        <div className="col-span-4 self-center">
-                          <Input
-                            name="contractId"
-                            type="text"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            label=""
-                            placeholder="Contract ID"
-                            {...formik1.getFieldProps("contractId")}
-                          />
-                        </div>
-                        <div className="col-span-4 self-center">
-                          <Input
-                            name="claimId"
-                            type="text"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            label=""
-                            placeholder="Claim ID"
-                            {...formik1.getFieldProps("claimId")}
-                          />
-                        </div>
-                        <div className="col-span-4 self-center">
-                          <SelectSearch
-                            name="claimStatus"
-                            label=""
-                            options={claimvalues?.value}
-                            OptionName="Claim Status"
-                            className="!text-[14px] !bg-White-Smoke"
-                            className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                            onChange={handleSelectChange2}
-                            value={formik1.values.claimStatus}
-                          />
-                        </div>
-                      </Grid>
-                    </div>
-                    <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-2">
-                        <img
-                          src={Search}
-                          className="cursor-pointer "
-                          alt="Search"
-                        />
-                      </Button>
-                      <Button
-                        className="!bg-transparent !p-0"
-                        onClick={() => {
-                          handleFilterIconClick();
-                        }}
-                      >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
-                        />
-                      </Button>
-                      <Button
-                        type="button"
-                        className="ml-2 !text-[14px] !px-2"
-                        onClick={() => openDisapproved()}
-                      >
-                        Advance Search
-                      </Button>
-                    </div>
-                  </Grid>
-                </form>
+          <Card className="my-4 pb-4 border-[1px] border-Light-Grey rounded-xl">
+            <Grid className="!p-[26px] !gap-2 !pt-[14px] !pb-0">
+              <div className="col-span-2 self-center">
+                <p className="text-xl font-semibold">Claims List</p>
               </div>
-            </div>
-          </Grid>
+              <div className="col-span-10">
+                <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <form onSubmit={formik1.handleSubmit}>
+                    <Grid className="!gap-1">
+                      <div className="col-span-8 self-center">
+                        <Grid className="!gap-2">
+                          <div className="col-span-4 self-center">
+                            <Input
+                              name="contractId"
+                              type="text"
+                              className="!text-[14px] !bg-White-Smoke"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                              label=""
+                              placeholder="Contract ID"
+                              {...formik1.getFieldProps("contractId")}
+                            />
+                          </div>
+                          <div className="col-span-4 self-center">
+                            <Input
+                              name="claimId"
+                              type="text"
+                              className="!text-[14px] !bg-White-Smoke"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                              label=""
+                              placeholder="Claim ID"
+                              {...formik1.getFieldProps("claimId")}
+                            />
+                          </div>
+                          <div className="col-span-4 self-center">
+                            <SelectSearch
+                              name="claimStatus"
+                              label=""
+                              options={claimvalues?.value}
+                              OptionName="Claim Status"
+                              className="!text-[14px] !bg-White-Smoke"
+                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                              onChange={handleSelectChange2}
+                              value={formik1.values.claimStatus}
+                            />
+                          </div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-4 self-center flex justify-center">
+                        <Button type="submit" className="!p-2">
+                          <img
+                            src={Search}
+                            className="cursor-pointer "
+                            alt="Search"
+                          />
+                        </Button>
+                        <Button
+                          className="!bg-transparent !p-0"
+                          onClick={() => {
+                            handleFilterIconClick();
+                          }}
+                        >
+                          <img
+                            src={clearFilter}
+                            className="cursor-pointer	mx-auto"
+                            alt="clearFilter"
+                          />
+                        </Button>
+                        <Button
+                          type="button"
+                          className="ml-2 !text-[14px] !px-2"
+                          onClick={() => openDisapproved()}
+                        >
+                          Advance Search
+                        </Button>
+                      </div>
+                    </Grid>
+                  </form>
+                </div>
+              </div>
+            </Grid>
 
-          <div className="px-3 mt-5">
-          {totalRecords == 0 ? (
+            <div className="px-3 mt-5">
+              {totalRecords == 0 ? (
                 <></>
               ) : (
                 <>
@@ -1409,168 +1409,150 @@ console.log(claimList.result[activeIndex]?.claimType)
                   )}
                 </>
               )}
-            {loaderType == true ? (
-              <div className=" h-[400px] w-full flex py-5">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+              {loaderType == true ? (
+                <div className=" h-[400px] w-full flex py-5">
+                  <div className="self-center mx-auto">
+                    <RotateLoader color="#333" />
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                 {anyCheckboxChecked() && (
-                        <Grid>
-                          <div className="col-span-3">
-                            <p>
-                              {selectedCount} Of {totalCount}
-                            </p>
-                          </div>
-                          <div className="col-span-4"></div>
-                          <div className="col-span-5">
-                            <div className="flex justify-end">
-                              <Button
-                                className="!text-[14px] !py-[4px]"
-                                onClick={() => handleSelectAll(claimList)}
-                              >
-                                Select All
-                              </Button>
-                              <Button
-                                className="mx-3 !text-[14px] !py-[4px]"
-                                onClick={() => openPay()}
-                              >
-                                Mark As Paid
-                              </Button>
-                              <Button
-                                onClick={handleUnselectAll}
-                                className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
-                              >
-                                Unselect
-                              </Button>
-                            </div>
-                          </div>
-                        </Grid>
-                      )}
-                {claimList?.result &&
-                  claimList?.result?.length !== 0 &&
-                  claimList?.result?.map((res, index) => {
-                    return (
-                      <CollapsibleDiv
-                        index={index}
-                        activeIndex={activeIndex}
-                        ShowData={showdata}
-                        setActiveIndex={handleSetActiveIndex}
-                        title={
-                          <>
-                            <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
-                              <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
-                                <p className="font-semibold leading-5 text-black text-lg">
-                                  {" "}
-                                  {res.unique_key}{" "}
-                                </p>
-                                <p className="text-[#A3A3A3]">Claim ID</p>
-                              </div>
-                              <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-black text-lg">
-                                  {" "}
-                                  {res?.contracts?.unique_key}{" "}
-                                </p>
-                                <p className="text-[#A3A3A3]">Contract ID</p>
-                              </div>
-                              <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-black text-lg">
-                                  {" "}
-                                  {format(new Date(res.lossDate), "MM/dd/yyyy")}
-                                </p>
-                                <p className="text-[#A3A3A3]">Damage Date</p>
-                              </div>
-                              <div className="col-span-3 self-center justify-left pl-4 flex relative">
-                                <img
-                                  src={chat}
-                                  className=" mr-2 cursor-pointer"
-                                  onClick={() => openView(res)}
-                                  alt="chat"
-                                />
-                                {role === "Super Admin" &&
-                                  res?.claimStatus?.[0]?.status === "open" && (
-                                    <img
-                                      src={Edit}
-                                      className="mr-2 cursor-pointer"
-                                      onClick={() => openEdit(res, index)}
-                                      alt="edit"
-                                    />
-                                  )}
-
-                                {role != "Super Admin" &&
-                                  res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" &&
-                                  !location.pathname.includes(
-                                    "customer/claimList"
-                                  ) &&
-                                  !location.pathname.includes(
-                                    "/reseller/claimList"
-                                  ) &&
-                                  !location.pathname.includes(
-                                    "/dealer/claimList"
-                                  ) && (
-                                    <img
-                                      src={Edit}
-                                      className="mr-2 cursor-pointer"
-                                      onClick={() => openEdit(res, index)}
-                                      alt="edit"
-                                    />
-                                  )}
-
-{props.activeTab == "Unpaid Claims" ? (
-                                        isCheckBox ? (
-                                          <>
-                                            <div
-                                              key={index}
-                                              className="border p-[11px] px-[18px] rounded-3xl self-center"
-                                            >
-                                              <input
-                                                id={`push-nothing-${index}`}
-                                                name={`push-notifications-${index}`}
-                                                type="checkbox"
-                                                className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
-                                                onChange={() =>
-                                                  handleCheckboxChange(res._id)
-                                                }
-                                                checked={checkboxStates.includes(
-                                                  res._id
-                                                )}
-                                              />
-                                            </div>
-                                          </>
-                                        ) : (
-                                          <></>
-                                        )
-                                      ) : (
-                                        <></>
-                                      )}
-                              </div>
-                              
-                            </Grid>
-                            <Grid
-                              className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
-                                } !gap-0 bg-grayf9  border-Gray28 border-x`}
-                            >
-                              <div className="col-span-1 flex ">
-                                <img
-                                  src={productName}
-                                  className="self-center h-[50px] w-[50px] ml-3"
-                                  alt="productName"
-                                />
-                                <div className="py-4 pl-3 self-center">
-                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Dealer SKU
+              ) : (
+                <>
+                  {anyCheckboxChecked() && (
+                    <Grid>
+                      <div className="col-span-3">
+                        <p>
+                          {selectedCount} Of {totalCount}
+                        </p>
+                      </div>
+                      <div className="col-span-4"></div>
+                      <div className="col-span-5">
+                        <div className="flex justify-end">
+                          <Button
+                            className="!text-[14px] !py-[4px]"
+                            onClick={() => handleSelectAll(claimList)}
+                          >
+                            Select All
+                          </Button>
+                          <Button
+                            className="mx-3 !text-[14px] !py-[4px]"
+                            onClick={() => openPay()}
+                          >
+                            Mark As Paid
+                          </Button>
+                          <Button
+                            onClick={handleUnselectAll}
+                            className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
+                          >
+                            Unselect
+                          </Button>
+                        </div>
+                      </div>
+                    </Grid>
+                  )}
+                  {claimList?.result &&
+                    claimList?.result?.length !== 0 &&
+                    claimList?.result?.map((res, index) => {
+                      return (
+                        <CollapsibleDiv
+                          index={index}
+                          activeIndex={activeIndex}
+                          ShowData={showdata}
+                          setActiveIndex={handleSetActiveIndex}
+                          title={
+                            <>
+                              <Grid className="border-Gray28 border !gap-2 bg-white rounded-t-[22px]">
+                                <div className="col-span-3 self-center border-Gray28 border-r rounded-ss-xl p-5">
+                                  <p className="font-semibold leading-5 text-black text-lg">
+                                    {" "}
+                                    {res.unique_key}{" "}
                                   </p>
-                                  <p className="text-light-black text-sm font-semibold">
-                                    {res?.dealerSku}
-                                  </p>
+                                  <p className="text-[#A3A3A3]">Claim ID</p>
                                 </div>
-                              </div>
-                              {isExcludedPath ? (
-                                ""
-                              ) : (
+                                <div className="col-span-3 self-center border-Gray28 border-r p-5">
+                                  <p className="font-semibold leading-5 text-black text-lg">
+                                    {" "}
+                                    {res?.contracts?.unique_key}{" "}
+                                  </p>
+                                  <p className="text-[#A3A3A3]">Contract ID</p>
+                                </div>
+                                <div className="col-span-3 self-center border-Gray28 border-r p-5">
+                                  <p className="font-semibold leading-5 text-black text-lg">
+                                    {" "}
+                                    {format(new Date(res.lossDate), "MM/dd/yyyy")}
+                                  </p>
+                                  <p className="text-[#A3A3A3]">Damage Date</p>
+                                </div>
+                                <div className="col-span-3 self-center justify-left pl-4 flex relative">
+                                  <img
+                                    src={chat}
+                                    className=" mr-2 cursor-pointer"
+                                    onClick={() => openView(res)}
+                                    alt="chat"
+                                  />
+                                  {role === "Super Admin" &&
+                                    res?.claimStatus?.[0]?.status === "open" && (
+                                      <img
+                                        src={Edit}
+                                        className="mr-2 cursor-pointer"
+                                        onClick={() => openEdit(res, index)}
+                                        alt="edit"
+                                      />
+                                    )}
+
+                                  {role != "Super Admin" &&
+                                    res.selfServicer &&
+                                    res?.claimStatus?.[0]?.status === "open" &&
+                                    !location.pathname.includes(
+                                      "customer/claimList"
+                                    ) &&
+                                    !location.pathname.includes(
+                                      "/reseller/claimList"
+                                    ) &&
+                                    !location.pathname.includes(
+                                      "/dealer/claimList"
+                                    ) && (
+                                      <img
+                                        src={Edit}
+                                        className="mr-2 cursor-pointer"
+                                        onClick={() => openEdit(res, index)}
+                                        alt="edit"
+                                      />
+                                    )}
+
+                                  {props.activeTab == "Unpaid Claims" ? (
+                                    isCheckBox ? (
+                                      <>
+                                        <div
+                                          key={index}
+                                          className="border p-[11px] px-[18px] rounded-3xl self-center"
+                                        >
+                                          <input
+                                            id={`push-nothing-${index}`}
+                                            name={`push-notifications-${index}`}
+                                            type="checkbox"
+                                            className="dark:text-gray-300 font-medium h-4 mt-[6px] py-4 text-gray-900 text-sm w-4"
+                                            onChange={() =>
+                                              handleCheckboxChange(res._id)
+                                            }
+                                            checked={checkboxStates.includes(
+                                              res._id
+                                            )}
+                                          />
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )
+                                  ) : (
+                                    <></>
+                                  )}
+                                </div>
+
+                              </Grid>
+                              <Grid
+                                className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
+                                  } !gap-0 bg-grayf9  border-Gray28 border-x`}
+                              >
                                 <div className="col-span-1 flex ">
                                   <img
                                     src={productName}
@@ -1579,632 +1561,650 @@ console.log(claimList.result[activeIndex]?.claimType)
                                   />
                                   <div className="py-4 pl-3 self-center">
                                     <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                      Product SKU
+                                      Dealer SKU
                                     </p>
                                     <p className="text-light-black text-sm font-semibold">
-                                      {res?.contracts?.productName}
+                                      {res?.dealerSku}
                                     </p>
                                   </div>
                                 </div>
-                              )}
-
-                              <div className="col-span-1 flex">
-                                <img
-                                  src={Manufacturer}
-                                  className="self-center h-[50px] w-[50px] ml-3"
-                                  alt=""
-                                />
-                                <div className="py-4 pl-3 self-center">
-                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product Manufacturer
-                                  </p>
-                                  <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.manufacture}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 flex">
-                                <img
-                                  src={model}
-                                  className="self-center h-[50px] w-[50px] ml-3"
-                                  alt=""
-                                />
-                                <div className="py-4 pl-3 self-center">
-                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product Model
-                                  </p>
-                                  <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.model}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="col-span-1 flex">
-                                <img
-                                  src={serial}
-                                  className="self-center h-[50px] w-[50px] ml-3"
-                                  alt=""
-                                />
-                                <div className="py-4 pl-3 self-center">
-                                  <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                    Product Serial / Device ID
-                                  </p>
-                                  <p className="text-light-black text-sm font-semibold">
-                                    {res?.contracts?.serial}
-                                  </p>
-                                </div>
-                              </div>
-                            </Grid>
-                          </>
-                        }
-                      >
-                        {showdata && (
-                          <Grid className="!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x">
-                            <>
-                              {res?.repairParts.length > 0 &&
-                                res?.repairParts.map((part, index) => (
-                                  <>
-                                    <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
-                                      <div className="py-4 pl-3">
-                                        <p className="text-white text-sm font-Regular">
-                                          Service Type
-                                        </p>
-                                        <p className="text-light-green text-base font-semibold">
-                                          {part.serviceType == "Labour"
-                                            ? "labor"
-                                            : part.serviceType}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
-                                      <div className="py-4 pl-3">
-                                        <p className="text-white text-sm font-Regular">
-                                          Description
-                                        </p>
-                                        <p className="text-light-green text-base font-semibold">
-                                          {part.description}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="col-span-2 bg-light-black border-b border-Gray28">
-                                      <div className="py-4 pl-3">
-                                        <p className="text-white text-sm font-Regular">
-                                          Price
-                                        </p>
-                                        <p className="text-light-green text-base font-semibold">
-                                          $
-                                          {part.price === undefined
-                                            ? (0).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })
-                                            : parseFloat(
-                                              part.price === undefined
-                                                ? 0
-                                                : part.price
-                                            ).toLocaleString("en-US", {
-                                              minimumFractionDigits: 2,
-                                              maximumFractionDigits: 2,
-                                            })}
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </>
-                                ))}
-                              <div className="col-span-12 ">
-                                <Grid className="!gap-2">
-                                  <div className="col-span-4 py-4 pl-1 ">
-                                    <div className="bg-Eclipse py-2 px-2">
-                                      {!location.pathname.includes(
-                                        "customer/claimList"
-                                      ) && (
-                                          <p className="text-light-green mb-3 text-[11px] font-Regular ">
-                                            Customer Name :{" "}
-                                            <span className="font-semibold text-white">
-                                              {" "}
-                                              {
-                                                res?.contracts?.orders?.customer
-                                                  ?.username
-                                              }{" "}
-                                            </span>
-                                          </p>
-                                        )}
-                                      <Grid>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            GetCover Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
-                                            {" "}
-                                            {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
-                                            Customer Cost :{" "}
-                                          </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
-                                          {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
-                                          </p>
-                                        </div>
-                                        <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
-                                            Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
-                                              {" "}
-                                              ${
-                                                res.totalAmount.toFixed(2)
-                                              }{" "}
-                                            </span>
-                                          </p>
-                                        </div>
-                                      </Grid>
-
-
-                                      {location.pathname.includes(
-                                        "/reseller/claimList"
-                                      ) ? (
-                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                          {" "}
-                                          <span className="self-center mr-4">
-                                            Servicer Name :{" "}
-                                          </span>
-                                          {res?.servicerData?.name}
-                                        </p>
-                                      ) : (
-                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                          {" "}
-                                          <span className="self-center mr-4">
-                                            Servicer Name :{" "}
-                                          </span>
-                                          {role == "Super Admin" ? (
-                                            <Select
-                                              name="servicer"
-                                              label=""
-                                              value={servicer}
-                                              disabled={
-                                                claimStatus.status ===
-                                                "rejected" ||
-                                                claimStatus.status ===
-                                                "completed" ||
-                                                location.pathname.includes(
-                                                  "/reseller/customerDetails"
-                                                )
-                                              }
-                                              onChange={handleSelectChange}
-                                              OptionName="Servicer"
-                                              white
-                                              className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                              classBox="w-[55%]"
-                                              options={servicerList}
-                                            />
-                                          ) : (
-                                            <>{res?.servicerData?.name}</>
-                                          )}
-                                        </p>
-                                      )}
-      {!isExcludedPath && (
-                                        <>
-                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                          <span className="self-center mr-4">
-                                            {" "}
-                                            {/* {coverageType?.label} : */}
-                                            Coverage Type:
-                                          </span>
-                                          <Select
-                                            name="claimType"
-                                            label=""
-                                            value={claimType}
-                                            onChange={handleSelectChange}
-                                            white
-
-                                            disabled={
-                                              claimStatus.status ===
-                                              "rejected" ||
-                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
-                                            }
-                                            options={ claimList?.result?.[
-                                              activeIndex
-                                            ]?.contracts?.mergedData}
-                                            OptionName="Claim Type"
-                                            className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                            classBox="w-[55%]"
-                                          />
-                              
-                                        </p>
-                                        </>
-                                      )}
-                                             <span className="self-center w-[75px] mr-[1rem] text-red-500">
-  {errorForCoverageType && `${errorForCoverageType}`}
-</span>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[1rem]">
-                                        
-  {shipment.label}:
-                                        </span>
-                                        {trackerView ? (
-                                          <>
-                                            {claimStatus.status == "rejected" ||
-                                              claimStatus.status ==
-                                              "completed" ? (
-                                              <></>
-                                            ) : (
-                                              <form
-                                                onSubmit={Shipment.handleSubmit}
-                                              >
-                                                <div className="relative flex w-full">
-                                                  <Select
-                                                    name="trackingType"
-                                                    label=""
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingType
-                                                    }
-                                                    onChange={
-                                                      handleSelectChange21
-                                                    }
-                                                    white
-                                                    // OptionName="Tracker"
-                                                    options={shipment.value}
-                                                    className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[35%]"
-                                                  />
-                                                  <Input
-                                                    name="trackingNumber"
-                                                    label=""
-                                                    placeholder="Tracking #"
-                                                    white
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingNumber
-                                                    }
-                                                    disabled={
-                                                      claimStatus.status ==
-                                                      "rejected" ||
-                                                      claimStatus.status ==
-                                                      "completed"
-                                                    }
-                                                    // options={state}
-                                                    className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[50%]"
-                                                    {...Shipment.getFieldProps(
-                                                      "trackingNumber"
-                                                    )}
-                                                  />
-                                                  <Button
-                                                    className="absolute right-[30px] !p-0 top-[2px]"
-                                                    type="submit"
-                                                  >
-                                                    <img
-                                                      src={checkIcon}
-                                                      className="w-[21px]"
-                                                    />
-                                                  </Button>
-                                                </div>
-                                              </form>
-                                            )}
-                                          </>
-                                        ) : (
-                                          <>
-                                            {res?.trackingType == "" ? (
-                                              <>
-                                                {claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed" ? (
-                                                  <></>
-                                                ) : (
-                                                  <>
-                                                    <form
-                                                      onSubmit={
-                                                        Shipment.handleSubmit
-                                                      }
-                                                    >
-                                                      <div className="relative flex w-full">
-                                                        <Select
-                                                          name="trackingType"
-                                                          label=""
-                                                          value={
-                                                            Shipment.values
-                                                              .trackingType
-                                                          }
-                                                          onChange={
-                                                            handleSelectChange21
-                                                          }
-                                                          white
-                                                          // OptionName="Tracker"
-                                                          options={
-                                                            shipment.value
-                                                          }
-                                                          className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                          classBox="w-[35%]"
-                                                        />
-                                                        <Input
-                                                          name="trackingNumber"
-                                                          label=""
-                                                          placeholder="Tracking #"
-                                                          white
-                                                          value={
-                                                            Shipment.values
-                                                              .trackingNumber
-                                                          }
-                                                          // options={state}
-                                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                          classBox="w-[50%]"
-                                                          {...Shipment.getFieldProps(
-                                                            "trackingNumber"
-                                                          )}
-                                                        />
-                                                        <Button
-                                                          className="absolute right-[30px] !p-0 top-[2px]"
-                                                          type="submit"
-                                                        >
-                                                          <img
-                                                            src={checkIcon}
-                                                            className="w-[21px]"
-                                                          />
-                                                        </Button>
-                                                      </div>
-                                                    </form>
-                                                  </>
-                                                )}
-                                              </>
-                                            ) : (
-                                              <div className="flex w-[65%] justify-between">
-                                                {res?.trackingType == "ups" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
-                                                    target="_blank"
-                                                  >
-                                                    UPS Tracker
-                                                  </a>
-                                                )}
-
-                                                {res?.trackingType ==
-                                                  "usps" && (
-                                                    <a
-                                                      className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                      href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                      target="_blank"
-                                                    >
-                                                      USPS Tracker
-                                                    </a>
-                                                  )}
-
-                                                {res?.trackingType ==
-                                                  "fedx" && (
-                                                    <a
-                                                      className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                      href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                      target="_blank"
-                                                    >
-                                                      FedX Tracker
-                                                    </a>
-                                                  )}
-                                                {claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed" ? (
-                                                  <></>
-                                                ) : (
-                                                  <img
-                                                    src={pen}
-                                                    onClick={() =>
-                                                      setTrackerView(true)
-                                                    }
-                                                    className="cursor-pointer object-contain ml-4"
-                                                  />
-                                                )}
-                                              </div>
-                                            )}
-                                          </>
-                                        )}
+                                {isExcludedPath ? (
+                                  ""
+                                ) : (
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={productName}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="productName"
+                                    />
+                                    <div className="py-4 pl-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Product SKU
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.contracts?.productName}
                                       </p>
                                     </div>
                                   </div>
-                                  <div className="col-span-4 pt-4">
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                      <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
-                                          Customer Status
-                                        </p>
-                                      </div>
-                                      <div
-                                        className="pl-1 self-center cursor-pointer w-[50%]"
-                                        onClick={handleToggleDropdown}
-                                      >
-                                     
-                                        <p className="text-white text-sm">
-  {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
-</p>
-                                 
-                                        <span className="text-light-green">
-                                          {format(
-                                            new Date(
-                                              repairStatus.date
-                                                ? customerStatus?.date
-                                                : new Date()
-                                            ),
-                                            "MM/dd/yyyy"
-                                          )}
-                                        </span>
-                                      </div>
-                                      {claimStatus.status == "rejected" ||
-                                        claimStatus.status == "completed" ? (
-                                        <></>
-                                      ) : (
-                                        <div
-                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                          ref={dropdownRef}
-                                          onClick={handleToggleDropdown}
-                                        >
-                                          <Select
-                                            name="customerStatus"
-                                            label=""
-                                            disableFirstOption={true}
-                                            value={customerStatus.status}
-                                            onChange={handleSelectChange}
-                                            classBox="!bg-transparent"
-                                            disabled={
-                                              claimStatus.status ==
-                                              "rejected" ||
-                                              claimStatus.status == "completed"
-                                            }
-                                            white
-                                            className1="!border-0 !text-light-black"
-                                            options={customerValue?.value}
-                                            visible={dropdownVisible}
-                                          />
+                                )}
+
+                                <div className="col-span-1 flex">
+                                  <img
+                                    src={Manufacturer}
+                                    className="self-center h-[50px] w-[50px] ml-3"
+                                    alt=""
+                                  />
+                                  <div className="py-4 pl-3 self-center">
+                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                      Product Manufacturer
+                                    </p>
+                                    <p className="text-light-black text-sm font-semibold">
+                                      {res?.contracts?.manufacture}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 flex">
+                                  <img
+                                    src={model}
+                                    className="self-center h-[50px] w-[50px] ml-3"
+                                    alt=""
+                                  />
+                                  <div className="py-4 pl-3 self-center">
+                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                      Product Model
+                                    </p>
+                                    <p className="text-light-black text-sm font-semibold">
+                                      {res?.contracts?.model}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 flex">
+                                  <img
+                                    src={serial}
+                                    className="self-center h-[50px] w-[50px] ml-3"
+                                    alt=""
+                                  />
+                                  <div className="py-4 pl-3 self-center">
+                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                      Product Serial / Device ID
+                                    </p>
+                                    <p className="text-light-black text-sm font-semibold break-words w-full">
+                                      {res?.contracts?.serial}
+                                    </p>
+                                  </div>
+                                </div>
+                              </Grid>
+                            </>
+                          }
+                        >
+                          {showdata && (
+                            <Grid className="!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x">
+                              <>
+                                {res?.repairParts.length > 0 &&
+                                  res?.repairParts.map((part, index) => (
+                                    <>
+                                      <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
+                                        <div className="py-4 pl-3">
+                                          <p className="text-white text-sm font-Regular">
+                                            Service Type
+                                          </p>
+                                          <p className="text-light-green text-base font-semibold">
+                                            {part.serviceType == "Labour"
+                                              ? "labor"
+                                              : part.serviceType}
+                                          </p>
                                         </div>
-                                      )}
-                                    </div>
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                      <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
-                                          {claimvalues?.label}
-                                        </p>
                                       </div>
-                                      <div
-                                        className="pl-1 self-center w-[50%] cursor-pointer "
-                                        onClick={handleToggleDropdown2}
-                                      >
-                                    <p className="text-white text-sm">
-  {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
-</p>
-                                        <p className="text-light-green">
-                                          {" "}
-                                          {format(
-                                            new Date(
-                                              repairStatus.date
-                                                ? claimStatus?.date
-                                                : new Date()
-                                            ),
-                                            "MM/dd/yyyy"
-                                          )}
-                                        </p>
+                                      <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
+                                        <div className="py-4 pl-3">
+                                          <p className="text-white text-sm font-Regular">
+                                            Description
+                                          </p>
+                                          <p className="text-light-green text-base font-semibold">
+                                            {part.description}
+                                          </p>
+                                        </div>
                                       </div>
-                                      {role == "Super Admin" && (
-                                        <>
-                                          {claimStatus.status == "rejected" ||
-                                            claimStatus.status == "completed" ? (
-                                            <></>
-                                          ) : (
-                                            <div
-                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                              ref={dropdownRef}
-                                            >
-                                              <Select
-                                                name="claimStatus"
-                                                label=""
-                                                disableFirstOption={true}
-                                                value={claimStatus.status}
-                                                classBox="!bg-transparent"
-                                                disabled={
-                                                  claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed"
-                                                }
-                                                onChange={handleSelectChange}
-                                                white
-                                                className1="!border-0 !text-light-black"
-                                                options={claimvalues?.value}
-                                                visible={dropdownVisible}
-                                              />
-                                            </div>
-                                          )}
-                                        </>
-                                      )}
-                                    </div>
-                                    <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
-                                      <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
-                                          {repairValue?.label}
-                                        </p>
+                                      <div className="col-span-2 bg-light-black border-b border-Gray28">
+                                        <div className="py-4 pl-3">
+                                          <p className="text-white text-sm font-Regular">
+                                            Price
+                                          </p>
+                                          <p className="text-light-green text-base font-semibold">
+                                            $
+                                            {part.price === undefined
+                                              ? (0).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })
+                                              : parseFloat(
+                                                part.price === undefined
+                                                  ? 0
+                                                  : part.price
+                                              ).toLocaleString("en-US", {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2,
+                                              })}
+                                          </p>
+                                        </div>
                                       </div>
-                                      <div
-                                        className="pl-1 cursor-pointer w-[50%]"
-                                        onClick={handleToggleDropdown1}
-                                      >
-                                        <p className="text-white text-sm">
-                                        {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
-                                        
-                                        </p>
-                                        <p className="text-light-green">
-                                          {format(
-                                            new Date(
-                                              repairStatus.date
-                                                ? repairStatus.date
-                                                : new Date()
-                                            ),
-                                            "MM/dd/yyyy"
-                                          )}
-                                        </p>
-                                      </div>
-                                      {(role == "Super Admin" ||
-                                        claimList.result[activeIndex]
-                                          ?.selfServicer) &&
-                                        !location.pathname.includes(
+                                    </>
+                                  ))}
+                                <div className="col-span-12 ">
+                                  <Grid className="!gap-2">
+                                    <div className="col-span-4 py-4 pl-1 ">
+                                      <div className="bg-Eclipse py-2 px-2">
+                                        {!location.pathname.includes(
                                           "customer/claimList"
                                         ) && (
+                                            <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                              Customer Name :{" "}
+                                              <span className="font-semibold text-white">
+                                                {" "}
+                                                {
+                                                  res?.contracts?.orders?.customer
+                                                    ?.username
+                                                }{" "}
+                                              </span>
+                                            </p>
+                                          )}
+                                        <Grid>
+                                          <div className="col-span-4">
+                                            <p className="text-light-green text-[11px]  font-Regular">
+                                              GetCover Cost :{" "}
+                                            </p>
+                                            <p className="font-semibold text-[11px] text-white  mb-3">
+                                              {" "}
+                                              {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                            </p>
+                                          </div>
+                                          <div className="col-span-4">
+                                            <p className="text-light-green text-[11px]  font-Regular">
+                                              Customer Cost :{" "}
+                                            </p>
+                                            <p className="font-semibold text-[11px] text-white mb-3">
+                                              {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
+                                            </p>
+                                          </div>
+                                          <div className="col-span-4">
+                                            <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                              Total Cost :{" "}
+                                              <span className="font-semibold text-white ml-3">
+                                                {" "}
+                                                ${
+                                                  res.totalAmount.toFixed(2)
+                                                }{" "}
+                                              </span>
+                                            </p>
+                                          </div>
+                                        </Grid>
+
+
+                                        {location.pathname.includes(
+                                          "/reseller/claimList"
+                                        ) ? (
+                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                            {" "}
+                                            <span className="self-center mr-4">
+                                              Servicer Name :{" "}
+                                            </span>
+                                            {res?.servicerData?.name}
+                                          </p>
+                                        ) : (
+                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                            {" "}
+                                            <span className="self-center mr-4">
+                                              Servicer Name :{" "}
+                                            </span>
+                                            {role == "Super Admin" ? (
+                                              <Select
+                                                name="servicer"
+                                                label=""
+                                                value={servicer}
+                                                disabled={
+                                                  claimStatus.status ===
+                                                  "rejected" ||
+                                                  claimStatus.status ===
+                                                  "completed" ||
+                                                  location.pathname.includes(
+                                                    "/reseller/customerDetails"
+                                                  )
+                                                }
+                                                onChange={handleSelectChange}
+                                                OptionName="Servicer"
+                                                white
+                                                className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                classBox="w-[55%]"
+                                                options={servicerList}
+                                              />
+                                            ) : (
+                                              <>{res?.servicerData?.name}</>
+                                            )}
+                                          </p>
+                                        )}
+                                        {!isExcludedPath && (
+                                          <>
+                                            <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                              <span className="self-center mr-4">
+                                                {" "}
+                                                {/* {coverageType?.label} : */}
+                                                Coverage Type:
+                                              </span>
+                                              <Select
+                                                name="claimType"
+                                                label=""
+                                                value={claimType}
+                                                onChange={handleSelectChange}
+                                                white
+
+                                                disabled={
+                                                  claimStatus.status ===
+                                                  "rejected" ||
+                                                  claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
+                                                }
+                                                options={claimList?.result?.[
+                                                  activeIndex
+                                                ]?.contracts?.mergedData}
+                                                OptionName="Claim Type"
+                                                className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                classBox="w-[55%]"
+                                              />
+
+                                            </p>
+                                          </>
+                                        )}
+                                        <span className="self-center w-[75px] mr-[1rem] text-red-500">
+                                          {errorForCoverageType && `${errorForCoverageType}`}
+                                        </span>
+                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                          <span className="self-center w-[75px]  mr-[1rem]">
+
+                                            {shipment.label}:
+                                          </span>
+                                          {trackerView ? (
+                                            <>
+                                              {claimStatus.status == "rejected" ||
+                                                claimStatus.status ==
+                                                "completed" ? (
+                                                <></>
+                                              ) : (
+                                                <form
+                                                  onSubmit={Shipment.handleSubmit}
+                                                >
+                                                  <div className="relative flex w-full">
+                                                    <Select
+                                                      name="trackingType"
+                                                      label=""
+                                                      value={
+                                                        Shipment.values
+                                                          .trackingType
+                                                      }
+                                                      onChange={
+                                                        handleSelectChange21
+                                                      }
+                                                      white
+                                                      // OptionName="Tracker"
+                                                      options={shipment.value}
+                                                      className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                      classBox="w-[35%]"
+                                                    />
+                                                    <Input
+                                                      name="trackingNumber"
+                                                      label=""
+                                                      placeholder="Tracking #"
+                                                      white
+                                                      value={
+                                                        Shipment.values
+                                                          .trackingNumber
+                                                      }
+                                                      disabled={
+                                                        claimStatus.status ==
+                                                        "rejected" ||
+                                                        claimStatus.status ==
+                                                        "completed"
+                                                      }
+                                                      // options={state}
+                                                      className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                      classBox="w-[50%]"
+                                                      {...Shipment.getFieldProps(
+                                                        "trackingNumber"
+                                                      )}
+                                                    />
+                                                    <Button
+                                                      className="absolute right-[30px] !p-0 top-[2px]"
+                                                      type="submit"
+                                                    >
+                                                      <img
+                                                        src={checkIcon}
+                                                        className="w-[21px]"
+                                                      />
+                                                    </Button>
+                                                  </div>
+                                                </form>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {res?.trackingType == "" ? (
+                                                <>
+                                                  {claimStatus.status ==
+                                                    "rejected" ||
+                                                    claimStatus.status ==
+                                                    "completed" ? (
+                                                    <></>
+                                                  ) : (
+                                                    <>
+                                                      <form
+                                                        onSubmit={
+                                                          Shipment.handleSubmit
+                                                        }
+                                                      >
+                                                        <div className="relative flex w-full">
+                                                          <Select
+                                                            name="trackingType"
+                                                            label=""
+                                                            value={
+                                                              Shipment.values
+                                                                .trackingType
+                                                            }
+                                                            onChange={
+                                                              handleSelectChange21
+                                                            }
+                                                            white
+                                                            // OptionName="Tracker"
+                                                            options={
+                                                              shipment.value
+                                                            }
+                                                            className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                            classBox="w-[35%]"
+                                                          />
+                                                          <Input
+                                                            name="trackingNumber"
+                                                            label=""
+                                                            placeholder="Tracking #"
+                                                            white
+                                                            value={
+                                                              Shipment.values
+                                                                .trackingNumber
+                                                            }
+                                                            // options={state}
+                                                            className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                            classBox="w-[50%]"
+                                                            {...Shipment.getFieldProps(
+                                                              "trackingNumber"
+                                                            )}
+                                                          />
+                                                          <Button
+                                                            className="absolute right-[30px] !p-0 top-[2px]"
+                                                            type="submit"
+                                                          >
+                                                            <img
+                                                              src={checkIcon}
+                                                              className="w-[21px]"
+                                                            />
+                                                          </Button>
+                                                        </div>
+                                                      </form>
+                                                    </>
+                                                  )}
+                                                </>
+                                              ) : (
+                                                <div className="flex w-[65%] justify-between">
+                                                  {res?.trackingType == "ups" && (
+                                                    <a
+                                                      className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                      href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                      target="_blank"
+                                                    >
+                                                      UPS Tracker
+                                                    </a>
+                                                  )}
+
+                                                  {res?.trackingType ==
+                                                    "usps" && (
+                                                      <a
+                                                        className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                        href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                        target="_blank"
+                                                      >
+                                                        USPS Tracker
+                                                      </a>
+                                                    )}
+
+                                                  {res?.trackingType ==
+                                                    "fedx" && (
+                                                      <a
+                                                        className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                        href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                        target="_blank"
+                                                      >
+                                                        FedX Tracker
+                                                      </a>
+                                                    )}
+                                                  {claimStatus.status ==
+                                                    "rejected" ||
+                                                    claimStatus.status ==
+                                                    "completed" ? (
+                                                    <></>
+                                                  ) : (
+                                                    <img
+                                                      src={pen}
+                                                      onClick={() =>
+                                                        setTrackerView(true)
+                                                      }
+                                                      className="cursor-pointer object-contain ml-4"
+                                                    />
+                                                  )}
+                                                </div>
+                                              )}
+                                            </>
+                                          )}
+                                        </p>
+                                      </div>
+                                    </div>
+                                    <div className="col-span-4 pt-4">
+                                      <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                        <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                          <p className="text-white text-[11px] p-4">
+                                            Customer Status
+                                          </p>
+                                        </div>
+                                        <div
+                                          className="pl-1 self-center cursor-pointer w-[50%]"
+                                          onClick={handleToggleDropdown}
+                                        >
+
+                                          <p className="text-white text-sm">
+                                            {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+                                          </p>
+
+                                          <span className="text-light-green">
+                                            {format(
+                                              new Date(
+                                                repairStatus.date
+                                                  ? customerStatus?.date
+                                                  : new Date()
+                                              ),
+                                              "MM/dd/yyyy"
+                                            )}
+                                          </span>
+                                        </div>
+                                        {claimStatus.status == "rejected" ||
+                                          claimStatus.status == "completed" ? (
+                                          <></>
+                                        ) : (
+                                          <div
+                                            className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                            ref={dropdownRef}
+                                            onClick={handleToggleDropdown}
+                                          >
+                                            <Select
+                                              name="customerStatus"
+                                              label=""
+                                              disableFirstOption={true}
+                                              value={customerStatus.status}
+                                              onChange={handleSelectChange}
+                                              classBox="!bg-transparent"
+                                              disabled={
+                                                claimStatus.status ==
+                                                "rejected" ||
+                                                claimStatus.status == "completed"
+                                              }
+                                              white
+                                              className1="!border-0 !text-light-black"
+                                              options={customerValue?.value}
+                                              visible={dropdownVisible}
+                                            />
+                                          </div>
+                                        )}
+                                      </div>
+                                      <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                        <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                          <p className="text-white text-[11px] p-4">
+                                            {claimvalues?.label}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className="pl-1 self-center w-[50%] cursor-pointer "
+                                          onClick={handleToggleDropdown2}
+                                        >
+                                          <p className="text-white text-sm">
+                                            {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+                                          </p>
+                                          <p className="text-light-green">
+                                            {" "}
+                                            {format(
+                                              new Date(
+                                                repairStatus.date
+                                                  ? claimStatus?.date
+                                                  : new Date()
+                                              ),
+                                              "MM/dd/yyyy"
+                                            )}
+                                          </p>
+                                        </div>
+                                        {role == "Super Admin" && (
                                           <>
                                             {claimStatus.status == "rejected" ||
-                                              claimStatus.status ==
-                                              "completed" ? (
+                                              claimStatus.status == "completed" ? (
                                               <></>
                                             ) : (
                                               <div
                                                 className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
                                                 ref={dropdownRef}
-                                                onClick={handleToggleDropdown1}
                                               >
                                                 <Select
-                                                  name="repairStatus"
+                                                  name="claimStatus"
                                                   label=""
                                                   disableFirstOption={true}
+                                                  value={claimStatus.status}
                                                   classBox="!bg-transparent"
-                                                  value={repairStatus.status}
-                                                  onChange={handleSelectChange}
                                                   disabled={
                                                     claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
                                                     "completed"
                                                   }
+                                                  onChange={handleSelectChange}
                                                   white
                                                   className1="!border-0 !text-light-black"
-                                                  options={repairValue?.value}
+                                                  options={claimvalues?.value}
                                                   visible={dropdownVisible}
                                                 />
                                               </div>
                                             )}
                                           </>
                                         )}
-                                    </div>
-                                  </div>
-                                  <div className="col-span-4 pt-2">
-                                    <div className="m-2 p-2 bg-Eclipse ">
-                                      <p className="text-[11px] text-white">
-                                        Diagnosis
-                                      </p>
-                                      <div
-                                        className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
-                                          ? "h-[130px] max-h-[130px]"
-                                          : "h-[164px] max-h-[164px]"
-                                          }`}
-                                      >
-                                        <p className="text-sm text-light-green">
-                                          {res.diagnosis}
-                                        </p>
+                                      </div>
+                                      <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                        <div className="bg-Gray28 w-[40%] rounded-s-lg">
+                                          <p className="text-white text-[11px] p-4">
+                                            {repairValue?.label}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className="pl-1 cursor-pointer w-[50%]"
+                                          onClick={handleToggleDropdown1}
+                                        >
+                                          <p className="text-white text-sm">
+                                            {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+
+                                          </p>
+                                          <p className="text-light-green">
+                                            {format(
+                                              new Date(
+                                                repairStatus.date
+                                                  ? repairStatus.date
+                                                  : new Date()
+                                              ),
+                                              "MM/dd/yyyy"
+                                            )}
+                                          </p>
+                                        </div>
+                                        {(role == "Super Admin" ||
+                                          claimList.result[activeIndex]
+                                            ?.selfServicer) &&
+                                          !location.pathname.includes(
+                                            "customer/claimList"
+                                          ) && (
+                                            <>
+                                              {claimStatus.status == "rejected" ||
+                                                claimStatus.status ==
+                                                "completed" ? (
+                                                <></>
+                                              ) : (
+                                                <div
+                                                  className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                                  ref={dropdownRef}
+                                                  onClick={handleToggleDropdown1}
+                                                >
+                                                  <Select
+                                                    name="repairStatus"
+                                                    label=""
+                                                    disableFirstOption={true}
+                                                    classBox="!bg-transparent"
+                                                    value={repairStatus.status}
+                                                    onChange={handleSelectChange}
+                                                    disabled={
+                                                      claimStatus.status ==
+                                                      "rejected" ||
+                                                      claimStatus.status ==
+                                                      "completed"
+                                                    }
+                                                    white
+                                                    className1="!border-0 !text-light-black"
+                                                    options={repairValue?.value}
+                                                    visible={dropdownVisible}
+                                                  />
+                                                </div>
+                                              )}
+                                            </>
+                                          )}
                                       </div>
                                     </div>
-                                    {res?.receiptImage == "" ? (
-                                      ""
-                                    ) : (
-                                      <div>
-                                        <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
-                                          <div className="col-span-3"></div>
-                                          {/* <Button
+                                    <div className="col-span-4 pt-2">
+                                      <div className="m-2 p-2 bg-Eclipse ">
+                                        <p className="text-[11px] text-white">
+                                          Diagnosis
+                                        </p>
+                                        <div
+                                          className={` overflow-y-scroll Diagnosis ${res?.receiptImage != ""
+                                            ? "h-[130px] max-h-[130px]"
+                                            : "h-[164px] max-h-[164px]"
+                                            }`}
+                                        >
+                                          <p className="text-sm text-light-green">
+                                            {res.diagnosis}
+                                          </p>
+                                        </div>
+                                      </div>
+                                      {res?.receiptImage == "" ? (
+                                        ""
+                                      ) : (
+                                        <div>
+                                          <Grid className="!grid-cols-12 !gap-1 px-3 mb-3">
+                                            <div className="col-span-3"></div>
+                                            {/* <Button
                                      className="!bg-white col-span-6 !rounded-[11px] !text-light-black !text-[12px] flex"
                                      onClick={handleToggle}
                                    >
@@ -2215,94 +2215,94 @@ console.log(claimList.result[activeIndex]?.claimType)
                                      />
                                      Track Repair Status
                                    </Button> */}
-                                          {res.receiptImage != null && (
-                                            <Button
-                                              className="!bg-white col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
-                                              onClick={() => {
-                                                downloadAttachments(
-                                                  res.receiptImage
-                                                );
-                                              }}
-                                            >
-                                              <img
-                                                src={download}
-                                                className="w-5 h-5 mr-2"
-                                                alt="download"
-                                              />
-                                              <p className="text-[13px] font-semibold text-center">
-                                                Download Attachments
-                                              </p>
-                                            </Button>
-                                          )}
-                                        </Grid>
-                                      </div>
-                                    )}
-                                  </div>
-                                </Grid>
-                                {res.reason != "" && (
-                                  <div className="px-3 mb-4">
-                                    <Grid>
-                                      <div className="col-span-12">
-                                        <p className="text-white">
-                                          <b>Reason For Rejection : </b>{" "}
-                                          <span>{res.reason}</span>
-                                        </p>
-                                      </div>
-                                    </Grid>
-                                  </div>
-                                )}
-                                {res.note != "" && (
-                                  <div className="px-3 mb-4">
-                                    <Grid>
-                                      <div className="col-span-12">
-                                        <p className="text-white">
-                                          <b>Note : </b> <span>{res.note}</span>
-                                        </p>
-                                      </div>
-                                    </Grid>
-                                  </div>
-                                )}
-                              </div>
-                            </>
-                          </Grid>
-                        )}
-                      </CollapsibleDiv>
-                    );
-                  })}
-              </>
-            )}
-          </div>
-          <div>
-            
-            {totalRecords === 0 && !loaderType ? (
-              <>
-                <div className="text-center my-5">
-                  <p>No records found.</p>
-                </div>
-              </>
-            ) : (
-              <>
-                <CustomPagination
-                  totalRecords={totalRecords}
-                  page={pageValue}
-                  className={loaderType ? "opacity-0	" : "opacity-100"}
-                  rowsPerPageOptions={[10, 20, 50, 100]}
-                  onPageChange={handlePageChange}
-                  setRecordsPerPage={setRecordsPerPage}
-                />
-              </>
-              // <CustomPagination
-              //   totalRecords={totalRecords}
-              //   rowsPerPageOptions={[10, 20, 50, 100]}
-              //   onPageChange={handlePageChange}
-              //   setRecordsPerPage={setRecordsPerPage}
-              // />
-            )}
-          </div>
-        </Card>
-      </div>
+                                            {res.receiptImage != null && (
+                                              <Button
+                                                className="!bg-white col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                                onClick={() => {
+                                                  downloadAttachments(
+                                                    res.receiptImage
+                                                  );
+                                                }}
+                                              >
+                                                <img
+                                                  src={download}
+                                                  className="w-5 h-5 mr-2"
+                                                  alt="download"
+                                                />
+                                                <p className="text-[13px] font-semibold text-center">
+                                                  Download Attachments
+                                                </p>
+                                              </Button>
+                                            )}
+                                          </Grid>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </Grid>
+                                  {res.reason != "" && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                            <b>Reason For Rejection : </b>{" "}
+                                            <span>{res.reason}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
+                                  {res.note != "" && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                            <b>Note : </b> <span>{res.note}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
+                                </div>
+                              </>
+                            </Grid>
+                          )}
+                        </CollapsibleDiv>
+                      );
+                    })}
+                </>
+              )}
+            </div>
+            <div>
+
+              {totalRecords === 0 && !loaderType ? (
+                <>
+                  <div className="text-center my-5">
+                    <p>No records found.</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <CustomPagination
+                    totalRecords={totalRecords}
+                    page={pageValue}
+                    className={loaderType ? "opacity-0	" : "opacity-100"}
+                    rowsPerPageOptions={[10, 20, 50, 100]}
+                    onPageChange={handlePageChange}
+                    setRecordsPerPage={setRecordsPerPage}
+                  />
+                </>
+                // <CustomPagination
+                //   totalRecords={totalRecords}
+                //   rowsPerPageOptions={[10, 20, 50, 100]}
+                //   onPageChange={handlePageChange}
+                //   setRecordsPerPage={setRecordsPerPage}
+                // />
+              )}
+            </div>
+          </Card>
+        </div>
       }
-      
+
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
