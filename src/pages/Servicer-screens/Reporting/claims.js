@@ -111,7 +111,8 @@ function AllList(props) {
   const [customerValue, customer_status] = useState({});
   const [claimvalues, claim_status] = useState({});
   const [shipment, shipment_type] = useState({});
-  const [errorForCoverageType, setErrorForCoverageType] = useState("");
+  const [coverageTypeError, setCoverageTypeError] = useState({});
+  const [errorForCoverageType, setErrorForCoverageType] = useState(false);
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(true);
   const [claimId, setClaimId] = useState("");
@@ -222,21 +223,23 @@ function AllList(props) {
     // console.log(selectedValue, value);
   };
 
-  const handleSelectChange = (selectedValue, value) => {
-    setLoading1(true);
+  const handleSelectChange = async (selectedValue, value) => {
     if (selectedValue === "claimStatus") {
       if (value === "rejected") {
         setIsRejectOpen(true);
       } else if (value?.reason) {
+        setLoading1(true);
         value.claimStatus = "rejected";
-        editClaimrejectedValue(claimList.result[activeIndex]._id, value);
-      } else {
+        editClaimRejectedValue(claimList.result[activeIndex]._id, value);
+      }
+    
+       else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
-            value
+            value.type== "completed" ? value.type :value
           );
         };
 
@@ -256,7 +259,6 @@ function AllList(props) {
         coverageType:value
       }
       checkCoverageTypeDate(data).then((res)=>{
-        console.log(res)
         if(res.code==200){
           const updateAndCallAPI = (setter) => {
             editClaimClaimType(
@@ -266,16 +268,15 @@ function AllList(props) {
             );
           };
           updateAndCallAPI(setClaimType);
-          setErrorForCoverageType("")
         }
       else{
-        setErrorForCoverageType(res.message)
+        setCoverageTypeError(res)
+        setErrorForCoverageType(true)
         setLoading1(false);
       }
       })
-      console.log(loading1, "------2--------------");
-     
-    }else if (selectedValue === "servicer") {
+    } else if (selectedValue === "servicer") {
+      setLoading1(true);
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimServicer(
@@ -287,6 +288,7 @@ function AllList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
+      setLoading1(true);
       const updateAndCallAPI = (setter) => {
         setter((prevRes) => ({ ...prevRes, status: value }));
         editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
@@ -306,10 +308,27 @@ function AllList(props) {
           console.error("here");
       }
     }
-    console.log(loading1, "0-------------");
     setTimeout(() => {
       setLoading1(false);
     }, 3000);
+  };
+
+  const closeCoveragType = () => {
+    setErrorForCoverageType(false);; 
+  };
+
+  const editClaimRejectedValue = (claimId, data) => {
+    editClaimStatus(claimId, data).then((res) => {
+      updateAndSetStatus(setClaimStatus, "claimStatus", res);
+      updateAndSetStatus(setRepairStatus, "repairStatus", res);
+      updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+      if(data.claimStatus=="rejected"){
+        const updatedClaimListCopy = { ...claimList };
+        updatedClaimListCopy.result[activeIndex][claimType] = "rejected";
+      }
+    });
+    closeReject();
+    closeCoveragType();
   };
 
   useEffect(() => {
@@ -2838,6 +2857,53 @@ function AllList(props) {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+      <Modal isOpen={errorForCoverageType} onClose={closeCoveragType}>
+        <Button
+          onClick={closeCoveragType}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="text-center py-3">
+          <img src={disapproved} alt="email Image" className="mx-auto" />
+            <Grid>
+              <div className="col-span-12">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
+                  {" "}
+                  <span className=""> {coverageTypeError.tittle} </span>
+                </p>
+                <p className="text-base font-medium mt-2 ">
+                 {coverageTypeError.message}
+                </p>
+              </div>
+              <div className="col-span-3"></div>
+              <div className="col-span-3">
+              <Button onClick={() => {
+                                    handleSelectChange("claimStatus" ,{
+                                      value: "rejected",
+                                      reason: coverageTypeError.message,
+                                    });
+}}
+                 className="w-full">
+                  Yes
+                </Button>
+              </div>
+              <div className="col-span-3">
+                <Button
+                  type="button"
+                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  onClick={closeCoveragType}
+                >
+                  No
+                </Button>
+              </div>
+              <div className="col-span-3"></div>
+            </Grid>
         </div>
       </Modal>
     </>

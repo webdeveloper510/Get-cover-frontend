@@ -2015,7 +2015,7 @@ function ClaimList(props) {
                                         >
 
                                           <p className="text-white text-sm">
-                                            {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+                                            {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                           </p>
 
                                           <span className="text-light-green">
@@ -2069,7 +2069,7 @@ function ClaimList(props) {
                                           onClick={handleToggleDropdown2}
                                         >
                                           <p className="text-white text-sm">
-                                            {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+                                            {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
                                           </p>
                                           <p className="text-light-green">
                                             {" "}
@@ -2127,7 +2127,7 @@ function ClaimList(props) {
                                           onClick={handleToggleDropdown1}
                                         >
                                           <p className="text-white text-sm">
-                                            {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                            {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
 
                                           </p>
                                           <p className="text-light-green">
