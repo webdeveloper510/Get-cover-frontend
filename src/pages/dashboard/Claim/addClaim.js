@@ -833,7 +833,7 @@ function AddClaim() {
                   Upload Receipt or Image{" "}
                 </p>
                 <div>
-                  <p className="text-xl font-bold mb-4">
+                  <p className="text-lg font-bold mb-4">
                     {" "}
                     For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
                   </p>
@@ -1339,19 +1339,23 @@ function AddClaim() {
                         </p>
                       </div>
                     </div>
-                    <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Product SKU
-                        </p>
-                        <p className="text-light-black text-base font-semibold">
-                          {
-                            contractDetail?.order?.[0]?.productsArray?.[0]
-                              ?.priceBook?.[0]?.name
-                          }
-                        </p>
-                      </div>
-                    </div>
+                    {role !== "Reseller" &&
+                      role !== "Customer" &&
+                      role !== "Dealer" && (
+                        <div className="col-span-1 border border-Light-Grey">
+                          <div className="py-4 pl-3">
+                            <p className="text-[#5D6E66] text-sm font-Regular">
+                              Product SKU
+                            </p>
+                            <p className="text-light-black text-base font-semibold">
+                              {
+                                contractDetail?.order?.[0]?.productsArray?.[0]
+                                  ?.priceBook?.[0]?.name
+                              }
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 pl-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
@@ -1559,10 +1563,10 @@ function AddClaim() {
                         <div className="col-span-5 border border-Light-Grey ">
                           <table className="w-full">
                             <thead>
-                              <tr className="border-b">
+                              <tr className="border-b bg-[#9999]">
                                 <th colSpan={4}>Quantity Pricing List</th>
                               </tr>
-                              <tr>
+                              <tr className="bg-[#9999]">
                                 <th>Sr.#</th>
                                 <th>Name</th>
                                 <th>Max Quantity Per Unit</th>
