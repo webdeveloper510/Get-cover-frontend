@@ -201,12 +201,12 @@ export const getUnpaidClaims = async (id, data) => {
   }
 };
 
-export const editOption = async (id, data) => {
+export const editOption = async ( data) => {
   const headers = createHeaders();
 
   try {
     const response = await axios.put(
-      `${url}/user/editOption/${id}`,
+      `${url}/user/editOption`,
       data,
       {
         headers,

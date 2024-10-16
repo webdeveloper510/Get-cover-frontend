@@ -1013,31 +1013,6 @@ function Account() {
     }
   };
 
-  const handleSetActiveIndex = (index) => {
-    setActiveIndex(index);
-  };
-
-  const [rows, setRows] = useState([
-    { id: 1, label: "Label 1", value: "Value 1", status: true, isEditing: false },
-    { id: 2, label: "Label 2", value: "Value 2", status: false, isEditing: false },
-  ]);
-
-  const handleEditClick = (id) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row._id === id ? { ...row, isEditing: !row.isEditing } : row
-      )
-    );
-  };
-
-  const handleInputChange = (id, newValue) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row._id === id ? { ...row, label: newValue } : row
-      )
-    );
-  };
-
 
   const handleStatusToggle = async (rowId, sectionData, index) => {
     console.log(sectionData)
@@ -1116,6 +1091,7 @@ function Account() {
       setEditingIndex(index);
     }
   };
+  
   const handleLabelChange = (index, value) => {
     const newLabels = [...labels];
     newLabels[index] = value;
@@ -1128,66 +1104,57 @@ function Account() {
     setValues(newValues);
   };
 
-  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex) => {
+  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex,toggleValue=false) => {
     const currentLabel = labels[sectionIndex];
     const currentValue = values[sectionIndex];
-
-    const newData = {
-      label: currentLabel,
-      value: currentValue,
-      labelId,
-    };
-
     try {
-      if (editingRowId !== null && labelId) {
-        // Update case
-        console.log('Updating row', editingRowId, labelId);
-        const res = await editOption(labelId, newData);
-        setSections((prevSections) => {
-          const updatedSections = [...prevSections]; // Using updatedSections correctly
-          const updatedSectionData = updatedSections[sectionIndex].data.value.map((item) =>
-            item._id === editingRowId
-              ? { ...item, label: currentLabel, value: currentValue }
-              : item
-          );
-
-          updatedSections[sectionIndex].data.value = updatedSectionData;
-          return updatedSections;
-        });
-      } else {
-        // Add case
-        console.log('Adding new row');
-        setSections((prevSections) => {
-          const addOptionupdatedSections = [...prevSections];
-          addOptionupdatedSections[sectionIndex].data.value = [
-            ...addOptionupdatedSections[sectionIndex].data.value,
-            { status: true, value: currentValue, label: currentLabel, value: currentValue, _id: '66d6d8a08e8d1db1d80033b10', },
-          ];
-          console.log(addOptionupdatedSections)
-          return addOptionupdatedSections;
-        });
+      const updatedSections = [...sections];
+      if(toggleValue){
+        updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
+          item._id === editingRowId
+            ? { ...item, status: !item.status }
+            : item
+        );
       }
-
-      // Resetting the label and value after the add/update operation
+    else{
+      if (editingRowId !== null && labelId) {
+        console.log('Updating row', editingRowId, labelId);
+        updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
+          item._id === editingRowId
+            ? { ...item, label: currentLabel, value: currentValue }
+            : item
+        );
+      } else {
+        updatedSections[sectionIndex].data.value = [
+          ...updatedSections[sectionIndex].data.value,
+          { status: true, value: currentValue, label: currentLabel }, 
+        ];
+      }
+    }
+      setSections(updatedSections);
+      const res = await editOption(updatedSections[sectionIndex]);
+      console.log('API response:', res);
+      if(res.code==200){
+        getClaimOptions()
+      }
+     
       setLabels((prev) => {
         const newLabels = [...prev];
         newLabels[sectionIndex] = '';
         return newLabels;
       });
-
+  
       setValues((prev) => {
         const newValues = [...prev];
         newValues[sectionIndex] = '';
         return newValues;
       });
-
-      setEditingIndex(null);  // Reset the editing index
+  
+      setEditingIndex(null);
     } catch (error) {
       console.error('Failed to add/update option:', error);
     }
   };
-
-
 
   const handleCancelEdit = () => {
     setEditingRowId(null);
@@ -1996,7 +1963,7 @@ function Account() {
                               <td>
                                 <SwitchButton
                                   isOn={row.status}
-                                  handleToggle={() => handleStatusToggle(row._id, section.data, index)}
+                                  handleToggle={() => handleAddOrUpdate(row._id, section.data, index,true)}
                                 />
                               </td>
                               <td>
