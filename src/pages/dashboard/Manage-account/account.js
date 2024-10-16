@@ -1071,7 +1071,7 @@ function Account() {
       setEditingIndex(index);
     }
   };
-  
+
   const handleLabelChange = (index, value) => {
     const newLabels = [...labels];
     newLabels[index] = value;
@@ -1084,57 +1084,57 @@ function Account() {
     setValues(newValues);
   };
 
-  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex,toggleValue=false) => {
+  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex, toggleValue = false) => {
     const currentLabel = labels[sectionIndex];
     const currentValue = values[sectionIndex];
     if (!toggleValue && (!currentLabel || !currentValue)) {
       console.error('Label or value is empty, operation aborted.');
-      return; 
+      return;
     }
 
     try {
       const updatedSections = [...sections];
-      if(toggleValue){
+      if (toggleValue) {
         updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
           item._id === editingRowId
             ? { ...item, status: !item.status }
             : item
         );
       }
-    else{
-      if (editingRowId !== null && labelId) {
-        console.log('Updating row', editingRowId, labelId);
-        updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
-          item._id === editingRowId
-            ? { ...item, label: currentLabel, value: currentValue }
-            : item
-        );
-      } else {
-        updatedSections[sectionIndex].data.value = [
-          ...updatedSections[sectionIndex].data.value,
-          { status: true, value: currentValue, label: currentLabel }, 
-        ];
+      else {
+        if (editingRowId !== null && labelId) {
+          console.log('Updating row', editingRowId, labelId);
+          updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
+            item._id === editingRowId
+              ? { ...item, label: currentLabel, value: currentValue }
+              : item
+          );
+        } else {
+          updatedSections[sectionIndex].data.value = [
+            ...updatedSections[sectionIndex].data.value,
+            { status: true, value: currentValue, label: currentLabel },
+          ];
+        }
       }
-    }
       setSections(updatedSections);
       const res = await editOption(updatedSections[sectionIndex]);
       console.log('API response:', res);
-      if(res.code==200){
+      if (res.code == 200) {
         getClaimOptions()
       }
-     
+
       setLabels((prev) => {
         const newLabels = [...prev];
         newLabels[sectionIndex] = '';
         return newLabels;
       });
-  
+
       setValues((prev) => {
         const newValues = [...prev];
         newValues[sectionIndex] = '';
         return newValues;
       });
-  
+
       setEditingIndex(null);
     } catch (error) {
       console.error('Failed to add/update option:', error);
@@ -1799,9 +1799,9 @@ function Account() {
                           name={`cardBackGroundColor`}
                           tooltip="10"
                           className="!bg-white flex"
-                          content='you can change website card backGround color here'
+                          content='you can change website Box backGround color here'
                           className1="h-11"
-                          label="Card Color"
+                          label="Box Color"
                           placeholder=""
                           value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                         />
@@ -1812,9 +1812,9 @@ function Account() {
                           name={`cardColor`}
                           tooltip="9"
                           className="!bg-white flex"
-                          content='you can change website Card color here'
+                          content='you can change website Box color here'
                           className1="h-11"
-                          label="Card Text Color"
+                          label="Box Text Color"
                           placeholder=""
                           value={cardColor} onChange={handleColorChange('cardColor', setCardColor)}
                         />
@@ -1826,9 +1826,9 @@ function Account() {
                           name={`modelBackgroundColor`}
                           tooltip="11"
                           className="!bg-white flex "
-                          content='you can change website model Background color here'
+                          content='you can change website Popup Background color here'
                           className1="h-11 "
-                          label="Model Color"
+                          label="Popup Color"
                           placeholder=""
                           value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                         />
@@ -1839,9 +1839,9 @@ function Account() {
                           name={`modelColor`}
                           tooltip="12"
                           className="!bg-white flex !w-[163px]"
-                          content='you can change website model text color here'
+                          content='you can change website Popup text color here'
                           className1="h-11"
-                          label="Model text Color"
+                          label="Popup text Color"
                           placeholder=""
                           value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
                         />
@@ -1948,7 +1948,7 @@ function Account() {
                               <td>
                                 <SwitchButton
                                   isOn={row.status}
-                                  handleToggle={() => handleAddOrUpdate(row._id, section.data, index,true)}
+                                  handleToggle={() => handleAddOrUpdate(row._id, section.data, index, true)}
                                 />
                               </td>
                               <td>
