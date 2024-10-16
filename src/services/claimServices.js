@@ -161,7 +161,7 @@ export const getClaimListForDealer = async (id, data) => {
   }
 };
 
-export const getOptions = async (data) => {
+export const getOptions = async (data,value=1) => {
   const headers = createHeaders();
   const queryString = data
     .map((value, index) => `key[${index}]=${encodeURIComponent(value)}`)
@@ -169,7 +169,7 @@ export const getOptions = async (data) => {
 
   try {
     const response = await axios.get(
-      `${url}/user/getOptions?${queryString}`,
+      `${url}/user/getOptions/${value}?${queryString}`,
       {
         headers,
       }

@@ -18,6 +18,7 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import productName from "../../../../assets/images/icons/productName1.svg";
 import pen from "../../../../assets/images/pencil.png";
 import Sendto from "../../../../assets/images/double-arrow.png";
+import Money from "../../../../assets/images/icons/money.svg";
 import AddItem from "../../../../assets/images/icons/addItem.svg";
 import model from "../../../../assets/images/icons/ProductModel.svg";
 import serial from "../../../../assets/images/icons/ProductSerial.svg";
@@ -1568,25 +1569,6 @@ function ClaimList(props) {
                                     </p>
                                   </div>
                                 </div>
-                                {isExcludedPath ? (
-                                  ""
-                                ) : (
-                                  <div className="col-span-1 flex ">
-                                    <img
-                                      src={productName}
-                                      className="self-center h-[50px] w-[50px] ml-3"
-                                      alt="productName"
-                                    />
-                                    <div className="py-4 pl-3 self-center">
-                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                        Product SKU
-                                      </p>
-                                      <p className="text-light-black text-sm font-semibold">
-                                        {res?.contracts?.productName}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
 
                                 <div className="col-span-1 flex">
                                   <img
@@ -1630,6 +1612,21 @@ function ClaimList(props) {
                                     </p>
                                     <p className="text-light-black text-sm font-semibold break-words w-full">
                                       {res?.contracts?.serial}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div className="col-span-1 flex">
+                                  <img
+                                    src={Money}
+                                    className="self-center h-[50px] p-1 w-[50px] ml-3"
+                                    alt=""
+                                  />
+                                  <div className="py-4 pl-3 self-center">
+                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                      Claim Amount
+                                    </p>
+                                    <p className="text-light-black text-sm font-semibold">
+                                      ${res.totalAmount.toFixed(2)}
                                     </p>
                                   </div>
                                 </div>
@@ -2015,7 +2012,7 @@ function ClaimList(props) {
                                         >
 
                                           <p className="text-white text-sm">
-                                            {customerValue?.value.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
+                                            {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                           </p>
 
                                           <span className="text-light-green">
@@ -2069,7 +2066,7 @@ function ClaimList(props) {
                                           onClick={handleToggleDropdown2}
                                         >
                                           <p className="text-white text-sm">
-                                            {claimvalues?.value.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
+                                            {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
                                           </p>
                                           <p className="text-light-green">
                                             {" "}
@@ -2127,7 +2124,7 @@ function ClaimList(props) {
                                           onClick={handleToggleDropdown1}
                                         >
                                           <p className="text-white text-sm">
-                                            {repairValue?.value.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
+                                            {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
 
                                           </p>
                                           <p className="text-light-green">
@@ -2966,16 +2963,6 @@ function ClaimList(props) {
                   label="Serial # / Device ID"
                   placeholder=""
                   {...formik1.getFieldProps("serial")}
-                />
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="productName"
-                  className="!bg-white"
-                  label="Product SKU"
-                  placeholder=""
-                  {...formik1.getFieldProps("productName")}
                 />
               </div>
               <div className="col-span-6">
