@@ -89,6 +89,7 @@ function ClaimList(props) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
+  const [isThreshold, setIsThreshold] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -1812,33 +1813,33 @@ function ClaimList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "rejected" ||
-                                      claimStatus.status == "completed" ||
-                                      role != "Super Admin" ? (
-                                      <></>
-                                    ) : (
-                                      <div
-                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                        ref={dropdownRef}
-                                        onClick={handleToggleDropdown}
-                                      >
-                                        <Select
-                                          name="customerStatus"
-                                          label=""
-                                          value={customerStatus.status}
-                                          onChange={handleSelectChange}
-                                          disableFirstOption={true}
-                                          disabled={
-                                            claimStatus.status == "rejected" ||
-                                            claimStatus.status == "completed"
-                                          }
-                                          classBox='!bg-transparent'
-                                          white
-                                          className1="!border-0 !text-light-black"
-                                          options={customerValue?.value}
-                                          visible={dropdownVisible}
-                                        />
-                                      </div>
-                                    )}
+                                      claimStatus.status == "completed"
+                                      ? (
+                                        <></>
+                                      ) : (
+                                        <div
+                                          className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                          ref={dropdownRef}
+                                          onClick={handleToggleDropdown}
+                                        >
+                                          <Select
+                                            name="customerStatus"
+                                            label=""
+                                            value={customerStatus.status}
+                                            onChange={handleSelectChange}
+                                            disableFirstOption={true}
+                                            disabled={
+                                              claimStatus.status == "rejected" ||
+                                              claimStatus.status == "completed"
+                                            }
+                                            classBox='!bg-transparent'
+                                            white
+                                            className1="!border-0 !text-light-black"
+                                            options={customerValue?.value}
+                                            visible={dropdownVisible}
+                                          />
+                                        </div>
+                                      )}
                                   </div>
                                   <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                     <div className="bg-Gray28 w-[40%] rounded-s-lg">
@@ -2594,6 +2595,9 @@ function ClaimList(props) {
               <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+                  {isThreshold &&
+                    <p className="pb-5 text-base text-red-500 hidden font-semibold">You are Cross the Threshold Limit</p>
+                  }
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $

@@ -87,6 +87,7 @@ function ResellerClaimList(props) {
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isThreshold, setIsThreshold] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -2599,6 +2600,9 @@ function ResellerClaimList(props) {
               <Card className="px-8 pb-4 pt-2 drop-shadow-4xl mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+                  {isThreshold &&
+                    <p className="pb-5 text-base text-red-500 hidden font-semibold">You are Cross the Threshold Limit</p>
+                  }
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $

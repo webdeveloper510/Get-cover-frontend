@@ -176,6 +176,21 @@ export const editUserDetailsbyToken = async (data) => {
   }
 };
 
+export const updateThreshHoldLimit = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updateThreshHoldLimit`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 export const changePasswordbyToken = async (data) => {
   const headers = createHeaders();
   try {

@@ -7,6 +7,8 @@ import { getSetting } from './services/extraServices';
 
 function App() {
   const [siteSettings, setSiteSettings] = useState(null);
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
   const routing = useRoutes(routes);
 
   useEffect(() => {
@@ -19,7 +21,20 @@ function App() {
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
           const fetchedData = userDetails.result[0];
           localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
-          setSiteSettings(fetchedData); 
+          setSiteSettings(fetchedData);
+          const colorScheme = fetchedData.colorScheme;
+          colorScheme.forEach(color => {
+            switch (color.colorType) {
+              case 'sideBarColor':
+                setSideBarColor(color.colorCode);
+                break;
+              case 'sideBarTextColor':
+                setSideBarTextColor(color.colorCode);
+                break;
+              default:
+                break;
+            }
+          })
         } else {
           console.log("User details are invalid or empty.");
         }
@@ -32,7 +47,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log('herrrrrrrrrrrrrrrrrrrrrr',siteSettings)
+    console.log('herrrrrrrrrrrrrrrrrrrrrr', siteSettings)
     if (siteSettings) {
       console.log("User details are valid, updating favicon...");
       let link = document.querySelector("link[rel~='icon']");
@@ -50,6 +65,14 @@ function App() {
   return (
     <MyContextProvider>
       <div>
+        <style>
+          {`
+        .rdt_Pagination {
+          background-color: ${sideBarColor} !important;
+          color: ${sideBarTextColor} !important;
+        }
+      `}
+        </style>
         {routing}
       </div>
     </MyContextProvider>

@@ -32,6 +32,7 @@ import {
   sendNotifications,
   resetSetting,
   resetDefault,
+  updateThreshHoldLimit,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -63,6 +64,7 @@ function Account() {
   const [loading, setLoading] = useState(false);
   const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createthreshold, setCreatethreshold] = useState("no");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [lastMessage, setLastMessage] = useState("");
@@ -450,6 +452,13 @@ function Account() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+
+  const handleRadioChange1 = (event) => {
+    const selectedValue = event.target.value;
+    // console.log(selectedValue);
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreatethreshold(selectedValue);
+  };
   const formikEmail = useFormik({
     initialValues: {
       notificationTo: [],
@@ -799,7 +808,7 @@ function Account() {
       setterFunction(null);
     }
   };
-
+  const [thresholdAmount, setThresholdAmount] = useState("");
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
@@ -1149,6 +1158,39 @@ function Account() {
     setValues((prev) => prev.map(() => ''));
   };
 
+  const handleThresholdChange = (e) => {
+    setThresholdAmount(e.target.value);
+    formik.handleChange(e);
+  };
+
+  const thresholdLimit = useFormik({
+    initialValues: {
+      value: "",
+    },
+    validationSchema: Yup.object({
+      value: Yup.number()
+        .max(100, "Cannot enter more than 100%")
+        .min(0, "Cannot enter less than 0%")
+        .required("Threshold value is required"),
+    }),
+    onSubmit: async (values) => {
+      const payload = {
+        threshHoldLimit: {
+          amountType: "percentage",
+          value: parseFloat(values.value),
+        },
+      };
+
+      try {
+        const response = await updateThreshHoldLimit(payload);
+        console.log("Threshold updated:", response.data);
+      } catch (error) {
+        console.error("Error updating threshold:", error);
+      }
+    },
+  });
+
+
   return (
     <>
       {loading ? (
@@ -1394,6 +1436,67 @@ function Account() {
                     </div>
                   </Grid>
                 </>
+                <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                <Grid>
+                  <div className="col-span-6">
+                    <p className=" flex text-[16px] font-semibold mt-3 mb-6">
+                      Do you want to add threshold limit?
+                      <RadioButton
+                        id="yes-add-threshold"
+                        label="Yes"
+                        value="yes"
+                        checked={createthreshold === "yes"}
+                        onChange={handleRadioChange1}
+                      />
+                      <RadioButton
+                        id="no-add-threshold"
+                        label="No"
+                        value="no"
+                        checked={createthreshold === "no"}
+                        onChange={handleRadioChange1}
+                      />
+                    </p>
+                  </div>
+                  <div className="col-span-6">
+                    {createthreshold === "yes" &&
+                      <>
+                        <form onSubmit={thresholdLimit.handleSubmit}>
+                          <Grid className="">
+                            <div className="relative col-span-9">
+                              <Input
+                                type="number"
+                                name="value"
+                                label="Threshold Amount"
+                                className="!bg-white"
+                                maxDecimalPlaces={2}
+                                minLength="1"
+                                maxLength="10"
+                                value={thresholdLimit.values.value}
+                                onChange={thresholdLimit.handleChange}
+                                onBlur={thresholdLimit.handleBlur}
+                              />
+
+                              <div className="absolute top-[10px] right-[13px]">
+                                <p className="h-full text-2xl">%</p>
+                              </div>
+                              {thresholdLimit.errors.value && thresholdLimit.touched.value && (
+                                <div className="text-red-500">{thresholdLimit.errors.value}</div>
+                              )}
+                            </div>
+                            <div className="col-span-3 self-center text-right">
+                              <Button type="submit" className='ml-3 '>
+                                Save
+                              </Button>
+                            </div>
+                          </Grid>
+                        </form>
+
+                      </>
+                    }
+                  </div>
+                </Grid>
+
+
                 <p className="text-xl font-semibold mb-3">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
@@ -1697,8 +1800,8 @@ function Account() {
                           className1="h-11"
                           tooltip="1"
                           className="!bg-white  flex"
-                          content='you can change the sideBar Background color here'
-                          label="SideBar Color"
+                          content='you can change the Theme Background color here'
+                          label="Theme Color"
                           placeholder=""
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                         />
@@ -1710,8 +1813,8 @@ function Account() {
                           className1="h-11"
                           tooltip="2"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar text color here'
-                          label="SideBar text Color"
+                          content='you can change the Theme text color here'
+                          label="Theme text Color"
                           placeholder=""
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />

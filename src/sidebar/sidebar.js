@@ -1008,47 +1008,57 @@ function SideBar() {
   ));
 
   return (
-    <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
-      <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
-        <img
-          src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-          className="mx-auto py-6 w-full px-5"
-          alt="logo"
-        />
-        <hr className="border-Gray28 border-[1px]" />
-        <div className="shadow-sm h-full">
-          <div className="mx-auto h-full mt-6">
-            <ul className="pb-5">
-              {renderSidebarItems}
-              <li
-                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
-                onClick={handleLogOut}
-              >
-                <div className="py-[22px] pe-3 ps-[10px] flex">
-                  <div
-                    className="w-[22px] h-[22px]"
-                    style={{
-                      maskImage: `url(${LogoutImage})`,
-                      WebkitMaskImage: `url(${LogoutImage})`,
-                      backgroundColor: sideBarTextColor,
-                      maskRepeat: 'no-repeat',
-                      WebkitMaskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      WebkitMaskPosition: 'center',
-                      maskSize: 'contain',
-                      WebkitMaskSize: 'contain'
-                    }}
-                  />
-                  <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
-                    Logout
-                  </span>
-                </div>
-              </li>
-            </ul>
+    <>
+      <style>
+        {`
+        .rdt_Pagination {
+          background-color: ${sideBarColor} !important;
+          color: ${sideBarTextColor} !important;
+        }
+      `}
+      </style>
+      <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
+        <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
+          <img
+            src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
+            className="mx-auto py-6 w-full px-5"
+            alt="logo"
+          />
+          <hr className="border-Gray28 border-[1px]" />
+          <div className="shadow-sm h-full">
+            <div className="mx-auto h-full mt-6">
+              <ul className="pb-5">
+                {renderSidebarItems}
+                <li
+                  className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
+                  onClick={handleLogOut}
+                >
+                  <div className="py-[22px] pe-3 ps-[10px] flex">
+                    <div
+                      className="w-[22px] h-[22px]"
+                      style={{
+                        maskImage: `url(${LogoutImage})`,
+                        WebkitMaskImage: `url(${LogoutImage})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
+                      Logout
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
