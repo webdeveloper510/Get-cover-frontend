@@ -1365,7 +1365,7 @@ function ClaimList12(props) {
                                           Claim Amount
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
-                                          ${calculateTotalCost(res?.repairParts)}
+                                        ${res.totalAmount.toFixed(2)}
                                         </p>
                                       </div>
                                     </div>
@@ -1442,9 +1442,10 @@ function ClaimList12(props) {
                                             <span className="font-semibold text-white ml-3">
                                               {" "}
                                               $
-                                              {calculateTotalCost(
+                                              {/* {calculateTotalCost(
                                                 res.repairParts
-                                              )}{" "}
+                                              )} */}
+                                              {" "}
                                             </span>
                                           </p>
                                           <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
