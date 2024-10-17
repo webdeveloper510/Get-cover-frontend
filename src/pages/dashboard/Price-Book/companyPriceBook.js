@@ -308,7 +308,7 @@ function CompanyPriceBook() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
+                  selectedAction === row._id ? null : row._id
                 )
               }
             >
@@ -318,7 +318,7 @@ function CompanyPriceBook() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row._id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
