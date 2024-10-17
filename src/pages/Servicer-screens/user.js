@@ -38,6 +38,7 @@ import dealer from "../../assets/images/Dealer/Name.svg";
 import { useMyContext } from "../../context/context";
 import { getSevicerDetailPortal } from "../../services/customerServices";
 import Card from "../../common/card";
+import SingleView from "../../common/singleView";
 
 function ServicerUser() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -664,7 +665,7 @@ function ServicerUser() {
           </div>
 
           {/* <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative"> */}
-          <div className="bg-Edit bg-cover mt-5 px-8 py-4 rounded-[30px]">
+          <SingleView className="bg-Edit bg-cover mt-5 px-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
                 <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
@@ -713,7 +714,7 @@ function ServicerUser() {
               </div>
               <div className="col-span-2"></div>
             </Grid>
-          </div>
+          </SingleView>
           <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative z-10">
             <p className="text-xl font-semibold mb-3">Change Password</p>
 

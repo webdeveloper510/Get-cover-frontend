@@ -31,6 +31,7 @@ import {
 } from "../../../services/extraServices";
 import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
+import SingleView from "../../../common/singleView";
 function EditContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractDetails, setContractDetails] = useState({});
@@ -140,7 +141,7 @@ function EditContract() {
           </div>
         ) : (
           <>
-            <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
               <Grid className="mx-auto ">
                 <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">
@@ -425,7 +426,7 @@ function EditContract() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
 
             <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
               <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">

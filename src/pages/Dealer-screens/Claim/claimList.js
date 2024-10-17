@@ -1389,7 +1389,7 @@ function ClaimList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt="productName"
                                 />
-                                <div className="py-4 pl-3 self-center">
+                                <div className="py-4 px-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Dealer SKU
                                   </p>
@@ -1404,7 +1404,7 @@ function ClaimList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt=""
                                 />
-                                <div className="py-4 pl-3 self-center">
+                                <div className="py-4 px-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Product Manufacturer
                                   </p>
@@ -1419,7 +1419,7 @@ function ClaimList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt=""
                                 />
-                                <div className="py-4 pl-3 self-center">
+                                <div className="py-4 px-3 self-center">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Product Model
                                   </p>
@@ -1434,7 +1434,7 @@ function ClaimList(props) {
                                   className="self-center h-[50px] w-[50px] ml-3"
                                   alt=""
                                 />
-                                <div className="py-4 pl-3 self-center w-[67%]">
+                                <div className="py-4 px-3 self-center w-[67%]">
                                   <p className="text-[#4a4a4a] text-[11px] font-Regular">
                                     Product Serial / Device ID
                                   </p>
@@ -1454,7 +1454,7 @@ function ClaimList(props) {
                               res?.repairParts.map((part, index) => (
                                 <>
                                   <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
-                                    <div className="py-4 pl-3">
+                                    <div className="py-4 px-3">
                                       <p className="text-white text-sm font-Regular">
                                         Service Type
                                       </p>
@@ -1464,7 +1464,7 @@ function ClaimList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
-                                    <div className="py-4 pl-3">
+                                    <div className="py-4 px-3">
                                       <p className="text-white text-sm font-Regular">
                                         Description
                                       </p>
@@ -1474,7 +1474,7 @@ function ClaimList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-2 bg-light-black border-b border-Gray28">
-                                    <div className="py-4 pl-3">
+                                    <div className="py-4 px-3">
                                       <p className="text-white text-sm font-Regular">
                                         Price
                                       </p>
@@ -1575,32 +1575,32 @@ function ClaimList(props) {
                                     </p>
 
                                     {res.selfServicer ? (
-  <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-    <span className="self-center mr-4">Coverage Type:</span>
-    <Select
-      name="claimType"
-      label=""
-      value={claimType}
-      onChange={handleSelectChange}
-      white
-      disabled={
-        claimStatus.status === "rejected" ||
-        claimStatus.status === "completed"
-      }
-      options={claimList?.result?.[activeIndex]?.contracts?.mergedData}
-      OptionName="Claim Type"
-      className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-      classBox="w-[55%]"
-    />
-  </p>
-) : (
-  <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-  <span className="self-center mr-4">Coverage Type:</span>
-  <>{claimType}</>
-  </p>
-)}
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center mr-4">Coverage Type:</span>
+                                        <Select
+                                          name="claimType"
+                                          label=""
+                                          value={claimType}
+                                          onChange={handleSelectChange}
+                                          white
+                                          disabled={
+                                            claimStatus.status === "rejected" ||
+                                            claimStatus.status === "completed"
+                                          }
+                                          options={claimList?.result?.[activeIndex]?.contracts?.mergedData}
+                                          OptionName="Claim Type"
+                                          className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                          classBox="w-[55%]"
+                                        />
+                                      </p>
+                                    ) : (
+                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <span className="self-center mr-4">Coverage Type:</span>
+                                        <>{claimType}</>
+                                      </p>
+                                    )}
 
-                      
+
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                       <span className="self-center w-[75px]  mr-[1rem]">
                                         {shipment.label}:

@@ -20,6 +20,7 @@ import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../../common/select';
 import DateInput from '../../../common/dateInput';
+import SingleView from '../../../common/singleView';
 function CustomerEditContract() {
     const [showTooltip, setShowTooltip] = useState(false);
     const status = [
@@ -62,8 +63,8 @@ function CustomerEditContract() {
                     </div>
                 </div>
 
-                <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
-                    <Grid className="mx-8 mx-auto ">
+                <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+                    <Grid className="mx-8 ">
                         <div className="col-span-3 self-center border-r border-[#4e4e4e]">
                             <div className="flex">
                                 <div className="self-center backdrop-blur mr-4">
@@ -125,7 +126,7 @@ function CustomerEditContract() {
                             </div>
                         </div>
                     </Grid>
-                    <Grid className="mx-8 mt-2  mx-auto ">
+                    <Grid className="mx-8 mt-2 ">
                         <div className="col-span-3 self-center pt-2 border-t border-[#4e4e4e]">
                             <div className="flex w-full border-r border-[#4e4e4e]">
                                 <div className="self-center backdrop-blur  mr-4">
@@ -187,7 +188,7 @@ function CustomerEditContract() {
                             </div>
                         </div>
                     </Grid>
-                </div>
+                </SingleView>
 
                 <form className="mt-8 mr-4">
                     <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">

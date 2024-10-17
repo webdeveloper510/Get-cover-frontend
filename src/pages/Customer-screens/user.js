@@ -46,6 +46,7 @@ import {
   addSuperAdminMembers,
   changePasswordbyToken,
 } from "../../services/extraServices";
+import SingleView from "../../common/singleView";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
@@ -731,7 +732,7 @@ function CustomerUser() {
           </div>
 
           <div className="px-4 relative">
-            <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
                   <p className="text-base text-white font-semibold my-3">
@@ -887,7 +888,7 @@ function CustomerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
-            </div>
+            </SingleView>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-5">Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>

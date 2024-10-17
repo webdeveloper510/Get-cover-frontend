@@ -49,7 +49,7 @@ module.exports = {
         'hero-pattern': "url('/src/assets/images/Bg.png')",
         'hero-register': "url('/src/assets/images/register_banner.png')",
         'Dropdown': "url('/src/assets/images/DropdownImage.png')",
-        'Edit': "url('/src/assets/images/Edit-Dealer.svg')",
+        'Edit': "url('/src/assets/images/Edit-Dealer.png')",
         'Dealer-details': "url('/src/assets/images/Mask_group.png')",
         'Dealer-detail': "url('/src/assets/images/Dealer-Detail.png')",
         'contract': "url('/src/assets/images/contract-head.svg')",
