@@ -1339,7 +1339,7 @@ function ClaimList(props) {
                                           Claim Amount
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
-                                          ${calculateTotalCost(res.repairParts)}
+                                          ${calculateTotalCost(res?.repairParts)}
                                         </p>
                                       </div>
                                     </div>
