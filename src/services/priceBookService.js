@@ -180,7 +180,7 @@ export const getCovrageList = async () => {
   const headers = createHeaders();
 
   try {
-    const response = await axios.get(`${url}/user/getOptions/coverage_type`, {
+    const response = await axios.get(`${url}/user/getOption/coverage_type`, {
       headers,
     });
 

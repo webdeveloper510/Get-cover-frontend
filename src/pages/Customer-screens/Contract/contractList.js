@@ -337,7 +337,7 @@ function CustomerContractList(props) {
                         </SingleView>
                         <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                           <div className="col-span-1 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Manufacturer
                               </p>
@@ -347,7 +347,7 @@ function CustomerContractList(props) {
                             </div>
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Model
                               </p>
@@ -357,7 +357,7 @@ function CustomerContractList(props) {
                             </div>
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Serial
                               </p>
@@ -367,7 +367,7 @@ function CustomerContractList(props) {
                             </div>
                           </div>
                           <div className="col-span-1 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Status
                               </p>
@@ -377,7 +377,7 @@ function CustomerContractList(props) {
                             </div>
                           </div>
                           <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Eligibility
                               </p>
@@ -622,7 +622,7 @@ function CustomerContractList(props) {
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Manufacturer
                       </p>
@@ -632,7 +632,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Model
                       </p>
@@ -642,7 +642,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-[#5D6E66] text-sm font-Regular">
                         Serial # / Device ID
                       </p>
@@ -652,7 +652,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Condition
                       </p>
@@ -662,7 +662,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Retail Price
                       </p>
@@ -678,7 +678,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Servicer Name
                       </p>
@@ -688,7 +688,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Status
                       </p>
@@ -698,7 +698,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Product Category
                       </p>
@@ -711,7 +711,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Dealer SKU
                       </p>
@@ -721,7 +721,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Product Name
                       </p>
@@ -731,7 +731,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Product Description
                       </p>
@@ -744,7 +744,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Price Type
                       </p>
@@ -757,7 +757,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Eligibility
                       </p>
@@ -786,7 +786,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Claim Amount
                       </p>
@@ -804,7 +804,7 @@ function CustomerContractList(props) {
                     "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="font-bold text-sm font-Regular">
                             Start Range
                           </p>
@@ -822,7 +822,7 @@ function CustomerContractList(props) {
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="font-bold text-sm font-Regular">
                             End Range
                           </p>
@@ -845,7 +845,7 @@ function CustomerContractList(props) {
                   )}
 
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Coverage Start Date
                       </p>
@@ -861,7 +861,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Coverage End Date
                       </p>
@@ -877,7 +877,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Manufacturer Labour Warranty End Date
                       </p>
@@ -893,7 +893,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Manufacturer Parts Warranty End Date
                       </p>
@@ -909,7 +909,7 @@ function CustomerContractList(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="font-bold text-sm font-Regular">
                         Purchase Date
                       </p>

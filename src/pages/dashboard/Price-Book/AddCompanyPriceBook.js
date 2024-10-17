@@ -29,6 +29,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
+import SingleView from "../../../common/singleView";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -497,7 +498,7 @@ function AddCompanyPriceBook() {
             </p>
           )} */}
           {type == "Edit" && (
-            <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-auto !grid-cols-12">
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
@@ -568,7 +569,7 @@ function AddCompanyPriceBook() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Card className="px-8 pb-8 pt-6 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">

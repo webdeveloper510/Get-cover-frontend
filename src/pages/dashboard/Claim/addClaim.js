@@ -1209,7 +1209,7 @@ function AddClaim() {
                 <div className="bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
                   <Grid className="!gap-0 !grid-cols-5">
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Manufacturer
                         </p>
@@ -1219,7 +1219,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Model
                         </p>
@@ -1229,7 +1229,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Serial # / Device ID
                         </p>
@@ -1239,7 +1239,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Condition
                         </p>
@@ -1249,7 +1249,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Retail Price
                         </p>
@@ -1269,7 +1269,7 @@ function AddClaim() {
                       role !== "Customer" &&
                       role !== "Dealer" && (
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Dealer Name
                             </p>
@@ -1282,7 +1282,7 @@ function AddClaim() {
 
                     {role !== "Reseller" && role !== "Customer" && (
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Reseller Name
                           </p>
@@ -1295,7 +1295,7 @@ function AddClaim() {
 
                     {role !== "Customer" && (
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-[#5D6E66] text-sm font-Regular">
                             Customer Name
                           </p>
@@ -1307,7 +1307,7 @@ function AddClaim() {
                     )}
 
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Servicer Name
                         </p>
@@ -1317,7 +1317,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Status
                         </p>
@@ -1327,7 +1327,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Product Category
                         </p>
@@ -1343,7 +1343,7 @@ function AddClaim() {
                       role !== "Customer" &&
                       role !== "Dealer" && (
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product SKU
                             </p>
@@ -1357,7 +1357,7 @@ function AddClaim() {
                         </div>
                       )}
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Dealer SKU
                         </p>
@@ -1369,7 +1369,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Product Name
                         </p>
@@ -1382,7 +1382,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Price Type
                         </p>
@@ -1395,7 +1395,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-2 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Product Description
                         </p>
@@ -1409,7 +1409,7 @@ function AddClaim() {
                     </div>
 
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Eligibility
                         </p>
@@ -1421,7 +1421,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Claim Amount
                         </p>
@@ -1440,7 +1440,7 @@ function AddClaim() {
                       "Flat Pricing" ? (
                       <>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Start Range
                             </p>
@@ -1457,7 +1457,7 @@ function AddClaim() {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               End Range
                             </p>
@@ -1478,7 +1478,7 @@ function AddClaim() {
                       ""
                     )}
                     <div className="col-span-1 border border-Light-Grey ">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Coverage Start Date
                         </p>
@@ -1494,7 +1494,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Coverage End Date
                         </p>
@@ -1510,7 +1510,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Manufacturer Labour Warranty End Date
                         </p>
@@ -1526,7 +1526,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Manufacturer Parts Warranty End Date
                         </p>
@@ -1542,7 +1542,7 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
-                      <div className="py-4 pl-3">
+                      <div className="py-4 px-3">
                         <p className="text-[#5D6E66] text-sm font-Regular">
                           Purchase Date
                         </p>

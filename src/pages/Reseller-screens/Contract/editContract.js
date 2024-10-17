@@ -20,19 +20,20 @@ import Headbar from '../../../common/headBar';
 import { Link } from 'react-router-dom';
 import Select from '../../../common/select';
 import DateInput from '../../../common/dateInput';
+import SingleView from '../../../common/singleView';
 function ResellerEditContract() {
     const [showTooltip, setShowTooltip] = useState(false);
     const status = [
         { label: "Active", value: true },
         { label: "Inactive", value: false },
-      ];
-      const CoverageStartDate = [
+    ];
+    const CoverageStartDate = [
         { label: "11/09/2026", value: true },
         { label: "12/09/2026", value: false },
-      ];
-      const [item, setItem] = useState({
-        requested_order_ship_date: '2024-02-05', 
-      });
+    ];
+    const [item, setItem] = useState({
+        requested_order_ship_date: '2024-02-05',
+    });
     return (
         <>
             <div className="mb-8 ml-3">
@@ -62,12 +63,12 @@ function ResellerEditContract() {
                     </div>
                 </div>
 
-                <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+                <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
                     <Grid className="mx-auto">
                         <div className="col-span-3 self-center border-r border-[#4e4e4e]">
                             <div className="flex">
                                 <div className="self-center backdrop-blur mr-4">
-                                    <img src={contract}  alt="category" />
+                                    <img src={contract} alt="category" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-white text-base font-medium leading-5	">
@@ -112,7 +113,7 @@ function ResellerEditContract() {
                         <div className="col-span-3">
                             <div className="flex">
                                 <div className="self-center backdrop-blur  mr-4">
-                                    <img src={delaerName}  alt="product" />
+                                    <img src={delaerName} alt="product" />
                                 </div>
                                 <div className="self-center">
                                     <p className="text-white text-base font-medium leading-5	">
@@ -187,84 +188,84 @@ function ResellerEditContract() {
                             </div>
                         </div>
                     </Grid>
-                </div>
+                </SingleView>
 
                 <form className="mt-8 mr-4">
-                  <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
-                    <p className='pb-5 text-lg font-semibold'>Contracts</p>
-                    <Grid className='!grid-cols-4'>
-                      <div className='col-span-1'>
-                        <Input type='text' 
-                         name="Manufacturer"
-                        className="!bg-white"
-                        label="Manufacturer"
-                        required={true}
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1'>
-                        <Input type='text' 
-                         name="Model"
-                        className="!bg-white"
-                        label="Model"
-                        required={true}
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1'>
-                        <Input type='text' 
-                         name="Serial"
-                        className="!bg-white"
-                        label="Serial"
-                        required={true}
-                        placeholder="" />
-                      </div>
-                     
-                      <div className='col-span-1'>
-                        <Input type='text' 
-                         name="RetailPrice"
-                        className="!bg-white"
-                        label="Retail Price($)"
-                        required={true}
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1'>
-                        <Input type='text' 
-                         name="Condition"
-                        className="!bg-white"
-                        label="Condition"
-                        required={true}
-                        placeholder="" />
-                      </div>
-                      <div className='col-span-1'>
-                      {/* <Input type='date' 
+                    <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+                        <p className='pb-5 text-lg font-semibold'>Contracts</p>
+                        <Grid className='!grid-cols-4'>
+                            <div className='col-span-1'>
+                                <Input type='text'
+                                    name="Manufacturer"
+                                    className="!bg-white"
+                                    label="Manufacturer"
+                                    required={true}
+                                    placeholder="" />
+                            </div>
+                            <div className='col-span-1'>
+                                <Input type='text'
+                                    name="Model"
+                                    className="!bg-white"
+                                    label="Model"
+                                    required={true}
+                                    placeholder="" />
+                            </div>
+                            <div className='col-span-1'>
+                                <Input type='text'
+                                    name="Serial"
+                                    className="!bg-white"
+                                    label="Serial"
+                                    required={true}
+                                    placeholder="" />
+                            </div>
+
+                            <div className='col-span-1'>
+                                <Input type='text'
+                                    name="RetailPrice"
+                                    className="!bg-white"
+                                    label="Retail Price($)"
+                                    required={true}
+                                    placeholder="" />
+                            </div>
+                            <div className='col-span-1'>
+                                <Input type='text'
+                                    name="Condition"
+                                    className="!bg-white"
+                                    label="Condition"
+                                    required={true}
+                                    placeholder="" />
+                            </div>
+                            <div className='col-span-1'>
+                                {/* <Input type='date' 
                         name="Coverage Start Date"
                         label="Coverage Start Date"
                         required={true}
                         className="!bg-white"
                         placeholder=""/> */}
-                         <DateInput
-                         name="Coverage Start Date"
-                         label="Coverage Start Date"
-                        required 
-                        item={item}
-                        setItem={setItem}
-                        className="!bg-white" />
-                      </div>
-                      <div className='col-span-1'>
-                      <Select
-                        name="Status"
-                        label="Status"
-                        options={status}
-                        required={true}
-                        className="!bg-white"
-                        placeholder=""/>
-                      </div>
-                    </Grid>
+                                <DateInput
+                                    name="Coverage Start Date"
+                                    label="Coverage Start Date"
+                                    required
+                                    item={item}
+                                    setItem={setItem}
+                                    className="!bg-white" />
+                            </div>
+                            <div className='col-span-1'>
+                                <Select
+                                    name="Status"
+                                    label="Status"
+                                    options={status}
+                                    required={true}
+                                    className="!bg-white"
+                                    placeholder="" />
+                            </div>
+                        </Grid>
 
-                    <div className='mt-8'>
-                    <Button className='!bg-white !text-black' >Cancel</Button>
-                    <Button>Update</Button>
+                        <div className='mt-8'>
+                            <Button className='!bg-white !text-black' >Cancel</Button>
+                            <Button>Update</Button>
+                        </div>
                     </div>
-                  </div>
                 </form>
             </div>
 

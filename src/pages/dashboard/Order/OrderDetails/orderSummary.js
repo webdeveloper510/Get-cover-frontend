@@ -76,7 +76,7 @@ function OrderSummary(props) {
 
                       <Grid className="!gap-0 bg-grayf9">
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Category
                             </p>
@@ -86,7 +86,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Name
                             </p>
@@ -96,7 +96,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price Type
                             </p>
@@ -106,7 +106,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Unit Price
                             </p>
@@ -121,7 +121,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-6 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
                             </p>
@@ -132,7 +132,7 @@ function OrderSummary(props) {
                         </div>
 
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Term
                             </p>
@@ -143,7 +143,7 @@ function OrderSummary(props) {
                         </div>
 
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               # of Products
                             </p>
@@ -153,7 +153,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price
                             </p>
@@ -168,7 +168,7 @@ function OrderSummary(props) {
                         </div>
                         {/* {props.shown === false && (
                           <div className="col-span-3 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 ADH (Waiting Days)
                               </p>
@@ -180,7 +180,7 @@ function OrderSummary(props) {
                         )} */}
 
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
                             </p>
@@ -193,7 +193,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
                             </p>
@@ -208,7 +208,7 @@ function OrderSummary(props) {
                         {res.priceType == "Flat Pricing" && (
                           <>
                             <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
+                              <div className="py-4 px-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Start Range
                                 </p>
@@ -223,7 +223,7 @@ function OrderSummary(props) {
                               </div>
                             </div>
                             <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
+                              <div className="py-4 px-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   End Range
                                 </p>
@@ -371,7 +371,7 @@ function OrderSummary(props) {
                         </div>
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
-                            <div className="col-span-9 py-4 pl-3">
+                            <div className="col-span-9 py-4 px-3">
                               <div className="">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Note

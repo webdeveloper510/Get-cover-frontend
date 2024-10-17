@@ -49,6 +49,7 @@ import PasswordInput from "../../common/passwordInput";
 import deleteUser123 from "../../assets/images/Disapproved.png";
 import Cross from "../../assets/images/Cross.png";
 import Card from "../../common/card";
+import SingleView from "../../common/singleView";
 
 function ResellerUser() {
   const { toggleFlag } = useMyContext();
@@ -720,7 +721,7 @@ function ResellerUser() {
           </div>
 
           <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
-            <div className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
                   <p className="text-base text-white font-semibold my-3">
@@ -822,7 +823,7 @@ function ResellerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
-            </div>
+            </SingleView>
             <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-5">Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>

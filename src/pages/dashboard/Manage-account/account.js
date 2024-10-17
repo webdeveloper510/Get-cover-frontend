@@ -50,6 +50,7 @@ import Card from "../../../common/card";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import SwitchButton from "../../../common/switch";
 import { editOption, getOptions } from "../../../services/claimServices";
+import SingleView from "../../../common/singleView";
 
 function Account() {
   const [repairValue, repair_status] = useState({});
@@ -1022,7 +1023,7 @@ function Account() {
         "coverage_type",
         "claim_status",
       ];
-      const result = await getOptions(data,0);
+      const result = await getOptions(data, 0);
       const stateSetters = {
         repair_status,
         shipment_type,
@@ -1870,11 +1871,13 @@ function Account() {
                     index={index} // Pass the index to the child
                     imageClass="w-10 h-10"
                     title={
-                      <Grid className="border-Gray28 border !gap-2 bg-Dealer-detail bg-cover rounded-t-[22px]">
-                        <div className="col-span-12 px-4 py-2">
-                          <p className="text-lg font-bold text-white">{section.title}</p>
-                        </div>
-                      </Grid>
+                      <SingleView className="border-Gray28 border bg-Dealer-detail bg-cover rounded-t-[22px]">
+                        <Grid className=" !gap-2 ">
+                          <div className="col-span-12 px-4 py-2">
+                            <p className="text-lg font-bold text-white">{section.title}</p>
+                          </div>
+                        </Grid>
+                      </SingleView>
                     }
                   >
                     <div className="p-4 border">

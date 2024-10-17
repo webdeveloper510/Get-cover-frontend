@@ -231,7 +231,7 @@ function Contracts(props) {
 
                       <Grid className="!gap-0 !grid-cols-8 bg-grayf9 mb-5">
                         <div className="col-span-2 border border-Light-Grey rounded-es-xl">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Manufacturer
                             </p>
@@ -241,7 +241,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Model
                             </p>
@@ -251,7 +251,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Serial
                             </p>
@@ -261,7 +261,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
                             </p>
@@ -271,7 +271,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Retail Price
                             </p>
@@ -287,7 +287,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Condition
                             </p>
@@ -297,7 +297,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
                             </p>
@@ -307,7 +307,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
                             </p>
@@ -317,7 +317,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Claim Amount
                             </p>
@@ -327,7 +327,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-es-xl	">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Status
                             </p>
@@ -338,7 +338,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Eligibility
                             </p>
@@ -410,7 +410,7 @@ function Contracts(props) {
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Dealer Name
                       </p>
@@ -420,7 +420,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
@@ -430,7 +430,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Customer Name
                       </p>
@@ -440,7 +440,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Servicer Name
                       </p>
@@ -450,7 +450,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Claim Amount
                       </p>
@@ -465,7 +465,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Category
                       </p>
@@ -478,7 +478,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Name
                       </p>
@@ -488,7 +488,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Description
                       </p>
@@ -501,7 +501,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Price Type
                       </p>
@@ -514,7 +514,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Condition
                       </p>
@@ -524,7 +524,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-es-xl">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Retail Price
                       </p>
@@ -542,7 +542,7 @@ function Contracts(props) {
                     "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-sm font-Regular">
                             Start Range
                           </p>
@@ -559,7 +559,7 @@ function Contracts(props) {
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-sm font-Regular">
                             End Range
                           </p>
@@ -581,7 +581,7 @@ function Contracts(props) {
                   )}
 
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Coverage Start Date
                       </p>
@@ -597,7 +597,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Coverage End Date
                       </p>

@@ -473,7 +473,7 @@ function DealerAddClaim() {
 
             <Grid className="!gap-0 !grid-cols-5 bg-grayf9">
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Manufacturer
                   </p>
@@ -483,7 +483,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">Model</p>
                   <p className="text-light-black text-base font-semibold">
                     Apple iPad 5th Gen, 30GB
@@ -491,7 +491,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">Serial</p>
                   <p className="text-light-black text-base font-semibold">
                     GG7W212JHLF12
@@ -499,7 +499,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Retail Price
                   </p>
@@ -507,7 +507,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Condition
                   </p>
@@ -517,7 +517,7 @@ function DealerAddClaim() {
             </Grid>
             <Grid className="!gap-0 !grid-cols-3 bg-grayf9 mb-5">
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Reseller Name
                   </p>
@@ -527,7 +527,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Customer Name
                   </p>
@@ -537,7 +537,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Servicer Name
                   </p>
@@ -547,7 +547,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey rounded-es-xl">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Claim Amount
                   </p>
@@ -557,7 +557,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey ">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Coverage Start Date
                   </p>
@@ -567,7 +567,7 @@ function DealerAddClaim() {
                 </div>
               </div>
               <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                <div className="py-4 pl-3">
+                <div className="py-4 px-3">
                   <p className="text-[#5D6E66] text-sm font-Regular">
                     Coverage End Date
                   </p>
