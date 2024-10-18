@@ -963,10 +963,7 @@ function ResellerAddOrder() {
           newClaimInCoveragePeriod[match[1]] = data1?.noOfClaimPerPeriod === -1;
           return newClaimInCoveragePeriod;
         });
-        formikStep3.setFieldValue(
-          `productsArray[${match[1]}].adhDays`,
-          data1.adhDays
-        );
+    
         formikStep3.setFieldValue(
           `productsArray[${match[1]}].noOfClaim`,
           data1.noOfClaim
@@ -1069,15 +1066,12 @@ function ResellerAddOrder() {
     }
 
     if (name.includes("priceBookId")) {
-      const data = productNameOptions[productIndex]?.data.find(
-        (value) => value.value === selectedValue
-      );
-
+    
       clearProductFields();
       updateProductFields(selectedValue);
       console.log(selectedValue);
 
-      getCategoryList(
+      const priceBookData=  await getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
@@ -1096,6 +1090,8 @@ function ResellerAddOrder() {
         },
         productIndex
       );
+    formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`,priceBookData.result.mergedData);
+
     }
     if (name.includes("term")) {
       updateProductFields(selectedValue);
@@ -1384,6 +1380,7 @@ function ResellerAddOrder() {
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);

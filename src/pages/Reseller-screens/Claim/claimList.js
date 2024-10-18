@@ -1572,7 +1572,7 @@ function ResellerClaimList(props) {
                                       )}
                                     </p>
 
-                                    {res.selfServicer && (
+                                    {res.selfServicer  ? (
                                       <>
                                         <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
                                           <span className="self-center mr-4">
@@ -1585,11 +1585,10 @@ function ResellerClaimList(props) {
                                             value={claimType}
                                             onChange={handleSelectChange}
                                             white
-
                                             disabled={
                                               claimStatus.status ===
                                               "rejected" ||
-                                              claimStatus.status === "completed"
+                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                             }
                                             options={claimList?.result?.[
                                               activeIndex
@@ -1601,6 +1600,17 @@ function ResellerClaimList(props) {
 
                                         </p>
                                       </>
+                                    ): (
+                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
+                                      <span className="self-center mr-4">Coverage Type:</span>
+                                      <>
+                                        {claimType === 'New'
+                                          ? 'N/A'
+                                          : claimList?.result?.[activeIndex]?.contracts?.mergedData?.find(
+                                            (item) => item.value === claimType
+                                          )?.label || ''}
+                                      </>
+                                    </p>
                                     )}
 
                                     <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">

@@ -1792,7 +1792,7 @@ function AllList(props) {
                                       </span>
                                     </div>
                                     {claimStatus.status == "rejected" ||
-                                      claimStatus.status == "completed" || role != "Servicer" ? (
+                                      claimStatus.status == "completed" || role == "Servicer" ? (
                                       <></>
                                     ) : (
                                       <div

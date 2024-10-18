@@ -1649,7 +1649,8 @@ function ClaimList(props) {
                                           </p>
                                         )}
 
-                                        {!isExcludedPath ?
+                                        {!isExcludedPath ||   claimList.result[activeIndex]
+                                            ?.selfServicer?
                                           (
                                             <>
                                               <p className=" mb-4 text-[11px] font-Regular flex self-center">
@@ -1682,8 +1683,16 @@ function ClaimList(props) {
                                           ) : (
                                             <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                               <span className="self-center mr-4">Coverage Type:</span>
-                                              <>{claimType}</>
+                                              <>
+                                                {claimType === 'New'
+                                                  ? 'N/A'
+                                                  : claimList?.result?.[activeIndex]?.contracts?.mergedData?.find(
+                                                    (item) => item.value === claimType
+                                                  )?.label || ''}
+                                              </>
                                             </p>
+
+
                                           )}
                                         <span className="self-center w-[75px] mr-[1rem] text-red-500">
                                         </span>
