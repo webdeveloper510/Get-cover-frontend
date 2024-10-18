@@ -95,6 +95,7 @@ function DealerPriceList() {
   ];
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     console.log(formik.values);
     // filterDataGetPriceBook();
   };
@@ -195,7 +196,7 @@ function DealerPriceList() {
       priceType: "",
       term: "",
       range: "",
-      coverageType: '',
+      coverageType: "",
       dealerSku: "",
     },
     validationSchema: Yup.object({

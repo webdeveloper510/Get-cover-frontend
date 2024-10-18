@@ -366,6 +366,7 @@ function DealerPriceBook(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     console.log(formik.values);
     priceBookData();
   };

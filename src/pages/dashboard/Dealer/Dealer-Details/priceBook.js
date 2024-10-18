@@ -522,6 +522,7 @@ function PriceBookList(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
   };
 
   useEffect(() => {
