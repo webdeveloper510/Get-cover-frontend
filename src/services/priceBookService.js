@@ -304,7 +304,7 @@ export const uploadCompanyPriceBookInBulk = async (data) => {
 
   try {
     const response = await axios.post(
-      `${url}/dealer/UploadPriceBook`,
+      `${url}/price/UploadPriceBook`,
       data,
       {
         headers,
