@@ -419,6 +419,7 @@ function CompanyPriceBook() {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     formik.values = {
       name: "",
       status: "",

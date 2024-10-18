@@ -279,6 +279,7 @@ function ResellerPriceBook(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     priceBookData({
       name: "",
       status: "",
