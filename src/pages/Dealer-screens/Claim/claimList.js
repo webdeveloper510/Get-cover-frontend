@@ -1059,7 +1059,7 @@ function ClaimList(props) {
   useEffect(() => {
     if (activeTab === "All Claims") {
       getAllClaims();
-      // getClaimOptions();
+       getClaimOptions('');
     }
   }, [props]);
 
@@ -3024,7 +3024,28 @@ function ClaimList(props) {
                   />
                 </div>
               ) : (
-            <></>
+                <>
+                  <div className="col-span-6">
+                    <Select
+                      options={customerValue}
+                      name="customerStatusValue"
+                      label="Customer Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.customerStatusValue}
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <Select
+                      options={repairValue}
+                      name="repairStatus"
+                      label="Repair Status"
+                      className="!bg-white"
+                      onChange={handleSelectChange2}
+                      value={formik1.values.repairStatus}
+                    />
+                  </div>
+                </>
               )} 
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
