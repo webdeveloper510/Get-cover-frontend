@@ -1275,7 +1275,7 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        {/* <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1286,7 +1286,7 @@ function ClaimList(props) {
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
-                        </div>
+                        </div> */}
                       </Grid>
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
@@ -3002,7 +3002,7 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("servicerName")}
                 />
               </div>
-              <div className="col-span-6">
+            <div className="col-span-6">
                 <Select
                   name="claimStatus"
                   label="Claim Status"
@@ -3024,29 +3024,8 @@ function ClaimList(props) {
                   />
                 </div>
               ) : (
-                <>
-                  <div className="col-span-6">
-                    <Select
-                      options={customerValue}
-                      name="customerStatusValue"
-                      label="Customer Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.customerStatusValue}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      options={repairValue}
-                      name="repairStatus"
-                      label="Repair Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.repairStatus}
-                    />
-                  </div>
-                </>
-              )}
+            <></>
+              )} 
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

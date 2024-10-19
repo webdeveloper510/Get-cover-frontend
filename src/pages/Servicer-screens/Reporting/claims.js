@@ -593,9 +593,6 @@ function AllList(props) {
     setShowForm(true);
   };
 
-  const handleToggle = () => {
-    setShowDetails(!showDetails);
-  };
   const handleSetActiveIndex = (index) => {
     setActiveIndex(index); // Update active index based on user action
   };
