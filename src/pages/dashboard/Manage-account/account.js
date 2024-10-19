@@ -455,7 +455,6 @@ function Account() {
 
   const handleRadioChange1 = (event) => {
     const selectedValue = event.target.value;
-    // console.log(selectedValue);
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreatethreshold(selectedValue);
   };
@@ -709,8 +708,10 @@ function Account() {
   const fetchUserMembers = async () => {
     try {
       const members = await getSuperAdminMembers();
-      console.log(members, "111111111111111111111111111111");
+      console.log(members.loginMember.threshHoldLimit.value, "111111111111111111111111111111");
       setMemberList(members.result);
+      setCreatethreshold(members.loginMember?.isThreshHoldLimit == false ? 'no' : 'yes')
+      thresholdLimit.setFieldValue("value", members.loginMember.threshHoldLimit.value);
       let arr = [];
       let arr1 = [];
       members?.result?.map((email) => {
@@ -1175,6 +1176,7 @@ function Account() {
     }),
     onSubmit: async (values) => {
       const payload = {
+        isThreshHoldLimit: createthreshold === 'yes' ? true : false,
         threshHoldLimit: {
           amountType: "percentage",
           value: parseFloat(values.value),
@@ -1183,7 +1185,7 @@ function Account() {
 
       try {
         const response = await updateThreshHoldLimit(payload);
-        console.log("Threshold updated:", response.data);
+        console.log("Threshold updated:", response);
       } catch (error) {
         console.error("Error updating threshold:", error);
       }
@@ -1436,7 +1438,7 @@ function Account() {
                     </div>
                   </Grid>
                 </>
-                <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                {/* <p className="text-xl font-semibold mb-3">Threshold Limit</p>
                 <Grid>
                   <div className="col-span-6">
                     <p className=" flex text-[16px] font-semibold mt-3 mb-6">
@@ -1466,7 +1468,7 @@ function Account() {
                               <Input
                                 type="number"
                                 name="value"
-                                label="Threshold Amount"
+                                label="% of Contract value"
                                 className="!bg-white"
                                 maxDecimalPlaces={2}
                                 minLength="1"
@@ -1494,7 +1496,7 @@ function Account() {
                       </>
                     }
                   </div>
-                </Grid>
+                </Grid> */}
 
 
                 <p className="text-xl font-semibold mb-3">Change Password</p>

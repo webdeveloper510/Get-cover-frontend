@@ -932,12 +932,14 @@ function ClaimList(props) {
       setShowdata1(false);
       addClaimsRepairParts(claimList.result[activeIndex]._id, values).then(
         (res) => {
-          getAllClaims(undefined, undefined, true);
+          let stemp = true
+          getAllClaims(undefined, undefined, true, stemp);
           setActiveIndex(activeIndex);
           setTrackerView(false);
           Shipment.resetForm();
         }
       );
+      console.log(activeIndex, '-----------activeIndex')
       setTimeout(() => {
         setLoading1(false);
         setShowdata1(true);
@@ -1085,7 +1087,7 @@ function ClaimList(props) {
     },
   });
 
-  const getAllClaims = async (page = 1, rowsPerPage, loader) => {
+  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp) => {
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1122,7 +1124,8 @@ function ClaimList(props) {
     getClaimListPromise
       .then((res) => {
         localStorage.removeItem("activeIndex");
-        setActiveIndex(null);
+        if (stemp) { }
+        else { setActiveIndex(null); }
         if (res) {
           setClaimList(res);
           setTotalRecords(res?.totalCount);
@@ -1649,8 +1652,8 @@ function ClaimList(props) {
                                           </p>
                                         )}
 
-                                        {!isExcludedPath ||   claimList.result[activeIndex]
-                                            ?.selfServicer?
+                                        {!isExcludedPath || claimList.result[activeIndex]
+                                          ?.selfServicer ?
                                           (
                                             <>
                                               <p className=" mb-4 text-[11px] font-Regular flex self-center">
