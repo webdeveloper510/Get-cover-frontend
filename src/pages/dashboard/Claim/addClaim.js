@@ -49,6 +49,7 @@ import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import DataTable from "react-data-table-component";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
+import { getCovrageList } from "../../../services/priceBookService";
 
 function AddClaim() {
   // do this
@@ -74,6 +75,8 @@ function AddClaim() {
   const [contractDetail, setcontractDetail] = useState({});
   const [servicerData, setServicerData] = useState([]);
   const [images, setImages] = useState([]);
+  const [selected, setSelected] = useState('');
+  const [coverageTypes, setCoverageTypes] = useState([]);
   const [sendNotifications, setSendNotifications] = useState(true);
   const navigate = useNavigate();
   const [selectedAction, setSelectedAction] = useState(null);
@@ -251,6 +254,7 @@ function AddClaim() {
   });
 
   useEffect(() => {
+    getCovrageListData();
     if (username) {
       formik.setFieldValue("customerName", `${username}`);
     }
@@ -646,6 +650,21 @@ function AddClaim() {
       .required("Diagnosis is required"),
   });
 
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverageTypes(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
   const handleChange = (name, value) => {
     formikStep2.setFieldValue(name, value);
   };
@@ -842,12 +861,12 @@ function AddClaim() {
                     <Grid className="my-3">
                       <div className="col-span-6">
                         <SelectBoxWithSearch
-                          label="Servicer Name"
-                          name="servicerId"
+                          label="Coverage Type"
+                          name="coverageType"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
+                          options={coverageTypes}
+                          value={formikStep2.values.coverageType}
                           onBlur={formikStep2.handleBlur}
                           // do this
                           isDisabled={data.role != "Super Admin"}
@@ -872,6 +891,20 @@ function AddClaim() {
                             </div>
                           )}
                       </div>
+                      {formikStep2.values.coverageType == 'theft_and_lost' ? <></> : <div className="col-span-12">
+                        <SelectBoxWithSearch
+                          label="Servicer Name"
+                          name="servicerId"
+                          className="!bg-white"
+                          onChange={handleChange}
+                          options={servicerData}
+                          value={formikStep2.values.servicerId}
+                          onBlur={formikStep2.handleBlur}
+                          // do this
+                          isDisabled={data.role != "Super Admin"}
+                        />
+                      </div>}
+
                     </Grid>
 
                     <div>

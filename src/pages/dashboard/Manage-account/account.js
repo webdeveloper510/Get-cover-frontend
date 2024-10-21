@@ -1446,28 +1446,28 @@ function Account() {
                   </Grid>
                 </>
                 <p className="text-xl font-semibold mb-3">Threshold Limit</p>
-                <Grid>
-                  <div className="col-span-6">
-                    <p className=" flex text-[16px] font-semibold mt-3 mb-6">
-                      Do you want to add threshold limit?
-                      <RadioButton
-                        id="yes-add-threshold"
-                        label="Yes"
-                        value="yes"
-                        checked={createthreshold === "yes"}
-                        onChange={handleRadioChange1}
-                      />
-                      <RadioButton
-                        id="no-add-threshold"
-                        label="No"
-                        value="no"
-                        checked={createthreshold === "no"}
-                        onChange={handleRadioChange1}
-                      />
-                    </p>
-                  </div>
-                  <div className="col-span-6">
-                    {createthreshold === "yes" &&
+                <form onSubmit={thresholdLimit.handleSubmit}>
+                  <Grid>
+                    <div className="col-span-6">
+                      <p className=" flex text-[16px] font-semibold mt-3 mb-6">
+                        Do you want to add threshold limit?
+                        <RadioButton
+                          id="yes-add-threshold"
+                          label="Yes"
+                          value="yes"
+                          checked={createthreshold === "yes"}
+                          onChange={handleRadioChange1}
+                        />
+                        <RadioButton
+                          id="no-add-threshold"
+                          label="No"
+                          value="no"
+                          checked={createthreshold === "no"}
+                          onChange={handleRadioChange1}
+                        />
+                      </p>
+                    </div>
+                    <div className="col-span-6">
                       <>
                         <Grid className="">
                           <div className="relative col-span-9">
@@ -1503,9 +1503,9 @@ function Account() {
                         </Grid>
 
                       </>
-                    }
-                  </div>
-                </Grid>
+                    </div>
+                  </Grid>
+                </form>
 
 
                 <p className="text-xl font-semibold mb-3">Change Password</p>

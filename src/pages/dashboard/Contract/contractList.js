@@ -433,10 +433,11 @@ function ContractList(props) {
 
                                   </div>
                                 </Grid>
+
                               </SingleView>
 
                               <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
-                                <div className="col-span-1 border border-Light-Grey rounded-es-xl">
+                                <div className={`col-span-1 border border-Light-Grey ${res?.overThreshold === false && 'rounded-es-xl'}`}>
                                   <div className="py-4 px-3">
                                     <p className="text-[#5D6E66] text-sm font-Regular">
                                       Manufacturer
@@ -476,7 +477,7 @@ function ContractList(props) {
                                     </p>
                                   </div>
                                 </div>
-                                <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
+                                <div className={`col-span-1 border border-Light-Grey  ${res?.overThreshold === false && 'rounded-ee-xl'}`}>
                                   <div className="py-4 px-3">
                                     <p className="text-[#5D6E66] text-sm font-Regular">
                                       Eligibility
@@ -500,6 +501,13 @@ function ContractList(props) {
                                     )}
                                   </div>
                                 </div>
+                                {res?.overThreshold === false ? (
+                                  <></>
+                                ) : (
+                                  <div className="col-span-5 border border-Light-Grey text-center rounded-b-xl">
+                                    <p className="py-2 px-2 font-semibold"> {res?.threshHoldMessage}</p>
+                                  </div>
+                                )}
                               </Grid>
                             </div>
                           </div>

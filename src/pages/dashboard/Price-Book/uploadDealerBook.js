@@ -512,7 +512,7 @@ function UploadDealerBook() {
                             }}
                           >
                             Clicking here.
-                          </span>
+                          </span>&nbsp;
                           The file must be saved with csv, xls, or xlsx format.
                         </p>
                       </div>
