@@ -728,10 +728,9 @@ function AddClaim() {
                       </div>
                     </div>
                     <div className="col-span-2">
-                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1">
+                      <div className="bg-[#D9D9D9] rounded-lg px-4 pb-2 pt-1 w-full">
                         <p className="text-sm m-0 p-0">Serial # / Device ID</p>
-                        <p className="font-semibold">
-                          {" "}
+                        <p className="font-semibold break-words">
                           {contractDetail?.serial}
                         </p>
                       </div>

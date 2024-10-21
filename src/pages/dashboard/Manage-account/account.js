@@ -1175,6 +1175,7 @@ function Account() {
         .required("Threshold value is required"),
     }),
     onSubmit: async (values) => {
+      setLoading(true);
       const payload = {
         isThreshHoldLimit: createthreshold === 'yes' ? true : false,
         threshHoldLimit: {
@@ -1186,9 +1187,15 @@ function Account() {
       try {
         const response = await updateThreshHoldLimit(payload);
         console.log("Threshold updated:", response);
+        setFirstMessage(" Updated Successfully ");
+        setSecondMessage("Threshold Value Updated successfully ");
+        // setLastMessage("Site will be reloaded after setting has been reset successfully");
+        setModalOpen(true);
+        setTimer(3);
       } catch (error) {
         console.error("Error updating threshold:", error);
       }
+      setLoading(false);
     },
   });
 
@@ -1438,65 +1445,67 @@ function Account() {
                     </div>
                   </Grid>
                 </>
-                {/* <p className="text-xl font-semibold mb-3">Threshold Limit</p>
-                <Grid>
-                  <div className="col-span-6">
-                    <p className=" flex text-[16px] font-semibold mt-3 mb-6">
-                      Do you want to add threshold limit?
-                      <RadioButton
-                        id="yes-add-threshold"
-                        label="Yes"
-                        value="yes"
-                        checked={createthreshold === "yes"}
-                        onChange={handleRadioChange1}
-                      />
-                      <RadioButton
-                        id="no-add-threshold"
-                        label="No"
-                        value="no"
-                        checked={createthreshold === "no"}
-                        onChange={handleRadioChange1}
-                      />
-                    </p>
-                  </div>
-                  <div className="col-span-6">
-                    {createthreshold === "yes" &&
+                <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                <form onSubmit={thresholdLimit.handleSubmit}>
+                  <Grid>
+                    <div className="col-span-6">
+                      <p className=" flex text-[16px] font-semibold mt-3 mb-6">
+                        Do you want to add threshold limit?
+                        <RadioButton
+                          id="yes-add-threshold"
+                          label="Yes"
+                          value="yes"
+                          checked={createthreshold === "yes"}
+                          onChange={handleRadioChange1}
+                        />
+                        <RadioButton
+                          id="no-add-threshold"
+                          label="No"
+                          value="no"
+                          checked={createthreshold === "no"}
+                          onChange={handleRadioChange1}
+                        />
+                      </p>
+                    </div>
+                    <div className="col-span-6">
                       <>
-                        <form onSubmit={thresholdLimit.handleSubmit}>
-                          <Grid className="">
-                            <div className="relative col-span-9">
-                              <Input
-                                type="number"
-                                name="value"
-                                label="% of Contract value"
-                                className="!bg-white"
-                                maxDecimalPlaces={2}
-                                minLength="1"
-                                maxLength="10"
-                                value={thresholdLimit.values.value}
-                                onChange={thresholdLimit.handleChange}
-                                onBlur={thresholdLimit.handleBlur}
-                              />
+                        <Grid className="">
+                          <div className="relative col-span-9">
+                            {createthreshold === "yes" &&
+                              <>
+                                <Input
+                                  type="number"
+                                  name="value"
+                                  label="% of Contract value"
+                                  className="!bg-white"
+                                  maxDecimalPlaces={2}
+                                  minLength="1"
+                                  maxLength="10"
+                                  value={thresholdLimit.values.value}
+                                  onChange={thresholdLimit.handleChange}
+                                  onBlur={thresholdLimit.handleBlur}
+                                />
 
-                              <div className="absolute top-[10px] right-[13px]">
-                                <p className="h-full text-2xl">%</p>
-                              </div>
-                              {thresholdLimit.errors.value && thresholdLimit.touched.value && (
-                                <div className="text-red-500">{thresholdLimit.errors.value}</div>
-                              )}
-                            </div>
-                            <div className="col-span-3 self-center text-right">
-                              <Button type="submit" className='ml-3 '>
-                                Save
-                              </Button>
-                            </div>
-                          </Grid>
-                        </form>
+                                <div className="absolute top-[10px] right-[13px]">
+                                  <p className="h-full text-2xl">%</p>
+                                </div>
+                              </>
+                            }
+                            {thresholdLimit.errors.value && thresholdLimit.touched.value && (
+                              <div className="text-red-500">{thresholdLimit.errors.value}</div>
+                            )}
+                          </div>
+                          <div className="col-span-3 self-center text-right">
+                            <Button type="submit" className='ml-3 '>
+                              Save
+                            </Button>
+                          </div>
+                        </Grid>
 
                       </>
-                    }
-                  </div>
-                </Grid> */}
+                    </div>
+                  </Grid>
+                </form>
 
 
                 <p className="text-xl font-semibold mb-3">Change Password</p>
@@ -1990,7 +1999,7 @@ function Account() {
                         <div className="col-span-4">
                           <Input
                             type="text"
-                            label="Coverage Type Label"
+                            label={`${section.title} Label`}
                             value={labels[index] || ''}
                             onChange={(e) => handleLabelChange(index, e.target.value)}
                             placeholder=""
@@ -2001,7 +2010,7 @@ function Account() {
                         <div className="col-span-4">
                           <Input
                             type="text"
-                            label="Coverage Type Value"
+                            label={`${section.title} Value`}
                             value={values[index] || ''}
                             onChange={(e) => handleValueChange(index, e.target.value)}
                             disabled={editingIndex === index} // Disable in edit mode for the current section
@@ -2044,7 +2053,7 @@ function Account() {
                           <tr>
                             <th>Label</th>
                             <th>Value</th>
-                            <th>Status</th>
+                            {section.title == 'Coverage Types' && <th>Status</th>}
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -2053,12 +2062,12 @@ function Account() {
                             <tr key={row._id} className="w-full border-collapse border">
                               <td className="py-3">{row.label}</td>
                               <td>{row.value}</td>
-                              <td>
+                              {section.title == 'Coverage Types' && <td>
                                 <SwitchButton
                                   isOn={row.status}
                                   handleToggle={() => handleAddOrUpdate(row._id, section.data, index, true)}
                                 />
-                              </td>
+                              </td>}
                               <td>
                                 <Button
                                   onClick={() => handleEditOption(row._id, section.data, index)}
