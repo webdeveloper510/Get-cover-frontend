@@ -2700,7 +2700,7 @@ function ClaimList(props) {
                          Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
                         </p>
                       );
-                s   }
+           }
 
                     return null; // If none of the conditions are met, nothing will be displayed
                   })()}
