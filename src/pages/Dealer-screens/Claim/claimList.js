@@ -1059,7 +1059,7 @@ function ClaimList(props) {
   useEffect(() => {
     if (activeTab === "All Claims") {
       getAllClaims();
-      // getClaimOptions();
+       getClaimOptions('');
     }
   }, [props]);
 
@@ -1275,7 +1275,7 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        {/* <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1286,7 +1286,7 @@ function ClaimList(props) {
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
-                        </div>
+                        </div> */}
                       </Grid>
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
@@ -2054,6 +2054,18 @@ function ClaimList(props) {
                                     )}
                                   </div>
                                 </Grid>
+                                {res.overThreshold && (res.selfServicer || role === 'Super Admin' || role === 'Servicer') && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                           
+                                            <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
                                 {res.reason != "" && (
                                   <div className="px-3 mb-4">
                                     <Grid>
@@ -3002,7 +3014,7 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("servicerName")}
                 />
               </div>
-              <div className="col-span-6">
+            <div className="col-span-6">
                 <Select
                   name="claimStatus"
                   label="Claim Status"
@@ -3046,7 +3058,7 @@ function ClaimList(props) {
                     />
                   </div>
                 </>
-              )}
+              )} 
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

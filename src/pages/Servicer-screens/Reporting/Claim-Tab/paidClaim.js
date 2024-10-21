@@ -123,7 +123,7 @@ function ClaimList(props) {
     status: "",
     date: "",
   });
-  const [isThreshold, setIsThreshold] = useState(false);
+  const [isThreshold, setIsThreshold] = useState(true);
   const [repairValue, repair_status] = useState({});
   const [customerValue, customer_status] = useState({});
   const [claimvalues, claim_status] = useState({});
@@ -2254,6 +2254,18 @@ function ClaimList(props) {
                                         )}
                                       </div>
                                     </Grid>
+                                    {res.overThreshold && (res.selfServicer || role === 'Super Admin' || role === 'Servicer') && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                           
+                                            <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
                                     {res.reason != "" && (
                                       <div className="px-3 mb-4">
                                         <Grid>

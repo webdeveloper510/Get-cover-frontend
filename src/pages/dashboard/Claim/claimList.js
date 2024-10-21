@@ -585,7 +585,7 @@ function ClaimList(props) {
   const getClaimPrice = async (id) => {
     setClaimLoading(true);
     const response = await getContractPrice(id);
-    setPrice(response.result);
+    setPrice(response);
     setClaimLoading(false);
   };
 
@@ -2122,6 +2122,19 @@ function ClaimList(props) {
                                       )}
                                     </div>
                                   </Grid>
+                                  {res.overThreshold && (res.selfServicer || role === 'Super Admin' || role === 'Servicer') && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                           
+                                            <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
+
                                   {res.reason != "" && (
                                     <div className="px-3 mb-4">
                                       <Grid>
@@ -2570,16 +2583,33 @@ function ClaimList(props) {
               <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                  {isThreshold &&
-                    <p className="pb-5 text-base text-red-500 hidden font-semibold">You are Cross the Threshold Limit</p>
-                  }
+   {price?.remainingThreshHoldLimit != null && (() => {
+  const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0); 
+  console.log('Total Price:', totalPrice);
+  if (
+    price?.remainingThreshHoldLimit < 0 || // remainingThreshHoldLimit is less than 0
+    price?.remainingThreshHoldLimit === 0 || // remainingThreshHoldLimit is exactly 0
+    (price?.thresholdLimitValue - totalPrice) < 0 // remainingThreshHoldLimit - totalPrice is less than 0
+    ||(price?.thresholdLimitValue - totalPrice) === 0 
+  ) {
+    console.log(price?.remainingThreshHoldLimit ,price?.thresholdLimitValue , totalPrice)
+    return (
+      <p className="pb-5 text-base text-red-500 font-semibold">
+        You have Crossed the Threshold Limit
+      </p>
+    );
+  }
+
+  return null; // If none of the conditions are met, nothing will be displayed
+})()}
+
 
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $
-                    {price === undefined
+                    {price.result === undefined
                       ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(price ?? parseInt(0))}
+                      : formatOrderValue(price.result ?? parseInt(0))}
                   </p>
                 </div>
                 <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
