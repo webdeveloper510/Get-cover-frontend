@@ -10,6 +10,7 @@ import Csv from "../../../../assets/images/icons/csvWhite.svg";
 import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
 import { downloadFile } from "../../../../services/userServices";
+import SingleView from "../../../../common/singleView";
 function CustomerOrderSummary(props) {
   const baseUrl = apiUrl();
   console.log(props.shown);
@@ -63,8 +64,8 @@ function CustomerOrderSummary(props) {
               return (
                 <div className="px-3 mt-5">
                   <div>
-                    <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
+                    <SingleView className='rounded-t-xl'>
+                      <Grid className="!gap-2 !grid-cols-9">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
@@ -282,7 +283,7 @@ function CustomerOrderSummary(props) {
                           </Grid>
                         </div>
                       </Grid>
-                    </div>
+                    </SingleView>
                   </div>
                 </div>
               );

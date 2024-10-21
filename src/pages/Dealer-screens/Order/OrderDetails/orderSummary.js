@@ -11,6 +11,7 @@ import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
+import SingleView from "../../../../common/singleView";
 function OrderSummary(props) {
   const baseUrl = apiUrl();
 
@@ -65,8 +66,8 @@ function OrderSummary(props) {
               return (
                 <div className="px-3 mt-5">
                   <div>
-                    <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
+                    <SingleView className='rounded-t-xl'>
+                      <Grid className="!gap-2 !grid-cols-9">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
@@ -265,7 +266,7 @@ function OrderSummary(props) {
                           </div>
                         )}
                       </Grid>
-                      <Grid className="!gap-0 bg-grayf9 mb-5">
+                      <Grid className="!gap-0 bg-grayf9 text-light-black mb-5">
                         <div className="col-span-3 border border-Light-Grey pl-4">
                           <p className="text-base mb-2 text-left font-semibold">
                             # of Claims Over the Certain Period
@@ -382,7 +383,7 @@ function OrderSummary(props) {
                           </Grid>
                         </div>
                       </Grid>
-                    </div>
+                    </SingleView>
                   </div>
                 </div>
               );

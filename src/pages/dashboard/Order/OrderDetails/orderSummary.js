@@ -9,6 +9,7 @@ import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
+import SingleView from "../../../../common/singleView";
 function OrderSummary(props) {
   console.log(props.data);
   const baseUrl = apiUrl();
@@ -60,8 +61,8 @@ function OrderSummary(props) {
               return (
                 <div className="px-3 mt-5">
                   <div>
-                    <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-10 rounded-t-xl">
+                    <SingleView className='rounded-t-xl'>
+                      <Grid className="!gap-2 !grid-cols-10">
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
@@ -287,10 +288,10 @@ function OrderSummary(props) {
                       </Grid>
                       <Grid className="!gap-0 bg-grayf9 mb-5">
                         <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className="text-base mb-2 text-left font-semibold">
+                          <p className="text-base mb-2 text-light-black text-left font-semibold">
                             # of Claims Over the Certain Period
                           </p>
-                          <p className="text-[14px] mb-2 text-left font-semibold">
+                          <p className="text-[14px] mb-2 text-light-black text-left font-semibold">
                             {/* {res?.noOfClaim?.period} -{" "} */}
                             {
                               res?.noOfClaim?.value == "-1"
@@ -303,36 +304,36 @@ function OrderSummary(props) {
                           </p>
                         </div>
                         <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className="text-base mb-2 text-left font-semibold">
+                          <p className="text-base text-light-black mb-2 text-left font-semibold">
                             # of Claims in Coverage Period
                           </p>
-                          <p className="text-[14px] text-left font-semibold">
+                          <p className="text-[14px] text-left text-light-black font-semibold">
                             {res?.noOfClaimPerPeriod == -1
                               ? "Unlimited"
                               : res?.noOfClaimPerPeriod}
                           </p>
                         </div>
                         <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className=" text-base mb-2 text-left font-semibold">
+                          <p className=" text-base mb-2 text-light-black text-left font-semibold">
                             {" "}
                             Is manufacturer warranty included?
                           </p>
-                          <p className="text-[14px] text-left font-semibold">
+                          <p className="text-[14px] text-left text-light-black font-semibold">
                             {res?.isManufacturerWarranty == true ? "Yes" : "No"}
                           </p>
                         </div>
                         <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className=" text-base mb-3 font-semibold">
+                          <p className="text-light-black text-base mb-3 font-semibold">
                             {" "}
                             Is There a Maximum Claim Amount?
                           </p>
-                          <p className="text-[14px] font-semibold">
+                          <p className="text-[14px] text-light-black font-semibold">
                             {res?.isMaxClaimAmount == true
                               ? "Yes"
                               : "No"}
                           </p>
                         </div>
-                        <div className="col-span-12">
+                        <div className="col-span-12 text-light-black">
                           <table className="w-full border text-center">
                             <tr className="border bg-[#9999]">
                               <th>Coverage Type</th>
@@ -369,7 +370,7 @@ function OrderSummary(props) {
                             )}
                           </table>
                         </div>
-                        <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
+                        <div className="col-span-12 border rounded-b-xl	text-light-black border-Light-Grey">
                           <Grid className="">
                             <div className="col-span-9 py-4 px-3">
                               <div className="">
@@ -402,7 +403,7 @@ function OrderSummary(props) {
                           </Grid>
                         </div>
                       </Grid>
-                    </div>
+                    </SingleView>
                   </div>
                 </div>
               );
@@ -410,8 +411,8 @@ function OrderSummary(props) {
           ) : (
             <></>
           )}
-        </Card>
-      </div>
+        </Card >
+      </div >
     </>
   );
 }

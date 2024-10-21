@@ -15,6 +15,7 @@ import PdfGenerator from "../pdfViewer";
 import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import { getDashboardDetailsforDealerPortal } from "../../services/dealerServices/dashboardServices";
 import Card from "../../common/card";
+import MultiColorView from "../../common/multiColorView";
 
 function DealerDashboard() {
   const [loading, setLoading] = useState(false);
@@ -322,17 +323,17 @@ function DealerDashboard() {
         ) : (
           <div className="mt-5">
             <Grid className=" s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12">
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] cursor-pointer to-[#333333] text-white rounded-xl p-8">
+              <MultiColorView className="col-span-3 cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {dashboardDetail?.orderData?.totalOrder
                     ? dashboardDetail.orderData.totalOrder
                     : 0}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className="text-sm">
                   Total Number of Orders
                 </p>
-              </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-light-black cursor-pointer text-white rounded-xl p-8">
+              </MultiColorView>
+              <MultiColorView className="col-span-3 cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   $
                   {dashboardDetail?.orderData?.totalAmount === ""
@@ -341,11 +342,11 @@ function DealerDashboard() {
                       dashboardDetail?.orderData?.totalAmount ?? parseInt(0)
                     )}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className="text-sm">
                   Total Value of Orders
                 </p>
-              </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              </MultiColorView>
+              <MultiColorView className="col-span-3 cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   {dashboardDetail?.claimData?.numberOfClaims
                     ? dashboardDetail?.claimData?.numberOfClaims
@@ -354,8 +355,8 @@ function DealerDashboard() {
                 <p className="text-neutral-grey text-sm">
                   Total Completed Claims
                 </p>
-              </div>
-              <div className="col-span-3 bg-gradient-to-r from-[#000000] to-[#333333] cursor-pointer text-white rounded-xl p-8">
+              </MultiColorView>
+              <MultiColorView className="col-span-3 cursor-pointer text-white rounded-xl p-8">
                 <p className="text-2xl font-bold">
                   $
                   {dashboardDetail?.claimData?.valueClaim === ""
@@ -367,25 +368,25 @@ function DealerDashboard() {
                 <p className="text-neutral-grey text-sm">
                   Total Value of Claims
                 </p>
-              </div>
+              </MultiColorView>
             </Grid>
 
             <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6">
-                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                <MultiColorView className="p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Orders
                   </p>
                   <BarChart graphData={orderAmount} />
-                </div>
+                </MultiColorView>
               </div>
               <div className="col-span-6">
-                <div className="bg-gradient-to-r from-[#000000] to-[#333333] p-3 rounded-xl">
+                <MultiColorView className="p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
                     Amount of Claims
                   </p>
                   <BarChart graphData={claimAmount} />
-                </div>
+                </MultiColorView>
               </div>
               <div className="col-span-6 border-2 rounded-xl">
                 <Card>

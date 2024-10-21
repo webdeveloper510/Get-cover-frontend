@@ -292,8 +292,8 @@ function ContractList(props) {
                       console.log(res);
                       return (
                         <div className="px-3 mt-5">
-                          <div>
-                            <Grid className="bg-light-black !gap-2 !grid-cols-10 rounded-t-xl">
+                          <SingleView className='rounded-t-xl'>
+                            <Grid className="!gap-2 !grid-cols-10">
                               <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
                                 <p className="text-white py-2 font-Regular">
                                   Contract ID : <b> {res.unique_key} </b>
@@ -390,7 +390,7 @@ function ContractList(props) {
                                 </div>
                               </div>
                             </Grid>
-                          </div>
+                          </SingleView>
                         </div>
                       );
                     })}
@@ -407,8 +407,8 @@ function ContractList(props) {
               />
             </div>
           )}
-        </Card>
-      </div>
+        </Card >
+      </div >
 
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         <Button
