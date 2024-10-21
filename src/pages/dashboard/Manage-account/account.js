@@ -1438,7 +1438,7 @@ function Account() {
                     </div>
                   </Grid>
                 </>
-                {/* <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                <p className="text-xl font-semibold mb-3">Threshold Limit</p>
                 <Grid>
                   <div className="col-span-6">
                     <p className=" flex text-[16px] font-semibold mt-3 mb-6">
@@ -1496,7 +1496,7 @@ function Account() {
                       </>
                     }
                   </div>
-                </Grid> */}
+                </Grid>
 
 
                 <p className="text-xl font-semibold mb-3">Change Password</p>

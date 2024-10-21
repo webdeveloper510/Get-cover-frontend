@@ -1962,6 +1962,18 @@ function AllList(props) {
                                     )}
                                   </div>
                                 </Grid>
+                                {res.overThreshold && (res.selfServicer || role === 'Super Admin' || role === 'Servicer') && (
+                                    <div className="px-3 mb-4">
+                                      <Grid>
+                                        <div className="col-span-12">
+                                          <p className="text-white">
+                                           
+                                            <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
+                                          </p>
+                                        </div>
+                                      </Grid>
+                                    </div>
+                                  )}
                                 {res.reason != "" && (
                                   <div className="px-3 mb-4">
                                     <Grid>
