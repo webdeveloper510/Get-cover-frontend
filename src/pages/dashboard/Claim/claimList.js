@@ -586,7 +586,9 @@ function ClaimList(props) {
     setClaimLoading(true);
     const response = await getContractPrice(id);
     setPrice(response);
-    setClaimLoading(false);
+    setTimeout(() => {
+      setClaimLoading(false);
+    }, 1000);
   };
 
   const calculateTotalCost = (cost1, cost2) => {
@@ -901,6 +903,7 @@ function ClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
+      setClaimLoading(true);
       setError("");
 
       let totalPrice = 0;
@@ -911,14 +914,21 @@ function ClaimList(props) {
       addClaimsRepairParts(claimId, values).then((res) => {
         if (res.code == 401) {
           setError(res.message);
+          setTimeout(() => {
+            setClaimLoading(false);
+          }, 1000);
         } else {
           openAttachments();
           setTimer(3);
           getAllClaims();
           // setActiveIndex();
           setIsEditOpen(false);
+          setTimeout(() => {
+            setClaimLoading(false);
+          }, 1000);
         }
       });
+
     },
   });
 
@@ -2127,7 +2137,7 @@ function ClaimList(props) {
                                       <Grid>
                                         <div className="col-span-12">
                                           <p className="text-white">
-                                           
+
                                             <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
                                           </p>
                                         </div>
@@ -2572,7 +2582,7 @@ function ClaimList(props) {
           <p className="text-center text-3xl font-semibold ">
             Edit Claim / {claimUnique}
           </p>
-          {claimLoading ? (
+          {claimLoading == true ? (
             <div className=" h-[400px] w-full flex py-5">
               <div className="self-center mx-auto">
                 <RotateLoader color="#333" />
@@ -2583,25 +2593,25 @@ function ClaimList(props) {
               <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-   {price?.remainingThreshHoldLimit != null && (() => {
-  const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0); 
-  console.log('Total Price:', totalPrice);
-  if (
-    price?.remainingThreshHoldLimit < 0 || // remainingThreshHoldLimit is less than 0
-    price?.remainingThreshHoldLimit === 0 || // remainingThreshHoldLimit is exactly 0
-    (price?.thresholdLimitValue - totalPrice) < 0 // remainingThreshHoldLimit - totalPrice is less than 0
-    ||(price?.thresholdLimitValue - totalPrice) === 0 
-  ) {
-    console.log(price?.remainingThreshHoldLimit ,price?.thresholdLimitValue , totalPrice)
-    return (
-      <p className="pb-5 text-base text-red-500 font-semibold">
-        You have Crossed the Threshold Limit
-      </p>
-    );
-  }
+                  {price?.remainingThreshHoldLimit != null && (() => {
+                    const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
+                    console.log('Total Price:', totalPrice);
+                    if (
+                      price?.remainingThreshHoldLimit < 0 || // remainingThreshHoldLimit is less than 0
+                      price?.remainingThreshHoldLimit === 0 || // remainingThreshHoldLimit is exactly 0
+                      (price?.thresholdLimitValue - totalPrice) < 0 // remainingThreshHoldLimit - totalPrice is less than 0
+                      || (price?.thresholdLimitValue - totalPrice) === 0
+                    ) {
+                      console.log(price?.remainingThreshHoldLimit, price?.thresholdLimitValue, totalPrice)
+                      return (
+                        <p className="pb-5 text-base text-red-500 font-semibold">
+                          You have Crossed the Threshold Limit
+                        </p>
+                      );
+                    }
 
-  return null; // If none of the conditions are met, nothing will be displayed
-})()}
+                    return null; // If none of the conditions are met, nothing will be displayed
+                  })()}
 
 
                   <p className="pb-5 text-lg font-semibold">
