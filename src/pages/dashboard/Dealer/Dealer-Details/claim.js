@@ -664,7 +664,7 @@ function ClaimList(props) {
   const getClaimPrice = async (id) => {
     setClaimLoading(true);
     const response = await getContractPrice(id);
-    setPrice(response.result);
+    setPrice(response);
     setClaimLoading(false);
   };
 
@@ -2685,15 +2685,31 @@ function ClaimList(props) {
               <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                  {isThreshold &&
-                    <p className="pb-5 text-base text-red-500 hidden font-semibold">You are Cross the Threshold Limit</p>
-                  }
+                  {price?.remainingThreshHoldLimit != null && (() => {
+                    const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
+                    console.log('Total Price:', totalPrice);
+                    if (
+                    
+                      price?.remainingThreshHoldLimit === null || 
+                      (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0 
+                      || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
+                    ) {
+                    
+                      return (
+                        <p className="pb-5 text-base text-red-500 font-semibold">
+                         Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
+                        </p>
+                      );
+                    }
+
+                    return null; // If none of the conditions are met, nothing will be displayed
+                  })()}
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $
-                    {price === undefined
+                    {price.result === undefined
                       ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(price ?? parseInt(0))}
+                      : formatOrderValue(price.result ?? parseInt(0))}
                   </p>
                 </div>
                 <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">

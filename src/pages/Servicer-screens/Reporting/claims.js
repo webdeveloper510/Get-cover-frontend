@@ -678,7 +678,7 @@ function AllList(props) {
   const getClaimPrice = async (id) => {
     setClaimLoading(true);
     const response = await getContractPrice(id);
-    setPrice(response.result);
+    setPrice(response);
     setClaimLoading(false);
   };
 
@@ -2515,9 +2515,9 @@ function AllList(props) {
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $
-                    {price === undefined
+                    {price.result === undefined
                       ? parseInt(0).toLocaleString(2)
-                      : formatOrderValue(price ?? parseInt(0))}
+                      : formatOrderValue(price.result ?? parseInt(0))}
                   </p>
                 </div>
                 <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">

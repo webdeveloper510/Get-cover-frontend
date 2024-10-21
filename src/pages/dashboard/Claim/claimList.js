@@ -2597,15 +2597,15 @@ function ClaimList(props) {
                     const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
                     console.log('Total Price:', totalPrice);
                     if (
-                      price?.remainingThreshHoldLimit < 0 || // remainingThreshHoldLimit is less than 0
-                      price?.remainingThreshHoldLimit === 0 || // remainingThreshHoldLimit is exactly 0
-                      (price?.thresholdLimitValue - totalPrice) < 0 // remainingThreshHoldLimit - totalPrice is less than 0
-                      || (price?.thresholdLimitValue - totalPrice) === 0
+                    
+                      price?.remainingThreshHoldLimit === null || 
+                      (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0 
+                      || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
                     ) {
-                      console.log(price?.remainingThreshHoldLimit, price?.thresholdLimitValue, totalPrice)
+                    
                       return (
                         <p className="pb-5 text-base text-red-500 font-semibold">
-                          You have Crossed the Threshold Limit
+                         Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
                         </p>
                       );
                     }

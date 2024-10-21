@@ -2172,6 +2172,25 @@ function ClaimList(props) {
           <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
             <div className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
               <p className="pb-5 text-lg font-semibold">Repair Parts</p>
+              {/* {price?.remainingThreshHoldLimit != null && (() => {
+                    const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
+                    console.log('Total Price:', totalPrice);
+                    if (
+                    
+                      price?.remainingThreshHoldLimit === null || 
+                      (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0 
+                      || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
+                    ) {
+                    
+                      return (
+                        <p className="pb-5 text-base text-red-500 font-semibold">
+                         Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
+                        </p>
+                      );
+                    }
+
+                    return null; 
+                  })()} */}
               <div className="w-full h-[180px] pr-4 mb-3 pt-4 overflow-y-scroll overflow-x-hidden">
                 {formik?.values?.repairParts?.map((part, index) => {
                   return (
