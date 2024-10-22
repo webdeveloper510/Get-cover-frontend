@@ -1985,7 +1985,7 @@ function Account() {
                     index={index} // Pass the index to the child
                     imageClass="w-10 h-10"
                     title={
-                      <SingleView className="border-Gray28 border bg-Dealer-detail bg-cover rounded-t-[22px]">
+                      <SingleView className="border-Gray28 border bg-Edit bg-cover rounded-t-[22px]">
                         <Grid className=" !gap-2 ">
                           <div className="col-span-12 px-4 py-2">
                             <p className="text-lg font-bold text-white">{section.title}</p>

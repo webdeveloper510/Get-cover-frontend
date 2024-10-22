@@ -1003,6 +1003,7 @@ function ResellerClaimList(props) {
       ),
     }),
     onSubmit: (values) => {
+      setClaimLoading(true);
       setError("");
       let totalPrice = 0;
       values.repairParts.forEach((part) => {
@@ -1013,12 +1014,18 @@ function ResellerClaimList(props) {
         // console.log(res);
         if (res.code == 401) {
           setError(res.message);
+          setTimeout(() => {
+            setClaimLoading(false);
+          }, 1000);
         } else {
           openAttachments();
           setTimer(3);
           getAllClaims();
           // setActiveIndex();
           setIsEditOpen(false);
+          setTimeout(() => {
+            setClaimLoading(false);
+          }, 1000);
         }
       });
     },
@@ -2059,17 +2066,17 @@ function ResellerClaimList(props) {
                                   </div>
                                 </Grid>
                                 {res.overThreshold && (res.selfServicer || role === 'Super Admin' || role === 'Servicer') && (
-                                    <div className="px-3 mb-4">
-                                      <Grid>
-                                        <div className="col-span-12">
-                                          <p className="text-white">
-                                           
-                                            <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
-                                          </p>
-                                        </div>
-                                      </Grid>
-                                    </div>
-                                  )}
+                                  <div className="px-3 mb-4">
+                                    <Grid>
+                                      <div className="col-span-12">
+                                        <p className="text-white">
+
+                                          <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
+                                        </p>
+                                      </div>
+                                    </Grid>
+                                  </div>
+                                )}
                                 {res.reason != "" && (
                                   <div className="px-3 mb-4">
                                     <Grid>
@@ -2623,28 +2630,29 @@ function ResellerClaimList(props) {
             </div>
           ) : (
             <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <Card className="px-8 pb-4 pt-2 drop-shadow-4xl mb-5 border-[1px] border-Light-Grey rounded-3xl">
+              {price?.remainingThreshHoldLimit != null && (() => {
+                const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
+                console.log('Total Price:', totalPrice);
+                if (
+
+                  price?.remainingThreshHoldLimit === null ||
+                  (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0
+                  || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
+                ) {
+
+                  return (
+                    <p className="pb-5 text-base text-red-500 font-semibold">
+                      Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
+                    </p>
+                  );
+                }
+
+                return null; // If none of the conditions are met, nothing will be displayed
+              })()}
+              <Card className="px-8 pb-2 pt-2 drop-shadow-4xl mb-3 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                  {price?.remainingThreshHoldLimit != null && (() => {
-                    const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
-                    console.log('Total Price:', totalPrice);
-                    if (
-                    
-                      price?.remainingThreshHoldLimit === null || 
-                      (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0 
-                      || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
-                    ) {
-                    
-                      return (
-                        <p className="pb-5 text-base text-red-500 font-semibold">
-                         Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
-                        </p>
-                      );
-                 }
 
-                    return null; // If none of the conditions are met, nothing will be displayed
-                  })()}
                   <p className="pb-5 text-lg font-semibold">
                     {" "}
                     Max Claim Amount : $

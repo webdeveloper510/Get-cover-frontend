@@ -254,7 +254,6 @@ function AddClaim() {
   });
 
   useEffect(() => {
-    getCovrageListData();
     if (username) {
       formik.setFieldValue("customerName", `${username}`);
     }
@@ -346,9 +345,10 @@ function AddClaim() {
   const handleSelectValue = (res) => {
     setLoading21(true);
     getClaimPrice(res._id);
-    console.log(loading1, "------------loading21");
     getContractValues(res._id).then((res) => {
+      console.log(res.result.mergedData, "------------loading21");
       setcontractDetail(res.result);
+      setCoverageTypes(res.result.mergedData)
       getServicerList(
         {
           dealerId: res?.result?.order[0]?.dealerId,
@@ -649,21 +649,6 @@ function AddClaim() {
       .transform((originalValue) => originalValue.trim())
       .required("Diagnosis is required"),
   });
-
-  const getCovrageListData = async () => {
-    try {
-      const res = await getCovrageList();
-      console.log(res);
-      setCoverageTypes(
-        res.result.value.map((item) => ({
-          label: item.label,
-          value: item.value,
-        }))
-      );
-    } catch (error) {
-      console.error("Error fetching category list:", error);
-    }
-  };
 
   const handleChange = (name, value) => {
     formikStep2.setFieldValue(name, value);

@@ -2590,28 +2590,29 @@ function ClaimList(props) {
             </div>
           ) : (
             <form className="mt-3 mr-4" onSubmit={formik.handleSubmit}>
-              <Card className="px-8 pb-4 pt-2 drop-shadow-4xl bg-white mb-5 border-[1px] border-Light-Grey rounded-3xl">
+              {price?.remainingThreshHoldLimit != null && (() => {
+                const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
+                console.log('Total Price:', totalPrice);
+                if (
+
+                  price?.remainingThreshHoldLimit === null ||
+                  (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0
+                  || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
+                ) {
+
+                  return (
+                    <p className="pb-2 text-base text-red-500 font-semibold text-center">
+                      Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
+                    </p>
+                  );
+                }
+
+                return null; // If none of the conditions are met, nothing will be displayed
+              })()}
+
+              <Card className="px-8 pb-2 pt-2 drop-shadow-4xl bg-white mb-3 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
-                  {price?.remainingThreshHoldLimit != null && (() => {
-                    const totalPrice = formik?.values?.repairParts?.reduce((sum, part) => sum + (parseFloat(part.price) || 0), 0);
-                    console.log('Total Price:', totalPrice);
-                    if (
-                    
-                      price?.remainingThreshHoldLimit === null || 
-                      (price?.remainingThreshHoldLimitPastClaim - totalPrice) < 0 
-                      || (price?.remainingThreshHoldLimitPastClaim - totalPrice) === 0
-                    ) {
-                    
-                      return (
-                        <p className="pb-5 text-base text-red-500 font-semibold">
-                         Claim amount exceeds the allowed limit. This might lead to claim rejection. To proceed further with claim please contact admin
-                        </p>
-                      );
-                    }
-
-                    return null; // If none of the conditions are met, nothing will be displayed
-                  })()}
 
 
                   <p className="pb-5 text-lg font-semibold">
@@ -2792,7 +2793,7 @@ function ClaimList(props) {
                   </div>
                 </Grid>
               </Card>
-              <div className="px-5 pb-5 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+              <div className="px-5 pb-3 pt-3 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
                 <div className="relative">
                   <label
                     htmlFor="description"
