@@ -1500,7 +1500,7 @@ function ClaimList(props) {
                                     alt="chat"
                                   />
                                   {role === "Super Admin" &&
-                                    res?.claimStatus?.[0]?.status === "open" && (
+                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" (
                                       <img
                                         src={Edit}
                                         className="mr-2 cursor-pointer"
@@ -1511,7 +1511,7 @@ function ClaimList(props) {
 
                                   {role != "Super Admin" &&
                                     res.selfServicer &&
-                                    res?.claimStatus?.[0]?.status === "open" &&
+                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" &&
                                     !location.pathname.includes(
                                       "customer/claimList"
                                     ) &&
@@ -2172,7 +2172,7 @@ function ClaimList(props) {
                                               <>
                                                 {claimStatus.status == "rejected" ||
                                                   claimStatus.status ==
-                                                  "completed" ? (
+                                                  "completed" ||  repairStatus.status == "servicer_shipped" ? (
                                                   <></>
                                                 ) : (
                                                   <div

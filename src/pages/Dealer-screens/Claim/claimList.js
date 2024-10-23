@@ -1381,7 +1381,7 @@ function ClaimList(props) {
                                 />
 
                                 {res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" && (
+                                  res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1972,7 +1972,7 @@ function ClaimList(props) {
                                           ?.selfServicer) && (
                                           <>
                                             {claimStatus.status == "rejected" ||
-                                              claimStatus.status == "completed" ? (
+                                              claimStatus.status == "completed" || repairStatus.status != "servicer_shipped" ? (
                                               <></>
                                             ) : (
                                               <div
@@ -1991,7 +1991,7 @@ function ClaimList(props) {
                                                     claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed"
+                                                    "completed" ||repairStatus.status != "servicer_shipped"
                                                   }
                                                   white
                                                   className1="!border-0 !text-light-black"
