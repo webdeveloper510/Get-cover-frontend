@@ -324,13 +324,21 @@ function AddOrder() {
     };
     const result = await getResellerListOrderByDealerIdCustomerId(data);
     result?.result?.map((res) => {
-      arr.push({
-        label: res.resellerData[0].name,
-        value: res.resellerData[0]._id,
-      });
+      if(res.resellerData[0].status)
+      {
+        arr.push({
+          label: res.resellerData[0].name,
+          value: res.resellerData[0]._id,
+        });
+    formik.setFieldValue("resellerId", resellerId);
+
+      }
+      else{
+    formik.setFieldValue("resellerId", '');
+
+      }
     });
     setResllerList(arr);
-    formik.setFieldValue("resellerId", resellerId);
   };
 
   useEffect(() => {
