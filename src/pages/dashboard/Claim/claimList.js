@@ -75,6 +75,7 @@ function ClaimList(props) {
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [completeLoader, setCompleteLoader] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
@@ -233,15 +234,19 @@ function ClaimList(props) {
       }
       else if (value === "completed") {
         setIsComplete(true)
+
       }
       else {
         const updateAndCallAPI = (setter) => {
+          setCompleteLoader(true);
+
           setter((prevRes) => ({ ...prevRes, status: value }));
           editClaimValue(
             claimList.result[activeIndex]._id,
             selectedValue,
             value.type == "completed" ? value.type : value
           );
+
         };
 
         switch (selectedValue) {
@@ -345,6 +350,7 @@ function ClaimList(props) {
   };
 
   const editClaimValue = (claimId, statusType, statusValue) => {
+    setCompleteLoader(true);
     let data = {
       [statusType]: statusValue,
     };
@@ -355,6 +361,7 @@ function ClaimList(props) {
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
     });
+
   };
 
   const editClaimServicer = (claimId, statusType, statusValue) => {
@@ -419,7 +426,6 @@ function ClaimList(props) {
     } else if (path.includes("/customer/claimList")) {
       newPath = "/customer/addClaim";
     }
-
     navigate(newPath);
   };
 
@@ -2844,22 +2850,29 @@ function ClaimList(props) {
       </Modal>
 
       <Modal isOpen={isComplete} onClose={closeComplete}>
-        <div className="py-1 text-center">
-          <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold">
-            Are you
-            <span className=""> sure ? </span>
-          </p>
-          <p className="text-base font-medium mt-2">
-            You want to complete this Claim ?
-          </p>
-          <div className="mt-3">
-            <Button type="submit" onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
-            <Button className="!bg-white !text-black" onClick={closeComplete}>
-              No
-            </Button>
+        {completeLoader ? <div className=" h-[350px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
           </div>
-        </div>
+        </div> :
+          <div className="py-1 text-center">
+            <img src={AddDealer} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-4 font-semibold">
+              Are you
+              <span className=""> sure ? </span>
+            </p>
+            <p className="text-xl font-medium mt-2">
+              You want to complete this Claim ?
+            </p>
+            <div className="mt-3">
+              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
+              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+                No
+              </Button>
+            </div>
+          </div>
+        }
+
       </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
