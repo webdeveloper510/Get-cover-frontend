@@ -132,6 +132,10 @@ function PriceBookList(props) {
   };
 
   const formatOrderValue = (orderValue) => {
+    console.log(orderValue)
+    if(orderValue == null){
+      return
+    }
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
     } else {
