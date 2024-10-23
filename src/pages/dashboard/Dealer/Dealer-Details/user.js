@@ -290,6 +290,7 @@ function UserList(props) {
   };
 
   const makeUserPrimary = async (row) => {
+    setLoading(true);
     const result = await changePrimaryByUserId(row._id);
 
     if (result.code === 200) {
@@ -297,7 +298,10 @@ function UserList(props) {
       SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
+      setLoading(false);
     }
+    setLoading(false);
+
   };
 
   const handleFilterIconClick = () => {
