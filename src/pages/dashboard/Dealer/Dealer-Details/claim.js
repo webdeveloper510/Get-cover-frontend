@@ -1403,7 +1403,7 @@ function ClaimList(props) {
                 <></>
               ) : (
                 <>
-                  {props.activeTab == "Unpaid Claims" && (
+                  {props.activeTab == "Unpaid Claims" && role == "Super Admin" &&(
                     <>
                       {!isCheckBox && (
                         <div className="text-right mt-8">

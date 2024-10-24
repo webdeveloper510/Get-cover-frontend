@@ -676,6 +676,7 @@ function AddClaim() {
       file: [],
       claimType: "New",
       servicePaymentStatus: true,
+      coverageType:"",
       contractId: contractDetail?._id,
     },
     validationSchema: validationSchemaStep2,

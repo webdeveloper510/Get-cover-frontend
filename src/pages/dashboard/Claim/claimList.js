@@ -1624,49 +1624,44 @@ function ClaimList(props) {
                                           </div>
                                         </Grid>
 
-
-                                        {location.pathname.includes(
-                                          "/reseller/claimList"
-                                        ) ? (
-                                          <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                            {" "}
-                                            <span className="self-center mr-4">
-                                              Servicer Name :{" "}
-                                            </span>
-                                            {res?.servicerData?.name}
-                                          </p>
-                                        ) : (
-                                          <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                            {" "}
-                                            <span className="self-center mr-4">
-                                              Servicer Name :{" "}
-                                            </span>
-                                            {role == "Super Admin" ? (
-                                              <Select
-                                                name="servicer"
-                                                label=""
-                                                value={servicer}
-                                                disabled={
-                                                  claimStatus.status ===
-                                                  "rejected" ||
-                                                  claimStatus.status ===
-                                                  "completed" ||
-                                                  location.pathname.includes(
-                                                    "/reseller/customerDetails"
-                                                  )
-                                                }
-                                                onChange={handleSelectChange}
-                                                OptionName="Servicer"
-                                                white
-                                                className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
-                                                classBox="w-[55%]"
-                                                options={servicerList}
-                                              />
-                                            ) : (
-                                              <>{res?.servicerData?.name}</>
-                                            )}
-                                          </p>
-                                        )}
+                                          {
+    claimType == "theft_and_lost" ? (
+    <></>
+    ) : ( 
+      location.pathname.includes("/reseller/claimList") ? (
+      <p className="mb-4 text-[11px] font-Regular flex self-center">
+        <span className="self-center mr-4">Servicer Name :</span>
+        {res?.servicerData?.name}
+      </p>
+    ) : (
+      <p className="mb-4 text-[11px] font-Regular flex self-center">
+        <span className="self-center mr-4">Servicer Name :</span>
+        {role === "Super Admin" ? (
+          <Select
+            name="servicer"
+            label=""
+            value={servicer}
+            disabled={
+              claimStatus.status === "rejected" ||
+              claimStatus.status === "completed" ||
+              location.pathname.includes("/reseller/customerDetails")
+            }
+            onChange={handleSelectChange}
+            OptionName="Servicer"
+            white
+            className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
+            classBox="w-[55%]"
+            options={servicerList}
+          />
+        ) : (
+          res?.servicerData?.name
+        )}
+      </p>
+    )
+    )
+  }
+              
+                                   
 
                                         {!isExcludedPath || claimList.result[activeIndex]
                                           ?.selfServicer ?
