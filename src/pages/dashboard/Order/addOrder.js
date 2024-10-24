@@ -1722,18 +1722,18 @@ console.log('new date',new Date(timestampFromDB));
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
     if (
-      (dealerId && dealerValue) ||
+      (dealerId && dealerValue && !customerId ) ||
       window.location.pathname.includes("/editOrder")
     ) {
       console.log("formik.values", formik.values);
       newValues.dealerId = currentValues.dealerId;
-    } else if (resellerId) {
+    } else if (resellerId && !customerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,
         resellerId: currentValues.resellerId,
       });
-    } else if (customerId) {
+    } else if (customerId && resellerId ) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
         dealerValue: currentValues.dealerValue,

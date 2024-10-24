@@ -344,8 +344,6 @@ function AddDealerBook() {
         2
       );
       console.log(values);
-
-      delete values.pName;
       const result = id
         ? await editDealerPriceBook(id, values)
         : await addDealerPriceBook(values);
