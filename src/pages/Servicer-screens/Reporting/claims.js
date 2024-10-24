@@ -90,6 +90,7 @@ function AllList(props) {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -179,9 +180,12 @@ function AllList(props) {
   }, [messageList, claimId]);
 
   const onhandle = async (id) => {
+    setIsCustomerOpen(true);
+    setViewLoader(true);
     const res = await getCustomerDetailsById(id);
     console.log(res, "------------------Login--------------->>>>");
-    setCustomerDetail(res.result.primary)
+    setCustomerDetail(res.result);
+    setViewLoader(false);
   }
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
@@ -1450,32 +1454,32 @@ function AllList(props) {
                               {res?.repairParts.length > 0 &&
                                 res?.repairParts.map((part, index) => (
                                   <>
-                                    <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-2 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Service Type
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           {part.serviceType}
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-8 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Description
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           {part.description}
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-2 bg-light-black border-b border-Gray28">
+                                    <div className="col-span-2 border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Price
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           $
                                           {part.price === undefined
                                             ? (0).toLocaleString("en-US", {
@@ -1498,10 +1502,10 @@ function AllList(props) {
                               <div className="col-span-12 ">
                                 <Grid className="!gap-2">
                                   <div className="col-span-4 py-4 pl-1 ">
-                                    <div className="bg-Eclipse py-2 px-2">
-                                      <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                    <div className=" py-2 px-2">
+                                      <p className=" mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
-                                        <span className="font-semibold text-white" onClick={() => onhandle(res?.contracts?.orders?.customerId)}>
+                                        <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?.contracts?.orders?.customerId)}>
                                           {" "}
                                           {
                                             res?.contracts?.orders?.customer
@@ -1512,26 +1516,26 @@ function AllList(props) {
                                       </p>
                                       <Grid>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className=" text-[11px]  font-Regular">
                                             GetCover Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
+                                          <p className="font-semibold text-[11px] mb-3">
                                             {" "}
                                             {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className=" text-[11px]  font-Regular">
                                             Customer Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                          <p className="font-semibold text-[11px] mb-3">
                                             {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                          <p className=" text-[11px] mb-3 font-Regular">
                                             Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
+                                            <span className="font-semibold ml-3">
                                               {" "}
                                               ${
                                                 res.totalAmount.toFixed(2)
@@ -1540,7 +1544,7 @@ function AllList(props) {
                                           </p>
                                         </div>
                                       </Grid>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                         {" "}
                                         <span className="self-center mr-4">
                                           Servicer Name :{" "}
@@ -1786,7 +1790,7 @@ function AllList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           Customer Status
@@ -1841,7 +1845,7 @@ function AllList(props) {
                                         </div>
                                       )}
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {claimvalues?.label}
@@ -1867,7 +1871,7 @@ function AllList(props) {
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {repairValue?.label}
@@ -2964,7 +2968,7 @@ function AllList(props) {
 
       <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
         <Button
-          onClick={closeView}
+          onClick={closeCustomer}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
           <img
@@ -2973,67 +2977,70 @@ function AllList(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
-            View Customer Detail
-          </p>
-          <div className="overflow-y-scroll max-h-[500px]">
-            {/* <Grid className="mt-5 px-6">
-              <div className="col-span-4">
-                <p className="text-lg font-semibold">Dealer Name</p>
-                <p className="text-base font-bold">
-                  {dealerPriceBookDetail?.dealer?.name}{" "}
-                </p>
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
               </div>
-              <div className="col-span-4">
-                <p className="text-lg font-semibold">Product Name</p>
-                <p className="text-base font-bold">
-                  {dealerPriceBookDetail?.priceBooks?.pName}{" "}
-                </p>
-              </div>
-              <div className="col-span-4">
-                <p className="text-lg font-semibold">Product Category</p>
-                <p className="text-base font-bold">
-                  {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
-                </p>
-              </div>
-              <div className="col-span-4">
-                <p className="text-lg font-semibold">Price Type</p>
-                <p className="text-base font-bold">
-                  {dealerPriceBookDetail?.priceBooks?.priceType}
-                </p>
-              </div>
+            </>
+          ) : (
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+              <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+                View Customer Detail
+              </p>
+              <Grid className="mt-5 px-6">
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold ">Account Name</p>
+                  <p className="text-base">
+                    {customerDetail?.meta.username}
+                  </p>
+                </div>
+                <div className="col-span-8">
+                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-base leading-5">
+                    {customerDetail?.meta?.city}
+                    {", "}
+                    {customerDetail?.meta?.street}
+                    {", "}
+                    {customerDetail?.meta?.state}
+                    {", "}
+                    {customerDetail?.meta?.country}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Name</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.firstName}{" "}
+                    {customerDetail?.primary?.lastName}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Email</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.email}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Phone #</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.dialCode}
+                    {customerDetail?.primary?.phoneNumber}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Position</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.position}
+                  </p>
+                </div>
 
-              <div className="col-span-8">
-                <p className="text-lg font-semibold">Description</p>
-                <p className="text-base font-bold">
-                  {dealerPriceBookDetail?.priceBooks?.description}
-                </p>
-              </div>
-              <div className="col-span-4">
-                <p className="text-lg  font-semibold">Product SKU</p>
-                <p className="text-base  font-semibold">
-                  {dealerPriceBookDetail?.priceBooks?.name}
-                </p>
-              </div>
-              <div className="col-span-4">
-                <p className="text-lg  font-semibold">Dealer SKU</p>
-                <p className="text-base  font-semibold">
-                  {dealerPriceBookDetail?.dealerSku}
-                </p>
-              </div>
-              <div className="col-span-4">
-                <p className="text-lg font-semibold">Wholesale Price</p>
-                <p className="text-base font-semibold">
-                  $
-                  {dealerPriceBookDetail?.wholesalePrice === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(
-                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
-                    )}
-                </p>
-              </div>
-            </Grid> */}
-          </div>
+
+
+              </Grid>
+            </SingleView>
+          )}
         </div>
       </Modal>
     </>
