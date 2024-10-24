@@ -238,7 +238,7 @@ function CustomerOrderDetails() {
                 </div>
               </div>
 
-              {orderList?.fileName == "" ? (
+              {orderList?.termCondition?.fileName == "" || orderList?.termCondition == undefined ? (
                 <></>
               ) : (
                 <Button className="!bg-white !text-light-black w-full justify-center mt-[10%] !text-sm border flex cursor-pointer hover:font-semibold">

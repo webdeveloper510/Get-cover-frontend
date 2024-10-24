@@ -499,7 +499,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {orderTandC?.fileName == "" ? (
+                  {orderTandC == undefined ||orderTandC?.fileName == "" ? (
                     <></>
                   ) : (
                     <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
