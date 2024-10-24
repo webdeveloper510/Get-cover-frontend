@@ -76,6 +76,7 @@ import {
 import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
+import { getCustomerDetailsById } from "../../../services/customerServices";
 
 function AllList(props) {
   const baseUrl = apiUrl();
@@ -83,6 +84,7 @@ function AllList(props) {
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isCustomerOpen, setIsCustomerOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -133,6 +135,7 @@ function AllList(props) {
     status: "",
     date: "",
   });
+  const [customerDetail, setCustomerDetail] = useState();
   const [coverage, setCoverage] = useState([]);
   const [claim, setClaim] = useState([
     { label: "Breakdown", value: "Breakdown" },
@@ -174,6 +177,12 @@ function AllList(props) {
     scrollToBottom();
     getLoginUser();
   }, [messageList, claimId]);
+
+  const onhandle = async (id) => {
+    const res = await getCustomerDetailsById(id);
+    console.log(res, "------------------Login--------------->>>>");
+    setCustomerDetail(res.result.primary)
+  }
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
@@ -693,6 +702,10 @@ function AllList(props) {
   const closeView = () => {
     formik.resetForm();
     setIsViewOpen(false);
+  };
+
+  const closeCustomer = () => {
+    setIsCustomerOpen(false);
   };
 
   const openAttachments = () => {
@@ -1488,12 +1501,13 @@ function AllList(props) {
                                     <div className="bg-Eclipse py-2 px-2">
                                       <p className="text-light-green mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
-                                        <span className="font-semibold text-white">
+                                        <span className="font-semibold text-white" onClick={() => onhandle(res?.contracts?.orders?.customerId)}>
                                           {" "}
                                           {
                                             res?.contracts?.orders?.customer
                                               ?.username
-                                          }{" "}
+
+                                          }
                                         </span>
                                       </p>
                                       <Grid>
@@ -1899,7 +1913,7 @@ function AllList(props) {
                                                 claimStatus.status ==
                                                 "rejected" ||
                                                 claimStatus.status ==
-                                                "completed" ||repairStatus.status != "servicer_shipped"
+                                                "completed" || repairStatus.status != "servicer_shipped"
                                               }
                                               white
                                               className1="!border-0 !text-light-black"
@@ -2945,6 +2959,81 @@ function AllList(props) {
             </div>
             <div className="col-span-3"></div>
           </Grid>
+        </div>
+      </Modal>
+
+      <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
+        <Button
+          onClick={closeView}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+            View Customer Detail
+          </p>
+          <div className="overflow-y-scroll max-h-[500px]">
+            {/* <Grid className="mt-5 px-6">
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Dealer Name</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.dealer?.name}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Product Name</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.pName}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Product Category</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Price Type</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.priceType}
+                </p>
+              </div>
+
+              <div className="col-span-8">
+                <p className="text-lg font-semibold">Description</p>
+                <p className="text-base font-bold">
+                  {dealerPriceBookDetail?.priceBooks?.description}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg  font-semibold">Product SKU</p>
+                <p className="text-base  font-semibold">
+                  {dealerPriceBookDetail?.priceBooks?.name}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg  font-semibold">Dealer SKU</p>
+                <p className="text-base  font-semibold">
+                  {dealerPriceBookDetail?.dealerSku}
+                </p>
+              </div>
+              <div className="col-span-4">
+                <p className="text-lg font-semibold">Wholesale Price</p>
+                <p className="text-base font-semibold">
+                  $
+                  {dealerPriceBookDetail?.wholesalePrice === undefined
+                    ? parseInt(0).toLocaleString(2)
+                    : formatOrderValue(
+                      dealerPriceBookDetail?.wholesalePrice ?? parseInt(0)
+                    )}
+                </p>
+              </div>
+            </Grid> */}
+          </div>
         </div>
       </Modal>
     </>
