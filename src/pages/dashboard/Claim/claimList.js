@@ -1388,10 +1388,10 @@ function ClaimList(props) {
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                                <p className="font-semibold leading-5 text-black text-lg">
-                                  {" "}
-                                  {format(new Date(res.lossDate), "MM/dd/yyyy")}
-                                </p>
+                              <p className="font-semibold leading-5 text-black text-lg">
+  {" "}
+  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+</p>
                                 <p className="text-[#A3A3A3]">Damage Date</p>
                               </div>
                               <div className="col-span-3 self-center justify-left pl-4 flex relative">
