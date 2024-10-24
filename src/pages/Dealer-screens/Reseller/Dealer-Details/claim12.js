@@ -2608,7 +2608,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />

@@ -1413,7 +1413,7 @@ function ClaimList(props) {
 
                                 {role != "Super Admin" &&
                                   res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" &&  repairStatus.status == "servicer_shipped" &&
+                                  res?.claimStatus?.[0]?.status === "open" && repairStatus.status == "servicer_shipped" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
@@ -2044,7 +2044,7 @@ function ClaimList(props) {
                                             <>
                                               {claimStatus.status == "rejected" ||
                                                 claimStatus.status ==
-                                                "completed" ||  repairStatus.status == "servicer_shipped" ? (
+                                                "completed" || repairStatus.status == "servicer_shipped" ? (
                                                 <></>
                                               ) : (
                                                 <div
@@ -2511,7 +2511,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />

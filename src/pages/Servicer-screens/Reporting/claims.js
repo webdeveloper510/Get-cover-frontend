@@ -76,6 +76,7 @@ import {
 import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
+import { getCustomerDetailsById } from "../../../services/customerServices";
 
 function AllList(props) {
   const baseUrl = apiUrl();
@@ -83,11 +84,13 @@ function AllList(props) {
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isCustomerOpen, setIsCustomerOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -133,6 +136,7 @@ function AllList(props) {
     status: "",
     date: "",
   });
+  const [customerDetail, setCustomerDetail] = useState();
   const [coverage, setCoverage] = useState([]);
   const [claim, setClaim] = useState([
     { label: "Breakdown", value: "Breakdown" },
@@ -174,6 +178,15 @@ function AllList(props) {
     scrollToBottom();
     getLoginUser();
   }, [messageList, claimId]);
+
+  const onhandle = async (id) => {
+    setIsCustomerOpen(true);
+    setViewLoader(true);
+    const res = await getCustomerDetailsById(id);
+    console.log(res, "------------------Login--------------->>>>");
+    setCustomerDetail(res.result);
+    setViewLoader(false);
+  }
   const getLoginUser = async () => {
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
@@ -526,7 +539,16 @@ function AllList(props) {
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
 
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const handlePageChange = async (page, rowsPerPage) => {
     setShowdata(false);
     setRecordsPerPage(rowsPerPage);
@@ -693,6 +715,10 @@ function AllList(props) {
   const closeView = () => {
     formik.resetForm();
     setIsViewOpen(false);
+  };
+
+  const closeCustomer = () => {
+    setIsCustomerOpen(false);
   };
 
   const openAttachments = () => {
@@ -1437,32 +1463,32 @@ function AllList(props) {
                               {res?.repairParts.length > 0 &&
                                 res?.repairParts.map((part, index) => (
                                   <>
-                                    <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-2 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Service Type
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           {part.serviceType}
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-8 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Description
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           {part.description}
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-2 bg-light-black border-b border-Gray28">
+                                    <div className="col-span-2 border-b border-Gray28">
                                       <div className="py-4 px-3">
-                                        <p className="text-white text-sm font-Regular">
+                                        <p className=" text-sm font-Regular">
                                           Price
                                         </p>
-                                        <p className="text-light-green text-base font-semibold">
+                                        <p className=" text-base font-semibold">
                                           $
                                           {part.price === undefined
                                             ? (0).toLocaleString("en-US", {
@@ -1485,39 +1511,40 @@ function AllList(props) {
                               <div className="col-span-12 ">
                                 <Grid className="!gap-2">
                                   <div className="col-span-4 py-4 pl-1 ">
-                                    <div className="bg-Eclipse py-2 px-2">
-                                      <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                    <div className=" py-2 px-2">
+                                      <p className=" mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
-                                        <span className="font-semibold text-white">
+                                        <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?.contracts?.orders?.customerId)}>
                                           {" "}
                                           {
                                             res?.contracts?.orders?.customer
                                               ?.username
-                                          }{" "}
+
+                                          }
                                         </span>
                                       </p>
                                       <Grid>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className=" text-[11px]  font-Regular">
                                             GetCover Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
+                                          <p className="font-semibold text-[11px] mb-3">
                                             {" "}
                                             {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className=" text-[11px]  font-Regular">
                                             Customer Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                          <p className="font-semibold text-[11px] mb-3">
                                             {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                          <p className=" text-[11px] mb-3 font-Regular">
                                             Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
+                                            <span className="font-semibold ml-3">
                                               {" "}
                                               ${
                                                 res.totalAmount.toFixed(2)
@@ -1526,34 +1553,7 @@ function AllList(props) {
                                           </p>
                                         </div>
                                       </Grid>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
-                                        {" "}
-                                        <span className="self-center mr-4">
-                                          Servicer Name :{" "}
-                                        </span>
-                                        {
-                                          !location.pathname.includes(
-                                            "/servicer/claimList"
-                                          ) ? (
-                                            <Select
-                                              name="servicer"
-                                              label=""
-                                              value={servicer}
-                                              disabled={
-                                                claimStatus.status === "rejected" ||
-                                                claimStatus.status === "completed"
-                                              }
-                                              onChange={handleSelectChange}
-                                              OptionName="Servicer"
-                                              white
-                                              className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                              classBox="w-[55%]"
-                                              options={servicerList}
-                                            />
-                                          ) : (
-                                            <>{res?.servicerData?.name}</>
-                                          )}
-                                      </p>
+
 
                                       {
                                         <>
@@ -1772,7 +1772,7 @@ function AllList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           Customer Status
@@ -1827,7 +1827,7 @@ function AllList(props) {
                                         </div>
                                       )}
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {claimvalues?.label}
@@ -1853,7 +1853,7 @@ function AllList(props) {
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {repairValue?.label}
@@ -1899,7 +1899,7 @@ function AllList(props) {
                                                 claimStatus.status ==
                                                 "rejected" ||
                                                 claimStatus.status ==
-                                                "completed" ||repairStatus.status != "servicer_shipped"
+                                                "completed" || repairStatus.status != "servicer_shipped"
                                               }
                                               white
                                               className1="!border-0 !text-light-black"
@@ -2433,7 +2433,7 @@ function AllList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center"
+                      className="self-center cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -2945,6 +2945,92 @@ function AllList(props) {
             </div>
             <div className="col-span-3"></div>
           </Grid>
+        </div>
+      </Modal>
+
+      <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
+        <Button
+          onClick={closeCustomer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+              <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+                View Customer Detail
+              </p>
+              <Grid className="mt-5 px-6">
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold ">Account Name</p>
+                  <p className="text-base">
+                    {customerDetail?.meta.username}
+                  </p>
+                </div>
+                <div className="col-span-8">
+                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-base leading-5">
+                    {customerDetail?.meta?.city}
+                    {", "}
+                    {customerDetail?.meta?.street}
+                    {", "}
+                    {customerDetail?.meta?.state}
+                    {", "}
+                    {customerDetail?.meta?.country}
+                  </p>
+                </div>
+                <div className="col-span-12">
+                  <div className="flex w-full my-2">
+                    <p className="text-[12px] mr-3 font-Regular">
+                      PRIMARY CONTACT DETAILS
+                    </p>
+                    <hr className="self-center border-[#999999] w-[70%]" />
+                  </div>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Name</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.firstName}{" "}
+                    {customerDetail?.primary?.lastName}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Email</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.email}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Phone #</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Position</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.position}
+                  </p>
+                </div>
+
+
+
+              </Grid>
+            </SingleView>
+          )}
         </div>
       </Modal>
     </>

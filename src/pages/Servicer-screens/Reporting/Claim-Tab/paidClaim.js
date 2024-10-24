@@ -72,6 +72,7 @@ import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
+import { getCustomerDetailsById } from "../../../../services/customerServices";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -88,6 +89,7 @@ function ClaimList(props) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
@@ -97,6 +99,8 @@ function ClaimList(props) {
   const [dropdownVisible2, setDropdownVisible2] = useState(false);
   const [dropdownVisible1, setDropdownVisible1] = useState(false);
   const [claimLoading, setClaimLoading] = useState(false);
+  const [isCustomerOpen, setIsCustomerOpen] = useState(false);
+  const [customerDetail, setCustomerDetail] = useState();
   const [claimList, setClaimList] = useState({});
   const [totalRecords, setTotalRecords] = useState(0);
   const [price, setPrice] = useState("");
@@ -361,6 +365,15 @@ function ClaimList(props) {
       setLoading1(false);
     }, 3000);
   };
+
+  const onhandle = async (id) => {
+    setIsCustomerOpen(true);
+    setViewLoader(true);
+    const res = await getCustomerDetailsById(id);
+    console.log(res, "------------------Login--------------->>>>");
+    setCustomerDetail(res.result);
+    setViewLoader(false);
+  }
 
   const closePay = () => {
     setIsPayOpen(false);
@@ -843,7 +856,16 @@ function ClaimList(props) {
     type: "Admin",
     messageFile: {},
   };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
 
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const formik2 = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -1089,7 +1111,9 @@ function ClaimList(props) {
       console.error("Error fetching claim options:", error);
     }
   };
-
+  const closeCustomer = () => {
+    setIsCustomerOpen(false);
+  };
   const claimPaid = [
     {
       value: "Unpaid",
@@ -1500,7 +1524,7 @@ function ClaimList(props) {
                                     alt="chat"
                                   />
                                   {role === "Super Admin" &&
-                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped"&& repairStatus.status != "servicer_shipped" && (
+                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" && repairStatus.status != "servicer_shipped" && (
                                       <img
                                         src={Edit}
                                         className="mr-2 cursor-pointer"
@@ -1701,13 +1725,13 @@ function ClaimList(props) {
                                   <div className="col-span-12 ">
                                     <Grid className="!gap-2">
                                       <div className="col-span-4 py-4 pl-1 ">
-                                        <div className="bg-Eclipse py-2 px-2">
+                                        <div className=" py-2 px-2">
                                           {!location.pathname.includes(
                                             "customer/claimList"
                                           ) && (
                                               <p className=" mb-3 text-[11px] font-Regular ">
                                                 Customer Name :{" "}
-                                                <span className="font-semibold">
+                                                <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?.contracts?.orders?.customerId)}>
                                                   {" "}
                                                   {
                                                     res?.contracts?.orders?.customer
@@ -1748,48 +1772,7 @@ function ClaimList(props) {
                                           </Grid>
 
 
-                                          {location.pathname.includes(
-                                            "/reseller/claimList"
-                                          ) ? (
-                                            <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                              {" "}
-                                              <span className="self-center mr-4">
-                                                Servicer Name :{" "}
-                                              </span>
-                                              {res?.servicerData?.name}
-                                            </p>
-                                          ) : (
-                                            <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                              {" "}
-                                              <span className="self-center mr-4">
-                                                Servicer Name :{" "}
-                                              </span>
-                                              {role == "Super Admin" ? (
-                                                <Select
-                                                  name="servicer"
-                                                  label=""
-                                                  value={servicer}
-                                                  disabled={
-                                                    claimStatus.status ===
-                                                    "rejected" ||
-                                                    claimStatus.status ===
-                                                    "completed" ||
-                                                    location.pathname.includes(
-                                                      "/reseller/customerDetails"
-                                                    )
-                                                  }
-                                                  onChange={handleSelectChange}
-                                                  OptionName="Servicer"
-                                                  white
-                                                  className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                  classBox="w-[55%]"
-                                                  options={servicerList}
-                                                />
-                                              ) : (
-                                                <>{res?.servicerData?.name}</>
-                                              )}
-                                            </p>
-                                          )}
+
                                           {!isExcludedPath || claimList.result[activeIndex]
                                             ?.selfServicer ? (
                                             <>
@@ -2608,7 +2591,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -3196,6 +3179,84 @@ function ClaimList(props) {
             </div>
           </div>
         )}
+      </Modal>
+
+      <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
+        <Button
+          onClick={closeCustomer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+              <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+                View Customer Detail
+              </p>
+              <Grid className="mt-5 px-6">
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold ">Account Name</p>
+                  <p className="text-base">
+                    {customerDetail?.meta.username}
+                  </p>
+                </div>
+                <div className="col-span-8">
+                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-base leading-5">
+                    {customerDetail?.meta?.city}
+                    {", "}
+                    {customerDetail?.meta?.street}
+                    {", "}
+                    {customerDetail?.meta?.state}
+                    {", "}
+                    {customerDetail?.meta?.country}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Name</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.firstName}{" "}
+                    {customerDetail?.primary?.lastName}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Email</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.email}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Phone #</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Position</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.position}
+                  </p>
+                </div>
+
+
+
+              </Grid>
+            </SingleView>
+          )}
+        </div>
       </Modal>
     </>
   );

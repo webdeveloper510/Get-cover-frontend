@@ -1995,7 +1995,7 @@ function ResellerClaimList(props) {
                                                     claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" ||repairStatus.status != "servicer_shipped"
+                                                    "completed" || repairStatus.status != "servicer_shipped"
                                                   }
                                                   white
                                                   className1="!border-0 !text-light-black"
@@ -2502,7 +2502,7 @@ function ResellerClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center"
+                      className="self-center cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />
