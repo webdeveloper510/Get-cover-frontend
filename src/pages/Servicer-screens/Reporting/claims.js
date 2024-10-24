@@ -1902,7 +1902,7 @@ function AllList(props) {
                                                 "completed" || repairStatus.status != "servicer_shipped"
                                               }
                                               white
-                                              className1="!border-0 !text-light-black"
+                                              className1={`!border-0 !text-light-black1 ${repairStatus.status != "servicer_shipped" && 'hidden'}`}
                                               options={repairValue?.value}
                                               visible={dropdownVisible}
                                             />
