@@ -229,6 +229,7 @@ function ResellerClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
+        value?.reason.split(" Would you like to proceed with rejecting the claim now?")
         value.claimStatus = "rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       }
