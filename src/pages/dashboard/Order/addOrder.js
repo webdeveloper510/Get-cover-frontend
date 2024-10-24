@@ -1719,10 +1719,11 @@ console.log('new date',new Date(timestampFromDB));
   };
 
   const handleInputClickResetStep1 = () => {
+    console.log(dealerId , resellerId , !customerId )
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
     if (
-      (dealerId && dealerValue && !customerId ) ||
+      ((dealerId || dealerValue) && !customerId && !resellerId ) ||
       window.location.pathname.includes("/editOrder")
     ) {
       console.log("formik.values", formik.values);
