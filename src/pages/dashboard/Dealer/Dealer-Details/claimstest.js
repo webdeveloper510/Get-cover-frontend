@@ -1339,7 +1339,7 @@ function ClaimList(props) {
                                           Claim Amount
                                         </p>
                                         <p className="text-light-black text-sm font-semibold">
-                                        ${res.totalAmount.toFixed(2)}
+                                          ${res.totalAmount.toFixed(2)}
                                         </p>
                                       </div>
                                     </div>
@@ -2099,7 +2099,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />

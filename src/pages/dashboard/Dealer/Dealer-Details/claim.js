@@ -1500,7 +1500,7 @@ function ClaimList(props) {
                                     alt="chat"
                                   />
                                   {role === "Super Admin" &&
-                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" (
+                                    res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped"(
                                       <img
                                         src={Edit}
                                         className="mr-2 cursor-pointer"
@@ -2172,7 +2172,7 @@ function ClaimList(props) {
                                               <>
                                                 {claimStatus.status == "rejected" ||
                                                   claimStatus.status ==
-                                                  "completed" ||  repairStatus.status == "servicer_shipped" ? (
+                                                  "completed" || repairStatus.status == "servicer_shipped" ? (
                                                   <></>
                                                 ) : (
                                                   <div
@@ -2608,7 +2608,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />

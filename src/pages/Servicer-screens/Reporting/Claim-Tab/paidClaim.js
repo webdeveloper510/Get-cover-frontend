@@ -856,7 +856,16 @@ function ClaimList(props) {
     type: "Admin",
     messageFile: {},
   };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
 
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const formik2 = useFormik({
     initialValues: initialValues2,
     validationSchema: Yup.object({
@@ -1414,26 +1423,7 @@ function ClaimList(props) {
             </Grid>
 
             <div className="px-3 mt-5">
-              {totalRecords == 0 ? (
-                <></>
-              ) : (
-                <>
-                  {props.activeTab == "Unpaid Claims" && (
-                    <>
-                      {!isCheckBox && (
-                        <div className="text-right mt-8">
-                          <Button
-                            className="mx-3 !text-[14px] !py-[4px]"
-                            onClick={() => setIsCheckbox(true)}
-                          >
-                            Pay Now
-                          </Button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
+
               {loaderType == true ? (
                 <div className=" h-[400px] w-full flex py-5">
                   <div className="self-center mx-auto">
@@ -1763,48 +1753,7 @@ function ClaimList(props) {
                                           </Grid>
 
 
-                                          {location.pathname.includes(
-                                            "/reseller/claimList"
-                                          ) ? (
-                                            <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                              {" "}
-                                              <span className="self-center mr-4">
-                                                Servicer Name :{" "}
-                                              </span>
-                                              {res?.servicerData?.name}
-                                            </p>
-                                          ) : (
-                                            <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                              {" "}
-                                              <span className="self-center mr-4">
-                                                Servicer Name :{" "}
-                                              </span>
-                                              {role == "Super Admin" ? (
-                                                <Select
-                                                  name="servicer"
-                                                  label=""
-                                                  value={servicer}
-                                                  disabled={
-                                                    claimStatus.status ===
-                                                    "rejected" ||
-                                                    claimStatus.status ===
-                                                    "completed" ||
-                                                    location.pathname.includes(
-                                                      "/reseller/customerDetails"
-                                                    )
-                                                  }
-                                                  onChange={handleSelectChange}
-                                                  OptionName="Servicer"
-                                                  white
-                                                  className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                  classBox="w-[55%]"
-                                                  options={servicerList}
-                                                />
-                                              ) : (
-                                                <>{res?.servicerData?.name}</>
-                                              )}
-                                            </p>
-                                          )}
+
                                           {!isExcludedPath || claimList.result[activeIndex]
                                             ?.selfServicer ? (
                                             <>
@@ -2623,7 +2572,7 @@ function ClaimList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center bg-white"
+                      className="self-center bg-white cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -3272,8 +3221,8 @@ function ClaimList(props) {
                 <div className="col-span-4">
                   <p className="text-lg font-semibold">Phone #</p>
                   <p className="text-base">
-                    {customerDetail?.primary?.dialCode}
-                    {customerDetail?.primary?.phoneNumber}{" "}
+                    {customerDetail?.primary?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>
                 <div className="col-span-4">

@@ -539,7 +539,16 @@ function AllList(props) {
   };
 
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
 
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const handlePageChange = async (page, rowsPerPage) => {
     setShowdata(false);
     setRecordsPerPage(rowsPerPage);
@@ -1544,34 +1553,7 @@ function AllList(props) {
                                           </p>
                                         </div>
                                       </Grid>
-                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                        {" "}
-                                        <span className="self-center mr-4">
-                                          Servicer Name :{" "}
-                                        </span>
-                                        {
-                                          !location.pathname.includes(
-                                            "/servicer/claimList"
-                                          ) ? (
-                                            <Select
-                                              name="servicer"
-                                              label=""
-                                              value={servicer}
-                                              disabled={
-                                                claimStatus.status === "rejected" ||
-                                                claimStatus.status === "completed"
-                                              }
-                                              onChange={handleSelectChange}
-                                              OptionName="Servicer"
-                                              white
-                                              className1="!py-0 text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                              classBox="w-[55%]"
-                                              options={servicerList}
-                                            />
-                                          ) : (
-                                            <>{res?.servicerData?.name}</>
-                                          )}
-                                      </p>
+
 
                                       {
                                         <>
@@ -2451,7 +2433,7 @@ function AllList(props) {
                   ) : (
                     <img
                       src={upload}
-                      className="self-center"
+                      className="self-center cursor-pointer"
                       alt="upload"
                       onClick={handleImageClick}
                     />
@@ -3009,6 +2991,14 @@ function AllList(props) {
                     {customerDetail?.meta?.country}
                   </p>
                 </div>
+                <div className="col-span-12">
+                  <div className="flex w-full my-2">
+                    <p className="text-[12px] mr-3 font-Regular">
+                      PRIMARY CONTACT DETAILS
+                    </p>
+                    <hr className="self-center border-[#999999] w-[70%]" />
+                  </div>
+                </div>
                 <div className="col-span-4">
                   <p className="text-lg font-semibold">Name</p>
                   <p className="text-base">
@@ -3025,8 +3015,8 @@ function AllList(props) {
                 <div className="col-span-4">
                   <p className="text-lg font-semibold">Phone #</p>
                   <p className="text-base">
-                    {customerDetail?.primary?.dialCode}
-                    {customerDetail?.primary?.phoneNumber}{" "}
+                    {customerDetail?.primary?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}{" "}
                   </p>
                 </div>
                 <div className="col-span-4">
