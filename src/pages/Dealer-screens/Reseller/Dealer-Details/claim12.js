@@ -275,7 +275,7 @@ function ClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-        value?.reason.split(" Would you like to proceed with rejecting the claim now?")
+       
         value.claimStatus = "rejected";
         editClaimrejectedValue(claimList.result[activeIndex]._id, value);
       } else {
@@ -395,6 +395,9 @@ function ClaimList(props) {
   };
 
   const editClaimrejectedValue = (claimId, data) => {
+    if( data.reason) {
+      data.reason = data?.reason.split(" Would you like to proceed with rejecting the claim now?")
+ } 
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);

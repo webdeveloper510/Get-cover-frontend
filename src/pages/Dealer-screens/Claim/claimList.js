@@ -241,7 +241,6 @@ function ClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         value.claimStatus = "rejected";
-        value?.reason.split(" Would you like to proceed with rejecting the claim now?")
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       } else {
         const updateAndCallAPI = (setter) => {
@@ -2902,7 +2901,7 @@ function ClaimList(props) {
               <Button onClick={() => {
                 handleSelectChange("claimStatus", {
                   value: "rejected",
-                  reason: coverageTypeError.message,
+                  reason: coverageTypeError.message1,
                 });
               }}
                 className="w-full">

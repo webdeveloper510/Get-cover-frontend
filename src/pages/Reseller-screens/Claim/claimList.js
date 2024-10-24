@@ -229,7 +229,6 @@ function ResellerClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-        value?.reason.split(" Would you like to proceed with rejecting the claim now?")
         value.claimStatus = "rejected";
         editClaimRejectedValue(claimList.result[activeIndex]._id, value);
       }
@@ -2589,7 +2588,7 @@ function ResellerClaimList(props) {
               <Button onClick={() => {
                 handleSelectChange("claimStatus", {
                   value: "rejected",
-                  reason: coverageTypeError.message,
+                  reason: coverageTypeError.message1,
                 });
               }}
                 className="w-full">
