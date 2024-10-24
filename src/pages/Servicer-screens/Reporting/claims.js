@@ -1366,7 +1366,7 @@ function AllList(props) {
                                   alt="chat"
                                 />
 
-                                {res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" && (
+                                {res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status != "servicer_shipped" && (
                                   <img
                                     src={Edit}
                                     className="mr-2 cursor-pointer"

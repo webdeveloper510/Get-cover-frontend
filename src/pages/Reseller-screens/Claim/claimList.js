@@ -1377,7 +1377,7 @@ function ResellerClaimList(props) {
                                 />
 
                                 {res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" && repairStatus.status != "servicer_shipped" && (
+                                  res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status != "servicer_shipped" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
