@@ -681,8 +681,11 @@ function AddClaim() {
     },
     validationSchema: validationSchemaStep2,
     onSubmit: (values) => {
-      const formattedDate = new Date(values.lossDate).toISOString();
+      const selectedDate = new Date(values.lossDate);
+      // selectedDate.setDate(selectedDate.getDate() + 1);
+      const formattedDate = selectedDate.toISOString();
       values.lossDate = formattedDate;
+      console.log(formattedDate) 
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
