@@ -277,6 +277,7 @@ function ResellerAddOrder() {
         return newArray;
       });
     });
+    setSendNotification(result?.result.sendNotification)
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,

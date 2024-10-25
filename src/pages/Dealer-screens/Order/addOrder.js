@@ -400,6 +400,7 @@ function DealerAddOrder() {
       });
     });
     orderDetail(result.result);
+    setSendNotification(result?.result.sendNotification)
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
     formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
