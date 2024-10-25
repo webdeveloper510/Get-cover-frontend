@@ -107,6 +107,7 @@ function AddCompanyPriceBook() {
         .min(0, "Administration  fee cannot be negative"),
       status: Yup.string().required("Required"),
       priceType: Yup.string().required("Required"),
+      coverageType: Yup.array().min(1, "Required"),
 
       rangeStart:
         value !== "Flat Pricing"
@@ -858,15 +859,17 @@ function AddCompanyPriceBook() {
                           }
                         />
 
-                        {formik.touched.coverageType &&
+                      
+                      </div>
+                    </div>
+                    {formik.touched.coverageType &&
                           formik.errors.coverageType && (
                             <div className="text-red-500 text-sm pl-2 pt-2">
                               {formik.errors.coverageType}
                             </div>
                           )}
-                      </div>
-                    </div>
                   </div>
+                  
                 )}
                 {type == "Edit" ? (
                   <></>
