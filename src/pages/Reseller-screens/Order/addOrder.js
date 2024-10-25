@@ -283,6 +283,7 @@ function ResellerAddOrder() {
       });
     });
     setSelectedFile2(result?.result?.termCondition);
+    setSendNotification(result?.result.sendNotification)
     orderDetail(result.result);
     formikStep3.setValues({
       ...formikStep3.values,

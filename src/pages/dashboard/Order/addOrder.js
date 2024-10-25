@@ -607,6 +607,7 @@ function AddOrder() {
         formik4.setFieldError("paidAmount", "");
         formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
         setSelectedFile2(termCondition);
+        setSendNotification(result?.result.sendNotification)
         formikStep2.setFieldValue("termCondition", termCondition);
         formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
         formikStep2.setFieldValue("coverageType", coverageType);

@@ -2589,7 +2589,7 @@ function ResellerClaimList(props) {
               <Button onClick={() => {
                 handleSelectChange("claimStatus", {
                   value: "rejected",
-                  reason: coverageTypeError.message,
+                  reason: coverageTypeError.message1,
                 });
               }}
                 className="w-full">
