@@ -708,7 +708,6 @@ function Account() {
   const fetchUserMembers = async () => {
     try {
       const members = await getSuperAdminMembers();
-      console.log(members.loginMember.threshHoldLimit.value, "111111111111111111111111111111");
       setMemberList(members.result);
       setCreatethreshold(members.loginMember?.isThreshHoldLimit == false ? 'no' : 'yes')
       thresholdLimit.setFieldValue("value", members.loginMember.threshHoldLimit.value);
@@ -735,7 +734,6 @@ function Account() {
       setEmails(arr);
       setSelectedEmail(arr1);
       let local = JSON.parse(localStorage.getItem("userDetails"));
-      // localStorage.removeItem('userDetails')
       local.userInfo = {
         lastName: members?.loginMember?.lastName,
         firstName: members?.loginMember?.firstName,
@@ -1381,134 +1379,140 @@ function Account() {
                         </Form>
                       )}
                     </Formik>
-                    <div className="col-span-12">
-                      <form onSubmit={formikEmail.handleSubmit}>
-                        <p className="text-xl font-semibold mb-4">
-                          Send Notification
-                        </p>
-                        <div className="relative">
-                          <label
-                            htmlFor="email"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Send Notification to
-                          </label>
-                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                            <MultiSelect
-                              label="Email"
-                              name="Email"
-                              placeholder="Email"
-                              value={selectedEmail}
-                              options={emails}
-                              pName="Email"
-                              onChange={(value) => {
-                                console.log("value", value);
-                                setSelectedEmail(value);
-                                handleAddition(value);
-                                // handleFilterChange("priceBookId", value);
-                              }}
-                              labelledBy="Select"
-                              overrideStrings={{
-                                selectSomeItems: "Select Email",
-                              }}
-                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                            />
-                          </div>
-                        </div>
-                        {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
-                          <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                            {(() => {
-                              const uniqueErrors = new Set();
-                              return formikEmail.errors.notificationTo.map((error, index) => {
-                                if (!uniqueErrors.has(error)) {
-                                  uniqueErrors.add(error);
-                                  return (
-                                    <span key={index}>
-                                      {index > 0 && " "}{" "}
-                                      <span className="font-semibold">
-                                        {" "}
-                                        {error}{" "}
-                                      </span>
-                                    </span>
-                                  );
-                                }
-                                return null;
-                              });
-                            })()}
+                    {isPrimary && (
+                      <div className="col-span-12">
+                        <form onSubmit={formikEmail.handleSubmit}>
+                          <p className="text-xl font-semibold mb-4">
+                            Send Notification
                           </p>
-                        )}
+                          <div className="relative">
+                            <label
+                              htmlFor="email"
+                              className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                            >
+                              Send Notification to
+                            </label>
+                            <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                              <MultiSelect
+                                label="Email"
+                                name="Email"
+                                placeholder="Email"
+                                value={selectedEmail}
+                                options={emails}
+                                pName="Email"
+                                onChange={(value) => {
+                                  console.log("value", value);
+                                  setSelectedEmail(value);
+                                  handleAddition(value);
+                                  // handleFilterChange("priceBookId", value);
+                                }}
+                                labelledBy="Select"
+                                overrideStrings={{
+                                  selectSomeItems: "Select Email",
+                                }}
+                                className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                              />
+                            </div>
+                          </div>
+                          {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
+                            <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                              {(() => {
+                                const uniqueErrors = new Set();
+                                return formikEmail.errors.notificationTo.map((error, index) => {
+                                  if (!uniqueErrors.has(error)) {
+                                    uniqueErrors.add(error);
+                                    return (
+                                      <span key={index}>
+                                        {index > 0 && " "}{" "}
+                                        <span className="font-semibold">
+                                          {" "}
+                                          {error}{" "}
+                                        </span>
+                                      </span>
+                                    );
+                                  }
+                                  return null;
+                                });
+                              })()}
+                            </p>
+                          )}
 
-                        <div className="col-span-12 text-right mt-5">
-                          <Button type="submit">Save</Button>
-                        </div>
-                      </form>
-                    </div>
+                          <div className="col-span-12 text-right mt-5">
+                            <Button type="submit">Save</Button>
+                          </div>
+                        </form>
+                      </div>
+                    )}
                   </Grid>
                 </>
-                <p className="text-xl font-semibold mb-3">Threshold Limit</p>
-                <form onSubmit={thresholdLimit.handleSubmit}>
-                  <Grid>
-                    <div className="col-span-6">
-                      <p className=" flex text-[16px] font-semibold mt-3 mb-6">
-                        Do you want to add threshold limit?
-                        <RadioButton
-                          id="yes-add-threshold"
-                          label="Yes"
-                          value="yes"
-                          checked={createthreshold === "yes"}
-                          onChange={handleRadioChange1}
-                        />
-                        <RadioButton
-                          id="no-add-threshold"
-                          label="No"
-                          value="no"
-                          checked={createthreshold === "no"}
-                          onChange={handleRadioChange1}
-                        />
-                      </p>
-                    </div>
-                    <div className="col-span-6">
-                      <>
-                        <Grid className="">
-                          <div className="relative col-span-9">
-                            {createthreshold === "yes" &&
-                              <>
-                                <Input
-                                  type="number"
-                                  name="value"
-                                  label="% of Contract value"
-                                  className="!bg-white"
-                                  maxDecimalPlaces={2}
-                                  minLength="1"
-                                  maxLength="10"
-                                  value={thresholdLimit.values.value}
-                                  onChange={thresholdLimit.handleChange}
-                                  onBlur={thresholdLimit.handleBlur}
-                                />
+                {isPrimary && (
+                  <>
+                    <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                    <form onSubmit={thresholdLimit.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-6">
+                          <p className=" flex text-[16px] font-semibold mt-3 mb-6">
+                            Do you want to add threshold limit?
+                            <RadioButton
+                              id="yes-add-threshold"
+                              label="Yes"
+                              value="yes"
+                              checked={createthreshold === "yes"}
+                              onChange={handleRadioChange1}
+                            />
+                            <RadioButton
+                              id="no-add-threshold"
+                              label="No"
+                              value="no"
+                              checked={createthreshold === "no"}
+                              onChange={handleRadioChange1}
+                            />
+                          </p>
+                        </div>
+                        <div className="col-span-6">
+                          <>
+                            <Grid className="">
+                              <div className="relative col-span-9">
+                                {createthreshold === "yes" &&
+                                  <>
+                                    <Input
+                                      type="number"
+                                      name="value"
+                                      label="% of Contract value"
+                                      className="!bg-white"
+                                      maxDecimalPlaces={2}
+                                      minLength="1"
+                                      maxLength="10"
+                                      value={thresholdLimit.values.value}
+                                      onChange={thresholdLimit.handleChange}
+                                      onBlur={thresholdLimit.handleBlur}
+                                    />
 
-                                <div className="absolute top-[10px] right-[13px]">
-                                  <p className="h-full text-2xl">%</p>
-                                </div>
-                              </>
-                            }
-                            {thresholdLimit.errors.value && thresholdLimit.touched.value && (
-                              <div className="text-red-500">{thresholdLimit.errors.value}</div>
-                            )}
-                          </div>
-                          <div className="col-span-3 self-center text-right">
-                            <Button type="submit" className='ml-3 '>
-                              Save
-                            </Button>
-                          </div>
-                        </Grid>
+                                    <div className="absolute top-[10px] right-[13px]">
+                                      <p className="h-full text-2xl">%</p>
+                                    </div>
+                                    {thresholdLimit.errors.value && thresholdLimit.touched.value && (
+                                      <div className="text-red-500">{thresholdLimit.errors.value}</div>
+                                    )}
+                                  </>
+                                }
+                              </div>
+                              <div className="col-span-3 self-center text-right">
+                                <Button type="submit" className='ml-3 '>
+                                  Save
+                                </Button>
+                              </div>
+                            </Grid>
 
-                      </>
-                    </div>
-                  </Grid>
-                </form>
+                          </>
+                        </div>
+                      </Grid>
+                    </form>
+                  </>
+                )}
 
 
-                <p className="text-xl font-semibold mb-3">Change Password</p>
+                <p className="text-xl font-semibold my-3">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
                     <div className="col-span-4">

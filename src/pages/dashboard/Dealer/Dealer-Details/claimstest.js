@@ -42,6 +42,7 @@ import {
   editClaimStatus,
   getClaimMessages,
   getClaimUnpaid,
+  getOptions,
   getPaidClaims,
   getUnpaidClaims,
   markasPaidClaims,
@@ -112,6 +113,9 @@ function ClaimList(props) {
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const baseUrl = apiUrl();
+
+  const [repairValue, repair_status] = useState({});
+  const [customerValue, customer_status] = useState({});
 
   useEffect(() => {
     if (location.pathname.includes("/dealer")) {
@@ -407,7 +411,29 @@ function ClaimList(props) {
     setIsSuccessOpen(false);
   };
 
+  const getClaimOptions = async () => {
+    try {
+      const data = [
+        "repair_status",
+        "shipment_type",
+        "customer_status",
+        "claim_status",
+      ];
+      const result = await getOptions(data);
+
+      const stateSetters = {
+        repair_status,
+        shipment_type,
+        customer_status,
+      };
+      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+    } catch (error) {
+      console.error("Error fetching claim options:", error);
+    }
+  };
+
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {
@@ -807,63 +833,6 @@ function ClaimList(props) {
     { label: "Accidental", value: "Accidental" },
   ];
 
-  const customerValue = [
-    {
-      value: "Request Submitted",
-      label: "Request Submitted",
-    },
-    {
-      value: "Shipping Label Received",
-      label: "Shipping Label Received",
-    },
-    {
-      value: "Product Sent",
-      label: "Product Sent",
-    },
-    {
-      value: "Product Received",
-      label: "Product Received",
-    },
-  ];
-
-  const repairValue = [
-    {
-      value: "Request Sent",
-      label: "Request Sent",
-    },
-    {
-      value: "Request Approved",
-      label: "Request Approved",
-    },
-    {
-      value: "Product Received",
-      label: "Product Received",
-    },
-    {
-      value: "Repair in Process",
-      label: "Repair in Process",
-    },
-    {
-      value: "Parts Needed",
-      label: "Parts Needed",
-    },
-    {
-      value: "Parts Ordered",
-      label: "Parts Ordered",
-    },
-    {
-      value: "Parts Received",
-      label: "Parts Received",
-    },
-    {
-      value: "Repair Complete",
-      label: "Repair Complete",
-    },
-    {
-      value: "Servicer Shipped",
-      label: "Servicer Shipped",
-    },
-  ];
 
   const validationSchema = Yup.object().shape({});
 
@@ -1115,7 +1084,7 @@ function ClaimList(props) {
                 <></>
               ) : (
                 <>
-                  {props.activeTab == "Unpaid Claims"&& role == "Super Admin" &&  (
+                  {props.activeTab == "Unpaid Claims" && role == "Super Admin" && (
                     <>
                       {!isCheckBox && (
                         <div className="text-right mt-8">
@@ -1207,8 +1176,8 @@ function ClaimList(props) {
                                     <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                       <p className="font-semibold text-black leading-5 text-lg">
                                         {" "}
-                                       
-  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+
+                                        {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
 
                                       </p>
                                       <p className="text-[#A3A3A3]">

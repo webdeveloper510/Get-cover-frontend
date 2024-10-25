@@ -360,6 +360,7 @@ function ClaimList(props) {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+      setCompleteLoader(false);
     });
 
   };
@@ -485,6 +486,7 @@ function ClaimList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
 
@@ -988,7 +990,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-    // getClaimOptions();
+    getClaimOptions();
 
   }, []);
 
@@ -1388,10 +1390,10 @@ function ClaimList(props) {
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                              <p className="font-semibold leading-5 text-black text-lg">
-  {" "}
-  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
-</p>
+                                <p className="font-semibold leading-5 text-black text-lg">
+                                  {" "}
+                                  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+                                </p>
                                 <p className="text-[#A3A3A3]">Damage Date</p>
                               </div>
                               <div className="col-span-3 self-center justify-left pl-4 flex relative">
@@ -1402,7 +1404,7 @@ function ClaimList(props) {
                                   alt="chat"
                                 />
                                 {role === "Super Admin" &&
-                                  res?.claimStatus?.[0]?.status === "open" &&  res?.repairStatus?.[0]?.status != "servicer_shipped" && (
+                                  res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status != "servicer_shipped" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1413,7 +1415,7 @@ function ClaimList(props) {
 
                                 {role != "Super Admin" &&
                                   res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" &&  res?.repairStatus?.[0]?.status == "servicer_shipped" &&
+                                  res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status == "servicer_shipped" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
@@ -1624,44 +1626,44 @@ function ClaimList(props) {
                                           </div>
                                         </Grid>
 
-                                          {
-    claimType == "theft_and_lost" ? (
-    <></>
-    ) : ( 
-      location.pathname.includes("/reseller/claimList") ? (
-      <p className="mb-4 text-[11px] font-Regular flex self-center">
-        <span className="self-center mr-4">Servicer Name :</span>
-        {res?.servicerData?.name}
-      </p>
-    ) : (
-      <p className="mb-4 text-[11px] font-Regular flex self-center">
-        <span className="self-center mr-4">Servicer Name :</span>
-        {role === "Super Admin" ? (
-          <Select
-            name="servicer"
-            label=""
-            value={servicer}
-            disabled={
-              claimStatus.status === "rejected" ||
-              claimStatus.status === "completed" ||
-              location.pathname.includes("/reseller/customerDetails")
-            }
-            onChange={handleSelectChange}
-            OptionName="Servicer"
-            white
-            className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
-            classBox="w-[55%]"
-            options={servicerList}
-          />
-        ) : (
-          res?.servicerData?.name
-        )}
-      </p>
-    )
-    )
-  }
-              
-                                   
+                                        {
+                                          claimType == "theft_and_lost" ? (
+                                            <></>
+                                          ) : (
+                                            location.pathname.includes("/reseller/claimList") ? (
+                                              <p className="mb-4 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center mr-4">Servicer Name :</span>
+                                                {res?.servicerData?.name}
+                                              </p>
+                                            ) : (
+                                              <p className="mb-4 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center mr-4">Servicer Name :</span>
+                                                {role === "Super Admin" ? (
+                                                  <Select
+                                                    name="servicer"
+                                                    label=""
+                                                    value={servicer}
+                                                    disabled={
+                                                      claimStatus.status === "rejected" ||
+                                                      claimStatus.status === "completed" ||
+                                                      location.pathname.includes("/reseller/customerDetails")
+                                                    }
+                                                    onChange={handleSelectChange}
+                                                    OptionName="Servicer"
+                                                    white
+                                                    className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
+                                                    classBox="w-[55%]"
+                                                    options={servicerList}
+                                                  />
+                                                ) : (
+                                                  res?.servicerData?.name
+                                                )}
+                                              </p>
+                                            )
+                                          )
+                                        }
+
+
 
                                         {!isExcludedPath || claimList.result[activeIndex]
                                           ?.selfServicer ?

@@ -552,6 +552,7 @@ function ClaimList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
 
@@ -1403,7 +1404,7 @@ function ClaimList(props) {
                 <></>
               ) : (
                 <>
-                  {props.activeTab == "Unpaid Claims"  && role == "Super Admin" && (
+                  {props.activeTab == "Unpaid Claims" && role == "Super Admin" && (
                     <>
                       {!isCheckBox && (
                         <div className="text-right mt-8">
@@ -1488,7 +1489,7 @@ function ClaimList(props) {
                                 <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                   <p className="font-semibold leading-5 text-black text-lg">
                                     {" "}
-  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+                                    {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
 
                                   </p>
                                   <p className="text-[#A3A3A3]">Damage Date</p>

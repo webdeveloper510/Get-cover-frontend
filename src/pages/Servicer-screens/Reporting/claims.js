@@ -596,6 +596,7 @@ function AllList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {

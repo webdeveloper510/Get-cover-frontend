@@ -579,6 +579,7 @@ function ResellerClaimList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {
@@ -1363,7 +1364,7 @@ function ResellerClaimList(props) {
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                 <p className="font-semibold leading-5 text-lg">
                                   {" "}
-  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+                                  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
 
                                 </p>
                                 <p className="text-[#A3A3A3]">Damage Date</p>
