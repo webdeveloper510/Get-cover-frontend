@@ -1789,13 +1789,14 @@ function ClaimList(props) {
                                                   "completed" ? (
                                                   <></>
                                                 ) : (
-                                                  <img
-                                                    src={pen}
-                                                    onClick={() =>
-                                                      setTrackerView(true)
-                                                    }
-                                                    className="cursor-pointer object-contain ml-4"
-                                                  />
+                                                  <></>
+                                                  // <img
+                                                  //   src={pen}
+                                                  //   onClick={() =>
+                                                  //     setTrackerView(true)
+                                                  //   }
+                                                  //   className="cursor-pointer object-contain ml-4"
+                                                  // />
                                                 )}
                                               </div>
                                             )}

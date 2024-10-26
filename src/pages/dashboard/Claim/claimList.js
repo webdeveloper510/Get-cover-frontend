@@ -1877,10 +1877,10 @@ function ClaimList(props) {
                                                         FedX Tracker
                                                       </a>
                                                     )}
-                                                  {claimStatus.status ==
+                                                  {(claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" ? (
+                                                    "completed") ? (
                                                     <></>
                                                   ) : (
                                                     <img
