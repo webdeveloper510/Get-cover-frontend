@@ -461,7 +461,7 @@ function ClaimList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then((res) => {
+    editClaimTypeValue(claimId, data).then(async(res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
@@ -479,6 +479,7 @@ function ClaimList(props) {
             res.result.getCoverClaimAmount;
           updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
             res.result.getcoverOverAmount;
+            await getClaimOptions(res.result.claimType)
         }
       }
       setClaimList(updatedClaimListCopy);
@@ -917,6 +918,7 @@ function ClaimList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
+        getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1063,7 +1065,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-    getClaimOptions();
+    getClaimOptions('');
   }, []);
 
   useEffect(() => {
@@ -1072,7 +1074,7 @@ function ClaimList(props) {
     }
   }, [props]);
 
-  const getClaimOptions = async () => {
+  const getClaimOptions = async (value) => {
     try {
       const data = [
         "repair_status",
@@ -1080,15 +1082,49 @@ function ClaimList(props) {
         "customer_status",
         "claim_status",
       ];
-      const result = await getOptions(data);
 
+      const result = await getOptions(data);
       const stateSetters = {
         repair_status,
         shipment_type,
         customer_status,
         claim_status,
       };
-      data.forEach((key, index) => stateSetters[key]?.(result.result[index]));
+
+      const filterOptions = (key, options) => {
+        if (value === "" || value == "New") {
+          if (key === "claim_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "completed"),
+            };
+          }
+          if (key === "repair_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(
+                option =>
+                  option.value !== "repair_complete" &&
+                  option.value !== "servicer_shipped"
+              ),
+            };
+          }
+          if (key === "customer_status") {
+            return {
+              ...options,
+              value: options?.value?.filter(option => option.value !== "product_received"),
+            };
+          }
+        }
+        return options;
+      };
+
+
+      data.forEach((key, index) => {
+        const filteredOptions = filterOptions(key, result.result[index]);
+        console.log(result.result[index], filteredOptions)
+        stateSetters[key]?.(filteredOptions);
+      });
     } catch (error) {
       console.error("Error fetching claim options:", error);
     }
