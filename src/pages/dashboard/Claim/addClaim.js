@@ -637,7 +637,22 @@ function AddClaim() {
     );
   };
 
+
   const validationSchemaStep2 = Yup.object({
+    lossDate: Yup.date().required("Damage Date is required"),
+    images: Yup.array().min(1, "File is required") // Ensures at least one image is uploaded
+      .test("fileSize", "File size is too large", (value) => {
+        if (!value || value.length === 0) return true;
+
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        return value.every((image) => image.file.size <= maxSize);
+      }),
+    diagnosis: Yup.string()
+      .transform((originalValue) => originalValue.trim())
+      .required("Diagnosis is required"),
+  });
+
+  const validationSchemaStep1 = Yup.object({
     lossDate: Yup.date().required("Damage Date is required"),
     images: Yup.array().test("fileSize", "File size is too large", (value) => {
       if (!value || value.length === 0) return true;
@@ -679,7 +694,11 @@ function AddClaim() {
       coverageType: "",
       contractId: contractDetail?._id,
     },
-    validationSchema: validationSchemaStep2,
+    validationSchema: () => {
+      return formikStep2.values.coverageType === 'theft_and_lost'
+        ? validationSchemaStep2
+        : validationSchemaStep1;
+    },
     onSubmit: (values) => {
       const selectedDate = new Date(values.lossDate);
       const formattedDate = selectedDate.toISOString();
@@ -836,10 +855,10 @@ function AddClaim() {
                   Upload Receipt or Image{" "}
                 </p>
                 <div>
-                  <p className="text-lg font-bold mb-4">
-                    {" "}
-                    For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
-                  </p>
+                  {formikStep2.values.coverageType == 'theft_and_lost' &&
+                    <p className="text-lg font-bold mb-4">
+                      For Theft or Lost Claims, Provide Police Report or Sworn Affidavit Here{" "}
+                    </p>}
                 </div>
                 <Grid>
                   <div className="col-span-6 mt-5">
@@ -897,7 +916,7 @@ function AddClaim() {
                           <label
                             className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75   `}
                           >
-                            Add Files
+                            Add Files  {formikStep2.values.coverageType == 'theft_and_lost' && <span className="text-red-500">*</span>}
                           </label>
                           <input
                             type="file"
@@ -991,7 +1010,7 @@ function AddClaim() {
                         htmlFor="description"
                         className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
-                        Diagnosis & Cause - Upload image Theft or Lost <span className="text-red-500">*</span>
+                        Diagnosis & Cause  {formikStep2.values.coverageType == 'theft_and_lost' && '- Upload image Theft or Lost'} <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         id="description"

@@ -1088,8 +1088,9 @@ function Account() {
   };
 
   const handleValueChange = (index, value) => {
+    const newValue = value.replace(/\s/g, '');
     const newValues = [...values];
-    newValues[index] = value;
+    newValues[index] = newValue;
     setValues(newValues);
   };
 

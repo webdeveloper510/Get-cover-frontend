@@ -73,6 +73,7 @@ function ClaimList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [completeLoader, setCompleteLoader] = useState(false);
@@ -1109,6 +1110,7 @@ function ClaimList(props) {
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
+    setDisable(true);
     setPageValue(page);
     let data = {
       page,
@@ -1152,10 +1154,12 @@ function ClaimList(props) {
         setTimeout(function () {
           setShowdata(true);
         }, 1000);
+        setDisable(false);
       })
       .catch(() => {
         setLoaderType(false);
         setShowdata(false);
+        setDisable(false);
       });
   };
   const handleChange = (name, value) => {
@@ -1321,7 +1325,8 @@ function ClaimList(props) {
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-2">
+                      <Button type="submit" disabled={disable} className={`${disable ? "!bg-[#817878]" : ""
+                        } !p-2`}>
                         <img
                           src={Search}
                           className="cursor-pointer "
@@ -1330,6 +1335,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         className="!bg-transparent !p-0"
+
                         onClick={() => {
                           handleFilterIconClick();
                         }}
@@ -1342,7 +1348,9 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[14px] !px-2"
+                        disabled={disable}
+                        className={`${disable ? "!bg-[#817878]" : ""
+                          } ml-2 !text-[14px] !px-2`}
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
