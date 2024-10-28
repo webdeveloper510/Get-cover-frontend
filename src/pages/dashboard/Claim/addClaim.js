@@ -891,7 +891,6 @@ function AddClaim() {
                       </div>}
 
                     </Grid>
-
                     <div>
                       <div>
                         <div className="border border-dashed w-full relative py-8">
