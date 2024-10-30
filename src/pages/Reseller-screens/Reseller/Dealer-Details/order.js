@@ -143,7 +143,7 @@ function OrderList(props) {
     setIsArchiveOpen(false);
   };
   useEffect(() => {
-    if (props.activeTab === "Orders" || props.activeTab === "Order") {
+    if (props.activeTab === "Orders" || props.activeTab === "Orders") {
       getOrderList();
     }
   }, [props?.flag]);

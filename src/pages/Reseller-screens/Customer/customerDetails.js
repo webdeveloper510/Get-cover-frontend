@@ -49,7 +49,7 @@ import SingleView from "../../../common/singleView";
 function ResellerCustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
-    return storedTab ? storedTab : "Order";
+    return storedTab ? storedTab : "Orders";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -336,8 +336,8 @@ function ResellerCustomerDetails() {
   };
   const tabs = [
     {
-      id: "Order",
-      label: "Order",
+      id: "Orders",
+      label: "Orders",
       icons: Order,
       Activeicons: OrderActive,
       content: (

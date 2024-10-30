@@ -650,7 +650,7 @@ function Dashboard() {
               </div>
             </Grid>
 
-            <Grid>
+            <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6 mt-4 border-2 rounded-xl">
                 <Card>
                   <div className="">

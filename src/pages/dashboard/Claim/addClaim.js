@@ -640,7 +640,12 @@ function AddClaim() {
 
   const validationSchemaStep2 = Yup.object({
     lossDate: Yup.date().required("Damage Date is required"),
-    images: Yup.array().min(1, "File is required") // Ensures at least one image is uploaded
+    images: Yup.array()
+      .when('coverageType', {
+        is: 'theft_and_lost',
+        then: schema => schema.min(1, "File is required"), // Require file only for "theft_and_lost"
+        otherwise: schema => schema.notRequired()
+      })
       .test("fileSize", "File size is too large", (value) => {
         if (!value || value.length === 0) return true;
 
@@ -654,12 +659,18 @@ function AddClaim() {
 
   const validationSchemaStep1 = Yup.object({
     lossDate: Yup.date().required("Damage Date is required"),
-    images: Yup.array().test("fileSize", "File size is too large", (value) => {
-      if (!value || value.length === 0) return true;
+    images: Yup.array()
+      .when('coverageType', {
+        is: 'theft_and_lost',
+        then: schema => schema.min(1, "File is required"), // Require file only for "theft_and_lost"
+        otherwise: schema => schema.notRequired()
+      })
+      .test("fileSize", "File size is too large", (value) => {
+        if (!value || value.length === 0) return true;
 
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      return value.every((image) => image.file.size <= maxSize);
-    }),
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        return value.every((image) => image.file.size <= maxSize);
+      }),
     diagnosis: Yup.string()
       .transform((originalValue) => originalValue.trim())
       .required("Diagnosis is required"),

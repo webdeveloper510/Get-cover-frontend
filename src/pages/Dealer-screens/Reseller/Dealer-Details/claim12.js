@@ -275,7 +275,7 @@ function ClaimList(props) {
         setIsRejectOpen(true);
       } else if (value?.reason) {
         setLoading1(true);
-       
+
         value.claimStatus = "rejected";
         editClaimrejectedValue(claimList.result[activeIndex]._id, value);
       } else {
@@ -395,9 +395,9 @@ function ClaimList(props) {
   };
 
   const editClaimrejectedValue = (claimId, data) => {
-    if( data.reason) {
+    if (data.reason) {
       data.reason = data?.reason.split(" Would you like to proceed with rejecting the claim now?")
- } 
+    }
     editClaimStatus(claimId, data).then((res) => {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
@@ -461,7 +461,7 @@ function ClaimList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then(async(res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
@@ -479,7 +479,7 @@ function ClaimList(props) {
             res.result.getCoverClaimAmount;
           updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
             res.result.getcoverOverAmount;
-            await getClaimOptions(res.result.claimType)
+          await getClaimOptions(res.result.claimType)
         }
       }
       setClaimList(updatedClaimListCopy);
@@ -919,7 +919,7 @@ function ClaimList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
-        getClaimOptions(claimList.result[activeIndex].claimType);
+      getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1602,7 +1602,7 @@ function ClaimList(props) {
 
                               </Grid>
                               <Grid
-                                className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
+                                className={`${isExcludedPath ? "!grid-cols-5" : "!grid-cols-5"
                                   } !gap-0 bg-grayf9  border-Gray28 border-x`}
                               >
                                 <div className="col-span-1 flex ">
@@ -1743,7 +1743,7 @@ function ClaimList(props) {
                                   <div className="col-span-12 ">
                                     <Grid className="!gap-2">
                                       <div className="col-span-4 py-4 pl-1 ">
-                                        <div className="bg-Eclipse py-2 px-2">
+                                        <div className=" py-2 px-2">
                                           {!location.pathname.includes(
                                             "customer/claimList"
                                           ) && (

@@ -1261,7 +1261,7 @@ function ClaimList(props) {
                   <Grid className="!gap-1">
                     <div className="col-span-9 self-center">
                       <Grid className="!gap-2">
-                        <div className="col-span-4 self-center">
+                        <div className="col-span-6 self-center">
                           <Input
                             name="contractId"
                             type="text"
@@ -1272,7 +1272,7 @@ function ClaimList(props) {
                             {...formik1.getFieldProps("contractId")}
                           />
                         </div>
-                        <div className="col-span-4 self-center">
+                        <div className="col-span-6 self-center">
                           <Input
                             name="claimId"
                             type="text"
@@ -1467,7 +1467,7 @@ function ClaimList(props) {
                               {res?.repairParts.length > 0 &&
                                 res?.repairParts.map((part, index) => (
                                   <>
-                                    <div className="col-span-2 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-2 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
                                         <p className="text-white text-sm font-Regular">
                                           Service Type
@@ -1477,7 +1477,7 @@ function ClaimList(props) {
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-8 bg-light-black border-r border-b border-Gray28">
+                                    <div className="col-span-8 border-r border-b border-Gray28">
                                       <div className="py-4 px-3">
                                         <p className="text-white text-sm font-Regular">
                                           Description
@@ -1487,7 +1487,7 @@ function ClaimList(props) {
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="col-span-2 bg-light-black border-b border-Gray28">
+                                    <div className="col-span-2 border-b border-Gray28">
                                       <div className="py-4 px-3">
                                         <p className="text-white text-sm font-Regular">
                                           Price
@@ -1515,8 +1515,8 @@ function ClaimList(props) {
                               <div className="col-span-12 ">
                                 <Grid className="!gap-2">
                                   <div className="col-span-4 py-4 pl-1 ">
-                                    <div className="bg-Eclipse py-2 px-2">
-                                      <p className="text-light-green mb-3 text-[11px] font-Regular ">
+                                    <div className=" py-2 px-2">
+                                      <p className=" mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
                                         <span className="font-semibold text-white">
                                           {" "}
@@ -1528,10 +1528,10 @@ function ClaimList(props) {
                                       </p>
                                       <Grid>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className=" text-[11px]  font-Regular">
                                             GetCover Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white  mb-3">
+                                          <p className="font-semibold text-[11px]   mb-3">
                                             {" "}
                                             {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                           </p>
@@ -1540,12 +1540,12 @@ function ClaimList(props) {
                                           <p className="text-light-green text-[11px]  font-Regular">
                                             Customer Cost :{" "}
                                           </p>
-                                          <p className="font-semibold text-[11px] text-white mb-3">
+                                          <p className="font-semibold text-[11px]  mb-3">
                                             {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px] mb-3 font-Regular">
+                                          <p className=" text-[11px] mb-3 font-Regular">
                                             Total Cost :{" "}
                                             <span className="font-semibold text-white ml-3">
                                               {" "}
@@ -1556,7 +1556,7 @@ function ClaimList(props) {
                                           </p>
                                         </div>
                                       </Grid>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                         {" "}
                                         <span className="self-center mr-4">
                                           Servicer Name :{" "}
@@ -1621,192 +1621,129 @@ function ClaimList(props) {
                                       )}
 
 
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center w-[75px]  mr-[1rem]">
                                           {shipment.label}:
                                         </span>
-                                        {trackerView ? (
-                                          <>
-                                            {claimStatus.status == "rejected" ||
-                                              claimStatus.status == "completed" ? (
-                                              <></>
-                                            ) : (
-                                              <form
-                                                onSubmit={Shipment.handleSubmit}
-                                              >
-                                                <div className="relative flex w-full">
-                                                  <Select
-                                                    name="trackingType"
-                                                    label=""
-                                                    value={
-                                                      Shipment.values.trackingType
+                                        <>
+                                          {res?.trackingType == "" ? (
+                                            <>
+                                              {claimStatus.status ==
+                                                "rejected" ||
+                                                claimStatus.status ==
+                                                "completed" || !res.selfServicer ? (
+                                                <></>
+                                              ) : (
+                                                <>
+                                                  <form
+                                                    onSubmit={
+                                                      Shipment.handleSubmit
                                                     }
-                                                    onChange={
-                                                      handleSelectChange21
-                                                    }
-                                                    white
-                                                    // OptionName="Tracker"
-                                                    options={
-                                                      shipment.value
-                                                    }
-                                                    className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[35%]"
-                                                  />
-                                                  <Input
-                                                    name="trackingNumber"
-                                                    label=""
-                                                    placeholder="Tracking #"
-                                                    white
-                                                    value={
-                                                      Shipment.values
-                                                        .trackingNumber
-                                                    }
-                                                    disabled={
-                                                      claimStatus.status ==
-                                                      "rejected" ||
-                                                      claimStatus.status ==
-                                                      "completed"
-                                                    }
-                                                    // options={state}
-                                                    className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                    classBox="w-[50%]"
-                                                    {...Shipment.getFieldProps(
-                                                      "trackingNumber"
-                                                    )}
-                                                  />
-                                                  <Button
-                                                    className="absolute right-[30px] !p-0 top-[2px]"
-                                                    type="submit"
                                                   >
-                                                    <img
-                                                      src={checkIcon}
-                                                      className="w-[21px]"
-                                                    />
-                                                  </Button>
-                                                </div>
-                                              </form>
-                                            )}
-                                          </>
-                                        ) : (
-                                          <>
-                                            {res?.trackingType == "" ? (
-                                              <>
-                                                {claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed" ? (
-                                                  <></>
-                                                ) : (
-                                                  <>
-                                                    <form
-                                                      onSubmit={
-                                                        Shipment.handleSubmit
-                                                      }
-                                                    >
-                                                      <div className="relative flex w-full">
-                                                        <Select
-                                                          name="trackingType"
-                                                          label=""
-                                                          value={
-                                                            Shipment.values
-                                                              .trackingType
-                                                          }
-                                                          onChange={
-                                                            handleSelectChange21
-                                                          }
-                                                          white
-                                                          // OptionName="Tracker"
-                                                          options={
-                                                            shipment.value
-                                                          }
-                                                          className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                          classBox="w-[35%]"
+                                                    <div className="relative flex w-full">
+                                                      <Select
+                                                        name="trackingType"
+                                                        label=""
+                                                        value={
+                                                          Shipment.values
+                                                            .trackingType
+                                                        }
+                                                        onChange={
+                                                          handleSelectChange21
+                                                        }
+                                                        white
+                                                        // OptionName="Tracker"
+                                                        options={
+                                                          shipment.value
+                                                        }
+                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                        classBox="w-[35%]"
+                                                      />
+                                                      <Input
+                                                        name="trackingNumber"
+                                                        label=""
+                                                        placeholder="Tracking #"
+                                                        white
+                                                        value={
+                                                          Shipment.values
+                                                            .trackingNumber
+                                                        }
+                                                        // options={state}
+                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                        classBox="w-[50%]"
+                                                        {...Shipment.getFieldProps(
+                                                          "trackingNumber"
+                                                        )}
+                                                      />
+                                                      <Button
+                                                        className="absolute right-[30px] !p-0 top-[2px]"
+                                                        type="submit"
+                                                      >
+                                                        <img
+                                                          src={checkIcon}
+                                                          className="w-[21px]"
                                                         />
-                                                        <Input
-                                                          name="trackingNumber"
-                                                          label=""
-                                                          placeholder="Tracking #"
-                                                          white
-                                                          value={
-                                                            Shipment.values
-                                                              .trackingNumber
-                                                          }
-                                                          // options={state}
-                                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                          classBox="w-[50%]"
-                                                          {...Shipment.getFieldProps(
-                                                            "trackingNumber"
-                                                          )}
-                                                        />
-                                                        <Button
-                                                          className="absolute right-[30px] !p-0 top-[2px]"
-                                                          type="submit"
-                                                        >
-                                                          <img
-                                                            src={checkIcon}
-                                                            className="w-[21px]"
-                                                          />
-                                                        </Button>
-                                                      </div>
-                                                    </form>
-                                                  </>
-                                                )}
-                                              </>
-                                            ) : (
-                                              <div className="flex w-[65%] justify-between">
-                                                {res?.trackingType == "ups" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
-                                                    target="_blank"
-                                                  >
-                                                    UPS Tracker
-                                                  </a>
-                                                )}
+                                                      </Button>
+                                                    </div>
+                                                  </form>
+                                                </>
+                                              )}
+                                            </>
+                                          ) : (
+                                            <div className="flex w-[65%] justify-between">
+                                              {res?.trackingType == "ups" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                  target="_blank"
+                                                >
+                                                  UPS Tracker
+                                                </a>
+                                              )}
 
-                                                {res?.trackingType == "usps" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    USPS Tracker
-                                                  </a>
-                                                )}
+                                              {res?.trackingType == "usps" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                  target="_blank"
+                                                >
+                                                  USPS Tracker
+                                                </a>
+                                              )}
 
-                                                {res?.trackingType == "fedx" && (
-                                                  <a
-                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                    href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                    target="_blank"
-                                                  >
-                                                    FedX Tracker
-                                                  </a>
-                                                )}
-                                                {claimStatus.status ==
-                                                  "rejected" ||
-                                                  claimStatus.status ==
-                                                  "completed" ? (
-                                                  <></>
-                                                ) : (
-                                                  <></>
-                                                  // <img
-                                                  //   src={pen}
-                                                  //   onClick={() =>
-                                                  //     setTrackerView(true)
-                                                  //   }
-                                                  //   className="cursor-pointer object-contain ml-4"
-                                                  // />
-                                                )}
-                                              </div>
-                                            )}
-                                          </>
-                                        )}
+                                              {res?.trackingType == "fedx" && (
+                                                <a
+                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                  href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                  target="_blank"
+                                                >
+                                                  FedX Tracker
+                                                </a>
+                                              )}
+                                              {claimStatus.status ==
+                                                "rejected" ||
+                                                claimStatus.status ==
+                                                "completed" ? (
+                                                <></>
+                                              ) : (
+                                                <></>
+                                                // <img
+                                                //   src={pen}
+                                                //   onClick={() =>
+                                                //     setTrackerView(true)
+                                                //   }
+                                                //   className="cursor-pointer object-contain ml-4"
+                                                // />
+                                              )}
+                                            </div>
+                                          )}
+                                        </>
+
                                       </p>
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           Customer Status
@@ -1861,7 +1798,7 @@ function ClaimList(props) {
                                           </div>
                                         )}
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {claimvalues?.label}
@@ -1919,7 +1856,7 @@ function ClaimList(props) {
                                         </>
                                       )}
                                     </div>
-                                    <div className="border border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {repairValue?.label}
@@ -2989,6 +2926,21 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("serial")}
                 />
               </div>
+              {
+                role == "Super Admin" && (
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="productName"
+                      className="!bg-white"
+                      label="Product SKU"
+                      placeholder=""
+                      {...formik1.getFieldProps("productName")}
+                    />
+                  </div>
+                )
+              }
+
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -3022,16 +2974,21 @@ function ClaimList(props) {
                 </div>
               )}
 
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="customerName"
-                  className="!bg-white"
-                  label="Customer Name"
-                  placeholder=""
-                  {...formik1.getFieldProps("customerName")}
-                />
-              </div>
+              {window.location.pathname.includes("/customer/claimList") ||
+                props?.flag == "customer" ? (
+                ""
+              ) : (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="customerName"
+                    className="!bg-white"
+                    label="Customer Name"
+                    placeholder=""
+                    {...formik1.getFieldProps("customerName")}
+                  />
+                </div>
+              )}
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -3046,7 +3003,7 @@ function ClaimList(props) {
                 <Select
                   name="claimStatus"
                   label="Claim Status"
-                  options={Claimstatus}
+                  options={claimvalues?.value}
                   className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.claimStatus}
@@ -3067,7 +3024,7 @@ function ClaimList(props) {
                 <>
                   <div className="col-span-6">
                     <Select
-                      options={customerValue}
+                      options={customerValue?.value}
                       name="customerStatusValue"
                       label="Customer Status"
                       className="!bg-white"
@@ -3077,7 +3034,7 @@ function ClaimList(props) {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      options={repairValue}
+                      options={repairValue?.value}
                       name="repairStatus"
                       label="Repair Status"
                       className="!bg-white"

@@ -1422,7 +1422,7 @@ function ClaimList(props) {
                                   )}
 
                                 {role != "Super Admin" &&
-                                  res.selfServicer &&
+                                  res?.selfServicer &&
                                   res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status == "servicer_shipped" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
@@ -1794,7 +1794,8 @@ function ClaimList(props) {
                                                   {claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" ? (
+                                                    "completed" || isExcludedPath || !claimList.result[activeIndex]
+                                                      ?.selfServicer ? (
                                                     <></>
                                                   ) : (
                                                     <>
@@ -1888,7 +1889,8 @@ function ClaimList(props) {
                                                   {(claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed") ? (
+                                                    "completed") || isExcludedPath || !claimList.result[activeIndex]
+                                                      ?.selfServicer ? (
                                                     <></>
                                                   ) : (
                                                     <img

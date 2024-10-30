@@ -251,7 +251,7 @@ function CustomerDashboard() {
                   : formatOrderValue(
                     customerDashboardDetail?.orderData?.totalAmount ?? parseInt(0)
                   )}</p>
-                <p className='text-neutral-grey text-sm'>Total Numbers of Contracts</p>
+                <p className='text-neutral-grey text-sm'>Total Value of Orders</p>
               </MultiColorView>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.claimData?.numberOfClaims}</p>

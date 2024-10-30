@@ -164,6 +164,7 @@ function Account() {
 
       formikEmail.setFieldValue("notificationTo", emailStrings);
       setEmail(userDetails?.loginMember.email);
+      console.log(emails)
 
       setUserDetails(userDetails.result);
     } catch (error) {
@@ -730,7 +731,7 @@ function Account() {
           });
         }
       });
-
+      console.log(arr)
       setEmails(arr);
       setSelectedEmail(arr1);
       let local = JSON.parse(localStorage.getItem("userDetails"));
