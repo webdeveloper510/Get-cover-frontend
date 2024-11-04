@@ -240,7 +240,7 @@ function CustomerDashboard() {
           </div>
         ) : (
           <div className='mt-5'>
-            <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
+            <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-9'>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfDevices}</p>
                 <p className='text-neutral-grey text-sm'>Number of Devices</p>

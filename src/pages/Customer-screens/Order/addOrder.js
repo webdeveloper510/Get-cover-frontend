@@ -943,7 +943,7 @@ function CustomerAddOrder() {
         customerList.find((res) => {
           if (res.value == value) {
             console.log("----", res.customerData.resellerId);
-            if (res.customerData.resellerStatus != false){
+            if (res.customerData.resellerStatus != false) {
               formik.setFieldValue("resellerId", res.customerData.resellerId);
               let data = {
                 dealerId: formik.values.dealerId,
@@ -952,7 +952,7 @@ function CustomerAddOrder() {
               getServicerList(data);
               getCustomerList(data);
             }
-        
+
           }
         });
     }
@@ -1559,9 +1559,9 @@ function CustomerAddOrder() {
                           );
                           const termInMonths =
                             formikStep3.values.productsArray[index].term || 0;
-                            const newEndDate = addMonths(selectedDate, termInMonths); 
-                            const adjustedEndDate = subDays(newEndDate, 1); 
-                            const formattedEndDate = adjustedEndDate.toISOString(); 
+                          const newEndDate = addMonths(selectedDate, termInMonths);
+                          const adjustedEndDate = subDays(newEndDate, 1);
+                          const formattedEndDate = adjustedEndDate.toISOString();
 
                           formikStep3.setFieldValue(
                             `productsArray[${index}].coverageEndDate`,

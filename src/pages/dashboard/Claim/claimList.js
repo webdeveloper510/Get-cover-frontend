@@ -1535,56 +1535,62 @@ function ClaimList(props) {
 
                             <Grid className="!gap-0  ">
                               <>
-                                {res?.repairParts.length > 0 &&
-                                  res?.repairParts.map((part, index) => (
-                                    <>
-                                      <div className="col-span-2 border-r border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className="text-white text-sm font-Regular">
-                                            Service Type
-                                          </p>
-                                          <p className="text-light-green text-base font-semibold">
-                                            {part.serviceType == "Labour"
-                                              ? "labor"
-                                              : part.serviceType}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="col-span-8 border-r border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className=" text-sm font-Regular">
-                                            Description
-                                          </p>
-                                          <p className=" text-base font-semibold">
-                                            {part.description}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="col-span-2 border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className=" text-sm font-Regular">
-                                            Price
-                                          </p>
-                                          <p className=" text-base font-semibold">
-                                            $
-                                            {part.price === undefined
-                                              ? (0).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })
-                                              : parseFloat(
-                                                part.price === undefined
-                                                  ? 0
-                                                  : part.price
-                                              ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </>
-                                  ))}
+                                {!location.pathname.includes(
+                                  "/customer/claimList"
+                                ) &&
+                                  <>
+                                    {res?.repairParts.length > 0 &&
+                                      res?.repairParts.map((part, index) => (
+                                        <>
+                                          <div className="col-span-2 border-r border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className="text-white text-sm font-Regular">
+                                                Service Type
+                                              </p>
+                                              <p className="text-light-green text-base font-semibold">
+                                                {part.serviceType == "Labour"
+                                                  ? "labor"
+                                                  : part.serviceType}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="col-span-8 border-r border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className=" text-sm font-Regular">
+                                                Description
+                                              </p>
+                                              <p className=" text-base font-semibold">
+                                                {part.description}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="col-span-2 border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className=" text-sm font-Regular">
+                                                Price
+                                              </p>
+                                              <p className=" text-base font-semibold">
+                                                $
+                                                {part.price === undefined
+                                                  ? (0).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })
+                                                  : parseFloat(
+                                                    part.price === undefined
+                                                      ? 0
+                                                      : part.price
+                                                  ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </>
+                                      ))}
+                                  </>
+                                }
                                 <div className="col-span-12 ">
                                   <Grid className="!gap-2">
                                     <div className="col-span-4 py-4 pl-1 ">
@@ -1603,36 +1609,40 @@ function ClaimList(props) {
                                               </span>
                                             </p>
                                           )}
-                                        <Grid>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px]  font-Regular">
-                                              GetCover Cost :{" "}
-                                            </p>
-                                            <p className="font-semibold text-[11px] text-white  mb-3">
-                                              {" "}
-                                              {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
-                                            </p>
-                                          </div>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px]  font-Regular">
-                                              Customer Cost :{" "}
-                                            </p>
-                                            <p className="font-semibold text-[11px] text-white mb-3">
-                                              {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
-                                            </p>
-                                          </div>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px] mb-3 font-Regular">
-                                              Total Cost :{" "}
-                                              <span className="font-semibold text-white ml-3">
+                                        {!location.pathname.includes(
+                                          "/customer/claimList"
+                                        ) &&
+                                          <Grid>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px]  font-Regular">
+                                                GetCover Cost :{" "}
+                                              </p>
+                                              <p className="font-semibold text-[11px] text-white  mb-3">
                                                 {" "}
-                                                ${
-                                                  res.totalAmount.toFixed(2)
-                                                }{" "}
-                                              </span>
-                                            </p>
-                                          </div>
-                                        </Grid>
+                                                {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                              </p>
+                                            </div>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px]  font-Regular">
+                                                Customer Cost :{" "}
+                                              </p>
+                                              <p className="font-semibold text-[11px] text-white mb-3">
+                                                {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
+                                              </p>
+                                            </div>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px] mb-3 font-Regular">
+                                                Total Cost :{" "}
+                                                <span className="font-semibold text-white ml-3">
+                                                  {" "}
+                                                  ${
+                                                    res.totalAmount.toFixed(2)
+                                                  }{" "}
+                                                </span>
+                                              </p>
+                                            </div>
+                                          </Grid>
+                                        }
 
                                         {
                                           claimType == "theft_and_lost" ? (
