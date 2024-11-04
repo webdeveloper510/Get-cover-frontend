@@ -145,10 +145,10 @@ function CustomerOrderDetails() {
             <SingleView className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl font-semibold">
                     {orderList?.unique_key}
                   </p>
                 </div>
@@ -167,10 +167,10 @@ function CustomerOrderDetails() {
                   alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderList?.venderOrder}
                   </p>
                 </div>
@@ -182,10 +182,10 @@ function CustomerOrderDetails() {
                   alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Service Coverage
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderList?.serviceCoverageType}
                   </p>
                 </div>
@@ -197,10 +197,10 @@ function CustomerOrderDetails() {
                   alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Coverage Type
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderList?.coverageType?.map((data) => {
                       return (
                         <li
@@ -225,10 +225,10 @@ function CustomerOrderDetails() {
 
                 <div className="flex justify-between w-[85%] ml-auto">
                   <div>
-                    <p className="text-sm text-neutral-grey font-Regular">
+                    <p className="text-sm font-Regular">
                       Servicer Name
                     </p>
-                    <p className="text-base text-white font-semibold">
+                    <p className="text-base font-semibold">
                       {userDetails?.servicerData?.status
                         ? userDetails?.servicerData?.name
                         : ""}
@@ -259,8 +259,8 @@ function CustomerOrderDetails() {
                       <div className="col-span-1" key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
                             }`}
                           onClick={() => handleTabClick(tab.id)}
                         >

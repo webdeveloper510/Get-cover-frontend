@@ -305,17 +305,17 @@ function CustomerContractList(props) {
                         <SingleView className='rounded-t-xl'>
                           <Grid className="!gap-2 !grid-cols-11">
                             <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                              <p className="text-white py-2 font-Regular">
+                              <p className="py-2 font-Regular">
                                 Contract ID : <b> {res.unique_key} </b>
                               </p>
                             </div>
                             <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                              <p className="text-white py-2 font-Regular">
+                              <p className="py-2 font-Regular">
                                 Order ID : <b> {res?.orderUniqueKey} </b>
                               </p>
                             </div>
                             <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                              <p className="text-white py-2 font-Regular">
+                              <p className="py-2 font-Regular">
                                 Dealer P.O. # : <b> {res?.venderOrder} </b>
                               </p>
                             </div>
@@ -599,18 +599,18 @@ function CustomerContractList(props) {
                 <SingleView className='rounded-t-xl'>
                   <Grid className="!gap-2 !grid-cols-11">
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Contract ID : <b> {contractDetails?.unique_key} </b>
                       </p>
                     </div>
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Order ID :{" "}
                         <b> {contractDetails?.order?.[0]?.unique_key} </b>
                       </p>
                     </div>
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Dealer P.O. # :{" "}
                         <b> {contractDetails?.order?.[0]?.venderOrder} </b>
                       </p>
@@ -643,7 +643,7 @@ function CustomerContractList(props) {
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-bold">
                           Serial # / Device ID
                         </p>
                         <p className=" text-base font-semibold break-words">
@@ -769,64 +769,8 @@ function CustomerContractList(props) {
                         )}
                       </div>
                     </div>
-                    <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 px-3">
-                        <p className="font-bold text-sm font-Regular">
-                          Claim Amount
-                        </p>
-                        <p className="text-light-black text-base font-semibold">
-                          $
-                          {contractDetails?.claimAmount === undefined
-                            ? parseInt(0).toLocaleString(2)
-                            : formatOrderValue(
-                              contractDetails?.claimAmount ?? parseInt(0)
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                    {contractDetails?.order?.[0]?.productsArray?.[0]?.priceType ==
-                      "Flat Pricing" ? (
-                      <>
-                        <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="font-bold text-sm font-Regular">
-                              Start Range
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              $
-                              {contractDetails?.order?.[0]?.productsArray?.[0]
-                                ?.rangeStart === undefined
-                                ? parseInt(0).toLocaleString(2)
-                                : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeStart ??
-                                  parseInt(0)
-                                )}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="font-bold text-sm font-Regular">
-                              End Range
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              $
-                              {contractDetails?.order?.[0]?.productsArray?.[0]
-                                ?.rangeEnd === undefined
-                                ? parseInt(0).toLocaleString(2)
-                                : formatOrderValue(
-                                  contractDetails?.order?.[0]
-                                    ?.productsArray?.[0]?.rangeEnd ??
-                                  parseInt(0)
-                                )}{" "}
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      ""
-                    )}
+
+
 
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 px-3">

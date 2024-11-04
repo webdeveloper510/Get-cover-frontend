@@ -71,6 +71,9 @@ function App() {
           background-color: ${sideBarColor} !important;
           color: ${sideBarTextColor} !important;
         }
+          .rdt_Pagination svg {
+  fill:  ${sideBarTextColor} !important;
+}
       `}
         </style>
         {routing}

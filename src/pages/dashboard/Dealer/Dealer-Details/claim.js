@@ -457,7 +457,7 @@ function ClaimList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then(async(res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
@@ -475,7 +475,7 @@ function ClaimList(props) {
             res.result.getCoverClaimAmount;
           updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
             res.result.getcoverOverAmount;
-            await getClaimOptions(res.result.claimType)
+          await getClaimOptions(res.result.claimType)
         }
       }
       setClaimList(updatedClaimListCopy);
@@ -915,7 +915,7 @@ function ClaimList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
-        getClaimOptions(claimList.result[activeIndex].claimType);
+      getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1062,7 +1062,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-     getClaimOptions('');
+    getClaimOptions('');
   }, []);
 
   useEffect(() => {
@@ -1241,6 +1241,14 @@ function ClaimList(props) {
     formik.setFieldValue(name, value);
   };
 
+  const days = [
+    { label: "30 Days", value: "30" },
+    { label: "45 Days", value: "45" },
+    { label: "60 Days", value: "60" },
+    { label: "90 Days", value: "90" },
+    { label: "120 Days", value: "120" },
+  ];
+
   const handleChange2 = (name, value) => {
     formik2.setFieldValue(name, value);
   };
@@ -1365,7 +1373,7 @@ function ClaimList(props) {
                     <Grid className="!gap-1">
                       <div className="col-span-8 self-center">
                         <Grid className="!gap-2">
-                          <div className="col-span-4 self-center">
+                          <div className="col-span-6 self-center">
                             <Input
                               name="contractId"
                               type="text"
@@ -1376,7 +1384,7 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("contractId")}
                             />
                           </div>
-                          <div className="col-span-4 self-center">
+                          <div className="col-span-6 self-center">
                             <Input
                               name="claimId"
                               type="text"
@@ -1387,7 +1395,7 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("claimId")}
                             />
                           </div>
-                          <div className="col-span-4 self-center">
+                          {/* <div className="col-span-4 self-center">
                             <SelectSearch
                               name="claimStatus"
                               label=""
@@ -1398,7 +1406,7 @@ function ClaimList(props) {
                               onChange={handleSelectChange2}
                               value={formik1.values.claimStatus}
                             />
-                          </div>
+                          </div> */}
                         </Grid>
                       </div>
                       <div className="col-span-4 self-center flex justify-center">
@@ -1739,7 +1747,7 @@ function ClaimList(props) {
                                   <div className="col-span-12 ">
                                     <Grid className="!gap-2">
                                       <div className="col-span-4 py-4 pl-1 ">
-                                        <div className="bg-Eclipse py-2 px-2">
+                                        <div className=" py-2 px-2">
                                           {!location.pathname.includes(
                                             "customer/claimList"
                                           ) && (
@@ -3120,7 +3128,7 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("servicerName")}
                 />
               </div>
-              <div className="col-span-6">
+              {!props.activeTab == "Unpaid Claims" || !props.activeTab == "Paid Claims" && <div className="col-span-6">
                 <Select
                   name="claimStatus"
                   label="Claim Status"
@@ -3129,7 +3137,8 @@ function ClaimList(props) {
                   onChange={handleSelectChange2}
                   value={formik1.values.claimStatus}
                 />
-              </div>
+              </div>}
+
               {formik1.values.claimStatus == "completed" ? (
                 <div className="col-span-6">
                   <Select
@@ -3164,6 +3173,18 @@ function ClaimList(props) {
                     />
                   </div>
                 </>
+              )}
+              {props.activeTab == "Unpaid Claims" && (
+                <div className="col-span-6">
+                  <Select
+                    options={days}
+                    name="noOfDays"
+                    label="No Of Days Passed"
+                    className="!bg-white"
+                    onChange={handleSelectChange2}
+                    value={formik1.values.noOfDays}
+                  />
+                </div>
               )}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>

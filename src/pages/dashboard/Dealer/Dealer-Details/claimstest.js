@@ -823,6 +823,7 @@ function ClaimList(props) {
 
   const days = [
     { label: "30 Days", value: "30" },
+    { label: "45 Days", value: "45" },
     { label: "60 Days", value: "60" },
     { label: "90 Days", value: "90" },
     { label: "120 Days", value: "120" },

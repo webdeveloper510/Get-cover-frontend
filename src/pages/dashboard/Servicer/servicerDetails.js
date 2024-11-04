@@ -794,7 +794,7 @@ function ServicerDetails() {
                               borderLeftWidth: '1px',
                               paddingLeft: '4px'
                             }}
-                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
+                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "" : "text-black"
                               }`}
                           >
                             {tab.label}

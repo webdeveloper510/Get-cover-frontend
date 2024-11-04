@@ -83,6 +83,8 @@ function ClaimList(props) {
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
+  const [isShipped, setIsShipped] = useState(false);
+  const [isReceived, setIsReceived] = useState(false);
   const [isAttachmentsOpen, setIsAttachmentsOpen] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isThreshold, setIsThreshold] = useState(false);
@@ -626,6 +628,14 @@ function ClaimList(props) {
 
   const closeComplete = () => {
     setIsComplete(false);
+  };
+
+  const closeShipped = () => {
+    setIsShipped(false);
+  };
+
+  const closeReceived = () => {
+    setIsReceived(false);
   };
 
   const openView = (claim) => {
@@ -1544,10 +1554,10 @@ function ClaimList(props) {
                                         <>
                                           <div className="col-span-2 border-r border-b border-Gray28">
                                             <div className="py-4 px-3">
-                                              <p className="text-white text-sm font-Regular">
+                                              <p className=" text-sm font-Regular">
                                                 Service Type
                                               </p>
-                                              <p className="text-light-green text-base font-semibold">
+                                              <p className="text-base font-semibold">
                                                 {part.serviceType == "Labour"
                                                   ? "labor"
                                                   : part.serviceType}
@@ -1566,10 +1576,10 @@ function ClaimList(props) {
                                           </div>
                                           <div className="col-span-2 border-b border-Gray28">
                                             <div className="py-4 px-3">
-                                              <p className=" text-sm font-Regular">
+                                              <p className="text-sm font-Regular">
                                                 Price
                                               </p>
-                                              <p className=" text-base font-semibold">
+                                              <p className="text-base font-semibold">
                                                 $
                                                 {part.price === undefined
                                                   ? (0).toLocaleString("en-US", {
@@ -1598,9 +1608,9 @@ function ClaimList(props) {
                                         {!location.pathname.includes(
                                           "customer/claimList"
                                         ) && (
-                                            <p className=" mb-3 text-[11px] font-Regular ">
+                                            <p className="mb-3 text-[11px] font-Regular ">
                                               Customer Name :{" "}
-                                              <span className="font-semibold text-white">
+                                              <span className="font-semibold">
                                                 {" "}
                                                 {
                                                   res?.contracts?.orders?.customer
@@ -1617,7 +1627,7 @@ function ClaimList(props) {
                                               <p className=" text-[11px]  font-Regular">
                                                 GetCover Cost :{" "}
                                               </p>
-                                              <p className="font-semibold text-[11px] text-white  mb-3">
+                                              <p className="font-semibold text-[11px] mb-3">
                                                 {" "}
                                                 {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
                                               </p>
@@ -1626,14 +1636,14 @@ function ClaimList(props) {
                                               <p className=" text-[11px]  font-Regular">
                                                 Customer Cost :{" "}
                                               </p>
-                                              <p className="font-semibold text-[11px] text-white mb-3">
+                                              <p className="font-semibold text-[11px] mb-3">
                                                 {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
                                               </p>
                                             </div>
                                             <div className="col-span-4">
                                               <p className=" text-[11px] mb-3 font-Regular">
                                                 Total Cost :{" "}
-                                                <span className="font-semibold text-white ml-3">
+                                                <span className="font-semibold ml-3">
                                                   {" "}
                                                   ${
                                                     res.totalAmount.toFixed(2)
@@ -1920,8 +1930,8 @@ function ClaimList(props) {
                                     </div>
                                     <div className="col-span-4 pt-4">
                                       <div className="border !bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
-                                        <div className=" !bg-Eclipse w-[40%] rounded-s-lg">
-                                          <p className="text-white text-[11px] p-4">
+                                        <div className="!bg-Eclipse w-[40%] rounded-s-lg">
+                                          <p className="text-[11px] p-4">
                                             Customer Status
                                           </p>
                                         </div>
@@ -1930,7 +1940,7 @@ function ClaimList(props) {
                                           onClick={handleToggleDropdown}
                                         >
 
-                                          <p className="text-white text-sm">
+                                          <p className="text-sm">
                                             {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                           </p>
 
@@ -1976,7 +1986,7 @@ function ClaimList(props) {
                                       </div>
                                       <div className="border !bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                         <div className="!bg-Eclipse w-[40%] rounded-s-lg">
-                                          <p className="text-white text-[11px] p-4">
+                                          <p className="text-[11px] p-4">
                                             {claimvalues?.label}
                                           </p>
                                         </div>
@@ -1984,7 +1994,7 @@ function ClaimList(props) {
                                           className="pl-1 self-center w-[50%] cursor-pointer "
                                           onClick={handleToggleDropdown2}
                                         >
-                                          <p className=" text-sm">
+                                          <p className="text-sm">
                                             {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
                                           </p>
                                           <p className="">
@@ -2033,8 +2043,8 @@ function ClaimList(props) {
                                         )}
                                       </div>
                                       <div className="border !bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
-                                        <div className=" !bg-Eclipse w-[40%] rounded-s-lg">
-                                          <p className="text-white text-[11px] p-4">
+                                        <div className="!bg-Eclipse w-[40%] rounded-s-lg">
+                                          <p className="text-[11px] p-4">
                                             {repairValue?.label}
                                           </p>
                                         </div>
@@ -2042,7 +2052,7 @@ function ClaimList(props) {
                                           className="pl-1 cursor-pointer w-[50%]"
                                           onClick={handleToggleDropdown1}
                                         >
-                                          <p className=" text-sm">
+                                          <p className="text-sm">
                                             {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
 
                                           </p>
@@ -2891,6 +2901,59 @@ function ClaimList(props) {
         }
 
       </Modal>
+
+      <Modal isOpen={isShipped} onClose={closeShipped}>
+        {completeLoader ? <div className=" h-[350px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div> :
+          <div className="py-1 text-center">
+            <img src={AddDealer} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-4 font-semibold">
+              Are you
+              <span className=""> sure ? </span>
+            </p>
+            <p className="text-xl font-medium mt-2">
+              You want to change repair status (Servicer Shipped) for this Claim ?
+            </p>
+            <div className="mt-3">
+              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
+              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+                No
+              </Button>
+            </div>
+          </div>
+        }
+
+      </Modal>
+
+      <Modal isOpen={isReceived} onClose={closeReceived}>
+        {completeLoader ? <div className=" h-[350px] w-full flex py-5">
+          <div className="self-center mx-auto">
+            <RotateLoader color="#333" />
+          </div>
+        </div> :
+          <div className="py-1 text-center">
+            <img src={AddDealer} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-4 font-semibold">
+              Are you
+              <span className=""> sure ? </span>
+            </p>
+            <p className="text-xl font-medium mt-2">
+              You want to change customer status (Product Received) for this Claim ?
+            </p>
+            <div className="mt-3">
+              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
+              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+                No
+              </Button>
+            </div>
+          </div>
+        }
+
+      </Modal>
+
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button

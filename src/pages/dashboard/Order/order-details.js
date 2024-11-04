@@ -283,10 +283,10 @@ function OrderDetails() {
             <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl font-semibold">
                     {" "}
                     {orderDetails.unique_key}{" "}
                   </p>
@@ -300,10 +300,10 @@ function OrderDetails() {
                   alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5 break-words w-[92%]">
+                  <p className="text-base font-semibold leading-5 break-words w-[92%]">
                     {orderDetails.venderOrder}
                   </p>
                 </div>
@@ -315,10 +315,10 @@ function OrderDetails() {
                   alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Service Coverage
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderDetails.serviceCoverageType}
                   </p>
                 </div>
@@ -330,10 +330,10 @@ function OrderDetails() {
                   alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Coverage Type
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {/* {orderDetails.coverageType} */}
                     {orderDetails?.coverageType?.map((data) => {
                       return (
@@ -349,7 +349,7 @@ function OrderDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
@@ -371,10 +371,10 @@ function OrderDetails() {
                   </Link>
                 </div>
                 <div className="w-[75%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Dealer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {userDetails?.dealerData?.name}
                   </p>
                 </div>
@@ -400,10 +400,10 @@ function OrderDetails() {
                       </Link>
                     </div>
                     <div className="w-[75%]">
-                      <p className="text-sm text-neutral-grey font-Regular">
+                      <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
-                      <p className="text-base text-white font-semibold ">
+                      <p className="text-base font-semibold ">
                         {userDetails?.resellerData?.name}
                       </p>
                     </div>
@@ -428,10 +428,10 @@ function OrderDetails() {
                   </Link>
                 </div>
                 <div className="w-[75%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Customer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {userDetails?.customerData?.username}
                   </p>
                 </div>
@@ -462,10 +462,10 @@ function OrderDetails() {
 
                 <div className="flex justify-between w-[85%] ml-auto">
                   <div>
-                    <p className="text-sm text-neutral-grey font-Regular">
+                    <p className="text-sm font-Regular">
                       Servicer Name
                     </p>
-                    <p className="text-base text-white font-semibold">
+                    <p className="text-base font-semibold">
                       {userDetails?.servicerData?.status
                         ? userDetails?.servicerData?.name
                         : ""}
@@ -499,7 +499,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {orderTandC == undefined ||orderTandC?.fileName == "" ? (
+                  {orderTandC == undefined || orderTandC?.fileName == "" ? (
                     <></>
                   ) : (
                     <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">

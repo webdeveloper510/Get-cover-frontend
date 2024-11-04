@@ -448,10 +448,10 @@ function AddDealerBook() {
                       <img src={Wholesale} alt="Wholesale" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Wholesale Price
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         ${priceBookById?.wholesalePrice?.toFixed(2)}
                       </p>
                     </div>
@@ -463,10 +463,10 @@ function AddDealerBook() {
                       <img src={category1} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Product Category
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {priceBookById?.priceBooks?.category[0]?.name}
                       </p>
                     </div>
@@ -478,10 +478,10 @@ function AddDealerBook() {
                       <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Dealer Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {priceBookById?.dealer?.name}
                       </p>
                     </div>
@@ -493,10 +493,10 @@ function AddDealerBook() {
                       <img src={product} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-lg font-medium leading-5	">
+                      <p className="text-lg font-medium leading-5	">
                         Product Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                      <p className="opacity-50	font-medium">
                         {priceBookById?.priceBooks?.pName}
                       </p>
                     </div>
@@ -508,10 +508,10 @@ function AddDealerBook() {
                       <img src={productS} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-lg font-medium leading-5	">
+                      <p className="text-lg font-medium leading-5	">
                         Product SKU
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                      <p className="opacity-50	font-medium">
                         {priceBookById?.priceBooks?.name}
                       </p>
                     </div>
@@ -524,10 +524,10 @@ function AddDealerBook() {
                       <img src={priceType} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-lg font-medium leading-5	">
+                      <p className="text-lg font-medium leading-5	">
                         Price Type
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                      <p className="opacity-50	font-medium">
                         {priceBookById?.priceBooks?.priceType}
                       </p>
                     </div>
@@ -539,10 +539,10 @@ function AddDealerBook() {
                       <img src={Coverage} alt="product" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-lg font-medium leading-5	">
+                      <p className="text-lg font-medium leading-5	">
                         Coverage Type
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                      <p className="opacity-50	font-medium">
                         {priceBookById?.priceBooks?.coverageType &&
                           priceBookById?.priceBooks?.coverageType.length > 0 ? (
                           <ol className="flex flex-wrap">
@@ -570,10 +570,10 @@ function AddDealerBook() {
                       <img src={Description} alt="product" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-lg font-medium leading-5	">
+                      <p className="text-lg font-medium leading-5	">
                         Description
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	font-medium">
+                      <p className="opacity-50	font-medium">
                         {priceBookById?.priceBooks?.description}
                       </p>
                     </div>
