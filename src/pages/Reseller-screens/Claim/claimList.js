@@ -167,6 +167,7 @@ function ResellerClaimList(props) {
   };
 
   useEffect(() => {
+    getClaimOptions('');
     scrollToBottom();
     getLoginUser();
   }, [messageList, claimId]);

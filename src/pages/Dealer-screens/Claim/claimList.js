@@ -1065,6 +1065,7 @@ function ClaimList(props) {
   }, []);
 
   useEffect(() => {
+    getClaimOptions('');
     if (activeTab === "All Claims") {
       getAllClaims();
       getClaimOptions('');
