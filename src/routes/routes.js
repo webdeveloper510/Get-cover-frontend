@@ -91,6 +91,7 @@ import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 import AllList from "../pages/Servicer-screens/Reporting/claims";
+import ClaimListing from "../pages/dashboard/Claim/claimListing";
 
 const routes = [
   {
@@ -217,6 +218,13 @@ const routes = [
         index: true,
         element: (
           <PrivateRoute element={<DealerDetails />} role={"Super Admin"} />
+        ),
+      },
+      {
+        path: "/claim-listing/:claimId",
+        index: true,
+        element: (
+          <PrivateRoute element={<ClaimListing />} />
         ),
       },
 
