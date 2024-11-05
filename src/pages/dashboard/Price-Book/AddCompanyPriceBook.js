@@ -510,10 +510,10 @@ function AddCompanyPriceBook() {
                       <img src={productS} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Product SKU
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {detailsById?.name}
                       </p>
                     </div>
@@ -525,10 +525,10 @@ function AddCompanyPriceBook() {
                       <img src={product} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Product Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {detailsById?.pName}
                       </p>
                     </div>
@@ -540,10 +540,10 @@ function AddCompanyPriceBook() {
                       <img src={terms} className="w-6 h-6" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Terms
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className="opacity-50	text-sm font-medium">
                         {detailsById?.term} Months
                       </p>
                     </div>
@@ -555,10 +555,10 @@ function AddCompanyPriceBook() {
                       <img src={coverageIcon} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Coverage Type
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className="opacity-50	text-sm font-medium">
                         {detailsById.optionDropdown && detailsById.optionDropdown.length > 0 ? (
                           <ol className="list-disc pl-6">
                             {detailsById.optionDropdown.map((type, index) => (
@@ -862,17 +862,17 @@ function AddCompanyPriceBook() {
                           }
                         />
 
-                      
+
                       </div>
                     </div>
                     {formik.touched.coverageType &&
-                          formik.errors.coverageType && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formik.errors.coverageType}
-                            </div>
-                          )}
+                      formik.errors.coverageType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formik.errors.coverageType}
+                        </div>
+                      )}
                   </div>
-                  
+
                 )}
                 {type == "Edit" ? (
                   <></>

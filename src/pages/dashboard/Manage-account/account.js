@@ -1994,7 +1994,7 @@ function Account() {
                       <SingleView className="border-Gray28 border bg-Edit bg-cover rounded-t-[22px]">
                         <Grid className=" !gap-2 ">
                           <div className="col-span-12 px-4 py-2">
-                            <p className="text-lg font-bold text-white">{section.title}</p>
+                            <p className="text-lg font-bold">{section.title}</p>
                           </div>
                         </Grid>
                       </SingleView>

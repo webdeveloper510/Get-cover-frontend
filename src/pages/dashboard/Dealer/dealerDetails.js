@@ -854,10 +854,10 @@ function DealerDetails() {
             <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {dealerDetails?.dealerData?.name}
                   </p>
                 </div>
@@ -877,10 +877,10 @@ function DealerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {dealerDetails?.dealerData?.street},{" "}
                     {dealerDetails?.dealerData?.city},{" "}
                     {dealerDetails?.dealerData?.state},{" "}
@@ -889,7 +889,7 @@ function DealerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -901,8 +901,8 @@ function DealerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {dealerDetails?.firstName} {dealerDetails?.lastName}
                   </p>
                 </div>
@@ -914,10 +914,10 @@ function DealerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base leading-[13px] font-semibold break-words">
                     {dealerDetails?.email}
                   </p>
                 </div>
@@ -929,10 +929,10 @@ function DealerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base  font-semibold ">
                     +1 {formatPhoneNumber(dealerDetails?.phoneNumber)}
                   </p>
                 </div>

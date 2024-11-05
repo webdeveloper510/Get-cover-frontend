@@ -212,18 +212,18 @@ function ContractList(props) {
                             <SingleView className='rounded-t-xl'>
                               <Grid className="!gap-2 !grid-cols-11">
                                 <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                                  <p className="text-white py-2 font-Regular">
+                                  <p className="py-2 font-Regular">
                                     Contract ID : <b> {res.unique_key} </b>
                                   </p>
                                 </div>
                                 <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                  <p className="text-white py-2 font-Regular">
+                                  <p className="py-2 font-Regular">
                                     Order ID :{" "}
                                     <b> {res?.order[0]?.unique_key} </b>
                                   </p>
                                 </div>
                                 <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                  <p className="text-white py-2 font-Regular">
+                                  <p className="py-2 font-Regular">
                                     Dealer P.O. # :{" "}
                                     <b> {res?.order[0]?.venderOrder} </b>
                                   </p>
@@ -374,18 +374,18 @@ function ContractList(props) {
                 <SingleView className='rounded-t-xl'>
                   <Grid className="!gap-2 !grid-cols-11">
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Contract ID : <b> {singleContract.unique_key} </b>
                       </p>
                     </div>
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Order ID :{" "}
                         <b> {singleContract?.order?.[0]?.unique_key} </b>
                       </p>
                     </div>
                     <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                      <p className="text-white py-2 font-Regular">
+                      <p className="py-2 font-Regular">
                         Dealer P.O. # :{" "}
                         <b> {singleContract?.order?.[0]?.venderOrder} </b>
                       </p>

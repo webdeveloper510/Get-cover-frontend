@@ -71,10 +71,10 @@ function CustomerEditContract() {
                                     <img src={contract} alt="category" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-white text-base font-medium leading-5	">
+                                    <p className=" text-base font-medium leading-5	">
                                         Contract ID
                                     </p>
-                                    <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                                    <p className="opacity-50 text-sm	font-medium">
                                         861910
                                     </p>
                                 </div>
@@ -86,10 +86,10 @@ function CustomerEditContract() {
                                     <img src={category1} className="w-6 h-6" alt="dealer" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-white text-base font-medium leading-5	">
+                                    <p className=" text-base font-medium leading-5	">
                                         Order ID
                                     </p>
-                                    <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                                    <p className="opacity-50 text-sm	font-medium">
                                         315174
                                     </p>
                                 </div>
@@ -101,10 +101,10 @@ function CustomerEditContract() {
                                     <img src={delaerName} alt="terms" />
                                 </div>
                                 <div className="self-center">
-                                    <p className="text-white text-base font-medium leading-5">
+                                    <p className="text-base font-medium leading-5">
                                         Dealer P.O. #
                                     </p>
-                                    <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                                    <p className="opacity-50	text-sm font-medium">
                                         MC-10554
                                     </p>
                                 </div>

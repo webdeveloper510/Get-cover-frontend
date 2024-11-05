@@ -64,12 +64,12 @@ function OrderSummary(props) {
                     <SingleView className='rounded-t-xl'>
                       <Grid className="!gap-2 !grid-cols-10">
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
+                          <p className=" py-2 font-Regular">
                             Product SKU : <b> {res.name} </b>
                           </p>
                         </div>
                         <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
+                          <p className=" py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
