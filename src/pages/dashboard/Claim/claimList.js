@@ -1814,7 +1814,7 @@ function ClaimList(props) {
                                                   {claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" || isExcludedPath || !claimList.result[activeIndex]
+                                                    "completed" || isExcludedPath || ((role!='Super Admin'|| role !='Servicer') && !claimList.result[activeIndex])
                                                       ?.selfServicer ? (
                                                     <></>
                                                   ) : (
