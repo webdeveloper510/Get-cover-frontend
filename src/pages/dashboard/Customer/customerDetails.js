@@ -411,6 +411,7 @@ function CustomerDetails() {
           id={customerId}
           activeTab={activeTab}
           customerDetail={customerDetail}
+          setLoading={setLoading}
         />
       ),
     },

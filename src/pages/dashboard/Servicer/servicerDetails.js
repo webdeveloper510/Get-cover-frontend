@@ -293,7 +293,7 @@ function ServicerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"servicer"} id={servicerId} activeTab={activeTab} />
+        <UserList flag={"servicer"} id={servicerId} activeTab={activeTab} setLoading={setLoading} />
       ),
     },
     {
