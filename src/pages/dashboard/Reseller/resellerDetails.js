@@ -583,7 +583,7 @@ function ResellerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} />
+        <UserList flag={"reseller"} id={id.resellerId} activeTab={activeTab} setLoading={setLoading} />
       ),
     },
 
