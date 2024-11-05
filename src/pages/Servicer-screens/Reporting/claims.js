@@ -421,7 +421,7 @@ function AllList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then(async(res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
       if (updatedClaimListCopy.result) {
@@ -597,6 +597,7 @@ function AllList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
   const closeEdit = () => {
@@ -931,7 +932,7 @@ function AllList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
-        getClaimOptions(claimList.result[activeIndex].claimType);
+      getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]
@@ -1083,6 +1084,7 @@ function AllList(props) {
   }, []);
 
   useEffect(() => {
+    getClaimOptions('');
     if (activeTab === "All Claims") {
       getAllClaims();
       getClaimOptions('');
@@ -1790,7 +1792,7 @@ function AllList(props) {
                                                 {(claimStatus.status ==
                                                   "rejected" ||
                                                   claimStatus.status ==
-                                                  "completed")   ? (
+                                                  "completed") ? (
                                                   <></>
                                                 ) : (
                                                   <img
@@ -2862,14 +2864,29 @@ function AllList(props) {
                   {...formik1.getFieldProps("serial")}
                 />
               </div>
+              {
+                role == "Super Admin" && (
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="productName"
+                      className="!bg-white"
+                      label="Product SKU"
+                      placeholder=""
+                      {...formik1.getFieldProps("productName")}
+                    />
+                  </div>
+                )
+              }
+
               <div className="col-span-6">
                 <Input
                   type="text"
-                  name="productName"
+                  name="dealerSku"
                   className="!bg-white"
-                  label="Product SKU"
+                  label="Dealer SKU"
                   placeholder=""
-                  {...formik1.getFieldProps("productName")}
+                  {...formik1.getFieldProps("dealerSku")}
                 />
               </div>
               <div className="col-span-6">
@@ -2882,12 +2899,49 @@ function AllList(props) {
                   {...formik1.getFieldProps("pName")}
                 />
               </div>
+              {props?.flag == "" && (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="dealerName"
+                    className="!bg-white"
+                    label="Dealer Name"
+                    placeholder=""
+                    {...formik1.getFieldProps("dealerName")}
+                  />
+                </div>
+              )}
 
+              {window.location.pathname.includes("/customer/claimList") ||
+                props?.flag == "customer" ? (
+                ""
+              ) : (
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="customerName"
+                    className="!bg-white"
+                    label="Customer Name"
+                    placeholder=""
+                    {...formik1.getFieldProps("customerName")}
+                  />
+                </div>
+              )}
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="servicerName"
+                  className="!bg-white"
+                  label="Servicer Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("servicerName")}
+                />
+              </div>
               <div className="col-span-6">
                 <Select
                   name="claimStatus"
                   label="Claim Status"
-                  options={Claimstatus}
+                  options={claimvalues?.value}
                   className="!bg-white"
                   onChange={handleSelectChange2}
                   value={formik1.values.claimStatus}
@@ -2908,7 +2962,7 @@ function AllList(props) {
                 <>
                   <div className="col-span-6">
                     <Select
-                      options={customerValue}
+                      options={customerValue?.value}
                       name="customerStatusValue"
                       label="Customer Status"
                       className="!bg-white"
@@ -2918,7 +2972,7 @@ function AllList(props) {
                   </div>
                   <div className="col-span-6">
                     <Select
-                      options={repairValue}
+                      options={repairValue?.value}
                       name="repairStatus"
                       label="Repair Status"
                       className="!bg-white"

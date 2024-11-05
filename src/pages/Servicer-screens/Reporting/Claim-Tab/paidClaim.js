@@ -566,6 +566,7 @@ function ClaimList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
 

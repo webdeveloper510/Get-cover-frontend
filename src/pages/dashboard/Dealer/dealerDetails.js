@@ -387,7 +387,7 @@ function DealerDetails() {
     },
   });
 
- 
+
   const servicerForm = useFormik({
     initialValues: {
       selectedItems: [],
@@ -410,11 +410,9 @@ function DealerDetails() {
         setModalOpen(true);
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
-        // closeModal1();
         setTimer(3);
       } else {
         setLoading(false);
-        // closeModal1();
       }
 
       closeModal1();
@@ -651,7 +649,7 @@ function DealerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"dealer"} id={id.id} activeTab={activeTab} />,
+      content: <UserList flag={"dealer"} id={id.id} activeTab={activeTab} setLoading={setLoading} />,
     },
     {
       id: "PriceBook",

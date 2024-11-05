@@ -89,6 +89,9 @@ function AddCompanyPriceBook() {
         .typeError("Required")
         .required("Required")
         .min(0, "Fronting fee cannot be negative")
+        .test(
+          (value) => value == null || /^\d+(\.\d{0,2})?$/.test(value.toString())
+        )
         .nullable(),
       reinsuranceFee: Yup.number()
         .typeError("Required")

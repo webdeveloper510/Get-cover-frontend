@@ -240,24 +240,20 @@ function CustomerDashboard() {
           </div>
         ) : (
           <div className='mt-5'>
-            <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12'>
+            <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-9'>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
-                <p className='text-2xl font-bold'>{customerDashboardDetail?.orderData?.totalOrder}</p>
-                <p className='text-neutral-grey text-sm'>Total Number of Orders</p>
+                <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfDevices}</p>
+                <p className='text-neutral-grey text-sm'>Number of Devices</p>
               </MultiColorView>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
-                <p className='text-2xl font-bold'>${customerDashboardDetail?.orderData?.totalAmount === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(
-                    customerDashboardDetail?.orderData?.totalAmount ?? parseInt(0)
-                  )}</p>
-                <p className='text-neutral-grey text-sm'>Total Numbers of Contracts</p>
+                <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfSubmittedClaims}</p>
+                <p className='text-neutral-grey text-sm'>Total Number of Submitted claims</p>
               </MultiColorView>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
-                <p className='text-2xl font-bold'>{customerDashboardDetail?.claimData?.numberOfClaims}</p>
-                <p className='text-neutral-grey text-sm'>Total Completed Claims</p>
+                <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfCompletedClaims}</p>
+                <p className='text-neutral-grey text-sm'>Total Number of Completed Claims</p>
               </MultiColorView>
-              <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
+              {/* <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>${customerDashboardDetail?.claimData?.valueClaim === undefined
                   ? parseInt(0).toLocaleString(2)
                   : formatOrderValue(
@@ -265,10 +261,10 @@ function CustomerDashboard() {
                   )}</p>
 
                 <p className='text-neutral-grey text-sm'>Total Value of Claims</p>
-              </MultiColorView>
+              </MultiColorView> */}
             </Grid>
 
-            <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+            {/* <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
               <div className="col-span-6">
                 <MultiColorView className="p-3 rounded-xl">
                   <p className="font-lg font-bold text-white pl-2 mb-3">
@@ -333,7 +329,7 @@ function CustomerDashboard() {
                   />
                 </div>
               </div>
-            </Grid>
+            </Grid> */}
           </div>
         )}
       </div>

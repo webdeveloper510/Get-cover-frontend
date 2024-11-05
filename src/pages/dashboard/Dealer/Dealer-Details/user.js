@@ -34,7 +34,7 @@ import { getResellerUsersById } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 
 function UserList(props) {
-  console.log(props);
+  console.log(props, 'hello world');
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -66,7 +66,7 @@ function UserList(props) {
     phone: "",
   });
   // console.log("toggleFlag", toggleFlag);
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   useEffect(() => {
     if (props.activeTab === "Users") {
@@ -79,7 +79,7 @@ function UserList(props) {
   }, []);
 
   const getUserList = async (data = {}) => {
-    setLoading(true);
+    setLoading1(true);
     switch (props.flag) {
       case "customer":
         const customerResult = await getCustomerUsersById(props.id, data);
@@ -110,7 +110,7 @@ function UserList(props) {
         break;
     }
 
-    setLoading(false);
+    setLoading1(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -236,10 +236,10 @@ function UserList(props) {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      setLoading(true);
+      setLoading1(true);
       const result = await updateUserDetailsById(values);
       if (result.code == 200) {
-        setLoading(false);
+        setLoading1(false);
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user updated successfully ");
         openModal();
@@ -247,7 +247,7 @@ function UserList(props) {
         setTimer(3);
         // getUserList();
       } else {
-        setLoading(false);
+        setLoading1(false);
       }
       closeModal2();
     },
@@ -290,7 +290,8 @@ function UserList(props) {
   };
 
   const makeUserPrimary = async (row) => {
-    setLoading(true);
+    // setLoading1(true);
+    props.setLoading(true);
     const result = await changePrimaryByUserId(row._id);
 
     if (result.code === 200) {
@@ -298,9 +299,11 @@ function UserList(props) {
       SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
-      setLoading(false);
+      // setLoading1(false);
+      props.setLoading(false);
     }
-    setLoading(false);
+    // setLoading1(false);
+    props.setLoading(false);
 
   };
 
@@ -560,7 +563,7 @@ function UserList(props) {
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-            {loading ? (
+            {loading1 ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />

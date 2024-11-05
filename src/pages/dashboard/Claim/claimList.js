@@ -73,6 +73,7 @@ function ClaimList(props) {
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [completeLoader, setCompleteLoader] = useState(false);
@@ -360,6 +361,7 @@ function ClaimList(props) {
       updateAndSetStatus(setClaimStatus, "claimStatus", res);
       updateAndSetStatus(setRepairStatus, "repairStatus", res);
       updateAndSetStatus(setCustomerStatus, "customerStatus", res);
+      setCompleteLoader(false);
     });
 
   };
@@ -485,6 +487,7 @@ function ClaimList(props) {
   };
 
   const openDisapproved = () => {
+    getClaimOptions();
     setIsDisapprovedOpen(true);
   };
 
@@ -988,7 +991,7 @@ function ClaimList(props) {
 
   useEffect(() => {
     getAllClaims();
-    // getClaimOptions();
+    getClaimOptions();
 
   }, []);
 
@@ -1107,6 +1110,7 @@ function ClaimList(props) {
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
+    setDisable(true);
     setPageValue(page);
     let data = {
       page,
@@ -1150,10 +1154,12 @@ function ClaimList(props) {
         setTimeout(function () {
           setShowdata(true);
         }, 1000);
+        setDisable(false);
       })
       .catch(() => {
         setLoaderType(false);
         setShowdata(false);
+        setDisable(false);
       });
   };
   const handleChange = (name, value) => {
@@ -1319,7 +1325,8 @@ function ClaimList(props) {
                       </Grid>
                     </div>
                     <div className="col-span-4 self-center flex justify-center">
-                      <Button type="submit" className="!p-2">
+                      <Button type="submit" disabled={disable} className={`${disable ? "!bg-[#817878]" : ""
+                        } !p-2`}>
                         <img
                           src={Search}
                           className="cursor-pointer "
@@ -1328,6 +1335,7 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         className="!bg-transparent !p-0"
+
                         onClick={() => {
                           handleFilterIconClick();
                         }}
@@ -1340,7 +1348,9 @@ function ClaimList(props) {
                       </Button>
                       <Button
                         type="button"
-                        className="ml-2 !text-[14px] !px-2"
+                        disabled={disable}
+                        className={`${disable ? "!bg-[#817878]" : ""
+                          } ml-2 !text-[14px] !px-2`}
                         onClick={() => openDisapproved()}
                       >
                         Advance Search
@@ -1388,10 +1398,10 @@ function ClaimList(props) {
                                 <p className="text-[#A3A3A3]">Contract ID</p>
                               </div>
                               <div className="col-span-3 self-center border-Gray28 border-r p-5">
-                              <p className="font-semibold leading-5 text-black text-lg">
-  {" "}
-  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
-</p>
+                                <p className="font-semibold leading-5 text-black text-lg">
+                                  {" "}
+                                  {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+                                </p>
                                 <p className="text-[#A3A3A3]">Damage Date</p>
                               </div>
                               <div className="col-span-3 self-center justify-left pl-4 flex relative">
@@ -1402,7 +1412,7 @@ function ClaimList(props) {
                                   alt="chat"
                                 />
                                 {role === "Super Admin" &&
-                                  res?.claimStatus?.[0]?.status === "open" &&  res?.repairStatus?.[0]?.status != "servicer_shipped" && (
+                                  res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status != "servicer_shipped" && (
                                     <img
                                       src={Edit}
                                       className="mr-2 cursor-pointer"
@@ -1412,8 +1422,8 @@ function ClaimList(props) {
                                   )}
 
                                 {role != "Super Admin" &&
-                                  res.selfServicer &&
-                                  res?.claimStatus?.[0]?.status === "open" &&  res?.repairStatus?.[0]?.status == "servicer_shipped" &&
+                                  res?.selfServicer &&
+                                  res?.claimStatus?.[0]?.status === "open" && res?.repairStatus?.[0]?.status == "servicer_shipped" &&
                                   !location.pathname.includes(
                                     "customer/claimList"
                                   ) &&
@@ -1525,56 +1535,62 @@ function ClaimList(props) {
 
                             <Grid className="!gap-0  ">
                               <>
-                                {res?.repairParts.length > 0 &&
-                                  res?.repairParts.map((part, index) => (
-                                    <>
-                                      <div className="col-span-2 border-r border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className="text-white text-sm font-Regular">
-                                            Service Type
-                                          </p>
-                                          <p className="text-light-green text-base font-semibold">
-                                            {part.serviceType == "Labour"
-                                              ? "labor"
-                                              : part.serviceType}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="col-span-8 border-r border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className=" text-sm font-Regular">
-                                            Description
-                                          </p>
-                                          <p className=" text-base font-semibold">
-                                            {part.description}
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="col-span-2 border-b border-Gray28">
-                                        <div className="py-4 px-3">
-                                          <p className=" text-sm font-Regular">
-                                            Price
-                                          </p>
-                                          <p className=" text-base font-semibold">
-                                            $
-                                            {part.price === undefined
-                                              ? (0).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })
-                                              : parseFloat(
-                                                part.price === undefined
-                                                  ? 0
-                                                  : part.price
-                                              ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 2,
-                                                maximumFractionDigits: 2,
-                                              })}
-                                          </p>
-                                        </div>
-                                      </div>
-                                    </>
-                                  ))}
+                                {!location.pathname.includes(
+                                  "/customer/claimList"
+                                ) &&
+                                  <>
+                                    {res?.repairParts.length > 0 &&
+                                      res?.repairParts.map((part, index) => (
+                                        <>
+                                          <div className="col-span-2 border-r border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className="text-white text-sm font-Regular">
+                                                Service Type
+                                              </p>
+                                              <p className="text-light-green text-base font-semibold">
+                                                {part.serviceType == "Labour"
+                                                  ? "labor"
+                                                  : part.serviceType}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="col-span-8 border-r border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className=" text-sm font-Regular">
+                                                Description
+                                              </p>
+                                              <p className=" text-base font-semibold">
+                                                {part.description}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="col-span-2 border-b border-Gray28">
+                                            <div className="py-4 px-3">
+                                              <p className=" text-sm font-Regular">
+                                                Price
+                                              </p>
+                                              <p className=" text-base font-semibold">
+                                                $
+                                                {part.price === undefined
+                                                  ? (0).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })
+                                                  : parseFloat(
+                                                    part.price === undefined
+                                                      ? 0
+                                                      : part.price
+                                                  ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2,
+                                                  })}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </>
+                                      ))}
+                                  </>
+                                }
                                 <div className="col-span-12 ">
                                   <Grid className="!gap-2">
                                     <div className="col-span-4 py-4 pl-1 ">
@@ -1593,75 +1609,79 @@ function ClaimList(props) {
                                               </span>
                                             </p>
                                           )}
-                                        <Grid>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px]  font-Regular">
-                                              GetCover Cost :{" "}
-                                            </p>
-                                            <p className="font-semibold text-[11px] text-white  mb-3">
-                                              {" "}
-                                              {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
-                                            </p>
-                                          </div>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px]  font-Regular">
-                                              Customer Cost :{" "}
-                                            </p>
-                                            <p className="font-semibold text-[11px] text-white mb-3">
-                                              {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
-                                            </p>
-                                          </div>
-                                          <div className="col-span-4">
-                                            <p className=" text-[11px] mb-3 font-Regular">
-                                              Total Cost :{" "}
-                                              <span className="font-semibold text-white ml-3">
+                                        {!location.pathname.includes(
+                                          "/customer/claimList"
+                                        ) &&
+                                          <Grid>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px]  font-Regular">
+                                                GetCover Cost :{" "}
+                                              </p>
+                                              <p className="font-semibold text-[11px] text-white  mb-3">
                                                 {" "}
-                                                ${
-                                                  res.totalAmount.toFixed(2)
-                                                }{" "}
-                                              </span>
-                                            </p>
-                                          </div>
-                                        </Grid>
+                                                {calculateTotalCost(Number(res?.getCoverClaimAmount), Number(res?.getcoverOverAmount))}
+                                              </p>
+                                            </div>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px]  font-Regular">
+                                                Customer Cost :{" "}
+                                              </p>
+                                              <p className="font-semibold text-[11px] text-white mb-3">
+                                                {calculateTotalCost(Number(res?.customerClaimAmount), Number(res?.customerOverAmount))}
+                                              </p>
+                                            </div>
+                                            <div className="col-span-4">
+                                              <p className=" text-[11px] mb-3 font-Regular">
+                                                Total Cost :{" "}
+                                                <span className="font-semibold text-white ml-3">
+                                                  {" "}
+                                                  ${
+                                                    res.totalAmount.toFixed(2)
+                                                  }{" "}
+                                                </span>
+                                              </p>
+                                            </div>
+                                          </Grid>
+                                        }
 
-                                          {
-    claimType == "theft_and_lost" ? (
-    <></>
-    ) : ( 
-      location.pathname.includes("/reseller/claimList") ? (
-      <p className="mb-4 text-[11px] font-Regular flex self-center">
-        <span className="self-center mr-4">Servicer Name :</span>
-        {res?.servicerData?.name}
-      </p>
-    ) : (
-      <p className="mb-4 text-[11px] font-Regular flex self-center">
-        <span className="self-center mr-4">Servicer Name :</span>
-        {role === "Super Admin" ? (
-          <Select
-            name="servicer"
-            label=""
-            value={servicer}
-            disabled={
-              claimStatus.status === "rejected" ||
-              claimStatus.status === "completed" ||
-              location.pathname.includes("/reseller/customerDetails")
-            }
-            onChange={handleSelectChange}
-            OptionName="Servicer"
-            white
-            className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
-            classBox="w-[55%]"
-            options={servicerList}
-          />
-        ) : (
-          res?.servicerData?.name
-        )}
-      </p>
-    )
-    )
-  }
-              
-                                   
+                                        {
+                                          claimType == "theft_and_lost" ? (
+                                            <></>
+                                          ) : (
+                                            location.pathname.includes("/reseller/claimList") ? (
+                                              <p className="mb-4 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center mr-4">Servicer Name :</span>
+                                                {res?.servicerData?.name}
+                                              </p>
+                                            ) : (
+                                              <p className="mb-4 text-[11px] font-Regular flex self-center">
+                                                <span className="self-center mr-4">Servicer Name :</span>
+                                                {role === "Super Admin" ? (
+                                                  <Select
+                                                    name="servicer"
+                                                    label=""
+                                                    value={servicer}
+                                                    disabled={
+                                                      claimStatus.status === "rejected" ||
+                                                      claimStatus.status === "completed" ||
+                                                      location.pathname.includes("/reseller/customerDetails")
+                                                    }
+                                                    onChange={handleSelectChange}
+                                                    OptionName="Servicer"
+                                                    white
+                                                    className1="!py-0 !text-[13px] text-white !bg-Eclipse !border-1 !font-[400]"
+                                                    classBox="w-[55%]"
+                                                    options={servicerList}
+                                                  />
+                                                ) : (
+                                                  res?.servicerData?.name
+                                                )}
+                                              </p>
+                                            )
+                                          )
+                                        }
+
+
 
                                         {!isExcludedPath || claimList.result[activeIndex]
                                           ?.selfServicer ?
@@ -1784,7 +1804,8 @@ function ClaimList(props) {
                                                   {claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" ? (
+                                                    "completed" || isExcludedPath || !claimList.result[activeIndex]
+                                                      ?.selfServicer ? (
                                                     <></>
                                                   ) : (
                                                     <>
@@ -1878,7 +1899,8 @@ function ClaimList(props) {
                                                   {(claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed") ? (
+                                                    "completed") || isExcludedPath || !claimList.result[activeIndex]
+                                                      ?.selfServicer ? (
                                                     <></>
                                                   ) : (
                                                     <img

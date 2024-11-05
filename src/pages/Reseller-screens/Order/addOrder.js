@@ -226,17 +226,22 @@ function ResellerAddOrder() {
   const getDealerSettingsDetails = async (dealerId) => {
     const res = await getDealersSettingsByid(dealerId);
     console.log(res.result[0]);
-    setSelectedFile2(
-      res.result[0].termCondition.fileName === ""
-        ? null
-        : res.result[0].termCondition
-    );
-    formikStep2.setFieldValue(
-      "termCondition",
-      res.result[0].termCondition.fileName === ""
-        ? null
-        : res.result[0].termCondition
-    );
+    if (
+      type == "Add"
+    ) {
+      setSelectedFile2(
+        res.result[0].termCondition.fileName === ""
+          ? null
+          : res.result[0].termCondition
+      );
+      formikStep2.setFieldValue(
+        "termCondition",
+        res.result[0].termCondition.fileName === ""
+          ? null
+          : res.result[0].termCondition
+      );
+    }
+
   };
   const orderDetails = async () => {
     const result = await orderDetailsById(orderId);
@@ -277,6 +282,7 @@ function ResellerAddOrder() {
         return newArray;
       });
     });
+    setSelectedFile2(result?.result?.termCondition);
     setSendNotification(result?.result.sendNotification)
     orderDetail(result.result);
     formikStep3.setValues({
@@ -347,7 +353,7 @@ function ResellerAddOrder() {
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
     formik4.setFieldValue("paymentStatus", result?.result?.paymentStatus);
-        formik4.setFieldValue("paidAmount",result?.result?.paidAmount);
+    formik4.setFieldValue("paidAmount", result?.result?.paidAmount);
   };
 
   const renderStep = () => {
@@ -964,7 +970,7 @@ function ResellerAddOrder() {
           newClaimInCoveragePeriod[match[1]] = data1?.noOfClaimPerPeriod === -1;
           return newClaimInCoveragePeriod;
         });
-    
+
         formikStep3.setFieldValue(
           `productsArray[${match[1]}].noOfClaim`,
           data1.noOfClaim
@@ -1067,12 +1073,12 @@ function ResellerAddOrder() {
     }
 
     if (name.includes("priceBookId")) {
-    
+
       clearProductFields();
       updateProductFields(selectedValue);
       console.log(selectedValue);
 
-      const priceBookData=  await getCategoryList(
+      const priceBookData = await getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[productIndex].categoryId,
           priceBookId: selectedValue,
@@ -1091,7 +1097,7 @@ function ResellerAddOrder() {
         },
         productIndex
       );
-    formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`,priceBookData.result.mergedData);
+      formikStep3.setFieldValue(`productsArray[${productIndex}].adhDays`, priceBookData.result.mergedData);
 
     }
     if (name.includes("term")) {
@@ -1414,15 +1420,15 @@ function ResellerAddOrder() {
         ]))
       } : product
     );
-  
+
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
-  
+
     const fieldsToReset = ["priceBookId", "categoryId", "term", "dealerSku", "pName", "noOfProducts"];
     fieldsToReset.forEach(field => {
       formikStep3.setFieldTouched(`productsArray[${index}].${field}`, false, false);
       formikStep3.setFieldError(`productsArray[${index}].${field}`, "");
     });
-  
+
     getCategoryList(
       formik.values.dealerId,
       {
@@ -1726,9 +1732,8 @@ function ResellerAddOrder() {
                     placeholder=""
                     className="!bg-white"
                     disabled={type == "Edit"}
-                    className1={`${
-                      type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
-                    }`}
+                    className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
+                      }`}
                     required={true}
                     disableFirstOption={true}
                     onChange={handleSelectChange1}
@@ -2187,26 +2192,26 @@ function ResellerAddOrder() {
                             formikStep3.values.productsArray[index]
                               .coverageStartDate == ""
                               ? formikStep3.values.productsArray[index]
-                                  .coverageStartDate
+                                .coverageStartDate
                               : format(
-                                  new Date(
-                                    formikStep3.values.productsArray[
-                                      index
-                                    ].coverageStartDate
-                                  ),
-                                  "MM/dd/yyyy"
-                                )
+                                new Date(
+                                  formikStep3.values.productsArray[
+                                    index
+                                  ].coverageStartDate
+                                ),
+                                "MM/dd/yyyy"
+                              )
                           }
                           onChange={(e) => {
                             formikStep3.handleChange(e);
-                              const inputValue = e.target.value;
-                              const selectedDate = new Date(inputValue);
-                              selectedDate.setDate(selectedDate.getDate());
-                          
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].coverageStartDate`,
-                                selectedDate
-                              );
+                            const inputValue = e.target.value;
+                            const selectedDate = new Date(inputValue);
+                            selectedDate.setDate(selectedDate.getDate());
+
+                            formikStep3.setFieldValue(
+                              `productsArray[${index}].coverageStartDate`,
+                              selectedDate
+                            );
                           }}
                           onBlur={formikStep3.handleBlur}
                           onWheelCapture={(e) => {
@@ -2254,47 +2259,47 @@ function ResellerAddOrder() {
                       {(formikStep3.values.productsArray[index].priceType ===
                         "FlatPricing" ||
                         formikStep3.values.productsArray[index].priceType ===
-                          "Flat Pricing") && (
-                        <>
-                          <div className="col-span-4">
-                            <Input
-                              type="text"
-                              name={`productsArray[${index}].rangeStart`}
-                              className="!bg-white"
-                              label="Start Range"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index]
-                                  .rangeStart
-                              }
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                          <div className="col-span-4">
-                            <Input
-                              type="text"
-                              name={`productsArray[${index}].rangeEnd`}
-                              className="!bg-white"
-                              label="End Range"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index].rangeEnd
-                              }
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                        </>
-                      )}
+                        "Flat Pricing") && (
+                          <>
+                            <div className="col-span-4">
+                              <Input
+                                type="text"
+                                name={`productsArray[${index}].rangeStart`}
+                                className="!bg-white"
+                                label="Start Range"
+                                placeholder=""
+                                value={
+                                  formikStep3.values.productsArray[index]
+                                    .rangeStart
+                                }
+                                onChange={formikStep3.handleChange}
+                                onBlur={formikStep3.handleBlur}
+                                disabled={true}
+                                onWheelCapture={(e) => {
+                                  e.preventDefault();
+                                }}
+                              />
+                            </div>
+                            <div className="col-span-4">
+                              <Input
+                                type="text"
+                                name={`productsArray[${index}].rangeEnd`}
+                                className="!bg-white"
+                                label="End Range"
+                                placeholder=""
+                                value={
+                                  formikStep3.values.productsArray[index].rangeEnd
+                                }
+                                onChange={formikStep3.handleChange}
+                                onBlur={formikStep3.handleBlur}
+                                disabled={true}
+                                onWheelCapture={(e) => {
+                                  e.preventDefault();
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
                       <div className="col-span-12">
                         <Input
                           type="text"
@@ -2401,7 +2406,7 @@ function ResellerAddOrder() {
                                         />
                                         {formikStep3.touched.productsArray &&
                                           formikStep3.touched.productsArray[
-                                            index
+                                          index
                                           ] &&
                                           formikStep3.touched.productsArray[
                                             index
@@ -2439,7 +2444,7 @@ function ResellerAddOrder() {
                         </Grid>
                       </div>
                       {formikStep3.values.productsArray[index].dealerSku ===
-                      "" ? (
+                        "" ? (
                         ""
                       ) : (
                         <div className="col-span-12">
@@ -2683,7 +2688,7 @@ function ResellerAddOrder() {
                       )}
 
                     {formikStep3.values.productsArray[index].priceBookId ==
-                    "" ? (
+                      "" ? (
                       ""
                     ) : (
                       <div className="col-span-12 my-4 border-t py-3">
@@ -3013,8 +3018,8 @@ function ResellerAddOrder() {
                           ? "Labor"
                           : formikStep2.values.serviceCoverageType ===
                             "Parts & Labour"
-                          ? "Parts & Labor"
-                          : formikStep2.values.serviceCoverageType}
+                            ? "Parts & Labor"
+                            : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
                     <div className="col-span-5 py-4 ">
@@ -3093,8 +3098,8 @@ function ResellerAddOrder() {
                                 {data.unitPrice === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      Number(data.unitPrice) ?? parseInt(0)
-                                    )}
+                                    Number(data.unitPrice) ?? parseInt(0)
+                                  )}
                               </p>
                             </div>
                             <div className="col-span-3 py-4 border-r">
@@ -3112,8 +3117,8 @@ function ResellerAddOrder() {
                                 {data.price === undefined
                                   ? parseInt(0).toLocaleString(2)
                                   : formatOrderValue(
-                                      Number(data.price) ?? parseInt(0)
-                                    )}{" "}
+                                    Number(data.price) ?? parseInt(0)
+                                  )}{" "}
                               </p>
                             </div>
                           </Grid>
@@ -3127,8 +3132,8 @@ function ResellerAddOrder() {
                                   {data.rangeStart === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        Number(data.rangeStart) ?? parseInt(0)
-                                      )}
+                                      Number(data.rangeStart) ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
@@ -3138,8 +3143,8 @@ function ResellerAddOrder() {
                                   {data.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                        data.rangeEnd ?? parseInt(0)
-                                      )}
+                                      data.rangeEnd ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </Grid>
@@ -3192,7 +3197,7 @@ function ResellerAddOrder() {
                                               1,
                                               Math.ceil(
                                                 value.enterQuantity /
-                                                  parseFloat(value.quantity)
+                                                parseFloat(value.quantity)
                                               )
                                             )}
                                           </td>
@@ -3245,7 +3250,7 @@ function ResellerAddOrder() {
                                 {data?.file === "" || data?.file?.name === ""
                                   ? ""
                                   : (data?.file?.size / 1000)?.toFixed(2) +
-                                    "kb"}
+                                  "kb"}
                               </p>
                             </div>
                           </div>
@@ -3256,19 +3261,19 @@ function ResellerAddOrder() {
                               # of Claims Over the Certain Period
                             </p>
                             <p className="text-sm">
-                            {" "}
-{
-  formikStep3?.values?.productsArray[index]?.noOfClaim?.value == "-1"
-    ? ""
-    : `${formikStep3?.values?.productsArray[index]?.noOfClaim?.period} - `
-}
-{" "}
+                              {" "}
+                              {
+                                formikStep3?.values?.productsArray[index]?.noOfClaim?.value == "-1"
+                                  ? ""
+                                  : `${formikStep3?.values?.productsArray[index]?.noOfClaim?.period} - `
+                              }
+                              {" "}
 
                               {formikStep3?.values?.productsArray[index]
                                 ?.noOfClaim?.value == "-1"
                                 ? "Unlimited"
                                 : formikStep3?.values?.productsArray[index]
-                                    ?.noOfClaim?.value}{" "}
+                                  ?.noOfClaim?.value}{" "}
                             </p>
                           </div>
 
@@ -3283,7 +3288,7 @@ function ResellerAddOrder() {
                               ?.noOfClaimPerPeriod == "-1"
                               ? "Unlimited"
                               : formikStep3?.values?.productsArray[index]
-                                  ?.noOfClaimPerPeriod}{" "}
+                                ?.noOfClaimPerPeriod}{" "}
                           </p>
 
                           <div className="">
@@ -3342,11 +3347,11 @@ function ResellerAddOrder() {
                                     <p className="font-bold text-sm">
                                       {Data.amountType === "percentage"
                                         ? `${formatOrderValue(
-                                            Number(Data.deductible) ?? 0
-                                          )} %`
+                                          Number(Data.deductible) ?? 0
+                                        )} %`
                                         : `$${formatOrderValue(
-                                            Number(Data.deductible) ?? 0
-                                          )}`}
+                                          Number(Data.deductible) ?? 0
+                                        )}`}
                                     </p>
                                   </div>
                                 </div>
@@ -3457,9 +3462,8 @@ function ResellerAddOrder() {
           )}
 
           <p
-            className={` ${
-              currentStep == 1 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Order Details
           </p>
@@ -3470,69 +3474,61 @@ function ResellerAddOrder() {
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
-              }  rounded-full mx-auto w-[26px]`}
+              className={`border ${currentStep > 1
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
+                }  rounded-full mx-auto w-[26px]`}
             >
               2
             </p>
           )}
           <p
-            className={` ${
-              currentStep == 2 ? "text-black" : "text-[#ADADAD] "
-            } text-sm font-bold`}
+            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+              } text-sm font-bold`}
           >
             Dealer Order Details
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${
-            currentStep > 2 ? "border-black" : "border-[#ADADAD]"
-          } mt-3`}
+          className={`w-[150px]  ${currentStep > 2 ? "border-black" : "border-[#ADADAD]"
+            } mt-3`}
         />
         <div className="text-center">
           {currentStep > 3 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
-              className={`border ${
-                currentStep > 2
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
-              } rounded-full mx-auto w-[26px]`}
+              className={`border ${currentStep > 2
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
+                } rounded-full mx-auto w-[26px]`}
             >
               3
             </p>
           )}
           <p
-            className={` ${
-              currentStep == 3 ? "text-black" : "text-[#ADADAD] "
-            }text-sm font-bold`}
+            className={` ${currentStep == 3 ? "text-black" : "text-[#ADADAD] "
+              }text-sm font-bold`}
           >
             Add Product
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${
-            currentStep > 3 ? "border-black" : "border-[#ADADAD]"
-          } mt-3`}
+          className={`w-[150px]  ${currentStep > 3 ? "border-black" : "border-[#ADADAD]"
+            } mt-3`}
         />
         <div className="text-center">
           <p
-            className={`border ${
-              currentStep > 3
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
-            } rounded-full mx-auto w-[26px]`}
+            className={`border ${currentStep > 3
+              ? "text-black border-black"
+              : "text-[#ADADAD] border-[#ADADAD]"
+              } rounded-full mx-auto w-[26px]`}
           >
             4
           </p>
           <p
-            className={` ${
-              currentStep == 4 ? "text-black" : "text-[#ADADAD] "
-            }text-sm font-bold`}
+            className={` ${currentStep == 4 ? "text-black" : "text-[#ADADAD] "
+              }text-sm font-bold`}
           >
             Order Details
           </p>

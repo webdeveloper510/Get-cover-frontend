@@ -75,7 +75,9 @@ const Input = ({
     if (zipcode) {
       inputValue = inputValue.replace(/\D/g, ""); // Remove any non-digit characters
     }
-
+    if (type === "email") {
+      inputValue = inputValue.replace(/\s/g, ''); // Remove space
+    }
     setInputValue(inputValue);
 
     if (onChange) {

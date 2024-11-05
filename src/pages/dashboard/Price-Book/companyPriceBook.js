@@ -644,7 +644,7 @@ function CompanyPriceBook() {
                   <p className="text-center text-3xl font-semibold ">
                     View Company Price Book
                   </p>
-                  <Grid className="mt-5 px-6">
+                  <Grid className="mt-5 px-6 max-h-[70vh] overflow-y-scroll">
                     <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Product Category

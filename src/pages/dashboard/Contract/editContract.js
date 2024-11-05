@@ -21,6 +21,7 @@ import resellerName from "../../../assets/images/contract/reseller.svg";
 import ServicerName from "../../../assets/images/contract/Servicer.svg";
 import CustomerName from "../../../assets/images/contract/Customer.svg";
 import DealerPO from "../../../assets/images/contract/DealerPO.svg";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
@@ -32,14 +33,34 @@ import {
 import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
 import SingleView from "../../../common/singleView";
+import Modal from "../../../common/model";
 function EditContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractDetails, setContractDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [timer, setTimer] = useState(3);
   const { id } = useParams();
 
   console.log(id);
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeModal();
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    navigate(`/contractList`);
+  };
 
   const validationSchema = Yup.object().shape({
     manufacture: Yup.string().trim().required("Required"),
@@ -68,7 +89,8 @@ function EditContract() {
         setLoading(true);
         const res = await editContractById(id, values);
         console.log(res);
-        navigate(-1);
+        setIsModalOpen(true);
+
       } catch (error) {
         setLoading(false);
         console.error("Error editing contract:", error);
@@ -550,6 +572,26 @@ function EditContract() {
                 </div>
               </div>
             </form>
+
+            {/* Modal Email Popop */}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+              <div className="text-center py-1">
+                <img src={AddDealer} alt="email Image" className="mx-auto" />
+                <>
+                  <p className="text-3xl mb-0 mt-4 font-semibold">
+                    Updated <span className=""> Successfully </span>
+                  </p>
+                  <p className="text-base font-medium mt-2">
+                    <b> Contract </b> Updated successfully.{" "}
+                  </p>
+                  <p className="text-base font-medium mt-2">
+                    {" "}
+                    Redirecting you on Contract Page {timer} seconds.
+                  </p>
+
+                </>
+              </div>
+            </Modal>
           </>
         )}
       </div>
