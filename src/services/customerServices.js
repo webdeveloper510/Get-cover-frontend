@@ -200,7 +200,9 @@ export const addCustomerAddressById = async (id, data) => {
   }
 };
 
-export const editCustomerAddressById = async (id, data) => {
+export const editCustomerAddressById = async (data) => {
+  let id = data._id;
+  delete data._id;
   const headers = createHeaders();
   try {
     const response = await axios.put(
@@ -223,6 +225,22 @@ export const getCustomerUsersById = async (id, data) => {
     const response = await axios.post(
       `${url}/customer/getCustomerUsers/${id}`,
       data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCustomerAddress = async (id, customerId) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/customer/deleteAddress/${customerId}`, { addressId: id },
       {
         headers,
       }

@@ -119,6 +119,7 @@ function CustomerDetails() {
 
   useEffect(() => {
     setLoading(true);
+
     let intervalId;
 
     if (modalOpen && timer > 0) {
@@ -339,8 +340,7 @@ function CustomerDetails() {
   };
 
   const openUserModal1 = () => {
-    setActiveTab("Setting123");
-    localStorage.setItem("isPopupOpen1", "true");
+    setActiveTab("Settings");
     setIsUserModalOpen1(true);
   };
 
@@ -348,10 +348,6 @@ function CustomerDetails() {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
     if (isPopupOpen) {
       setActiveTab("Users");
-    }
-    const isPopupOpen1 = localStorage.getItem("isPopupOpen1") === "true";
-    if (isPopupOpen1) {
-      setActiveTab("Settings");
     }
   }, []);
 
@@ -379,6 +375,7 @@ function CustomerDetails() {
         break;
       case "Settings":
         openUserModal1();
+        setActiveTab("Settings");
         break;
 
       default:

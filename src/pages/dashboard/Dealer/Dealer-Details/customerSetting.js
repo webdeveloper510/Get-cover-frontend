@@ -28,7 +28,7 @@ import delete1 from "../../../../assets/images/delete.png";
 import edit from "../../../../assets/images/edit-text.png";
 import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
-import { getCustomerDetailsById } from "../../../../services/customerServices";
+import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -48,6 +48,13 @@ function CustomerSetting(props) {
     });
     const dropdownRef = useRef(null);
     const state = cityData;
+
+    useEffect(() => {
+        if (props.activeTab === "Settings") {
+            customerDetails(props.id);
+        }
+    }, [props]);
+
     useEffect(() => {
 
         let intervalId;
@@ -59,7 +66,6 @@ function CustomerSetting(props) {
 
         if (timer === 0) {
             closeModal();
-            window.location.reload();
         }
 
         if (!isModalOpen) {
@@ -76,38 +82,42 @@ function CustomerSetting(props) {
         SetIsModalOpen(false);
     };
 
-    const getCovrageListData = async () => {
-        try {
-            const res = await getCovrageList();
-            console.log(res.result.value);
-        } catch (error) {
-            console.error("Error fetching category list:", error);
-        }
-    };
-
     const formik = useFormik({
         initialValues: initialFormValues,
         enableReinitialize: true,
         validationSchema: Yup.object({
+            address: Yup.string()
+                .transform((originalValue) => originalValue.trim())
+                .required("Required")
+                .max(500, "Must be exactly 500 characters"),
+            state: Yup.string()
+                .required("Required"),
+            city: Yup.string()
+                .transform((originalValue) => originalValue.trim())
+                .required("Required"),
+            zip: Yup.string()
+                .required("Required")
+                .min(5, "Must be at least 5 characters")
+                .max(6, "Must be exactly 6 characters"),
         }),
         onSubmit: async (values) => {
             setLoading(true);
-
+            localStorage.setItem("customer", "Settings");
             try {
-                const result = await editDealerSettings(
+                const result = await editCustomerAddressById(
                     values,
-                    props.dealerDetails._id
+                    props.id
                 );
                 console.log(result);
-                SetPrimaryText("Dealer Setting Updated Successfully");
-                SetSecondaryText("Setting updated successfully");
+                SetPrimaryText("address Updated Successfully");
+                SetSecondaryText("Address updated successfully");
                 SetIsModalOpen(true);
                 setTimer(3);
             } catch (error) {
-                console.error("Error updating dealer settings:", error);
-                SetPrimaryText("Error Updating Settings");
+                console.error("Error updating Customer address:", error);
+                SetPrimaryText("Error Updating Customer address");
                 SetSecondaryText(
-                    "There was an error updating the settings. Please try again."
+                    "There was an error updating the Customer address. Please try again."
                 );
                 SetIsModalOpen(true);
             } finally {
@@ -123,14 +133,30 @@ function CustomerSetting(props) {
         setAddressData(result.result.meta?.addresses)
         setLoading(false);
     }
-    useEffect(() => {
-        customerDetails(props.id);
-        getCovrageListData();
-    }, []);
+
     const handleSelectChange = async (name, selectedValue) => {
         formik.setFieldValue(name, selectedValue);
     };
 
+    const deleteAddress = async (id, customerId) => {
+        setLoading(true);
+        localStorage.setItem("customer", "Settings");
+        const result = await deleteCustomerAddress(id, customerId)
+        if (result.code === 200) {
+            SetPrimaryText("address Deleted Successfully");
+            SetSecondaryText("Address Deleted successfully");
+            SetIsModalOpen(true);
+            setTimer(3);
+        } else {
+            console.error("Error deleting Customer address:", result.message);
+            SetPrimaryText("Error deleting Customer address");
+            SetSecondaryText(
+                "There was an error deleting the Customer address. Please try again."
+            );
+            SetIsModalOpen(true);
+        }
+        setLoading(false);
+    }
     const Address = [
         {
             name: "S.#",
@@ -193,11 +219,12 @@ function CustomerSetting(props) {
                                     <div>
                                         <div
                                             className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                                            onClick={() => openUserModal(row._id)}
                                         >
                                             <img src={edit} className="w-4 h-4 mr-2" />{" "}
                                             <span className="self-center">Edit </span>
                                         </div>
-                                        <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                                        <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
                                         >
                                             <img src={delete1} className="w-4 h-4 mr-2" />
                                             <span className="self-center">Delete</span>
@@ -256,6 +283,10 @@ function CustomerSetting(props) {
         formik.resetForm();
     };
 
+    const openUserModal = () => {
+        setIsUserModalOpen(true);
+    };
+
     const CustomNoDataComponent = () => (
         <div className="text-center my-5">
             <p>No records found.</p>
@@ -279,7 +310,7 @@ function CustomerSetting(props) {
                 <div className="my-8 relative users">
                     <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl p-5 ">
                         <div className="my-3">
-                            <p className="text-lg font-semibold">Customer Address Details : </p>
+                            <p className="text-lg font-semibold">Customer Address Details </p>
                             <DataTable
                                 columns={Address}
                                 data={addressData}
