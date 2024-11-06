@@ -297,25 +297,38 @@ function ClaimList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
-      setLoading1(true);
-      const updateAndCallAPI = (setter) => {
-        setter((prevRes) => ({ ...prevRes, status: value }));
-        editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
-      };
-
-      switch (selectedValue) {
-        case "customerStatus":
-          updateAndCallAPI(setCustomerStatus);
-          break;
-        case "claimStatus":
-          updateAndCallAPI(setClaimStatus);
-          break;
-        case "repairStatus":
-          updateAndCallAPI(setRepairStatus);
-          break;
-        default:
-          console.error("here");
+      if(value === 'servicer_shipped' ){
+        setIsShipped(true)
       }
+      else if(value === 'product_received' ){
+        setIsReceived(true)
+      }
+      else{
+        console.log(value)
+        setLoading1(true);
+        const updateAndCallAPI = (setter) => {
+          setter((prevRes) => ({ ...prevRes, status: value }));
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue,(value.type==='servicer_shipped' || value.type === "product_received")? value.type :value);
+        };
+        switch (selectedValue) {
+          case "customerStatus":
+            updateAndCallAPI(setCustomerStatus);
+            setIsReceived(false)
+            break;
+          case "claimStatus":
+            updateAndCallAPI(setClaimStatus);
+            break;
+          case "repairStatus":
+            updateAndCallAPI(setRepairStatus);
+             setIsShipped(false)
+            break;
+          default:
+            console.error("here");
+        }
+      }
+  
+
+   
     }
     setTimeout(() => {
       setLoading1(false);
@@ -2918,8 +2931,8 @@ function ClaimList(props) {
               You want to change repair status (Servicer Shipped) for this Claim ?
             </p>
             <div className="mt-3">
-              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
-              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>
+              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeShipped}>
                 No
               </Button>
             </div>
@@ -2944,8 +2957,8 @@ function ClaimList(props) {
               You want to change customer status (Product Received) for this Claim ?
             </p>
             <div className="mt-3">
-              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
-              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+              <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("customerStatus", { type: 'product_received' }); }}>Yes</Button>
+              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeReceived}>
                 No
               </Button>
             </div>

@@ -698,7 +698,7 @@ function Dealer() {
 
       setLoading(false);
       setLoading1(false); // Assuming setLoading1 is required in all cases
-
+      console.log(result)
       switch (message) {
         case "Successfully Created":
           setError("done");
