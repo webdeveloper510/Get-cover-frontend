@@ -1168,7 +1168,8 @@ function Account() {
     initialValues: {
       value: "",
     },
-    validationSchema: Yup.object({
+
+    validationSchema: createthreshold === 'yes' && Yup.object({
       value: Yup.number()
         .max(100, "Cannot enter more than 100%")
         .min(0, "Cannot enter less than 0%")

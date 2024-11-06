@@ -2070,7 +2070,7 @@ function ClaimList(props) {
                                       <div className="col-span-4 pt-4">
                                         <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                           <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                            <p className="text-white text-[11px] p-4">
+                                            <p className=" text-[11px] p-4">
                                               Customer Status
                                             </p>
                                           </div>
@@ -2079,11 +2079,11 @@ function ClaimList(props) {
                                             onClick={handleToggleDropdown}
                                           >
 
-                                            <p className="text-white text-sm">
+                                            <p className=" text-sm">
                                               {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                             </p>
 
-                                            <span className="text-light-green">
+                                            <span className="">
                                               {format(
                                                 new Date(
                                                   repairStatus.date
@@ -2125,7 +2125,7 @@ function ClaimList(props) {
                                         </div>
                                         <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                           <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                            <p className="text-white text-[11px] p-4">
+                                            <p className=" text-[11px] p-4">
                                               {claimvalues?.label}
                                             </p>
                                           </div>
@@ -2133,7 +2133,7 @@ function ClaimList(props) {
                                             className="pl-1 self-center w-[50%] cursor-pointer "
                                             onClick={handleToggleDropdown2}
                                           >
-                                            <p className="text-white text-sm">
+                                            <p className="text-sm">
                                               {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
                                             </p>
                                             <p className="text-light-green">

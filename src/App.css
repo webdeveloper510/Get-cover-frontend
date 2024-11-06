@@ -58,6 +58,10 @@
   border-color: #80808085 !important;
 }
 
+.users .rdt_Pagination {
+  position: relative !important;
+}
+
 .rmsc .gray {
   color: #333 !important;
 }

@@ -1373,7 +1373,7 @@ function ClaimList(props) {
                     <Grid className="!gap-1">
                       <div className="col-span-8 self-center">
                         <Grid className="!gap-2">
-                          <div className="col-span-6 self-center">
+                          <div className={` ${props.activeTab == "Unpaid Claims" ? 'col-span-4' : 'col-span-6'} self-center`}>
                             <Input
                               name="contractId"
                               type="text"
@@ -1384,7 +1384,7 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("contractId")}
                             />
                           </div>
-                          <div className="col-span-6 self-center">
+                          <div className={` ${props.activeTab == "Unpaid Claims" ? 'col-span-4' : 'col-span-6'} self-center`}>
                             <Input
                               name="claimId"
                               type="text"
@@ -1395,18 +1395,18 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("claimId")}
                             />
                           </div>
-                          {/* <div className="col-span-4 self-center">
-                            <SelectSearch
-                              name="claimStatus"
-                              label=""
-                              options={claimvalues?.value}
-                              OptionName="Claim Status"
-                              className="!text-[14px] !bg-White-Smoke"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                              onChange={handleSelectChange2}
-                              value={formik1.values.claimStatus}
-                            />
-                          </div> */}
+                          {props.activeTab == "Unpaid Claims" && (
+                            <div className="col-span-4">
+                              <Select
+                                options={days}
+                                className="!text-[14px] !bg-White-Smoke"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 "
+                                OptionName="No Of Days Passed"
+                                onChange={handleSelectChange2}
+                                value={formik1.values.noOfDays}
+                              />
+                            </div>
+                          )}
                         </Grid>
                       </div>
                       <div className="col-span-4 self-center flex justify-center">

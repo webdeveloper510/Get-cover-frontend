@@ -874,7 +874,7 @@ function AddClaim() {
                 <Grid>
                   <div className="col-span-6 mt-5">
                     <Grid className="my-3">
-                      <div className="col-span-6">
+                      {role == "Super Admin" ? <div className="col-span-6">
                         <SelectBoxWithSearch
                           label="Coverage Type"
                           name="coverageType"
@@ -883,10 +883,20 @@ function AddClaim() {
                           options={coverageTypes}
                           value={formikStep2.values.coverageType}
                           onBlur={formikStep2.handleBlur}
-                          // do this
                           isDisabled={data.role != "Super Admin"}
                         />
-                      </div>
+                      </div> : <div className="col-span-6">
+                        <SelectBoxWithSearch
+                          label="Servicer Name"
+                          name="servicerId"
+                          className="!bg-white"
+                          onChange={handleChange}
+                          options={servicerData}
+                          value={formikStep2.values.servicerId}
+                          onBlur={formikStep2.handleBlur}
+                          isDisabled={data.role != "Super Admin"}
+                        />
+                      </div>}
                       <div className="col-span-6">
                         <Input
                           label="Damage Date"
@@ -906,19 +916,23 @@ function AddClaim() {
                             </div>
                           )}
                       </div>
-                      {formikStep2.values.coverageType == 'theft_and_lost' ? <></> : <div className="col-span-12">
-                        <SelectBoxWithSearch
-                          label="Servicer Name"
-                          name="servicerId"
-                          className="!bg-white"
-                          onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
-                          onBlur={formikStep2.handleBlur}
-                          // do this
-                          isDisabled={data.role != "Super Admin"}
-                        />
-                      </div>}
+                      {formikStep2.values.coverageType == 'theft_and_lost' ? <></> :
+                        <>
+                          {role == "Super Admin" && <div className="col-span-12">
+                            <SelectBoxWithSearch
+                              label="Servicer Name"
+                              name="servicerId"
+                              className="!bg-white"
+                              onChange={handleChange}
+                              options={servicerData}
+                              value={formikStep2.values.servicerId}
+                              onBlur={formikStep2.handleBlur}
+                              // do this
+                              isDisabled={data.role != "Super Admin"}
+                            />
+                          </div>}
+                        </>
+                      }
 
                     </Grid>
                     <div>

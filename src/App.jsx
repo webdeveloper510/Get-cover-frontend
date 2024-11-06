@@ -74,6 +74,9 @@ function App() {
           .rdt_Pagination svg {
   fill:  ${sideBarTextColor} !important;
 }
+  canvas {
+   color: ${sideBarTextColor} !important;
+  }
       `}
         </style>
         {routing}

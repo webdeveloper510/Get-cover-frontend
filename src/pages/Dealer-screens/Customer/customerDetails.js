@@ -495,10 +495,10 @@ function CustomerDetails() {
             <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {customerDetail?.meta?.username}
                   </p>
                 </div>
@@ -518,10 +518,10 @@ function CustomerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {customerDetail?.meta?.city}
                     {", "}
                     {customerDetail?.meta?.street}
@@ -533,7 +533,7 @@ function CustomerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -558,10 +558,10 @@ function CustomerDetails() {
                     </Link>
                   </div>
                   <div>
-                    <p className="text-sm text-neutral-grey font-Regular">
+                    <p className="text-sm font-Regular">
                       Reseller Name
                     </p>
-                    <p className="text-base text-white font-semibold ">
+                    <p className="text-base font-semibold ">
                       {customerDetail?.resellerName}
                     </p>
                   </div>
@@ -574,8 +574,8 @@ function CustomerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {customerDetail?.primary?.firstName}{" "}
                     {customerDetail?.primary?.lastName}
                   </p>
@@ -588,10 +588,10 @@ function CustomerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base leading-[13px] font-semibold break-words">
                     {customerDetail?.primary?.email}
                   </p>
                 </div>
@@ -603,10 +603,10 @@ function CustomerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     +1 {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>

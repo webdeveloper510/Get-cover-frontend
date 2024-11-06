@@ -757,7 +757,7 @@ function DealerUser() {
               <SingleView className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
                 <Grid>
                   <div className="col-span-2 text-left">
-                    <p className="text-base text-white font-semibold ">
+                    <p className="text-base  font-semibold ">
                       {" "}
                       My Details
                     </p>
@@ -775,10 +775,10 @@ function DealerUser() {
                         <img src={dealer} className="" alt="dealer" width={50} height={50} />
                       </div>
                       <div className="self-center">
-                        <p className="text-white text-base font-medium leading-5	">
+                        <p className=" text-base font-medium leading-5	">
                           Account Name
                         </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        <p className=" opacity-50 text-sm	font-medium">
                           {loginDetails.name}
                         </p>
                       </div>
@@ -790,10 +790,10 @@ function DealerUser() {
                         <img src={terms} className="" alt="terms" width={50} height={50} />
                       </div>
                       <div className="self-center">
-                        <p className="text-white text-base font-medium leading-5">
+                        <p className=" text-base font-medium leading-5">
                           Address
                         </p>
-                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        <p className=" opacity-50	text-sm font-medium">
                           {loginDetails?.street}, {loginDetails?.city},{" "}
                           {loginDetails?.state} {loginDetails?.zip},{" "}
                           {loginDetails?.country}

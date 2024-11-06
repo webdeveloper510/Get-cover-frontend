@@ -183,12 +183,64 @@ export const updateCustomerDetailsById = async (id, data) => {
   }
 };
 
+export const addCustomerAddressById = async (id, data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/customer/addAddress/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editCustomerAddressById = async (data) => {
+  let id = data._id;
+  delete data._id;
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/customer/addCustomerAddress/${id}`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCustomerUsersById = async (id, data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
       `${url}/customer/getCustomerUsers/${id}`,
       data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteCustomerAddress = async (id, customerId) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(
+      `${url}/customer/deleteAddress/${customerId}`, { addressId: id },
       {
         headers,
       }

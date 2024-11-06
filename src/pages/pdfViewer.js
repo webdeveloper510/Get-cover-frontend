@@ -39,12 +39,23 @@ function PdfGenerator(props, className) {
 
   const [data, setData] = useState({});
   const getBase64ImageFromUrl = async (imageUrl) => {
-    const proxyUrl = "https://api.allorigins.win/get?url=";
+    const proxyUrl = "https://thingproxy.freeboard.io/fetch/"; // Make sure this service is working or use your own proxy
     try {
-      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl));
+      // Fetch the image URL through the proxy
+      const response = await fetch(encodeURIComponent(imageUrl), {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer YOUR_API_TOKEN', // Make sure this is valid
+          'Content-Type': 'application/json' // Adjust as necessary
+        }
+      });
+      // Check for a successful response
+      if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
 
-      const data = await response.json();
-      const blob = await fetch(data.contents).then((res) => res.blob());
+      // Get the image as a blob
+      const blob = await response.blob();
+
+      // Convert the blob to base64
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);

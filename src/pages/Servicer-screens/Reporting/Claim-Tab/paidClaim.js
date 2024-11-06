@@ -470,7 +470,7 @@ function ClaimList(props) {
       claimType: statusValue,
     };
 
-    editClaimTypeValue(claimId, data).then(async(res) => {
+    editClaimTypeValue(claimId, data).then(async (res) => {
       const updatedClaimListCopy = { ...claimList };
       console.log(res.result.claimType, updatedClaimListCopy.result.claimType);
 
@@ -488,7 +488,7 @@ function ClaimList(props) {
             res.result.getCoverClaimAmount;
           updatedClaimListCopy.result[activeIndex]["getcoverOverAmount"] =
             res.result.getcoverOverAmount;
-            await getClaimOptions(res.result.claimType)
+          await getClaimOptions(res.result.claimType)
         }
       }
       setClaimList(updatedClaimListCopy);
@@ -713,7 +713,7 @@ function ClaimList(props) {
   };
 
   const openView = (claim) => {
-    let typeValue = "Admin";
+    let typeValue = "Servicer";
     const isValidReseller = !!claim?.contracts.orders.resellerId;
     const selfServicer = claim?.selfServicer;
     const isAdminView = window.location.pathname.includes("/dealer/claimList");
@@ -727,7 +727,7 @@ function ClaimList(props) {
     console.log("isResellerPath", isResellerPath);
 
     if (!isAdminView && !isResellerPath && !isCustomerPath) {
-      typeValue = "Admin";
+      typeValue = "Servicer";
     } else if (isAdminView && !isResellerPath && !isCustomerPath) {
       typeValue = "Dealer";
     } else if (!isAdminView && isResellerPath && !isCustomerPath) {
@@ -737,36 +737,26 @@ function ClaimList(props) {
     }
 
     formik2.setFieldValue("type", typeValue);
-
+    console.log(typeValue)
     setSendto(
       [
         {
           label:
-            !isAdminView && !isResellerPath && !isCustomerPath
-              ? "Admin (To Self)"
-              : "Admin ",
+            "Admin ",
           value: "Admin",
         },
         {
-          label:
-            isAdminView && !isResellerPath && !isCustomerPath
-              ? "Dealer (To Self)"
-              : "Dealer ",
+          label: "Dealer ",
           value: "Dealer",
         },
         isValidReseller && {
-          label:
-            !isAdminView && isResellerPath && !isCustomerPath
-              ? "Reseller (To Self)"
-              : "Reseller",
+          label: "Reseller",
           value: "Reseller",
         },
-        !selfServicer ? { label: "Servicer", value: "Servicer" } : null,
+        !selfServicer ? { label: "Servicer (To Self)", value: "Servicer" } : null,
         {
           label:
-            !isAdminView && !isResellerPath && isCustomerPath
-              ? "Customer (To Self)"
-              : "Customer",
+            "Customer",
           value: "Customer",
         },
       ].filter(Boolean)
@@ -855,7 +845,7 @@ function ClaimList(props) {
   const initialValues2 = {
     content: "",
     orderId: "",
-    type: "Admin",
+    type: "servicer",
     messageFile: {},
   };
   const formatPhoneNumber = (phoneNumber) => {
@@ -881,7 +871,7 @@ function ClaimList(props) {
       const temporaryMessage = {
         _id: "temp-id",
         content: values.content,
-        type: values.type || "Admin",
+        type: values.type || "servicer",
         messageFile: {
           fileName: values.fileName || "",
           originalName: values.originalName || "",
@@ -937,7 +927,7 @@ function ClaimList(props) {
       setErrorForCoverageType(null);
       const coverageType =
         claimList.result[activeIndex].contracts.orders.coverageType;
-        getClaimOptions(claimList.result[activeIndex].claimType);
+      getClaimOptions(claimList.result[activeIndex].claimType);
       const claims =
         coverageType === "Breakdown"
           ? [{ label: "Breakdown", value: "Breakdown" }]

@@ -306,8 +306,8 @@ function AddBulkClaim() {
                       className="underline cursor-pointer"
                       onClick={downloadCSVTemplate}
                     >
-                      Clicking here
-                    </span>
+                      Clicking here .
+                    </span>&nbsp;
                     The file must be saved with csv , xls and xlsx Format.
                   </p>
                 </div>
