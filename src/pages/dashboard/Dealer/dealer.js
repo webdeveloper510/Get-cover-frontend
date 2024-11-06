@@ -272,18 +272,6 @@ function Dealer() {
               period: "Monthly",
               value: -1,
             },
-            // priceBook: [
-            //   {
-            //     priceBookId: "",
-            //     categoryId: "",
-            //     wholesalePrice: "",
-            //     terms: "",
-            //     pName: "",
-            //     description: "",
-            //     retailPrice: "",
-            //     status: "",
-            //   },
-            // ],
             file: "",
             isAccountCreate: false,
             customerAccountCreated: false,
@@ -316,6 +304,7 @@ function Dealer() {
 
     if (timer === 0 && message === "New Dealer Created Successfully") {
       closeModal();
+      console.log("New Dealer Created Successfully");
       navigate(`/dealerDetails/${dealerId}`);
       localStorage.setItem("menu", "PriceBook");
     }

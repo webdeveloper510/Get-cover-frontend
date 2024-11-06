@@ -602,10 +602,10 @@ function ServicerDetails() {
             <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {servicerDetails?.meta?.name}
                   </p>
                 </div>
@@ -625,10 +625,10 @@ function ServicerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {servicerDetails?.meta?.street},{" "}
                     {servicerDetails?.meta?.city},{" "}
                     {servicerDetails?.meta?.state}, {servicerDetails?.meta?.zip}
@@ -685,7 +685,7 @@ function ServicerDetails() {
               </div>
             </div> */}
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -697,8 +697,8 @@ function ServicerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {servicerDetails?.firstName} {servicerDetails?.lastName}
                   </p>
                 </div>
@@ -710,10 +710,10 @@ function ServicerDetails() {
                   alt="email"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white font-semibold break-words">
+                  <p className="text-base font-semibold break-words">
                     {servicerDetails?.email}
                   </p>
                 </div>
@@ -725,10 +725,10 @@ function ServicerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     +1 {formatPhoneNumber(servicerDetails?.phoneNumber)}
                   </p>
                 </div>

@@ -1519,7 +1519,7 @@ function ClaimList(props) {
                                     <div className=" py-2 px-2">
                                       <p className=" mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
-                                        <span className="font-semibold text-white">
+                                        <span className="font-semibold">
                                           {" "}
                                           {
                                             res?.contracts?.orders?.customer
@@ -1538,7 +1538,7 @@ function ClaimList(props) {
                                           </p>
                                         </div>
                                         <div className="col-span-4">
-                                          <p className="text-light-green text-[11px]  font-Regular">
+                                          <p className="text-[11px]  font-Regular">
                                             Customer Cost :{" "}
                                           </p>
                                           <p className="font-semibold text-[11px]  mb-3">
@@ -1548,7 +1548,7 @@ function ClaimList(props) {
                                         <div className="col-span-4">
                                           <p className=" text-[11px] mb-3 font-Regular">
                                             Total Cost :{" "}
-                                            <span className="font-semibold text-white ml-3">
+                                            <span className="font-semibold ml-3">
                                               {" "}
                                               ${
                                                 res.totalAmount.toFixed(2)
@@ -1590,7 +1590,7 @@ function ClaimList(props) {
                                       </p>
 
                                       {res.selfServicer ? (
-                                        <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                        <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                           <span className="self-center mr-4">Coverage Type:</span>
                                           <Select
                                             name="claimType"
@@ -1746,7 +1746,7 @@ function ClaimList(props) {
                                   <div className="col-span-4 pt-4">
                                     <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
+                                        <p className=" text-[11px] p-4">
                                           Customer Status
                                         </p>
                                       </div>
@@ -1754,12 +1754,10 @@ function ClaimList(props) {
                                         className="pl-1 self-center cursor-pointer w-[50%]"
                                         onClick={handleToggleDropdown}
                                       >
-                                        <p className="text-white text-sm">
-                                          <p className="text-white text-sm">
-                                            {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
-                                          </p>
+                                        <p className=" text-sm">
+                                          {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                         </p>
-                                        <span className="text-light-green">
+                                        <span className="">
                                           {format(
                                             new Date(
                                               repairStatus.date
@@ -1801,7 +1799,7 @@ function ClaimList(props) {
                                     </div>
                                     <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
+                                        <p className=" text-[11px] p-4">
                                           {claimvalues?.label}
                                         </p>
                                       </div>
@@ -1809,10 +1807,10 @@ function ClaimList(props) {
                                         className="pl-1 self-center w-[50%] cursor-pointer "
                                         onClick={handleToggleDropdown2}
                                       >
-                                        <p className="text-white text-sm">
+                                        <p className=" text-sm">
                                           {claimvalues?.value?.find((data) => data.value === claimStatus.status)?.label || "No matching value"}
                                         </p>
-                                        <p className="text-light-green">
+                                        <p className="">
                                           {" "}
                                           {format(
                                             new Date(
@@ -1859,7 +1857,7 @@ function ClaimList(props) {
                                     </div>
                                     <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
-                                        <p className="text-white text-[11px] p-4">
+                                        <p className=" text-[11px] p-4">
                                           {repairValue?.label}
                                         </p>
                                       </div>
@@ -1867,10 +1865,10 @@ function ClaimList(props) {
                                         className="pl-1 cursor-pointer w-[50%]"
                                         onClick={handleToggleDropdown1}
                                       >
-                                        <p className="text-white text-sm">
+                                        <p className=" text-sm">
                                           {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                         </p>
-                                        <p className="text-light-green">
+                                        <p className="">
                                           {format(
                                             new Date(
                                               repairStatus.date
@@ -1948,7 +1946,7 @@ function ClaimList(props) {
                                   </div>
                                   <div className="col-span-4 pt-2">
                                     <div className="m-2 p-2 bg-Eclipse ">
-                                      <p className="text-[11px] text-white">
+                                      <p className="text-[11px]">
                                         Diagnosis
                                       </p>
                                       <div
@@ -1957,7 +1955,7 @@ function ClaimList(props) {
                                           : "h-[164px] max-h-[164px]"
                                           }`}
                                       >
-                                        <p className="text-sm text-light-green">
+                                        <p className="text-sm">
                                           {res.diagnosis}
                                         </p>
                                       </div>

@@ -832,7 +832,7 @@ function ResellerDetails() {
                 />
                 <div>
                   <p className="text-sm font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {resellerDetail?.firstName} {resellerDetail?.lastName}
                   </p>
                 </div>
