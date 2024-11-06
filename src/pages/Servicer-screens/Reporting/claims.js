@@ -3085,7 +3085,7 @@ function AllList(props) {
                 <div className="col-span-12">
                   <div className="flex w-full my-2">
                     <p className="text-[12px] mr-3 font-Regular">
-                      PRIMARY CONTACT DETAILS
+                      CONTACT DETAILS
                     </p>
                     <hr className="self-center border-[#999999] w-[70%]" />
                   </div>

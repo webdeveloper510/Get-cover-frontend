@@ -29,6 +29,7 @@ import edit from "../../../../assets/images/edit-text.png";
 import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
+import xlexfile from "../../../../common/xlexfile";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -157,6 +158,13 @@ function CustomerSetting(props) {
         }
         setLoading(false);
     }
+
+    const handleDownload = () => {
+        console.log("Download");
+        xlexfile(addressData);
+    };
+
+
     const Address = [
         {
             name: "S.#",
@@ -165,7 +173,7 @@ function CustomerSetting(props) {
             style: { whiteSpace: "pre-wrap" },
         },
         {
-            name: "Address",
+            name: "Street Address",
             selector: (row) => row.address,
             sortable: true,
             style: { whiteSpace: "pre-wrap" },
@@ -308,9 +316,16 @@ function CustomerSetting(props) {
                 </div>
             ) : (
                 <div className="my-8 relative users">
-                    <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl p-5 ">
-                        <div className="my-3">
-                            <p className="text-lg font-semibold">Customer Address Details </p>
+                    <Card className="bg-white mt-4 border-[1px] border-Light-Grey rounded-xl p-5 ">
+                        <div className="">
+                            <Grid>
+                                <div className="col-span-7 self-center">
+                                    <p className="text-lg font-semibold">Customer Address Details </p>
+                                </div>
+                                <div className="col-span-5 self-center text-end">
+                                    <Button onClick={() => handleDownload()}>Export Addresses</Button>
+                                </div>
+                            </Grid>
                             <DataTable
                                 columns={Address}
                                 data={addressData}

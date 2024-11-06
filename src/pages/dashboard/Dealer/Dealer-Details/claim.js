@@ -72,6 +72,7 @@ import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
+import SelectedDateRangeComponent from "../../../../common/dateFilter";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -138,12 +139,17 @@ function ClaimList(props) {
   const [claims, setClaims] = useState();
   const [claimValues, setClaimValues] = useState();
   const [isCheckBox, setIsCheckbox] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [claimStatus, setClaimStatus] = useState({ status: "", date: "" });
   const [repairStatus, setRepairStatus] = useState({ status: "", date: "" });
   const [initialValues, setInitialValues] = useState({
     repairParts: [{ serviceType: "", description: "", price: "" }],
     note: "",
     totalAmount: "",
+  });
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
+    endDate: new Date(),
   });
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -161,6 +167,36 @@ function ClaimList(props) {
       setCheckboxStates([...checkboxStates, id]);
     }
   };
+
+
+  const isValidDateRange = (startDate, endDate) => {
+    const oneYear = 365 * 24 * 60 * 60 * 1000;
+    return endDate - startDate <= oneYear;
+  };
+
+  const handleRangeChange = (ranges) => {
+    const { startDate, endDate } = ranges.selection;
+
+    if (isValidDateRange(startDate, endDate)) {
+      setSelectedRange({
+        startDate: startDate > new Date() ? new Date() : startDate,
+        endDate: endDate > new Date() ? new Date() : endDate,
+      });
+    } else {
+      alert("Date range cannot exceed one year.");
+    }
+  };
+  const handleApply = () => {
+    const { startDate, endDate } = selectedRange;
+    console.log("handleApply", selectedRange)
+    const startDateStr = startDate.toISOString().split("T")[0];
+    const endDateStr = endDate.toISOString().split("T")[0];
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    closeModal();
+  };
+
+
 
   const handleSelectAll = (claimList) => {
     const ids = claimList.result.map((item) => item._id);
@@ -1248,7 +1284,13 @@ function ClaimList(props) {
     { label: "90 Days", value: "90" },
     { label: "120 Days", value: "120" },
   ];
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
   const handleChange2 = (name, value) => {
     formik2.setFieldValue(name, value);
   };
@@ -1460,6 +1502,15 @@ function ClaimList(props) {
                           </Button>
                         </div>
                       )}
+                    </>
+                  )}
+                  {props.activeTab == "Paid Claims" && role == "Super Admin" && (
+                    <>
+                      <div className="text-right">
+
+                        <Button className='mr-3' onClick={openModal}>Date Approved Filter</Button>
+                        <Button>Export Claim</Button>
+                      </div>
                     </>
                   )}
                 </>
@@ -3152,7 +3203,7 @@ function ClaimList(props) {
                 </div>
               ) : (
                 <>
-                  <div className="col-span-6">
+                  {/* <div className="col-span-6">
                     <Select
                       options={customerValue?.value}
                       name="customerStatusValue"
@@ -3171,7 +3222,7 @@ function ClaimList(props) {
                       onChange={handleSelectChange2}
                       value={formik1.values.repairStatus}
                     />
-                  </div>
+                  </div> */}
                 </>
               )}
               {props.activeTab == "Unpaid Claims" && (
@@ -3256,6 +3307,29 @@ function ClaimList(props) {
             </div>
           </div>
         )}
+      </Modal>
+
+      <Modal isOpen={isModalOpen} className="w-[72vw]" onClose={closeModal}>
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <SelectedDateRangeComponent
+          selectedRange={selectedRange}
+          onRangeChange={handleRangeChange}
+          onApply={handleApply}
+        />
+        <div className="flex justify-end mb-4">
+          <Button onClick={closeModal} className="mr-3">
+            Cancel
+          </Button>
+          <Button onClick={handleApply}>Apply</Button>
+        </div>
       </Modal>
     </>
   );
