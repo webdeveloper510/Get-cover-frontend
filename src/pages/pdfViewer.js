@@ -42,7 +42,7 @@ function PdfGenerator(props, className) {
     const proxyUrl = "https://thingproxy.freeboard.io/fetch/"; // Make sure this service is working or use your own proxy
     try {
       // Fetch the image URL through the proxy
-      const response = await fetch(encodeURIComponent(imageUrl), {
+      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl), {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer YOUR_API_TOKEN', // Make sure this is valid

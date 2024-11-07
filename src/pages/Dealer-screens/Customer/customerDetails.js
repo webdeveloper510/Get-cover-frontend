@@ -402,7 +402,7 @@ function CustomerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList id={customerId} flag={"customer"} activeTab={activeTab} />
+        <UserList id={customerId} flag={"customer"} activeTab={activeTab} setLoading={setLoading} />
       ),
     },
   ];
