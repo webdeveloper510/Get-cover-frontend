@@ -1275,7 +1275,7 @@ function ResellerClaimList(props) {
                   <Grid className="!gap-1">
                     <div className="col-span-9 self-center">
                       <Grid className="!gap-2">
-                        <div className="col-span-6 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="contractId"
                             type="text"
@@ -1286,7 +1286,7 @@ function ResellerClaimList(props) {
                             {...formik1.getFieldProps("contractId")}
                           />
                         </div>
-                        <div className="col-span-6 self-center">
+                        <div className="col-span-4 self-center">
                           <Input
                             name="claimId"
                             type="text"
@@ -1297,7 +1297,7 @@ function ResellerClaimList(props) {
                             {...formik1.getFieldProps("claimId")}
                           />
                         </div>
-                        {/* <div className="col-span-4 self-center">
+                        <div className="col-span-4 self-center">
                           <SelectSearch
                             name="claimStatus"
                             label=""
@@ -1308,7 +1308,7 @@ function ResellerClaimList(props) {
                             onChange={handleSelectChange2}
                             value={formik1.values.claimStatus}
                           />
-                        </div> */}
+                        </div>
                       </Grid>
                     </div>
                     <div className="col-span-3 self-center flex justify-center">
@@ -1922,9 +1922,8 @@ function ResellerClaimList(props) {
                                       </div>
                                     )}
                                   </>} */}
-                                      {(role == "Super Admin" ||
-                                        claimList.result[activeIndex]
-                                          ?.selfServicer) && (
+                                      {(claimList.result[activeIndex]
+                                        ?.selfServicer) && (
                                           <>
                                             {claimStatus.status == "rejected" ||
                                               claimStatus.status == "completed" || repairStatus.status != "servicer_shipped" ? (

@@ -73,6 +73,7 @@ import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
 import SelectedDateRangeComponent from "../../../../common/dateFilter";
+import xlexfile from "../../../../common/xlexfile";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -165,6 +166,7 @@ function ClaimList(props) {
       setCheckboxStates(newCheckboxStates);
     } else {
       setCheckboxStates([...checkboxStates, id]);
+      console.log(checkboxStates, 'ids-----------')
     }
   };
 
@@ -415,6 +417,7 @@ function ClaimList(props) {
   };
 
   const openPay = () => {
+    console.log(checkboxStates)
     setIsPayOpen(true);
     setLoading1(true);
     getClaimUnpaid(checkboxStates).then((res) => {
@@ -707,7 +710,7 @@ function ClaimList(props) {
   };
 
   const calculateTotalCost = (cost1, cost2) => {
-    console.log(typeof (cost1), typeof (cost2));
+    // console.log(typeof (cost1), typeof (cost2));
     const totalCost = cost1 + cost2;
     if (totalCost === 0) {
       return "N/A";
@@ -1361,7 +1364,18 @@ function ClaimList(props) {
     getAllClaims();
   };
   // console.log(activeIndex, "++++++++++++++++_-------------------");
-  const addTracker = () => { };
+  const handleDownload = () => {
+    console.log("Download", claimList?.result);
+    xlexfile(claimList?.result);
+  };
+
+  const handleDownloadUnpaid = () => {
+    const filteredData = claimList?.result?.filter(item => checkboxStates.includes(item._id));
+
+    console.log("Download", filteredData);
+    xlexfile(filteredData);
+  };
+
   return (
     <>
       {loading1 ? (
@@ -1509,7 +1523,7 @@ function ClaimList(props) {
                       <div className="text-right">
 
                         <Button className='mr-3' onClick={openModal}>Date Approved Filter</Button>
-                        <Button>Export Claim</Button>
+                        <Button onClick={() => handleDownload()}>Export Claim</Button>
                       </div>
                     </>
                   )}
@@ -1530,9 +1544,15 @@ function ClaimList(props) {
                           {selectedCount} Of {totalCount}
                         </p>
                       </div>
-                      <div className="col-span-4"></div>
-                      <div className="col-span-5">
+                      <div className="col-span-1"></div>
+                      <div className="col-span-8">
                         <div className="flex justify-end">
+                          <Button
+                            className="!text-[14px] !py-[4px] mr-3"
+                            onClick={() => handleDownloadUnpaid()}
+                          >
+                            Export Unpaid Claim
+                          </Button>
                           <Button
                             className="!text-[14px] !py-[4px]"
                             onClick={() => handleSelectAll(claimList)}

@@ -29,7 +29,7 @@ import edit from "../../../../assets/images/edit-text.png";
 import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
-import xlexfile from "../../../../common/xlexfile";
+import textFile from "../../../../common/textFile";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -161,7 +161,7 @@ function CustomerSetting(props) {
 
     const handleDownload = () => {
         console.log("Download");
-        xlexfile(addressData);
+        textFile(addressData);
     };
 
 
