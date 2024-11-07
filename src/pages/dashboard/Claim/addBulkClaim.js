@@ -19,6 +19,7 @@ import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
 import Card from "../../../common/card";
+import { checkUserToken } from "../../../services/userServices";
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -48,6 +49,7 @@ function AddBulkClaim() {
   };
 
   useEffect(() => {
+    checkTokenExpiry();
     let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
@@ -146,6 +148,7 @@ function AddBulkClaim() {
     }),
     onSubmit: async (values) => {
       setLoader(true);
+      checkTokenExpiry();
       console.log("values", values);
       const formData = new FormData();
       formData.append("email", JSON.stringify(values.email));
@@ -180,7 +183,22 @@ function AddBulkClaim() {
       setLoader(false);
     },
   });
-
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const downloadCSVTemplate = async () => {
     const isDealerResellerCustomer = ["/dealer", "/reseller", "/customer"].some(
       (path) => window.location.href.includes(path)

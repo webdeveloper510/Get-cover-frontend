@@ -54,6 +54,7 @@ import {
   checkCoverageTypeDate,
   checkClaimAmount,
   getOptions,
+  getCustomerData,
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -76,8 +77,11 @@ function ClaimList(props) {
   const [disable, setDisable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [customerDetail, setCustomerDetail] = useState();
   const [completeLoader, setCompleteLoader] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
+  const [isCustomerOpen, setIsCustomerOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -297,18 +301,18 @@ function ClaimList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
-      if(value === 'servicer_shipped' ){
+      if (value === 'servicer_shipped') {
         setIsShipped(true)
       }
-      else if(value === 'product_received' ){
+      else if (value === 'product_received') {
         setIsReceived(true)
       }
-      else{
+      else {
         console.log(value)
         setLoading1(true);
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
-          editClaimValue(claimList.result[activeIndex]._id, selectedValue,(value.type==='servicer_shipped' || value.type === "product_received")? value.type :value);
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue, (value.type === 'servicer_shipped' || value.type === "product_received") ? value.type : value);
         };
         switch (selectedValue) {
           case "customerStatus":
@@ -320,15 +324,15 @@ function ClaimList(props) {
             break;
           case "repairStatus":
             updateAndCallAPI(setRepairStatus);
-             setIsShipped(false)
+            setIsShipped(false)
             break;
           default:
             console.error("here");
         }
       }
-  
 
-   
+
+
     }
     setTimeout(() => {
       setLoading1(false);
@@ -649,6 +653,20 @@ function ClaimList(props) {
 
   const closeReceived = () => {
     setIsReceived(false);
+  };
+
+  const closeCustomer = () => {
+    setIsCustomerOpen(false);
+  };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
   };
 
   const openView = (claim) => {
@@ -1257,7 +1275,14 @@ function ClaimList(props) {
     isFormSubmittedRef.current = false;
     getAllClaims();
   };
-  const addTracker = () => { };
+  const onhandle = async (id) => {
+    setIsCustomerOpen(true);
+    setViewLoader(true);
+    const res = await getCustomerData(id);
+    console.log(res, "------------------Login--------------->>>>");
+    setCustomerDetail(res.result);
+    setViewLoader(false);
+  }
   return (
     <>
       {loading1 && (
@@ -1621,9 +1646,9 @@ function ClaimList(props) {
                                         {!location.pathname.includes(
                                           "customer/claimList"
                                         ) && (
-                                            <p className="mb-3 text-[11px] font-Regular ">
+                                            <p className="mb-3 text-[11px] font-Regular">
                                               Customer Name :{" "}
-                                              <span className="font-semibold">
+                                              <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?._id)}>
                                                 {" "}
                                                 {
                                                   res?.contracts?.orders?.customer
@@ -1827,7 +1852,7 @@ function ClaimList(props) {
                                                   {claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" || isExcludedPath || ((role!='Super Admin'|| role !='Servicer') && !claimList.result[activeIndex])
+                                                    "completed" || isExcludedPath || ((role != 'Super Admin' || role != 'Servicer') && !claimList.result[activeIndex])
                                                       ?.selfServicer ? (
                                                     <></>
                                                   ) : (
@@ -3158,6 +3183,86 @@ function ClaimList(props) {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
+        <Button
+          onClick={closeCustomer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+              <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+                View Customer Detail
+              </p>
+              <Grid className="mt-5 px-6">
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold ">Account Name</p>
+                  <p className="text-base">
+                    {customerDetail?.username}
+                  </p>
+                </div>
+                <div className="col-span-8">
+                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-base leading-5">
+                    {customerDetail?.shippingTo}
+                  </p>
+                </div>
+                <div className="col-span-12">
+                  <div className="flex w-full my-2">
+                    <p className="text-[12px] mr-3 font-Regular">
+                      CONTACT DETAILS
+                    </p>
+                    <hr className="self-center border-[#999999] w-[70%]" />
+                  </div>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Name</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.firstName}{" "}
+                    {customerDetail?.customer_user?.lastName}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Email</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.email}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Phone #</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.customer_user?.phoneNumber)}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Position</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.position}
+                  </p>
+                </div>
+
+
+
+              </Grid>
+            </SingleView>
+          )}
         </div>
       </Modal>
     </>

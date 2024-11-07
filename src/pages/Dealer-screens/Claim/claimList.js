@@ -51,7 +51,8 @@ import {
   getClaimMessages,
   getContractPrice,
   getOptions,
-  checkCoverageTypeDate
+  checkCoverageTypeDate,
+  getCustomerData
 } from "../../../services/claimServices";
 import { format } from "date-fns";
 import { useFormik } from "formik";
@@ -116,7 +117,9 @@ function ClaimList(props) {
   const [claimvalues, claim_status] = useState({});
   const [shipment, shipment_type] = useState({});
   const [coverageTypeError, setCoverageTypeError] = useState({});
-
+  const [isCustomerOpen, setIsCustomerOpen] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
+  const [customerDetail, setCustomerDetail] = useState();
   const [createServicerAccountOption, setServicerCreateAccountOption] =
     useState(true);
   const [claimId, setClaimId] = useState("");
@@ -468,7 +471,28 @@ function ClaimList(props) {
     }
   };
 
+  const onhandle = async (id) => {
+    setIsCustomerOpen(true);
+    setViewLoader(true);
+    const res = await getCustomerData(id);
+    console.log(res, "------------------Login--------------->>>>");
+    setCustomerDetail(res.result);
+    setViewLoader(false);
+  }
 
+  const closeCustomer = () => {
+    setIsCustomerOpen(false);
+  };
+  const formatPhoneNumber = (phoneNumber) => {
+    const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
+
+    if (match) {
+      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    }
+
+    return phoneNumber; // Return original phone number if it couldn't be formatted
+  };
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
     if (loader) {
       setLoaderType(false);
@@ -1537,7 +1561,7 @@ function ClaimList(props) {
                                     <div className=" py-2 px-2">
                                       <p className=" mb-3 text-[11px] font-Regular ">
                                         Customer Name :{" "}
-                                        <span className="font-semibold">
+                                        <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?._id)}>
                                           {" "}
                                           {
                                             res?.contracts?.orders?.customer
@@ -2596,7 +2620,7 @@ function ClaimList(props) {
                   );
                 }
 
-                return null; // If none of the conditions are met, nothing will be displayed
+                return null;
               })()}
               <div className="px-8 pb-2 pt-2 drop-shadow-4xl bg-white mb-3 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
@@ -2622,7 +2646,7 @@ function ClaimList(props) {
                               options={serviceType1}
                               required={true}
                               className="!bg-white"
-                              disabled={true} // or you can keep it as formik?.values?.repairParts[index]?.value
+                              disabled={true}
                               placeholder=""
                               maxLength={"30"}
                               className1="!pt-[0.4rem]"
@@ -3112,6 +3136,86 @@ function ClaimList(props) {
           </div>
         </div>
 
+      </Modal>
+
+      <Modal className="!w-[900px]" isOpen={isCustomerOpen} onClose={closeCustomer}>
+        <Button
+          onClick={closeCustomer}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+              <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+                View Customer Detail
+              </p>
+              <Grid className="mt-5 px-6">
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold ">Account Name</p>
+                  <p className="text-base">
+                    {customerDetail?.username}
+                  </p>
+                </div>
+                <div className="col-span-8">
+                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-base leading-5">
+                    {customerDetail?.shippingTo}
+                  </p>
+                </div>
+                <div className="col-span-12">
+                  <div className="flex w-full my-2">
+                    <p className="text-[12px] mr-3 font-Regular">
+                      CONTACT DETAILS
+                    </p>
+                    <hr className="self-center border-[#999999] w-[70%]" />
+                  </div>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Name</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.firstName}{" "}
+                    {customerDetail?.customer_user?.lastName}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Email</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.email}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Phone #</p>
+                  <p className="text-base">
+                    {customerDetail?.customer_user?.dialCode} &nbsp;
+                    {formatPhoneNumber(customerDetail?.customer_user?.phoneNumber)}{" "}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-semibold">Position</p>
+                  <p className="text-base">
+                    {customerDetail?.primary?.position}
+                  </p>
+                </div>
+
+
+
+              </Grid>
+            </SingleView>
+          )}
+        </div>
       </Modal>
     </>
   );

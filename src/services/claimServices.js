@@ -127,6 +127,21 @@ export const checkCoverageTypeDate = async (data) => {
   }
 };
 
+export const getCustomerData = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/claim/getcustomerDetail/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const getClaimList = async (data) => {
   const headers = createHeaders();
 
@@ -161,7 +176,7 @@ export const getClaimListForDealer = async (id, data) => {
   }
 };
 
-export const getOptions = async (data,value=1) => {
+export const getOptions = async (data, value = 1) => {
   const headers = createHeaders();
   const queryString = data
     .map((value, index) => `key[${index}]=${encodeURIComponent(value)}`)
@@ -201,7 +216,7 @@ export const getUnpaidClaims = async (id, data) => {
   }
 };
 
-export const editOption = async ( data) => {
+export const editOption = async (data) => {
   const headers = createHeaders();
 
   try {
