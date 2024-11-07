@@ -86,6 +86,8 @@ function ClaimList(props) {
   const [loaderType, setLoaderType] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [isShipped, setIsShipped] = useState(false);
+  const [isReceived, setIsReceived] = useState(false);
   const [modelLoading, setModelLoading] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState(null);
@@ -226,6 +228,14 @@ function ClaimList(props) {
     // console.log(selectedValue, value);
   };
 
+  const closeShipped = () => {
+    setIsShipped(false);
+  };
+
+  const closeReceived = () => {
+    setIsReceived(false);
+  };
+
   useEffect(() => {
     if (claimIdValue != undefined) {
       formik1.setFieldValue("claimId", claimIdValue);
@@ -296,23 +306,31 @@ function ClaimList(props) {
       // Call updateAndCallAPI function to handle servicer
       updateAndCallAPI(setServicer);
     } else {
-      const updateAndCallAPI = (setter) => {
-        setter((prevRes) => ({ ...prevRes, status: value }));
-        editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
-      };
+      if (value === 'servicer_shipped') {
+        setIsShipped(true)
+      }
+      else if (value === 'product_received') {
+        setIsReceived(true)
+      }
+      else {
+        const updateAndCallAPI = (setter) => {
+          setter((prevRes) => ({ ...prevRes, status: value }));
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+        };
 
-      switch (selectedValue) {
-        case "customerStatus":
-          updateAndCallAPI(setCustomerStatus);
-          break;
-        case "claimStatus":
-          updateAndCallAPI(setClaimStatus);
-          break;
-        case "repairStatus":
-          updateAndCallAPI(setRepairStatus);
-          break;
-        default:
-          console.error("here");
+        switch (selectedValue) {
+          case "customerStatus":
+            updateAndCallAPI(setCustomerStatus);
+            break;
+          case "claimStatus":
+            updateAndCallAPI(setClaimStatus);
+            break;
+          case "repairStatus":
+            updateAndCallAPI(setRepairStatus);
+            break;
+          default:
+            console.error("here");
+        }
       }
     }
     console.log(loading1, "0-------------");
@@ -2132,8 +2150,8 @@ function ClaimList(props) {
   return (
     <>
       {loading1 && (
-        <div className=" fixed z-[999999] bg-[#f9f9f99c] backdrop-blur-xl top-0 h-screen w-full flex py-5">
-          <div className="self-center ml-[40%]">
+        <div className=" fixed z-[999999] bg-[#00000] backdrop-blur-xl top-0 h-screen w-full left-0 flex py-5">
+          <div className="self-center ml-[49%]">
             <RotateLoader color="#333" />
           </div>
         </div>
@@ -3051,6 +3069,49 @@ function ClaimList(props) {
             </Grid>
           </form>
         </div>
+      </Modal>
+
+      <Modal isOpen={isShipped} onClose={closeShipped}>
+
+        <div className="py-1 text-center">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            Are you
+            <span className=""> sure ? </span>
+          </p>
+          <p className="text-xl font-medium mt-2">
+            You want to change repair status (Servicer Shipped) for this Claim ?
+          </p>
+          <div className="mt-3">
+            <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>
+            <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeShipped}>
+              No
+            </Button>
+          </div>
+        </div>
+
+
+      </Modal>
+
+      <Modal isOpen={isReceived} onClose={closeReceived}>
+
+        <div className="py-1 text-center">
+          <img src={AddDealer} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            Are you
+            <span className=""> sure ? </span>
+          </p>
+          <p className="text-xl font-medium mt-2">
+            You want to change customer status (Product Received) for this Claim ?
+          </p>
+          <div className="mt-3">
+            <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("customerStatus", { type: 'product_received' }); }}>Yes</Button>
+            <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeReceived}>
+              No
+            </Button>
+          </div>
+        </div>
+
       </Modal>
     </>
   );

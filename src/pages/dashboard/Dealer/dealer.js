@@ -2346,24 +2346,24 @@ function Dealer() {
           {message === "New Dealer Created Successfully" ? (
             <>
               <img src={AddDealer} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              <p className="text-3xl mb-0 mt-4 font-semibold">
                 Submitted
-                <span className="text-light-black"> Successfully </span>
+                <span className=""> Successfully </span>
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 {message}
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Dealer Page {timer} seconds.
               </p>
             </>
           ) : (
             <>
               <img src={disapprove} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-light-black">
+              <p className="text-3xl mb-0 mt-4 font-semibold ">
                 Error
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 {message}
               </p>
             </>

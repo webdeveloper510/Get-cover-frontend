@@ -2517,10 +2517,10 @@ function Account() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>
