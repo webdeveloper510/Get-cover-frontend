@@ -382,7 +382,7 @@ function OrderDetails() {
                   </Button>
                 </div>
                 <div className="col-span-6">
-                  {userDetails?.termCondition?.fileName == '' || userDetails?.termCondition == undefined ? <></> : (
+                  {orderDetails?.termCondition?.fileName == '' || orderDetails?.termCondition == undefined ? <></> : (
                     <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
                       <span className="self-center">
                         {" "}
