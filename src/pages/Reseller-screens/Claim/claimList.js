@@ -1158,7 +1158,7 @@ function ResellerClaimList(props) {
     setViewLoader(true);
     const res = await getCustomerData(id);
     console.log(res, "------------------Login--------------->>>>");
-    setCustomerDetail(res.result);
+    setCustomerDetail(res.result.customerDetail);
     setViewLoader(false);
   }
 

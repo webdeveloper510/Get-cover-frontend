@@ -204,7 +204,7 @@ function AddBulkClaim() {
       (path) => window.location.href.includes(path)
     );
     const url = isDealerResellerCustomer
-      ? "https://docs.google.com/spreadsheets/d/1J6QjpMzChEEmAoB-xtC4Yu-a5tbnoNmoHruYIDMwurQ/edit?gid=0#gid=0"
+      ? "https://docs.google.com/spreadsheets/d/109XKZuF8oaaAaV3XW2mGXYRWc7-OwY5CIGx-C7evLPQ/edit?pli=1&gid=0#gid=0"
       : "https://docs.google.com/spreadsheets/d/1LuVThUEjLwqyMADp8LpZtH030uBv7s7wsXOxsPQ3PVc/edit?gid=0#gid=0";
     window.open(url, "_blank");
   };

@@ -348,6 +348,24 @@ export const orderDetailsById = async (id) => {
   }
 };
 
+export const base64url = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(
+      `${url}//user/convertToBase64
+       `,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getAllContractsForAdmin = async (data = {}) => {
   const headers = createHeaders();
   try {

@@ -967,7 +967,7 @@ function DealerPriceList() {
                     type="text"
                     name="range"
                     className="!bg-white"
-                    label="Product Retail Price"
+                    label="Product Price Range"
                     placeholder=""
                     value={formik.values.range}
                     onChange={formik.handleChange}

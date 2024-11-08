@@ -1280,7 +1280,7 @@ function ClaimList(props) {
     setViewLoader(true);
     const res = await getCustomerData(id);
     console.log(res, "------------------Login--------------->>>>");
-    setCustomerDetail(res.result);
+    setCustomerDetail(res.result.customerDetail);
     setViewLoader(false);
   }
   return (
@@ -1643,20 +1643,17 @@ function ClaimList(props) {
                                   <Grid className="!gap-2">
                                     <div className="col-span-4 py-4 pl-1 ">
                                       <div className=" py-2 px-2">
-                                        {!location.pathname.includes(
-                                          "customer/claimList"
-                                        ) && (
-                                            <p className="mb-3 text-[11px] font-Regular">
-                                              Customer Name :{" "}
-                                              <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?._id)}>
-                                                {" "}
-                                                {
-                                                  res?.contracts?.orders?.customer
-                                                    ?.username
-                                                }{" "}
-                                              </span>
-                                            </p>
-                                          )}
+
+                                        <p className="mb-3 text-[11px] font-Regular">
+                                          Customer Name :{" "}
+                                          <span className="font-semibold cursor-pointer" onClick={() => onhandle(res?._id)}>
+                                            {" "}
+                                            {
+                                              res?.contracts?.orders?.customer
+                                                ?.username
+                                            }{" "}
+                                          </span>
+                                        </p>
                                         {!location.pathname.includes(
                                           "/customer/claimList"
                                         ) &&
@@ -3210,57 +3207,75 @@ function ClaimList(props) {
               <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
                 View Customer Detail
               </p>
-              <Grid className="mt-5 px-6">
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold ">Account Name</p>
-                  <p className="text-base">
-                    {customerDetail?.username}
-                  </p>
-                </div>
-                <div className="col-span-8">
-                  <p className="text-lg font-semibold">Address</p>
-                  <p className="text-base leading-5">
-                    {customerDetail?.shippingTo}
-                  </p>
-                </div>
-                <div className="col-span-12">
-                  <div className="flex w-full my-2">
-                    <p className="text-[12px] mr-3 font-Regular">
-                      CONTACT DETAILS
+              {location.pathname.includes(
+                "/customer/claimList"
+              ) ? <>
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold ">Customer Name</p>
+                    <p className="text-base">
+                      {customerDetail?.username}
                     </p>
-                    <hr className="self-center border-[#999999] w-[70%]" />
                   </div>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">Name</p>
-                  <p className="text-base">
-                    {customerDetail?.customer_user?.firstName}{" "}
-                    {customerDetail?.customer_user?.lastName}{" "}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">Email</p>
-                  <p className="text-base">
-                    {customerDetail?.customer_user?.email}{" "}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">Phone #</p>
-                  <p className="text-base">
-                    {customerDetail?.customer_user?.dialCode} &nbsp;
-                    {formatPhoneNumber(customerDetail?.customer_user?.phoneNumber)}{" "}
-                  </p>
-                </div>
-                <div className="col-span-4">
-                  <p className="text-lg font-semibold">Position</p>
-                  <p className="text-base">
-                    {customerDetail?.primary?.position}
-                  </p>
-                </div>
+                  <div className="col-span-8">
+                    <p className="text-lg font-semibold">Address</p>
+                    <p className="text-base leading-5">
+                      {customerDetail?.shippingTo}
+                    </p>
+                  </div>
+                </Grid></> :
+                <Grid className="mt-5 px-6">
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold ">Account Name</p>
+                    <p className="text-base">
+                      {customerDetail?.username}
+                    </p>
+                  </div>
+                  <div className="col-span-8">
+                    <p className="text-lg font-semibold">Address</p>
+                    <p className="text-base leading-5">
+                      {customerDetail?.shippingTo}
+                    </p>
+                  </div>
+                  <div className="col-span-12">
+                    <div className="flex w-full my-2">
+                      <p className="text-[12px] mr-3 font-Regular">
+                        CONTACT DETAILS
+                      </p>
+                      <hr className="self-center border-[#999999] w-[70%]" />
+                    </div>
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">Name</p>
+                    <p className="text-base">
+                      {customerDetail?.customer_user?.firstName}{" "}
+                      {customerDetail?.customer_user?.lastName}{" "}
+                    </p>
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">Email</p>
+                    <p className="text-base">
+                      {customerDetail?.customer_user?.email}{" "}
+                    </p>
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">Phone #</p>
+                    <p className="text-base">
+                      {customerDetail?.customer_user?.dialCode} &nbsp;
+                      {formatPhoneNumber(customerDetail?.customer_user?.phoneNumber)}{" "}
+                    </p>
+                  </div>
+                  <div className="col-span-4">
+                    <p className="text-lg font-semibold">Position</p>
+                    <p className="text-base">
+                      {customerDetail?.primary?.position}
+                    </p>
+                  </div>
 
 
 
-              </Grid>
+                </Grid>
+              }
             </SingleView>
           )}
         </div>

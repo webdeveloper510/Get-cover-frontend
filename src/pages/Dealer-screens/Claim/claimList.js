@@ -160,7 +160,7 @@ function ClaimList(props) {
     if (location.pathname.includes("/dealer/")) {
       setUserType("dealer");
     } else {
-      setUserType("admin"); // Reset userType if condition doesn't match
+      setUserType("admin");
     }
   }, [location.pathname]);
   const dropdownRef = useRef(null);
@@ -476,7 +476,7 @@ function ClaimList(props) {
     setViewLoader(true);
     const res = await getCustomerData(id);
     console.log(res, "------------------Login--------------->>>>");
-    setCustomerDetail(res.result);
+    setCustomerDetail(res.result.customerDetail);
     setViewLoader(false);
   }
 

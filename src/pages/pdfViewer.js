@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
-import { orderDetailsById } from "../services/orderServices";
+import { base64url, orderDetailsById } from "../services/orderServices";
 import { ToWords } from "to-words";
 
 function PdfGenerator(props, className) {
@@ -39,29 +39,14 @@ function PdfGenerator(props, className) {
 
   const [data, setData] = useState({});
   const getBase64ImageFromUrl = async (imageUrl) => {
-    const proxyUrl = "https://thingproxy.freeboard.io/fetch/"; // Make sure this service is working or use your own proxy
     try {
-      // Fetch the image URL through the proxy
-      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl), {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer YOUR_API_TOKEN', // Make sure this is valid
-          'Content-Type': 'application/json' // Adjust as necessary
-        }
-      });
-      // Check for a successful response
-      if (!response.ok) throw new Error(`Network response was not ok: ${response.status}`);
-
-      // Get the image as a blob
-      const blob = await response.blob();
-
-      // Convert the blob to base64
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
+      const payload = { logo: imageUrl };
+      const response = await base64url(payload);
+      if (response && !response.base64.startsWith("data:image")) {
+        // Assuming JPEG format; adjust if different
+        response.base64 = `data:image/jpeg;base64,${response.base64}`;
+      }
+      return response;
     } catch (error) {
       console.error("Error fetching the image:", error);
       return null;
@@ -73,6 +58,7 @@ function PdfGenerator(props, className) {
     try {
       const result = await orderDetailsById(props.data);
       console.log(result, "-----Invoice--------------");
+
       let value = {
         dealerName: result.orderUserData.dealerData,
         customerName: result.orderUserData.customerData,
@@ -84,13 +70,14 @@ function PdfGenerator(props, className) {
         websiteSetting: result.orderUserData.websiteSetting,
         ...result.result,
       };
-      const logoBase64 = await getBase64ImageFromUrl(
-        value.websiteSetting.darkLogo
-      );
-      if (!logoBase64) {
+
+      const logoBase64 = await getBase64ImageFromUrl(value.websiteSetting.darkLogoName);
+      if (!logoBase64 || !logoBase64.base64) {
         throw new Error("Failed to convert logo to base64");
       }
-      value.logoBase64 = logoBase64;
+
+      value.logoBase64 = logoBase64.base64;
+
       const opt = {
         margin: 0,
         filename: `${value.unique_key}-Invoice.pdf`,
@@ -99,8 +86,7 @@ function PdfGenerator(props, className) {
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
       };
 
-      const pdf = html2pdf().from(generateHTML(value)).set(opt);
-      pdf.save();
+      await html2pdf().from(generateHTML(value)).set(opt).save();
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
@@ -133,7 +119,7 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
+                <img src="${data.logoBase64}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
                 <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title
       }</b></h1>
                 <pre style="margin: 0; padding: 0; width: 50%; overflow-wrap: break-word; font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address

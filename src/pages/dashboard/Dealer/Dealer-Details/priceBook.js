@@ -133,7 +133,7 @@ function PriceBookList(props) {
 
   const formatOrderValue = (orderValue) => {
     console.log(orderValue)
-    if(orderValue == null){
+    if (orderValue == null) {
       return
     }
     if (Math.abs(orderValue) >= 1e6) {
@@ -1024,7 +1024,7 @@ function PriceBookList(props) {
                     type="text"
                     name="range"
                     className="!bg-white"
-                    label="Product Retail Price"
+                    label="Product Price Range"
                     placeholder=""
                     value={formik.values.range}
                     onChange={formik.handleChange}
