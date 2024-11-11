@@ -2024,7 +2024,7 @@ function Account() {
                 <div className="text-right">
                   {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
 
-                  <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
+                  <InActiveButton onClick={() => handleReset()} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
               </form>

@@ -195,6 +195,9 @@ function ClaimList(props) {
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     console.log("handleApply", startDateStr, endDateStr)
+    formik1.setFieldValue('startDate', startDateStr)
+    formik1.setFieldValue('endDate', endDateStr)
+    isFormSubmittedRef.current = true;
     getAllClaims();
     closeModal();
   };
@@ -1220,7 +1223,7 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
-    console.log(isFormSubmittedRef.current);
+    console.log(formik1.values, 'search -----------------');
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);

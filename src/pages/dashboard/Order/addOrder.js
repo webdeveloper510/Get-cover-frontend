@@ -3415,7 +3415,7 @@ function AddOrder() {
                           className="mr-2 h-[23px]"
                           alt="Dropbox"
                         />
-                        <p className="self-center text-[11px] font-bold pl-2 text-black">
+                        <p className="self-center text-[11px] font-bold pl-2">
                           {formikStep2?.values?.termCondition?.fileName ===
                             "" || formikStep2?.values?.termCondition === null
                             ? "No File Selected"
@@ -3666,7 +3666,7 @@ function AddOrder() {
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
-                              <p className="self-center text-black">
+                              <p className="self-center">
                                 {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
