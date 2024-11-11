@@ -33,6 +33,7 @@ import { editDealerPriceBook } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CompanyPriceBook() {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -488,17 +489,31 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
+        <InActiveButton className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addCompanyPriceBook"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
 
-        <Link
-          to={"/addCompanyPriceBook"}
-          className=" w-[230px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Company Price Book{" "}
-          </span>{" "}
-        </Link>
+              Add Company Price Book{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="bg-white border-[1px] border-Light-Grey rounded-xl">
           <form onSubmit={formik.handleSubmit}>

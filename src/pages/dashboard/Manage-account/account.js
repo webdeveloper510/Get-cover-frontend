@@ -52,6 +52,7 @@ import CollapsibleDiv from "../../../common/collapsibleDiv";
 import SwitchButton from "../../../common/switch";
 import { editOption, getOptions } from "../../../services/claimServices";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function Account() {
   const [repairValue, repair_status] = useState({});
@@ -817,6 +818,8 @@ function Account() {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
   const [modelBackgroundColor, setModelBackgroundColor] = useState('');
+  const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
+  const [inActiveButtonColor, setInActiveButtonColor] = useState('');
   const [modelColor, setModelColor] = useState('');
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
   const [cardColor, setCardColor] = useState('');
@@ -884,6 +887,12 @@ function Account() {
             case 'modelColor':
               setModelColor(color.colorCode);
               break;
+            case 'inActiveButtonBackgroundColor':
+              setInActiveButtonBackgroundColor(color.colorCode);
+              break;
+            case 'inActiveButtonColor':
+              setInActiveButtonColor(color.colorCode);
+              break;
             default:
               break;
           }
@@ -923,7 +932,8 @@ function Account() {
       cardColor: cardColor,
       paymentDetail: bankDetails,
       address: address,
-
+      inActiveButtonBackgroundColor: inActiveButtonBackgroundColor,
+      inActiveButtonColor: inActiveButtonColor
     },
     validationSchema: Yup.object({
       favIcon: Yup.mixed().nullable(),
@@ -945,7 +955,9 @@ function Account() {
           { colorCode: values.cardColor || cardColor, colorType: "cardColor" },
           { colorCode: values.cardBackGroundColor || cardBackGroundColor, colorType: "cardBackGroundColor" },
           { colorCode: values.modelBackgroundColor || modelBackgroundColor, colorType: "modelBackgroundColor" },
-          { colorCode: values.modelColor || modelColor, colorType: "modelColor" }
+          { colorCode: values.modelColor || modelColor, colorType: "modelColor" },
+          { colorCode: values.inActiveButtonBackgroundColor || inActiveButtonBackgroundColor, colorType: "inActiveButtonBackgroundColor" },
+          { colorCode: values.inActiveButtonColor || inActiveButtonColor, colorType: "inActiveButtonColor" }
         ];
         const apiData = {
           favIcon: values.favIcon || selectedFile2,
@@ -1240,21 +1252,33 @@ function Account() {
           <div className="mt-5">
             <div
               className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey w-1/2 flex`}>
-              <Button
-                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "myAccount" ? "!bg-grayf9 !text-black" : ""
-                  }`}
+              {activeButton != "myAccount" ? <InActiveButton
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</InActiveButton> : <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
                 onClick={() => handleButtonClick("myAccount")}
               >   My Account</Button>
-              <Button
-                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "siteSetting" ? "!bg-grayf9 !text-black" : ""
-                  }`}
-                onClick={() => handleButtonClick("siteSetting")}
-              >   Site Setting</Button>
-              <Button
-                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeButton != "Settings" ? "!bg-grayf9 !text-black" : ""
-                  }`}
+              }
+              {activeButton != "siteSetting" ?
+                <InActiveButton
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("siteSetting")}
+                >   Site Setting</InActiveButton> :
+                <Button
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("siteSetting")}
+                >   Site Setting</Button>
+              }
+              {activeButton != "Settings" ? <InActiveButton
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("Settings")}
+              >   Option Settings</InActiveButton> : <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
                 onClick={() => handleButtonClick("Settings")}
               >   Option Settings</Button>
+              }
+
             </div>
           </div>
 
@@ -1966,6 +1990,32 @@ function Account() {
                           label="Popup text Color"
                           placeholder=""
                           value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`inActiveButtonBackgroundColor`}
+                          tooltip="11"
+                          className="!bg-white flex "
+                          content='you can change website Inactive Button Background color here'
+                          className1="h-11 "
+                          label="Inactive Button Color"
+                          placeholder=""
+                          value={inActiveButtonBackgroundColor} onChange={handleColorChange('inActiveButtonBackgroundColor', setInActiveButtonBackgroundColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`inActiveButtonColor`}
+                          tooltip="12"
+                          className="!bg-white flex "
+                          content='you can change website Inactive Button text color here'
+                          className1="h-11"
+                          label="Inactive button text Color"
+                          placeholder=""
+                          value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                         />
                       </div>
                     </Grid>

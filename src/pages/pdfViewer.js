@@ -376,7 +376,7 @@ function PdfGenerator(props, className) {
       onClick={convertToPDF}
     >
       <img src={download} className="w-4 h-4 mr-2" alt="Download" />
-      <button className="text-black">Invoice</button>
+      <button className="">Invoice</button>
     </div>
   );
 }

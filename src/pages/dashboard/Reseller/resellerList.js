@@ -22,6 +22,7 @@ import {
   changeResellerStatus,
 } from "../../../services/reSellerServices";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -301,18 +302,31 @@ function ResellerList() {
             </ul>
           </div>
         </div>
-
-        <Link
-          to={"/addReseller"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            {" "}
-            Add New Reseller{" "}
-          </span>{" "}
-        </Link>
+        <InActiveButton className="flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addReseller"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
+              {" "}
+              Add New Reseller{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

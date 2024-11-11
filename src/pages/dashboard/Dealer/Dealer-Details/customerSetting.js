@@ -43,6 +43,7 @@ function CustomerSetting(props) {
     const [loading, setLoading] = useState(false);
     const [initialFormValues, setInitialFormValues] = useState({
         address: "",
+        addressId: "",
         city: "",
         state: "",
         zip: "",
@@ -104,15 +105,26 @@ function CustomerSetting(props) {
         onSubmit: async (values) => {
             setLoading(true);
             localStorage.setItem("customer", "Settings");
+            console.log(values)
+            const data = {
+                customerId: props.id,
+                addressId: values.addressId,
+                city: values.city,
+                street: values.address,
+                state: values.state,
+                zip: values.zip
+            };
             try {
                 const result = await editCustomerAddressById(
-                    values,
-                    props.id
-                );
+                    data);
                 console.log(result);
                 SetPrimaryText("address Updated Successfully");
                 SetSecondaryText("Address updated successfully");
                 SetIsModalOpen(true);
+                setIsUserModalOpen(false);
+                formik.resetForm();
+                customerDetails(props.id)
+                localStorage.setItem("customer", "Settings");
                 setTimer(3);
             } catch (error) {
                 console.error("Error updating Customer address:", error);
@@ -128,10 +140,11 @@ function CustomerSetting(props) {
     });
     const customerDetails = async (id) => {
         setLoading(true);
+        localStorage.setItem("customer", "Settings");
         console.log(id, 'result--------------------');
         const result = await getCustomerDetailsById(id);
         console.log(result, 'result--------------------');
-        setAddressData(result.result.meta?.addresses)
+        setAddressData(result.result?.meta?.addresses)
         setLoading(false);
     }
 
@@ -148,6 +161,8 @@ function CustomerSetting(props) {
             SetSecondaryText("Address Deleted successfully");
             SetIsModalOpen(true);
             setTimer(3);
+            localStorage.setItem("customer", "Settings");
+
         } else {
             console.error("Error deleting Customer address:", result.message);
             SetPrimaryText("Error deleting Customer address");
@@ -227,7 +242,7 @@ function CustomerSetting(props) {
                                     <div>
                                         <div
                                             className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
-                                            onClick={() => openUserModal(row._id)}
+                                            onClick={() => openUserModal(row)}
                                         >
                                             <img src={edit} className="w-4 h-4 mr-2" />{" "}
                                             <span className="self-center">Edit </span>
@@ -291,7 +306,16 @@ function CustomerSetting(props) {
         formik.resetForm();
     };
 
-    const openUserModal = () => {
+    const openUserModal = (data) => {
+        console.log(data);
+        setInitialFormValues({
+            addressId: data._id,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            zip: data.zip,
+        }
+        )
         setIsUserModalOpen(true);
     };
 

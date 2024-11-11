@@ -34,6 +34,7 @@ import Modal from "../../../common/model";
 import { getCategoryList, getCovrageList } from "../../../services/priceBookService";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../../common/inActiveButton";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function DealerPriceList() {
@@ -481,16 +482,31 @@ function DealerPriceList() {
             </ul>
           </div>
         </div>
-        <Link
-          to={"/addPriceBook"}
-          className=" w-[190px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Dealer Book{" "}
-          </span>{" "}
-        </Link>
+        <InActiveButton className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addPriceBook"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
+
+              Add Dealer Book{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="bg-white  border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">
@@ -873,7 +889,7 @@ function DealerPriceList() {
             <p className="text-center text-3xl font-semibold ">
               Advance Search
             </p>
-            <Grid className="mt-5 px-6">
+            <Grid className="mt-5 px-6 max-h-[80vh] overflow-y-scroll">
               <div className="col-span-6">
                 <Input
                   type="text"
@@ -1051,6 +1067,8 @@ function DealerPriceList() {
                   onChange={formik.setFieldValue}
                 />
               </div>
+            </Grid>
+            <Grid className="px-6 mt-5">
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search

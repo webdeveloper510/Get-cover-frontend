@@ -307,18 +307,20 @@ function ResellerClaimList(props) {
         setLoading1(true);
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
-          editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue, (value.type === 'servicer_shipped' || value.type === "product_received") ? value.type : value);
         };
 
         switch (selectedValue) {
           case "customerStatus":
             updateAndCallAPI(setCustomerStatus);
+            setIsReceived(false)
             break;
           case "claimStatus":
             updateAndCallAPI(setClaimStatus);
             break;
           case "repairStatus":
             updateAndCallAPI(setRepairStatus);
+            setIsShipped(false)
             break;
           default:
             console.error("here");
@@ -489,7 +491,7 @@ function ResellerClaimList(props) {
 
     getClaimListPromise
       .then((res) => {
-        // console.log(res);
+        console.log(res, '------------hello Claim');
 
         if (res) {
           setClaimList(res);
@@ -1638,7 +1640,7 @@ function ResellerClaimList(props) {
                                             white
                                             disabled={
                                               claimStatus.status === "rejected" ||
-                                              claimStatus.status === "completed"
+                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                             }
                                             options={claimList?.result?.[activeIndex]?.contracts?.mergedData}
                                             OptionName="Claim Type"
@@ -1659,126 +1661,127 @@ function ResellerClaimList(props) {
                                         </p>
                                       )}
 
-
-                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[1rem]">
-                                          {shipment.label}:
-                                        </span>
-                                        <>
-                                          {res?.trackingType == "" ? (
-                                            <>
-                                              {claimStatus.status ==
-                                                "rejected" ||
-                                                claimStatus.status ==
-                                                "completed" || !res.selfServicer ? (
-                                                <></>
-                                              ) : (
-                                                <>
-                                                  <form
-                                                    onSubmit={
-                                                      Shipment.handleSubmit
-                                                    }
-                                                  >
-                                                    <div className="relative flex w-full">
-                                                      <Select
-                                                        name="trackingType"
-                                                        label=""
-                                                        value={
-                                                          Shipment.values
-                                                            .trackingType
-                                                        }
-                                                        onChange={
-                                                          handleSelectChange21
-                                                        }
-                                                        white
-                                                        // OptionName="Tracker"
-                                                        options={
-                                                          shipment.value
-                                                        }
-                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                        classBox="w-[35%]"
-                                                      />
-                                                      <Input
-                                                        name="trackingNumber"
-                                                        label=""
-                                                        placeholder="Tracking #"
-                                                        white
-                                                        value={
-                                                          Shipment.values
-                                                            .trackingNumber
-                                                        }
-                                                        // options={state}
-                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                        classBox="w-[50%]"
-                                                        {...Shipment.getFieldProps(
-                                                          "trackingNumber"
-                                                        )}
-                                                      />
-                                                      <Button
-                                                        className="absolute right-[30px] !p-0 top-[2px]"
-                                                        type="submit"
-                                                      >
-                                                        <img
-                                                          src={checkIcon}
-                                                          className="w-[21px]"
+                                      {res?.trackingType == "" && !res.selfServicer ? <></> :
+                                        <p className=" mb-4 text-[11px] font-Regular flex self-center">
+                                          <span className="self-center w-[75px]  mr-[1rem]">
+                                            {shipment.label}:
+                                          </span>
+                                          <>
+                                            {res?.trackingType == "" ? (
+                                              <>
+                                                {claimStatus.status ==
+                                                  "rejected" ||
+                                                  claimStatus.status ==
+                                                  "completed" || !res.selfServicer ? (
+                                                  <></>
+                                                ) : (
+                                                  <>
+                                                    <form
+                                                      onSubmit={
+                                                        Shipment.handleSubmit
+                                                      }
+                                                    >
+                                                      <div className="relative flex w-full">
+                                                        <Select
+                                                          name="trackingType"
+                                                          label=""
+                                                          value={
+                                                            Shipment.values
+                                                              .trackingType
+                                                          }
+                                                          onChange={
+                                                            handleSelectChange21
+                                                          }
+                                                          white
+                                                          // OptionName="Tracker"
+                                                          options={
+                                                            shipment.value
+                                                          }
+                                                          className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                          classBox="w-[35%]"
                                                         />
-                                                      </Button>
-                                                    </div>
-                                                  </form>
-                                                </>
-                                              )}
-                                            </>
-                                          ) : (
-                                            <div className="flex w-[65%] justify-between">
-                                              {res?.trackingType == "ups" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
-                                                  target="_blank"
-                                                >
-                                                  UPS Tracker
-                                                </a>
-                                              )}
+                                                        <Input
+                                                          name="trackingNumber"
+                                                          label=""
+                                                          placeholder="Tracking #"
+                                                          white
+                                                          value={
+                                                            Shipment.values
+                                                              .trackingNumber
+                                                          }
+                                                          // options={state}
+                                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                          classBox="w-[50%]"
+                                                          {...Shipment.getFieldProps(
+                                                            "trackingNumber"
+                                                          )}
+                                                        />
+                                                        <Button
+                                                          className="absolute right-[30px] !p-0 top-[2px]"
+                                                          type="submit"
+                                                        >
+                                                          <img
+                                                            src={checkIcon}
+                                                            className="w-[21px]"
+                                                          />
+                                                        </Button>
+                                                      </div>
+                                                    </form>
+                                                  </>
+                                                )}
+                                              </>
+                                            ) : (
+                                              <div className="flex w-[65%] justify-between">
+                                                {res?.trackingType == "ups" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                    target="_blank"
+                                                  >
+                                                    UPS Tracker
+                                                  </a>
+                                                )}
 
-                                              {res?.trackingType == "usps" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                  target="_blank"
-                                                >
-                                                  USPS Tracker
-                                                </a>
-                                              )}
+                                                {res?.trackingType == "usps" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                    target="_blank"
+                                                  >
+                                                    USPS Tracker
+                                                  </a>
+                                                )}
 
-                                              {res?.trackingType == "fedx" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                  target="_blank"
-                                                >
-                                                  FedX Tracker
-                                                </a>
-                                              )}
-                                              {claimStatus.status ==
-                                                "rejected" ||
-                                                claimStatus.status ==
-                                                "completed" ? (
-                                                <></>
-                                              ) : (
-                                                <></>
-                                                // <img
-                                                //   src={pen}
-                                                //   onClick={() =>
-                                                //     setTrackerView(true)
-                                                //   }
-                                                //   className="cursor-pointer object-contain ml-4"
-                                                // />
-                                              )}
-                                            </div>
-                                          )}
-                                        </>
+                                                {res?.trackingType == "fedx" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                    target="_blank"
+                                                  >
+                                                    FedX Tracker
+                                                  </a>
+                                                )}
+                                                {claimStatus.status ==
+                                                  "rejected" ||
+                                                  claimStatus.status ==
+                                                  "completed" ? (
+                                                  <></>
+                                                ) : (
+                                                  <></>
+                                                  // <img
+                                                  //   src={pen}
+                                                  //   onClick={() =>
+                                                  //     setTrackerView(true)
+                                                  //   }
+                                                  //   className="cursor-pointer object-contain ml-4"
+                                                  // />
+                                                )}
+                                              </div>
+                                            )}
+                                          </>
 
-                                      </p>
+                                        </p>
+                                      }
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
@@ -1919,68 +1922,40 @@ function ResellerClaimList(props) {
                                           )}
                                         </p>
                                       </div>
-                                      {/* {res?.selfServicer === true && 
-                                   <>
-                                    { claimStatus.status == "rejected" ||
-                                       claimStatus.status == "completed" ? (
-                                    <></>
-                                    ) : (
-                                      <div
-                                        className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                        ref={dropdownRef}
-                                        onClick={handleToggleDropdown1}
-                                      >
-                                        <Select
-                                          name="repairStatus"
-                                          label=""
-                                          value={repairStatus.status}
-                                          onChange={handleSelectChange}
-                                          disabled={
-                                            claimStatus.status == "rejected" ||
-                                            claimStatus.status == "completed"
-                                          }
-                                          white
-                                          className1="!border-0 !text-light-black"
-                                          options={repairValue}
-                                          visible={dropdownVisible}
-                                        />
-                                      </div>
-                                    )}
-                                  </>} */}
-                                      {(claimList.result[activeIndex]
-                                        ?.selfServicer) && (
-                                          <>
-                                            {claimStatus.status == "rejected" ||
-                                              claimStatus.status == "completed" || repairStatus.status != "servicer_shipped" ? (
-                                              <></>
-                                            ) : (
-                                              <div
-                                                className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
-                                                ref={dropdownRef}
-                                                onClick={handleToggleDropdown1}
-                                              >
-                                                <Select
-                                                  name="repairStatus"
-                                                  label=""
-                                                  value={repairStatus.status}
-                                                  onChange={handleSelectChange}
-                                                  disableFirstOption={true}
-                                                  classBox='!bg-transparent'
-                                                  disabled={
-                                                    claimStatus.status ==
-                                                    "rejected" ||
-                                                    claimStatus.status ==
-                                                    "completed" || repairStatus.status != "servicer_shipped"
-                                                  }
-                                                  white
-                                                  className1="!border-0 !text-light-black"
-                                                  options={repairValue?.value}
-                                                  visible={dropdownVisible}
-                                                />
-                                              </div>
-                                            )}
-                                          </>
-                                        )}
+
+                                      {res?.selfServicer && (
+                                        <>
+                                          {claimStatus.status == "rejected" ||
+                                            claimStatus.status == "completed" || repairStatus.status == "servicer_shipped" ? (
+                                            <></>
+                                          ) : (
+                                            <div
+                                              className="self-center ml-auto w-[10%] mr-2 cursor-pointer"
+                                              ref={dropdownRef}
+                                              onClick={handleToggleDropdown1}
+                                            >
+                                              <Select
+                                                name="repairStatus"
+                                                label=""
+                                                value={repairStatus.status}
+                                                onChange={handleSelectChange}
+                                                disableFirstOption={true}
+                                                classBox='!bg-transparent'
+                                                disabled={
+                                                  claimStatus.status ==
+                                                  "rejected" ||
+                                                  claimStatus.status ==
+                                                  "completed" || repairStatus.status == "servicer_shipped"
+                                                }
+                                                white
+                                                className1="!border-0 !text-light-black"
+                                                options={repairValue?.value}
+                                                visible={dropdownVisible}
+                                              />
+                                            </div>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-2">
@@ -3121,7 +3096,7 @@ function ResellerClaimList(props) {
                   </p>
                 </div>
                 <div className="col-span-8">
-                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-lg font-semibold">Shipped By</p>
                   <p className="text-base leading-5">
                     {customerDetail?.shippingTo}
                   </p>

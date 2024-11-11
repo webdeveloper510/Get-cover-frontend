@@ -379,7 +379,7 @@ function DealerDetailList(props) {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="number"
+                        type="tel"
                         placeholder="Phone No."
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"

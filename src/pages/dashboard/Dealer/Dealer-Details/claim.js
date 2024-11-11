@@ -190,11 +190,12 @@ function ClaimList(props) {
   };
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
-    console.log("handleApply", selectedRange)
     const startDateStr = startDate.toISOString().split("T")[0];
     const endDateStr = endDate.toISOString().split("T")[0];
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log("handleApply", startDateStr, endDateStr)
+    getAllClaims();
     closeModal();
   };
 
@@ -409,6 +410,7 @@ function ClaimList(props) {
     setLoading1(true);
     setIsPayOpen(false);
     setIsSuccessOpen(true);
+    handleDownloadUnpaid()
     console.log(apiResponse);
     if (apiResponse) {
       getAllClaims();
@@ -1198,6 +1200,9 @@ function ClaimList(props) {
       trackingNumber: "",
       trackingType: "",
       claimPaidStatus: "",
+      noOfDays: "",
+      startDate: "",
+      endDate: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1454,6 +1459,7 @@ function ClaimList(props) {
                           {props.activeTab == "Unpaid Claims" && (
                             <div className="col-span-4">
                               <Select
+                                name='noOfDays'
                                 options={days}
                                 className="!text-[14px] !bg-White-Smoke"
                                 className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 "
@@ -1547,12 +1553,12 @@ function ClaimList(props) {
                       <div className="col-span-1"></div>
                       <div className="col-span-8">
                         <div className="flex justify-end">
-                          <Button
+                          {/* <Button
                             className="!text-[14px] !py-[4px] mr-3"
                             onClick={() => handleDownloadUnpaid()}
                           >
                             Export Unpaid Claim
-                          </Button>
+                          </Button> */}
                           <Button
                             className="!text-[14px] !py-[4px]"
                             onClick={() => handleSelectAll(claimList)}

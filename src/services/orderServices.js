@@ -352,7 +352,7 @@ export const base64url = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}//user/convertToBase64
+      `${url}/user/convertToBase64
        `,
       data,
       {

@@ -683,6 +683,14 @@ function ClaimList(props) {
     setClaimLoading(false);
   };
 
+  const days = [
+    { label: "30 Days", value: "30" },
+    { label: "45 Days", value: "45" },
+    { label: "60 Days", value: "60" },
+    { label: "90 Days", value: "90" },
+    { label: "120 Days", value: "120" },
+  ];
+
   const calculateTotalCost = (cost1, cost2) => {
     console.log(typeof (cost1), typeof (cost2));
     const totalCost = cost1 + cost2;
@@ -1173,6 +1181,7 @@ function ClaimList(props) {
       trackingNumber: "",
       trackingType: "",
       claimPaidStatus: "",
+      noOfDays: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1379,7 +1388,7 @@ function ClaimList(props) {
                     <Grid className="!gap-1">
                       <div className="col-span-8 self-center">
                         <Grid className="!gap-2">
-                          <div className="col-span-4 self-center">
+                          <div className={` ${props.activeTab == "Unpaid Claims" ? 'col-span-4' : 'col-span-6'} self-center`}>
                             <Input
                               name="contractId"
                               type="text"
@@ -1390,7 +1399,7 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("contractId")}
                             />
                           </div>
-                          <div className="col-span-4 self-center">
+                          <div className={` ${props.activeTab == "Unpaid Claims" ? 'col-span-4' : 'col-span-6'} self-center`}>
                             <Input
                               name="claimId"
                               type="text"
@@ -1401,18 +1410,19 @@ function ClaimList(props) {
                               {...formik1.getFieldProps("claimId")}
                             />
                           </div>
-                          <div className="col-span-4 self-center">
-                            <SelectSearch
-                              name="claimStatus"
-                              label=""
-                              options={claimvalues?.value}
-                              OptionName="Claim Status"
-                              className="!text-[14px] !bg-White-Smoke"
-                              className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                              onChange={handleSelectChange2}
-                              value={formik1.values.claimStatus}
-                            />
-                          </div>
+                          {props.activeTab == "Unpaid Claims" && (
+                            <div className="col-span-4">
+                              <Select
+                                name="noOfDays"
+                                options={days}
+                                className="!text-[14px] !bg-White-Smoke"
+                                className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 "
+                                OptionName="No Of Days Passed"
+                                onChange={handleSelectChange2}
+                                value={formik1.values.noOfDays}
+                              />
+                            </div>
+                          )}
                         </Grid>
                       </div>
                       <div className="col-span-4 self-center flex justify-center">
@@ -3092,51 +3102,19 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("servicerName")}
                 />
               </div>
-              <div className="col-span-6">
-                <Select
-                  name="claimStatus"
-                  label="Claim Status"
-                  options={claimvalues?.value}
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.claimStatus}
-                />
-              </div>
-              {formik1.values.claimStatus == "completed" ? (
+              {props.activeTab == "Unpaid Claims" && (
                 <div className="col-span-6">
                   <Select
-                    options={claimPaid}
-                    name="claimPaidStatus"
-                    label="Paid Status"
+                    options={days}
+                    name="noOfDays"
+                    label="No Of Days Passed"
                     className="!bg-white"
                     onChange={handleSelectChange2}
-                    value={formik1.values.claimPaidStatus}
+                    value={formik1.values.noOfDays}
                   />
                 </div>
-              ) : (
-                <>
-                  <div className="col-span-6">
-                    <Select
-                      options={customerValue?.value}
-                      name="customerStatusValue"
-                      label="Customer Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.customerStatusValue}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      options={repairValue?.value}
-                      name="repairStatus"
-                      label="Repair Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.repairStatus}
-                    />
-                  </div>
-                </>
               )}
+
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
@@ -3237,19 +3215,13 @@ function ClaimList(props) {
                 <div className="col-span-4">
                   <p className="text-lg font-semibold ">Account Name</p>
                   <p className="text-base">
-                    {customerDetail?.meta.username}
+                    {customerDetail?.username}
                   </p>
                 </div>
                 <div className="col-span-8">
-                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-lg font-semibold">Shipped By</p>
                   <p className="text-base leading-5">
-                    {customerDetail?.meta?.city}
-                    {", "}
-                    {customerDetail?.meta?.street}
-                    {", "}
-                    {customerDetail?.meta?.state}
-                    {", "}
-                    {customerDetail?.meta?.country}
+                    {customerDetail?.shippingTo}
                   </p>
                 </div>
                 <div className="col-span-4">

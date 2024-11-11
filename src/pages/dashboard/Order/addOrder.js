@@ -50,6 +50,7 @@ import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 import Card from "../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../../common/inActiveButton";
 
 function AddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1808,12 +1809,12 @@ function AddOrder() {
                   <div className="col-span-8">
                     <div className="flex justify-between w-full">
                       <p className="text-2xl font-bold mb-4">Order Details</p>
-                      <Button
-                        className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                      <InActiveButton
+                        className="text-sm !py-0 h-[30px] self-center !font-semibold !border-light-black !border-[1px]"
                         onClick={handleInputClickResetStep1}
                       >
                         Reset
-                      </Button>
+                      </InActiveButton>
                     </div>
                     <Grid>
                       <div className="col-span-4">
@@ -1822,12 +1823,12 @@ function AddOrder() {
                           name="dealerId"
                           required={true}
                           className={`${orderId ||
-                              dealerId ||
-                              resellerId ||
-                              dealerValue ||
-                              customerId
-                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                              : "!bg-white"
+                            dealerId ||
+                            resellerId ||
+                            dealerValue ||
+                            customerId
+                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                            : "!bg-white"
                             }`}
                           onChange={handleSelectChange}
                           value={formik.values?.dealerId}
@@ -1857,8 +1858,8 @@ function AddOrder() {
                           name="resellerId"
                           placeholder=""
                           className={`${resellerId
-                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                              : "!bg-white"
+                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                            : "!bg-white"
                             }`}
                           isDisabled={resellerId || customerId}
                           onChange={handleSelectChange}
@@ -1893,8 +1894,8 @@ function AddOrder() {
                           name="customerId"
                           placeholder=""
                           className={`${customerId
-                              ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                              : "!bg-white"
+                            ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                            : "!bg-white"
                             }`}
                           isDisabled={customerId}
                           onChange={handleSelectChange}
@@ -2135,8 +2136,8 @@ function AddOrder() {
                     disabled={type == "Edit"}
                     placeholder=""
                     className={`${type == "Edit"
-                        ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
-                        : "!bg-white"
+                      ? "!bg-gradient-to-t from-[#f2f2f2] to-white"
+                      : "!bg-white"
                       }`}
                     required={true}
                     onChange={handleSelectChange1}
@@ -2275,14 +2276,14 @@ function AddOrder() {
               >
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
-                  <Button
-                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                  <InActiveButton
+                    className="text-sm !py-0 h-[30px] self-center !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
                   >
                     Reset
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (
@@ -3993,8 +3994,8 @@ function AddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
               2
@@ -4017,8 +4018,8 @@ function AddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 2
-                  ? "text-black border-black"
-                  : "text-[#ADADAD] border-[#ADADAD]"
+                ? "text-black border-black"
+                : "text-[#ADADAD] border-[#ADADAD]"
                 } rounded-full mx-auto w-[26px]`}
             >
               3
@@ -4038,8 +4039,8 @@ function AddOrder() {
         <div className="text-center">
           <p
             className={`border ${currentStep > 3
-                ? "text-black border-black"
-                : "text-[#ADADAD] border-[#ADADAD]"
+              ? "text-black border-black"
+              : "text-[#ADADAD] border-[#ADADAD]"
               } rounded-full mx-auto w-[26px]`}
           >
             4

@@ -71,6 +71,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { getCovrageList } from "../../../services/priceBookService";
 import Setting from "./Dealer-Details/setting";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -792,7 +793,7 @@ function DealerDetails() {
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach((color) => {
         switch (color.colorType) {
-          case "buttonColor":
+          case "inActiveButtonColor":
             setBackGroundColor(color.colorCode);
             break;
           case "buttonTextColor":
@@ -804,6 +805,73 @@ function DealerDetails() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading && (
@@ -1002,51 +1070,14 @@ function DealerDetails() {
                   ref={containerRef}
                   onTransitionEnd={handleTransitionEnd}
                 >
-                  <Carousel
-                    className="!gap-1"
-                    ssr={true}
-                    ref={carouselRef}
-                    responsive={responsive}
-                    containerClass="carousel"
-                  >
-                    {tabs.map((tab) => (
-                      <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id ? "" : "!bg-grayf9 !text-black"
-                          }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
-                              })`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons
-                              })`,
-                            backgroundColor:
-                              activeTab === tab.id ? buttonTextColor : "black",
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="self-center pr-1 py-1 h-4 w-4"
-                        />
-                        <span
-                          style={{
-                            borderColor:
-                              activeTab === tab.id ? buttonTextColor : "black",
-                            borderLeftWidth: "1px",
-                            paddingLeft: "7px",
-                            color:
-                              activeTab === tab.id ? buttonTextColor : "black",
-                          }}
-                          className={`ml-1 py-1 text-sm font-Regular`}
-                        >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    ))}
+                  <Carousel className="!gap-1" ssr={true} ref={carouselRef} responsive={responsive} containerClass="carousel">
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Carousel>
                   <div className="absolute h-full bg-grayf9 right-[-15px] flex top-0 self-center  shadow-6xl">
                     {" "}
@@ -1064,18 +1095,35 @@ function DealerDetails() {
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
                     >
-                      <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
-                        {" "}
-                        <img
-                          src={AddItem}
-                          className="self-center"
-                          alt="AddItem"
-                        />{" "}
-                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                      <InActiveButton className=" flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
+
+                        <div
+                          style={{
+                            maskImage: `url(${AddItem})`,
+                            WebkitMaskImage: `url(${AddItem})`,
+                            backgroundColor: backGroundColor,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4"
+                        />
+                        <span
+                          style={{
+                            borderColor: backGroundColor,
+                            borderLeftWidth: "1px",
+                            paddingLeft: "7px",
+                            color: backGroundColor,
+                          }}
+                          className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                        >
                           {activeTab === "Servicer" ? "Assign " : "Add "}{" "}
                           {activeTab}
-                        </span>{" "}
-                      </Button>
+                        </span>
+                      </InActiveButton>
                     </div>
                   ) : (
                     <></>

@@ -206,7 +206,7 @@ export const editCustomerAddressById = async (data) => {
   const headers = createHeaders();
   try {
     const response = await axios.put(
-      `${url}/customer/addCustomerAddress/${id}`,
+      `${url}/customer/editAddress`,
       data,
       {
         headers,

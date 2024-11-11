@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 
 
 function Category() {
@@ -233,16 +234,30 @@ function Category() {
             </ul>
           </div>
         </div>
-        <Link
-          to={"/addCategory"}
-          className=" w-[180px] !bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-4 rounded-xl border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Category{" "}
-          </span>{" "}
-        </Link>
+        <InActiveButton className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addCategory"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
+              Add Category{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="bg-white  border-[1px] border-Light-Grey rounded-xl ">
           <Grid className="!px-[26px] !pt-[14px] !pb-0">

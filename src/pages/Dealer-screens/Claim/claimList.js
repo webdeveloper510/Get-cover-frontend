@@ -318,18 +318,20 @@ function ClaimList(props) {
       else {
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
-          editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue, (value.type === 'servicer_shipped' || value.type === "product_received") ? value.type : value);
         };
 
         switch (selectedValue) {
           case "customerStatus":
             updateAndCallAPI(setCustomerStatus);
+            setIsReceived(false)
             break;
           case "claimStatus":
             updateAndCallAPI(setClaimStatus);
             break;
           case "repairStatus":
             updateAndCallAPI(setRepairStatus);
+            setIsShipped(false)
             break;
           default:
             console.error("here");
@@ -1642,7 +1644,7 @@ function ClaimList(props) {
                                             white
                                             disabled={
                                               claimStatus.status === "rejected" ||
-                                              claimStatus.status === "completed"
+                                              claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                             }
                                             options={claimList?.result?.[activeIndex]?.contracts?.mergedData}
                                             OptionName="Claim Type"
@@ -1663,126 +1665,128 @@ function ClaimList(props) {
                                         </p>
                                       )}
 
-
-                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
-                                        <span className="self-center w-[75px]  mr-[1rem]">
-                                          {shipment.label}:
-                                        </span>
-                                        <>
-                                          {res?.trackingType == "" ? (
-                                            <>
-                                              {claimStatus.status ==
-                                                "rejected" ||
-                                                claimStatus.status ==
-                                                "completed" || !res.selfServicer ? (
-                                                <></>
-                                              ) : (
-                                                <>
-                                                  <form
-                                                    onSubmit={
-                                                      Shipment.handleSubmit
-                                                    }
-                                                  >
-                                                    <div className="relative flex w-full">
-                                                      <Select
-                                                        name="trackingType"
-                                                        label=""
-                                                        value={
-                                                          Shipment.values
-                                                            .trackingType
-                                                        }
-                                                        onChange={
-                                                          handleSelectChange21
-                                                        }
-                                                        white
-                                                        // OptionName="Tracker"
-                                                        options={
-                                                          shipment.value
-                                                        }
-                                                        className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                        classBox="w-[35%]"
-                                                      />
-                                                      <Input
-                                                        name="trackingNumber"
-                                                        label=""
-                                                        placeholder="Tracking #"
-                                                        white
-                                                        value={
-                                                          Shipment.values
-                                                            .trackingNumber
-                                                        }
-                                                        // options={state}
-                                                        className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
-                                                        classBox="w-[50%]"
-                                                        {...Shipment.getFieldProps(
-                                                          "trackingNumber"
-                                                        )}
-                                                      />
-                                                      <Button
-                                                        className="absolute right-[30px] !p-0 top-[2px]"
-                                                        type="submit"
-                                                      >
-                                                        <img
-                                                          src={checkIcon}
-                                                          className="w-[21px]"
+                                      {res?.trackingType == "" && !res.selfServicer || claimStatus.status == "rejected" ||
+                                        claimStatus.status == "completed" ? <></> :
+                                        <p className=" mb-4 text-[11px] font-Regular flex self-center">
+                                          <span className="self-center w-[75px]  mr-[1rem]">
+                                            {shipment.label}:
+                                          </span>
+                                          <>
+                                            {res?.trackingType == "" ? (
+                                              <>
+                                                {claimStatus.status ==
+                                                  "rejected" ||
+                                                  claimStatus.status ==
+                                                  "completed" || !res.selfServicer ? (
+                                                  <></>
+                                                ) : (
+                                                  <>
+                                                    <form
+                                                      onSubmit={
+                                                        Shipment.handleSubmit
+                                                      }
+                                                    >
+                                                      <div className="relative flex w-full">
+                                                        <Select
+                                                          name="trackingType"
+                                                          label=""
+                                                          value={
+                                                            Shipment.values
+                                                              .trackingType
+                                                          }
+                                                          onChange={
+                                                            handleSelectChange21
+                                                          }
+                                                          white
+                                                          // OptionName="Tracker"
+                                                          options={
+                                                            shipment.value
+                                                          }
+                                                          className1="!py-0 !rounded-r-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                          classBox="w-[35%]"
                                                         />
-                                                      </Button>
-                                                    </div>
-                                                  </form>
-                                                </>
-                                              )}
-                                            </>
-                                          ) : (
-                                            <div className="flex w-[65%] justify-between">
-                                              {res?.trackingType == "ups" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
-                                                  target="_blank"
-                                                >
-                                                  UPS Tracker
-                                                </a>
-                                              )}
+                                                        <Input
+                                                          name="trackingNumber"
+                                                          label=""
+                                                          placeholder="Tracking #"
+                                                          white
+                                                          value={
+                                                            Shipment.values
+                                                              .trackingNumber
+                                                          }
+                                                          // options={state}
+                                                          className1="!py-0 !rounded-l-[0px] !border-l-[0px] text-white !bg-Eclipse !text-[13px] !border-1 !font-[400]"
+                                                          classBox="w-[50%]"
+                                                          {...Shipment.getFieldProps(
+                                                            "trackingNumber"
+                                                          )}
+                                                        />
+                                                        <Button
+                                                          className="absolute right-[30px] !p-0 top-[2px]"
+                                                          type="submit"
+                                                        >
+                                                          <img
+                                                            src={checkIcon}
+                                                            className="w-[21px]"
+                                                          />
+                                                        </Button>
+                                                      </div>
+                                                    </form>
+                                                  </>
+                                                )}
+                                              </>
+                                            ) : (
+                                              <div className="flex w-[65%] justify-between">
+                                                {res?.trackingType == "ups" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://www.ups.com/track?track=yes&trackNums=${res?.trackingNumber}&loc=en_US&requester=ST/`}
+                                                    target="_blank"
+                                                  >
+                                                    UPS Tracker
+                                                  </a>
+                                                )}
 
-                                              {res?.trackingType == "usps" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
-                                                  target="_blank"
-                                                >
-                                                  USPS Tracker
-                                                </a>
-                                              )}
+                                                {res?.trackingType == "usps" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1=${res?.trackingNumber}`}
+                                                    target="_blank"
+                                                  >
+                                                    USPS Tracker
+                                                  </a>
+                                                )}
 
-                                              {res?.trackingType == "fedx" && (
-                                                <a
-                                                  className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
-                                                  href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
-                                                  target="_blank"
-                                                >
-                                                  FedX Tracker
-                                                </a>
-                                              )}
-                                              {claimStatus.status ==
-                                                "rejected" ||
-                                                claimStatus.status ==
-                                                "completed" ? (
-                                                <></>
-                                              ) : (
-                                                <></>
-                                                // <img
-                                                //   src={pen}
-                                                //   onClick={() =>
-                                                //     setTrackerView(true)
-                                                //   }
-                                                //   className="cursor-pointer object-contain ml-4"
-                                                // />
-                                              )}
-                                            </div>
-                                          )}
-                                        </>
+                                                {res?.trackingType == "fedx" && (
+                                                  <a
+                                                    className="text-[white] text-base border-2 border-[white] rounded-3xl px-4"
+                                                    href={`https://www.fedex.com/fedextrack/system-error?trknbr=${res?.trackingNumber}`}
+                                                    target="_blank"
+                                                  >
+                                                    FedX Tracker
+                                                  </a>
+                                                )}
+                                                {claimStatus.status ==
+                                                  "rejected" ||
+                                                  claimStatus.status ==
+                                                  "completed" ? (
+                                                  <></>
+                                                ) : (
+                                                  <></>
+                                                  // <img
+                                                  //   src={pen}
+                                                  //   onClick={() =>
+                                                  //     setTrackerView(true)
+                                                  //   }
+                                                  //   className="cursor-pointer object-contain ml-4"
+                                                  // />
+                                                )}
+                                              </div>
+                                            )}
+                                          </>
 
-                                      </p>
+                                        </p>
+                                      }
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
@@ -1954,7 +1958,7 @@ function ClaimList(props) {
                                           ?.selfServicer) && (
                                           <>
                                             {claimStatus.status == "rejected" ||
-                                              claimStatus.status == "completed" || repairStatus.status != "servicer_shipped" ? (
+                                              claimStatus.status == "completed" || repairStatus.status == "servicer_shipped" ? (
                                               <></>
                                             ) : (
                                               <div
@@ -1973,7 +1977,7 @@ function ClaimList(props) {
                                                     claimStatus.status ==
                                                     "rejected" ||
                                                     claimStatus.status ==
-                                                    "completed" || repairStatus.status != "servicer_shipped"
+                                                    "completed" || repairStatus.status == "servicer_shipped"
                                                   }
                                                   white
                                                   className1="!border-0 !text-light-black"
@@ -3170,7 +3174,7 @@ function ClaimList(props) {
                   </p>
                 </div>
                 <div className="col-span-8">
-                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-lg font-semibold">Shipped By</p>
                   <p className="text-base leading-5">
                     {customerDetail?.shippingTo}
                   </p>

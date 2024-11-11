@@ -316,18 +316,20 @@ function AllList(props) {
         setLoading1(true);
         const updateAndCallAPI = (setter) => {
           setter((prevRes) => ({ ...prevRes, status: value }));
-          editClaimValue(claimList.result[activeIndex]._id, selectedValue, value);
+          editClaimValue(claimList.result[activeIndex]._id, selectedValue, (value.type === 'servicer_shipped' || value.type === "product_received") ? value.type : value);
         };
 
         switch (selectedValue) {
           case "customerStatus":
             updateAndCallAPI(setCustomerStatus);
+            setIsReceived(false)
             break;
           case "claimStatus":
             updateAndCallAPI(setClaimStatus);
             break;
           case "repairStatus":
             updateAndCallAPI(setRepairStatus);
+            setIsShipped(false)
             break;
           default:
             console.error("here");
@@ -1630,7 +1632,7 @@ function AllList(props) {
                                               disabled={
                                                 claimStatus.status ===
                                                 "rejected" ||
-                                                claimStatus.status === "completed"
+                                                claimStatus.status === "completed" || repairStatus.status == "repair_complete" || repairStatus.status == "servicer_shipped"
                                               }
                                               options={claimList?.result?.[
                                                 activeIndex
@@ -3086,19 +3088,13 @@ function AllList(props) {
                 <div className="col-span-4">
                   <p className="text-lg font-semibold ">Account Name</p>
                   <p className="text-base">
-                    {customerDetail?.meta.username}
+                    {customerDetail?.username}
                   </p>
                 </div>
                 <div className="col-span-8">
-                  <p className="text-lg font-semibold">Address</p>
+                  <p className="text-lg font-semibold">Shipped By</p>
                   <p className="text-base leading-5">
-                    {customerDetail?.meta?.city}
-                    {", "}
-                    {customerDetail?.meta?.street}
-                    {", "}
-                    {customerDetail?.meta?.state}
-                    {", "}
-                    {customerDetail?.meta?.country}
+                    {customerDetail?.shippingTo}
                   </p>
                 </div>
                 <div className="col-span-12">

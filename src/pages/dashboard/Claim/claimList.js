@@ -66,6 +66,7 @@ import { apiUrl } from "../../../services/authServices";
 import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ClaimList(props) {
   const location = useLocation();
@@ -1280,7 +1281,7 @@ function ClaimList(props) {
     setViewLoader(true);
     const res = await getCustomerData(id);
     console.log(res, "------------------Login--------------->>>>");
-    setCustomerDetail(res.result.customerDetail);
+    setCustomerDetail(res.result);
     setViewLoader(false);
   }
   return (
@@ -1313,15 +1314,28 @@ function ClaimList(props) {
               </div>
             </div>
 
-            <button
+            <InActiveButton
               onClick={handleAddClaim}
-              className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
+              className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
             >
-              <img src={AddItem} className="self-center" alt="AddItem" />
-              <span className="text-black ml-3 text-[14px] font-Regular">
+              <div
+                style={{
+                  maskImage: `url(${AddItem})`,
+                  WebkitMaskImage: `url(${AddItem})`,
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                }}
+                className="self-center pr-1 py-1 h-4 w-4"
+              />
+              {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+              <span className=" ml-2 text-[14px] font-Regular ">
                 Add Claim
               </span>
-            </button>
+            </InActiveButton>
           </>
         )}
 
@@ -1709,7 +1723,8 @@ function ClaimList(props) {
                                                     disabled={
                                                       claimStatus.status === "rejected" ||
                                                       claimStatus.status === "completed" ||
-                                                      location.pathname.includes("/reseller/customerDetails")
+                                                      location.pathname.includes("/reseller/customerDetails") ||
+                                                      repairStatus.status == "servicer_shipped"
                                                     }
                                                     onChange={handleSelectChange}
                                                     OptionName="Servicer"
@@ -2904,8 +2919,8 @@ function ClaimList(props) {
             Submitted
             <span className=""> Successfully </span>
           </p>
-          <p className=" text-base font-medium mt-2">Edit Claim Successfully</p>
-          <p className=" text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">Edit Claim Successfully</p>
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
         </div>
@@ -2988,7 +3003,6 @@ function ClaimList(props) {
         }
 
       </Modal>
-
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
@@ -3212,29 +3226,39 @@ function ClaimList(props) {
               ) ? <>
                 <Grid className="mt-5 px-6">
                   <div className="col-span-4">
-                    <p className="text-lg font-semibold ">Customer Name</p>
+                    <p className="text-lg font-semibold ">{customerDetail?.role == "Dealer" ? 'Name' : ' Name'}</p>
                     <p className="text-base">
-                      {customerDetail?.username}
+                      {customerDetail?.role == "Dealer" ? customerDetail?.name : <>
+                        {customerDetail?.customerDetail?.customer_user.firstName}  {customerDetail?.customerDetail?.customer_user.lastName}
+                      </>}
                     </p>
                   </div>
                   <div className="col-span-8">
-                    <p className="text-lg font-semibold">Address</p>
+                    <p className="text-lg font-semibold">{customerDetail?.role == "Dealer" ? 'Email' : 'Shipped By'}</p>
                     <p className="text-base leading-5">
-                      {customerDetail?.shippingTo}
+                      {customerDetail?.role == "Dealer" ? customerDetail?.emailWithRole : customerDetail?.customerDetail?.shippingTo}
                     </p>
                   </div>
+                  {customerDetail?.role == "Dealer" &&
+                    <div className="col-span-12">
+                      <p className="text-lg font-semibold">Ship To Address</p>
+                      <p className="text-base leading-5">
+                        {customerDetail?.shippingTo}
+                      </p>
+                    </div>
+                  }
                 </Grid></> :
                 <Grid className="mt-5 px-6">
                   <div className="col-span-4">
                     <p className="text-lg font-semibold ">Account Name</p>
                     <p className="text-base">
-                      {customerDetail?.username}
+                      {customerDetail?.customerDetail?.username}
                     </p>
                   </div>
                   <div className="col-span-8">
-                    <p className="text-lg font-semibold">Address</p>
+                    <p className="text-lg font-semibold">Ship To Address</p>
                     <p className="text-base leading-5">
-                      {customerDetail?.shippingTo}
+                      {customerDetail?.customerDetail?.shippingTo}
                     </p>
                   </div>
                   <div className="col-span-12">
@@ -3248,27 +3272,27 @@ function ClaimList(props) {
                   <div className="col-span-4">
                     <p className="text-lg font-semibold">Name</p>
                     <p className="text-base">
-                      {customerDetail?.customer_user?.firstName}{" "}
-                      {customerDetail?.customer_user?.lastName}{" "}
+                      {customerDetail?.customerDetail?.customer_user?.firstName}{" "}
+                      {customerDetail?.customerDetail?.customer_user?.lastName}{" "}
                     </p>
                   </div>
                   <div className="col-span-4">
                     <p className="text-lg font-semibold">Email</p>
                     <p className="text-base">
-                      {customerDetail?.customer_user?.email}{" "}
+                      {customerDetail?.customerDetail?.customer_user?.email}{" "}
                     </p>
                   </div>
                   <div className="col-span-4">
                     <p className="text-lg font-semibold">Phone #</p>
                     <p className="text-base">
-                      {customerDetail?.customer_user?.dialCode} &nbsp;
-                      {formatPhoneNumber(customerDetail?.customer_user?.phoneNumber)}{" "}
+                      {customerDetail?.customerDetail.customer_user?.dialCode} &nbsp;
+                      {formatPhoneNumber(customerDetail?.customerDetail.customer_user?.phoneNumber)}{" "}
                     </p>
                   </div>
                   <div className="col-span-4">
                     <p className="text-lg font-semibold">Position</p>
                     <p className="text-base">
-                      {customerDetail?.primary?.position}
+                      {customerDetail?.customerDetail.primary?.position}
                     </p>
                   </div>
 
