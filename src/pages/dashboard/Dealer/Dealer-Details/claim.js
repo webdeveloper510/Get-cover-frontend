@@ -1372,9 +1372,17 @@ function ClaimList(props) {
     getAllClaims();
   };
   // console.log(activeIndex, "++++++++++++++++_-------------------");
-  const handleDownload = () => {
-    console.log("Download", claimList?.result);
-    xlexfile(claimList?.result);
+  const handleDownload = async () => {
+    setLoading1(true);
+    let data = {
+      page: 1,
+      pageLimit: 1000000,
+    };
+    data.flag = 1
+    const result = await getPaidClaims(props.id, data);
+    console.log(result)
+    xlexfile(result?.result);
+    setLoading1(false);
   };
 
   const handleDownloadUnpaid = () => {

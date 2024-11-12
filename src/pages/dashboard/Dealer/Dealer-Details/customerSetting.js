@@ -346,9 +346,10 @@ function CustomerSetting(props) {
                                 <div className="col-span-7 self-center">
                                     <p className="text-lg font-semibold">Customer Address Details </p>
                                 </div>
-                                <div className="col-span-5 self-center text-end">
+                                {addressData.length > 0 && <div className="col-span-5 self-center text-end">
                                     <Button onClick={() => handleDownload()}>Export Addresses</Button>
-                                </div>
+                                </div>}
+
                             </Grid>
                             <DataTable
                                 columns={Address}
