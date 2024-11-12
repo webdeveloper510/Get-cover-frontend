@@ -252,6 +252,7 @@ function ArchiveOrderList() {
 
                       <InActiveButton
                         type="submit"
+                        className='ml-1'
                         onClick={() => {
                           handleFilterIconClick();
                         }}

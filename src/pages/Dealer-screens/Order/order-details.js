@@ -34,6 +34,7 @@ import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function OrderDetails() {
   const location = useLocation();
@@ -371,19 +372,18 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  <InActiveButton className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       <PdfGenerator
                         data={orderDetails._id}
                         setLoading={setLoading1}
                       />
                     </span>
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-6">
                   {orderDetails?.termCondition?.fileName == '' || orderDetails?.termCondition == undefined ? <></> : (
-                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                    <InActiveButton className="!text-sm border flex cursor-pointer hover:font-semibold">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -392,7 +392,7 @@ function OrderDetails() {
                           apiUrlData={baseUrl}
                         />
                       </span>
-                    </Button>
+                    </InActiveButton>
                   )}
                 </div>
               </Grid>

@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { getSetting } from "../services/extraServices";
 
 const LineChart = ({ graphData, flag }) => {
+  const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBarTextColor, setSideBarTextColor] = useState('');
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        console.log("Fetching user details...");
+        const userDetails = await getSetting();
+        console.log("User details fetched:", userDetails);
+
+        if (userDetails && userDetails.result && userDetails.result.length > 0) {
+          const fetchedData = userDetails.result[0];
+          localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
+          const colorScheme = fetchedData.colorScheme;
+          colorScheme.forEach(color => {
+            switch (color.colorType) {
+              case 'sideBarColor':
+                setSideBarColor(color.colorCode);
+                break;
+              case 'sideBarTextColor':
+                setSideBarTextColor(color.colorCode);
+                break;
+              default:
+                break;
+            }
+          })
+        } else {
+          console.log("User details are invalid or empty.");
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
   if (!graphData || graphData.length === 0) {
     return <div>No data available for the selected range.</div>;
   }
@@ -50,14 +86,24 @@ const LineChart = ({ graphData, flag }) => {
     scales: {
       x: {
         type: "category",
+        ticks: {
+          color: sideBarTextColor, // Change x-axis text color
+        },
+        border: {
+          color: sideBarTextColor,
+        },
       },
       y: {
         type: "linear",
         position: "left",
         beginAtZero: true,
         ticks: {
+          color: sideBarTextColor,
           callback: function (value) {
             return `$${value}`;
+          },
+          border: {
+            color: sideBarTextColor,
           },
         },
       },
@@ -66,6 +112,9 @@ const LineChart = ({ graphData, flag }) => {
       legend: {
         display: true,
         position: "top",
+        labels: {
+          color: sideBarTextColor, // Change legend label color
+        },
       },
     },
   };

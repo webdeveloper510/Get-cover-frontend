@@ -23,6 +23,7 @@ import AddItem from "../../../../assets/images/icons/addItem.svg";
 import model from "../../../../assets/images/icons/ProductModel.svg";
 import serial from "../../../../assets/images/icons/ProductSerial.svg";
 import Manufacturer from "../../../../assets/images/icons/ProductManufacturer.svg";
+import clock from "../../../../assets/images/icons/clock.svg";
 import Edit from "../../../../assets/images/icons/editIcon.svg";
 import download from "../../../../assets/images/download.png";
 import disapproved from "../../../../assets/images/Disapproved.png";
@@ -1705,21 +1706,39 @@ function ClaimList(props) {
                                 className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
                                   } !gap-0 bg-grayf9  border-Gray28 border-x`}
                               >
-                                <div className="col-span-1 flex ">
-                                  <img
-                                    src={productName}
-                                    className="self-center h-[50px] w-[50px] ml-3"
-                                    alt="productName"
-                                  />
-                                  <div className="py-4 px-3 self-center">
-                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                      Dealer SKU
-                                    </p>
-                                    <p className="text-light-black text-sm font-semibold">
-                                      {res?.dealerSku}
-                                    </p>
+                                {props.activeTab == "Paid Claims" ?
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={clock}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="clock"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Approved Date
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {format(new Date(new Date(res.approveDate).setDate(new Date(res.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
+                                  :
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={productName}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="productName"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Dealer SKU
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.dealerSku}
+                                      </p>
+                                    </div>
+                                  </div>}
+
 
                                 <div className="col-span-1 flex">
                                   <img
