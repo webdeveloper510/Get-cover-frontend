@@ -20,6 +20,7 @@ import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import Card from "../../../../common/card";
 import SingleView from "../../../../common/singleView";
+import InActiveButton from "../../../../common/inActiveButton";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
   const [showTooltip, setShowTooltip] = useState(false);
@@ -175,13 +176,21 @@ function ContractList(props) {
                         alt="Search"
                       />
                     </Button>
-                    <Button type="submit" className="!bg-transparent !p-0">
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                    <InActiveButton type="submit" >
+                      <div
+                        style={{
+                          maskImage: `url(${clearFilter})`,
+                          WebkitMaskImage: `url(${clearFilter})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                       />
-                    </Button>
+                    </InActiveButton>
                   </div>
                 </Grid>
               </div>

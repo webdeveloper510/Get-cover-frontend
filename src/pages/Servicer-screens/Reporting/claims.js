@@ -77,6 +77,7 @@ import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
 import { getCustomerDetailsById } from "../../../services/customerServices";
+import InActiveButton from "../../../common/inActiveButton";
 
 function AllList(props) {
   const baseUrl = apiUrl();
@@ -1348,18 +1349,25 @@ function AllList(props) {
                           alt="Search"
                         />
                       </Button>
-                      <Button
-                        className="!bg-transparent !p-0"
+                      <InActiveButton
                         onClick={() => {
                           handleFilterIconClick();
                         }}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         type="button"
                         className="ml-2 !text-[14px] !px-2"

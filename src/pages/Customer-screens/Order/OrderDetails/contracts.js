@@ -7,6 +7,7 @@ import Input from '../../../../common/input'
 import Search from '../../../../assets/images/icons/SearchIcon.svg';
 import Edit from '../../../../assets/images/Dealer/EditIcon.svg';
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
+import InActiveButton from '../../../../common/inActiveButton';
 function CustomerContracts() {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
@@ -34,16 +35,23 @@ function CustomerContracts() {
                       type="submit" className='!p-2'>
                       <img src={Search} className='cursor-pointer ' alt='Search' />
                     </Button>
-                    <Button
+                    <InActiveButton
                       type="submit"
-                      className="!bg-transparent !p-0"
                     >
-                      <img
-                        src={clearFilter}
-                        className="cursor-pointer	mx-auto"
-                        alt="clearFilter"
+                      <div
+                        style={{
+                          maskImage: `url(${clearFilter})`,
+                          WebkitMaskImage: `url(${clearFilter})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                       />
-                    </Button>
+                    </InActiveButton>
                   </div>
                 </Grid>
 

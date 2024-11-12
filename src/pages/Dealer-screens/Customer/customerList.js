@@ -20,6 +20,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getDealerCustomers } from "../../../services/dealerServices/priceBookServices";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 // Declare the base URL of the API
 function DealerCustomerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -347,19 +348,26 @@ function DealerCustomerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className="!bg-transparent !p-0"
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
