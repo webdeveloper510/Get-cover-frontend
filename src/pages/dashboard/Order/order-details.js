@@ -38,6 +38,8 @@ import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import Card from "../../../common/card";
 import { downloadFile } from "../../../services/userServices";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function OrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -50,13 +52,13 @@ function OrderDetails() {
   const [invoiceData, setInvoiceData] = useState({});
   const [timer, setTimer] = useState(3);
   const { orderId } = useParams();
+  const baseUrl = apiUrl();
   const navigate = useNavigate();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const baseUrl = apiUrl();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab);
   const [isServicerModal, setIsServicerModal] = useState(false);
 
@@ -224,7 +226,7 @@ function OrderDetails() {
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
-          case 'buttonColor':
+          case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
             break;
           case 'buttonTextColor':
@@ -236,6 +238,73 @@ function OrderDetails() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading1 && (
@@ -279,13 +348,13 @@ function OrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl font-semibold">
                     {" "}
                     {orderDetails.unique_key}{" "}
                   </p>
@@ -299,10 +368,10 @@ function OrderDetails() {
                   alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5 break-words w-[92%]">
+                  <p className="text-base font-semibold leading-5 break-words w-[92%]">
                     {orderDetails.venderOrder}
                   </p>
                 </div>
@@ -314,10 +383,10 @@ function OrderDetails() {
                   alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Service Coverage
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderDetails.serviceCoverageType}
                   </p>
                 </div>
@@ -329,16 +398,26 @@ function OrderDetails() {
                   alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Coverage Type
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
-                    {orderDetails.coverageType}
+                  <p className="text-base font-semibold leading-5">
+                    {/* {orderDetails.coverageType} */}
+                    {orderDetails?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
@@ -360,10 +439,10 @@ function OrderDetails() {
                   </Link>
                 </div>
                 <div className="w-[75%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Dealer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {userDetails?.dealerData?.name}
                   </p>
                 </div>
@@ -389,10 +468,10 @@ function OrderDetails() {
                       </Link>
                     </div>
                     <div className="w-[75%]">
-                      <p className="text-sm text-neutral-grey font-Regular">
+                      <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
-                      <p className="text-base text-white font-semibold ">
+                      <p className="text-base font-semibold ">
                         {userDetails?.resellerData?.name}
                       </p>
                     </div>
@@ -417,10 +496,10 @@ function OrderDetails() {
                   </Link>
                 </div>
                 <div className="w-[75%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Customer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {userDetails?.customerData?.username}
                   </p>
                 </div>
@@ -451,10 +530,10 @@ function OrderDetails() {
 
                 <div className="flex justify-between w-[85%] ml-auto">
                   <div>
-                    <p className="text-sm text-neutral-grey font-Regular">
+                    <p className="text-sm font-Regular">
                       Servicer Name
                     </p>
-                    <p className="text-base text-white font-semibold">
+                    <p className="text-base font-semibold">
                       {userDetails?.servicerData?.status
                         ? userDetails?.servicerData?.name
                         : ""}
@@ -476,8 +555,7 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold ">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  <InActiveButton className=" !text-sm border flex cursor-pointer hover:font-semibold ">
                     <span className="self-center">
                       {" "}
                       <PdfGenerator
@@ -485,13 +563,13 @@ function OrderDetails() {
                         data={orderDetails._id}
                       />
                     </span>
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-6">
-                  {orderTandC?.fileName == "" ? (
+                  {orderTandC == undefined || orderTandC?.fileName == "" ? (
                     <></>
                   ) : (
-                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                    <InActiveButton className="!text-sm border flex cursor-pointer hover:font-semibold">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -500,62 +578,24 @@ function OrderDetails() {
                           apiUrlData={baseUrl}
                         />
                       </span>
-                    </Button>
+                    </InActiveButton>
                   )}
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-4">
+              <div className="col-span-5">
                 <Card className="!rounded-[30px] border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
-                          />
-                          {/* <img
-                            src={
-                              activeTab === tab.id ? tab.Activeicons : tab.icons
-                            }
-                            className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                            alt={tab.label}
-                          /> */}
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '7px',
-                              color: activeTab === tab.id ? buttonTextColor : 'black',
-                            }}
-                            className={`ml-1 py-1 text-sm font-normal ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </Card>
               </div>

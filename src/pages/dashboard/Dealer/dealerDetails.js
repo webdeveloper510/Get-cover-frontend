@@ -7,10 +7,6 @@ import Button from "../../../common/button";
 // Media Import
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import address from "../../../assets/images/Dealer/Address.svg";
-import rightArrow from "../../../assets/images/arrow-right.png";
-import leftArrow from "../../../assets/images/arrow-left.png";
-import leftActive from "../../../assets/images/activeLeft.png";
-import rightActive from "../../../assets/images/activeRight.png";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import OrderActive from "../../../assets/images/Dealer/Order-active.svg";
@@ -44,6 +40,7 @@ import {
   createRelationWithDealer,
   editDealerData,
   getDealersDetailsByid,
+  getDealersSettingsByid,
   uploadTermsandCondition,
 } from "../../../services/dealerServices";
 import { cityData } from "../../../stateCityJson";
@@ -57,10 +54,7 @@ import {
 } from "../../../services/userServices";
 import Primary from "../../../assets/images/SetPrimary.png";
 import { MyContextProvider, useMyContext } from "../../../context/context";
-import {
-  getServicerListByDealerId,
-  getServicerListForDealer,
-} from "../../../services/servicerServices";
+import { getServicerListForDealer } from "../../../services/servicerServices";
 import Reseller from "./Dealer-Details/reseller";
 import ContractList from "../Contract/contractList";
 import Carousel from "react-multi-carousel";
@@ -73,6 +67,11 @@ import UnpaidActive from "../../../assets/images/icons/unpaidActive.svg";
 import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import { MultiSelect } from "react-multi-select-component";
+import { getCovrageList } from "../../../services/priceBookService";
+import Setting from "./Dealer-Details/setting";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -87,10 +86,13 @@ function DealerDetails() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [scrolling, setScrolling] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [coverage, setCoverage] = useState([]);
   const [isStatus, setIsStatus] = useState(null);
   const [dealerDetails, setDealerDetails] = useState([]);
+  const [dealerSettings, setDealerSettings] = useState({});
   const [createServicerAccountOption, setServicerCreateAccountOption] =
-    useState(true);
+    useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [separateAccountOption, setSeparateAccountOption] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
@@ -127,27 +129,22 @@ function DealerDetails() {
     state: "",
     country: "USA",
     oldName: "",
-    serviceCoverageType: "",
-    coverageType: "",
-    isShippingAllowed: "",
-    isServicer: createServicerAccountOption,
-    isAccountCreate: createAccount,
-    userAccount: separateAccountOption,
-    termCondition: {
-      fileName: "",
-      name: "",
-      size: "",
-    },
+    // serviceCoverageType: "",
+    // coverageType: "",
+    // isShippingAllowed: "",
+    // isServicer: createServicerAccountOption,
+    // isAccountCreate: createAccount,
+    // userAccount: separateAccountOption,
+    // termCondition: {
+    //   fileName: "",
+    //   name: "",
+    //   size: "",
+    // },
   });
 
   const state = cityData;
   const containerRef = useRef(null);
 
-  const handleSeparateAccountRadioChange = (event) => {
-    const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
-    setSeparateAccountOption(valueAsBoolean);
-    formik.setFieldValue("userAccount", valueAsBoolean);
-  };
   const handleServiceChange = (event) => {
     const valueAsBoolean = JSON.parse(event.target.value.toLowerCase());
     setServicerCreateAccountOption(valueAsBoolean);
@@ -159,14 +156,11 @@ function DealerDetails() {
     setCreateAccount(valueAsBoolean);
     formik.setFieldValue("isAccountCreate", valueAsBoolean);
   };
-
-  const handleScrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.classList.add("scroll-transition");
-      containerRef.current.scrollLeft += 120; // Adjust scroll distance as needed
-      setScrolling(true);
+  useEffect(() => {
+    if (activeTab == "Settings") {
+      dealerSettingData();
     }
-  };
+  }, [activeTab, id.id, flag]);
 
   const handleTransitionEnd = () => {
     if (containerRef.current) {
@@ -186,6 +180,7 @@ function DealerDetails() {
   const carouselRef = useRef(null);
 
   useEffect(() => {
+    getCovrageListData();
     setLoading(true);
     let intervalId;
 
@@ -221,6 +216,21 @@ function DealerDetails() {
     setShipping(event.target.value);
   };
 
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverage(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
   const getUserList = async () => {
     const result = await getUserListByDealerId(id.id, {});
     setRefreshUserList(result.result);
@@ -248,6 +258,7 @@ function DealerDetails() {
 
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);
+    console.log(result)
     setServicerList(result.result);
   };
 
@@ -256,6 +267,7 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, [id.id, flag]);
+
   useEffect(() => {
     getUserList();
   }, []);
@@ -268,7 +280,7 @@ function DealerDetails() {
     const result = await getDealersDetailsByid(id?.id);
     if (result.code == 200) {
       setDealerDetails(result.result[0]);
-      // console.log(result.result[0].dealerData);
+      setSelected(result.result[0].dealerData?.coverageType);
       setIsStatus(result?.result[0]?.dealerData.accountStatus);
       setInitialFormValues({
         accountName: result?.result[0]?.dealerData?.name,
@@ -279,16 +291,6 @@ function DealerDetails() {
         zip: result?.result[0]?.dealerData?.zip,
         state: result?.result[0]?.dealerData?.state,
         country: "USA",
-        serviceCoverageType: result?.result[0]?.dealerData?.serviceCoverageType,
-        coverageType: result?.result[0]?.dealerData?.coverageType,
-        userAccount: result?.result[0]?.dealerData?.userAccount,
-        isShippingAllowed:
-          result?.result[0]?.dealerData?.isShippingAllowed === true
-            ? "yes"
-            : "no",
-        isServicer: result?.result[0]?.dealerData?.isServicer,
-        termCondition: result?.result[0]?.dealerData?.termCondition,
-        isAccountCreate: result?.result[0]?.dealerData?.isAccountCreate,
       });
       setServicerCreateAccountOption(result?.result[0]?.dealerData?.isServicer);
 
@@ -299,14 +301,29 @@ function DealerDetails() {
         result?.result[0]?.dealerData?.isAccountCreate === false ? "no" : "yes"
       );
       setShipping(
-        result?.result[0]?.dealerData?.isShippingAllowed === false ? "no" : "yes"
+        result?.result[0]?.dealerData?.isShippingAllowed === false
+          ? "no"
+          : "yes"
       );
     } else {
       navigate(`/`);
     }
     setLoading(false);
   };
+  const dealerSettingData = async (showLoader) => {
+    if (!showLoader) {
+      setLoading(true);
+    }
 
+    const result = await getDealersSettingsByid(id?.id);
+    if (result.code == 200) {
+      console.log(result.result[0]);
+      setDealerSettings(result.result[0]);
+    } else {
+      navigate(`/`);
+    }
+    setLoading(false);
+  };
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -337,15 +354,12 @@ function DealerDetails() {
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
       country: Yup.string().required("Required"),
-      serviceCoverageType: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      coverageType: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
-      isShippingAllowed: Yup.string()
-        .transform((originalValue) => originalValue.trim())
-        .required("Required"),
+      // serviceCoverageType: Yup.string()
+      //   .transform((originalValue) => originalValue.trim())
+      //   .required("Required"),
+      // isShippingAllowed: Yup.string()
+      //   .transform((originalValue) => originalValue.trim())
+      //   .required("Required"),
       zip: Yup.string()
         .required("Required")
         .min(5, "Must be at least 5 characters")
@@ -353,7 +367,7 @@ function DealerDetails() {
     }),
 
     onSubmit: async (values) => {
-      values.isShippingAllowed = shipping === "yes" ? true : false;
+      // values.isShippingAllowed = shipping === "yes" ? true : false;
 
       setLoading(true);
       const result = await editDealerData(values);
@@ -375,55 +389,7 @@ function DealerDetails() {
     },
   });
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const maxSize = 10048576;
-    if (file?.size > maxSize) {
-      formik.setFieldError(
-        "termCondition",
-        "File is too large. Please upload a file smaller than 10MB."
-      );
-      console.log("Selected file:", file);
-    } else {
-      const formData = new FormData();
-      formData.append("file", file);
-      const result = uploadTermsandCondition(formData).then((res) => {
-        console.log(result);
-        formik.setFieldValue("termCondition", {
-          fileName: res?.file?.filename,
-          name: res?.file?.originalname,
-          size: res?.file?.size,
-        });
-      });
-      if (file != undefined) {
-        setSelectedFile2(file);
-      } else {
-        setSelectedFile2({
-          fileName: "",
-          name: "",
-          size: "",
-        });
-      }
-    }
 
-    console.log("Selected file:================", file);
-  };
-
-  const handleRemoveFile = () => {
-    if (inputRef) {
-      inputRef.current.click();
-      formik.setFieldValue("termCondition", {
-        fileName: "",
-        name: "",
-        size: "",
-      });
-      setSelectedFile2({
-        fileName: "",
-        name: "",
-        size: "",
-      });
-    }
-  };
   const servicerForm = useFormik({
     initialValues: {
       selectedItems: [],
@@ -446,11 +412,9 @@ function DealerDetails() {
         setModalOpen(true);
         setFirstMessage("Servicer Updated Successfully");
         setSecondMessage("Servicer Updated Successfully");
-        // closeModal1();
         setTimer(3);
       } else {
         setLoading(false);
-        // closeModal1();
       }
 
       closeModal1();
@@ -531,18 +495,17 @@ function DealerDetails() {
   useEffect(() => {
     checkTokenExpiry();
     localStorage.setItem("menu", activeTab);
-
-    console.log("-------------", createServicerAccountOption);
     if (!createServicerAccountOption) {
       if (
         activeTab === "Customer" ||
         activeTab === "Users" ||
         activeTab === "PriceBook" ||
+        activeTab === "Settings" ||
         activeTab === "Paid Claims" ||
         activeTab === "Unpaid Claims"
       ) {
         if (carouselRef.current) {
-          carouselRef.current.next(3);
+          carouselRef.current.next(4);
         }
       }
     } else {
@@ -550,6 +513,7 @@ function DealerDetails() {
         activeTab === "Customer" ||
         activeTab === "Users" ||
         activeTab === "PriceBook" ||
+        activeTab === "Settings" ||
         activeTab === "Paid Claims" ||
         activeTab === "Unpaid Claims"
       ) {
@@ -578,8 +542,8 @@ function DealerDetails() {
   };
   const columns = [
     {
-      name: "Servicer ID",
-      selector: (row) => row.unique_key,
+      name: "S.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
       center: true,
@@ -687,7 +651,7 @@ function DealerDetails() {
       label: "Users",
       icons: User,
       Activeicons: UserActive,
-      content: <UserList flag={"dealer"} id={id.id} activeTab={activeTab} />,
+      content: <UserList flag={"dealer"} id={id.id} activeTab={activeTab} setLoading={setLoading} />,
     },
     {
       id: "PriceBook",
@@ -696,6 +660,15 @@ function DealerDetails() {
       Activeicons: PriceBookActive,
       content: activeTab === "PriceBook" && (
         <PriceBookList id={id.id} activeTab={activeTab} />
+      ),
+    },
+    {
+      id: "Settings",
+      label: "Settings",
+      icons: PriceBook,
+      Activeicons: PriceBookActive,
+      content: activeTab === "Settings" && (
+        <Setting dealerDetails={dealerSettings} />
       ),
     },
   ];
@@ -731,7 +704,7 @@ function DealerDetails() {
     switch (data) {
       case "PriceBook":
         localStorage.setItem("menu", "PriceBook");
-        navigate(`/addDealerBook/${id.id}`);
+        navigate(`/addPriceBook/${id.id}`);
         break;
       case "Customer":
         localStorage.setItem("menu", "Customer");
@@ -805,32 +778,26 @@ function DealerDetails() {
     formik.setFieldValue(name, value);
   };
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
-
   const serviceCoverage = [
     { label: "Parts", value: "Parts" },
     { label: "Labor ", value: "Labour" },
     { label: "Parts & Labor ", value: "Parts & Labour" },
   ];
 
-  const [buttonTextColor, setButtonTextColor] = useState('');
-  const [backGroundColor, setBackGroundColor] = useState('');
+  const [buttonTextColor, setButtonTextColor] = useState("");
+  const [backGroundColor, setBackGroundColor] = useState("");
 
   useEffect(() => {
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme.forEach((color) => {
         switch (color.colorType) {
-          case 'buttonColor':
+          case "inActiveButtonColor":
             setBackGroundColor(color.colorCode);
             break;
-          case 'buttonTextColor':
+          case "buttonTextColor":
             setButtonTextColor(color.colorCode);
             break;
           default:
@@ -839,6 +806,73 @@ function DealerDetails() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading && (
@@ -886,13 +920,13 @@ function DealerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {dealerDetails?.dealerData?.name}
                   </p>
                 </div>
@@ -912,10 +946,10 @@ function DealerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {dealerDetails?.dealerData?.street},{" "}
                     {dealerDetails?.dealerData?.city},{" "}
                     {dealerDetails?.dealerData?.state},{" "}
@@ -924,7 +958,7 @@ function DealerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -936,8 +970,8 @@ function DealerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {dealerDetails?.firstName} {dealerDetails?.lastName}
                   </p>
                 </div>
@@ -949,10 +983,10 @@ function DealerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base leading-[13px] font-semibold break-words">
                     {dealerDetails?.email}
                   </p>
                 </div>
@@ -964,10 +998,10 @@ function DealerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base  font-semibold ">
                     +1 {formatPhoneNumber(dealerDetails?.phoneNumber)}
                   </p>
                 </div>
@@ -1022,7 +1056,7 @@ function DealerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="!gap-2">
@@ -1037,48 +1071,14 @@ function DealerDetails() {
                   ref={containerRef}
                   onTransitionEnd={handleTransitionEnd}
                 >
-                  <Carousel
-                    className="!gap-1"
-                    ssr={true}
-                    ref={carouselRef}
-                    responsive={responsive}
-                    containerClass="carousel"
-                  >
-                    {tabs.map((tab) => (
-                      <Button
-                        className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? ""
-                          : "!bg-grayf9 !text-black"
-                          }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            maskRepeat: 'no-repeat',
-                            WebkitMaskRepeat: 'no-repeat',
-                            maskPosition: 'center',
-                            WebkitMaskPosition: 'center',
-                            maskSize: 'contain',
-                            WebkitMaskSize: 'contain'
-                          }}
-                          className="self-center pr-1 py-1 h-4 w-4"
-                        />
-                        <span
-                          style={{
-                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            borderLeftWidth: '1px',
-                            paddingLeft: '7px',
-                            color: activeTab === tab.id ? buttonTextColor : 'black',
-                          }}
-                          className={`ml-1 py-1 text-sm font-Regular`}
-                        >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    ))}
+                  <Carousel className="!gap-1" ssr={true} ref={carouselRef} responsive={responsive} containerClass="carousel">
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Carousel>
                   <div className="absolute h-full bg-grayf9 right-[-15px] flex top-0 self-center  shadow-6xl">
                     {" "}
@@ -1090,23 +1090,41 @@ function DealerDetails() {
                 <>
                   {activeTab !== "Contracts" &&
                     activeTab !== "Unpaid Claims" &&
+                    activeTab !== "Settings" &&
                     activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
                       onClick={() => routeToPage(activeTab)}
                     >
-                      <Button className="!bg-white flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
-                        {" "}
-                        <img
-                          src={AddItem}
-                          className="self-center"
-                          alt="AddItem"
-                        />{" "}
-                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                      <InActiveButton className=" flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
+
+                        <div
+                          style={{
+                            maskImage: `url(${AddItem})`,
+                            WebkitMaskImage: `url(${AddItem})`,
+                            backgroundColor: backGroundColor,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4"
+                        />
+                        <span
+                          style={{
+                            borderColor: backGroundColor,
+                            borderLeftWidth: "1px",
+                            paddingLeft: "7px",
+                            color: backGroundColor,
+                          }}
+                          className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                        >
                           {activeTab === "Servicer" ? "Assign " : "Add "}{" "}
                           {activeTab}
-                        </span>{" "}
-                      </Button>
+                        </span>
+                      </InActiveButton>
                     </div>
                   ) : (
                     <></>
@@ -1276,206 +1294,6 @@ function DealerDetails() {
                   disabled
                 />
               </div>
-              <div className="col-span-6 ">
-                <Grid>
-                  <div className="col-span-12">
-                    <Select
-                      label="Service Coverage"
-                      name="serviceCoverageType"
-                      placeholder=""
-                      className="!bg-white"
-                      required={true}
-                      onChange={handleSelectChange1}
-                      options={serviceCoverage}
-                      value={formik.values.serviceCoverageType}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.serviceCoverageType &&
-                        formik.errors.serviceCoverageType
-                      }
-                    />
-                    {formik.touched.serviceCoverageType &&
-                      formik.errors.serviceCoverageType && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.serviceCoverageType}
-                        </div>
-                      )}
-                  </div>
-                  <div className="col-span-12">
-                    <Select
-                      label="Coverage Type"
-                      name="coverageType"
-                      placeholder=""
-                      className="!bg-white"
-                      required={true}
-                      onChange={handleSelectChange1}
-                      options={coverage}
-                      // disabled={true}
-                      value={formik.values.coverageType}
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.coverageType &&
-                        formik.errors.coverageType
-                      }
-                    />
-                    {formik.touched.coverageType &&
-                      formik.errors.coverageType && (
-                        <div className="text-red-500 text-sm pl-2 pt-2">
-                          {formik.errors.coverageType}
-                        </div>
-                      )}
-                  </div>
-                  <div className="col-span-12">
-                    <div className="relative">
-                      <label
-                        htmlFor="term"
-                        className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
-                      >
-                        Term And Condition
-                      </label>
-                      <input
-                        type="file"
-                        name="termCondition"
-                        className="hidden"
-                        onChange={handleFileChange}
-                        accept="application/pdf"
-                        ref={inputRef}
-                      />
-                      <div
-                        className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
-                      >
-                        {selectedFile2?.name != "" && (
-                          <button
-                            type="button"
-                            onClick={handleRemoveFile}
-                            className="absolute -right-2 -top-2 mx-auto mb-3"
-                          >
-                            <img
-                              src={Cross}
-                              className="w-6 h-6"
-                              alt="Dropbox"
-                            />
-                          </button>
-                        )}
-                        {selectedFile2?.name != "" ? (
-                          <p className="w-full overflow-hidden flex flex-nowrap	">
-                            {selectedFile2?.name}
-                          </p>
-                        ) : (
-                          <p
-                            className="w-full cursor-pointer"
-                            onClick={handleRemoveFile}
-                          >
-                            Select File
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    {formik.errors.termCondition && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formik.errors.termCondition}
-                      </div>
-                    )}
-                    {/* <input
-                      type="file"
-                      name="term"
-                      className="hidden"
-                      onChange={handleFileChange}
-                      accept="application/pdf"
-                      ref={inputRef}
-                    />
-
-                    <button type="button" onClick={handleRemoveFile}>
-                      {selectedFile2 ? "Remove File" : "Select File"}
-                    </button>
-                    {selectedFile2 && <span>{selectedFile2.name}</span>} */}
-                  </div>
-                </Grid>
-              </div>
-              <div className="col-span-6 pt-2">
-                <p className="flex text-[11px] mb-7 font-semibold ">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value={true}
-                    checked={createAccount === true}
-                    onChange={handleAccountChange}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value={false}
-                    checked={createAccount === false}
-                    onChange={handleAccountChange}
-                  />
-                </p>
-                <p className=" flex text-[11px] mb-7 font-semibold ">
-                  <span className="mr-[0.6rem]">
-                    Do you want to Provide Shipping?
-                  </span>
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    // disabled={dealerDetails.dealerData?.isShippingAllowed === true}
-                    checked={shipping === "yes"}
-                    onChange={handleRadio}
-                  />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    // disabled={dealerDetails.dealerData?.isShippingAllowed === true}
-                    checked={shipping === "no"}
-                    onChange={handleRadio}
-                  />
-                </p>
-                <p className=" flex text-[11px] mb-7 font-semibold self-center">
-                  {" "}
-                  <span className="mr-[0.3rem]">
-                    {" "}
-                    Do you want to work as a servicer?
-                  </span>
-                  <RadioButton
-                    id="yes"
-                    label="Yes"
-                    value={true}
-                    disabled={dealerDetails.dealerData?.isServicer === true}
-                    checked={createServicerAccountOption === true}
-                    onChange={handleServiceChange}
-                  />
-                  <RadioButton
-                    id="no"
-                    label="No"
-                    value={false}
-                    disabled={dealerDetails.dealerData?.isServicer === true}
-                    checked={createServicerAccountOption === false}
-                    onChange={handleServiceChange}
-                  />
-                </p>
-                <p className=" flex text-[11px] font-semibold">
-                  <span className="w-[60%]">
-                    {" "}
-                    Do you want to create separate account for customer?{" "}
-                  </span>
-                  <RadioButton
-                    id="yes-separate-account"
-                    label="Yes"
-                    value={true}
-                    className="!pl-2"
-                    checked={separateAccountOption === true}
-                    onChange={handleSeparateAccountRadioChange}
-                  />
-                  <RadioButton
-                    id="no-separate-account"
-                    label="No"
-                    value={false}
-                    checked={separateAccountOption === false}
-                    onChange={handleSeparateAccountRadioChange}
-                  />
-                </p>
-              </div>
               <div className="col-span-4">
                 <Button
                   type="button"
@@ -1511,7 +1329,20 @@ function DealerDetails() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -1709,13 +1540,14 @@ function DealerDetails() {
         </div>
       </Modal>
 
+      {/* Modal Detail Popop */}
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className=" text-base font-medium mt-4">
             {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>

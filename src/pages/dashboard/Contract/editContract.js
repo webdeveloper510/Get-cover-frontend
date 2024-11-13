@@ -21,6 +21,7 @@ import resellerName from "../../../assets/images/contract/reseller.svg";
 import ServicerName from "../../../assets/images/contract/Servicer.svg";
 import CustomerName from "../../../assets/images/contract/Customer.svg";
 import DealerPO from "../../../assets/images/contract/DealerPO.svg";
+import AddDealer from "../../../assets/images/dealer-book.svg";
 import Headbar from "../../../common/headBar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
@@ -31,14 +32,35 @@ import {
 } from "../../../services/extraServices";
 import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
+import SingleView from "../../../common/singleView";
+import Modal from "../../../common/model";
 function EditContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractDetails, setContractDetails] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [timer, setTimer] = useState(3);
   const { id } = useParams();
 
   console.log(id);
+  useEffect(() => {
+    let intervalId;
+    if (isModalOpen && timer > 0) {
+      intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      closeModal();
+    }
+    return () => clearInterval(intervalId);
+  }, [isModalOpen, timer]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    navigate(`/contractList`);
+  };
 
   const validationSchema = Yup.object().shape({
     manufacture: Yup.string().trim().required("Required"),
@@ -67,7 +89,8 @@ function EditContract() {
         setLoading(true);
         const res = await editContractById(id, values);
         console.log(res);
-        navigate(-1);
+        setIsModalOpen(true);
+
       } catch (error) {
         setLoading(false);
         console.error("Error editing contract:", error);
@@ -88,7 +111,7 @@ function EditContract() {
       productValue: result.result.productValue || "",
       condition: result.result.condition || "",
       coverageStartDate:
-        result.result.order[0].productsArray[0].coverageStartDate || "",
+        result.result.order[0].productsArray[0].coverageStartDate1 || "",
     });
     console.log(result.result);
     setLoading(false);
@@ -140,7 +163,7 @@ function EditContract() {
           </div>
         ) : (
           <>
-            <div className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
               <Grid className="mx-auto ">
                 <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">
@@ -152,10 +175,10 @@ function EditContract() {
                       />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Contract ID
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {contractDetails?.unique_key}
                       </p>
                     </div>
@@ -167,10 +190,10 @@ function EditContract() {
                       <img src={category1} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Order ID
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.order?.[0]?.unique_key}
                       </p>
                     </div>
@@ -182,10 +205,10 @@ function EditContract() {
                       <img src={DealerPO} alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className=" text-base font-medium leading-5">
                         Dealer P.O. #.
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className=" opacity-50	text-sm font-medium">
                         {contractDetails?.order?.[0]?.venderOrder}
                       </p>
                     </div>
@@ -197,10 +220,10 @@ function EditContract() {
                       <img src={status} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Status
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.status}
                       </p>
                     </div>
@@ -214,10 +237,10 @@ function EditContract() {
                       <img src={delaerName} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Dealer Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.order?.[0]?.dealer?.[0]?.name}
                       </p>
                     </div>
@@ -233,10 +256,10 @@ function EditContract() {
                       />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className=" text-base font-medium leading-5">
                         Reseller Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className=" opacity-50	text-sm font-medium">
                         {contractDetails?.order?.[0]?.reseller?.[0]?.name}
                       </p>
                     </div>
@@ -248,10 +271,10 @@ function EditContract() {
                       <img src={CustomerName} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Customer Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.order?.[0]?.customer?.[0]?.username}
                       </p>
                     </div>
@@ -267,10 +290,10 @@ function EditContract() {
                       />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Servicer Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.order?.[0]?.servicer?.[0]?.name}
                       </p>
                     </div>
@@ -284,12 +307,12 @@ function EditContract() {
                       <img src={coverageStartDate} alt="category" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Coverage Start Date
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -305,12 +328,12 @@ function EditContract() {
                       <img src={coverageEndDate} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Coverage End Date
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -326,10 +349,10 @@ function EditContract() {
                       <img src={Purchase} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Purchase Date
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {new Date(
                           contractDetails?.purchaseDate
                         ).toLocaleDateString("en-US", {
@@ -351,10 +374,10 @@ function EditContract() {
                       />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className=" text-base font-medium leading-5">
                         Claimed Value
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className=" opacity-50	text-sm font-medium">
                         $
                         {parseInt(contractDetails?.claimAmount).toLocaleString(
                           2
@@ -371,10 +394,10 @@ function EditContract() {
                       <img src={labourWarranty} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Labour Warranty <br /> Start Date
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {new Date(
                           contractDetails?.labourWarranty
                         ).toLocaleDateString("en-US", {
@@ -392,10 +415,10 @@ function EditContract() {
                       <img src={partsWarranty} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Part Warranty <br /> Start Date
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {new Date(
                           contractDetails?.partsWarranty
                         ).toLocaleDateString("en-US", {
@@ -413,10 +436,10 @@ function EditContract() {
                       <img src={Eligibility} alt="product" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Eligibility
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {contractDetails?.eligibilty === true
                           ? "Eligible"
                           : "Not Eligible "}
@@ -425,7 +448,7 @@ function EditContract() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
 
             <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
               <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
@@ -549,6 +572,26 @@ function EditContract() {
                 </div>
               </div>
             </form>
+
+            {/* Modal Email Popop */}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+              <div className="text-center py-1">
+                <img src={AddDealer} alt="email Image" className="mx-auto" />
+                <>
+                  <p className="text-3xl mb-0 mt-4 font-semibold">
+                    Updated <span className=""> Successfully </span>
+                  </p>
+                  <p className="text-base font-medium mt-2">
+                    <b> Contract </b> Updated successfully.{" "}
+                  </p>
+                  <p className="text-base font-medium mt-2">
+                    {" "}
+                    Redirecting you on Contract Page {timer} seconds.
+                  </p>
+
+                </>
+              </div>
+            </Modal>
           </>
         )}
       </div>

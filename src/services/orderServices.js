@@ -352,13 +352,16 @@ export const orderDetailsById = async (id) => {
   }
 };
 
-export const logoBase = async (value) => {
+export const base64url = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(
-      `${url}/order/convertImageIntobase/${value}
+    const response = await axios.post(
+      `${url}/user/convertToBase64
        `,
-      { headers }
+      data,
+      {
+        headers,
+      }
     );
 
     return response.data;

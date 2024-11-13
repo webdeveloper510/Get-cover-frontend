@@ -23,6 +23,7 @@ import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -275,17 +276,30 @@ function ServicerList() {
             </ul>
           </div>
         </div>
-
-        <Link
-          to={"/addServicer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-semibold">
-            Add New Servicer{" "}
-          </span>{" "}
-        </Link>
+        <InActiveButton className="flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addServicer"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
+              Add New Servicer{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
@@ -357,19 +371,26 @@ function ServicerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="submit"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className=" !bg-transparent !p-0"
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -390,7 +411,20 @@ function ServicerList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 pagination

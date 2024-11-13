@@ -14,7 +14,7 @@ import {
   getDealerPricebookDetailById,
   getTermList,
 } from "../../services/dealerServices";
-import { getCategoryList } from "../../services/priceBookService";
+import { getCategoryList, getCovrageList } from "../../services/priceBookService";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -32,6 +32,8 @@ import {
 } from "../../services/dealerServices/priceBookServices";
 import { getCategoryAndPriceBooksforDealerPortal } from "../../services/dealerServices/orderListServices";
 import Card from "../../common/card";
+import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../common/inActiveButton";
 function DealerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -40,6 +42,8 @@ function DealerPriceBook(props) {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [coverageTypes, setCoverageTypes] = useState([]);
   const [termList, setTermList] = useState([]);
   const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
   const [error, setError] = useState("");
@@ -83,11 +87,11 @@ function DealerPriceBook(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
-      minWidth: "auto", // Set a custom minimum width
-      maxWidth: "70px", // Set a custom maximum width
+      minWidth: "auto",
+      maxWidth: "90px",
     },
     {
       name: (
@@ -130,8 +134,8 @@ function DealerPriceBook(props) {
       selector: (row) => {
         const months = row.priceBooks?.term;
         if (months) {
-          const years = (months / 12);
-          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+          const years = months / 12;
+          return `${years} ${years == 1 ? "Year" : "Years"} `;
         }
         return "N/A";
       },
@@ -160,14 +164,18 @@ function DealerPriceBook(props) {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div
+              onClick={() =>
+                setSelectedAction(selectedAction === index ? null : index)
+              }
+            >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === index && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border text-light-black rounded-lg shadow-md ${calculateDropdownPosition(
@@ -215,6 +223,23 @@ function DealerPriceBook(props) {
       console.error("Error fetching category list:", error);
     }
   };
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverageTypes(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+  const handleSelectChange1 = (name, value) => {
+    formik.setFieldValue(name, value.map((item) => item.value))
+  };
 
   const [isViewOpen, setIsViewOpen] = useState(false);
 
@@ -258,6 +283,7 @@ function DealerPriceBook(props) {
   useEffect(() => {
     getTermListData();
     priceBookData();
+    getCovrageListData();
   }, [props]);
 
   useEffect(() => {
@@ -341,6 +367,7 @@ function DealerPriceBook(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     console.log(formik.values);
     priceBookData();
   };
@@ -419,17 +446,25 @@ function DealerPriceBook(props) {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
-                        className="!bg-transparent !p-0 mr-3"
+                        className=" mr-3"
                         onClick={handleFilterIconClick}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         className="!text-[13px]"
                         onClick={() => openDisapproved()}
@@ -458,7 +493,20 @@ function DealerPriceBook(props) {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -472,7 +520,7 @@ function DealerPriceBook(props) {
         </Card>
       </div>
 
-      <Modal isOpen={isViewOpen} onClose={closeView}>
+      <Modal className="!w-[900px]" isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
@@ -483,38 +531,30 @@ function DealerPriceBook(props) {
           />
         </Button>
         <div className="py-3">
-          <p className="text-center text-3xl font-semibold ">
-
+          <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
+            View Price Book Details
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Name
-              </p>
+              <p className="text-lg font-bold">Product Name</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.pName}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Dealer SKU
-              </p>
+              <p className="text-lg font-bold">Dealer SKU</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.dealerSku}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Price Type
-              </p>
+              <p className="text-lg font-bold">Price Type</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Category
-              </p>
+              <p className="text-lg font-bold">Product Category</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].name}{" "}
               </p>
@@ -538,60 +578,127 @@ function DealerPriceBook(props) {
                 {dealerPriceBookDetail?.priceBooks?.term} Months
               </p>
             </div>
-            <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Coverage Type
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBookDetail?.priceBooks?.coverageType}{" "}
-              </p>
-            </div>
+
             <div className="col-span-12">
-              <p className="text-lg font-bold">
-                Description
-              </p>
+              <p className="text-lg font-bold">Description</p>
               <p className="text-base font-semibold">
                 {dealerPriceBookDetail?.priceBooks?.category[0].description}
               </p>
             </div>
 
-            {
-              dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
-                <>
-                  <div className="col-span-4">
-                    <p className="text-lg font-bold">
-                      Start Range
-                    </p>
-                    <p className="text-base font-semibold">
-                      {" "}
-                      $
-                      {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeStart ??
-                          parseInt(0)
-                        )}
-                    </p>
-                  </div>
-                  <div className="col-span-4">
-                    <p className="text-lg font-bold">
-                      End Range
-                    </p>
-                    <p className="text-base font-semibold">
-                      $
-                      {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
-                        ? parseInt(0).toLocaleString(2)
-                        : formatOrderValue(
-                          dealerPriceBookDetail?.priceBooks?.rangeEnd ??
-                          parseInt(0)
-                        )}
-                    </p>
-                  </div>
-                </>
-              )
-            }
-            {
-              dealerPriceBookDetail?.priceBooks?.priceType ==
+          </Grid>
+          <Grid className="px-6 mt-5">
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims Over the Certain Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {/* {dealerPriceBookDetail?.noOfClaim?.period} -{" "} */}
+                {
+                  dealerPriceBookDetail?.noOfClaim?.value == "-1"
+                    ? ""
+                    : `${dealerPriceBookDetail?.noOfClaim?.period} - `
+                }
+                {dealerPriceBookDetail?.noOfClaim?.value == -1
+                  ? "Unlimited"
+                  : dealerPriceBookDetail?.noOfClaim?.value}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims in Coverage <br /> Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBookDetail?.noOfClaimPerPeriod == -1
+                  ? "Unlimited"
+                  : dealerPriceBookDetail?.noOfClaimPerPeriod}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is manufacturer warranty included?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBookDetail?.isManufacturerWarranty == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is There a Maximum Claim Amount?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBookDetail?.isMaxClaimAmount == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-12">
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductible Amount</th>
+                </tr>
+
+                {dealerPriceBookDetail?.adhDays1 &&
+                  dealerPriceBookDetail?.adhDays1.length > 0 && (
+                    <>
+                      {dealerPriceBookDetail?.adhDays1.map((type, index) => (
+                        <tr key={index} className="border">
+                          <td className="font-semibold mx-5">{type.label}</td>
+                          <td className="font-semibold mx-5">
+                            {type.waitingDays}
+                          </td>
+                          <td className="font-semibold mx-5">
+                            {type.amountType === "percentage"
+                              ? `${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )} %`
+                              : `$${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )}`}
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+              </table>
+            </div>
+
+            {dealerPriceBookDetail?.priceBooks?.priceType == "Flat Pricing" && (
+              <>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">Start Range</p>
+                  <p className="text-base font-semibold">
+                    {" "}
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBookDetail?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">End Range</p>
+                  <p className="text-base font-semibold">
+                    $
+                    {dealerPriceBookDetail?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBookDetail?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+              </>
+            )}
+            {dealerPriceBookDetail?.priceBooks?.priceType ==
               "Quantity Pricing" && (
                 <>
                   <div className="col-span-12">
@@ -616,11 +723,10 @@ function DealerPriceBook(props) {
                     </table>
                   </div>
                 </>
-              )
-            }
-          </Grid >
-        </div >
-      </Modal >
+              )}
+          </Grid>
+        </div>
+      </Modal>
 
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
         <Button
@@ -664,16 +770,67 @@ function DealerPriceBook(props) {
                 />
               </div>
               <div className="col-span-6">
-                <Select
-                  name="coverageType"
-                  label="Coverage Type"
-                  options={coverage}
-                  OptionName="Coverage Type"
-                  color="text-Black-Russian opacity-50"
-                  className="!text-[14px] !bg-white"
-                  value={formik.values.coverageType}
-                  onChange={formik.setFieldValue}
-                />
+                <div className="relative">
+                  <label
+                    htmlFor="coverageType"
+                    className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Coverage Type
+                  </label>
+                  <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                    <MultiSelect
+                      label="Coverage Type"
+                      name="coverageType"
+                      placeholder=""
+                      className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                      styles={{
+                        chips: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f0ad4e",
+                          color: "white",
+                        }),
+                        searchBox: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f7f7f7",
+                          border:
+                            "1px solid #ddd",
+                          cursor: "pointer",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#f0ad4e"
+                            : "white",
+                          color: state.isSelected ? "white" : "black",
+                          "&:hover": {
+                            backgroundColor:
+                              "#f0ad4e",
+                            color: "white",
+                          },
+                        }),
+                      }}
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleSelectChange1("coverageType", value);
+                      }}
+                      options={coverageTypes}
+                      value={selected}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
+                  </div>
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                </div>
               </div>
               <div className="col-span-6">
                 <Input
@@ -728,7 +885,7 @@ function DealerPriceBook(props) {
                     type="text"
                     name="range"
                     className="!bg-white"
-                    label="Product Retail Price"
+                    label="Product Price Range"
                     placeholder=""
                     value={formik.values.range}
                     onChange={formik.handleChange}

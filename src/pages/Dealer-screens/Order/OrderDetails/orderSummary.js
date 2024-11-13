@@ -11,6 +11,7 @@ import { format, addMonths } from "date-fns";
 import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
+import SingleView from "../../../../common/singleView";
 function OrderSummary(props) {
   const baseUrl = apiUrl();
 
@@ -65,23 +66,23 @@ function OrderSummary(props) {
               return (
                 <div className="px-3 mt-5">
                   <div>
-                    <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
+                    <SingleView className='rounded-t-xl'>
+                      <Grid className="!gap-2 !grid-cols-9">
                         <div className="col-span-3 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
+                          <p className=" py-2 font-Regular">
                             Dealer SKU : <b> {res.dealerSku} </b>
                           </p>
                         </div>
-                        <div className="col-span-5 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                          <p className="text-white py-2 font-Regular">
+                        <div className="col-span-4 self-center text-left pl-3 bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                          <p className=" py-2 font-Regular">
                             Product Name : <b> {res.pName} </b>
                           </p>
                         </div>
                       </Grid>
 
-                      <Grid className="!gap-0 bg-grayf9 mb-5">
+                      <Grid className="!gap-0 bg-grayf9">
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Category
                             </p>
@@ -91,7 +92,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price Type
                             </p>
@@ -101,7 +102,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-6 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
                             </p>
@@ -112,7 +113,7 @@ function OrderSummary(props) {
                         </div>
 
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Term
                             </p>
@@ -122,7 +123,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Unit Price
                             </p>
@@ -134,9 +135,9 @@ function OrderSummary(props) {
                             </p>
                           </div>
                         </div>
-                        {props.shown === false && (
+                        {/* {props.shown === false && (
                           <div className="col-span-3 border border-Light-Grey">
-                            <div className="py-4 pl-3">
+                            <div className="py-4 px-3">
                               <p className="text-[#5D6E66] text-sm font-Regular">
                                 ADH (Waiting Days)
                               </p>
@@ -145,10 +146,10 @@ function OrderSummary(props) {
                               </p>
                             </div>
                           </div>
-                        )}
+                        )} */}
 
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               # of Products
                             </p>
@@ -158,7 +159,7 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Price
                             </p>
@@ -171,26 +172,26 @@ function OrderSummary(props) {
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageStartDate),
+                                new Date(res.coverageStartDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
                             </p>
                             <p className="text-light-black text-base font-semibold">
                               {format(
-                                new Date(res.coverageEndDate),
+                                new Date(res.coverageEndDate1),
                                 "MM/dd/yyyy"
                               )}
                             </p>
@@ -199,7 +200,7 @@ function OrderSummary(props) {
                         {res.priceType == "Flat Pricing" && (
                           <>
                             <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
+                              <div className="py-4 px-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Start Range
                                 </p>
@@ -209,7 +210,7 @@ function OrderSummary(props) {
                               </div>
                             </div>
                             <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 pl-3">
+                              <div className="py-4 px-3">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   End Range
                                 </p>
@@ -264,9 +265,94 @@ function OrderSummary(props) {
                             </table>
                           </div>
                         )}
+                      </Grid>
+                      <Grid className="!gap-0 bg-grayf9 text-light-black mb-5">
+                        <div className="col-span-3 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims Over the Certain Period
+                          </p>
+                          <p className="text-[14px] mb-2 text-left font-semibold">
+                            {/* {res?.noOfClaim?.period} -{" "} */}
+                            {
+                              res?.noOfClaim?.value == "-1"
+                                ? ""
+                                : `${res?.noOfClaim?.period} - `
+                            }
+                            {res?.noOfClaim?.value == -1
+                              ? "Unlimited"
+                              : res?.noOfClaim?.value}
+                          </p>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey pl-4">
+                          <p className="text-base mb-2 text-left font-semibold">
+                            # of Claims in Coverage Period
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.noOfClaimPerPeriod == -1
+                              ? "Unlimited"
+                              : res?.noOfClaimPerPeriod}
+                          </p>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey pl-4">
+                          <p className=" text-base mb-2 text-left font-semibold">
+                            {" "}
+                            Is manufacturer warranty included?
+                          </p>
+                          <p className="text-[14px] text-left font-semibold">
+                            {res?.isManufacturerWarranty == true ? "Yes" : "No"}
+                          </p>
+                        </div>
+                        <div className="col-span-3 border border-Light-Grey pl-4">
+                          <p className=" text-base mb-3 font-semibold">
+                            {" "}
+                            Is There a Maximum Claim Amount?
+                          </p>
+                          <p className="text-[14px] font-semibold">
+                            {res?.isMaxClaimAmount == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
+                        </div>
+                        <div className="col-span-12">
+                          <table className="w-full border text-center">
+                            <tr className="border bg-[#9999]">
+                              <th>Coverage Type</th>
+                              <th>Waiting Days</th>
+                              <th>Deductible</th>
+                            </tr>
+
+                            {res?.mergedData && res?.mergedData.length > 0 && (
+                              <>
+                                {res?.mergedData.map((type, index) => (
+                                  <tr key={index} className="border ">
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.label}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.waitingDays}
+                                    </td>
+                                    <td className="font-semibold  mx-[19px]">
+                                      {type.amountType != "percentage" && "$"}
+                                      {type.amountType === "percentage"
+                                        ? type.deductible
+                                        : type.deductible === undefined
+                                          ? (0).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                          })
+                                          : formatOrderValue(
+                                            type.deductible ?? 0
+                                          )}
+                                      {type.amountType == "percentage" && "%"}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </>
+                            )}
+                          </table>
+                        </div>
                         <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
                           <Grid className="">
-                            <div className="col-span-9 py-4 pl-3">
+                            <div className="col-span-9 py-4 px-3">
                               <div className="">
                                 <p className="text-[#5D6E66] text-sm font-Regular">
                                   Note
@@ -297,7 +383,7 @@ function OrderSummary(props) {
                           </Grid>
                         </div>
                       </Grid>
-                    </div>
+                    </SingleView>
                   </div>
                 </div>
               );

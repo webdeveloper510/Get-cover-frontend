@@ -68,6 +68,7 @@ import Paid from "../../../assets/images/icons/Paid.svg";
 import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import Carousel from "react-multi-carousel";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import SingleView from "../../../common/singleView";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -460,8 +461,8 @@ function DealerResellerDetails() {
   };
   const columns = [
     {
-      name: "Servicer ID",
-      selector: (row) => row.unique_key,
+      name: "S.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
       center: true,
@@ -757,7 +758,7 @@ function DealerResellerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -921,7 +922,7 @@ function DealerResellerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
@@ -1231,7 +1232,20 @@ function DealerResellerDetails() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}

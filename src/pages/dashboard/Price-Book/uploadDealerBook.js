@@ -18,23 +18,27 @@ import { getDealerList } from "../../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { WithContext as ReactTags } from "react-tag-input";
-import { uploadDealerBookInBulk } from "../../../services/priceBookService";
+import { uploadCompanyPriceBookInBulk, uploadDealerBookInBulk } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import DealerList from "../Dealer/dealerList";
 import Card from "../../../common/card";
 
 function UploadDealerBook() {
   const [selectedFile, setSelectedFile] = useState("");
+  const [selectedFile2, setSelectedFile2] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loader, setLoader] = useState(false);
   const [activeDealers, SetActiveDealers] = useState([]);
   const [error, setError] = useState("");
+  const [error2, setError2] = useState("");
   const [tags, setTags] = useState([]);
   const [timer, setTimer] = useState(3);
   const [dealerName, setDealerName] = useState("");
+  const [type, setType] = useState("");
   const [dealerID, setDealerID] = useState("");
   const navigate = useNavigate();
-  const openModal = () => {
+  const openModal = (value = "dealer") => {
+    setType(value)
     setIsModalOpen(true);
   };
 
@@ -52,6 +56,10 @@ function UploadDealerBook() {
     });
     formik.setFieldValue(name, selectedValue);
   };
+  const handleSelectChange2 = (name, selectedValue) => {
+
+    formikComapnyPricebook.setFieldValue(name, selectedValue);
+  };
   useEffect(() => {
     let intervalId;
     if (isModalOpen && timer > 0) {
@@ -63,33 +71,27 @@ function UploadDealerBook() {
     if (timer === 0) {
       closeModal();
       // navigate(`/dealerPriceList`);
-      navigate(`/dealerDetails/${dealerID}`);
-      localStorage.setItem("menu", "PriceBook");
+      if (type === "dealer") {
+        navigate(`/dealerDetails/${dealerID}`);
+        localStorage.setItem("menu", "PriceBook");
+      } else {
+        navigate(`/companyPriceBook`);
+      }
     }
     return () => {
       clearInterval(intervalId);
     };
   }, [isModalOpen, timer]);
-  const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-  const KeyCodes = {
-    comma: 188,
-    enter: 13,
-  };
-  const delimiters = [KeyCodes.comma, KeyCodes.enter];
+
+
   useEffect(() => {
     getDealerDetails();
   }, []);
-  const handleDelete = (i) => {
-    const updatedTags = [...tags];
-    updatedTags.splice(i, 1);
-    setTags(updatedTags);
-    formik.setFieldValue(
-      "email",
-      updatedTags.map((tag) => tag.text)
-    );
-  };
+
 
   const fileInputRef = useRef(null);
+  const fileInputRef2 = useRef(null);
+
   const handleDropdownClick = () => {
     if (fileInputRef) {
       fileInputRef.current.click();
@@ -108,22 +110,23 @@ function UploadDealerBook() {
     console.log("value becmes null")
     event.target.value = null;
   };
-  const handleAddition = (tag) => {
-    const updatedTags = [...tags, tag];
-    setTags(updatedTags);
-    formik.setFieldValue(
-      "email",
-      updatedTags.map((tag) => tag.text)
-    );
+
+
+  const handleDropdownClick2 = () => {
+    if (fileInputRef2) {
+      fileInputRef2.current.click();
+      setSelectedFile2(null);
+      formikComapnyPricebook.setFieldValue("companyPriceBook", "");
+      formikComapnyPricebook.setFieldTouched("companyPriceBook", false);
+      setError2(""); // Reset error state
+    }
   };
-  const handleDrag = (tag, currPos, newPos) => {
-    const newTags = tags.slice();
 
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
-
-    // re-render
-    setTags(newTags);
+  const handleFileSelect2 = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile2(file);
+    formikComapnyPricebook.setFieldValue("companyPriceBook", file);
+    event.target.value = null;
   };
 
   const getDealerDetails = async () => {
@@ -153,12 +156,6 @@ function UploadDealerBook() {
     },
     validationSchema: Yup.object({
       dealerId: Yup.string().required("Dealer name is required"),
-      email: Yup.array()
-        .of(
-          Yup.string()
-            .matches(emailValidationRegex, "Invalid email address")
-
-        ),
       file: Yup.mixed().test("file", "File is required", (value) => {
         return value !== undefined && value !== null && value.size > 0;
       }),
@@ -201,12 +198,87 @@ function UploadDealerBook() {
     }
   });
 
+  const formikComapnyPricebook = useFormik({
+    initialValues: {
+      priceType: "",
+      companyPriceBook: null,
+    },
+    validationSchema: Yup.object({
+      priceType: Yup.string().required("Price type is required"),
+      companyPriceBook: Yup.mixed().test("companyPriceBook", "File is required", (value) => {
+        return value !== undefined && value !== null && value.size > 0;
+      }),
+    }),
+    onSubmit: async (values) => {
+      console.log(values)
+      setLoader(true);
+      const formData = new FormData();
+      formData.append("priceType", values.priceType);
+      formData.append("companyPriceBook", values.companyPriceBook);
+      var data = { formData };
+      console.log(formData);
+
+      try {
+        const errors = await formikComapnyPricebook.validateForm(values);
+        console.log("errors====>", errors)
+        setError2(""); // Reset API error state
+        if (Object.keys(errors).length === 0) {
+          const result = await uploadCompanyPriceBookInBulk(formData);
+          console.log(result.message);
+          setError2(result.message);
+          if (result.code === 200) {
+            console.log("Form Data:", formData);
+            setLoader(false);
+            openModal('uploadCompany');
+            setTimer(3);
+          } else {
+            console.log("API error:", result.message);
+            setLoader(false);
+          }
+        } else {
+          console.log("Form validation failed:", errors);
+          setLoader(false);
+        }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        setLoader(false);
+      }
+    }
+  });
+
+  const downloadCSVQuantity = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1fyeInEcdJQWEeTfvtjI2ioJNzzynjLqHeIpNHECI3fs/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+  const downloadCSVFlat = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1nOLApCRcKHeXE7y7Ry5AhXX6XizzSKA37ZzHLi9n4X4/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+  const downloadCSVReguler = async () => {
+    window.open(
+      "https://docs.google.com/spreadsheets/d/1EWMjTa_ep2z2x2IS9MxPZsuBZncHq6L0dzFrM71hH-w/edit?usp=drive_web",
+      "_blank"
+    );
+  };
+
+
   const downloadCSVTemplate = async () => {
     window.open(
       "https://docs.google.com/spreadsheets/d/1hwQfZ-5f80JwcocWAbPF7texOezSAXi-UEp_qSnSQa0/edit?usp=sharing",
       "_blank"
     );
   };
+
+
+  const pricetype = [
+    { label: "Regular Pricing", value: "Regular Pricing" },
+    { label: "Flat Pricing", value: "Flat Pricing" },
+    { label: "Quantity Pricing", value: "Quantity Pricing" },
+  ];
 
   return (
     <div className="mb-8 ml-3">
@@ -222,7 +294,7 @@ function UploadDealerBook() {
           <div className="flex mt-2">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">
-                Upload DealerPrice Book
+                Upload Price Book
               </p>
               <ul className="flex self-center">
                 <li className="text-sm text-neutral-grey font-Regular">
@@ -231,7 +303,7 @@ function UploadDealerBook() {
                 </li>
                 <li className="text-sm text-neutral-grey font-semibold ml-1">
                   {" "}
-                  Upload DealerPrice Book{" "}
+                  Upload Price Book{" "}
                 </li>
               </ul>
             </div>
@@ -239,11 +311,11 @@ function UploadDealerBook() {
 
           {/* Form Start */}
           <Grid className="">
-            <div className="col-span-12">
+            <div className="col-span-6">
 
               <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <Card className="px-8 pb-8  drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
-                  {/* <p className="text-xl font-semibold ">Dealer PriceBook</p> */}
+                <Card className="px-8 pb-8 pt-5 border-[1px] !bg-[#ffff] border-Light-Grey rounded-xl">
+                  <p className="text-xl font-semibold ">Dealer Price Book</p>
                   {error ? (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
                       <span className="font-semibold"> {error} </span>
@@ -255,27 +327,25 @@ function UploadDealerBook() {
                   )}
                   <Grid className="">
                     <div className="col-span-12">
-                      <div className="col-span-12">
-                        <Select
-                          label="Dealer Name"
-                          required={true}
-                          name="dealerId"
-                          placeholder=""
-                          onChange={handleSelectChange}
-                          className="!bg-white"
-                          options={activeDealers}
-                          value={formik.values.dealerId}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.dealerId && formik.errors.dealerId}
-                        />
-                        {formik.touched.dealerId && formik.errors.dealerId && (
-                          <div className="text-red-500 text-sm pl-2 pt-2">
-                            <span className="font-semibold"> {formik.errors.dealerId} </span>
-                          </div>
-                        )}
-                      </div>
+                      <Select
+                        label="Dealer Name"
+                        required={true}
+                        name="dealerId"
+                        placeholder=""
+                        onChange={handleSelectChange}
+                        className="!bg-white"
+                        options={activeDealers}
+                        value={formik.values.dealerId}
+                        onBlur={formik.handleBlur}
+                        error={formik.touched.dealerId && formik.errors.dealerId}
+                      />
+                      {formik.touched.dealerId && formik.errors.dealerId && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          <span className="font-semibold"> {formik.errors.dealerId} </span>
+                        </div>
+                      )}
                     </div>
-                    <div className="col-span-12">
+                    {formik.values.dealerId != '' ? <div className="col-span-12">
                       <p className="text-base mb-2 font-semibold">
                         Upload In Bulk
                       </p>
@@ -333,7 +403,8 @@ function UploadDealerBook() {
                           Clicking here.
                         </span> The file must be saved with csv , xls and xlsx Format.
                       </p>
-                    </div>
+                    </div> : ''}
+
                   </Grid>
                   <Button
                     type="submit"
@@ -344,13 +415,13 @@ function UploadDealerBook() {
                 </Card>
               </form>
             </div>
-            {/* <div className="col-span-6">
-              <form className="mt-8" onSubmit={formik.handleSubmit}>
-                <Card className="px-8 pb-8 pt-5 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
-                  <p className="text-xl font-semibold ">Company PriceBook</p>
-                  {error ? (
+            <div className="col-span-6">
+              <form className="mt-8" onSubmit={formikComapnyPricebook.handleSubmit}>
+                <Card className="px-8 pb-8 pt-5 border-[1px] !bg-[#ffff] border-Light-Grey rounded-xl">
+                  <p className="text-xl font-semibold ">Company Price Book</p>
+                  {error2 ? (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5">
-                      <span className="font-semibold"> {error} </span>
+                      <span className="font-semibold"> {error2} </span>
                     </p>
                   ) : (
                     <p className="text-red-500 text-sm pl-2 mt-3 mb-5 opacity-0	">
@@ -359,65 +430,95 @@ function UploadDealerBook() {
                   )}
                   <Grid className="">
                     <div className="col-span-12">
-                      <p className="text-base mb-2 font-semibold">
-                        Upload In Bulk
-                      </p>
-                      <div className="relative">
-                        <button
-                          type="button"
-                          onClick={handleDropdownClick}
-                          className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed	py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
-                        >
-                          {selectedFile ? (
-                            <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
-                              <img src={csvFile} className="mr-2" alt="Dropbox" />
-                              <div className="flex justify-between w-full">
-                                <p className="self-center">{selectedFile.name}</p>
-                                <p className="self-center">
-                                  {(selectedFile.size / 1000).toFixed(2)} kb
-                                </p>
-                              </div>
-                            </div>
-                          ) : (
-                            <>
-                              <img
-                                src={Dropbox}
-                                className="mx-auto mb-3"
-                                alt="Dropbox"
-                              />
-                              <p className="">
-                                Accepted file types: csv, xlsx, xls Max. file size:
-                                50 MB.
-                              </p>
-                            </>
-                          )}
-                        </button>
-                        <input
-                          type="file"
-                          ref={fileInputRef}
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                          style={{ display: "none" }}
-                          onChange={handleFileSelect}
-                        />
-                      </div>
-                      {formik.touched.file && formik.errors.file && (
-                        <p className="text-red-500 text-sm pl-2 pt-2">
-                          <span className="font-semibold">{formik.errors.file} </span>
-                        </p>
+                      <Select
+                        label="Price Type"
+                        name="priceType"
+                        required={true}
+                        placeholder=""
+                        onChange={handleSelectChange2}
+                        className="!bg-white"
+                        options={pricetype}
+                        value={
+                          (
+                            pricetype.find(
+                              (option) =>
+                                option.value ==
+                                (formikComapnyPricebook.values.priceType
+                                  ? formikComapnyPricebook.values.priceType.toString()
+                                  : "")
+                            ) || {}
+                          ).value || ""
+                        }
+                        onBlur={formikComapnyPricebook.handleBlur}
+                        error={formikComapnyPricebook.touched.priceType && formikComapnyPricebook.errors.priceType}
+                      />
+                      {formikComapnyPricebook.touched.priceType && formikComapnyPricebook.errors.priceType && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {formikComapnyPricebook.errors.priceType}
+                        </div>
                       )}
-                      <p className="text-[12px] mt-1 font-medium">
-                        Please click on file option and make a copy. Upload the list
-                        of Product Name and Price using our provided Google Sheets
-                        template, by{" "}
-                        <span
-                          className="underline cursor-pointer"
-                          onClick={downloadCSVTemplate}
-                        >
-                          Clicking here
-                        </span>
-                        The file must be saved with csv , xls and xlsx Format.
-                      </p>
                     </div>
+                    {formikComapnyPricebook.values.priceType ? (
+                      <div className="col-span-12">
+                        <p className="text-base mb-2 font-semibold">Upload In Bulk</p>
+                        <div className="relative">
+                          <button
+                            type="button"
+                            onClick={handleDropdownClick2}
+                            className={`bg-[#F2F2F2] border-[1px] border-[#D1D9E2] border-dashed py-10 w-full rounded-md focus:outline-none focus:border-blue-500 !bg-transparent`}
+                          >
+                            {selectedFile2 ? (
+                              <div className="self-center flex text-center relative bg-white border w-[80%] mx-auto p-3">
+                                <img src={csvFile} className="mr-2" alt="Dropbox" />
+                                <div className="flex justify-between w-full">
+                                  <p className="self-center">{selectedFile2.name}</p>
+                                  <p className="self-center">{(selectedFile2.size / 1000).toFixed(2)} kb</p>
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <img src={Dropbox} className="mx-auto mb-3" alt="Dropbox" />
+                                <p>
+                                  Accepted file types: csv, xlsx, xls. Max. file size: 50 MB.
+                                </p>
+                              </>
+                            )}
+                          </button>
+                          <input
+                            type="file"
+                            ref={fileInputRef2}
+                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            style={{ display: "none" }}
+                            onChange={handleFileSelect2}
+                          />
+                        </div>
+                        {formikComapnyPricebook.touched.companyPriceBook && formikComapnyPricebook.errors.companyPriceBook && (
+                          <p className="text-red-500 text-sm pl-2 pt-2">
+                            <span className="font-semibold">{formikComapnyPricebook.errors.companyPriceBook}</span>
+                          </p>
+                        )}
+                        <p className="text-[12px] mt-1 font-medium">
+                          Please click on file option and make a copy. Upload the list of Product Name and Price using our provided Google Sheets template, by{" "}
+                          <span
+                            className="underline cursor-pointer"
+                            onClick={() => {
+                              if (formikComapnyPricebook.values.priceType === "Regular Pricing") {
+                                downloadCSVReguler();
+                              } else if (formikComapnyPricebook.values.priceType === "Flat Pricing") {
+                                downloadCSVFlat();
+                              } else if (formikComapnyPricebook.values.priceType === "Quantity Pricing") {
+                                downloadCSVQuantity();
+                              }
+                            }}
+                          >
+                            Clicking here.
+                          </span>&nbsp;
+                          The file must be saved with csv, xls, or xlsx format.
+                        </p>
+                      </div>
+                    ) : null}
+
+
                   </Grid>
                   <Button
                     type="submit"
@@ -427,10 +528,8 @@ function UploadDealerBook() {
                   </Button>
                 </Card>
               </form>
-            </div> */}
+            </div>
           </Grid>
-
-          {/* Modal Email Popop */}
         </>
       )}
       <Modal isOpen={isModalOpen} onClose={closeModal}>

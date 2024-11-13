@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import html2pdf from "html2pdf.js";
 import download from "../assets/images/download.png";
 import { format } from "date-fns";
-import { orderDetailsById } from "../services/orderServices";
+import { base64url, orderDetailsById } from "../services/orderServices";
 import { ToWords } from "to-words";
 
 function PdfGenerator(props, className) {
@@ -41,15 +41,13 @@ function PdfGenerator(props, className) {
   const getBase64ImageFromUrl = async (imageUrl) => {
     const proxyUrl = 'https://api.allorigins.win/get?url=';
     try {
-      const response = await fetch(proxyUrl + encodeURIComponent(imageUrl));
-      const data = await response.json();
-      const blob = await fetch(data.contents).then(res => res.blob());
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
+      const payload = { logo: imageUrl };
+      const response = await base64url(payload);
+      if (response && !response.base64.startsWith("data:image")) {
+        // Assuming JPEG format; adjust if different
+        response.base64 = `data:image/jpeg;base64,${response.base64}`;
+      }
+      return response;
     } catch (error) {
       console.error("Error fetching the image:", error);
       return null;
@@ -60,7 +58,8 @@ function PdfGenerator(props, className) {
     setLoading(true);
     try {
       const result = await orderDetailsById(props.data);
-      console.log(result, '-----Invoice--------------')
+      console.log(result, "-----Invoice--------------");
+
       let value = {
         dealerName: result.orderUserData.dealerData,
         customerName: result.orderUserData.customerData,
@@ -72,11 +71,14 @@ function PdfGenerator(props, className) {
         websiteSetting: result.orderUserData.websiteSetting,
         ...result.result,
       };
-      const logoBase64 = await getBase64ImageFromUrl(value.websiteSetting.darkLogo);
-      if (!logoBase64) {
+
+      const logoBase64 = await getBase64ImageFromUrl(value.websiteSetting.darkLogoName);
+      if (!logoBase64 || !logoBase64.base64) {
         throw new Error("Failed to convert logo to base64");
       }
-      value.logoBase64 = logoBase64;
+
+      value.logoBase64 = logoBase64.base64;
+
       const opt = {
         margin: 0,
         filename: `${value.unique_key}-Invoice.pdf`,
@@ -85,8 +87,7 @@ function PdfGenerator(props, className) {
         jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
       };
 
-      const pdf = html2pdf().from(generateHTML(value)).set(opt);
-      pdf.save();
+      await html2pdf().from(generateHTML(value)).set(opt).save();
     } catch (error) {
       console.error("Error generating PDF:", error);
     }
@@ -119,9 +120,11 @@ function PdfGenerator(props, className) {
           <tbody>
             <tr>
               <td style="text-align: left; width: 50%;">
-                <img src="${logo}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
-                <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title}</b></h1>
-                <pre style="margin: 0; padding: 0; width: 50%;font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address}</pre>
+                <img src="${data.logoBase64}" style="margin-bottom: 20px; width: 200px; object-fit:contain; height: 100px;" alt="logo Image"/>
+                <h1 style="margin: 0; padding: 0; font-size: 20px;"><b>${data.websiteSetting.title
+      }</b></h1>
+                <pre style="margin: 0; padding: 0; width: 50%; overflow-wrap: break-word; font-family: Arial, Helvetica, sans-serif;">${data.websiteSetting.address
+      }</pre>
               </td>
               <td style="width: 50%;">
                 <table style="width: 100%; border-collapse: collapse;">
@@ -133,15 +136,22 @@ function PdfGenerator(props, className) {
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Date:</b></td>
-                      <td style="border: none; padding: 4px;">${format(new Date(data?.createdAt), "MM/dd/yyyy")}</td>
+                      <td style="border: none; padding: 4px;">${format(
+        new Date(data?.createdAt),
+        "MM/dd/yyyy"
+      )}</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Number:</b></td>
-                      <td style="border: none; padding: 4px;">${data?.unique_key}</td>
+                      <td style="border: none; padding: 4px;">${data?.unique_key
+      }</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;"><b>Invoice Total:</b></td>
-                      <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined ? parseInt(0).toLocaleString(2) : formatOrderValue(data?.totalOrderAmount)}</td>
+                      <td style="border: none; padding: 4px;">$${data?.totalOrderAmount === undefined
+        ? parseInt(0).toLocaleString(2)
+        : formatOrderValue(data?.totalOrderAmount)
+      }</td>
                     </tr>
                     <tr>
                       <td style="border: none; padding: 4px;">Currency Type:</td>
@@ -350,7 +360,8 @@ function PdfGenerator(props, className) {
           <th></th>
          </tr>
          <tr>
-            <td colspan="2"><pre style="font-family: Arial, Helvetica, sans-serif;">${data?.websiteSetting?.paymentDetail} </pre></td>
+            <td colspan="2"><pre style="font-family: Arial, Helvetica, sans-serif;">${data?.websiteSetting?.paymentDetail
+      } </pre></td>
          </tr>
         
         
@@ -361,10 +372,25 @@ function PdfGenerator(props, className) {
   };
 
   return (
-    <div className={`text-left flex py-1 px-2 ${className}`} onClick={convertToPDF}>
-      <img src={download} className="w-4 h-4 mr-2" alt="Download" />
-      <button className="text-black">Invoice</button>
-    </div>
+    <span
+      className={`text-left flex py-1 px-2 ${className}`}
+      onClick={convertToPDF}
+    ><div
+        style={{
+          maskImage: `url(${download})`,
+          WebkitMaskImage: `url(${download})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4 mr-2 "
+      />
+      {/* <img src={download} className="w-4 h-4 mr-2" alt="Download" /> */}
+      <button className="">Invoice</button>
+    </span>
   );
 }
 

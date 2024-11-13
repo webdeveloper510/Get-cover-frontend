@@ -244,7 +244,7 @@ function DealerAddBulkClaim() {
                   </div>
                 </div> */}
                 <div className="col-span-12">
-                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none peer relative">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none relative">
                     <ReactTags
                       tags={tags}
                       delimiters={delimiters}

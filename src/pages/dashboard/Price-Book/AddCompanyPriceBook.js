@@ -23,10 +23,13 @@ import {
   editCompanyList,
   getCategoryListActiveData,
   getCompanyPriceBookById,
+  getCovrageList,
   getTermList,
 } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
+import SingleView from "../../../common/singleView";
 
 function AddCompanyPriceBook() {
   const [error, setError] = useState("");
@@ -34,6 +37,8 @@ function AddCompanyPriceBook() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [categoryList, setCategoryList] = useState([]);
   const [termList, setTermList] = useState([]);
+  const [coverage, setCoverage] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [totalAmount, setTotalAmount] = useState();
   const [type, setType] = useState("");
   const { id } = useParams();
@@ -56,7 +61,7 @@ function AddCompanyPriceBook() {
       name: "",
       description: "",
       pName: "",
-      coverageType: "",
+      coverageType: [],
       term: "",
       frontingFee: "",
       reinsuranceFee: "",
@@ -84,6 +89,9 @@ function AddCompanyPriceBook() {
         .typeError("Required")
         .required("Required")
         .min(0, "Fronting fee cannot be negative")
+        .test(
+          (value) => value == null || /^\d+(\.\d{0,2})?$/.test(value.toString())
+        )
         .nullable(),
       reinsuranceFee: Yup.number()
         .typeError("Required")
@@ -102,6 +110,7 @@ function AddCompanyPriceBook() {
         .min(0, "Administration  fee cannot be negative"),
       status: Yup.string().required("Required"),
       priceType: Yup.string().required("Required"),
+      coverageType: Yup.array().min(1, "Required"),
 
       rangeStart:
         value !== "Flat Pricing"
@@ -110,7 +119,7 @@ function AddCompanyPriceBook() {
             .typeError("Required")
             .required("Required")
             .nullable()
-            .min(0, "Range Start cannot be negative"),
+            .min(0, "Start Range  cannot be negative"),
       rangeEnd:
         value !== "Flat Pricing"
           ? Yup.number().notRequired()
@@ -118,7 +127,7 @@ function AddCompanyPriceBook() {
             .typeError("Required")
             .required("Required")
             .nullable()
-            .min(0, "Range End cannot be negative")
+            .min(0, "End Range  cannot be negative")
             .test(
               "endRange",
               "End Range should be greater than start range",
@@ -271,6 +280,7 @@ function AddCompanyPriceBook() {
   useEffect(() => {
     getCategoryListActiveData11();
     getTermListData();
+    getCovrageListData();
   }, []);
   useEffect(() => {
     calculateTotal();
@@ -351,6 +361,23 @@ function AddCompanyPriceBook() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverage(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
+
+
   const getTermListData = async () => {
     try {
       const res = await getTermList();
@@ -388,6 +415,11 @@ function AddCompanyPriceBook() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleSelectChange1 = (selectedOptions) => {
+    formik.setFieldValue("coverageType", selectedOptions);
+  };
+
   const handleSelectChange = (name, selectedValue) => {
     console.log(name);
     if (name === "priceCatId") {
@@ -411,11 +443,7 @@ function AddCompanyPriceBook() {
     { label: "Inactive", value: false },
   ];
 
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+
   const defaultValue = formik.values.status === "" ? false : true;
   const handleGOBack = () => {
     navigate(-1);
@@ -474,7 +502,7 @@ function AddCompanyPriceBook() {
             </p>
           )} */}
           {type == "Edit" && (
-            <div className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-auto !grid-cols-12">
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">
@@ -482,10 +510,10 @@ function AddCompanyPriceBook() {
                       <img src={productS} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Product SKU
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {detailsById?.name}
                       </p>
                     </div>
@@ -497,10 +525,10 @@ function AddCompanyPriceBook() {
                       <img src={product} alt="dealer" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Product Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {detailsById?.pName}
                       </p>
                     </div>
@@ -512,10 +540,10 @@ function AddCompanyPriceBook() {
                       <img src={terms} className="w-6 h-6" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Terms
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className="opacity-50	text-sm font-medium">
                         {detailsById?.term} Months
                       </p>
                     </div>
@@ -523,21 +551,29 @@ function AddCompanyPriceBook() {
                 </div>
                 <div className="col-span-3">
                   <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] rounded-lg mr-4">
+                    <div className="self-start bg-[#FFFFFF08] rounded-lg mr-4">
                       <img src={coverageIcon} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Coverage Type
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
-                        {detailsById?.coverageType}
+                      <p className="opacity-50	text-sm font-medium">
+                        {detailsById.optionDropdown && detailsById.optionDropdown.length > 0 ? (
+                          <ol className="list-disc pl-6">
+                            {detailsById.optionDropdown.map((type, index) => (
+                              <li key={index}>{type.label}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          "No coverage types available"
+                        )}
                       </p>
                     </div>
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           )}
           <form className="mt-8" onSubmit={formik.handleSubmit}>
             <Card className="px-8 pb-8 pt-6 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-3xl">
@@ -792,29 +828,43 @@ function AddCompanyPriceBook() {
                   <></>
                 ) : (
                   <div className="col-span-1">
-                    <Select
-                      label="Coverage Type "
-                      name="coverageType"
-                      placeholder=""
-                      onChange={handleSelectChange}
-                      required={true}
-                      className="!bg-white"
-                      options={coverage}
-                      value={
-                        (
-                          coverage.find(
-                            (option) =>
-                              option.value === formik.values.coverageType
-                          ) || {}
-                        ).value || ""
-                      }
-                      onBlur={formik.handleBlur}
-                      error={
-                        formik.touched.coverageType &&
-                        formik.errors.coverageType
-                      }
-                    />
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type "
+                          name="coverageType"
+                          placeholder=""
+                          onChange={handleSelectChange1}
 
+                          required={true}
+                          className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                          options={coverage}
+                          value={formik.values.coverageType || ''}
+                          // value={
+                          //   (
+                          //     coverage.find(
+                          //       (option) =>
+                          //         option.value === formik.values.coverageType
+                          //     ) || {}
+                          //   ).value || ""
+                          // }
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+
+
+                      </div>
+                    </div>
                     {formik.touched.coverageType &&
                       formik.errors.coverageType && (
                         <div className="text-red-500 text-sm pl-2 pt-2">
@@ -822,6 +872,7 @@ function AddCompanyPriceBook() {
                         </div>
                       )}
                   </div>
+
                 )}
                 {type == "Edit" ? (
                   <></>
@@ -1088,30 +1139,30 @@ function AddCompanyPriceBook() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
           {type == "Edit" ? (
-            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              Updated <span className="text-light-black"> Successfully </span>
+            <p className="text-3xl mb-0 mt-4 font-semibold ">
+              Updated <span className=""> Successfully </span>
             </p>
           ) : (
-            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-              Submitted <span className="text-light-black"> Successfully </span>
+            <p className="text-3xl mb-0 mt-4 font-semibold ">
+              Submitted <span className=""> Successfully </span>
             </p>
           )}
           {type == "Edit" ? (
             <>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 You have Successfully Updated the
                 <b> Company Price Book </b>
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Company Price Book Page {timer} seconds.
               </p>
             </>
           ) : (
             <>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 <b> Company Price Book </b> added successfully.{" "}
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Company Price Book Page {timer} seconds.
               </p>
             </>

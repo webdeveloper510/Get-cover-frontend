@@ -46,6 +46,7 @@ import {
   getSuperAdminMembers,
 } from "../../services/extraServices";
 import Card from "../../common/card";
+import SingleView from "../../common/singleView";
 
 function DealerUser() {
   const { toggleFlag } = useMyContext();
@@ -753,10 +754,10 @@ function DealerUser() {
               </div>
             </div>
             <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
-              <div className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
+              <SingleView className="bg-Edit bg-cover px-8 mt-8 py-8 rounded-[30px]">
                 <Grid>
                   <div className="col-span-2 text-left">
-                    <p className="text-base text-white font-semibold ">
+                    <p className="text-base  font-semibold ">
                       {" "}
                       My Details
                     </p>
@@ -774,10 +775,10 @@ function DealerUser() {
                         <img src={dealer} className="" alt="dealer" width={50} height={50} />
                       </div>
                       <div className="self-center">
-                        <p className="text-white text-base font-medium leading-5	">
+                        <p className=" text-base font-medium leading-5	">
                           Account Name
                         </p>
-                        <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                        <p className=" opacity-50 text-sm	font-medium">
                           {loginDetails.name}
                         </p>
                       </div>
@@ -789,10 +790,10 @@ function DealerUser() {
                         <img src={terms} className="" alt="terms" width={50} height={50} />
                       </div>
                       <div className="self-center">
-                        <p className="text-white text-base font-medium leading-5">
+                        <p className=" text-base font-medium leading-5">
                           Address
                         </p>
-                        <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                        <p className=" opacity-50	text-sm font-medium">
                           {loginDetails?.street}, {loginDetails?.city},{" "}
                           {loginDetails?.state} {loginDetails?.zip},{" "}
                           {loginDetails?.country}
@@ -802,7 +803,7 @@ function DealerUser() {
                   </div>
                   <div className="col-span-2"></div>
                 </Grid>
-              </div>
+              </SingleView>
               <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
                 <p className="text-xl font-semibold mb-5">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
@@ -888,11 +889,24 @@ function DealerUser() {
                   sortIcon={
                     <>
                       {" "}
-                      <img
+                      <div
+                        style={{
+                          maskImage: `url(${shorting})`,
+                          WebkitMaskImage: `url(${shorting})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="ml-2 tabless"
+                      />
+                      {/* <img
                         src={shorting}
                         className="ml-2"
                         alt="shorting"
-                      />{" "}
+                      />{" "} */}
                     </>
                   }
                   noDataComponent={<CustomNoDataComponent />}

@@ -24,6 +24,7 @@ import {
   getCategoryList,
   getCompanyPriceBookById,
   getTermList,
+  getCovrageList,
 } from "../../../services/priceBookService";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -31,6 +32,8 @@ import { RotateLoader } from "react-spinners";
 import { editDealerPriceBook } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CompanyPriceBook() {
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -38,6 +41,8 @@ function CompanyPriceBook() {
   const [companyPriceList, setCompanyPriceList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [loading1, setLoading1] = useState(false);
+  const [selected, setSelected] = useState([]);
+  const [coverageTypes, setCoverageTypes] = useState([]);
   const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -55,7 +60,23 @@ function CompanyPriceBook() {
     getCategoryListData();
     window.scrollTo(0, 0);
     getTermListData();
+    getCovrageListData();
   }, []);
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverageTypes(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
 
   const getPriceBookListData = async () => {
     try {
@@ -213,7 +234,9 @@ function CompanyPriceBook() {
       sortable: true,
     },
     {
-      name: "Name",
+      name: (<div>
+        Product <br /> Name
+      </div>),
       selector: (row) => row.pName,
       sortable: true,
       minWidth: "auto",
@@ -286,7 +309,7 @@ function CompanyPriceBook() {
             <div
               onClick={() =>
                 setSelectedAction(
-                  selectedAction === row.unique_key ? null : row.unique_key
+                  selectedAction === row._id ? null : row._id
                 )
               }
             >
@@ -296,7 +319,7 @@ function CompanyPriceBook() {
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === row._id && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
@@ -335,6 +358,10 @@ function CompanyPriceBook() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  const handleSelectChange1 = (name, value) => {
+    formik.setFieldValue(name, value.map((item) => item.value))
+  };
 
   const CustomNoDataComponent = () => (
     <div className="text-center my-5">
@@ -393,6 +420,7 @@ function CompanyPriceBook() {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     formik.values = {
       name: "",
       status: "",
@@ -423,7 +451,7 @@ function CompanyPriceBook() {
       status: Yup.boolean(),
       category: Yup.string(),
       priceType: Yup.string(),
-      coverageType: Yup.string(),
+      coverageType: Yup.array(),
       term: Yup.string(),
       range: Yup.string(),
     }),
@@ -461,17 +489,31 @@ function CompanyPriceBook() {
             </ul>
           </div>
         </div>
+        <InActiveButton className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/addCompanyPriceBook"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
 
-        <Link
-          to={"/addCompanyPriceBook"}
-          className=" w-[230px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
-            Add Company Price Book{" "}
-          </span>{" "}
-        </Link>
+              Add Company Price Book{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="bg-white border-[1px] border-Light-Grey rounded-xl">
           <form onSubmit={formik.handleSubmit}>
@@ -497,17 +539,6 @@ function CompanyPriceBook() {
                     </div>
 
                     <div className="col-span-2 self-center">
-                      {/* <Input
-                      type="text"
-                      name="category"
-                      className="!text-[14px] !bg-White-Smoke"
-                      className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                      label=""
-                      placeholder="Category"
-                      value={formik.values.category}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    /> */}
                       <Select
                         name="category"
                         label=""
@@ -541,19 +572,27 @@ function CompanyPriceBook() {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
-                        className="!bg-transparent !p-0 mr-3"
+                        className=" mr-3"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         className="!text-[13px]"
                         onClick={() => openDisapproved()}
@@ -580,7 +619,20 @@ function CompanyPriceBook() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 data={companyPriceList}
@@ -628,7 +680,7 @@ function CompanyPriceBook() {
                   <p className="text-center text-3xl font-semibold ">
                     View Company Price Book
                   </p>
-                  <Grid className="mt-5 px-6">
+                  <Grid className="mt-5 px-6 max-h-[70vh] overflow-y-scroll">
                     <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Product Category
@@ -674,15 +726,7 @@ function CompanyPriceBook() {
                         {data.priceType}
                       </p>
                     </div>
-                    <div className="col-span-4">
-                      <p className="text-lg font-semibold">
-                        Coverage Type
-                      </p>
-                      <p className="text-base font-bold">
-                        {" "}
-                        {data.coverageType}
-                      </p>
-                    </div>
+
                     <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Term
@@ -729,7 +773,7 @@ function CompanyPriceBook() {
                           )}{" "}
                       </p>
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-4">
                       <p className="text-lg font-semibold">
                         Administration fee
                       </p>
@@ -766,7 +810,7 @@ function CompanyPriceBook() {
                       <>
                         <div className="col-span-4">
                           <p className="text-lg font-semibold">
-                            Range Start
+                            Start Range
                           </p>
                           <p className="text-base font-bold">
                             $
@@ -779,7 +823,7 @@ function CompanyPriceBook() {
                         </div>
                         <div className="col-span-4">
                           <p className="text-lg font-semibold">
-                            Range End
+                            End Range
                           </p>
                           <p className="text-base font-bold">
                             {" "}
@@ -791,6 +835,24 @@ function CompanyPriceBook() {
                         </div>
                       </>
                     )}
+                    <div className="col-span-12">
+                      <p className="text-lg font-semibold">
+                        Coverage Type
+                      </p>
+                      <p className="text-base font-bold">
+                        {" "}
+                        {data.optionDropdown && data.optionDropdown.length > 0 ? (
+
+                          <ol className="flex flex-wrap">
+                            {data.optionDropdown.map((label, index) => (
+                              <li className="font-semibold list-disc mx-[19px]" key={index}>{label.label}</li>
+                            ))}
+                          </ol>
+                        ) : (
+                          "No coverage types available"
+                        )}
+                      </p>
+                    </div>
                     {data.priceType == "Quantity Pricing" && (
                       <>
                         <div className="col-span-12">
@@ -905,7 +967,7 @@ function CompanyPriceBook() {
                         type="text"
                         name="range"
                         className="!bg-white"
-                        label="Product Retail Price"
+                        label="Product Price Range"
                         placeholder=""
                         value={formik.values.range}
                         onChange={formik.handleChange}
@@ -914,16 +976,67 @@ function CompanyPriceBook() {
                     </div>
                   )}
                   <div className="col-span-6">
-                    <Select
-                      name="coverageType"
-                      label="Coverage Type"
-                      options={coverage}
-                      OptionName="Coverage Type"
-                      color="text-Black-Russian opacity-50"
-                      className="!text-[14px] !bg-white"
-                      value={formik.values.coverageType}
-                      onChange={formik.setFieldValue}
-                    />
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type"
+                          name="coverageType"
+                          placeholder=""
+                          className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                          styles={{
+                            chips: (provided) => ({
+                              ...provided,
+                              backgroundColor:
+                                "#f0ad4e",
+                              color: "white",
+                            }),
+                            searchBox: (provided) => ({
+                              ...provided,
+                              backgroundColor:
+                                "#f7f7f7",
+                              border:
+                                "1px solid #ddd",
+                              cursor: "pointer",
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? "#f0ad4e"
+                                : "white",
+                              color: state.isSelected ? "white" : "black",
+                              "&:hover": {
+                                backgroundColor:
+                                  "#f0ad4e",
+                                color: "white",
+                              },
+                            }),
+                          }}
+                          onChange={(value) => {
+                            setSelected(value);
+                            handleSelectChange1("coverageType", value);
+                          }}
+                          options={coverageTypes}
+                          value={selected}
+                          onBlur={formik.handleBlur}
+                          error={
+                            formik.touched.coverageType &&
+                            formik.errors.coverageType
+                          }
+                        />
+                      </div>
+                      {formik.touched.coverageType &&
+                        formik.errors.coverageType && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formik.errors.coverageType}
+                          </div>
+                        )}
+                    </div>
                   </div>
                   <div className="col-span-6">
                     <Select

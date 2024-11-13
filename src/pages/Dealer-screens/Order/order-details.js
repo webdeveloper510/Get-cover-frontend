@@ -33,6 +33,8 @@ import ContractList from "../../dashboard/Contract/contractList";
 import FileDownloader from "../../termAndCondition";
 import { apiUrl } from "../../../services/authServices";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function OrderDetails() {
   const location = useLocation();
@@ -41,7 +43,6 @@ function OrderDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const [userDetails, setUserDetails] = useState({});
   const [invoiceData, setInvoiceData] = useState({});
-  const [contractDetails, setContractDetails] = useState();
   const { orderId } = useParams();
   const navigate = useNavigate();
   const baseUrl = apiUrl();
@@ -116,6 +117,7 @@ function OrderDetails() {
   const [backGroundColor, setBackGroundColor] = useState('');
 
   useEffect(() => {
+
     const storedUserDetails = getUserDetailsFromLocalStorage();
 
     if (storedUserDetails) {
@@ -133,19 +135,25 @@ function OrderDetails() {
         }
       });
     }
+
   }, []);
 
   return (
     <>
       {loading1 && (
+
         <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
           <div className="self-center mx-auto">
             <RotateLoader color="#fff" />
           </div>
         </div>
+
       )}
+
       <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+
         <Headbar />
+
         <div className="flex">
           <Link
             onClick={handleGOBack}
@@ -176,14 +184,15 @@ function OrderDetails() {
         </div>
 
         <Grid className="!grid-cols-4 mt-5">
+
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl font-semibold">
                     {" "}
                     {orderDetails.unique_key}{" "}
                   </p>
@@ -197,10 +206,10 @@ function OrderDetails() {
                   alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5 w-[78%] break-words">
+                  <p className="text-base font-semibold leading-5 w-[78%] break-words">
                     {orderDetails.venderOrder}
                   </p>
                 </div>
@@ -212,10 +221,10 @@ function OrderDetails() {
                   alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Service Coverage
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderDetails.serviceCoverageType}
                   </p>
                 </div>
@@ -227,16 +236,25 @@ function OrderDetails() {
                   alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Coverage Type
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
-                    {orderDetails.coverageType}
+                  <p className="text-base font-semibold leading-5">
+                    {orderDetails?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   Other Details
                 </p>
                 <hr className="self-center border-[#999999] w-[70%]" />
@@ -266,10 +284,10 @@ function OrderDetails() {
                       ) : null}
                     </div>
                     <div className="w-[80%]">
-                      <p className="text-sm text-neutral-grey font-Regular">
+                      <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
-                      <p className="text-base text-white font-semibold ">
+                      <p className="text-base font-semibold ">
                         {userDetails?.resellerData?.name}
                       </p>
                     </div>
@@ -309,10 +327,10 @@ function OrderDetails() {
                   )}
                 </div>
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Customer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {userDetails?.customerData?.username}
                   </p>
                 </div>
@@ -354,19 +372,18 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <Button className="!bg-white !text-light-black !text-sm border flex">
-                    {/* <img src={Csv} className="mr-3 self-center" alt="Csv" />{" "} */}
+                  <InActiveButton className="!bg-white !text-light-black !text-sm border flex">
                     <span className="self-center">
                       <PdfGenerator
                         data={orderDetails._id}
                         setLoading={setLoading1}
                       />
                     </span>
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-6">
-                  {userDetails?.termCondition == '' ? <></> : (
-                    <Button className="!bg-white !text-light-black !text-sm border flex cursor-pointer hover:font-semibold">
+                  {orderDetails?.termCondition?.fileName == '' || orderDetails?.termCondition == undefined ? <></> : (
+                    <InActiveButton className="!text-sm border flex cursor-pointer hover:font-semibold">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -375,12 +392,14 @@ function OrderDetails() {
                           apiUrlData={baseUrl}
                         />
                       </span>
-                    </Button>
+                    </InActiveButton>
                   )}
                 </div>
               </Grid>
-            </div>
+
+            </SingleView>
           </div>
+
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="">
               <div className="col-span-5">
@@ -439,7 +458,9 @@ function OrderDetails() {
               </div>
             ))}
           </div>
+
         </Grid>
+
       </div>
 
       <Modal isOpen={isServicerModal} onClose={closeServicer}>
@@ -472,6 +493,7 @@ function OrderDetails() {
           </div>
         </form>
       </Modal>
+
     </>
   );
 }

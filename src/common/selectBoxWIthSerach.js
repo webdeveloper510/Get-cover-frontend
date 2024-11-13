@@ -57,6 +57,7 @@ const SelectBoxWithSearch = ({
       boxShadow: state.isFocused ? "0 0 0 0px #80808085" : provided.boxShadow,
       whiteSpace: "nowrap",
       overflow: "hidden",
+      backgroundColor: state.isDisabled ? "#ebebebc4" : "white",
       textOverflow: "ellipsis",
     }),
     option: (provided, state) => ({

@@ -9,8 +9,8 @@ import Grid from "../../common/grid";
 import Input from "../../common/input";
 import Cross from "../../assets/images/Cross.png";
 import DataTable from "react-data-table-component";
-import { getDealerPricebookDetailById } from "../../services/dealerServices";
-import { getCategoryList, getTermList } from "../../services/priceBookService";
+import { getdealerPriceBookById } from "../../services/dealerServices";
+import { getCategoryList, getCovrageList, getTermList } from "../../services/priceBookService";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import Select from "../../common/select";
@@ -29,12 +29,16 @@ import {
   priceBookFilter,
 } from "../../services/dealerServices/priceBookServices";
 import Card from "../../common/card";
+import { MultiSelect } from "react-multi-select-component";
+import InActiveButton from "../../common/inActiveButton";
 function ResellerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState();
   const [selectedAction, setSelectedAction] = useState(null);
   const [priceBookList, setPriceBookList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [coverageTypes, setCoverageTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
@@ -59,6 +63,25 @@ function ResellerPriceBook(props) {
     { label: "Flat Pricing", value: "Flat Pricing" },
     { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
+
+  const handleSelectChange1 = (name, value) => {
+    formik.setFieldValue(name, value.map((item) => item.value))
+  };
+
+  const getCovrageListData = async () => {
+    try {
+      const res = await getCovrageList();
+      console.log(res);
+      setCoverageTypes(
+        res.result.value.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    }
+  };
 
   const getTermListData = async () => {
     try {
@@ -111,6 +134,7 @@ function ResellerPriceBook(props) {
   };
 
   useEffect(() => {
+    getCovrageListData();
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSelectedAction(null);
@@ -126,8 +150,8 @@ function ResellerPriceBook(props) {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.priceBooks.unique_key,
+      name: "Sr.#",
+      selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "70px",
@@ -162,8 +186,8 @@ function ResellerPriceBook(props) {
       selector: (row) => {
         const months = row.priceBooks?.term;
         if (months) {
-          const years = (months / 12);
-          return `${years} ${years == 1 ? 'Year' : 'Years'} `;
+          const years = months / 12;
+          return `${years} ${years == 1 ? "Year" : "Years"} `;
         }
         return "N/A";
       },
@@ -191,14 +215,18 @@ function ResellerPriceBook(props) {
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div onClick={() => setSelectedAction(row.unique_key)}>
+            <div
+              onClick={() =>
+                setSelectedAction(selectedAction === index ? null : index)
+              }
+            >
               <img
                 src={ActiveIcon}
-                className="cursor-pointer	w-[35px]"
+                className="cursor-pointer w-[35px]"
                 alt="Active Icon"
               />
             </div>
-            {selectedAction === row.unique_key && (
+            {selectedAction === index && (
               <div
                 ref={dropdownRef}
                 className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg text-light-black shadow-md ${calculateDropdownPosition(
@@ -252,6 +280,7 @@ function ResellerPriceBook(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setSelected([])
     priceBookData({
       name: "",
       status: "",
@@ -406,17 +435,25 @@ function ResellerPriceBook(props) {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
-                        className="!bg-transparent !p-0 mr-4"
+                        className=" mr-4"
                         onClick={handleFilterIconClick}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         className="!text-[13px]"
                         onClick={() => openDisapproved()}
@@ -445,7 +482,20 @@ function ResellerPriceBook(props) {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -512,16 +562,67 @@ function ResellerPriceBook(props) {
                 />
               </div>
               <div className="col-span-6">
-                <Select
-                  name="coverageType"
-                  label="Coverage Type"
-                  options={coverage}
-                  OptionName="Coverage Type"
-                  color="text-Black-Russian opacity-50"
-                  className="!text-[14px] !bg-white"
-                  value={formik.values.coverageType}
-                  onChange={formik.setFieldValue}
-                />
+                <div className="relative">
+                  <label
+                    htmlFor="coverageType"
+                    className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                  >
+                    Coverage Type
+                  </label>
+                  <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                    <MultiSelect
+                      label="Coverage Type"
+                      name="coverageType"
+                      placeholder=""
+                      className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                      styles={{
+                        chips: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f0ad4e",
+                          color: "white",
+                        }),
+                        searchBox: (provided) => ({
+                          ...provided,
+                          backgroundColor:
+                            "#f7f7f7",
+                          border:
+                            "1px solid #ddd",
+                          cursor: "pointer",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: state.isSelected
+                            ? "#f0ad4e"
+                            : "white",
+                          color: state.isSelected ? "white" : "black",
+                          "&:hover": {
+                            backgroundColor:
+                              "#f0ad4e",
+                            color: "white",
+                          },
+                        }),
+                      }}
+                      onChange={(value) => {
+                        setSelected(value);
+                        handleSelectChange1("coverageType", value);
+                      }}
+                      options={coverageTypes}
+                      value={selected}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.coverageType &&
+                        formik.errors.coverageType
+                      }
+                    />
+                  </div>
+                  {formik.touched.coverageType &&
+                    formik.errors.coverageType && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {formik.errors.coverageType}
+                      </div>
+                    )}
+                </div>
               </div>
               <div className="col-span-6">
                 <Select
@@ -554,7 +655,7 @@ function ResellerPriceBook(props) {
                     type="text"
                     name="range"
                     className="!bg-white"
-                    label="Product Retail Price"
+                    label="Product Price Range"
                     placeholder=""
                     value={formik.values.range}
                     onChange={formik.handleChange}
@@ -562,20 +663,6 @@ function ResellerPriceBook(props) {
                   />
                 </div>
               )}
-
-              {/* <div className="col-span-6">
-                  <Select
-                        name="status"
-                        label="Status"
-                        options={status}
-                        OptionName="Status"
-                        color="text-Black-Russian opacity-50"
-                        // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
-                        className="!text-[14px] !bg-white"
-                        value={formik.values.status}
-                        onChange={formik.setFieldValue}
-                    />
-                  </div> */}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>
                   Search
@@ -586,7 +673,7 @@ function ResellerPriceBook(props) {
         </form>
       </Modal>
 
-      <Modal isOpen={isViewOpen} onClose={closeView}>
+      <Modal className="!w-[900px]" isOpen={isViewOpen} onClose={closeView}>
         <Button
           onClick={closeView}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
@@ -598,37 +685,29 @@ function ResellerPriceBook(props) {
         </Button>
         <div className="py-3">
           <p className="text-center text-3xl font-semibold ">
-            {dealerPriceBook?.priceBooks?.name}
+            View Price Book Details
           </p>
           <Grid className="mt-5 px-6">
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Name
-              </p>
+              <p className="text-lg font-bold">Product Name</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.pName}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Price Type
-              </p>
+              <p className="text-lg font-bold">Price Type</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.priceType}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Product Category
-              </p>
+              <p className="text-lg font-bold">Product Category</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].name}{" "}
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Retail Price
-              </p>
+              <p className="text-lg font-bold">Retail Price</p>
               <p className="text-base font-semibold">
                 $
                 {dealerPriceBook?.retailPrice === undefined
@@ -644,26 +723,15 @@ function ResellerPriceBook(props) {
                 {dealerPriceBook?.priceBooks?.term} Months
               </p>
             </div>
+
             <div className="col-span-4">
-              <p className="text-lg font-bold">
-                Coverage Type
-              </p>
-              <p className="text-base font-semibold">
-                {dealerPriceBook?.priceBooks?.coverageType}{" "}
-              </p>
-            </div>
-            <div className="col-span-4">
-              <p className="text-lg font-semibold">
-                Dealer SKU
-              </p>
+              <p className="text-lg font-semibold">Dealer SKU</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.dealerSku}
               </p>
             </div>
             <div className="col-span-8">
-              <p className="text-lg font-bold">
-                Description
-              </p>
+              <p className="text-lg font-bold">Description</p>
               <p className="text-base font-semibold">
                 {dealerPriceBook?.priceBooks?.category[0].description}
               </p>
@@ -672,9 +740,7 @@ function ResellerPriceBook(props) {
             {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
               <>
                 <div className="col-span-4">
-                  <p className="text-lg font-bold">
-                    Start Range
-                  </p>
+                  <p className="text-lg font-bold">Start Range</p>
                   <p className="text-base font-semibold">
                     {" "}
                     $
@@ -686,9 +752,7 @@ function ResellerPriceBook(props) {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <p className="text-lg font-bold">
-                    End Range
-                  </p>
+                  <p className="text-lg font-bold">End Range</p>
                   <p className="text-base font-semibold">
                     $
                     {dealerPriceBook?.priceBooks?.rangeEnd === undefined
@@ -700,7 +764,6 @@ function ResellerPriceBook(props) {
                 </div>
               </>
             )}
-
 
             {dealerPriceBook?.priceBooks?.priceType == "Quantity Pricing" && (
               <>
@@ -727,6 +790,144 @@ function ResellerPriceBook(props) {
                 </div>
               </>
             )}
+          </Grid>
+          <Grid className="px-6 mt-5">
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims Over the Certain Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {/* {dealerPriceBook?.noOfClaim?.period} -{" "} */}
+                {
+                  dealerPriceBook?.noOfClaim?.value == "-1"
+                    ? ""
+                    : `${dealerPriceBook?.noOfClaim?.period} - `
+                }
+                {dealerPriceBook?.noOfClaim?.value == -1
+                  ? "Unlimited"
+                  : dealerPriceBook?.noOfClaim?.value}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className="text-base mb-3 font-semibold">
+                # of Claims in Coverage <br /> Period
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.noOfClaimPerPeriod == -1
+                  ? "Unlimited"
+                  : dealerPriceBook?.noOfClaimPerPeriod}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is manufacturer warranty included?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.isManufacturerWarranty == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-3">
+              <p className=" text-base mb-3 font-semibold">
+                {" "}
+                Is There a Maximum Claim Amount?
+              </p>
+              <p className="text-[14px] font-semibold">
+                {dealerPriceBook?.isMaxClaimAmount == true
+                  ? "Yes"
+                  : "No"}
+              </p>
+            </div>
+            <div className="col-span-12">
+              <table className="w-full border text-center">
+                <tr className="border bg-[#9999]">
+                  <th>Coverage Type</th>
+                  <th>Waiting Days</th>
+                  <th>Deductible Amount</th>
+                </tr>
+
+                {dealerPriceBook?.adhDays1 &&
+                  dealerPriceBook?.adhDays1.length > 0 && (
+                    <>
+                      {dealerPriceBook?.adhDays1.map((type, index) => (
+                        <tr key={index} className="border">
+                          <td className="font-semibold mx-5">{type.label}</td>
+                          <td className="font-semibold mx-5">
+                            {type.waitingDays}
+                          </td>
+                          <td className="font-semibold mx-5">
+                            {type.amountType === "percentage"
+                              ? `${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )} %`
+                              : `$${formatOrderValue(
+                                Number(type.deductible) ?? 0
+                              )}`}
+                          </td>
+                        </tr>
+                      ))}
+                    </>
+                  )}
+              </table>
+            </div>
+
+            {dealerPriceBook?.priceBooks?.priceType == "Flat Pricing" && (
+              <>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">Start Range</p>
+                  <p className="text-base font-semibold">
+                    {" "}
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeStart === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeStart ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+                <div className="col-span-4">
+                  <p className="text-lg font-bold">End Range</p>
+                  <p className="text-base font-semibold">
+                    $
+                    {dealerPriceBook?.priceBooks?.rangeEnd === undefined
+                      ? parseInt(0).toLocaleString(2)
+                      : formatOrderValue(
+                        dealerPriceBook?.priceBooks?.rangeEnd ??
+                        parseInt(0)
+                      )}
+                  </p>
+                </div>
+              </>
+            )}
+            {dealerPriceBook?.priceBooks?.priceType ==
+              "Quantity Pricing" && (
+                <>
+                  <div className="col-span-12">
+                    <table className="w-full border text-center">
+                      <tr className="border bg-[#9999]">
+                        <th colSpan={"2"}>Quantity Pricing List </th>
+                      </tr>
+                      <tr className="border bg-[#9999]">
+                        <th className="w-[50%]">Name</th>
+                        <th className="w-[50%]">Max Quantity</th>
+                      </tr>
+                      {dealerPriceBook?.priceBooks?.quantityPriceDetail
+                        .length !== 0 &&
+                        dealerPriceBook?.priceBooks?.quantityPriceDetail.map(
+                          (item, index) => (
+                            <tr key={index} className="border">
+                              <td>{item.name}</td>
+                              <td>{item.quantity}</td>
+                            </tr>
+                          )
+                        )}
+                    </table>
+                  </div>
+                </>
+              )}
           </Grid>
         </div>
       </Modal>

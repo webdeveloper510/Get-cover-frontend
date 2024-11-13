@@ -32,9 +32,12 @@ import {
 } from "../../../services/reSellerServices";
 import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ContractList(props) {
   console.log(props);
+  const userData = JSON.parse(localStorage.getItem("userDetails"));
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -326,20 +329,27 @@ function ContractList(props) {
                             alt="Search"
                           />
                         </Button>
-                        <Button
+                        <InActiveButton
                           type="submit"
                           disabled={disable}
-                          className="!bg-transparent !p-0"
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
-                            src={clearFilter}
-                            className="cursor-pointer	mx-auto"
-                            alt="clearFilter"
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                           />
-                        </Button>
+                        </InActiveButton>
                       </div>
                       <div
                         className={`${props.orderId == null ? "" : "text-center"
@@ -380,48 +390,46 @@ function ContractList(props) {
                         return (
                           <div className="px-3 mt-5" key={index}>
                             <div>
-                              <Grid className="bg-light-black !gap-2 !grid-cols-11 rounded-t-xl">
-                                <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
-                                  <p className="text-white py-2 font-Regular">
-                                    Contract ID : <b> {res?.unique_key} </b>
-                                  </p>
-                                </div>
-                                {props.orderId == null ? (
-                                  <>
-                                    <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
-                                      <p className="text-white py-2 font-Regular">
-                                        Order ID : <b> {res?.orderUniqueKey} </b>
-                                      </p>
-                                    </div>
-                                    <div className="col-span-4 self-center text-le bg-contract bg-cover bg-right bg-no-repeat ">
-                                      <p className="text-white py-2 font-Regular">
-                                        Dealer P.O. # :{" "}
-                                        <b> {res?.venderOrder} </b>
-                                      </p>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="col-span-7 self-center justify-end"></div>
-                                )}
-
-                                {/* <div className="col-span-1 self-center justify-end"></div> */}
-                                <div className="col-span-1 self-center flex justify-end">
-                                  <div
-                                    onClick={() => openView(res._id)}
-                                    className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                                  >
-                                    {" "}
-                                    <img
-                                      src={view}
-                                      className="ml-auto w-[23px] h-[23px] "
-                                      alt="edit"
-                                    />{" "}
+                              <SingleView className='rounded-t-xl'>
+                                <Grid className="!gap-2 !grid-cols-11">
+                                  <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
+                                    <p className="py-2 font-Regular">
+                                      Contract ID : <b> {res?.unique_key} </b>
+                                    </p>
                                   </div>
-                                  {!window.location.pathname.includes(
-                                    "/reseller/") || !window.location.pathname.includes(
-                                      "/dealer/") ?
-                                    (props.shownEdit ||
-                                      props.shownEdit === undefined ? (
+                                  {props.orderId == null ? (
+                                    <>
+                                      <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                        <p className="py-2 font-Regular">
+                                          Order ID :{" "}
+                                          <b> {res?.orderUniqueKey} </b>
+                                        </p>
+                                      </div>
+                                      <div className="col-span-4 self-center text-center bg-contract bg-cover bg-right bg-no-repeat ">
+                                        <p className="py-2 font-Regular">
+                                          Dealer P.O. # :{" "}
+                                          <b> {res?.venderOrder} </b>
+                                        </p>
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="col-span-7 self-center justify-end"></div>
+                                  )}
+
+                                  {/* <div className="col-span-1 self-center justify-end"></div> */}
+                                  <div className="col-span-1 self-center flex justify-end">
+                                    <div
+                                      onClick={() => openView(res._id)}
+                                      className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
+                                    >
+                                      {" "}
+                                      <img
+                                        src={view}
+                                        className="ml-auto w-[23px] h-[23px] "
+                                        alt="edit"
+                                      />{" "}
+                                    </div>
+                                    {userData.role === 'Super Admin' && (
                                       <Link to={`/editContract/${res._id}`}>
                                         <img
                                           src={Edit}
@@ -429,54 +437,57 @@ function ContractList(props) {
                                           alt="edit"
                                         />
                                       </Link>
-                                    ) : null) : ''}
-                                </div>
-                              </Grid>
+                                    )}
+
+                                  </div>
+                                </Grid>
+
+                              </SingleView>
 
                               <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
-                                <div className="col-span-1 border border-Light-Grey rounded-es-xl">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                <div className={`col-span-1 border border-Light-Grey ${res?.overThreshold === false && 'rounded-es-xl'}`}>
+                                  <div className="py-4 px-3">
+                                    <p className=" text-sm font-Regular">
                                       Manufacturer
                                     </p>
-                                    <p className="text-light-black text-base font-semibold">
+                                    <p className=" text-base font-semibold">
                                       {res.manufacture}
                                     </p>
                                   </div>
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                  <div className="py-4 px-3">
+                                    <p className=" text-sm font-Regular">
                                       Model
                                     </p>
-                                    <p className="text-light-black text-base font-semibold">
+                                    <p className=" text-base font-semibold">
                                       {res.model}
                                     </p>
                                   </div>
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                  <div className="py-4 px-3">
+                                    <p className=" text-sm font-Regular">
                                       Serial # / Device ID
                                     </p>
-                                    <p className="text-light-black text-base font-semibold">
+                                    <p className=" text-base font-semibold break-words">
                                       {res.serial}
                                     </p>
                                   </div>
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                  <div className="py-4 px-3">
+                                    <p className=" text-sm font-Regular">
                                       Status
                                     </p>
-                                    <p className="text-light-black text-base font-semibold">
+                                    <p className=" text-base font-semibold">
                                       {res.status}
                                     </p>
                                   </div>
                                 </div>
-                                <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                                  <div className="py-4 pl-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                <div className={`col-span-1 border border-Light-Grey  ${res?.overThreshold === false && 'rounded-ee-xl'}`}>
+                                  <div className="py-4 px-3">
+                                    <p className=" text-sm font-Regular">
                                       Eligibility
                                     </p>
                                     {res?.eligibilty === false ? (
@@ -486,18 +497,25 @@ function ContractList(props) {
                                           id={`tooltip-${index}`}
                                           content={res?.reason}
                                         >
-                                          <p className="text-light-black cursor-pointer text-base font-semibold">
+                                          <p className=" cursor-pointer text-base font-semibold">
                                             Not Eligible
                                           </p>
                                         </CommonTooltip>
                                       </>
                                     ) : (
-                                      <p className="text-light-black text-base font-semibold">
+                                      <p className=" text-base font-semibold">
                                         Eligible
                                       </p>
                                     )}
                                   </div>
                                 </div>
+                                {res?.overThreshold === false ? (
+                                  <></>
+                                ) : (
+                                  <div className="col-span-5 border border-Light-Grey text-center rounded-b-xl">
+                                    <p className="py-2 px-2 font-semibold"> {res?.threshHoldMessage}</p>
+                                  </div>
+                                )}
                               </Grid>
                             </div>
                           </div>
@@ -526,7 +544,6 @@ function ContractList(props) {
             </div>
           </Card>
           {/* )} */}
-
         </div>
       </div>
       <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
@@ -545,7 +562,6 @@ function ContractList(props) {
               Advance Search
             </p>
             <div className="max-h-[70vh] overflow-y-scroll">
-
               <Grid className="my-5 px-6">
                 <div className="col-span-6">
                   <Input
@@ -594,18 +610,22 @@ function ContractList(props) {
                     {...formik.getFieldProps("serial")}
                   />
                 </div>
-                {window.location.pathname.includes(
-                  "/reseller/") || window.location.pathname.includes(
-                    "/dealer/") ? '' : <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="productName"
-                    className="!bg-white"
-                    label="Product SKU"
-                    placeholder=""
-                    {...formik.getFieldProps("productName")}
-                  />
-                </div>}
+                {userData.role == "Reseller" ||
+                  userData.role == "Dealer" ||
+                  userData.role == "Customer" ? (
+                  ""
+                ) : (
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="productName"
+                      className="!bg-white"
+                      label="Product SKU"
+                      placeholder=""
+                      {...formik.getFieldProps("productName")}
+                    />
+                  </div>
+                )}
                 <div className="col-span-6">
                   <Input
                     type="text"
@@ -804,11 +824,10 @@ function ContractList(props) {
                     onChange={handleSelectChange2}
                   />
                 </div>
-
               </Grid>
             </div>
 
-            <div className="col-span-12">
+            <div className="px-6">
               <Button type="submit" className={"w-full"}>
                 Search
               </Button>
@@ -817,11 +836,7 @@ function ContractList(props) {
         </form>
       </Modal>
 
-      <Modal
-        isOpen={isViewOpen}
-        onClose={closeView}
-        className="!w-[1100px]"
-      >
+      <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         { }
         {window.location.pathname.includes(
           "/reseller"
@@ -865,432 +880,520 @@ function ContractList(props) {
               </div>
             ) : (
               <>
-                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="text-white py-2 font-Regular">
-                      Contract ID : <b> {contractDetails.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Order ID :{" "}
-                      <b> {contractDetails?.order?.[0]?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="text-white py-2 font-Regular">
-                      Dealer P.O. # :{" "}
-                      <b> {contractDetails?.order?.[0]?.venderOrder} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-1 self-center justify-end"></div>
-                </Grid>
-
-                <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Manufacturer
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.manufacture}
+                <SingleView className='rounded-t-xl'>
+                  <Grid className=" !gap-2 !grid-cols-11 !px-3 ">
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                      <p className="py-2 font-Regular">
+                        Contract ID : <b> {contractDetails.unique_key} </b>
                       </p>
                     </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Model
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.model}
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Order ID :{" "}
+                        <b> {contractDetails?.order?.[0]?.unique_key} </b>
                       </p>
                     </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Serial # / Device ID
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.serial}
+                    <div className="col-span-4 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Dealer P.O. # :{" "}
+                        <b> {contractDetails?.order?.[0]?.venderOrder} </b>
                       </p>
                     </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Condition
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails.condition}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Retail Price
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        $
-                        {contractDetails.productValue === undefined
-                          ? parseInt(0).toLocaleString(2)
-                          : formatOrderValue(
-                            Number(contractDetails.productValue) ??
-                            parseInt(0)
-                          )}
-                      </p>
-                    </div>
-                  </div>
-                  {props.flag === "dealer" ? null : (
-                    <>
-                      {!window.location.pathname.includes("/reseller") &&
-                        !window.location.pathname.includes(
-                          "/customerDetails"
-                        ) &&
-                        (props.shownEdit ||
-                          props.shownEdit === undefined ? (
-                          <div className="col-span-1 border border-Light-Grey">
-                            <div className="py-4 pl3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
-                                Dealer Name
-                              </p>
-                              <p className="text-light-black text-base font-semibold">
-                                {
-                                  contractDetails?.order?.[0]?.customer?.[0]
-                                    ?.dealerName
-                                }
-                              </p>
-                            </div>
-                          </div>
-                        ) : null)}
-                    </>
-                  )}
-
-                  {!window.location.pathname.includes("/reseller") &&
-                    !window.location.pathname.includes(
-                      "/customerDetails"
-                    ) &&
-                    (props.isShow || props.isShown === undefined ? (
-                      <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Reseller Name
-                          </p>
-                          <p className="text-light-black text-base font-semibold">
-                            {
-                              contractDetails?.order?.[0]?.reseller?.[0]
-                                ?.name
-                            }
-                          </p>
-                        </div>
-                      </div>
-                    ) : null)}
-
-                  {!window.location.pathname.includes("/customerDetails") &&
-                    (props.type != "customer" || props.type == undefined) ? (
+                    <div className="col-span-1 self-center justify-end"></div>
+                  </Grid>
+                </SingleView>
+                <div className=" mb-5 max-h-[70vh] overflow-y-scroll">
+                  <Grid className="!gap-0 !grid-cols-5 ">
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Customer Name
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Manufacturer
                         </p>
-                        <p className="text-light-black text-base font-semibold">
-                          {
-                            contractDetails?.order?.[0]?.customer?.[0]
-                              ?.username
-                          }
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.manufacture}
                         </p>
                       </div>
                     </div>
-                  ) : null}
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Servicer Name
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.order?.[0]?.servicer?.[0]?.name}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Status
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.status}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Category
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetails?.order?.[0]?.productsArray?.[0]
-                            ?.priceBook?.[0].category.name
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  {window.location.pathname.includes(
-                    "/reseller/") || window.location.pathname.includes(
-                      "/dealer/") ? '' :
                     <div className="col-span-1 border border-Light-Grey">
-                      <div className="py-4 pl-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
-                          Product SKU
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Model
                         </p>
-                        <p className="text-light-black text-base font-semibold">
-                          {contractDetails?.productName}
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.model}
                         </p>
                       </div>
                     </div>
-                  }
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Dealer SKU
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.dealerSku}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Name
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {contractDetails?.pName}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Price Type
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetails?.order?.[0]?.productsArray?.[0]
-                            ?.priceType
-                        }
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-2 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Product Description
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {
-                          contractDetails?.order?.[0]?.productsArray?.[0]
-                            ?.description
-                        }
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Eligibility
-                      </p>
-                      {contractDetails?.eligibilty === false ? (
-                        <>
-                          <CommonTooltip
-                            place="top"
-                            id="tooltip-default"
-                            content={contractDetails?.reason}
-                          >
-                            <p className="text-light-black cursor-pointer text-base font-semibold">
-                              Not Eligible
-                            </p>
-                          </CommonTooltip>
-                        </>
-                      ) : (
-                        <p className="text-light-black text-base font-semibold">
-                          Eligible
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Serial # / Device ID
                         </p>
-                      )}
+                        <p className=" text-base font-semibold break-words">
+                          {contractDetails?.serial}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Claim Amount
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        $
-                        {contractDetails.claimAmount === undefined
-                          ? parseInt(0).toLocaleString(2)
-                          : formatOrderValue(
-                            contractDetails.claimAmount ?? parseInt(0)
-                          )}
-                      </p>
+                    <div className="col-span-1 border border-Light-Grey ">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Condition
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {contractDetails.condition}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  {contractDetails?.order?.[0]?.productsArray?.[0]
-                    ?.priceType == "Flat Pricing" ? (
-                    <>
-                      <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            Start Range
+                    {props.type == "customer" ? <></> :
+                      <div className="col-span-1 border border-Light-Grey ">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Retail Price
                           </p>
-                          <p className="text-light-black text-base font-semibold">
+                          <p className=" text-base font-semibold">
                             $
-                            {contractDetails?.order?.[0]?.productsArray?.[0]
-                              ?.rangeStart === undefined
+                            {contractDetails.productValue === undefined
                               ? parseInt(0).toLocaleString(2)
                               : formatOrderValue(
-                                contractDetails?.order?.[0]
-                                  ?.productsArray?.[0]?.rangeStart ??
+                                Number(contractDetails.productValue) ??
                                 parseInt(0)
                               )}
                           </p>
                         </div>
-                      </div>
+                      </div>}
+
+                    {props.flag === "dealer" ? null : (
+                      <>
+                        {!window.location.pathname.includes("/reseller") &&
+                          !window.location.pathname.includes(
+                            "/customerDetails"
+                          ) &&
+                          (props.shownEdit || props.shownEdit === undefined ? (
+                            <div className="col-span-1 border border-Light-Grey">
+                              <div className="py-4 pl3">
+                                <p className=" text-sm font-Regular">
+                                  Dealer Name
+                                </p>
+                                <p className=" text-base font-semibold">
+                                  {
+                                    contractDetails?.order?.[0]?.customer?.[0]
+                                      ?.dealerName
+                                  }
+                                </p>
+                              </div>
+                            </div>
+                          ) : null)}
+                      </>
+                    )}
+
+                    {!window.location.pathname.includes("/reseller") &&
+                      !window.location.pathname.includes("/customerDetails") &&
+                      (props.isShow || props.isShown === undefined ? (
+                        <div className="col-span-1 border border-Light-Grey">
+                          <div className="py-4 px-3">
+                            <p className=" text-sm font-Regular">
+                              Reseller Name
+                            </p>
+                            <p className=" text-base font-semibold">
+                              {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null)}
+
+                    {!window.location.pathname.includes("/customerDetails") &&
+                      (props.type != "customer" || props.type == undefined) ? (
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
-                            End Range
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Customer Name
                           </p>
-                          <p className="text-light-black text-base font-semibold">
-                            $
-                            {contractDetails?.order?.[0]?.productsArray?.[0]
-                              ?.rangeEnd === undefined
-                              ? parseInt(0).toLocaleString(2)
-                              : formatOrderValue(
-                                contractDetails?.order?.[0]
-                                  ?.productsArray?.[0]?.rangeEnd ??
-                                parseInt(0)
-                              )}{" "}
+                          <p className=" text-base font-semibold">
+                            {
+                              contractDetails?.order?.[0]?.customer?.[0]
+                                ?.username
+                            }
                           </p>
                         </div>
                       </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Coverage Start Date
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate
-                        ).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Coverage End Date
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {new Date(
-                          contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate
-                        ).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Labour Warranty Start Date
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {new Date(
-                          contractDetails?.labourWarranty
-                        ).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Part Warranty Start Date
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {new Date(
-                          contractDetails?.partsWarranty
-                        ).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
-                      <p className="text-[#5D6E66] text-sm font-Regular">
-                        Purchase Date
-                      </p>
-                      <p className="text-light-black text-base font-semibold">
-                        {new Date(
-                          contractDetails?.purchaseDate
-                        ).toLocaleDateString("en-US", {
-                          month: "2-digit",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  {contractDetails?.order?.[0]?.productsArray?.[0]
-                    ?.priceType == "Quantity Pricing" ? (
-                    <>
-                      <div className="col-span-5">
-                        <table className="w-full border text-center">
-                          <tr className="border bg-[#9999]">
-                            <th colSpan={"3"}>Quantity Pricing List </th>
-                          </tr>
-                          <tr className="border bg-[#9999]">
-                            <th className="w-1/3">Name</th>
-                            <th className="w-1/3"> Quantity Per Unit</th>
-                            <th className="w-1/3"> Quantity</th>
-                          </tr>
-                          {contractDetails?.order?.[0].productsArray?.[0]
-                            ?.QuantityPricing.length !== 0 &&
-                            contractDetails?.order?.[0].productsArray?.[0]?.QuantityPricing.map(
-                              (item, index) => (
-                                <tr key={index} className="border">
-                                  <td>{item.name}</td>
-                                  <td>{item.quantity}</td>
-                                  <td>{item.enterQuantity}</td>
-                                </tr>
-                              )
-                            )}
-                        </table>
+                    ) : null}
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Servicer Name
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.order?.[0]?.servicer?.[0]?.name}
+                        </p>
                       </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Status
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.status}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Product Category
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {
+                            contractDetails?.order?.[0]?.productsArray?.[0]
+                              ?.priceBook?.[0].category.name
+                          }
+                        </p>
+                      </div>
+                    </div>
+                    {userData.role == "Reseller" ||
+                      userData.role == "Dealer" ||
+                      userData.role == "Customer" ? (
+                      ""
+                    ) : (
+                      <div className="col-span-1 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Product SKU
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {contractDetails?.productName}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Dealer SKU
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.dealerSku}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-2 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Product Name
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {contractDetails?.pName}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-2 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Product Description
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {
+                            contractDetails?.order?.[0]?.productsArray?.[0]
+                              ?.description
+                          }
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Price Type
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {
+                            contractDetails?.order?.[0]?.productsArray?.[0]
+                              ?.priceType
+                          }
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Eligibility
+                        </p>
+                        {contractDetails?.eligibilty === false ? (
+                          <>
+                            <CommonTooltip
+                              place="top"
+                              id="tooltip-default"
+                              content={contractDetails?.reason}
+                            >
+                              <p className=" cursor-pointer text-base font-semibold">
+                                Not Eligible
+                              </p>
+                            </CommonTooltip>
+                          </>
+                        ) : (
+                          <p className=" text-base font-semibold">
+                            Eligible
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {props.type == "customer" ? <></> :
+                      <div className="col-span-1 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Claim Amount
+                          </p>
+                          <p className=" text-base font-semibold">
+                            $
+                            {contractDetails.claimAmount === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(
+                                contractDetails.claimAmount ?? parseInt(0)
+                              )}
+                          </p>
+                        </div>
+                      </div>}
+                    {contractDetails?.order?.[0]?.productsArray?.[0]
+                      ?.priceType == "Flat Pricing" ? (
+                      <>
+                        <div className="col-span-1 border border-Light-Grey">
+                          <div className="py-4 px-3">
+                            <p className=" text-sm font-Regular">
+                              Start Range
+                            </p>
+                            <p className=" text-base font-semibold">
+                              $
+                              {contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.rangeStart === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                  contractDetails?.order?.[0]
+                                    ?.productsArray?.[0]?.rangeStart ??
+                                  parseInt(0)
+                                )}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="col-span-1 border border-Light-Grey">
+                          <div className="py-4 px-3">
+                            <p className=" text-sm font-Regular">
+                              End Range
+                            </p>
+                            <p className=" text-base font-semibold">
+                              $
+                              {contractDetails?.order?.[0]?.productsArray?.[0]
+                                ?.rangeEnd === undefined
+                                ? parseInt(0).toLocaleString(2)
+                                : formatOrderValue(
+                                  contractDetails?.order?.[0]
+                                    ?.productsArray?.[0]?.rangeEnd ??
+                                  parseInt(0)
+                                )}{" "}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    <div className="col-span-1 border border-Light-Grey ">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Coverage Start Date
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {new Date(
+                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
+                          ).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Coverage End Date
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {new Date(
+                            contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
+                          ).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey ">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Manufacturer Labour Warranty End Date
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {new Date(
+                            contractDetails?.labourWarranty
+                          ).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey ">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Manufacturer Parts Warranty End Date
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {new Date(
+                            contractDetails?.partsWarranty
+                          ).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="col-span-1 border border-Light-Grey ">
+                      <div className="py-4 px-3">
+                        <p className=" text-sm font-Regular">
+                          Purchase Date
+                        </p>
+                        <p className=" text-base font-semibold">
+                          {new Date(
+                            contractDetails?.purchaseDate
+                          ).toLocaleDateString("en-US", {
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    {contractDetails?.order?.[0]?.productsArray?.[0]
+                      ?.priceType == "Quantity Pricing" ? (
+                      <>
+                        <div className="col-span-5">
+                          <table className="w-full border text-center">
+                            <tr className="border bg-[#9999]">
+                              <th colSpan={"3"}>Quantity Pricing List </th>
+                            </tr>
+                            <tr className="border bg-[#9999]">
+                              <th className="w-1/3">Name</th>
+                              <th className="w-1/3"> Quantity Per Unit</th>
+                              <th className="w-1/3"> Quantity</th>
+                            </tr>
+                            {contractDetails?.order?.[0].productsArray?.[0]
+                              ?.QuantityPricing.length !== 0 &&
+                              contractDetails?.order?.[0].productsArray?.[0]?.QuantityPricing.map(
+                                (item, index) => (
+                                  <tr key={index} className="border">
+                                    <td>{item.name}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>{item.enterQuantity}</td>
+                                  </tr>
+                                )
+                              )}
+                          </table>
+                        </div>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </Grid>
+                  <Grid className="!gap-0 ">
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className="text-base mb-2 text-left font-semibold">
+                        # of Claims Over the Certain Period
+                      </p>
+                      <p className="text-[14px] mb-2 text-left font-semibold">
+
+                        {
+                          contractDetails?.noOfClaim?.value == "-1"
+                            ? ""
+                            : `${contractDetails?.noOfClaim?.period} - `
+                        }
+                        {" "}
+                        {contractDetails?.noOfClaim?.value == -1
+                          ? "Unlimited"
+                          : contractDetails?.noOfClaim?.value}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className="text-base mb-2 text-left font-semibold">
+                        # of Claims in Coverage<br /> Period
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.noOfClaimPerPeriod == -1
+                          ? "Unlimited"
+                          : contractDetails?.noOfClaimPerPeriod}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className=" text-base mb-2 text-left font-semibold">
+                        {" "}
+                        Is manufacturer warranty included?
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.isManufacturerWarranty == true
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div className="col-span-3 border border-Light-Grey pl-4">
+                      <p className=" text-base mb-2 text-left font-semibold">
+                        {" "}
+                        Is There a Maximum Claim <br /> Amount ?
+                      </p>
+                      <p className="text-[14px] text-left font-semibold">
+                        {contractDetails?.isMaxClaimAmount == true
+                          ? "Yes"
+                          : "No"}
+                      </p>
+                    </div>
+                    <div className="col-span-12">
+                      <table className="w-full border text-center">
+                        <tr className="border bg-[#9999]">
+                          <th>Coverage Type</th>
+                          <th>Waiting Days</th>
+                          <th>Deductible</th>
+                        </tr>
+
+                        {contractDetails?.mergedData &&
+                          contractDetails?.mergedData.length > 0 && (
+                            <>
+                              {contractDetails?.mergedData.map((type, index) => (
+                                <tr key={index} className="border ">
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.label}
+                                  </td>
+                                  <td className="font-semibold mx-[19px]">
+                                    {type.waitingDays}
+                                  </td>
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.amountType != "percentage" && "$"}
+                                    {type.amountType === "percentage"
+                                      ? type.deductible
+                                      : type.deductible === undefined
+                                        ? (0).toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                        })
+                                        : formatOrderValue(type.deductible ?? 0)}
+                                    {type.amountType == "percentage" && "%"}
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          )}
+                      </table>
+                    </div>
+                  </Grid>
+                </div>
               </>
             )}
           </div>

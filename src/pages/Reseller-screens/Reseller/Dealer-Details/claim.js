@@ -145,28 +145,28 @@ function ClaimList() {
               <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
                 <div className='col-span-2 flex '>
                   <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
                     <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
                     <p className='text-light-black text-sm font-semibold'>Apple</p>
                   </div>
                 </div>
                 <div className='col-span-4 flex'>
                   <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
                     <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
                     <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
                   </div>
@@ -176,58 +176,58 @@ function ClaimList() {
 
               <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
@@ -316,28 +316,28 @@ function ClaimList() {
               <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
                 <div className='col-span-2 flex '>
                   <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
                     <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
                     <p className='text-light-black text-sm font-semibold'>Apple</p>
                   </div>
                 </div>
                 <div className='col-span-4 flex'>
                   <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
                     <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
                     <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
                   </div>
@@ -347,58 +347,58 @@ function ClaimList() {
 
               <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
@@ -487,28 +487,28 @@ function ClaimList() {
               <Grid className='!gap-0 bg-grayf9 border-Gray28 border-x'>
                 <div className='col-span-2 flex '>
                   <img src={productName} className='self-center h-[50px] w-[50px] ml-3' alt='productName' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Name</p>
                     <p className='text-light-black text-sm font-semibold'>Mac Book Air</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={Manufacturer} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Manufacturer</p>
                     <p className='text-light-black text-sm font-semibold'>Apple</p>
                   </div>
                 </div>
                 <div className='col-span-4 flex'>
                   <img src={model} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Model</p>
                     <p className='text-light-black text-sm font-semibold'>Apple Mac Book Air 2nd Gen, 256 GB</p>
                   </div>
                 </div>
                 <div className='col-span-3 flex'>
                   <img src={serial} className='self-center h-[50px] w-[50px] ml-3' alt='' />
-                  <div className='py-4 pl-3 self-center'>
+                  <div className='py-4 px-3 self-center'>
                     <p className='text-[#5D6E66] text-[11px] font-Regular'>Product Serial  / Device ID</p>
                     <p className='text-light-black text-sm font-semibold'>GG7W212JHLF10</p>
                   </div>
@@ -518,58 +518,58 @@ function ClaimList() {
 
               <Grid className='!gap-0 bg-light-black rounded-b-[22px] mb-5 border-Gray28 border-x'>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>$18.00</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Service Type</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>Shipping, Labor</p>
                   </div>
                 </div>
                 <div className='col-span-8 bg-light-black border-r border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-[11px] font-Regular'>Description</p>
                     <p className='text-[#5D6E66] text-sm font-semibold'>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate
                       form of a document or a typeface without relying on meaningful content.</p>
                   </div>
                 </div>
                 <div className='col-span-2 bg-light-black border-b border-Gray28'>
-                  <div className='py-4 pl-3'>
+                  <div className='py-4 px-3'>
                     <p className='text-white text-sm font-Regular'>Price($)</p>
                     <p className='text-[#5D6E66] text-base font-semibold'>$18.00</p>
                   </div>

@@ -91,6 +91,7 @@ import DealerOrderDetails from "../pages/Dealer-screens/Order/order-details";
 import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 import AllList from "../pages/Servicer-screens/Reporting/claims";
+import ClaimListing from "../pages/dashboard/Claim/claimListing";
 
 const routes = [
   {
@@ -219,6 +220,13 @@ const routes = [
           <PrivateRoute element={<DealerDetails />} role={"Super Admin"} />
         ),
       },
+      {
+        path: "/claim-listing/:claimId",
+        index: true,
+        element: (
+          <PrivateRoute element={<ClaimListing />} />
+        ),
+      },
 
       {
         path: "/addDealer/:id?",
@@ -231,7 +239,7 @@ const routes = [
         ),
       },
       {
-        path: "/addDealerBook/:dealerIdValue?",
+        path: "/addPriceBook/:dealerIdValue?",
         element: (
           <PrivateRoute element={<AddDealerBook />} role={"Super Admin"} />
         ),
@@ -265,12 +273,12 @@ const routes = [
         element: <AddCompanyPriceBook />,
       },
       {
-        path: "/uploadDealerBook",
+        path: "/uploadPriceBook",
         element: (
           <PrivateRoute
             element={<UploadDealerBook />}
             role={"Super Admin"}
-            path="/uploadDealerBook"
+            path="/uploadPriceBook"
           />
         ),
       },

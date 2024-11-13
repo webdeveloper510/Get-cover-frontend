@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Declare the base URL of the API
-const url = process.env.REACT_APP_API_KEY_LOCAL
+const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 const getAccessToken = () => {
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -52,7 +52,38 @@ export const getCategoryList = async (fitervalue) => {
   }
 };
 
-export const getCategoryListActiveData = async (value, id, ) => {
+export const getCategoryListCoverage = async (id) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.get(`${url}/price/getCoverageType/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCoverageTypeAndAdhDays = async (id, dealerId) => {
+  const headers = createHeaders();
+  console.log(headers);
+  try {
+    const response = await axios.post(
+      `${url}/price/getCoverageTypeAndAdhDays/${id}`,
+      { dealerId: dealerId },
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getCategoryListActiveData = async (value, id) => {
   const headers = createHeaders();
   console.log(headers);
   try {
@@ -122,6 +153,36 @@ export const getTermList = async () => {
 
   try {
     const response = await axios.get(`${url}/user/getAllTerms`, { headers });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DownloadSet = async (fileName) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/user/downloadFile`, { key: fileName }, {
+      headers,
+      responseType: "arraybuffer",
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export const getCovrageList = async () => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/user/getOption/coverage_type`, {
+      headers,
+    });
 
     return response.data;
   } catch (error) {
@@ -206,7 +267,7 @@ export const getPriceBookByDealerId = async (id) => {
 };
 
 export const uploadDealerBookInBulk = async (data) => {
-  const accessToken = getAccessToken(); 
+  const accessToken = getAccessToken();
   const headers = {
     "Content-Type": "multipart/form-data",
   };
@@ -218,6 +279,32 @@ export const uploadDealerBookInBulk = async (data) => {
   try {
     const response = await axios.post(
       `${url}/dealer/uploadDealerPriceBook`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const uploadCompanyPriceBookInBulk = async (data) => {
+  const accessToken = getAccessToken();
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+
+  if (accessToken) {
+    headers["x-access-token"] = accessToken;
+  }
+
+  try {
+    const response = await axios.post(
+      `${url}/price/UploadPriceBook`,
       data,
       {
         headers,

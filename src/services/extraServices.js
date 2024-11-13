@@ -176,6 +176,21 @@ export const editUserDetailsbyToken = async (data) => {
   }
 };
 
+export const updateThreshHoldLimit = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updateThreshHoldLimit`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 export const changePasswordbyToken = async (data) => {
   const headers = createHeaders();
   try {
@@ -231,6 +246,21 @@ export const uploadFile = async (data) => {
   }
 };
 
+export const dealerSaveSetting = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/saveDealerSetting`, data, {
+      headers: {
+        ...headers,
+
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 export const saveSetting = async (data) => {
   const headers = createHeaders();
   try {
@@ -246,6 +276,24 @@ export const saveSetting = async (data) => {
     throw error;
   }
 };
+
+
+export const dealerGetSetting = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/dealer/getDealerColorSetting/${id}`, {
+      headers: {
+        ...headers,
+        // Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getSetting = async () => {
   const headers = createHeaders();
   try {
@@ -266,6 +314,21 @@ export const resetSetting = async () => {
   const headers = createHeaders();
   try {
     const response = await axios.post(`${url}/user/resetSetting`, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetDefault = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/setting/setDefault`, {
       headers: {
         ...headers,// Set the content type to multipart/form-data
       },
@@ -309,6 +372,6 @@ export const changePrimaryById = async (id) => {
 
 
 export const getUserDetailsFromLocalStorage = () => {
-  const userDetails = localStorage.getItem("siteSettings");
-  return userDetails ? JSON.parse(userDetails) : null;
+  const siteSettings = localStorage.getItem("siteSettings");
+  return siteSettings ? JSON.parse(siteSettings) : null;
 };

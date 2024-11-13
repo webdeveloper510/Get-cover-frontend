@@ -22,6 +22,7 @@ import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
 import PdfGenerator from "../../pdfViewer";
 import PdfMake from "../../pdfMakeOrder";
+import SingleView from "../../../common/singleView";
 
 function ResellerOrderDetails() {
   const [loading, setLoading] = useState(false);
@@ -101,7 +102,7 @@ function ResellerOrderDetails() {
 
         <Grid className="!grid-cols-4">
           <div className="col-span-1">
-            <div className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm text-neutral-grey font-Regular">
@@ -288,7 +289,7 @@ function ResellerOrderDetails() {
                   </Button>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3">
             <Grid className="">

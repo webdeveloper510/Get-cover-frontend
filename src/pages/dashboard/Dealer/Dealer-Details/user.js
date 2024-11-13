@@ -10,8 +10,8 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import delete1 from "../../../../assets/images/delete.png";
-import make from "../../../../assets/images/star.png";
 import edit from "../../../../assets/images/edit-text.png";
+import make from "../../../../assets/images/star.png";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -32,9 +32,10 @@ import { useMyContext } from "../../../../context/context";
 import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function UserList(props) {
-  console.log(props);
+  console.log(props, 'hello world');
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
@@ -66,7 +67,7 @@ function UserList(props) {
     phone: "",
   });
   // console.log("toggleFlag", toggleFlag);
-  const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
 
   useEffect(() => {
     if (props.activeTab === "Users") {
@@ -79,7 +80,7 @@ function UserList(props) {
   }, []);
 
   const getUserList = async (data = {}) => {
-    setLoading(true);
+    setLoading1(true);
     switch (props.flag) {
       case "customer":
         const customerResult = await getCustomerUsersById(props.id, data);
@@ -110,7 +111,7 @@ function UserList(props) {
         break;
     }
 
-    setLoading(false);
+    setLoading1(false);
   };
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -236,10 +237,10 @@ function UserList(props) {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      setLoading(true);
+      setLoading1(true);
       const result = await updateUserDetailsById(values);
       if (result.code == 200) {
-        setLoading(false);
+        setLoading1(false);
         SetPrimaryText("User Updated Successfully ");
         SetSecondaryText("user updated successfully ");
         openModal();
@@ -247,7 +248,7 @@ function UserList(props) {
         setTimer(3);
         // getUserList();
       } else {
-        setLoading(false);
+        setLoading1(false);
       }
       closeModal2();
     },
@@ -290,6 +291,8 @@ function UserList(props) {
   };
 
   const makeUserPrimary = async (row) => {
+    // setLoading1(true);
+    props.setLoading(true);
     const result = await changePrimaryByUserId(row._id);
 
     if (result.code === 200) {
@@ -297,7 +300,12 @@ function UserList(props) {
       SetSecondaryText("We have successfully made this user primary");
       toggleFlag();
       openModal();
+      // setLoading1(false);
+      props.setLoading(false);
     }
+    // setLoading1(false);
+    props.setLoading(false);
+
   };
 
   const handleFilterIconClick = () => {
@@ -536,19 +544,26 @@ function UserList(props) {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className="!bg-transparent !p-0"
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -556,7 +571,7 @@ function UserList(props) {
             </div>
           </Grid>
           <div className="mb-5 relative dealer-detail">
-            {loading ? (
+            {loading1 ? (
               <div className=" h-[400px] w-full flex py-5">
                 <div className="self-center mx-auto">
                   <RotateLoader color="#333" />
@@ -571,7 +586,20 @@ function UserList(props) {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}

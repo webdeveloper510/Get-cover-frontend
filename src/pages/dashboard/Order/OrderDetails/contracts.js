@@ -19,6 +19,7 @@ import Modal from "../../../../common/model";
 import { getContractValues } from "../../../../services/extraServices";
 import Select from "../../../../common/select";
 import Card from "../../../../common/card";
+import SingleView from "../../../../common/singleView";
 
 function Contracts(props) {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -84,8 +85,8 @@ function Contracts(props) {
             foundDate = format(
               new Date(
                 type === "start"
-                  ? matchingProduct.coverageStartDate
-                  : matchingProduct.coverageEndDate
+                  ? matchingProduct.coverageStartDate1
+                  : matchingProduct.coverageEndDate1
               ),
               "MM/dd/yyyy"
             );
@@ -230,7 +231,7 @@ function Contracts(props) {
 
                       <Grid className="!gap-0 !grid-cols-8 bg-grayf9 mb-5">
                         <div className="col-span-2 border border-Light-Grey rounded-es-xl">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Manufacturer
                             </p>
@@ -240,7 +241,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Model
                             </p>
@@ -250,7 +251,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Serial
                             </p>
@@ -260,7 +261,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Product Description
                             </p>
@@ -270,7 +271,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Retail Price
                             </p>
@@ -286,7 +287,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Condition
                             </p>
@@ -296,7 +297,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage Start Date
                             </p>
@@ -306,7 +307,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Coverage End Date
                             </p>
@@ -316,7 +317,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Claim Amount
                             </p>
@@ -326,7 +327,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-es-xl	">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Status
                             </p>
@@ -337,7 +338,7 @@ function Contracts(props) {
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                          <div className="py-4 pl-3">
+                          <div className="py-4 px-3">
                             <p className="text-[#5D6E66] text-sm font-Regular">
                               Eligibility
                             </p>
@@ -383,31 +384,33 @@ function Contracts(props) {
               </div>
             ) : (
               <>
-                <Grid className="bg-light-black !gap-2 !grid-cols-11 !px-3 rounded-t-xl">
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
-                    <p className="py-2 font-Regular">
-                      Contract ID : <b> {singleContract?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="py-2 font-Regular">
-                      Order ID :{" "}
-                      <b> {singleContract?.order?.[0]?.unique_key} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
-                    <p className="py-2 font-Regular">
-                      Dealer P.O. # :{" "}
-                      <b> {singleContract?.order?.[0]?.venderOrder} </b>
-                    </p>
-                  </div>
-                  <div className="col-span-1"></div>
-                  <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
-                </Grid>
+                <SingleView className='rounded-t-xl'>
+                  <Grid className="!gap-2 !grid-cols-11">
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat rounded-ss-xl">
+                      <p className="py-2 font-Regular">
+                        Contract ID : <b> {singleContract?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Order ID :{" "}
+                        <b> {singleContract?.order?.[0]?.unique_key} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-3 self-center text-left bg-contract bg-contain bg-right bg-no-repeat ">
+                      <p className="py-2 font-Regular">
+                        Dealer P.O. # :{" "}
+                        <b> {singleContract?.order?.[0]?.venderOrder} </b>
+                      </p>
+                    </div>
+                    <div className="col-span-1"></div>
+                    <div className="col-span-1 self-center justify-end rounded-[20px] text-center bg-contract bg-cover bg-right bg-no-repeat"></div>
+                  </Grid>
+                </SingleView>
 
                 <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Dealer Name
                       </p>
@@ -417,7 +420,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Reseller Name
                       </p>
@@ -427,7 +430,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Customer Name
                       </p>
@@ -437,7 +440,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Servicer Name
                       </p>
@@ -447,7 +450,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Claim Amount
                       </p>
@@ -462,7 +465,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Category
                       </p>
@@ -475,7 +478,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Name
                       </p>
@@ -485,7 +488,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Product Description
                       </p>
@@ -498,7 +501,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Price Type
                       </p>
@@ -511,7 +514,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Condition
                       </p>
@@ -521,7 +524,7 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-es-xl">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Retail Price
                       </p>
@@ -539,7 +542,7 @@ function Contracts(props) {
                     "Flat Pricing" ? (
                     <>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-sm font-Regular">
                             Start Range
                           </p>
@@ -556,7 +559,7 @@ function Contracts(props) {
                         </div>
                       </div>
                       <div className="col-span-1 border border-Light-Grey">
-                        <div className="py-4 pl-3">
+                        <div className="py-4 px-3">
                           <p className="text-sm font-Regular">
                             End Range
                           </p>
@@ -578,13 +581,13 @@ function Contracts(props) {
                   )}
 
                   <div className="col-span-1 border border-Light-Grey ">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Coverage Start Date
                       </p>
                       <p className="text-base font-bold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",
@@ -594,13 +597,13 @@ function Contracts(props) {
                     </div>
                   </div>
                   <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
-                    <div className="py-4 pl-3">
+                    <div className="py-4 px-3">
                       <p className="text-sm font-Regular">
                         Coverage End Date
                       </p>
                       <p className="text-base font-bold">
                         {new Date(
-                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate
+                          singleContract?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                         ).toLocaleDateString("en-US", {
                           month: "2-digit",
                           day: "2-digit",

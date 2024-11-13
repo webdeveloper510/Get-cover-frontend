@@ -37,6 +37,7 @@ import * as Yup from "yup";
 import PdfGenerator from "../../pdfViewer";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -430,17 +431,30 @@ function OrderList() {
           </div>
         </div>
 
-        <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+        <InActiveButton className="flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
           {" "}
           <Link to={"/addOrder"} className="flex">
             {" "}
-            <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-            <span className="text-black ml-3 text-[14px] font-Regular">
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4 "
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
               {" "}
               Add New Order{" "}
             </span>{" "}
           </Link>
-        </Button>
+        </InActiveButton>
 
         <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
@@ -497,19 +511,27 @@ function OrderList() {
                         />
                       </Button>
 
-                      <Button
+                      <InActiveButton
                         type="submit"
-                        className=" !bg-transparent !p-0"
+                        className='ml-1'
                         onClick={() => {
                           handleFilterIconClick();
                         }}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center px-1  py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         type="button"
                         className="ml-2 !text-sm"
@@ -539,7 +561,20 @@ function OrderList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" />{" "} */}
                   </>
                 }
                 pagination

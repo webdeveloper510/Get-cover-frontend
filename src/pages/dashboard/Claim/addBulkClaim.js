@@ -19,6 +19,7 @@ import DealerList from "../Dealer/dealerList";
 import Button from "../../../common/button";
 import { uploadClaimInBulk } from "../../../services/claimServices";
 import Card from "../../../common/card";
+import { checkUserToken } from "../../../services/userServices";
 
 function AddBulkClaim() {
   const [selectFile, setSelectFileValue] = useState(null);
@@ -48,6 +49,7 @@ function AddBulkClaim() {
   };
 
   useEffect(() => {
+    checkTokenExpiry();
     let intervalId;
     if (isModalOpen && timer > 0) {
       intervalId = setInterval(() => {
@@ -146,6 +148,7 @@ function AddBulkClaim() {
     }),
     onSubmit: async (values) => {
       setLoader(true);
+      checkTokenExpiry();
       console.log("values", values);
       const formData = new FormData();
       formData.append("email", JSON.stringify(values.email));
@@ -180,14 +183,29 @@ function AddBulkClaim() {
       setLoader(false);
     },
   });
-
+  const checkTokenExpiry = async () => {
+    try {
+      const response = await checkUserToken();
+      console.log(response.code == 200);
+      if (response.code == 200) {
+        return;
+      } else {
+        navigate(`/`);
+        localStorage.removeItem("userDetails");
+      }
+    } catch (error) {
+      navigate(`/`);
+      localStorage.removeItem("userDetails");
+    } finally {
+    }
+  };
   const downloadCSVTemplate = async () => {
     const isDealerResellerCustomer = ["/dealer", "/reseller", "/customer"].some(
       (path) => window.location.href.includes(path)
     );
     const url = isDealerResellerCustomer
-      ? "https://docs.google.com/spreadsheets/d/1dZTJYvIz2sR3hVrXsTAd7mLf949s8y8nvXzid_52gLY/edit?gid=0#gid=0"
-      : "https://docs.google.com/spreadsheets/d/1hJ5qP21CraZHj1-yS_R3KJIGRmEZGFxEyCsFcspZz2U/edit?gid=0#gid=0";
+      ? "https://docs.google.com/spreadsheets/d/109XKZuF8oaaAaV3XW2mGXYRWc7-OwY5CIGx-C7evLPQ/edit?pli=1&gid=0#gid=0"
+      : "https://docs.google.com/spreadsheets/d/1LuVThUEjLwqyMADp8LpZtH030uBv7s7wsXOxsPQ3PVc/edit?gid=0#gid=0";
     window.open(url, "_blank");
   };
 
@@ -233,7 +251,7 @@ function AddBulkClaim() {
 
               <Grid className="">
                 <div className="col-span-12">
-                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none peer relative">
+                  <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white text-light-black rounded-lg border border-gray-300 appearance-none relative">
                     <ReactTags
                       tags={tags}
                       delimiters={delimiters}
@@ -306,8 +324,8 @@ function AddBulkClaim() {
                       className="underline cursor-pointer"
                       onClick={downloadCSVTemplate}
                     >
-                      Clicking here
-                    </span>
+                      Clicking here .
+                    </span>&nbsp;
                     The file must be saved with csv , xls and xlsx Format.
                   </p>
                 </div>

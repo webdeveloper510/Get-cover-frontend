@@ -8,6 +8,8 @@ import SelectedDateRangeComponent from "../../../../common/dateFilter";
 import { getAllClaims } from "../../../../services/reportingServices";
 import { useMyContext } from "../../../../context/context";
 import { useLocation } from "react-router-dom";
+import MultiColorView from "../../../../common/multiColorView";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function ClaimContent({
   activeTab,
@@ -137,7 +139,7 @@ function ClaimContent({
     }
     const diffTime = Math.abs(
       new Date(selectedRange?.endDate?.toISOString().split("T")[0]) -
-        new Date(selectedRange?.startDate?.toISOString().split("T")[0])
+      new Date(selectedRange?.startDate?.toISOString().split("T")[0])
     );
 
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -166,8 +168,8 @@ function ClaimContent({
         isResellerClaims
           ? "resellerPortal"
           : isServicerClaims
-          ? "servicerPortal"
-          : "user"
+            ? "servicerPortal"
+            : "user"
       );
       const amountData = res?.result?.graphData?.map((item) => {
         if (isCustomerClaims) {
@@ -205,12 +207,12 @@ function ClaimContent({
         return isCustomerClaims
           ? { weekStart, total_claim }
           : {
-              weekStart,
-              total_claim,
-              total_paid_claim,
-              total_unpaid_claim,
-              total_rejected_claim,
-            };
+            weekStart,
+            total_claim,
+            total_paid_claim,
+            total_unpaid_claim,
+            total_rejected_claim,
+          };
       });
 
       toggleFilterFlag();
@@ -243,7 +245,7 @@ function ClaimContent({
     <>
       <Grid className="mt-3">
         <div className="col-span-12">
-          <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+          <MultiColorView className="rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
             <Grid className="!gap-4">
               <div className="col-span-5 flex pl-3">
                 <h3 className="text-base self-center font-semibold">
@@ -256,12 +258,12 @@ function ClaimContent({
                 <p className="pr-4 self-center">
                   {`Selected Range: ${selectedRange?.startDate?.toLocaleDateString()} - ${selectedRange?.endDate?.toLocaleDateString()}`}
                 </p>
-                <Button
-                  className="!bg-white border-[1px] !text-[#333] font-normal py-2 border-Light-Grey"
+                <InActiveButton
+                  className=" font-normal py-2 "
                   onClick={openModal}
                 >
                   Date Filter
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-12">
                 <LineChart
@@ -269,7 +271,7 @@ function ClaimContent({
                 />
               </div>
             </Grid>
-          </div>
+          </MultiColorView>
         </div>
       </Grid>
 

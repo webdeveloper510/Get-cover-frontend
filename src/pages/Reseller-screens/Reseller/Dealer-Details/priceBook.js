@@ -25,6 +25,7 @@ import * as Yup from "yup";
 import Modal from "../../../../common/model";
 import { getPriceBookListByResellerId } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
+import InActiveButton from "../../../../common/inActiveButton";
 function PriceBookList(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -463,17 +464,24 @@ function PriceBookList(props) {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="button"
-                        className="!bg-transparent !p-0"
                         onClick={handleFilterIconClick}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -494,7 +502,20 @@ function PriceBookList(props) {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 noDataComponent={<CustomNoDataComponent />}
@@ -594,7 +615,7 @@ function PriceBookList(props) {
               <>
                 <div className="col-span-4">
                   <p className="text-lg font-bold">
-                    Range Start
+                    Start Range
                   </p>
                   <p className="text-base font-semibold">
                     {" "}
@@ -603,7 +624,7 @@ function PriceBookList(props) {
                 </div>
                 <div className="col-span-4">
                   <p className="text-lg font-bold">
-                    Range End
+                    End Range
                   </p>
                   <p className="text-base font-semibold">
                     {" "}

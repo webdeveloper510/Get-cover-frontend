@@ -46,6 +46,7 @@ import {
   addSuperAdminMembers,
   changePasswordbyToken,
 } from "../../services/extraServices";
+import SingleView from "../../common/singleView";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
@@ -731,10 +732,10 @@ function CustomerUser() {
           </div>
 
           <div className="px-4 relative">
-            <div className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
+            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
-                  <p className="text-base text-white font-semibold my-3">
+                  <p className="text-base font-semibold my-3">
                     {" "}
                     Dealer Details
                   </p>
@@ -751,10 +752,10 @@ function CustomerUser() {
                       <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Account Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {details?.dealerName}
                       </p>
                     </div>
@@ -766,10 +767,10 @@ function CustomerUser() {
                       <img src={terms} className="" alt="terms" />
                     </div>
                     <div className="self-center ">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Address
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className="opacity-50	text-sm font-medium">
                         {details?.dealer?.street} {", "}
                         {details?.dealer?.city}
                         {", "}
@@ -786,7 +787,7 @@ function CustomerUser() {
                 <>
                   <Grid>
                     <div className="col-span-2 text-left">
-                      <p className="text-base text-white font-semibold my-3">
+                      <p className="text-base font-semibold my-3">
                         {" "}
                         Reseller Details
                       </p>
@@ -803,10 +804,10 @@ function CustomerUser() {
                           <img src={dealer} alt="dealer" />
                         </div>
                         <div className="self-center w-[80%]">
-                          <p className="text-white text-base font-medium leading-5	">
+                          <p className="text-base font-medium leading-5	">
                             Account Name
                           </p>
-                          <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                          <p className="opacity-50 text-sm	font-medium">
                             {details?.reseller?.name}
                           </p>
                         </div>
@@ -818,10 +819,10 @@ function CustomerUser() {
                           <img src={terms} className="" alt="terms" />
                         </div>
                         <div className="self-center ">
-                          <p className="text-white text-base font-medium leading-5">
+                          <p className="text-base font-medium leading-5">
                             Address
                           </p>
-                          <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                          <p className="opacity-50	text-sm font-medium">
                             {details?.reseller?.street} {", "}
                             {details?.reseller?.city}
                             {", "}
@@ -839,7 +840,7 @@ function CustomerUser() {
 
               <Grid className="mt-5">
                 <div className="col-span-2 text-left">
-                  <p className="text-base text-white font-semibold">
+                  <p className="text-base font-semibold">
                     {" "}
                     My Details
                   </p>
@@ -856,10 +857,10 @@ function CustomerUser() {
                       <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Account Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className="opacity-50 text-sm	font-medium">
                         {details?.username}
                       </p>
                     </div>
@@ -871,10 +872,10 @@ function CustomerUser() {
                       <img src={terms} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className="text-base font-medium leading-5">
                         Address
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className="opacity-50	text-sm font-medium">
                         {details?.street} {", "}
                         {details?.city}
                         {", "}
@@ -887,7 +888,7 @@ function CustomerUser() {
                 </div>
                 <div className="col-span-2"></div>
               </Grid>
-            </div>
+            </SingleView>
             <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
               <p className="text-xl font-semibold mb-5">Change Password</p>
               <form onSubmit={passwordChnageForm.handleSubmit}>
@@ -1062,11 +1063,19 @@ function CustomerUser() {
                   sortIcon={
                     <>
                       {" "}
-                      <img
-                        src={shorting}
-                        className="ml-2"
-                        alt="shorting"
-                      />{" "}
+                      <div
+                        style={{
+                          maskImage: `url(${shorting})`,
+                          WebkitMaskImage: `url(${shorting})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="ml-2 tabless"
+                      />
                     </>
                   }
                   noDataComponent={<CustomNoDataComponent />}

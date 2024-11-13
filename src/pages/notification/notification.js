@@ -18,6 +18,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import Grid from "../../common/grid";
 import Button from "../../common/button";
+import InActiveButton from "../../common/inActiveButton";
 
 function Notification() {
   const [notificationList, setNotificationList] = useState([]);
@@ -121,28 +122,43 @@ function Notification() {
               Notifications
             </p>
             <div className="flex">
-              <button
-                className={`tab-button ${activeTab === "all"
-                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                  : "border-b-2 mr-3 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                  }`}
-                onClick={() => handleTabClick("all")}
-              >
-                All
-              </button>
-              <button
-                className={`tab-button ${activeTab === "unread"
-                  ? "active mr-3 bg-[#DDDDDE] text-light-black font-semibold py-1 px-4 rounded"
-                  : "border-b-2 text-light-black font-semibold py-1 px-4 text-sm rounded"
-                  }`}
-                onClick={() => handleTabClick("unread")}
-              >
-                Unread
-              </button>
+              {activeTab === "all" ?
+                <>
+                  <Button
+                    className={`tab-button border-b-2 mr-3 font-semibold py-1 px-4 text-sm rounded`}
+                    onClick={() => handleTabClick("all")}
+                  >
+                    All
+                  </Button>
+                  <InActiveButton
+                    className={`tab-button border-b-2 font-semibold py-1 px-4 text-sm rounded`}
+                    onClick={() => handleTabClick("unread")}
+                  >
+                    Unread
+                  </InActiveButton>
+                </>
+                :
+                <>
+                  <InActiveButton
+                    className={`tab-button  border-b-2 mr-3  font-semibold py-1 px-4 text-sm rounded
+                      `}
+                    onClick={() => handleTabClick("all")}
+                  >
+                    All
+                  </InActiveButton>
+                  <Button
+                    className={`tab-button border-b-2 font-semibold py-1 px-4 text-sm rounded`}
+                    onClick={() => handleTabClick("unread")}
+                  >
+                    Unread
+                  </Button>
+                </>
+              }
+
             </div>
           </div>
           <Button
-            className="!text-light-black !bg-[#1B1D2126] self-center"
+            className=" self-center"
             onClick={handleMarkAllAsRead}
           >
             Mark all as read

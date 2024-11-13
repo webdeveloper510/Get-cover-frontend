@@ -9,6 +9,10 @@
   }
 }
 
+.readonly .dropdown-container {
+  background-color: #ededed !important;
+}
+
 .focused label,
 .react-select__control--is-focused label {
   transform: translateY(-1.25rem) scale(0.75);
@@ -54,6 +58,10 @@
   border-color: #80808085 !important;
 }
 
+.users .rdt_Pagination {
+  position: relative !important;
+}
+
 .rmsc .gray {
   color: #333 !important;
 }
@@ -72,13 +80,12 @@
 
 .red .dropdown-container {
   border-width: 0px !important;
-
 }
 
 button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
-  right: -20px;
+  /* right: -20px; */
   min-width: 30px !important;
-  left: unset;
+  left: -4px;
   min-height: 30px !important;
 }
 
@@ -89,9 +96,9 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
 }
 
 .reseller button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--left {
-  right: 10px;
+  /* right: 10px; */
   min-width: 30px !important;
-  left: unset;
+  /* left: 0; */
   min-height: 30px !important;
 }
 
@@ -106,7 +113,7 @@ button.react-multiple-carousel__arrow.react-multiple-carousel__arrow--right {
 }
 
 .gradient-border {
-  border-image: linear-gradient(to right, #FFFFFF00, #AAAAAA, #FFFFFF00);
+  border-image: linear-gradient(to right, #ffffff00, #aaaaaa, #ffffff00);
   /* Adjust colors as needed */
   border-image-slice: 1;
 }

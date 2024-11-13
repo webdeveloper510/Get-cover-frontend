@@ -22,6 +22,7 @@ import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 
 function NewDealerList() {
   const [approvalDetails, setApprovalDetails] = useState({
@@ -335,7 +336,7 @@ function NewDealerList() {
                     <div className="col-span-3 self-center">
                       <Input
                         name="phoneNumber"
-                        type="number"
+                        type="tel"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
@@ -365,19 +366,26 @@ function NewDealerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="submit"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className="!bg-transparent !p-0"
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -400,7 +408,20 @@ function NewDealerList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" />{" "} */}
                   </>
                 }
                 pagination

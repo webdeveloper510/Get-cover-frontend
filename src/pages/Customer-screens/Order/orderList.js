@@ -22,6 +22,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CustomerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -302,19 +303,26 @@ function CustomerOrderList() {
                         />
                       </Button>
 
-                      <Button
+                      <InActiveButton
                         type="submit"
-                        className=" !bg-transparent !p-0"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                       <Button
                         type="button"
                         className="ml-2 !text-sm"
@@ -344,7 +352,19 @@ function CustomerOrderList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
                   </>
                 }
                 pagination

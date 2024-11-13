@@ -8,7 +8,7 @@ import Button from "../../../common/button";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import address from "../../../assets/images/Dealer/Address.svg";
+import addresses1 from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
@@ -29,6 +29,7 @@ import { RotateLoader } from "react-spinners";
 import OrderList from "../Dealer/Dealer-Details/order";
 
 import {
+  addCustomerAddressById,
   getCustomerDetailsById,
   getUserListByCustomerId,
   updateCustomerDetailsById,
@@ -46,10 +47,14 @@ import { MyContextProvider, useMyContext } from "../../../context/context";
 import ContractList from "../Contract/contractList";
 import ClaimList from "../Claim/claimList";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import SingleView from "../../../common/singleView";
+import CustomerSetting from "../Dealer/Dealer-Details/customerSetting";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
+    console.log(storedTab)
     return storedTab ? storedTab : "Orders";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
@@ -63,6 +68,7 @@ function CustomerDetails() {
   const [isStatus, setIsStatus] = useState(true);
   const [isAccountCreate, setIsAccountCreate] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isUserModalOpen1, setIsUserModalOpen1] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [createAccount, setCreateAccount] = useState(false);
@@ -77,6 +83,13 @@ function CustomerDetails() {
     state: "",
     country: "USA",
     oldName: "",
+  });
+
+  const [initialFormValues1, setInitialFormValues1] = useState({
+    address: "",
+    city: "",
+    zip: "",
+    state: "",
   });
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
@@ -101,13 +114,18 @@ function CustomerDetails() {
 
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    const isPopupOpen1 = localStorage.getItem("isPopupOpen1") === "true";
     if (isPopupOpen) {
       setActiveTab("Users");
+    }
+     if (isPopupOpen1) {
+      setActiveTab("Settings");
     }
   }, []);
 
   useEffect(() => {
     setLoading(true);
+
     let intervalId;
 
     if (modalOpen && timer > 0) {
@@ -137,7 +155,7 @@ function CustomerDetails() {
   };
   const closeModal10 = () => {
     setModalOpen(false);
-    setActiveTab("Users");
+    // setActiveTab("Users");
   };
   //console.log("bhhj")
   const closeUserModal = () => {
@@ -145,6 +163,13 @@ function CustomerDetails() {
     setActiveTab("Users");
     localStorage.setItem("isPopupOpen", "false");
     userValues.resetForm();
+  };
+
+  const closeUserModal1 = () => {
+    setIsUserModalOpen1(false);
+    setActiveTab("Settings");
+    localStorage.setItem("isPopupOpen1", "false");
+    address.resetForm();
   };
   const getUserList = async () => {
     const result = await getUserListByCustomerId({}, customerId);
@@ -218,6 +243,10 @@ function CustomerDetails() {
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
+  const handleSelectChange1 = async (name, selectedValue) => {
+    address.setFieldValue(name, selectedValue);
+  };
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -261,16 +290,78 @@ function CustomerDetails() {
       }
     },
   });
+
+  const address = useFormik({
+    initialValues: initialFormValues1,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      address: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+    }),
+
+    onSubmit: async (values) => {
+      localStorage.setItem("customer", "Settings");
+
+      setLoading(true);
+      try {
+        const address = {
+          address: values,
+        }
+        const result = await addCustomerAddressById(customerId, address);
+        console.log(result);
+        if (result.code == 200) {
+          customerDetails();
+          setModalOpen(true);
+          setFirstMessage(" New Address Added Successfully");
+          setSecondMessage("New Address Added Successfully");
+          setMessage("Address Added Successfully");
+          setLoading(false);
+          closeUserModal1();
+          setActiveTab("Settings");
+        } else {
+          setLoading(false);
+          formik.setFieldError("address", "Address Already Added");
+        }
+      } catch (error) {
+        console.error("Error adding address:", error);
+      } finally {
+      localStorage.setItem("customer", "Settings");
+        setLoading(false);
+      }
+    },
+  });
   const openUserModal = () => {
     setActiveTab("Users123");
     localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
 
+  const openUserModal1 = () => {
+    setActiveTab("Settings123");
+    localStorage.setItem("isPopupOpen1", "true");
+    setIsUserModalOpen1(true);
+  };
+
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    const isPopupOpen1 = localStorage.getItem("isPopupOpen1") === "true";
+
     if (isPopupOpen) {
       setActiveTab("Users");
+    }
+    if (isPopupOpen1) {
+      setActiveTab("Settings");
     }
   }, []);
 
@@ -295,6 +386,9 @@ function CustomerDetails() {
         break;
       case "Users":
         openUserModal();
+        break;
+      case "Settings":
+        openUserModal1();
         break;
 
       default:
@@ -410,19 +504,32 @@ function CustomerDetails() {
           id={customerId}
           activeTab={activeTab}
           customerDetail={customerDetail}
+          setLoading={setLoading}
+        />
+      ),
+    },
+    {
+      id: "Settings",
+      label: "Settings",
+      icons: User,
+      Activeicons: UserActive,
+      content:activeTab === "Settings" && (
+        <CustomerSetting
+          flag={"customer"}
+          id={customerId}
+          activeTab={activeTab}
+          customerDetail={customerDetail}
         />
       ),
     },
   ];
 
   const handleTabClick = (tabId) => {
+    console.log(tabId)
     setActiveTab(tabId);
   };
+
   const navigate = useNavigate();
-  const handleGOBack = () => {
-    localStorage.removeItem("customer");
-    navigate("/customerList");
-  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -445,7 +552,7 @@ function CustomerDetails() {
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
-          case 'buttonColor':
+          case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
             break;
           case 'buttonTextColor':
@@ -457,6 +564,73 @@ function CustomerDetails() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading && (
@@ -501,13 +675,13 @@ function CustomerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {customerDetail?.meta?.username}
                   </p>
                 </div>
@@ -522,15 +696,15 @@ function CustomerDetails() {
               </Grid>
               <div className="flex my-4">
                 <img
-                  src={address}
+                  src={addresses1}
                   className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {customerDetail?.meta?.city}
                     {", "}
                     {customerDetail?.meta?.street}
@@ -542,7 +716,7 @@ function CustomerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -564,10 +738,10 @@ function CustomerDetails() {
                   </Link>
                 </div>
                 <div className="w-[75%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Dealer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     {customerDetail?.meta?.dealerName}
                   </p>
                 </div>
@@ -592,10 +766,10 @@ function CustomerDetails() {
                     </Link>
                   </div>
                   <div className="w-[75%]">
-                    <p className="text-sm text-neutral-grey font-Regular">
+                    <p className="text-sm font-Regular">
                       Reseller Name
                     </p>
-                    <p className="text-base text-white font-semibold ">
+                    <p className="text-base font-semibold ">
                       {customerDetail?.resellerName}
                     </p>
                   </div>
@@ -608,8 +782,8 @@ function CustomerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {customerDetail?.primary?.firstName}{" "}
                     {customerDetail?.primary?.lastName}
                   </p>
@@ -622,10 +796,10 @@ function CustomerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base leading-[13px] font-semibold break-words">
                     {customerDetail?.primary?.email}
                   </p>
                 </div>
@@ -637,10 +811,10 @@ function CustomerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     +1 {formatPhoneNumber(customerDetail?.primary?.phoneNumber)}
                   </p>
                 </div>
@@ -695,71 +869,55 @@ function CustomerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-6">
+              <div className="col-span-8">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!grid-cols-4 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4 border-Light-Grey border-r-[1px]"
-                          />
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '7px',
-                              color: activeTab === tab.id ? buttonTextColor : 'black',
-                            }}
-                            className={`ml-1 py-1 text-sm font-Regular`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                  <Grid className="!grid-cols-5 !gap-1">
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-4"></div>
+              <div className="col-span-2"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" &&
                   !(activeTab === "Orders" && isStatus === false) && (
-                    <Button
-                      className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-                      onClick={() => routeToPage(activeTab)}
-                    >
-                      {" "}
-                      <img
-                        src={AddItem}
-                        className="self-center"
-                        alt="AddItem"
-                      />{" "}
-                      <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                        Add {activeTab}
-                      </span>{" "}
-                    </Button>
+                    <InActiveButton className=" flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey" onClick={() => routeToPage(activeTab)}>
+
+                      <div
+                        style={{
+                          maskImage: `url(${AddItem})`,
+                          WebkitMaskImage: `url(${AddItem})`,
+                          backgroundColor: backGroundColor,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center pr-1 py-1 h-4 w-4"
+                      />
+                      <span
+                        style={{
+                          borderColor: backGroundColor,
+                          borderLeftWidth: "1px",
+                          paddingLeft: "7px",
+                          color: backGroundColor,
+                        }}
+                        className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                      >
+                        Add {activeTab == "Settings" ? 'Address' : activeTab}
+                      </span>
+                    </InActiveButton>
                   )}
               </div>
             </Grid>
@@ -949,6 +1107,114 @@ function CustomerDetails() {
             </form>
           </div>
         </Modal>
+        <Modal isOpen={isUserModalOpen1} onClose={closeUserModal1}>
+          <div className=" py-3">
+            <p className=" text-center text-3xl m=b-5 mt-2 font-bold text-light-black">
+              Add Address
+            </p>
+            <form onSubmit={address.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-12">
+                  <Input
+                    type="text"
+                    name="address"
+                    label="Street Address"
+                    className="!bg-white"
+                    value={address.values.address}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    required={true}
+                    disabled={loading}
+                  />
+                  {address.touched.address &&
+                    address.errors.address && (
+                      <p className="text-red-500 text-xs pl-2">
+                        {address.errors.address}
+                      </p>
+                    )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="city"
+                    label="City"
+                    className="!bg-white"
+                    placeholder=" "
+                    maxLength={"20"}
+                    required={true}
+                    value={address.values.city}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    error={address.touched.city && address.errors.city}
+                  />
+                  {address.touched.city && address.errors.city && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.city}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Select
+                    label="State"
+                    name="state"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={state}
+                    value={address.values.state}
+                    onBlur={address.handleBlur}
+                    error={address.touched.state && address.errors.state}
+                  />
+                  {address.touched.state && address.errors.state && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.state}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="number"
+                    name="zip"
+                    label="Zipcode"
+                    className="!bg-white"
+                    placeholder=""
+                    required={true}
+                    zipcode={true}
+                    value={address.values.zip}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    minLength={"5"}
+                    maxLength={"6"}
+                    error={address.touched.zip && address.errors.zip}
+                  />
+                  {address.touched.zip && address.errors.zip && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.zip}
+                    </div>
+                  )}
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8 mt-8">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeUserModal1}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        </Modal>
+
         {/* Modal Email Popop */}
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <div className="px-8 py-4">
@@ -1120,10 +1386,10 @@ function CustomerDetails() {
         <Modal isOpen={modalOpen} onClose={closeModal10}>
           <div className="text-center py-3">
             <img src={Primary} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold">
               {firstMessage}
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
+            <p className=" text-base font-medium mt-4">
               {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
               {timer} Seconds
             </p>

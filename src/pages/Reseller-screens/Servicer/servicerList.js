@@ -18,6 +18,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getDealerServicers, getResellerServicers } from "../../../services/dealerServices/priceBookServices";
 import Card from "../../../common/card";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ResellerServicerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -209,19 +210,26 @@ function ResellerServicerList() {
                           alt="Search"
                         />
                       </Button>
-                      <Button
+                      <InActiveButton
                         type="submit"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
-                        className=" !bg-transparent !p-0"
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -242,7 +250,19 @@ function ResellerServicerList() {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
                   </>
                 }
                 pagination

@@ -264,12 +264,12 @@ function AddCategory() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             {type === "Edit" ? "Updated" : "Added"}{" "}
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {type === "Edit" ? (
               <div
                 dangerouslySetInnerHTML={{
@@ -284,7 +284,7 @@ function AddCategory() {
               />
             )}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Category Page {timer} seconds.
           </p>
         </div>

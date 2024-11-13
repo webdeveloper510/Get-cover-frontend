@@ -6,7 +6,7 @@ import { downloadFile } from "../services/userServices";
 
 function FileDownloader(props) {
   const { setLoading } = props;
-  const baseUrl = apiUrl();
+  console.log(props);
   const handleClick = async (apiUrlData) => {
     setLoading(true);
     console.log(apiUrlData);
@@ -44,15 +44,25 @@ function FileDownloader(props) {
   };
 
   return (
-    <div>
+    <span
+      className={`text-left flex py-1 px-2 cursor-pointer hover:font-semibold ${props.className}`}
+      onClick={() => handleClick(props)}
+    >
       <div
-        className={`text-left flex py-1 px-2 cursor-pointer hover:font-semibold ${props.className}`}
-        onClick={() => handleClick(props)}
-      >
-        <img src={download} className="w-4 h-4 mr-2" alt="Download Icon" />
-        <button className="">T&C</button>
-      </div>
-    </div>
+        style={{
+          maskImage: `url(${download})`,
+          WebkitMaskImage: `url(${download})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4 mr-2 "
+      />
+      <button className="">T&C</button>
+    </span>
   );
 }
 

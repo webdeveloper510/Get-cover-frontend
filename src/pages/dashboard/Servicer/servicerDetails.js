@@ -52,6 +52,8 @@ import Primary from "../../.././assets/images/SetPrimary.png";
 import { cityData } from "../../../stateCityJson";
 import shorting from "../../../assets/images/icons/shorting.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ServicerDetails() {
   const getInitialActiveTab = () => {
@@ -292,7 +294,7 @@ function ServicerDetails() {
       icons: User,
       Activeicons: UserActive,
       content: (
-        <UserList flag={"servicer"} id={servicerId} activeTab={activeTab} />
+        <UserList flag={"servicer"} id={servicerId} activeTab={activeTab} setLoading={setLoading} />
       ),
     },
     {
@@ -542,7 +544,7 @@ function ServicerDetails() {
       const colorScheme = storedUserDetails.colorScheme;
       colorScheme.forEach(color => {
         switch (color.colorType) {
-          case 'buttonColor':
+          case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
             break;
           case 'buttonTextColor':
@@ -554,6 +556,75 @@ function ServicerDetails() {
       });
     }
   }, []);
+
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[98%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-[13px] font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[98%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-[13px] font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
+
   return (
     <>
       {loading && (
@@ -598,13 +669,13 @@ function ServicerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {servicerDetails?.meta?.name}
                   </p>
                 </div>
@@ -624,10 +695,10 @@ function ServicerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {servicerDetails?.meta?.street},{" "}
                     {servicerDetails?.meta?.city},{" "}
                     {servicerDetails?.meta?.state}, {servicerDetails?.meta?.zip}
@@ -684,7 +755,7 @@ function ServicerDetails() {
               </div>
             </div> */}
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -696,8 +767,8 @@ function ServicerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base font-semibold ">
                     {servicerDetails?.firstName} {servicerDetails?.lastName}
                   </p>
                 </div>
@@ -709,10 +780,10 @@ function ServicerDetails() {
                   alt="email"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white font-semibold break-words">
+                  <p className="text-base font-semibold break-words">
                     {servicerDetails?.email}
                   </p>
                 </div>
@@ -724,10 +795,10 @@ function ServicerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base font-semibold ">
                     +1 {formatPhoneNumber(servicerDetails?.phoneNumber)}
                   </p>
                 </div>
@@ -757,50 +828,20 @@ function ServicerDetails() {
                   </div>
                 </div>
               </Grid>
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-9">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-5 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4 "
-                          />
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '4px'
-                            }}
-                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </div>
               </div>
@@ -808,20 +849,37 @@ function ServicerDetails() {
                 {activeTab !== "Unpaid Claims" &&
                   activeTab !== "Paid Claims" &&
                   activeTab !== "Claims" ? (
-                  <Button
+                  <InActiveButton
                     onClick={() => routeToPage(activeTab)}
-                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+                    className="flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
                   >
                     {" "}
-                    <img
-                      src={AddItem}
-                      className="self-center"
-                      alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                    <div
+                      style={{
+                        maskImage: `url(${AddItem})`,
+                        WebkitMaskImage: `url(${AddItem})`,
+                        backgroundColor: backGroundColor,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center pr-1 py-1 h-4 w-4"
+                    />
+                    <span
+                      style={{
+                        borderColor: backGroundColor,
+                        borderLeftWidth: "1px",
+                        paddingLeft: "7px",
+                        color: backGroundColor,
+                      }}
+                      className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                    >
                       Add {activeTab}
                     </span>{" "}
-                  </Button>
+                  </InActiveButton>
                 ) : (
                   <></>
                 )}
@@ -1224,7 +1282,20 @@ function ServicerDetails() {
                   sortIcon={
                     <>
                       {" "}
-                      <img src={shorting} className="ml-2" alt="shorting" />
+                      <div
+                        style={{
+                          maskImage: `url(${shorting})`,
+                          WebkitMaskImage: `url(${shorting})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="ml-2 tabless"
+                      />
+                      {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                     </>
                   }
                   noDataComponent={<CustomNoDataComponent />}

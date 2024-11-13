@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
-import { format, addMonths } from "date-fns";
+import { format, addMonths, subDays } from "date-fns";
 // Media Include
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Spinner from "../../../assets/images/icons/Spinner.svg";
@@ -30,6 +30,7 @@ import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import Cross1 from "../../../assets/images/Cross_Button.png";
 import {
   addOrderforDealerPortal,
   editOrderforDealerPortal,
@@ -40,6 +41,12 @@ import {
 } from "../../../services/dealerServices/orderListServices";
 import { getServiceCoverageDetails } from "../../../services/customerServices";
 import Card from "../../../common/card";
+import { MultiSelect } from "react-multi-select-component";
+import {
+  getDealersSettingsByid,
+  uploadTermsandCondition,
+} from "../../../services/dealerServices";
+import InActiveButton from "../../../common/inActiveButton";
 
 function DealerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -54,6 +61,9 @@ function DealerAddOrder() {
   const [customerList, setCustomerList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const [selectedFile2, setSelectedFile2] = useState(null);
+  const inputRef = useRef(null);
   const [resellerList, setResllerList] = useState([]);
   const [categoryName, setCategoryName] = useState([]);
   const [priceBookName, setPriceBookName] = useState([]);
@@ -63,6 +73,8 @@ function DealerAddOrder() {
   const [loading3, setLoading3] = useState(false);
   const [loading14, setloader] = useState(false);
   const [loading5, setLoading5] = useState(false);
+  const [claimOver, setClaimOver] = useState([true]);
+  const [claimInCoveragePeriod, setClaimInCoveragePeriod] = useState([true]);
   const [timer, setTimer] = useState(3);
   const [sendNotification, setSendNotification] = useState(true);
   const [numberOfOrders, setNumberOfOrders] = useState([]);
@@ -78,10 +90,20 @@ function DealerAddOrder() {
   useEffect(() => {
     if (orderId || resellerId || customerId) {
       console.log("orderId", typeValue);
+      getDealerSettingsDetails(undefined);
       setLoading1(true);
       return () => clearTimeout(timer);
     }
   }, [orderId, resellerId, customerId]);
+
+  const period = [
+    { label: "Monthly", value: "Monthly" },
+    { label: "Annually", value: "Annually" },
+  ];
+  const optiondeductibles = [
+    { label: "$", value: "amount" },
+    { label: "%", value: "percentage" },
+  ];
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -96,7 +118,7 @@ function DealerAddOrder() {
 
   const downloadCSVTemplate = async () => {
     window.open(
-      "https://docs.google.com/spreadsheets/d/1PANNmDTU0UA_z93yc3DkL1lfHeRStXpEp6OkJn-_iUQ/edit#gid=0",
+      "https://docs.google.com/spreadsheets/d/1IKZGYxlL4Bo3ifJsDR2QCqmVcwq5XwOQ/edit?pli=1&gid=1553032734#gid=1553032734",
       "_blank"
     );
   };
@@ -118,6 +140,7 @@ function DealerAddOrder() {
       setCurrentStep(1);
       formik.resetForm();
       setNumberOfOrders([]);
+      setSelected([]); //add this
       setFileValues([]);
       formikStep2.resetForm();
       formikStep3.resetForm();
@@ -220,6 +243,23 @@ function DealerAddOrder() {
     }
   };
 
+  //add this line
+  const getDealerSettingsDetails = async (dealerId) => {
+    const res = await getDealersSettingsByid(dealerId);
+    console.log(res.result[0]);
+    setSelectedFile2(
+      res.result[0].termCondition.fileName === ""
+        ? null
+        : res.result[0].termCondition
+    );
+    formikStep2.setFieldValue(
+      "termCondition",
+      res.result[0].termCondition.fileName === ""
+        ? null
+        : res.result[0].termCondition
+    );
+  };
+
   const getResellerList = async (id) => {
     setLoading1(true);
     let arr = [];
@@ -249,6 +289,7 @@ function DealerAddOrder() {
       orderDetails();
       setType("Edit");
     } else {
+      getDealerSettingsDetails(undefined);
       setType("Add");
     }
     if (resellerId && customerId == undefined) {
@@ -260,16 +301,6 @@ function DealerAddOrder() {
       getServicerList({
         resellerId: resellerId,
       });
-      // getCategoryList(
-      //   {
-      //     priceBookId: "",
-      //     priceCatId: "",
-      //     pName: "",
-      //     term: "",
-      //     coverageType: formikStep2?.values?.coverageType,
-      //   },
-      //   0
-      // );
     }
     if (customerId) {
       formik.setFieldValue("customerId", customerId);
@@ -287,8 +318,10 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
-          coverageType: formikStep2?.values?.coverageType,
+          dealerSku: "",
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         0
       );
@@ -306,13 +339,14 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
-          coverageType: formikStep2?.values?.coverageType,
+          dealerSku: "",
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         0
       );
     }
-    // getProductList()
     getTermListData();
     getServiceCoverage();
   }, [orderId, resellerId, customerId]);
@@ -321,6 +355,7 @@ function DealerAddOrder() {
     setLoading1(true);
     const result = await orderDetailsById(orderId);
     console.log(result.result);
+    setSelected(result.result.coverageType);
     getResellerList();
     getCustomerList({
       resellerId: result?.result?.resellerId,
@@ -329,8 +364,6 @@ function DealerAddOrder() {
       resellerId: result?.result?.resellerId,
     });
     getServiceCoverage(undefined, "Edit");
-    //     console.log (result.result.paymentStatus)
-    // alert (result.result.paymentStatus)
     formik4.setFieldValue("paymentStatus", result.result.paymentStatus);
     formik4.setFieldValue("paidAmount", result.result.paidAmount);
     formik4.setFieldValue("dueAmount", result.result.dueAmount);
@@ -341,8 +374,8 @@ function DealerAddOrder() {
           priceCatId: product.categoryId,
           term: product.term,
           pName: product.pName,
-          dealerSku:"",
-          coverageType: result?.result?.coverageType,
+          dealerSku: "",
+          coverageType: result?.result?.coverageType.map((item) => item.value),
         },
         index
       );
@@ -368,6 +401,7 @@ function DealerAddOrder() {
       });
     });
     orderDetail(result.result);
+    setSendNotification(result?.result.sendNotification)
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("billTo", result?.result?.billDetail?.billTo);
     formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
@@ -388,8 +422,7 @@ function DealerAddOrder() {
         noOfProducts: product.noOfProducts || "",
         price: product.price || null,
         file: product.orderFile || "",
-        coverageStartDate: product.coverageStartDate || "",
-        coverageEndDate: product.coverageEndDate || "",
+        coverageStartDate: product.coverageStartDate1 || "",
         description: product.description || "",
         term: product.term || "",
         pName: product.pName || "",
@@ -404,14 +437,31 @@ function DealerAddOrder() {
         dealerSku: product.dealerSku || "",
         fileValue: "",
         priceBookDetails: product?.priceBookDetail || {},
+        adhDays: product.mergedData || [],
         dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
+        noOfClaim: product?.noOfClaim || {},
+        noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 0,
+        isManufacturerWarranty: product?.isManufacturerWarranty,
+        isMaxClaimAmount: product?.isMaxClaimAmount,
       })),
     });
 
+    setClaimOver(
+      result.result.productsArray?.map(
+        (product) => product?.noOfClaim?.value === -1
+      )
+    );
+    setClaimInCoveragePeriod(
+      result.result.productsArray?.map(
+        (product) => product?.noOfClaimPerPeriod === -1
+      )
+    );
     orderDetail(result.result);
     formik.setFieldValue("dealerId", result?.result?.dealerId);
     formik.setFieldValue("servicerId", result?.result?.servicerId);
     formik.setFieldValue("name", result?.result?.billDetail?.detail?.name);
+    setSelectedFile2(result.result.termCondition);
+    formikStep2.setFieldValue("termCondition", result.result.termCondition);
     formik.setFieldValue(
       "address",
       result?.result?.billDetail?.detail?.address
@@ -433,6 +483,7 @@ function DealerAddOrder() {
       result?.result?.serviceCoverageType
     );
     formikStep2.setFieldValue("coverageType", result?.result?.coverageType);
+    // coverageType: coverageType.map((item) => item.value),
   };
 
   const renderStep = () => {
@@ -500,7 +551,7 @@ function DealerAddOrder() {
     initialValues: {
       dealerPurchaseOrder: "",
       serviceCoverageType: "",
-      coverageType: "",
+      coverageType: [],
     },
     validationSchema: Yup.object().shape({
       dealerPurchaseOrder: Yup.string().required(
@@ -509,9 +560,10 @@ function DealerAddOrder() {
       serviceCoverageType: Yup.string().required(
         "Service Coverage Type is Required"
       ),
-      coverageType: Yup.string().required("Coverage Type is Required"),
+      coverageType: Yup.array().min(1, "Coverage Type is Required"),
     }),
     onSubmit: (values) => {
+      console.log(values);
       let data = {
         dealerPurchaseOrder: values.dealerPurchaseOrder,
         oldDealerPurchaseOrder: order?.venderOrder,
@@ -542,23 +594,29 @@ function DealerAddOrder() {
           price: null,
           file: "",
           coverageStartDate: "",
-          coverageEndDate: "",
           description: "",
           term: "",
           pName: "",
           priceType: "",
           adh: 0,
           additionalNotes: "",
-          coverageEndDate: "",
           QuantityPricing: [],
           rangeStart: "",
           rangeEnd: "",
-          dealerSku:"",
+          dealerSku: "",
           checkNumberProducts: "",
           fileValue: "",
           orderFile: {},
           priceBookDetails: {},
           dealerPriceBookDetails: {},
+          adhDays: [], // add this
+          noOfClaimPerPeriod: -1,
+          noOfClaim: {
+            period: "Monthly",
+            value: -1,
+          },
+          isManufacturerWarranty: false,
+          isMaxClaimAmount: false,
         },
       ],
     },
@@ -719,6 +777,16 @@ function DealerAddOrder() {
                 });
               });
             }
+            if (item.adhDays && Array.isArray(item.adhDays)) {
+              item.adhDays.forEach((qpItem, qpIndex) => {
+                Object.entries(qpItem).forEach(([qpKey, qpValue]) => {
+                  formData.append(
+                    `${key}[${index}][adhDays][${qpIndex}][${qpKey}]`,
+                    qpValue
+                  );
+                });
+              });
+            }
           });
         } else {
           formData.append(key, value);
@@ -743,6 +811,25 @@ function DealerAddOrder() {
   };
 
   const fileInputRef = useRef([]);
+
+  // add this
+  useEffect(() => {
+    if (type == "Add") {
+      const selectedCoverages = formikStep2.values.coverageType;
+
+      if (selectedCoverages.length) {
+        const updatedProductsArray = selectedCoverages.map((data) => ({
+          label: data.label,
+          value: "00",
+          value1: "",
+        }));
+        formikStep3.setFieldValue(
+          "productsArray[0].adhDays",
+          updatedProductsArray
+        );
+      }
+    }
+  }, [formikStep2.values.coverageType]);
 
   const handleInputClick = (index, event) => {
     // setloader(true)
@@ -893,7 +980,6 @@ function DealerAddOrder() {
       price: null,
       file: "",
       coverageStartDate: "",
-      coverageEndDate: "",
       description: "",
       term: "",
       priceType: "",
@@ -905,6 +991,11 @@ function DealerAddOrder() {
       fileValue: "",
       pName: "",
       orderFile: {},
+      adhDays: [],
+      noOfClaimPerPeriod: -1,
+      noOfClaim: {},
+      isManufacturerWarranty: false,
+      isMaxClaimAmount: false,
     };
     getCategoryList(
       {
@@ -912,8 +1003,10 @@ function DealerAddOrder() {
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"",
-        coverageType: formikStep2?.values?.coverageType,
+        dealerSku: "",
+        coverageType: formikStep2?.values?.coverageType.map(
+          (item) => item.value
+        ),
       },
       formikStep3.values.productsArray.length
     );
@@ -930,32 +1023,26 @@ function DealerAddOrder() {
   //   formikStep3.setFieldValue("productsArray", updatedProduct);
   // };
   const handleDeleteProduct = (index) => {
-    handleInputClickReset(index)
+    handleInputClickReset(index);
     const updatedProduct = [...formikStep3.values.productsArray];
-    console.log(formikStep3.values.productsArray.splice(index,1))
+    console.log(formikStep3.values.productsArray.splice(index, 1));
     updatedProduct.splice(index, 1);
-     formikStep3.setFieldValue("productsArray", updatedProduct);
+    formikStep3.setFieldValue("productsArray", updatedProduct);
     setFileValues((prevFileValues) => {
       const newArray = [...prevFileValues];
       newArray[index] = null;
 
       return newArray;
     });
-   
-      console.log(formikStep3.values.productsArray,updatedProduct)
 
+    console.log(formikStep3.values.productsArray, updatedProduct);
   };
-  
+
   const openModal = () => {
     setIsModalOpen(true);
   };
-  const [BillCheck, setbillCheck] = useState();
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const openError = () => {
-    setIsErrorOpen(true);
   };
 
   const closeError = () => {
@@ -982,6 +1069,7 @@ function DealerAddOrder() {
       formikStep3.setFieldValue(`productsArray[${match[1]}].rangeEnd`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].rangeStart`, "");
       formikStep3.setFieldValue(`productsArray[${match[1]}].priceType`, "");
+      formikStep3.setFieldValue(`productsArray[${match[1]}].coverageStartDate`, "");
       if (match) {
         setNumberOfOrders((prevFileValues) => {
           const newArray = [...prevFileValues];
@@ -994,9 +1082,11 @@ function DealerAddOrder() {
             priceCatId: selectedValue,
             pName: "",
             term: "",
-            dealerSku:"",
+            dealerSku: "",
             priceBookId: "",
-            coverageType: formikStep2?.values?.coverageType,
+            coverageType: formikStep2?.values?.coverageType.map(
+              (item) => item.value
+            ),
           },
           match[1]
         );
@@ -1007,12 +1097,49 @@ function DealerAddOrder() {
       const data = productNameOptions[match[1]].data.find((value) => {
         return value.value === selectedValue;
       });
-      getCategoryList(
+      const data1 = data.dealerPriceBookDetails.find(
+        (value) => value.priceBook === selectedValue
+      );
+      if (data1) {
+        setClaimOver((prevState) => {
+          const newClaimOver = [...prevState];
+          newClaimOver[match[1]] = data1?.noOfClaim?.value === -1;
+          return newClaimOver;
+        });
+        setClaimInCoveragePeriod((prevState) => {
+          const newClaimInCoveragePeriod = [...prevState];
+          newClaimInCoveragePeriod[match[1]] = data1?.noOfClaimPerPeriod === -1;
+          return newClaimInCoveragePeriod;
+        });
+        formikStep3.setFieldValue(
+          `productsArray[${match[1]}].noOfClaim`,
+          data1.noOfClaim
+        );
+        formikStep3.setFieldValue(
+          `productsArray[${match[1]}].noOfClaimPerPeriod`,
+          data1.noOfClaimPerPeriod
+        );
+
+        formikStep3.setFieldValue(
+          `productsArray[${match[1]}].isManufacturerWarranty`,
+          data1.isManufacturerWarranty
+        );
+
+        formikStep3.setFieldValue(
+          `productsArray[${match[1]}].isMaxClaimAmount`,
+          data1.isMaxClaimAmount
+        );
+      }
+
+      console.log(data);
+      const priceBookValue = await getCategoryList(
         {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: selectedValue,
-          coverageType: formikStep2?.values?.coverageType,
-          dealerSku:"",
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
+          dealerSku: "",
           pName:
             selectedValue == ""
               ? ""
@@ -1024,10 +1151,11 @@ function DealerAddOrder() {
         },
         match[1]
       );
-      // formikStep3.setFieldValue(
-      //   `productsArray[${match[1]}].QuantityPricing`,
-      //   data?.quantityPriceDetail
-      // );
+      console.log('priceBookValue', priceBookValue.result.mergedData)
+      formikStep3.setFieldValue(
+        `productsArray[${match[1]}].adhDays`,
+        priceBookValue.result.mergedData
+      );
       const updatedQuantityPricing = data?.quantityPriceDetail.map(
         (item, index) => {
           const updatedItem = {
@@ -1073,7 +1201,6 @@ function DealerAddOrder() {
         `productsArray[${match[1]}].dealerSku`,
         data?.dealerSku
       );
-
       formikStep3.setFieldValue(
         `productsArray[${match[1]}].unitPrice`,
         data?.wholesalePrice
@@ -1096,12 +1223,14 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           term: selectedValue,
-          dealerSku:"",
+          dealerSku: "",
           pName:
             formikStep3.values.productsArray[match[1]].pName == undefined
               ? ""
               : formikStep3.values.productsArray[match[1]].pName,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         match[1]
       );
@@ -1116,19 +1245,55 @@ function DealerAddOrder() {
           priceCatId: formikStep3.values.productsArray[match[1]].categoryId,
           priceBookId: formikStep3.values.productsArray[match[1]].priceBookId,
           pName: selectedValue,
-          dealerSku:"",
+          dealerSku: "",
           term: formikStep3.values.productsArray[match[1]].term,
-          coverageType: formikStep2?.values?.coverageType,
+          coverageType: formikStep2?.values?.coverageType.map(
+            (item) => item.value
+          ),
         },
         match[1]
       );
     }
     formikStep3.setFieldValue(name, selectedValue);
   };
-  const handleReload = () => {
-    window.location.reload();
+
+  const handleRemoveFile = () => {
+    if (inputRef) {
+      formikStep2.setFieldValue("termCondition", null);
+      setSelectedFile2(null);
+    }
   };
 
+  const handleAddFile = () => {
+    if (inputRef) {
+      inputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 10048576; // 10MB in bytes
+
+    if (file?.size > maxSize) {
+      formikStep2.setFieldError(
+        "termCondition",
+        "File is too large. Please upload a file smaller than 10MB."
+      );
+      console.log("Selected file:", file);
+    } else {
+      setSelectedFile2(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = uploadTermsandCondition(formData).then((res) => {
+        console.log(result);
+        formikStep2.setFieldValue("termCondition", {
+          fileName: res?.file?.filename,
+          name: res?.file?.originalname,
+          size: res?.file?.size,
+        });
+      });
+    }
+  };
   useEffect(() => {
     for (let i = 0; i < formikStep3.values.productsArray.length; i++) {
       if (
@@ -1181,8 +1346,8 @@ function DealerAddOrder() {
           priceCatId: "",
           pName: "",
           term: "",
-          dealerSku:"",
-          coverageType: value,
+          dealerSku: "",
+          coverageType: value.map((item) => item.value),
         },
         0
       );
@@ -1193,12 +1358,6 @@ function DealerAddOrder() {
   const handleInputClickResetStep1 = () => {
     const currentValues = formik.values;
     const newValues = { ...formik.initialValues };
-
-    // if ((dealerId && dealerValue) || window.location.pathname.includes("/editOrder")) {
-    //   newValues.dealerId = currentValues.dealerId;
-    //   newValues.dealerId = currentValues.dealerValue;
-    // }
-
     if (resellerId) {
       Object.assign(newValues, {
         dealerId: currentValues.dealerId,
@@ -1244,13 +1403,15 @@ function DealerAddOrder() {
       customerList.length &&
         customerList.find((res) => {
           if (res.value == value) {
-            if (res.customerData.resellerId != null);
-            formik.setFieldValue("resellerId", res.customerData.resellerId);
-            let data = {
-              resellerId: res.customerData.resellerId,
-            };
-            // getServicerList(data);
-            // getCustomerList(data);
+            if (res.customerData.resellerStatus != false) {
+              formik.setFieldValue("resellerId", res.customerData.resellerId);
+              let data = {
+                resellerId: res.customerData.resellerId,
+              };
+              // getServicerList(data);
+              // getCustomerList(data);
+            }
+
           }
         });
     }
@@ -1262,9 +1423,6 @@ function DealerAddOrder() {
     }
   };
 
-  const handleSelectChange12 = (name, value) => {
-    setbillCheck(value);
-  };
   const BillTo = [
     { label: "Self", value: "Dealer" },
     ...(formik.values.resellerId !== "" && formik.values.resellerId !== null
@@ -1274,41 +1432,15 @@ function DealerAddOrder() {
   ];
   const getServiceCoverage = async (value, type = "Add") => {
     const result = await getServiceCoverageDetails(value);
-    let coverage = [];
     let serviceCoverage = [];
 
     if (type == "Edit") {
-      coverage = [
-        { label: "Breakdown", value: "Breakdown" },
-        { label: "Accidental", value: "Accidental" },
-        { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-      ];
-
       serviceCoverage = [
         { label: "Parts", value: "Parts" },
         { label: "Labor ", value: "Labor" },
         { label: "Parts & Labor ", value: "Parts & Labor" },
       ];
     } else {
-      switch (result?.result?.coverageType) {
-        case "Breakdown & Accidental":
-          coverage = [
-            { label: "Breakdown", value: "Breakdown" },
-            { label: "Accidental", value: "Accidental" },
-            {
-              label: "Breakdown & Accidental",
-              value: "Breakdown & Accidental",
-            },
-          ];
-          break;
-        case "Breakdown":
-          coverage = [{ label: "Breakdown", value: "Breakdown" }];
-          break;
-        default:
-          coverage = [{ label: "Accidental", value: "Accidental" }];
-          break;
-      }
-
       switch (result?.result?.serviceCoverageType) {
         case "Parts & Labour":
           serviceCoverage = [
@@ -1330,7 +1462,7 @@ function DealerAddOrder() {
     }
 
     console.log(coverage, serviceCoverage, type);
-    setCoverage(coverage);
+    setCoverage(result?.result?.coverageType);
     setServiceCoverage(serviceCoverage);
   };
 
@@ -1347,15 +1479,17 @@ function DealerAddOrder() {
           {
             priceBookId: data.priceBookId,
             priceCatId: result.result.selectedCategory._id,
-            coverageType: formikStep2?.values?.coverageType,
+            coverageType: formikStep2?.values?.coverageType.map(
+              (item) => item.value
+            ),
             term: data.term,
-            dealerSku:"",
+            dealerSku: "",
             pName: data.pName,
           },
           index
         );
       }
-      console.log(result.result);
+
       if (formikStep3.values.productsArray.length !== 0) {
         const updateOptions = (stateSetter, data) => {
           stateSetter((prevOptions) => {
@@ -1365,7 +1499,7 @@ function DealerAddOrder() {
           });
         };
         const priceBookDetails = result?.result?.priceBookDetail;
-        const dealerPriceBookDetails = result?.result?.dealerPriceBookDetail;
+        const dealerPriceBookDetails = result.result?.dealerPriceBook;
 
         const priceBooksData = result.result?.priceBooks.map((item) => ({
           label: item.dealerSku,
@@ -1381,16 +1515,16 @@ function DealerAddOrder() {
           rangeStart: item?.rangeStart?.toFixed(2),
           rangeEnd: item?.rangeEnd?.toFixed(2),
           priceBookDetails: priceBookDetails,
-          dealerSku:item?.dealerSku,
+          dealerSku: item.dealerSku, // add this
           dealerPriceBookDetails: dealerPriceBookDetails,
+          adhDays: result.result.mergedData,
         }));
 
-        // setCategoryList(
         const category = result.result?.priceCategories.map((item) => ({
           label: item.name,
           value: item._id,
         }));
-        // );
+
         const termsData = result.result?.terms.map((item) => ({
           label: item.label,
           value: item.value,
@@ -1400,10 +1534,12 @@ function DealerAddOrder() {
           label: item.pName,
           value: item.pName,
         }));
+
         updateOptions(setCategoryList, category);
         updateOptions(setProductNameOptions, priceBooksData);
         updateOptions(setTermList, termsData);
         updateOptions(setProductList, productListData);
+        return result
       }
     } catch (error) {
       setLoading3(false);
@@ -1413,51 +1549,43 @@ function DealerAddOrder() {
       // setLoading1(false);
     }
   };
+
   const handleInputClickReset = (index) => {
     const updatedProductsArray = formikStep3.values.productsArray.map(
-      (product, i) => {
-        if (i === index) {
-          setFileValues((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = null;
-            console.log(newArray);
-            return newArray;
-          });
-          const newProduct = { ...product };
-          Object.keys(newProduct).forEach((key) => {
-            if (key === "unitPrice" || key === "price") {
-              newProduct[key] = 0; // Resetting to 0
-            } else if (Array.isArray(newProduct[key])) {
-              newProduct[key] = [];
-            } else if (
-              typeof newProduct[key] === "object" &&
-              newProduct[key] !== null
-            ) {
-              newProduct[key] = {};
-            } else {
-              newProduct[key] = "";
-            }
-          });
-          return newProduct;
-        }
-
-        return product;
-      }
+      (product, i) => i === index ? {
+        ...product,
+        coverageStartDate: "",
+        unitPrice: 0,
+        price: 0,
+        ...Object.fromEntries(Object.keys(product).map(key => [
+          key,
+          Array.isArray(product[key]) ? [] : (typeof product[key] === "object" && product[key] !== null ? {} : "")
+        ]))
+      } : product
     );
 
     formikStep3.setFieldValue("productsArray", updatedProductsArray);
+
+    const fieldsToReset = ["priceBookId", "categoryId", "term", "dealerSku", "pName", "noOfProducts"];
+    fieldsToReset.forEach(field => {
+      formikStep3.setFieldTouched(`productsArray[${index}].${field}`, false, false);
+      formikStep3.setFieldError(`productsArray[${index}].${field}`, "");
+    });
+
     getCategoryList(
+      formik.values.dealerId,
       {
         priceBookId: "",
         priceCatId: "",
         pName: "",
         term: "",
-        dealerSku:"",
-        coverageType: formikStep2?.values?.coverageType,
+        dealerSku: "",
+        coverageType: formikStep2?.values?.coverageType.map(item => item.value),
       },
       index
     );
   };
+
   const renderStep1 = () => {
     return (
       <>
@@ -1474,12 +1602,12 @@ function DealerAddOrder() {
                 <div className="col-span-8">
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
-                    <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[white] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    <InActiveButton
+                      className="text-sm !py-0 h-[30px] self-center !font-semibold !border-light-black !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
-                    </Button>
+                    </InActiveButton>
                   </div>
                   <Grid>
                     <div className="col-span-6">
@@ -1678,10 +1806,10 @@ function DealerAddOrder() {
         <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
           <p className="text-2xl font-bold mb-4">Dealer Order Details</p>
           <Grid>
-            <div className="col-span-6">
+            <div className="col-span-10">
               <Grid>
-                <div className="col-span-12">
-                  <div className="col-span-12 mt-4">
+                <div className="col-span-6">
+                  <div className="col-span-12 mt-8">
                     <Input
                       type="text"
                       name="dealerPurchaseOrder"
@@ -1705,6 +1833,58 @@ function DealerAddOrder() {
                         </div>
                       )}
                   </div>
+                </div>
+                <div className="col-span-6 ">
+                  <small className="text-neutral-grey p-10p">
+                    Attachment size limit is 10 MB
+                  </small>
+                  <div className="relative mt-[0.6rem]">
+                    <label
+                      htmlFor="term"
+                      className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
+                    >
+                      Term And Condition
+                    </label>
+                    <input
+                      type="file"
+                      name="term"
+                      className="hidden"
+                      onChange={handleFileChange}
+                      accept="application/pdf"
+                      ref={inputRef}
+                    />
+                    <div
+                      className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
+                    >
+                      {selectedFile2 && (
+                        <button
+                          type="button"
+                          onClick={handleRemoveFile}
+                          className="absolute -right-2 -top-2 mx-auto mb-3"
+                        >
+                          <img src={Cross1} className="w-6 h-6" alt="Dropbox" />
+                        </button>
+                      )}
+                      {selectedFile2 ? (
+                        <p className="w-full break-words">
+                          {selectedFile2.name}
+                        </p>
+                      ) : (
+                        <p
+                          className="w-full cursor-pointer"
+                          onClick={handleAddFile}
+                        >
+                          {" "}
+                          Select File
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {formik.errors.termCondition && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {formik.errors.termCondition}
+                    </div>
+                  )}
                 </div>
                 <div className="col-span-6">
                   <Select
@@ -1733,30 +1913,91 @@ function DealerAddOrder() {
                     )}
                 </div>
                 <div className="col-span-6">
-                  <Select
-                    label="Coverage Type"
-                    name="coverageType"
-                    placeholder=""
-                    disabled={type == "Edit"}
-                    className="!bg-white"
-                    className1={`${type == "Edit" ? "!bg-[#ededed]" : "!bg-white"
-                      }`}
-                    required={true}
-                    onChange={handleSelectChange1}
-                    options={coverage}
-                    value={formikStep2.values.coverageType}
-                    onBlur={formikStep2.handleBlur}
-                    error={
-                      formikStep2.touched.coverageType &&
-                      formikStep2.errors.coverageType
-                    }
-                  />
-                  {formikStep2.touched.coverageType &&
-                    formikStep2.errors.coverageType && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {formikStep2.errors.coverageType}
+                  {type === "Edit" ? (
+                    <>
+                      <p className="text-[12px]">Coverage Type</p>
+                      <ol className="flex flex-wrap">
+                        {selected.map((data) => {
+                          return (
+                            <li
+                              key={data.label}
+                              className="font-bold text-sm list-disc mx-[19px]"
+                            >
+                              {data.label}
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </>
+                  ) : (
+                    <div className="relative">
+                      <label
+                        htmlFor="coverageType"
+                        className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Coverage Type
+                        <span className="text-red-500">*</span>
+                      </label>
+                      <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                        <MultiSelect
+                          label="Coverage Type"
+                          name="coverageType"
+                          placeholder=""
+                          className={`SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem] `}
+                          required={true}
+                          styles={{
+                            chips: (provided) => ({
+                              ...provided,
+                              backgroundColor:
+                                type === "Edit" ? "#e0e0e0" : "#f0ad4e", // Change chip color when disabled
+                              color: type === "Edit" ? "#a0a0a0" : "white", // Change chip text color when disabled
+                            }),
+                            searchBox: (provided) => ({
+                              ...provided,
+                              backgroundColor:
+                                type === "Edit" ? "#f0f0f0" : "#f7f7f7", // Change search box background when disabled
+                              border:
+                                type === "Edit"
+                                  ? "1px solid #ccc"
+                                  : "1px solid #ddd", // Change border when disabled
+                              cursor:
+                                type === "Edit" ? "not-allowed" : "pointer", // Change cursor when disabled
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: state.isSelected
+                                ? "#f0ad4e"
+                                : "white",
+                              color: state.isSelected ? "white" : "black",
+                              "&:hover": {
+                                backgroundColor:
+                                  type === "Edit" ? "white" : "#f0ad4e", // Prevent hover effect when disabled
+                                color: type == "Edit" ? "black" : "white",
+                              },
+                            }),
+                          }}
+                          disabled={type == "Edit"}
+                          onChange={(value) => {
+                            setSelected(value);
+                            handleSelectChange1("coverageType", value);
+                          }}
+                          options={coverage}
+                          value={selected}
+                          onBlur={formikStep2.handleBlur}
+                          error={
+                            formikStep2.touched.coverageType &&
+                            formikStep2.errors.coverageType
+                          }
+                        />
                       </div>
-                    )}
+                      {formikStep2.touched.coverageType &&
+                        formikStep2.errors.coverageType && (
+                          <div className="text-red-500 text-sm pl-2 pt-2">
+                            {formikStep2.errors.coverageType}
+                          </div>
+                        )}
+                    </div>
+                  )}
                 </div>
               </Grid>
             </div>
@@ -1792,14 +2033,14 @@ function DealerAddOrder() {
                 >
                   <div className="flex justify-between w-[66%]">
                     <p className="text-2xl font-bold mb-4">Add Product</p>
-                    <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    <InActiveButton
+                      className="text-sm !py-0 h-[30px] self-center !font-semibold !border-[1px]"
                       onClick={() => {
                         handleInputClickReset(index);
                       }}
                     >
                       Reset
-                    </Button>
+                    </InActiveButton>
                   </div>
                   <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                     {index === 0 ? (
@@ -1976,65 +2217,6 @@ function DealerAddOrder() {
                               )}
                           </>
                         </div>
-                        <div className="col-span-12">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].description`}
-                            className="!bg-white"
-                            label="Product Description"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index]
-                                .description
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
-                        {formikStep2.values.coverageType === "Breakdown" ? (
-                          <></>
-                        ) : (
-                          <div className="col-span-4">
-                            <Input
-                              type="number"
-                              name={`productsArray[${index}].adh`}
-                              className="!bg-white"
-                              label="ADH (Waiting Days)"
-                              placeholder=""
-                              value={
-                                formikStep3.values.productsArray[index].adh || 0
-                              }
-                              onChange={formikStep3.handleChange}
-                              onBlur={formikStep3.handleBlur}
-                              // disabled={true}
-                              onWheelCapture={(e) => {
-                                e.preventDefault();
-                              }}
-                            />
-                          </div>
-                        )}
-                        <div className="col-span-4">
-                          <Input
-                            type="text"
-                            name={`productsArray[${index}].priceType`}
-                            className="!bg-white"
-                            label="Product Price Type"
-                            placeholder=""
-                            value={
-                              formikStep3.values.productsArray[index].priceType
-                            }
-                            onChange={formikStep3.handleChange}
-                            onBlur={formikStep3.handleBlur}
-                            disabled={true}
-                            onWheelCapture={(e) => {
-                              e.preventDefault();
-                            }}
-                          />
-                        </div>
                         <div className="col-span-4">
                           <Input
                             type="text"
@@ -2156,26 +2338,13 @@ function DealerAddOrder() {
                             }
                             onChange={(e) => {
                               formikStep3.handleChange(e);
-                              const selectedDate = new Date(e.target.value);
+                              const inputValue = e.target.value;
+                              const selectedDate = new Date(inputValue);
                               selectedDate.setDate(selectedDate.getDate());
 
-                              const gmtDate = selectedDate.toISOString();
                               formikStep3.setFieldValue(
                                 `productsArray[${index}].coverageStartDate`,
-                                gmtDate
-                              );
-                              const termInMonths =
-                                formikStep3.values.productsArray[index].term ||
-                                0;
-                              const newEndDate = addMonths(
-                                selectedDate,
-                                termInMonths
-                              );
-                              const formattedEndDate = newEndDate.toISOString();
-
-                              formikStep3.setFieldValue(
-                                `productsArray[${index}].coverageEndDate`,
-                                formattedEndDate
+                                selectedDate
                               );
                             }}
                             onBlur={formikStep3.handleBlur}
@@ -2203,6 +2372,26 @@ function DealerAddOrder() {
                               </div>
                             )}
                         </div>
+
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].priceType`}
+                            className="!bg-white"
+                            label="Product Price Type"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index].priceType
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
+
                         {(formikStep3.values.productsArray[index].priceType ===
                           "FlatPricing" ||
                           formikStep3.values.productsArray[index].priceType ===
@@ -2248,6 +2437,25 @@ function DealerAddOrder() {
                               </div>
                             </>
                           )}
+                        <div className="col-span-12">
+                          <Input
+                            type="text"
+                            name={`productsArray[${index}].description`}
+                            className="!bg-white"
+                            label="Product Description"
+                            placeholder=""
+                            value={
+                              formikStep3.values.productsArray[index]
+                                .description
+                            }
+                            onChange={formikStep3.handleChange}
+                            onBlur={formikStep3.handleBlur}
+                            disabled={true}
+                            onWheelCapture={(e) => {
+                              e.preventDefault();
+                            }}
+                          />
+                        </div>
                         <div className="col-span-12">
                           <Grid className="!grid-cols-3">
                             {formikStep3.values.productsArray[index]
@@ -2373,7 +2581,98 @@ function DealerAddOrder() {
                               })()}
                           </Grid>
                         </div>
-
+                        {formikStep3.values.productsArray[index].dealerSku ===
+                          "" ? (
+                          ""
+                        ) : (
+                          <div className="col-span-12">
+                            <Grid className=" mb-3">
+                              {formikStep3.values.productsArray[index]
+                                .adhDays &&
+                                formikStep3.values.productsArray[
+                                  index
+                                ].adhDays.map((coverage, idx) => (
+                                  <div
+                                    className="col-span-4 capitalize"
+                                    key={idx}
+                                  >
+                                    <div className="my-4">
+                                      <Input
+                                        type="text"
+                                        name={`productsArray[${index}].adhDays[${idx}].waitingDays`}
+                                        className="!bg-white"
+                                        label={`${coverage.label} Days `}
+                                        placeholder={`${coverage.label} Days`}
+                                        disabled={true}
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].waitingDays ?? 0
+                                        }
+                                        onChange={(e) =>
+                                          formikStep3.setFieldValue(
+                                            `productsArray[${index}].adhDays[${idx}].waitingDays`,
+                                            e.target.value === ""
+                                              ? 0
+                                              : e.target.value
+                                          )
+                                        }
+                                        onBlur={formikStep3.handleBlur}
+                                      />
+                                    </div>
+                                    <div className="relative">
+                                      <Input
+                                        type="text"
+                                        name={`productsArray[${index}].adhDays[${idx}].deductible`}
+                                        className="!bg-white"
+                                        label="Deductible"
+                                        disabled={true}
+                                        placeholder=""
+                                        value={
+                                          formikStep3.values.productsArray[
+                                            index
+                                          ].adhDays[idx].deductible ?? 0
+                                        }
+                                        onChange={(e) => {
+                                          const value = e.target.value;
+                                          // Allow up to two decimal places
+                                          if (/^\d+(\.\d{0,2})?$/.test(value)) {
+                                            formikStep3.setFieldValue(
+                                              `productsArray[${index}].adhDays[${idx}].deductible`,
+                                              value === "" ? 0 : value
+                                            );
+                                          }
+                                        }}
+                                        onBlur={formikStep3.handleBlur}
+                                      />
+                                      <div className="absolute top-[1px] right-[1px]">
+                                        <Select
+                                          name={`productsArray[${index}].adhDays[${idx}].amountType`}
+                                          label=""
+                                          disableFirstOption={true}
+                                          onChange={(e, name) =>
+                                            formikStep3.setFieldValue(
+                                              `productsArray[${index}].adhDays[${idx}].amountType`,
+                                              name
+                                            )
+                                          }
+                                          disabled={true}
+                                          value={
+                                            formikStep3.values.productsArray[
+                                              index
+                                            ].adhDays[idx].amountType
+                                          }
+                                          classBox="!bg-transparent"
+                                          className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                                          options={optiondeductibles}
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                            </Grid>
+                          </div>
+                        )}
                         <div className="col-span-12">
                           <div className="relative">
                             <label
@@ -2411,7 +2710,7 @@ function DealerAddOrder() {
                       </Grid>
                     </div>
                     <div className="col-span-4">
-                      <div className="border border-dashed w-full h-[80%] relative flex justify-center">
+                      <div className="border border-dashed w-full h-[40%] relative flex justify-center">
                         <label
                           htmlFor="description"
                           className="absolute z-[999] text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
@@ -2496,6 +2795,271 @@ function DealerAddOrder() {
                             {formikStep3.errors.productsArray[index].file}
                           </div>
                         )}
+
+                      {formikStep3.values.productsArray[index].priceBookId ==
+                        "" ? (
+                        ""
+                      ) : (
+                        <div className="col-span-12 my-4 border-t py-3">
+                          <div className="flex justify-between w-full">
+                            <p className="text-[12px] mb-3 font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Unlimited"
+                                disabled={true}
+                                value={true}
+                                checked={claimOver[index] === true}
+                                onChange={() => {
+                                  setClaimOver((prevState) => {
+                                    const newClaimOver = [...prevState];
+                                    newClaimOver[index] = true;
+                                    return newClaimOver;
+                                  });
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaim`,
+                                    {
+                                      period: "Monthly",
+                                      value: -1,
+                                    }
+                                  );
+                                }}
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="Fixed"
+                                value={false}
+                                disabled={true}
+                                checked={claimOver[index] === false}
+                                onChange={() => {
+                                  setClaimOver((prevState) => {
+                                    const newClaimOver = [...prevState];
+                                    newClaimOver[index] = false;
+                                    return newClaimOver;
+                                  });
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaim`,
+                                    {
+                                      period: "Monthly",
+                                      value: 0,
+                                    }
+                                  );
+                                }}
+                              />
+                            </div>
+                          </div>
+                          {claimOver[index] === false && (
+                            <div className="flex">
+                              <Select
+                                name={`productsArray[${index}].noOfClaim.period`}
+                                options={period}
+                                className="!bg-grayf9"
+                                placeholder=""
+                                className1="!pt-2.5"
+                                disableFirstOption={true}
+                                disabled={true}
+                                OptionName={"Period"}
+                                maxLength={"30"}
+                                value={
+                                  formikStep3?.values?.productsArray[index]
+                                    ?.noOfClaim?.period
+                                }
+                                onBlur={formik.handleBlur}
+                                onChange={(name, value) =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaim.period`,
+                                    value
+                                  )
+                                }
+                              />
+
+                              <div className="ml-3">
+                                <Input
+                                  className1="!pt-2.5"
+                                  placeholder="# of claims"
+                                  type="number"
+                                  disabled={true}
+                                  name={`productsArray[${index}].noOfClaim.value`}
+                                  value={
+                                    formikStep3?.values?.productsArray[index]
+                                      ?.noOfClaim?.value
+                                  }
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].noOfClaim.value`,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          )}
+                          <div className="flex justify-between my-4 w-full">
+                            <p className="text-[12px] font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Unlimited"
+                                disabled={true}
+                                value={true}
+                                checked={claimInCoveragePeriod[index] === true}
+                                onChange={() => {
+                                  setClaimInCoveragePeriod((prevState) => {
+                                    const newClaimInCoveragePeriod = [
+                                      ...prevState,
+                                    ];
+                                    newClaimInCoveragePeriod[index] = true;
+                                    return newClaimInCoveragePeriod;
+                                  });
+
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaimPerPeriod`,
+                                    -1
+                                  );
+                                }}
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="Fixed"
+                                disabled={true}
+                                value={false}
+                                checked={claimInCoveragePeriod[index] === false}
+                                onChange={() => {
+                                  setClaimInCoveragePeriod((prevState) => {
+                                    const newClaimInCoveragePeriod = [
+                                      ...prevState,
+                                    ];
+                                    newClaimInCoveragePeriod[index] = false;
+                                    return newClaimInCoveragePeriod;
+                                  });
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].noOfClaimPerPeriod`,
+                                    0
+                                  );
+                                }}
+                              />
+                            </div>
+                          </div>
+                          {claimInCoveragePeriod[index] === false && (
+                            <div className="flex ">
+                              <div className="">
+                                <Input
+                                  className1="!pt-2.5"
+                                  disabled={true}
+                                  placeholder="# of claims"
+                                  type="number"
+                                  name={`productsArray[${index}].noOfClaimPerPeriod`}
+                                  value={
+                                    formikStep3?.values?.productsArray[index]
+                                      ?.noOfClaimPerPeriod
+                                  }
+                                  onBlur={formik.handleBlur}
+                                  onChange={(e) =>
+                                    formikStep3.setFieldValue(
+                                      `productsArray[${index}].noOfClaimPerPeriod`,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="flex justify-between">
+                            <p className=" text-[12px] mb-3 font-semibold">
+                              {" "}
+                              Is manufacturer warranty included?
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Yes"
+                                value={true}
+                                disabled={true}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isManufacturerWarranty == true
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isManufacturerWarranty`,
+                                    true
+                                  )
+                                }
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="No"
+                                value={false}
+                                disabled={true}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isManufacturerWarranty === false
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isManufacturerWarranty`,
+                                    false
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                          <div className="flex justify-between">
+                            <p className=" text-[12px] mb-3 font-semibold">
+                              {" "}
+                              Is There a Maximum Claim Amount?
+                            </p>
+                            <div className="flex">
+                              <RadioButton
+                                className="self-start"
+                                id="yes-warranty"
+                                label="Yes"
+                                value={true}
+                                disabled={true}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isMaxClaimAmount == true
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isMaxClaimAmount`,
+                                    true
+                                  )
+                                }
+                              />
+                              <RadioButton
+                                className="self-start"
+                                id="no-warranty"
+                                label="No"
+                                disabled={true}
+                                value={false}
+                                checked={
+                                  formikStep3.values.productsArray[index]
+                                    .isMaxClaimAmount === false
+                                }
+                                onChange={() =>
+                                  formikStep3.setFieldValue(
+                                    `productsArray[${index}].isMaxClaimAmount`,
+                                    false
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="col-span-12"></div>
                   </Grid>
@@ -2515,7 +3079,6 @@ function DealerAddOrder() {
       </>
     );
   };
-  console.log(formikStep3.values.productsArray, "hello");
   const renderStep4 = () => {
     // Step 4 content
     return (
@@ -2571,22 +3134,41 @@ function DealerAddOrder() {
                             : formikStep2.values.serviceCoverageType}
                       </p>
                     </div>
-                    <div className="col-span-5 py-4">
-                      <p className="text-[12px]">Coverage Type</p>
-                      <p className="font-bold text-sm">
-                        {formikStep2.values.coverageType}
-                      </p>
+                    <div className="col-span-5 py-4 ">
+                      <p className="text-[12px]">Term And Condition</p>
+                      <div className="flex self-center">
+                        <img
+                          src={csvFile}
+                          className="mr-2 h-[23px]"
+                          alt="Dropbox"
+                        />
+                        <p className="self-center text-[11px] font-bold pl-2 text-black">
+                          {formikStep2?.values?.termCondition?.fileName ===
+                            "" || formikStep2?.values?.termCondition === null
+                            ? "No File Selected"
+                            : formikStep2?.values?.termCondition?.name}
+                        </p>
+                      </div>
                     </div>
                   </Grid>
                 </div>
-                {formikStep3.values.productsArray.map((data, index) => {
-                  return (
-                    <>
+              </Grid>
+              {formikStep3.values.productsArray.map((data, index) => {
+                return (
+                  <>
+                    <Grid className="mt-4">
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-2 pl-3">
                           Product Details
                         </p>
-                        <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
+                      </div>
+                      <div className="col-span-4">
+                        <p className="text-2xl font-bold mb-2">Uploaded Data</p>
+                      </div>
+                    </Grid>
+                    <Grid className=" !border-Light-Grey !border !rounded-xl !gap-0">
+                      <div className="col-span-8">
+                        <div className=" border-r border-b">
                           <Grid className="border-b px-4">
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Product Category</p>
@@ -2594,13 +3176,14 @@ function DealerAddOrder() {
                                 {categoryName[index]}
                               </p>
                             </div>
+
                             <div className="col-span-3 py-4 border-r">
                               <p className="text-[12px]">Dealer SKU</p>
                               <p className="font-bold text-sm">
                                 {priceBookName[index]}
                               </p>
                             </div>
-                            <div className="col-span-6 py-4">
+                            <div className="col-span-3 py-4">
                               <p className="text-[12px]">Product Name</p>
                               <p className="font-bold text-sm">{data.pName}</p>
                             </div>
@@ -2651,6 +3234,7 @@ function DealerAddOrder() {
                               </p>
                             </div>
                           </Grid>
+
                           {data.priceType == "Flat Pricing" && (
                             <Grid className="border-b px-4">
                               <div className="col-span-6 py-4 border-r">
@@ -2661,7 +3245,7 @@ function DealerAddOrder() {
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
                                       Number(data.rangeStart) ?? parseInt(0)
-                                    )}{" "}
+                                    )}
                                 </p>
                               </div>
                               <div className="col-span-6 py-4">
@@ -2671,12 +3255,14 @@ function DealerAddOrder() {
                                   {data.rangeEnd === undefined
                                     ? parseInt(0).toLocaleString(2)
                                     : formatOrderValue(
-                                      Number(data.rangeEnd) ?? parseInt(0)
-                                    )}{" "}
+                                      data.rangeEnd ?? parseInt(0)
+                                    )}
                                 </p>
                               </div>
                             </Grid>
                           )}
+
+                          {/* Add this */}
 
                           <Grid>
                             {data.priceType == "Quantity Pricing" && (
@@ -2735,14 +3321,14 @@ function DealerAddOrder() {
                             )}
                           </Grid>
                           <Grid className=" px-4">
-                            <div className="col-span-8 py-4 border-r">
+                            <div className="col-span-8 border-r py-4">
                               <p className="text-[12px]">Note</p>
                               <p className="font-bold text-sm">
                                 {data.additionalNotes}
                               </p>
                             </div>
                             <div className="col-span-4 py-4">
-                              <p className="text-[12px]">Start Coverage Date</p>
+                              <p className="text-[12px]">Coverage Start Date</p>
                               <p className="font-bold text-sm">
                                 {data?.coverageStartDate == "" ? (
                                   <></>
@@ -2761,15 +3347,12 @@ function DealerAddOrder() {
                           {/* Loops */}
                         </div>
                       </div>
-                      <div className="col-span-4">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
-                          Uploaded Data
-                        </p>
-                        <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
+                      <div className="col-span-4 pt-3 px-2">
+                        <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
                           <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
                             <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
-                              <p className="self-center">
+                              <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
                                   ? "No File Selected"
                                   : data?.file?.name}
@@ -2784,11 +3367,112 @@ function DealerAddOrder() {
                             </div>
                           </div>
                         </div>
+                        <div className="col-span-12 my-4 border-t py-3">
+                          <div className=" w-full">
+                            <p className="text-base mb-1 font-semibold">
+                              # of Claims Over the Certain Period
+                            </p>
+                            <p className="text-sm">
+                              {" "}
+                              {
+                                formikStep3?.values?.productsArray[index]?.noOfClaim?.value == "-1"
+                                  ? ""
+                                  : `${formikStep3?.values?.productsArray[index]?.noOfClaim?.period} - `
+                              }
+                              {formikStep3?.values?.productsArray[index]
+                                ?.noOfClaim?.value == "-1"
+                                ? "Unlimited"
+                                : formikStep3?.values?.productsArray[index]
+                                  ?.noOfClaim?.value}{" "}
+                            </p>
+                          </div>
+
+                          <div className=" my-1 w-full">
+                            <p className="text-base font-semibold">
+                              # of Claims in Coverage Period
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {" "}
+                            {formikStep3?.values?.productsArray[index]
+                              ?.noOfClaimPerPeriod == "-1"
+                              ? "Unlimited"
+                              : formikStep3?.values?.productsArray[index]
+                                ?.noOfClaimPerPeriod}{" "}
+                          </p>
+
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is manufacturer warranty included?
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isManufacturerWarranty == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
+                          <div className="">
+                            <p className=" text-base mb-1 font-semibold">
+                              {" "}
+                              Is There a Maximum Claim Amount?
+                            </p>
+                          </div>
+                          <p className="text-sm">
+                            {formikStep3.values.productsArray[index]
+                              .isMaxClaimAmount == true
+                              ? "Yes"
+                              : "No"}
+                          </p>
+                        </div>
                       </div>
-                    </>
-                  );
-                })}
-              </Grid>
+
+                      <div className="col-span-12">
+                        <p className="text-base font-bold mb-4 pl-3">
+                          Coverage Type Details
+                        </p>
+                        <div className=" border-Light-Grey border rounded-b-xl ">
+                          <Grid className="!gap-0">
+                            {data.adhDays &&
+                              data.adhDays.map((Data, idx) => (
+                                <div
+                                  key={idx}
+                                  className="col-span-3 py-4  border-r"
+                                >
+                                  <div className="pb-3 border-b px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      {Data.label} Waiting{" "}
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      {Data.waitingDays} Days
+                                    </p>
+                                  </div>
+                                  <div className="pt-3 px-4">
+                                    <p className="text-[12px] capitalize">
+                                      {" "}
+                                      Deductible
+                                    </p>
+                                    <p className="font-bold text-sm">
+                                      {Data.amountType === "percentage"
+                                        ? `${formatOrderValue(
+                                          Number(Data.deductible) ?? 0
+                                        )} %`
+                                        : `$${formatOrderValue(
+                                          Number(Data.deductible) ?? 0
+                                        )}`}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                          </Grid>
+                        </div>
+                      </div>
+                    </Grid>
+                  </>
+                );
+              })}
 
               <Grid className="mt-5">
                 <div className="col-span-5 pt-2">

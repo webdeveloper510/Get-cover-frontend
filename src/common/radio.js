@@ -1,8 +1,16 @@
 import React from "react";
 
-const RadioButton = ({ id, label, value, checked, onChange, disabled, className }) => {
+const RadioButton = ({
+  id,
+  label,
+  value,
+  checked,
+  onChange,
+  disabled,
+  className,
+}) => {
   return (
-      <div className={`flex items-center px-3 ${className}`}>
+    <div className={`flex items-center px-3 ${className}`}>
       <input
         type="radio"
         id={id}

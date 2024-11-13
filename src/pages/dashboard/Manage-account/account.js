@@ -31,6 +31,8 @@ import {
   getSetting,
   sendNotifications,
   resetSetting,
+  resetDefault,
+  updateThreshHoldLimit,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -46,13 +48,24 @@ import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
 import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
+import CollapsibleDiv from "../../../common/collapsibleDiv";
+import SwitchButton from "../../../common/switch";
+import { editOption, getOptions } from "../../../services/claimServices";
+import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function Account() {
+  const [repairValue, repair_status] = useState({});
+  const [customerValue, customer_status] = useState({});
+  const [coverageType, coverage_type] = useState({});
+  const [claimvalues, claim_status] = useState({});
+  const [shipment, shipment_type] = useState({});
   const [selectedAction, setSelectedAction] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPrimary, setIsPrimary] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [createthreshold, setCreatethreshold] = useState("no");
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [lastMessage, setLastMessage] = useState("");
@@ -60,6 +73,7 @@ function Account() {
   const [modalOpen, setModalOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
   const [timer, setTimer] = useState(3);
+  const [isSetDefalt, setIsSetDefalt] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [deleteId, setDeleteId] = useState("");
@@ -91,6 +105,7 @@ function Account() {
   });
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
+  const [sections, setSections] = useState([]);
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setSelectedAction(null);
@@ -150,6 +165,7 @@ function Account() {
 
       formikEmail.setFieldValue("notificationTo", emailStrings);
       setEmail(userDetails?.loginMember.email);
+      console.log(emails)
 
       setUserDetails(userDetails.result);
     } catch (error) {
@@ -265,6 +281,10 @@ function Account() {
   };
   const closeModal12 = () => {
     setIsModalOpen12(false);
+  };
+
+  const closeDefalt = () => {
+    setIsSetDefalt(false);
   };
 
   const closePassword = () => {
@@ -434,6 +454,12 @@ function Account() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
+
+  const handleRadioChange1 = (event) => {
+    const selectedValue = event.target.value;
+    userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
+    setCreatethreshold(selectedValue);
+  };
   const formikEmail = useFormik({
     initialValues: {
       notificationTo: [],
@@ -595,6 +621,7 @@ function Account() {
       },
     },
   ];
+
   const columns1 = [
     {
       name: "Name",
@@ -673,6 +700,7 @@ function Account() {
   };
 
   useEffect(() => {
+    getClaimOptions()
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -682,8 +710,9 @@ function Account() {
   const fetchUserMembers = async () => {
     try {
       const members = await getSuperAdminMembers();
-      console.log(members, "111111111111111111111111111111");
       setMemberList(members.result);
+      setCreatethreshold(members.loginMember?.isThreshHoldLimit == false ? 'no' : 'yes')
+      thresholdLimit.setFieldValue("value", members.loginMember.threshHoldLimit.value);
       let arr = [];
       let arr1 = [];
       members?.result?.map((email) => {
@@ -703,11 +732,10 @@ function Account() {
           });
         }
       });
-
+      console.log(arr)
       setEmails(arr);
       setSelectedEmail(arr1);
       let local = JSON.parse(localStorage.getItem("userDetails"));
-      // localStorage.removeItem('userDetails')
       local.userInfo = {
         lastName: members?.loginMember?.lastName,
         firstName: members?.loginMember?.firstName,
@@ -781,7 +809,7 @@ function Account() {
       setterFunction(null);
     }
   };
-
+  const [thresholdAmount, setThresholdAmount] = useState("");
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
@@ -790,6 +818,8 @@ function Account() {
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
   const [modelBackgroundColor, setModelBackgroundColor] = useState('');
+  const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
+  const [inActiveButtonColor, setInActiveButtonColor] = useState('');
   const [modelColor, setModelColor] = useState('');
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
   const [cardColor, setCardColor] = useState('');
@@ -798,79 +828,14 @@ function Account() {
   const [title, setTitle] = useState('');
   const [bankDetails, setBankDetails] = useState('');
   const [address, setAddress] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const handleColorChange = (event) => {
+  const [defaults, setDefaults] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [showdata, setShowdata] = useState(true);
+  const handleColorChange = (field, setter) => (event) => {
     const newColor = event.target.value;
-    setSideBarColor(newColor);
-    siteChange.setFieldValue('sideBarColor', newColor);
-  };
-
-  const handleColorChange1 = (event) => {
-    const newColor = event.target.value;
-    setSideBarTextColor(newColor);
-    siteChange.setFieldValue('sideBarTextColor', newColor);
-  };
-
-  const handleColorChange2 = (event) => {
-    const newColor = event.target.value;
-    setSideBarButtonColor(newColor);
-    siteChange.setFieldValue('sideBarButtonColor', newColor);
-  };
-
-  const handleColorChange3 = (event) => {
-    const newColor = event.target.value;
-    setSideBarButtonTextColor(newColor);
-    siteChange.setFieldValue('sideBarButtonTextColor', newColor);
-  };
-
-  const handleColorChange4 = (event) => {
-    const newColor = event.target.value;
-    setButtonColor(newColor);
-    siteChange.setFieldValue('buttonColor', newColor);
-  };
-
-  const handleColorChange5 = (event) => {
-    const newColor = event.target.value;
-    setButtonTextColor(newColor);
-    siteChange.setFieldValue('buttonTextColor', newColor);
-  };
-
-  const handleColorChange6 = (event) => {
-    const newColor = event.target.value;
-    setBackGroundColor(newColor);
-    siteChange.setFieldValue('backGroundColor', newColor);
-  };
-
-  const handleColorChange8 = (event) => {
-    const newColor = event.target.value;
-    setTitleColor(newColor);
-    siteChange.setFieldValue('titleColor', newColor);
-  };
-
-  const handleColorChange9 = (event) => {
-    const newColor = event.target.value;
-    setCardColor(newColor);
-    siteChange.setFieldValue('cardColor', newColor);
-  };
-
-  const handleColorChange10 = (event) => {
-    const newColor = event.target.value;
-    setCardBackGroundColor(newColor);
-    siteChange.setFieldValue('cardBackGroundColor', newColor);
-  };
-
-  const handleColorChange11 = (event) => {
-    const newColor = event.target.value;
-    setModelBackgroundColor(newColor);
-    siteChange.setFieldValue('modelBackgroundColor', newColor);
-  };
-
-  const handleColorChange12 = (event) => {
-    const newColor = event.target.value;
-    setModelColor(newColor);
-    siteChange.setFieldValue('modelColor', newColor);
+    setter(newColor);
+    siteChange.setFieldValue(field, newColor);
+    setDefaults(false);
   };
 
 
@@ -922,6 +887,12 @@ function Account() {
             case 'modelColor':
               setModelColor(color.colorCode);
               break;
+            case 'inActiveButtonBackgroundColor':
+              setInActiveButtonBackgroundColor(color.colorCode);
+              break;
+            case 'inActiveButtonColor':
+              setInActiveButtonColor(color.colorCode);
+              break;
             default:
               break;
           }
@@ -934,13 +905,13 @@ function Account() {
         setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
+        setDefaults(userDetails.result[0].setDefault === 0 ? true : false);
 
       }
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
   };
-  console.log(title, '------>>><<<');
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile2,
@@ -961,7 +932,8 @@ function Account() {
       cardColor: cardColor,
       paymentDetail: bankDetails,
       address: address,
-
+      inActiveButtonBackgroundColor: inActiveButtonBackgroundColor,
+      inActiveButtonColor: inActiveButtonColor
     },
     validationSchema: Yup.object({
       favIcon: Yup.mixed().nullable(),
@@ -983,7 +955,9 @@ function Account() {
           { colorCode: values.cardColor || cardColor, colorType: "cardColor" },
           { colorCode: values.cardBackGroundColor || cardBackGroundColor, colorType: "cardBackGroundColor" },
           { colorCode: values.modelBackgroundColor || modelBackgroundColor, colorType: "modelBackgroundColor" },
-          { colorCode: values.modelColor || modelColor, colorType: "modelColor" }
+          { colorCode: values.modelColor || modelColor, colorType: "modelColor" },
+          { colorCode: values.inActiveButtonBackgroundColor || inActiveButtonBackgroundColor, colorType: "inActiveButtonBackgroundColor" },
+          { colorCode: values.inActiveButtonColor || inActiveButtonColor, colorType: "inActiveButtonColor" }
         ];
         const apiData = {
           favIcon: values.favIcon || selectedFile2,
@@ -1040,6 +1014,205 @@ function Account() {
     }
   };
 
+  const handleDefault = async () => {
+    setIsSetDefalt(false);
+    setLoading(true);
+    try {
+      const data = await resetDefault();
+      setFirstMessage(" Successfully ");
+      setSecondMessage("Default color set successfully ");
+      setModalOpen(true);
+      setLoading(false);
+      setTimer(3);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error) {
+      setFirstMessage(" Error ");
+      setSecondMessage(error.message);
+      setModalOpen(true);
+      console.error('Error Default settings:', error);
+    }
+  };
+
+  const getClaimOptions = async () => {
+    try {
+      const data = [
+        "repair_status",
+        "shipment_type",
+        "customer_status",
+        "coverage_type",
+        "claim_status",
+      ];
+      const result = await getOptions(data, 0);
+      const stateSetters = {
+        repair_status,
+        shipment_type,
+        customer_status,
+        coverage_type,
+        claim_status,
+      };
+
+      data.forEach((key, index) => {
+        stateSetters[key]?.(result.result[index]);
+      });
+
+      setSections([
+        { title: "Coverage Types", data: result.result[3] },
+        { title: "Repair Status", data: result.result[0] },
+        { title: "Customer Status", data: result.result[2] },
+        { title: "Shipment Types", data: result.result[1] },
+        { title: "Claim Status", data: result.result[4] },
+      ]);
+    } catch (error) {
+      console.error("Error fetching claim options:", error);
+    }
+  };
+
+  const [labels, setLabels] = useState(Array(sections.length).fill(""));
+  const [values, setValues] = useState(Array(sections.length).fill(""));
+  const [editingIndex, setEditingIndex] = useState(null);
+
+  const [editingRowId, setEditingRowId] = useState(null);
+
+  const handleEditOption = (id, sectionData, index) => {
+    const row = sectionData.value.find(item => item._id === id);
+    if (row) {
+      setLabels((prev) => {
+        const newLabels = [...prev];
+        newLabels[index] = row.label;
+        return newLabels;
+      });
+
+      setValues((prev) => {
+        const newValues = [...prev];
+        newValues[index] = row.value;
+        return newValues;
+      });
+      setEditingRowId(id)
+      setEditingIndex(index);
+    }
+  };
+
+  const handleLabelChange = (index, value) => {
+    const newLabels = [...labels];
+    newLabels[index] = value;
+    setLabels(newLabels);
+  };
+
+  const handleValueChange = (index, value) => {
+    const newValue = value.replace(/\s/g, '');
+    const newValues = [...values];
+    newValues[index] = newValue;
+    setValues(newValues);
+  };
+
+  const handleAddOrUpdate = async (editingRowId, labelId, sectionIndex, toggleValue = false) => {
+    const currentLabel = labels[sectionIndex];
+    const currentValue = values[sectionIndex];
+    if (!toggleValue && (!currentLabel || !currentValue)) {
+      console.error('Label or value is empty, operation aborted.');
+      return;
+    }
+
+    try {
+      const updatedSections = [...sections];
+      if (toggleValue) {
+        updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
+          item._id === editingRowId
+            ? { ...item, status: !item.status }
+            : item
+        );
+      }
+      else {
+        if (editingRowId !== null && labelId) {
+          console.log('Updating row', editingRowId, labelId);
+          updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
+            item._id === editingRowId
+              ? { ...item, label: currentLabel, value: currentValue }
+              : item
+          );
+        } else {
+          updatedSections[sectionIndex].data.value = [
+            ...updatedSections[sectionIndex].data.value,
+            { status: true, value: currentValue, label: currentLabel },
+          ];
+        }
+      }
+      setSections(updatedSections);
+      const res = await editOption(updatedSections[sectionIndex]);
+      console.log('API response:', res);
+      if (res.code == 200) {
+        getClaimOptions()
+      }
+
+      setLabels((prev) => {
+        const newLabels = [...prev];
+        newLabels[sectionIndex] = '';
+        return newLabels;
+      });
+
+      setValues((prev) => {
+        const newValues = [...prev];
+        newValues[sectionIndex] = '';
+        return newValues;
+      });
+
+      setEditingIndex(null);
+    } catch (error) {
+      console.error('Failed to add/update option:', error);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingRowId(null);
+    setEditingIndex(null);
+    setLabels((prev) => prev.map(() => ''));
+    setValues((prev) => prev.map(() => ''));
+  };
+
+  const handleThresholdChange = (e) => {
+    setThresholdAmount(e.target.value);
+    formik.handleChange(e);
+  };
+
+  const thresholdLimit = useFormik({
+    initialValues: {
+      value: "",
+    },
+
+    validationSchema: createthreshold === 'yes' && Yup.object({
+      value: Yup.number()
+        .max(100, "Cannot enter more than 100%")
+        .min(0, "Cannot enter less than 0%")
+        .required("Threshold value is required"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      const payload = {
+        isThreshHoldLimit: createthreshold === 'yes' ? true : false,
+        threshHoldLimit: {
+          amountType: "percentage",
+          value: parseFloat(values.value),
+        },
+      };
+
+      try {
+        const response = await updateThreshHoldLimit(payload);
+        console.log("Threshold updated:", response);
+        setFirstMessage(" Updated Successfully ");
+        setSecondMessage("Threshold Value Updated successfully ");
+        // setLastMessage("Site will be reloaded after setting has been reset successfully");
+        setModalOpen(true);
+        setTimer(3);
+      } catch (error) {
+        console.error("Error updating threshold:", error);
+      }
+      setLoading(false);
+    },
+  });
+
+
   return (
     <>
       {loading ? (
@@ -1077,18 +1250,36 @@ function Account() {
             </div>
           </div>
           <div className="mt-5">
-            <Button
-              onClick={() => handleButtonClick("myAccount")}
-              className={`!rounded-e-[0px] !py-1 !px-2 ${activeButton !== "myAccount" && "!bg-[white] !text-[#333]"
-                }`}>
-              My Account
-            </Button>
-            <Button
-              onClick={() => handleButtonClick("siteSetting")}
-              className={`!rounded-s-[0px] !px-2 !py-1 ${activeButton !== "siteSetting" && "!bg-[white] !text-[#333]"
-                }`}>
-              Site Setting
-            </Button>
+            <div
+              className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey w-1/2 flex`}>
+              {activeButton != "myAccount" ? <InActiveButton
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</InActiveButton> : <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</Button>
+              }
+              {activeButton != "siteSetting" ?
+                <InActiveButton
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("siteSetting")}
+                >   Site Setting</InActiveButton> :
+                <Button
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("siteSetting")}
+                >   Site Setting</Button>
+              }
+              {activeButton != "Settings" ? <InActiveButton
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("Settings")}
+              >   Option Settings</InActiveButton> : <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("Settings")}
+              >   Option Settings</Button>
+              }
+
+            </div>
           </div>
 
           {activeButton === "myAccount" && (
@@ -1110,9 +1301,9 @@ function Account() {
                         <Form className="col-span-12">
                           <Grid>
                             <div className="col-span-4">
-                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: textColor }}>
-                                <p className="text-sm m-0 p-0 text-light-black">Email</p>
-                                <p className="font-semibold text-light-black">{email}</p>
+                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: titleColor }}>
+                                <p className={`text-sm m-0 p-0  text-[${titleColor}]`} style={{ color: titleColor }} >Email</p>
+                                <p className={`font-semibold text-[${titleColor}`} style={{ color: titleColor }}>{email}</p>
                               </div>
                             </div>
                             <div className="col-span-4">
@@ -1215,71 +1406,140 @@ function Account() {
                         </Form>
                       )}
                     </Formik>
-                    <div className="col-span-12">
-                      <form onSubmit={formikEmail.handleSubmit}>
-                        <p className="text-xl font-semibold mb-4">
-                          Send Notification
-                        </p>
-                        <div className="relative">
-                          <label
-                            htmlFor="email"
-                            className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                          >
-                            Send Notification to
-                          </label>
-                          <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
-                            <MultiSelect
-                              label="Email"
-                              name="Email"
-                              placeholder="Email"
-                              value={selectedEmail}
-                              options={emails}
-                              pName="Email"
-                              onChange={(value) => {
-                                console.log("value", value);
-                                setSelectedEmail(value);
-                                handleAddition(value);
-                                // handleFilterChange("priceBookId", value);
-                              }}
-                              labelledBy="Select"
-                              overrideStrings={{
-                                selectSomeItems: "Select Email",
-                              }}
-                              className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
-                            />
-                          </div>
-                        </div>
-                        {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
-                          <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
-                            {(() => {
-                              const uniqueErrors = new Set();
-                              return formikEmail.errors.notificationTo.map((error, index) => {
-                                if (!uniqueErrors.has(error)) {
-                                  uniqueErrors.add(error);
-                                  return (
-                                    <span key={index}>
-                                      {index > 0 && " "}{" "}
-                                      <span className="font-semibold">
-                                        {" "}
-                                        {error}{" "}
-                                      </span>
-                                    </span>
-                                  );
-                                }
-                                return null;
-                              });
-                            })()}
+                    {isPrimary && (
+                      <div className="col-span-12">
+                        <form onSubmit={formikEmail.handleSubmit}>
+                          <p className="text-xl font-semibold mb-4">
+                            Send Notification
                           </p>
-                        )}
+                          <div className="relative">
+                            <label
+                              htmlFor="email"
+                              className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                            >
+                              Send Notification to
+                            </label>
+                            <div className="block w-full text-base font-semibold bg-transparent rounded-lg border border-gray-300">
+                              <MultiSelect
+                                label="Email"
+                                name="Email"
+                                placeholder="Email"
+                                value={selectedEmail}
+                                options={emails}
+                                pName="Email"
+                                onChange={(value) => {
+                                  console.log("value", value);
+                                  setSelectedEmail(value);
+                                  handleAddition(value);
+                                  // handleFilterChange("priceBookId", value);
+                                }}
+                                labelledBy="Select"
+                                overrideStrings={{
+                                  selectSomeItems: "Select Email",
+                                }}
+                                className="SearchSelect css-b62m3t-container red !border-[0px] p-[0.425rem]"
+                              />
+                            </div>
+                          </div>
+                          {formikEmail.errors.notificationTo && Array.isArray(formikEmail.errors.notificationTo) && (
+                            <p className="text-red-500 text-sm pl-2 mt-1 mb-5">
+                              {(() => {
+                                const uniqueErrors = new Set();
+                                return formikEmail.errors.notificationTo.map((error, index) => {
+                                  if (!uniqueErrors.has(error)) {
+                                    uniqueErrors.add(error);
+                                    return (
+                                      <span key={index}>
+                                        {index > 0 && " "}{" "}
+                                        <span className="font-semibold">
+                                          {" "}
+                                          {error}{" "}
+                                        </span>
+                                      </span>
+                                    );
+                                  }
+                                  return null;
+                                });
+                              })()}
+                            </p>
+                          )}
 
-                        <div className="col-span-12 text-right mt-5">
-                          <Button type="submit">Save</Button>
-                        </div>
-                      </form>
-                    </div>
+                          <div className="col-span-12 text-right mt-5">
+                            <Button type="submit">Save</Button>
+                          </div>
+                        </form>
+                      </div>
+                    )}
                   </Grid>
                 </>
-                <p className="text-xl font-semibold mb-3">Change Password</p>
+                {isPrimary && (
+                  <>
+                    <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                    <form onSubmit={thresholdLimit.handleSubmit}>
+                      <Grid>
+                        <div className="col-span-6">
+                          <p className=" flex text-[16px] font-semibold mt-3 mb-6">
+                            Do you want to add threshold limit?
+                            <RadioButton
+                              id="yes-add-threshold"
+                              label="Yes"
+                              value="yes"
+                              checked={createthreshold === "yes"}
+                              onChange={handleRadioChange1}
+                            />
+                            <RadioButton
+                              id="no-add-threshold"
+                              label="No"
+                              value="no"
+                              checked={createthreshold === "no"}
+                              onChange={handleRadioChange1}
+                            />
+                          </p>
+                        </div>
+                        <div className="col-span-6">
+                          <>
+                            <Grid className="">
+                              <div className="relative col-span-9">
+                                {createthreshold === "yes" &&
+                                  <>
+                                    <Input
+                                      type="number"
+                                      name="value"
+                                      label="% of Contract value"
+                                      className="!bg-white"
+                                      maxDecimalPlaces={2}
+                                      minLength="1"
+                                      maxLength="10"
+                                      value={thresholdLimit.values.value}
+                                      onChange={thresholdLimit.handleChange}
+                                      onBlur={thresholdLimit.handleBlur}
+                                    />
+
+                                    <div className="absolute top-[10px] right-[13px]">
+                                      <p className="h-full text-2xl">%</p>
+                                    </div>
+                                    {thresholdLimit.errors.value && thresholdLimit.touched.value && (
+                                      <div className="text-red-500">{thresholdLimit.errors.value}</div>
+                                    )}
+                                  </>
+                                }
+                              </div>
+                              <div className="col-span-3 self-center text-right">
+                                <Button type="submit" className='ml-3 '>
+                                  Save
+                                </Button>
+                              </div>
+                            </Grid>
+
+                          </>
+                        </div>
+                      </Grid>
+                    </form>
+                  </>
+                )}
+
+
+                <p className="text-xl font-semibold my-3">Change Password</p>
                 <form onSubmit={passwordChnageForm.handleSubmit}>
                   <Grid>
                     <div className="col-span-4">
@@ -1367,7 +1627,20 @@ function Account() {
                     data={memberList}
                     highlightOnHover
                     sortIcon={
-                      <img src={shorting} className="ml-2" alt="shorting" />
+                      <div
+                        style={{
+                          maskImage: `url(${shorting})`,
+                          WebkitMaskImage: `url(${shorting})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="ml-2 tabless"
+                      />
+                      // <img src={shorting} className="ml-2" alt="shorting" />
                     }
                     noDataComponent={<CustomNoDataComponent />}
                   />
@@ -1582,10 +1855,10 @@ function Account() {
                           className1="h-11"
                           tooltip="1"
                           className="!bg-white  flex"
-                          content='you can change the sideBar Background color here'
-                          label="SideBar Color"
+                          content='you can change the theme background color here'
+                          label="Theme Color"
                           placeholder=""
-                          value={sideBarColor} onChange={handleColorChange}
+                          value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1595,10 +1868,10 @@ function Account() {
                           className1="h-11"
                           tooltip="2"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar text color here'
-                          label="SideBar text Color"
+                          content='you can change the theme text color here'
+                          label="Theme Text Color"
                           placeholder=""
-                          value={sideBarTextColor} onChange={handleColorChange1}
+                          value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1611,7 +1884,7 @@ function Account() {
                           className1="h-11"
                           label="SideBar Button "
                           placeholder=""
-                          value={sideBarButtonColor} onChange={handleColorChange2}
+                          value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1622,9 +1895,9 @@ function Account() {
                           className="!bg-white flex !w-[111%]"
                           content='you can change the sideBar active page button text color here'
                           className1="h-11"
-                          label="SideBar text Button "
+                          label="SideBar Text Button "
                           placeholder=""
-                          value={sideBarButtonTextColor} onChange={handleColorChange3}
+                          value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1637,7 +1910,7 @@ function Account() {
                           className1="h-11"
                           label="Button Color"
                           placeholder=""
-                          value={buttonColor} onChange={handleColorChange4}
+                          value={buttonColor} onChange={handleColorChange('buttonColor', setButtonColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1648,9 +1921,9 @@ function Account() {
                           className="!bg-white flex !w-[111%]"
                           content='you can change all button text color here'
                           className1="h-11"
-                          label="Button text Color"
+                          label="Button Text Color"
                           placeholder=""
-                          value={buttonTextColor} onChange={handleColorChange5}
+                          value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1659,11 +1932,11 @@ function Account() {
                           name={`backGroundColor`}
                           tooltip="7"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all backGround Color here'
+                          content='you can change all backGround color here'
                           className1="h-11"
                           label="Background Color"
                           placeholder=""
-                          value={backGroundColor} onChange={handleColorChange6}
+                          value={backGroundColor} onChange={handleColorChange('backGroundColor', setBackGroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1676,7 +1949,7 @@ function Account() {
                           className1="h-11"
                           label="Text Color"
                           placeholder=""
-                          value={titleColor} onChange={handleColorChange8}
+                          value={titleColor} onChange={handleColorChange('titleColor', setTitleColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1685,11 +1958,11 @@ function Account() {
                           name={`cardBackGroundColor`}
                           tooltip="10"
                           className="!bg-white flex"
-                          content='you can change website card backGround color here'
+                          content='you can change website box backGround color here'
                           className1="h-11"
-                          label="Card Color"
+                          label="Box Color"
                           placeholder=""
-                          value={cardBackGroundColor} onChange={handleColorChange10}
+                          value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1698,11 +1971,11 @@ function Account() {
                           name={`cardColor`}
                           tooltip="9"
                           className="!bg-white flex"
-                          content='you can change website Card color here'
+                          content='you can change website box color here'
                           className1="h-11"
-                          label="Card Text Color"
+                          label="Box Text Color"
                           placeholder=""
-                          value={cardColor} onChange={handleColorChange9}
+                          value={cardColor} onChange={handleColorChange('cardColor', setCardColor)}
                         />
                       </div>
 
@@ -1712,11 +1985,11 @@ function Account() {
                           name={`modelBackgroundColor`}
                           tooltip="11"
                           className="!bg-white flex "
-                          content='you can change website model Background color here'
+                          content='you can change website popup background color here'
                           className1="h-11 "
-                          label="Model Color"
+                          label="Popup Color"
                           placeholder=""
-                          value={modelBackgroundColor} onChange={handleColorChange11}
+                          value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">
@@ -1725,23 +1998,164 @@ function Account() {
                           name={`modelColor`}
                           tooltip="12"
                           className="!bg-white flex !w-[163px]"
-                          content='you can change website model text color here'
+                          content='you can change website popup text color here'
                           className1="h-11"
-                          label="Model text Color"
+                          label="Popup Text Color"
                           placeholder=""
-                          value={modelColor} onChange={handleColorChange12}
+                          value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`inActiveButtonBackgroundColor`}
+                          tooltip="13"
+                          className="!bg-white flex "
+                          content='you can change website inactive button background color here'
+                          className1="h-11 "
+                          label="Inactive Button Color"
+                          placeholder=""
+                          value={inActiveButtonBackgroundColor} onChange={handleColorChange('inActiveButtonBackgroundColor', setInActiveButtonBackgroundColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`inActiveButtonColor`}
+                          tooltip="14"
+                          className="!bg-white flex "
+                          content='you can change website inactive button text color here'
+                          className1="h-11"
+                          label="Inactive Button Text Color"
+                          placeholder=""
+                          value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                         />
                       </div>
                     </Grid>
                   </div>
                 </Grid>
                 <div className="text-right">
-                  <Button onClick={() => handleReset()} className="mt-3 mr-3 text-sm !bg-[#fff] !text-light-black !font-semibold !border-light-black !border-[1px]" type="button">Reset</Button>
+                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
+
+                  <InActiveButton onClick={() => handleReset()} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
               </form>
             </Card>
           )}
+
+          <>
+            {activeButton === "Settings" && (
+              sections.map((section, index) => (
+                <div key={index} className="my-5">
+                  <CollapsibleDiv
+                    ShowData={showdata}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    index={index} // Pass the index to the child
+                    imageClass="w-10 h-10"
+                    title={
+                      <SingleView className="border-Gray28 border bg-Edit bg-cover rounded-t-[22px]">
+                        <Grid className=" !gap-2 ">
+                          <div className="col-span-12 px-4 py-2">
+                            <p className="text-lg font-bold">{section.title}</p>
+                          </div>
+                        </Grid>
+                      </SingleView>
+                    }
+                  >
+                    <div className="p-4 border">
+                      <Grid className="!grid-cols-11 !gap-2">
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            label={`${section.title} Label`}
+                            value={labels[index] || ''}
+                            onChange={(e) => handleLabelChange(index, e.target.value)}
+                            placeholder=""
+                            className='!bg-white'
+                          // Disable if not editing this section
+                          />
+                        </div>
+                        <div className="col-span-4">
+                          <Input
+                            type="text"
+                            label={`${section.title} Value`}
+                            value={values[index] || ''}
+                            onChange={(e) => handleValueChange(index, e.target.value)}
+                            disabled={editingIndex === index} // Disable in edit mode for the current section
+                            className='!bg-white'
+                            placeholder=""
+                          />
+                        </div>
+                        <div className="col-span-3 self-center text-center">
+                          {editingIndex === index ? (
+                            <>
+                              <Button
+                                className="text-sm! font-semibold !border-light-black !border-[1px]"
+                                type="button"
+                                onClick={() => handleAddOrUpdate(editingRowId, labels[index], index)}
+                              >
+                                Update
+                              </Button>
+                              <Button
+                                className="text-sm! font-semibold !border-light-black !border-[1px] ml-2"
+                                type="button"
+                                onClick={handleCancelEdit}
+                              >
+                                Cancel
+                              </Button>
+                            </>
+                          ) : (
+                            <Button
+                              className="text-sm! font-semibold !border-light-black !border-[1px]"
+                              type="button"
+                              onClick={() => handleAddOrUpdate(null, labels[index], index)}
+                            >
+                              Add
+                            </Button>
+                          )}
+                        </div>
+                      </Grid>
+
+                      <table className="w-full border-collapse border mt-5">
+                        <thead className="w-full border-collapse border bg-[#F9F9F9]">
+                          <tr>
+                            <th>Label</th>
+                            <th>Value</th>
+                            {section.title == 'Coverage Types' && <th>Status</th>}
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="w-full border-collapse border text-center">
+                          {section.data?.value.map((row) => (
+                            <tr key={row._id} className="w-full border-collapse border">
+                              <td className="py-3">{row.label}</td>
+                              <td>{row.value}</td>
+                              {section.title == 'Coverage Types' && <td>
+                                <SwitchButton
+                                  isOn={row.status}
+                                  handleToggle={() => handleAddOrUpdate(row._id, section.data, index, true)}
+                                />
+                              </td>}
+                              <td>
+                                <Button
+                                  onClick={() => handleEditOption(row._id, section.data, index)}
+                                  className="text-sm! font-semibold !border-light-black !border-[1px]"
+                                >
+                                  Edit
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CollapsibleDiv>
+                </div>
+              ))
+            )}
+          </>
         </div >
       )
       }
@@ -2111,6 +2525,33 @@ function Account() {
         </div>
       </Modal>
 
+      {/* Modal Delete Popop */}
+      <Modal isOpen={isSetDefalt} onClose={closeDefalt}>
+        <div className="text-center py-3">
+          <img src={assign} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
+            Would you like to set it as the default color?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button
+              onClick={() => {
+                handleDefault();
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeDefalt()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
+        </div>
+      </Modal>
+
       {/* Modal Delete Msg Popop */}
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
@@ -2139,10 +2580,10 @@ function Account() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>

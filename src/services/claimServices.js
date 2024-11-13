@@ -61,6 +61,20 @@ export const getContractValues = async (id) => {
   }
 };
 
+export const checkClaimAmount = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/checkClaimAmount/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const uploadClaimEvidence = async (data) => {
   const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
   const headers = {
@@ -88,6 +102,36 @@ export const addClaim = async (data) => {
 
   try {
     const response = await axios.post(`${url}/claim/createClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+export const checkCoverageTypeDate = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/checkCoverageTypeDate`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+export const getCustomerData = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/claim/getcustomerDetail/${id}`, {
       headers,
     });
 
@@ -132,6 +176,27 @@ export const getClaimListForDealer = async (id, data) => {
   }
 };
 
+export const getOptions = async (data, value = 1) => {
+  const headers = createHeaders();
+  const queryString = data
+    .map((value, index) => `key[${index}]=${encodeURIComponent(value)}`)
+    .join("&");
+
+  try {
+    const response = await axios.get(
+      `${url}/user/getOptions/${value}?${queryString}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const getUnpaidClaims = async (id, data) => {
   const headers = createHeaders();
 
@@ -150,6 +215,27 @@ export const getUnpaidClaims = async (id, data) => {
     throw error;
   }
 };
+
+export const editOption = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.put(
+      `${url}/user/editOption`,
+      data,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+
 export const getPaidClaims = async (id, data) => {
   const headers = createHeaders();
 

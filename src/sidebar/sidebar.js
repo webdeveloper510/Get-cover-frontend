@@ -546,8 +546,8 @@ const Lists = [
         active: SeacondActive,
       },
       {
-        name: "Upload Dealer Price Book",
-        url: "/uploadDealerBook",
+        name: "Upload Price Book",
+        url: "/uploadPriceBook",
         image: Dropdown2,
         active: ForthActive,
       },
@@ -588,32 +588,14 @@ function SideBar() {
 
   console.log(selectedFile2, '--selectedFile2');
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("siteSettings"))
-    if (data) {
-      setUrl(data?.logoLight ? data?.logoLight?.baseUrl : null);
-      setSelectedFile2(data?.logoLight ? data?.logoLight?.fileName : null);
-      const colorScheme = data?.colorScheme;
-      colorScheme.forEach(color => {
-        switch (color.colorType) {
-          case 'sideBarColor':
-            setSideBarColor(color.colorCode);
-            break;
-          case 'sideBarTextColor':
-            setSideBarTextColor(color.colorCode);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  }, []);
+
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("siteSettings"))
-    setUrl(data.logoLight ? data.logoLight?.baseUrl : null);
-    setSelectedFile2(data?.logoLight ? data.logoLight?.fileName : null);
-    const colorScheme = data?.colorScheme;
+    console.log(localStorage.getItem("siteSettings"), '-----------------siteSettings');
+    let data = JSON.parse(localStorage.getItem("siteSettings"))
+    setUrl(data.logoLight ? data.logoLight.baseUrl : null);
+    setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+    const colorScheme = data.colorScheme;
     colorScheme.forEach(color => {
       switch (color.colorType) {
         case 'sideBarColor':
@@ -765,25 +747,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/dealer/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/dealer/reportingclaim",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/dealer/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/dealer/reportingclaim",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -885,25 +867,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/reseller/servicerList",
     },
-    {
-      name: "Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      items: [
-        {
-          name: "Sale",
-          url: "/reseller/sale",
-          image: Dropdown1,
-          active: Actives,
-        },
-        {
-          name: "Claims",
-          url: "/reseller/reporting",
-          image: Dropdown2,
-          active: SeacondActive,
-        },
-      ],
-    },
+    // {
+    //   name: "Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   items: [
+    //     {
+    //       name: "Sale",
+    //       url: "/reseller/sale",
+    //       image: Dropdown1,
+    //       active: Actives,
+    //     },
+    //     {
+    //       name: "Claims",
+    //       url: "/reseller/reporting",
+    //       image: Dropdown2,
+    //       active: SeacondActive,
+    //     },
+    //   ],
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -930,12 +912,12 @@ function SideBar() {
       active: ActiveClaim,
       url: "/servicer/claimList",
     },
-    {
-      name: "Claims Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      url: "/servicer/claims",
-    },
+    // {
+    //   name: "Claims Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   url: "/servicer/claims",
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -987,12 +969,12 @@ function SideBar() {
       active: ActiveProduct,
       image: ProductImage,
     },
-    {
-      name: "Claims Reporting",
-      image: ReportImage,
-      active: ActiveReport,
-      url: "/customer/claims",
-    },
+    // {
+    //   name: "Claims Reporting",
+    //   image: ReportImage,
+    //   active: ActiveReport,
+    //   url: "/customer/claims",
+    // },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -1026,47 +1008,57 @@ function SideBar() {
   ));
 
   return (
-    <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
-      <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
-        <img
-          src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-          className="mx-auto py-6 w-full px-5"
-          alt="logo"
-        />
-        <hr className="border-Gray28 border-[1px]" />
-        <div className="shadow-sm h-full">
-          <div className="mx-auto h-full mt-6">
-            <ul className="pb-5">
-              {renderSidebarItems}
-              <li
-                className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
-                onClick={handleLogOut}
-              >
-                <div className="py-[22px] pe-3 ps-[10px] flex">
-                  <div
-                    className="w-[22px] h-[22px]"
-                    style={{
-                      maskImage: `url(${LogoutImage})`,
-                      WebkitMaskImage: `url(${LogoutImage})`,
-                      backgroundColor: sideBarTextColor,
-                      maskRepeat: 'no-repeat',
-                      WebkitMaskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      WebkitMaskPosition: 'center',
-                      maskSize: 'contain',
-                      WebkitMaskSize: 'contain'
-                    }}
-                  />
-                  <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
-                    Logout
-                  </span>
-                </div>
-              </li>
-            </ul>
+    <>
+      <style>
+        {`
+        .rdt_Pagination {
+          background-color: ${sideBarColor} !important;
+          color: ${sideBarTextColor} !important;
+        }
+      `}
+      </style>
+      <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
+        <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
+          <img
+            src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
+            className="mx-auto py-6 w-full px-5"
+            alt="logo"
+          />
+          <hr className="border-Gray28 border-[1px]" />
+          <div className="shadow-sm h-full">
+            <div className="mx-auto h-full mt-6">
+              <ul className="pb-5">
+                {renderSidebarItems}
+                <li
+                  className="cursor-pointer border-t-Gray28 mb-4 ps-[10px] rounded-s-[36px] border-t w-full "
+                  onClick={handleLogOut}
+                >
+                  <div className="py-[22px] pe-3 ps-[10px] flex">
+                    <div
+                      className="w-[22px] h-[22px]"
+                      style={{
+                        maskImage: `url(${LogoutImage})`,
+                        WebkitMaskImage: `url(${LogoutImage})`,
+                        backgroundColor: sideBarTextColor,
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain'
+                      }}
+                    />
+                    <span className={`self-center text-[14px] font-light text-left w-full pl-[12px] text-[${sideBarTextColor}] ml-1`}>
+                      Logout
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

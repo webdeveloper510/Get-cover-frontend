@@ -39,6 +39,7 @@ import PdfMake from "../../../pdfMakeOrder";
 import PdfGenerator from "../../../pdfViewer";
 import DocMakeOrderContainer from "../../../docMakeOrder";
 import Card from "../../../../common/card";
+import InActiveButton from "../../../../common/inActiveButton";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -143,7 +144,7 @@ function OrderList(props) {
     setIsArchiveOpen(false);
   };
   useEffect(() => {
-    if (props.activeTab === "Orders" || props.activeTab === "Order") {
+    if (props.activeTab === "Orders" || props.activeTab === "Orders") {
       getOrderList();
     }
   }, [props?.flag]);
@@ -428,19 +429,26 @@ function OrderList(props) {
                         />
                       </Button>
 
-                      <Button
+                      <InActiveButton
                         type="submit"
-                        className=" !bg-transparent !p-0"
                         onClick={() => {
                           handleFilterIconClick();
                         }}
                       >
-                        <img
-                          src={clearFilter}
-                          className="cursor-pointer	mx-auto"
-                          alt="clearFilter"
+                        <div
+                          style={{
+                            maskImage: `url(${clearFilter})`,
+                            WebkitMaskImage: `url(${clearFilter})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                         />
-                      </Button>
+                      </InActiveButton>
                     </div>
                   </Grid>
                 </form>
@@ -463,7 +471,20 @@ function OrderList(props) {
                 sortIcon={
                   <>
                     {" "}
-                    <img src={shorting} className="ml-2" alt="shorting" />
+                    <div
+                      style={{
+                        maskImage: `url(${shorting})`,
+                        WebkitMaskImage: `url(${shorting})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="ml-2 tabless"
+                    />
+                    {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
                 pagination

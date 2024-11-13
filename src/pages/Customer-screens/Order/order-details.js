@@ -13,30 +13,29 @@ import BackImage from "../../../assets/images/icons/backArrow.svg";
 import Coverage from "../../../assets/images/order/Coverage.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
 import Purchase from "../../../assets/images/order/Purchase.svg";
-import Csv from "../../../assets/images/icons/csvWhite.svg";
-import DealerList from "../../../assets/images/icons/dealerList.svg";
 import Name from "../../../assets/images/order/Name.svg";
 import { cityData } from "../../../stateCityJson";
 import Contracts from "./OrderDetails/contracts";
 import OrderSummary from "./OrderDetails/orderSummary";
 import { RotateLoader } from "react-spinners";
-import PdfGenerator from "../../pdfViewer";
-import PdfMake from "../../pdfMakeOrder";
 import { getOrderDetailCustomer } from "../../../services/orderServices";
 import ContractList from "../../dashboard/Contract/contractList";
 import FileDownloader from "../../termAndCondition";
 import CustomerOrderSummary from "./OrderDetails/orderSummary";
+import SingleView from "../../../common/singleView";
 
 function CustomerOrderDetails() {
   const [loading, setLoading] = useState(false);
   const [orderList, setOrderList] = useState();
+  const [userDetails, setUserDetails] = useState(null);
   const { orderId } = useParams();
+  const navigate = useNavigate();
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("orderMenu");
     return storedTab ? storedTab : "Order Summary";
   };
   const id = useParams();
-  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const state = cityData;
 
   useEffect(() => {
@@ -45,11 +44,23 @@ function CustomerOrderDetails() {
     setLoading(false);
   }, [activeTab]);
 
+  // const getOrderdetails = async () => {
+  //   setLoading(true);
+  //   
+  //   
+  //   console.log(result.result);
+  //   setOrderList(result.result);
+  //   setLoading(false);
+  // };
   const getOrderdetails = async () => {
     setLoading(true);
     const result = await getOrderDetailCustomer([orderId]);
-    console.log(result.result);
-    setOrderList(result.result);
+    if (result.code === 200) {
+      setUserDetails(result.orderUserData);
+      setOrderList(result.result);
+    } else {
+      navigate(`/`);
+    }
     setLoading(false);
   };
   useEffect(() => {
@@ -62,7 +73,12 @@ function CustomerOrderDetails() {
       label: "Order Summary",
       icons: orderSummary,
       Activeicons: orderActive,
-      content: <CustomerOrderSummary data={orderList?.productsArray} shown={orderList?.coverageType === "Breakdown"} />,
+      content: (
+        <CustomerOrderSummary
+          data={orderList?.productsArray}
+          shown={orderList?.coverageType === "Breakdown"}
+        />
+      ),
     },
     {
       id: "Contracts",
@@ -126,13 +142,13 @@ function CustomerOrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[80vh] overflow-y-scroll">
-            <div className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">
+                  <p className="text-xl font-semibold">
                     {orderList?.unique_key}
                   </p>
                 </div>
@@ -151,10 +167,10 @@ function CustomerOrderDetails() {
                   alt="Purchase"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Dealer Purchase Order
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderList?.venderOrder}
                   </p>
                 </div>
@@ -166,10 +182,10 @@ function CustomerOrderDetails() {
                   alt="Coverage"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Service Coverage
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {orderList?.serviceCoverageType}
                   </p>
                 </div>
@@ -181,29 +197,58 @@ function CustomerOrderDetails() {
                   alt="CoverageType"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-2">
+                  <p className="text-sm font-Regular mt-2">
                     Coverage Type
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
-                    {orderList?.coverageType}
+                  <p className="text-base font-semibold leading-5">
+                    {orderList?.coverageType?.map((data) => {
+                      return (
+                        <li
+                          key={data.label}
+                          className="font-bold text-sm list-disc mx-[19px]"
+                        >
+                          {data.label}
+                        </li>
+                      );
+                    })}
                   </p>
                 </div>
               </div>
+              <div className="flex mb-4">
+                <div className="relative">
+                  <img
+                    src={Name}
+                    className="mr-3 bg-Onyx rounded-[14px]"
+                    alt="Name"
+                  />
+                </div>
 
-              {orderList?.fileName == "" ? (
+                <div className="flex justify-between w-[85%] ml-auto">
+                  <div>
+                    <p className="text-sm font-Regular">
+                      Servicer Name
+                    </p>
+                    <p className="text-base font-semibold">
+                      {userDetails?.servicerData?.status
+                        ? userDetails?.servicerData?.name
+                        : ""}
+                    </p>
+                  </div>
+
+                </div>
+              </div>
+
+              {orderList?.termCondition?.fileName == "" || orderList?.termCondition == undefined ? (
                 <></>
               ) : (
                 <Button className="!bg-white !text-light-black w-full justify-center mt-[10%] !text-sm border flex cursor-pointer hover:font-semibold">
                   <span className="self-center">
                     {" "}
-                    <FileDownloader
-                      data={orderId}
-                      setLoading={setLoading}
-                    />
+                    <FileDownloader data={orderId} setLoading={setLoading} />
                   </span>
                 </Button>
               )}
-            </div>
+            </SingleView>
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
