@@ -54,6 +54,7 @@ import InActiveButton from "../../../common/inActiveButton";
 function CustomerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("customer");
+    console.log(storedTab)
     return storedTab ? storedTab : "Orders";
   };
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
@@ -113,8 +114,12 @@ function CustomerDetails() {
 
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    const isPopupOpen1 = localStorage.getItem("isPopupOpen1") === "true";
     if (isPopupOpen) {
       setActiveTab("Users");
+    }
+     if (isPopupOpen1) {
+      setActiveTab("Settings");
     }
   }, []);
 
@@ -150,7 +155,7 @@ function CustomerDetails() {
   };
   const closeModal10 = () => {
     setModalOpen(false);
-    setActiveTab("Users");
+    // setActiveTab("Users");
   };
   //console.log("bhhj")
   const closeUserModal = () => {
@@ -306,6 +311,8 @@ function CustomerDetails() {
     }),
 
     onSubmit: async (values) => {
+      localStorage.setItem("customer", "Settings");
+
       setLoading(true);
       try {
         const address = {
@@ -313,7 +320,6 @@ function CustomerDetails() {
         }
         const result = await addCustomerAddressById(customerId, address);
         console.log(result);
-        localStorage.setItem("customer", "Settings");
         if (result.code == 200) {
           customerDetails();
           setModalOpen(true);
@@ -330,6 +336,7 @@ function CustomerDetails() {
       } catch (error) {
         console.error("Error adding address:", error);
       } finally {
+      localStorage.setItem("customer", "Settings");
         setLoading(false);
       }
     },
@@ -341,14 +348,20 @@ function CustomerDetails() {
   };
 
   const openUserModal1 = () => {
-    setActiveTab("Settings");
+    setActiveTab("Settings123");
+    localStorage.setItem("isPopupOpen1", "true");
     setIsUserModalOpen1(true);
   };
 
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
+    const isPopupOpen1 = localStorage.getItem("isPopupOpen1") === "true";
+
     if (isPopupOpen) {
       setActiveTab("Users");
+    }
+    if (isPopupOpen1) {
+      setActiveTab("Settings");
     }
   }, []);
 
@@ -376,7 +389,6 @@ function CustomerDetails() {
         break;
       case "Settings":
         openUserModal1();
-        setActiveTab("Settings");
         break;
 
       default:
@@ -501,7 +513,7 @@ function CustomerDetails() {
       label: "Settings",
       icons: User,
       Activeicons: UserActive,
-      content: (
+      content:activeTab === "Settings" && (
         <CustomerSetting
           flag={"customer"}
           id={customerId}
@@ -513,13 +525,11 @@ function CustomerDetails() {
   ];
 
   const handleTabClick = (tabId) => {
+    console.log(tabId)
     setActiveTab(tabId);
   };
+
   const navigate = useNavigate();
-  const handleGOBack = () => {
-    localStorage.removeItem("customer");
-    navigate("/customerList");
-  };
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -1099,7 +1109,7 @@ function CustomerDetails() {
         </Modal>
         <Modal isOpen={isUserModalOpen1} onClose={closeUserModal1}>
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl m=b-5 mt-2 font-bold text-light-black">
               Add Address
             </p>
             <form onSubmit={address.handleSubmit}>
