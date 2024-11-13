@@ -471,8 +471,8 @@ function ResellerDetails() {
   };
   const columns = [
     {
-      name: "Servicer ID",
-      selector: (row) => row.unique_key,
+      name: "S.#",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
       center: true,

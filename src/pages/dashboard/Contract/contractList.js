@@ -457,7 +457,7 @@ function ContractList(props) {
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
                                   <div className="py-4 px-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                    <p className=" text-sm font-Regular">
                                       Model
                                     </p>
                                     <p className=" text-base font-semibold">
@@ -467,7 +467,7 @@ function ContractList(props) {
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
                                   <div className="py-4 px-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                    <p className=" text-sm font-Regular">
                                       Serial # / Device ID
                                     </p>
                                     <p className=" text-base font-semibold break-words">
@@ -477,7 +477,7 @@ function ContractList(props) {
                                 </div>
                                 <div className="col-span-1 border border-Light-Grey">
                                   <div className="py-4 px-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                    <p className=" text-sm font-Regular">
                                       Status
                                     </p>
                                     <p className=" text-base font-semibold">
@@ -487,7 +487,7 @@ function ContractList(props) {
                                 </div>
                                 <div className={`col-span-1 border border-Light-Grey  ${res?.overThreshold === false && 'rounded-ee-xl'}`}>
                                   <div className="py-4 px-3">
-                                    <p className="text-[#5D6E66] text-sm font-Regular">
+                                    <p className=" text-sm font-Regular">
                                       Eligibility
                                     </p>
                                     {res?.eligibilty === false ? (

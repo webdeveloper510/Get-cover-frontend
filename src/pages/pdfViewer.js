@@ -371,13 +371,25 @@ function PdfGenerator(props, className) {
   };
 
   return (
-    <div
+    <span
       className={`text-left flex py-1 px-2 ${className}`}
       onClick={convertToPDF}
-    >
-      <img src={download} className="w-4 h-4 mr-2" alt="Download" />
+    ><div
+        style={{
+          maskImage: `url(${download})`,
+          WebkitMaskImage: `url(${download})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4 mr-2 "
+      />
+      {/* <img src={download} className="w-4 h-4 mr-2" alt="Download" /> */}
       <button className="">Invoice</button>
-    </div>
+    </span>
   );
 }
 

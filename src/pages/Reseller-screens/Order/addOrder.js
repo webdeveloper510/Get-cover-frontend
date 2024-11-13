@@ -46,6 +46,7 @@ import {
   getDealersSettingsByid,
   uploadTermsandCondition,
 } from "../../../services/dealerServices";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ResellerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1458,12 +1459,12 @@ function ResellerAddOrder() {
                 <div className="col-span-6">
                   <div className="flex justify-between">
                     <p className="text-2xl font-bold mb-4">Order Details</p>
-                    <Button
-                      className="text-sm !py-0 h-[30px] self-center !bg-[white] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    <InActiveButton
+                      className="text-sm !py-0 h-[30px] self-center !font-semibold !border-[1px]"
                       onClick={handleInputClickResetStep1}
                     >
                       Reset
-                    </Button>
+                    </InActiveButton>
                   </div>
                   <Grid>
                     <div className="col-span-12">
@@ -1905,14 +1906,14 @@ function ResellerAddOrder() {
               >
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
-                  <Button
+                  <InActiveButton
                     className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
                   >
                     Reset
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="absolute -right-3 -top-3 bg-gradient-to-r from-[#dbdbdb] to-[#e7e7e7] rounded-xl p-3 ">
                   {index === 0 ? (

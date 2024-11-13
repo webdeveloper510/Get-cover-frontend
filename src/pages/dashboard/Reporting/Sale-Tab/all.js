@@ -14,6 +14,8 @@ import { getAllSales } from "../../../../services/reportingServices";
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
 import Card from "../../../../common/card";
+import InActiveButton from "../../../../common/inActiveButton";
+import MultiColorView from "../../../../common/multiColorView";
 
 function All({ activeTab, activeButton }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -195,7 +197,7 @@ function All({ activeTab, activeButton }) {
       ) : (
         <Grid>
           <div className="col-span-12">
-            <div className="bg-light-black text-white rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
+            <MultiColorView className="rounded-[20px] p-3 my-4 border-[1px] border-Light-Grey">
               <Grid className="!gap-1">
                 <div className="col-span-6 self-center">
                   <p className="text-xl font-bold">Total sales</p>
@@ -204,10 +206,10 @@ function All({ activeTab, activeButton }) {
                   <p className="text-sm self-center mr-5">
                     {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
                   </p>
-                  <Button className="!bg-white !text-black" onClick={openModal}>
+                  <InActiveButton onClick={openModal}>
                     {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
                     <span className="py-1">Date Filter</span>
-                  </Button>
+                  </InActiveButton>
                 </div>
 
                 <div className="col-span-12">
@@ -218,7 +220,7 @@ function All({ activeTab, activeButton }) {
                   />
                 </div>
               </Grid>
-            </div>
+            </MultiColorView>
           </div>
         </Grid>
       )}
@@ -237,7 +239,7 @@ function All({ activeTab, activeButton }) {
                         totalFees?.total_admin_fee ?? parseInt(0)
                       )}
                   </p>
-                  <p className="text-sm text-neutral-grey font-bold self-center">
+                  <p className="text-sm font-bold self-center">
                     Administration <br /> Fees
                   </p>
                 </div>
@@ -263,7 +265,7 @@ function All({ activeTab, activeButton }) {
                         totalFees?.total_fronting_fee ?? parseInt(0)
                       )}
                   </p>
-                  <p className="text-sm font-bold text-neutral-grey self-center">
+                  <p className="text-sm font-bold self-center">
                     Fronting <br /> Fees
                   </p>
                 </div>
@@ -289,7 +291,7 @@ function All({ activeTab, activeButton }) {
                         totalFees?.total_reinsurance_fee ?? parseInt(0)
                       )}
                   </p>
-                  <p className="text-sm font-bold text-neutral-grey self-center">
+                  <p className="text-sm font-bold self-center">
                     Re-insurance <br /> Fees
                   </p>
                 </div>
@@ -315,7 +317,7 @@ function All({ activeTab, activeButton }) {
                         totalFees?.total_reserve_future_fee ?? parseInt(0)
                       )}
                   </p>
-                  <p className="text-sm font-bold text-neutral-grey self-center">
+                  <p className="text-sm font-bold self-center">
                     Reserves Future <br /> Claims
                   </p>
                 </div>
@@ -340,7 +342,7 @@ function All({ activeTab, activeButton }) {
                       totalFees?.total_broker_fee ?? parseInt(0)
                     )}
                 </p>
-                <p className="text-sm font-bold text-neutral-grey self-center">
+                <p className="text-sm font-bold self-center">
                   Broker <br /> Fees
                 </p>
               </div>

@@ -1842,7 +1842,7 @@ function Account() {
                           className1="h-11"
                           tooltip="1"
                           className="!bg-white  flex"
-                          content='you can change the Theme Background color here'
+                          content='you can change the theme background color here'
                           label="Theme Color"
                           placeholder=""
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
@@ -1855,8 +1855,8 @@ function Account() {
                           className1="h-11"
                           tooltip="2"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the Theme text color here'
-                          label="Theme text Color"
+                          content='you can change the theme text color here'
+                          label="Theme Text Color"
                           placeholder=""
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />
@@ -1882,7 +1882,7 @@ function Account() {
                           className="!bg-white flex !w-[111%]"
                           content='you can change the sideBar active page button text color here'
                           className1="h-11"
-                          label="SideBar text Button "
+                          label="SideBar Text Button "
                           placeholder=""
                           value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                         />
@@ -1908,7 +1908,7 @@ function Account() {
                           className="!bg-white flex !w-[111%]"
                           content='you can change all button text color here'
                           className1="h-11"
-                          label="Button text Color"
+                          label="Button Text Color"
                           placeholder=""
                           value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                         />
@@ -1919,7 +1919,7 @@ function Account() {
                           name={`backGroundColor`}
                           tooltip="7"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all backGround Color here'
+                          content='you can change all backGround color here'
                           className1="h-11"
                           label="Background Color"
                           placeholder=""
@@ -1945,7 +1945,7 @@ function Account() {
                           name={`cardBackGroundColor`}
                           tooltip="10"
                           className="!bg-white flex"
-                          content='you can change website Box backGround color here'
+                          content='you can change website box backGround color here'
                           className1="h-11"
                           label="Box Color"
                           placeholder=""
@@ -1958,7 +1958,7 @@ function Account() {
                           name={`cardColor`}
                           tooltip="9"
                           className="!bg-white flex"
-                          content='you can change website Box color here'
+                          content='you can change website box color here'
                           className1="h-11"
                           label="Box Text Color"
                           placeholder=""
@@ -1972,7 +1972,7 @@ function Account() {
                           name={`modelBackgroundColor`}
                           tooltip="11"
                           className="!bg-white flex "
-                          content='you can change website Popup Background color here'
+                          content='you can change website popup background color here'
                           className1="h-11 "
                           label="Popup Color"
                           placeholder=""
@@ -1985,9 +1985,9 @@ function Account() {
                           name={`modelColor`}
                           tooltip="12"
                           className="!bg-white flex !w-[163px]"
-                          content='you can change website Popup text color here'
+                          content='you can change website popup text color here'
                           className1="h-11"
-                          label="Popup text Color"
+                          label="Popup Text Color"
                           placeholder=""
                           value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
                         />
@@ -1996,9 +1996,9 @@ function Account() {
                         <Input
                           type="color"
                           name={`inActiveButtonBackgroundColor`}
-                          tooltip="11"
+                          tooltip="13"
                           className="!bg-white flex "
-                          content='you can change website Inactive Button Background color here'
+                          content='you can change website inactive button background color here'
                           className1="h-11 "
                           label="Inactive Button Color"
                           placeholder=""
@@ -2009,11 +2009,11 @@ function Account() {
                         <Input
                           type="color"
                           name={`inActiveButtonColor`}
-                          tooltip="12"
+                          tooltip="14"
                           className="!bg-white flex "
-                          content='you can change website Inactive Button text color here'
+                          content='you can change website inactive button text color here'
                           className1="h-11"
-                          label="Inactive button text Color"
+                          label="Inactive Button Text Color"
                           placeholder=""
                           value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                         />
