@@ -2187,7 +2187,7 @@ function ClaimList(props) {
                                         </div>
                                       </div>
                                       <div className="col-span-4 pt-4">
-                                        <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                        <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                           <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                             <p className="text-white text-[11px] p-4">
                                               Customer Status
@@ -2202,7 +2202,7 @@ function ClaimList(props) {
                                               {customerValue?.value?.find((data) => data.value === customerStatus.status)?.label || "No matching value"}
                                             </p>
 
-                                            <span className="text-light-green">
+                                            <span className="">
                                               {format(
                                                 new Date(
                                                   repairStatus.date
@@ -2242,7 +2242,7 @@ function ClaimList(props) {
                                             </div>
                                           )}
                                         </div>
-                                        <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                        <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                           <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                             <p className="text-white text-[11px] p-4">
                                               {claimvalues?.label}
@@ -2300,7 +2300,7 @@ function ClaimList(props) {
                                             </>
                                           )}
                                         </div>
-                                        <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                        <div className="border bg-light-black text-white border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                           <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                             <p className="text-white text-[11px] p-4">
                                               {repairValue?.label}
@@ -2367,7 +2367,7 @@ function ClaimList(props) {
                                         </div>
                                       </div>
                                       <div className="col-span-4 pt-2">
-                                        <div className="m-2 p-2 bg-Eclipse ">
+                                        <div className="m-2 p-2 bg-Eclipse text-white">
                                           <p className="text-[11px] text-white">
                                             Diagnosis
                                           </p>
@@ -2377,7 +2377,7 @@ function ClaimList(props) {
                                               : "h-[164px] max-h-[164px]"
                                               }`}
                                           >
-                                            <p className="text-sm text-light-green">
+                                            <p className="text-sm">
                                               {res.diagnosis}
                                             </p>
                                           </div>

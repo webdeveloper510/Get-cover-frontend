@@ -1798,7 +1798,7 @@ function ClaimList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
-                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className=" text-[11px] p-4">
                                           Customer Status
@@ -1851,7 +1851,7 @@ function ClaimList(props) {
                                           </div>
                                         )}
                                     </div>
-                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className=" text-[11px] p-4">
                                           {claimvalues?.label}
@@ -1909,7 +1909,7 @@ function ClaimList(props) {
                                         </>
                                       )}
                                     </div>
-                                    <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className=" text-[11px] p-4">
                                           {repairValue?.label}
@@ -1999,7 +1999,7 @@ function ClaimList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-2">
-                                    <div className="m-2 p-2 bg-Eclipse ">
+                                    <div className="m-2 p-2 bg-Eclipse text-white">
                                       <p className="text-[11px]">
                                         Diagnosis
                                       </p>

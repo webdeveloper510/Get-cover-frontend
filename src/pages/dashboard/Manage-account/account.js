@@ -1301,9 +1301,9 @@ function Account() {
                         <Form className="col-span-12">
                           <Grid>
                             <div className="col-span-4">
-                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: textColor }}>
-                                <p className="text-sm m-0 p-0 text-light-black">Email</p>
-                                <p className="font-semibold text-light-black">{email}</p>
+                              <div className="rounded-lg px-4 pb-2 pt-1" style={{ backgroundColor: backGroundColor, color: titleColor }}>
+                                <p className={`text-sm m-0 p-0  text-[${titleColor}]`} style={{ color: titleColor }} >Email</p>
+                                <p className={`font-semibold text-[${titleColor}`} style={{ color: titleColor }}>{email}</p>
                               </div>
                             </div>
                             <div className="col-span-4">
@@ -1627,7 +1627,20 @@ function Account() {
                     data={memberList}
                     highlightOnHover
                     sortIcon={
-                      <img src={shorting} className="ml-2" alt="shorting" />
+                      <div
+                        style={{
+                          maskImage: `url(${shorting})`,
+                          WebkitMaskImage: `url(${shorting})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="ml-2 tabless"
+                      />
+                      // <img src={shorting} className="ml-2" alt="shorting" />
                     }
                     noDataComponent={<CustomNoDataComponent />}
                   />

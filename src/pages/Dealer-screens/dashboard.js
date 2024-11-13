@@ -400,11 +400,20 @@ function DealerDashboard() {
                       sortIcon={
                         <>
                           {" "}
-                          <img
-                            src={shorting}
-                            className="ml-2"
-                            alt="shorting"
-                          />{" "}
+                          <div
+                            style={{
+                              maskImage: `url(${shorting})`,
+                              WebkitMaskImage: `url(${shorting})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="ml-2 tabless"
+                          />
+
                         </>
                       }
                       highlightOnHover
@@ -426,11 +435,19 @@ function DealerDashboard() {
                       sortIcon={
                         <>
                           {" "}
-                          <img
-                            src={shorting}
-                            className="ml-2"
-                            alt="shorting"
-                          />{" "}
+                          <div
+                            style={{
+                              maskImage: `url(${shorting})`,
+                              WebkitMaskImage: `url(${shorting})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="ml-2 tabless"
+                          />
                         </>
                       }
                       highlightOnHover
@@ -455,11 +472,19 @@ function DealerDashboard() {
                     sortIcon={
                       <>
                         {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
+                        <div
+                          style={{
+                            maskImage: `url(${shorting})`,
+                            WebkitMaskImage: `url(${shorting})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="ml-2 tabless"
+                        />
                       </>
                     }
                     highlightOnHover
@@ -480,11 +505,19 @@ function DealerDashboard() {
                     sortIcon={
                       <>
                         {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
+                        <div
+                          style={{
+                            maskImage: `url(${shorting})`,
+                            WebkitMaskImage: `url(${shorting})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="ml-2 tabless"
+                        />
                       </>
                     }
                     highlightOnHover

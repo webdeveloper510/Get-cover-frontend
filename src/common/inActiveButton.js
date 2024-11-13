@@ -29,6 +29,9 @@ const InActiveButton = ({ onClick, type, children, className, disabled }) => {
         <>
             <style>
                 {`
+                .inactive {
+                 backgroundColor: ${backGroundColor}; color:  ${buttonTextColor} !important;
+                }
             .inactive div {
                 background: ${buttonTextColor};
             }

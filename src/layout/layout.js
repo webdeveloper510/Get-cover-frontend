@@ -29,9 +29,9 @@ function Layout() {
 
 
 
-  // useEffect(() => {
-  //   fetchUserDetails();
-  // }, []);
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
 
   const fetchUserDetails = async () => {
     try {
@@ -51,11 +51,11 @@ function Layout() {
           case 'backGroundColor':
             setBackgroundColor(color.colorCode);
             break;
-            case 'titleColor':
-              setTextColor(color.colorCode);
-              break;
-            default:
-              break;
+          case 'titleColor':
+            setTextColor(color.colorCode);
+            break;
+          default:
+            break;
         }
       });
     } catch (error) {
@@ -92,9 +92,8 @@ function Layout() {
       ) : (
         <div
           style={{ backgroundColor, color: textColor }}
-          className={`w-full flex bg-cover h-full ${
-            shouldShowSidebar() ? "p-4" : "p-0 max-h-[100vh] overflow-hidden"
-          } pl-0 relative w-full`}
+          className={`w-full flex bg-cover h-full ${shouldShowSidebar() ? "p-4" : "p-0 max-h-[100vh] overflow-hidden"
+            } pl-0 relative w-full`}
         >
           {shouldShowSidebar() && (
             <div className="xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:hidden xl:block">
@@ -102,9 +101,8 @@ function Layout() {
             </div>
           )}
           <div
-            className={`${
-              shouldShowSidebar() ? "w-[calc(100%-10px)] pl-3" : "w-[100%]"
-            } h-full min-h-[94vh]`}
+            className={`${shouldShowSidebar() ? "w-[calc(100%-10px)] pl-3" : "w-[100%]"
+              } h-full min-h-[94vh]`}
           >
             <Outlet />
           </div>

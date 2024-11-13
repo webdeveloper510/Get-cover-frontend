@@ -1793,7 +1793,7 @@ function ResellerClaimList(props) {
                                     </div>
                                   </div>
                                   <div className="col-span-4 pt-4">
-                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           Customer Status
@@ -1848,7 +1848,7 @@ function ResellerClaimList(props) {
                                           </div>
                                         )}
                                     </div>
-                                    <div className="border bg-light-black border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] mb-2 p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {claimvalues?.label}
@@ -1906,7 +1906,7 @@ function ResellerClaimList(props) {
                                         </>
                                       )}
                                     </div>
-                                    <div className="border bg-light-black border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
+                                    <div className="border bg-light-black text-white border-[#FFFFFF1A] p-1 relative rounded-lg flex w-full">
                                       <div className="bg-Gray28 w-[40%] rounded-s-lg">
                                         <p className="text-white text-[11px] p-4">
                                           {repairValue?.label}
@@ -1919,7 +1919,7 @@ function ResellerClaimList(props) {
                                         <p className="text-white text-sm">
                                           {repairValue?.value?.find((data) => data.value === repairStatus.status)?.label || "No matching value"}
                                         </p>
-                                        <p className="text-light-green">
+                                        <p className="">
                                           {format(
                                             new Date(
                                               repairStatus.date
