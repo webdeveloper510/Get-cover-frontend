@@ -2191,7 +2191,7 @@ function ClaimList(props) {
             <RotateLoader color="#333" />
           </div>
         </div>
-      )} */}
+      )}
       <div className="mb-8 ml-3">
         {props && Object.keys(props).length === 0 && (
           <>
