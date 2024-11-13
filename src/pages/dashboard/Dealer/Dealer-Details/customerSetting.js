@@ -1,26 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Grid from "../../../../common/grid";
 import Select from "../../../../common/select";
-import RadioButton from "../../../../common/radio";
-import Checkbox from "../../../../common/checkbox";
 import Input from "../../../../common/input";
 import Card from "../../../../common/card";
 import Primary from "../../../../assets/images/SetPrimary.png";
-import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-    DownloadSet,
-    getCovrageList,
-} from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
-import download from "../../../../assets/images/downloads.png";
 import shorting from "../../../../assets/images/icons/shorting.svg";
-import AddItem from "../../../../assets/images/icons/addItem.svg";
-import {
-    editDealerSettings,
-    uploadTermsandCondition,
-} from "../../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import Modal from "../../../../common/model";
 import { cityData } from "../../../../stateCityJson";
@@ -263,43 +250,6 @@ function CustomerSetting(props) {
             },
         },
     ];
-    // const addressData = [
-    //     {
-    //         id: 1,
-    //         address: "123 Main St",
-    //         city: "Los Angeles",
-    //         state: "CA",
-    //         zip: "90001",
-    //     },
-    //     {
-    //         id: 2,
-    //         address: "456 Elm St",
-    //         city: "New York",
-    //         state: "NY",
-    //         zip: "10001",
-    //     },
-    //     {
-    //         id: 3,
-    //         address: "789 Maple Ave",
-    //         city: "Chicago",
-    //         state: "IL",
-    //         zip: "60601",
-    //     },
-    //     {
-    //         id: 4,
-    //         address: "321 Oak St",
-    //         city: "Houston",
-    //         state: "TX",
-    //         zip: "77001",
-    //     },
-    //     {
-    //         id: 5,
-    //         address: "654 Pine Rd",
-    //         city: "Phoenix",
-    //         state: "AZ",
-    //         zip: "85001",
-    //     },
-    // ];
 
     const closeUserModal = () => {
         setIsUserModalOpen(false);
