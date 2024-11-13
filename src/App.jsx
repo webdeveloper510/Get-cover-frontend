@@ -71,21 +71,21 @@ function App() {
           background-color: ${sideBarColor} !important;
           color: ${sideBarTextColor} !important;
         }
-          .rdt_TableCol_Sortable .tabless {
+           .rdt_TableCol_Sortable .tabless {
           background-color: ${sideBarTextColor} !important;
               height: 12px;
     width: 12px;
           }
-          .sc-dlfmHC.cfvlby.rdt_TableHeadRow {
+          .sc-dlfmHC.dkIDck.rdt_TableHeadRow, .sc-dlfmHC.cfvlby.rdt_TableHeadRow {
           background-color: ${sideBarColor} !important;
           color: ${sideBarTextColor} !important;
           }
           .rdt_Pagination svg {
-  fill:  ${sideBarTextColor} !important;
-}
-  canvas {
-   color: ${sideBarTextColor} !important;
-  }
+            fill:  ${sideBarTextColor} !important;
+          }
+          canvas {
+          color: ${sideBarTextColor} !important;
+          }
       `}
         </style>
         {routing}
