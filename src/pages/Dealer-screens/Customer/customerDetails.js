@@ -8,7 +8,7 @@ import Button from "../../../common/button";
 import BackImage from "../../../assets/images/icons/backArrow.svg";
 import DealerIcons from "../../../assets/images/icons/DealerIcons.svg";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
-import address from "../../../assets/images/Dealer/Address.svg";
+import addresses from "../../../assets/images/Dealer/Address.svg";
 import name from "../../../assets/images/Dealer/Name.svg";
 import AddItem from "../../../assets/images/icons/addItem.svg";
 import DealerActive from "../../../assets/images/icons/dealerDetails.svg";
@@ -27,6 +27,7 @@ import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
 
 import {
+  addCustomerAddressById,
   getCustomerDetailsById,
   getUserListByCustomerId,
   updateCustomerDetailsById,
@@ -48,6 +49,7 @@ import UserList from "../../dashboard/Dealer/Dealer-Details/user";
 import ClaimList from "../../dashboard/Claim/claimList";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
+import CustomerSetting from "../Reseller/Dealer-Details/customerSetting";
 
 function CustomerDetails() {
   const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
@@ -60,6 +62,7 @@ function CustomerDetails() {
   const [message, setMessage] = useState("");
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
+  const [isUserModalOpen1, setIsUserModalOpen1] = useState(false);
   const [createAccountOption, setCreateAccountOption] = useState("yes");
   const [createAccount, setCreateAccount] = useState(false);
   const [createMainAccount, setCreateMainAccount] = useState(false);
@@ -76,6 +79,13 @@ function CustomerDetails() {
     oldName: "",
     isAccountCreate: createMainAccount,
   });
+
+  const [initialFormValues1, setInitialFormValues1] = useState({
+    address: "",
+    city: "",
+    zip: "",
+    state: "",
+  });
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
@@ -86,6 +96,10 @@ function CustomerDetails() {
     customerId: customerId,
     isPrimary: false,
   });
+
+  const handleSelectChange1 = async (name, selectedValue) => {
+    address.setFieldValue(name, selectedValue);
+  };
   const { flag } = useMyContext();
   const emailValidationRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 
@@ -273,6 +287,65 @@ function CustomerDetails() {
     localStorage.setItem("isPopupOpen", "true");
     setIsUserModalOpen(true);
   };
+
+  const closeUserModal1 = () => {
+    setIsUserModalOpen1(false);
+    setActiveTab("Settings");
+    localStorage.setItem("isPopupOpen1", "false");
+    address.resetForm();
+  };
+
+  const address = useFormik({
+    initialValues: initialFormValues1,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      address: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+    }),
+
+    onSubmit: async (values) => {
+      localStorage.setItem("customer", "Settings");
+
+      setLoading(true);
+      try {
+        const address = {
+          address: values,
+        }
+        const result = await addCustomerAddressById(customerId, address);
+        console.log(result);
+        if (result.code == 200) {
+          customerDetails();
+          setModalOpen(true);
+          setFirstMessage(" New Address Added Successfully");
+          setSecondMessage("New Address Added Successfully");
+          setMessage("Address Added Successfully");
+          setLoading(false);
+          closeUserModal1();
+          setActiveTab("Settings");
+        } else {
+          setLoading(false);
+          formik.setFieldError("address", "Address Already Added");
+        }
+      } catch (error) {
+        console.error("Error adding address:", error);
+      } finally {
+        localStorage.setItem("customer", "Settings");
+        setLoading(false);
+      }
+    },
+  });
+
   useEffect(() => {
     const isPopupOpen = localStorage.getItem("isPopupOpen") === "true";
     if (isPopupOpen) {
@@ -302,9 +375,18 @@ function CustomerDetails() {
         localStorage.setItem("menu", "Claims");
         navigate(`/dealer/addClaim/${customerDetail?.meta?.username}`);
         break;
+      case "Settings":
+        openUserModal1();
+        break;
       default:
         console.log("Invalid data, no navigation");
     }
+  };
+
+  const openUserModal1 = () => {
+    setActiveTab("Settings123");
+    localStorage.setItem("isPopupOpen1", "true");
+    setIsUserModalOpen1(true);
   };
 
   const formatPhoneNumber = (phoneNumber) => {
@@ -403,6 +485,15 @@ function CustomerDetails() {
       Activeicons: UserActive,
       content: (
         <UserList id={customerId} flag={"customer"} activeTab={activeTab} setLoading={setLoading} />
+      ),
+    },
+    {
+      id: "Settings",
+      label: "Settings",
+      icons: User,
+      Activeicons: UserActive,
+      content: (
+        <CustomerSetting id={customerId} flag={"customer"} activeTab={activeTab} />
       ),
     },
   ];
@@ -513,7 +604,7 @@ function CustomerDetails() {
               </Grid>
               <div className="flex my-4">
                 <img
-                  src={address}
+                  src={addresses}
                   className="mr-3 bg-Onyx rounded-[14px] my-auto"
                   alt="Address"
                 />
@@ -663,9 +754,9 @@ function CustomerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-6">
+              <div className="col-span-8">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!grid-cols-4 !gap-1">
+                  <Grid className="!grid-cols-5 !gap-1">
                     {tabs.map((tab) => (
                       <div className="col-span-1" key={tab.id}>
                         <Button
@@ -708,7 +799,7 @@ function CustomerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-4"></div>
+              <div className="col-span-2"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" ? (
                   <Button
@@ -722,7 +813,7 @@ function CustomerDetails() {
                       alt="AddItem"
                     />{" "}
                     <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
-                      Add {activeTab}
+                      Add {activeTab == "Settings" ? 'Address' : activeTab}
                     </span>{" "}
                   </Button>
                 ) : (
@@ -1093,6 +1184,114 @@ function CustomerDetails() {
               {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
               {timer} Seconds
             </p>
+          </div>
+        </Modal>
+
+        <Modal isOpen={isUserModalOpen1} onClose={closeUserModal1}>
+          <div className=" py-3">
+            <p className=" text-center text-3xl m=b-5 mt-2 font-bold text-light-black">
+              Add Address
+            </p>
+            <form onSubmit={address.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-12">
+                  <Input
+                    type="text"
+                    name="address"
+                    label="Street Address"
+                    className="!bg-white"
+                    value={address.values.address}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    required={true}
+                    disabled={loading}
+                  />
+                  {address.touched.address &&
+                    address.errors.address && (
+                      <p className="text-red-500 text-xs pl-2">
+                        {address.errors.address}
+                      </p>
+                    )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="city"
+                    label="City"
+                    className="!bg-white"
+                    placeholder=" "
+                    maxLength={"20"}
+                    required={true}
+                    value={address.values.city}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    error={address.touched.city && address.errors.city}
+                  />
+                  {address.touched.city && address.errors.city && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.city}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Select
+                    label="State"
+                    name="state"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    onChange={handleSelectChange1}
+                    options={state}
+                    value={address.values.state}
+                    onBlur={address.handleBlur}
+                    error={address.touched.state && address.errors.state}
+                  />
+                  {address.touched.state && address.errors.state && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.state}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="number"
+                    name="zip"
+                    label="Zipcode"
+                    className="!bg-white"
+                    placeholder=""
+                    required={true}
+                    zipcode={true}
+                    value={address.values.zip}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    minLength={"5"}
+                    maxLength={"6"}
+                    error={address.touched.zip && address.errors.zip}
+                  />
+                  {address.touched.zip && address.errors.zip && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.zip}
+                    </div>
+                  )}
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8 mt-8">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeUserModal1}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
           </div>
         </Modal>
       </div>
