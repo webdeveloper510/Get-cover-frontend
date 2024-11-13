@@ -64,7 +64,7 @@ function Setting(props) {
       value: -1,
     },
     isManufacturerWarranty: false,
-    isMaxClaimAmount:false,
+    isMaxClaimAmount: false,
     file: "",
     oldName: "",
     isServicer: createServicerAccountOption,
@@ -89,7 +89,7 @@ function Setting(props) {
 
     if (timer === 0) {
       closeModal();
-       window.location.reload();
+      window.location.reload();
     }
 
     if (!isModalOpen) {
@@ -109,7 +109,7 @@ function Setting(props) {
   useEffect(() => {
     setLoading1(true);
     const dealer = props?.dealerDetails;
-    console.log( dealer?.termCondition?.fileName==undefined)
+    console.log(dealer?.termCondition?.fileName == undefined)
 
     if (dealer?.serviceCoverageType) {
       setShipping(dealer.isShippingAllowed ? "yes" : "no");
@@ -117,7 +117,7 @@ function Setting(props) {
       setClaimInCoveragePeriod(dealer.settings?.noOfClaimPerPeriod === -1);
       setClaimOver(dealer.settings?.noOfClaim?.value === -1);
       setCreateAccountOption(dealer.isAccountCreate ? "yes" : "no");
-       setSeparateAccountOption(dealer.userAccount ? "yes" : "no");
+      setSeparateAccountOption(dealer.userAccount ? "yes" : "no");
       setSelectedFile2(
         dealer?.termCondition.fileName == undefined ? {
           fileName: "",
@@ -133,7 +133,7 @@ function Setting(props) {
         coverageType: dealer.coverageType,
         serviceCoverageType: dealer.serviceCoverageType,
         adhDays: dealer.adhDays,
-        termCondition:  dealer?.termCondition.fileName == undefined ? {
+        termCondition: dealer?.termCondition.fileName == undefined ? {
           fileName: "",
           name: "",
           size: "",
@@ -175,7 +175,7 @@ function Setting(props) {
     setSeparateAccountOption(event.target.value);
   };
 
-  const handleFileChange =async (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     const maxSize = 10048576;
     if (file?.size > maxSize) {
@@ -184,24 +184,24 @@ function Setting(props) {
         "File is too large. Please upload a file smaller than 10MB."
       );
       console.log("Selected file:", file);
-    } 
+    }
     else {
-      setLoading1(true); 
+      setLoading1(true);
       try {
         if (file) {
           const formData = new FormData();
           formData.append("file", file);
-    
+
           const result = await uploadTermsandCondition(formData);
-          
+
           console.log(result);
           formik.setFieldValue("termCondition", {
             fileName: result?.file?.filename,
             name: result?.file?.originalname,
             size: result?.file?.size,
           });
-    
-          setSelectedFile2(file); 
+
+          setSelectedFile2(file);
         } else {
           setSelectedFile2({
             fileName: "",
@@ -229,7 +229,7 @@ function Setting(props) {
       anchor.click();
       document.body.removeChild(anchor);
       URL.revokeObjectURL(blobUrl);
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const handleRadio = (event) => {
@@ -283,7 +283,7 @@ function Setting(props) {
       serviceCoverageType: Yup.string()
         .transform((originalValue) => originalValue.trim())
         .required("Required"),
-        coverageType: Yup.array()
+      coverageType: Yup.array()
         .min(1, "Required")
         .test(
           "adhDays-error-check",
@@ -301,10 +301,10 @@ function Setting(props) {
                 }
                 return day.deductible < 0 || day.deductible === undefined;
               });
-    
-              return !adhErrors; 
+
+              return !adhErrors;
             }
-            return true; 
+            return true;
           }
         ),
     }),
@@ -391,7 +391,7 @@ function Setting(props) {
                       htmlFor="term"
                       className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75 `}
                     >
-                       {selectedFile2.name == ""}
+                      {selectedFile2.name == ""}
                     </label>
                     <input
                       type="file"
@@ -404,7 +404,7 @@ function Setting(props) {
                     <div
                       className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer `}
                     >
-                     
+
                       {selectedFile2?.name != "" && (
                         <button
                           type="button"
@@ -438,18 +438,18 @@ function Setting(props) {
                     Attachment size limit is 10 MB
                   </small>
                 </div>
-                
+
                 {props?.dealerDetails?.termCondition?.fileName ? (
-  <div className="col-span-2 pt-1">
-    <Button
-      className="w-full flex"
-      onClick={() => handelDownload(props?.dealerDetails?.termCondition?.fileName)}
-    >
-      <img src={download} className="w-[20px]" alt="download" />
-      <span className="self-center pl-2"> Download </span>
-    </Button>
-  </div>
-) : null}
+                  <div className="col-span-2 pt-1">
+                    <Button
+                      className="w-full flex"
+                      onClick={() => handelDownload(props?.dealerDetails?.termCondition?.fileName)}
+                    >
+                      <img src={download} className="w-[20px]" alt="download" />
+                      <span className="self-center pl-2"> Download </span>
+                    </Button>
+                  </div>
+                ) : null}
 
 
                 <div className="col-span-6">
@@ -844,16 +844,16 @@ function Setting(props) {
                                     e.target.value === ""
                                       ? 0
                                       : Math.max(
-                                          1,
-                                          parseInt(e.target.value, 10)
-                                        );
+                                        1,
+                                        parseInt(e.target.value, 10)
+                                      );
                                   const updatedadhDays =
                                     formik?.values?.adhDays?.map((item) =>
                                       item.value === type.value
                                         ? {
-                                            ...item,
-                                            waitingDays: Number(newValue),
-                                          }
+                                          ...item,
+                                          waitingDays: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -886,9 +886,9 @@ function Setting(props) {
                                     formik?.values?.adhDays?.map((item) =>
                                       item.value === type.value
                                         ? {
-                                            ...item,
-                                            deductible: Number(newValue),
-                                          }
+                                          ...item,
+                                          deductible: Number(newValue),
+                                        }
                                         : item
                                     );
                                   formik.setFieldValue(
@@ -897,7 +897,7 @@ function Setting(props) {
                                   );
                                 }}
                               />
-                            
+
                               <div className="absolute top-[1px] right-[1px]">
                                 <Select
                                   name="deductibles"
@@ -908,9 +908,9 @@ function Setting(props) {
                                       formik?.values?.adhDays?.map((item) =>
                                         item.value === type.value
                                           ? {
-                                              ...item,
-                                              amountType: value,
-                                            }
+                                            ...item,
+                                            amountType: value,
+                                          }
                                           : item
                                       );
                                     formik.setFieldValue(
@@ -931,10 +931,10 @@ function Setting(props) {
                             </div>
                           </>
                         )}
-                       
+
                       </div>
                     ))}
-                     
+
                   </Grid>
                   {formik.touched.coverageType &&
                     formik.errors.coverageType && (

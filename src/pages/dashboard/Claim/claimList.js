@@ -3251,7 +3251,7 @@ function ClaimList(props) {
                   </div>
                   {customerDetail?.role == "Dealer" &&
                     <div className="col-span-12">
-                      <p className="text-lg font-semibold">Ship To Address</p>
+                      <p className="text-lg font-semibold">Shipped By</p>
                       <p className="text-base leading-5">
                         {customerDetail?.shippingTo}
                       </p>
@@ -3266,7 +3266,7 @@ function ClaimList(props) {
                     </p>
                   </div>
                   <div className="col-span-8">
-                    <p className="text-lg font-semibold">Ship To Address</p>
+                    <p className="text-lg font-semibold">Shipped By</p>
                     <p className="text-base leading-5">
                       {customerDetail?.customerDetail?.shippingTo}
                     </p>
