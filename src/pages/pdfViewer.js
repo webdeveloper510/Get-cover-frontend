@@ -386,7 +386,7 @@ function PdfGenerator(props, className) {
           maskSize: "contain",
           WebkitMaskSize: "contain",
         }}
-        className="self-center pr-1 py-1 h-4 w-4 mr-2 "
+        className="self-center invoices pr-1 py-1 h-4 w-4 mr-2 "
       />
       {/* <img src={download} className="w-4 h-4 mr-2" alt="Download" /> */}
       <button className="">Invoice</button>

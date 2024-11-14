@@ -25,6 +25,7 @@ import { RotateLoader } from "react-spinners";
 import axios from "axios";
 import Card from "../../../common/card";
 import InActiveButton from "../../../common/inActiveButton";
+import SingleView from "../../../common/singleView";
 
 const url = process.env.REACT_APP_API_KEY_LOCAL
 
@@ -241,20 +242,34 @@ function DealerList() {
               />
             </div>
             {selectedAction === row.dealerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
                 onClick={() => localStorage.removeItem("menu")}
               >
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
-                  className="text-left cursor-pointer text-black flex hover:font-semibold py-2 px-2"
+                  className="text-left cursor-pointer flex py-2 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                  View
                 </Link>
-              </div>
+              </SingleView>
             )}
           </div>
         );

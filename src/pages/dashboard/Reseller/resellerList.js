@@ -23,6 +23,7 @@ import {
 } from "../../../services/reSellerServices";
 import Card from "../../../common/card";
 import InActiveButton from "../../../common/inActiveButton";
+import SingleView from "../../../common/singleView";
 // Declare the base URL of the API
 function ResellerList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -227,9 +228,9 @@ function ResellerList() {
               />
             </div>
             {selectedAction === row.resellerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -238,11 +239,25 @@ function ResellerList() {
                     localStorage.removeItem("Resellermenu");
                     navigate(`/resellerDetails/${row?.metaId}`);
                   }}
-                  className="text-left cursor-pointer flex text-black hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer flex py-1 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                  View
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

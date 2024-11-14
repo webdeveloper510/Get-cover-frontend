@@ -72,6 +72,7 @@ import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -1018,6 +1019,14 @@ function ClaimList(props) {
     },
   });
 
+  const days = [
+    { label: "30 Days", value: "30" },
+    { label: "45 Days", value: "45" },
+    { label: "60 Days", value: "60" },
+    { label: "90 Days", value: "90" },
+    { label: "120 Days", value: "120" },
+  ];
+
   const Shipment = useFormik({
     initialValues: {
       trackingNumber: "",
@@ -1163,6 +1172,7 @@ function ClaimList(props) {
       trackingNumber: "",
       trackingType: "",
       claimPaidStatus: "",
+      noOfDays: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1407,24 +1417,38 @@ function ClaimList(props) {
                       </div>
                       <div className="col-span-4 self-center flex justify-center">
                         <Button type="submit" className="!p-2">
+
                           <img
                             src={Search}
                             className="cursor-pointer "
                             alt="Search"
                           />
                         </Button>
-                        <Button
-                          className="!bg-transparent !p-0"
+                        <InActiveButton
+                          className='ml-1'
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center pr-1 py-1  h-4 w-4 cursor-pointer mx-auto "
+                          />
+                          {/* <img
                             src={clearFilter}
                             className="cursor-pointer	mx-auto"
                             alt="clearFilter"
-                          />
-                        </Button>
+                          /> */}
+                        </InActiveButton>
                         <Button
                           type="button"
                           className="ml-2 !text-[14px] !px-2"
@@ -3124,50 +3148,17 @@ function ClaimList(props) {
                   {...formik1.getFieldProps("servicerName")}
                 />
               </div>
-              <div className="col-span-6">
-                <Select
-                  name="claimStatus"
-                  label="Claim Status"
-                  options={claimvalues?.value}
-                  className="!bg-white"
-                  onChange={handleSelectChange2}
-                  value={formik1.values.claimStatus}
-                />
-              </div>
-              {formik1.values.claimStatus == "completed" ? (
+              {props.activeTab == "Unpaid Claims" && (
                 <div className="col-span-6">
                   <Select
-                    options={claimPaid}
-                    name="claimPaidStatus"
-                    label="Paid Status"
+                    options={days}
+                    name="noOfDays"
+                    label="No Of Days Passed"
                     className="!bg-white"
                     onChange={handleSelectChange2}
-                    value={formik1.values.claimPaidStatus}
+                    value={formik1.values.noOfDays}
                   />
                 </div>
-              ) : (
-                <>
-                  <div className="col-span-6">
-                    <Select
-                      options={customerValue?.value}
-                      name="customerStatusValue"
-                      label="Customer Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.customerStatusValue}
-                    />
-                  </div>
-                  <div className="col-span-6">
-                    <Select
-                      options={repairValue?.value}
-                      name="repairStatus"
-                      label="Repair Status"
-                      className="!bg-white"
-                      onChange={handleSelectChange2}
-                      value={formik1.values.repairStatus}
-                    />
-                  </div>
-                </>
               )}
               <div className="col-span-12">
                 <Button type="submit" className={"w-full"}>

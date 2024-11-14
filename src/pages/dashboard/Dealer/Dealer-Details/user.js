@@ -33,6 +33,7 @@ import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 
 function UserList(props) {
   console.log(props, 'hello world');
@@ -413,10 +414,10 @@ function UserList(props) {
               />
             </div>
             {selectedAction === row.email && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 bg-white py-1 text-light-black border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
@@ -425,7 +426,20 @@ function UserList(props) {
                     onClick={() => makeUserPrimary(row)}
                     className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
                   >
-                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${make})`,
+                        WebkitMaskImage: `url(${make})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={make} className="w-4 h-4 mr-2" />{" "} */}
                     <span className="self-center"> Make Primary </span>
                   </div>
                 )}
@@ -434,19 +448,45 @@ function UserList(props) {
                   onClick={() => editUser(row._id)}
                   className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
                 >
-                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <div
+                    style={{
+                      maskImage: `url(${edit})`,
+                      WebkitMaskImage: `url(${edit})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                   <span className="self-center">Edit </span>
                 </div>
                 {!row.isPrimary && (
                   <div
                     onClick={() => openModal1(row._id)}
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    className="text-left cursor-pointer flex py-1 px-2"
                   >
-                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${delete1})`,
+                        WebkitMaskImage: `url(${delete1})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
                     <span className="self-center">Delete</span>
                   </div>
                 )}
-              </div>
+              </SingleView>
             )}
           </div>
         );
@@ -514,7 +554,7 @@ function UserList(props) {
                     <div className="col-span-2 self-center">
                       <Input
                         name="phone"
-                        type="number"
+                        type="tel"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""

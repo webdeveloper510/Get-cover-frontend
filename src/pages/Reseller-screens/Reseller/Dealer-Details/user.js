@@ -30,6 +30,10 @@ import { getServicerUsersById } from "../../../../services/servicerServices";
 import { getResellerUsersById } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import make from "../../../../assets/images/star.png";
+import edit from "../../../../assets/images/edit-text.png";
+import delete1 from "../../../../assets/images/delete.png";
+import SingleView from "../../../../common/singleView";
 
 function UserList(props) {
   const { toggleFlag } = useMyContext();
@@ -417,37 +421,76 @@ function UserList(props) {
               />
             </div>
             {selectedAction === row.email && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className="text-center py-2 cursor-pointer border-b"
+                    className=" py-2 cursor-pointer border-b"
                     onClick={() => makeUserPrimary(row)}
                   >
+                    <div
+                      style={{
+                        maskImage: `url(${make})`,
+                        WebkitMaskImage: `url(${make})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
                     Make Primary
                   </div>
                 )}
 
                 <div
-                  className="text-center py-2 cursor-pointer border-b"
+                  className=" py-2 cursor-pointer border-b"
                   onClick={() => editUser(row._id)}
                 >
+                  <div
+                    style={{
+                      maskImage: `url(${edit})`,
+                      WebkitMaskImage: `url(${edit})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
                   Edit
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className="text-center text-red-500 py-2 cursor-pointer"
+                    className=" py-2 cursor-pointer"
                     onClick={() => openModal1(row._id)}
                   >
+                    <div
+                      style={{
+                        maskImage: `url(${delete1})`,
+                        WebkitMaskImage: `url(${delete1})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
                     Delete
                   </div>
                 )}
-              </div>
+              </SingleView>
             )}
           </div>
         );

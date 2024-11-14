@@ -28,6 +28,7 @@ import {
 import Primary from "../../../../assets/images/SetPrimary.png";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 
 function DealerDetailList(props) {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -307,29 +308,55 @@ function DealerDetailList(props) {
               />
             </div>
             {selectedAction === row.dealerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-center cursor-pointer flex py-1 border-b px-2 text-black"
+                  className="text-center cursor-pointer flex py-1 border-b px-2 "
                   onClick={() => {
                     navigate(`/dealerDetails/${row.dealerId}`);
                   }}
                 >
-                  <img src={view} className="w-4 h-4 mr-2" />{" "}
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" />{" "} */}
                   <span className="self-center"> View </span>
                 </div>
                 <div
-                  className="text-center py-1 px-2 flex cursor-pointer text-black"
+                  className="text-center py-1 px-2 flex cursor-pointer"
                   onClick={() => openModal(row)}
                 >
-                  <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                  <div
+                    style={{
+                      maskImage: `url(${paper})`,
+                      WebkitMaskImage: `url(${paper})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={paper} className="w-4 h-4 mr-2" />{" "} */}
                   <span className="self-center">Unassigned </span>
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );
@@ -366,7 +393,7 @@ function DealerDetailList(props) {
                       <div className="col-span-3 self-center">
                         <Input
                           name="email"
-                          type="text"
+                          type="email"
                           placeholder="Email"
                           className="!text-[14px] !bg-White-Smoke"
                           className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"

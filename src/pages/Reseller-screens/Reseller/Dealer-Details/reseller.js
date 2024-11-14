@@ -7,6 +7,7 @@ import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
+import view from "../../../../assets/images/eye.png";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -16,6 +17,7 @@ import { RotateLoader } from "react-spinners";
 import { getResellerListByDealerId } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 function Reseller(props) {
   const [selectedAction, setSelectedAction] = useState(null);
   const [resellerList, setResellerList] = useState([]);
@@ -89,9 +91,9 @@ function Reseller(props) {
               />
             </div>
             {selectedAction === row.resellerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl py-2 -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl py-2 -right-3 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -103,10 +105,23 @@ function Reseller(props) {
                   className="text-center py-1 px-2 cursor-pointer"
                 >
                   <Link to={`/resellerDetails/${row.resellerData._id}`}>
+                    <div
+                      style={{
+                        maskImage: `url(${view})`,
+                        WebkitMaskImage: `url(${view})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
                     View{" "}
                   </Link>
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

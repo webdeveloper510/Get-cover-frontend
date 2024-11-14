@@ -1,12 +1,7 @@
 {
   "files": {
-<<<<<<< HEAD
-    "main.css": "/static/css/main.20ce0842.css",
-    "main.js": "/static/js/main.73021819.js",
-=======
     "main.css": "/static/css/main.d115b30d.css",
-    "main.js": "/static/js/main.30364f1d.js",
->>>>>>> 38cd5d0cc70f997fbe0efbeee36b104d93037128
+    "main.js": "/static/js/main.3eb42ea0.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
@@ -14,13 +9,8 @@
     "static/media/Edit-Dealer.png": "/static/media/Edit-Dealer.59325ada5926e0702dc5.png",
     "static/media/deleteUser.svg": "/static/media/deleteUser.c81abc394b7792454ecaa98213c02803.svg",
     "static/media/attachment.png": "/static/media/attachment.71e2ce2e326c35e2d9b0.png",
-<<<<<<< HEAD
-    "static/media/Edit-Dealer.svg": "/static/media/Edit-Dealer.03472f282bce68fa2228.svg",
-    "static/media/Dealer-Details.svg": "/static/media/Dealer-Details.68600f9bf81d8ffa8973.svg",
-    "static/media/Forgot_password.png": "/static/media/Forgot_password.4712e8aa7adf256b5617.png",
-=======
     "static/media/Mask_group.png": "/static/media/Mask_group.af21a1e5407321a62320.png",
->>>>>>> 38cd5d0cc70f997fbe0efbeee36b104d93037128
+    "static/media/Forgot_password.png": "/static/media/Forgot_password.4712e8aa7adf256b5617.png",
     "static/media/forgot_banner.png": "/static/media/forgot_banner.1431723b776d6c193d41.png",
     "static/media/Welcome_page.png": "/static/media/Welcome_page.7bde0272158bcdc07fa5.png",
     "static/media/register_banner.png": "/static/media/register_banner.bd72eecb697721122b97.png",
@@ -68,7 +58,7 @@
     "static/media/Coverage End.svg": "/static/media/Coverage End.268352f5f79b873afa5156d8f578168e.svg",
     "static/media/Servicer.svg": "/static/media/Servicer.d1c36d38720df832533a8b5db1167e8e.svg",
     "static/media/Coverage Start.svg": "/static/media/Coverage Start.a77f708c945165fb27ee9c7ab4b84d49.svg",
-    "static/media/clock.svg": "/static/media/clock.995ff39f33c7251bce64b4d2c588d2a5.svg",
+    "static/media/clock.svg": "/static/media/clock.4eecf9c5ac1e847815187525333002f6.svg",
     "static/media/Description.svg": "/static/media/Description.4dd7fea9c7067d4c07183e6527a2ac98.svg",
     "static/media/Paid.svg": "/static/media/Paid.99f36b30bf71efab1fa96f772986abec.svg",
     "static/media/ActivePaid.svg": "/static/media/ActivePaid.cdf360c941e9ebf6e839b4b877a374fe.svg",
@@ -142,9 +132,9 @@
     "static/media/unpaidActive.svg": "/static/media/unpaidActive.f316259c145d79eb8883eda077724bd3.svg",
     "static/media/upload.svg": "/static/media/upload.90fb9c3c7be21de31090c54e45cc4346.svg",
     "static/media/ProductS.svg": "/static/media/ProductS.17ea3e5fcf77d5d0f6a8a1dde721b5d6.svg",
+    "static/media/Clear-Filter-Icon-White.svg": "/static/media/Clear-Filter-Icon-White.fa47ecc5cf9e04dfa0e6017196ecfcd9.svg",
     "static/media/AciveAmount.svg": "/static/media/AciveAmount.d9b9484e1487a9a0108b63c337e0b8da.svg",
     "static/media/Amount.svg": "/static/media/Amount.3aedc9b0dad1539afa1eab1070299a01.svg",
-    "static/media/Clear-Filter-Icon-White.svg": "/static/media/Clear-Filter-Icon-White.df4c7e24edc2294c9ccd2ba150fc9371.svg",
     "static/media/Wholesale.svg": "/static/media/Wholesale.c40d17c2185522d685984fc9582a9359.svg",
     "static/media/Part Warranty.svg": "/static/media/Part Warranty.d67468f2d35fcf5de93d50a2add09768.svg",
     "static/media/insurance.svg": "/static/media/insurance.9c2be3de87554c11e1302e00e2b6e7cf.svg",
@@ -194,24 +184,14 @@
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
-<<<<<<< HEAD
-    "main.20ce0842.css.map": "/static/css/main.20ce0842.css.map",
-    "main.73021819.js.map": "/static/js/main.73021819.js.map",
-=======
     "main.d115b30d.css.map": "/static/css/main.d115b30d.css.map",
-    "main.30364f1d.js.map": "/static/js/main.30364f1d.js.map",
->>>>>>> 38cd5d0cc70f997fbe0efbeee36b104d93037128
+    "main.3eb42ea0.js.map": "/static/js/main.3eb42ea0.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-<<<<<<< HEAD
-    "static/css/main.20ce0842.css",
-    "static/js/main.73021819.js"
-=======
     "static/css/main.d115b30d.css",
-    "static/js/main.30364f1d.js"
->>>>>>> 38cd5d0cc70f997fbe0efbeee36b104d93037128
+    "static/js/main.3eb42ea0.js"
   ]
 }

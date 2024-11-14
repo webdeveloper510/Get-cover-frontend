@@ -459,40 +459,79 @@ function ResellerUser() {
               />
             </div>
             {selectedAction === row.email && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 py-1 bg-white border text-light-black rounded-lg shadow-md ${calculateDropdownPosition(
+                  } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                     index
                   )}`}
               >
                 {!row?.isPrimary && row.status && (
                   <div
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                    className="text-left cursor-pointer flex py-1 px-2 border-b"
                     onClick={() => makeUserPrimary(row)}
                   >
-                    <img src={make} className="w-4 h-4 mr-2" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${make})`,
+                        WebkitMaskImage: `url(${make})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={make} className="w-4 h-4 mr-2" />{" "} */}
                     <span className="self-center"> Make Primary </span>
                   </div>
                 )}
 
                 <div
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                  className="text-left cursor-pointer flex py-1 px-2 border-b"
                   onClick={() => editUser(row._id)}
                 >
-                  <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                  <div
+                    style={{
+                      maskImage: `url(${edit})`,
+                      WebkitMaskImage: `url(${edit})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                   <span className="self-center">Edit </span>
                 </div>
                 {!row?.isPrimary && (
                   <div
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    className="text-left cursor-pointer flex py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
-                    <img src={delete1} className="w-4 h-4 mr-2" />{" "}
+                    <div
+                      style={{
+                        maskImage: `url(${delete1})`,
+                        WebkitMaskImage: `url(${delete1})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
                     <span className="self-center">Delete</span>
                   </div>
                 )}
-              </div>
+              </SingleView>
             )}
           </div>
         );

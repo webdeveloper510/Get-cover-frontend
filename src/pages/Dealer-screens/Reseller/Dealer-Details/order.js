@@ -41,6 +41,7 @@ import PdfGenerator from "../../../pdfViewer";
 import DocMakeOrderContainer from "../../../docMakeOrder";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 function OrderList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -298,10 +299,10 @@ function OrderList(props) {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <SingleView
                 onClick={() => setSelectedAction(null)}
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[130px] drop-shadow-5xl py-2 text-light-black -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[130px] drop-shadow-5xl py-2 -right-3 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -313,13 +314,41 @@ function OrderList(props) {
                         navigate(`/dealer/editOrder/${row._id}/${props.flag}`)
                       }
                     >
-                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                      <div
+                        style={{
+                          maskImage: `url(${edit})`,
+                          WebkitMaskImage: `url(${edit})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={edit} className="w-4 h-4 mr-2" />  */}
+                      Edit
                     </div>
                     <div
                       className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      <div
+                        style={{
+                          maskImage: `url(${process})`,
+                          WebkitMaskImage: `url(${process})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={process} className="w-4 h-4 mr-2" /> */}
+                      Process
                       Order
                     </div>
                     <div className="border-b">
@@ -329,7 +358,21 @@ function OrderList(props) {
                       className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
-                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
+                      <div
+                        style={{
+                          maskImage: `url(${remove})`,
+                          WebkitMaskImage: `url(${remove})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={remove} className="w-4 h-4 mr-2" />  */}
+                      Archive
                     </div>
                   </>
                 ) : (
@@ -338,7 +381,21 @@ function OrderList(props) {
                       to={`/dealer/orderDetails/${row._id}`}
                       className="text-left py-1 px-2 cursor-pointer border-b hover:font-semibold w-full flex justify-start"
                     >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
+                      <div
+                        style={{
+                          maskImage: `url(${view})`,
+                          WebkitMaskImage: `url(${view})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                      View
                     </Link>
                     <div className="">
                       <PdfGenerator data={row._id} setLoading={setLoading} />
@@ -346,7 +403,7 @@ function OrderList(props) {
                     {/* <DocMakeOrderContainer setLoading={setLoading} data={row._id} /> */}
                   </>
                 )}
-              </div>
+              </SingleView>
             )}
           </div>
         );

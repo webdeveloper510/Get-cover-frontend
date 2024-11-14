@@ -24,6 +24,7 @@ import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import InActiveButton from "../../../common/inActiveButton";
+import SingleView from "../../../common/singleView";
 
 
 function Category() {
@@ -166,18 +167,32 @@ function Category() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+              <SingleView ref={dropdownRef}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
                   onClick={() => navigate(`/editCategory/${row._id}`)}
-                  className="text-left cursor-pointer text-black flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer text-black flex py-1 px-2"
                 >
-                  <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                  <div
+                    style={{
+                      maskImage: `url(${edit})`,
+                      WebkitMaskImage: `url(${edit})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={edit} className="w-4 h-4 mr-2" /> */}
+                  Edit
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

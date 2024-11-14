@@ -18,6 +18,7 @@ import { RotateLoader } from "react-spinners";
 import { getCustomerByDealerId } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 function CustomerList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -116,9 +117,9 @@ function CustomerList(props) {
               />
             </div>
             {selectedAction === row.customerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -128,12 +129,25 @@ function CustomerList(props) {
                     localStorage.setItem("menu", "Customer");
                     localStorage.setItem("customer", "Orders");
                   }}
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                  className="text-left cursor-pointer flex py-1 px-2"
                 >
-                  <img src={view} className="w-4 h-4 mr-2" />
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" /> */}
                   View
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

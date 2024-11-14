@@ -1630,7 +1630,7 @@ function ClaimList(props) {
                                 <div className="col-span-3 self-center border-Gray28 border-r p-5">
                                   <p className="font-semibold leading-5 text-black text-lg">
                                     {" "}
-                                    {format(new Date(new Date(res.lossDate).setDate(new Date(res.lossDate).getDate() - 1)), "MM/dd/yyyy")}
+                                    {format(new Date(new Date(res?.lossDate).setDate(new Date(res?.lossDate).getDate() - 1)), "MM/dd/yyyy")}
 
                                   </p>
                                   <p className="text-[#A3A3A3]">Damage Date</p>
@@ -1718,7 +1718,10 @@ function ClaimList(props) {
                                         Approved Date
                                       </p>
                                       <p className="text-light-black text-sm font-semibold">
-                                        {format(new Date(new Date(res.approveDate).setDate(new Date(res.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                        {res?.approveDate != '' && <>
+                                          {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                        </>
+                                        }
                                       </p>
                                     </div>
                                   </div>

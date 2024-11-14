@@ -38,6 +38,7 @@ import PdfGenerator from "../../pdfViewer";
 import DocMakeOrderContainer from "../../docMakeOrder";
 import Card from "../../../common/card";
 import InActiveButton from "../../../common/inActiveButton";
+import SingleView from "../../../common/singleView";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -344,33 +345,69 @@ function OrderList() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
-                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                      <div
+                        style={{
+                          maskImage: `url(${edit})`,
+                          WebkitMaskImage: `url(${edit})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      /> Edit
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
-                      <img src={process} className="w-4 h-4 mr-2" /> Process
+                      <div
+                        style={{
+                          maskImage: `url(${process})`,
+                          WebkitMaskImage: `url(${process})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      /> Process
                       Order
                     </div>
                     {row.flag && (
                       <div
-                        className="text-center py-1 px-2 border-b text-black flex cursor-pointer"
+                        className="text-center py-1 px-2 border-b  flex cursor-pointer"
                         onClick={() => markasPaid(row)}
                       >
-                        <img src={mark} className="w-4 h-4 mr-2" /> Mark as Paid
+                        <div
+                          style={{
+                            maskImage: `url(${mark})`,
+                            WebkitMaskImage: `url(${mark})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        /> Mark as Paid
                       </div>
                     )}
 
@@ -382,10 +419,22 @@ function OrderList() {
                       />
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex cursor-pointer text-black hover:font-semibold"
+                      className="text-left py-1 px-2 flex cursor-pointer hover:font-semibold"
                       onClick={() => openArchive(row._id)}
                     >
-                      <img src={remove} className="w-4 h-4 mr-2" /> Archive
+                      <div
+                        style={{
+                          maskImage: `url(${remove})`,
+                          WebkitMaskImage: `url(${remove})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      /> Archive
                     </div>
                   </>
                 ) : (
@@ -393,9 +442,21 @@ function OrderList() {
                     <div onClick={() => localStorage.removeItem("orderMenu")}>
                       <Link
                         to={`/orderDetails/${row._id}`}
-                        className="text-left py-1 px-2 cursor-pointer hover:font-semibold text-black border-b w-full flex justify-start"
+                        className="text-left py-1 px-2 cursor-pointer border-b w-full flex justify-start"
                       >
-                        <img src={view} className="w-4 h-4 mr-2" /> View
+                        <div
+                          style={{
+                            maskImage: `url(${view})`,
+                            WebkitMaskImage: `url(${view})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        /> View
                       </Link>
                     </div>
                     <div className="">
@@ -403,7 +464,7 @@ function OrderList() {
                     </div>
                   </>
                 )}
-              </div>
+              </SingleView>
             )}
           </div>
         );

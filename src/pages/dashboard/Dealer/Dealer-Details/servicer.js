@@ -28,6 +28,7 @@ import { unAssignedServicerForDealer } from "../../../../services/dealerServices
 import { getResellerServicers } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 
 function ServicerList(props) {
   console.log(props);
@@ -335,9 +336,9 @@ function ServicerList(props) {
                     />
                   </div>
                   {selectedAction === row.servicerData.unique_key && (
-                    <div
+                    <SingleView
                       ref={dropdownRef}
-                      className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                      className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                     >
@@ -345,19 +346,45 @@ function ServicerList(props) {
                         onClick={() => {
                           navigate(`/servicerDetails/${row.metaId.toString()}`);
                         }}
-                        className="text-left cursor-pointer border-b  flex hover:font-semibold py-1 px-2"
+                        className="text-left cursor-pointer border-b  flex py-1 px-2"
                       >
-                        <img src={view} className="w-4 h-4 mr-2" />{" "}
+                        <div
+                          style={{
+                            maskImage: `url(${view})`,
+                            WebkitMaskImage: `url(${view})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
+                        {/* <img src={view} className="w-4 h-4 mr-2" />{" "} */}
                         <span className="self-center"> View </span>
                       </div>
                       <div
                         onClick={() => openModal(row)}
-                        className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                        className="text-left cursor-pointer flex py-1 px-2"
                       >
-                        <img src={paper} className="w-4 h-4 mr-2" />{" "}
+                        <div
+                          style={{
+                            maskImage: `url(${paper})`,
+                            WebkitMaskImage: `url(${paper})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
+                        {/* <img src={paper} className="w-4 h-4 mr-2" />{" "} */}
                         <span className="self-center">Unassigned </span>
                       </div>
-                    </div>
+                    </SingleView>
                   )}
                 </div>
               );

@@ -18,6 +18,7 @@ import { RotateLoader } from "react-spinners";
 import { getCustomerByDealerId } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 function CustomerList(props) {
   console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
@@ -105,9 +106,9 @@ function CustomerList(props) {
               />
             </div>
             {selectedAction === row.customerData.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
@@ -117,12 +118,26 @@ function CustomerList(props) {
                   }}
                   className="text-center py-1 cursor-pointer"
                 >
-                  <Link to={`/dealer/customerDetails/${row.customerData._id}`} className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start self-center"
+                  <Link to={`/dealer/customerDetails/${row.customerData._id}`} className="text-left py-1 px-2 cursor-pointer w-full flex justify-start self-center"
                   >
-                    <img src={view} className="w-4 h-4 mr-2" /> <span className="self-center"> View </span>
+                    <div
+                      style={{
+                        maskImage: `url(${view})`,
+                        WebkitMaskImage: `url(${view})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={view} className="w-4 h-4 mr-2" />  */}
+                    <span className="self-center"> View </span>
                   </Link>
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

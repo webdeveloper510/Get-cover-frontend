@@ -34,7 +34,7 @@ const SingleView = ({ children, className }) => {
 
 
     return (
-        <div className={`${className}`} style={parentStyle}>
+        <div className={`${className} newImagecolor`} style={parentStyle}>
             {children}
         </div>
     );

@@ -23,6 +23,7 @@ import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import InActiveButton from "../../../common/inActiveButton";
+import SingleView from "../../../common/singleView";
 
 function CustomerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -180,9 +181,9 @@ function CustomerOrderList() {
             </div>}
 
             {selectedAction === row.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 bg-white border rounded-lg shadow-md bottom-1`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 border rounded-lg shadow-md bottom-1`}
                 onClick={() => localStorage.removeItem("orderMenu")}
               >
 
@@ -191,10 +192,24 @@ function CustomerOrderList() {
                     to={`/customer/orderDetails/${row._id}`}
                     className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
                   >
-                    <img src={view} className="w-4 h-4 mr-2" /> View
+                    <div
+                      style={{
+                        maskImage: `url(${view})`,
+                        WebkitMaskImage: `url(${view})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                    View
                   </Link>
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

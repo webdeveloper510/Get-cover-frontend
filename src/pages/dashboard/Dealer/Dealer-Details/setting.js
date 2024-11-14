@@ -206,6 +206,7 @@ function Setting(props) {
         isAccountCreate: dealer.isAccountCreate,
       }));
     }
+    fetchColorDetails12();
     setLoading1(false);
   }, [props]);
 
@@ -405,7 +406,7 @@ function Setting(props) {
 
   useEffect(() => {
     getCovrageListData();
-    fetchColorDetails12();
+
   }, []);
 
   const siteChange = useFormik({
@@ -481,8 +482,7 @@ function Setting(props) {
   const fetchColorDetails12 = async () => {
     console.log('Fetching color details', props?.dealerDetails._id);
     try {
-      let id = props.dealerDetails._id
-      const userDetails = await dealerGetSetting(id);
+      const userDetails = await dealerGetSetting(props.dealerDetails._id);
       console.log(userDetails);
 
       if (userDetails.result && userDetails.result[0].colorScheme) {

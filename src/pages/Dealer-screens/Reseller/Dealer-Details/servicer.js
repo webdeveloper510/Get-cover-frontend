@@ -11,6 +11,8 @@ import Search from "../../../../assets/images/icons/SearchIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from "../../../../common/headBar";
 import shorting from "../../../../assets/images/icons/shorting.svg";
+import view from "../../../../assets/images/eye.png";
+import paper from "../../../../assets/images/paper.png";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
 import DataTable from "react-data-table-component";
@@ -26,6 +28,7 @@ import { unAssignedServicerForDealer } from "../../../../services/dealerServices
 import { getResellerServicers } from "../../../../services/reSellerServices";
 import Card from "../../../../common/card";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 
 function ServicerList(props) {
   console.log(props);
@@ -314,9 +317,9 @@ function ServicerList(props) {
                     />
                   </div>
                   {selectedAction === row.servicerData.unique_key && (
-                    <div
+                    <SingleView
                       ref={dropdownRef}
-                      className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                      className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                         index
                       )}`}
                     >
@@ -326,15 +329,41 @@ function ServicerList(props) {
                           navigate(`/servicerDetails/${row.metaId.toString()}`);
                         }}
                       >
+                        <div
+                          style={{
+                            maskImage: `url(${view})`,
+                            WebkitMaskImage: `url(${view})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
                         View
                       </div>
                       <div
                         className="text-center py-1 px-2 cursor-pointer"
                         onClick={() => openModal(row)}
                       >
+                        <div
+                          style={{
+                            maskImage: `url(${paper})`,
+                            WebkitMaskImage: `url(${paper})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
                         Unassigned
                       </div>
-                    </div>
+                    </SingleView>
                   )}
                 </div>
               );

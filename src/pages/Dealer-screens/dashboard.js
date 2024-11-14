@@ -16,6 +16,7 @@ import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import { getDashboardDetailsforDealerPortal } from "../../services/dealerServices/dashboardServices";
 import Card from "../../common/card";
 import MultiColorView from "../../common/multiColorView";
+import SingleView from "../../common/singleView";
 
 function DealerDashboard() {
   const [loading, setLoading] = useState(false);
@@ -152,10 +153,10 @@ function DealerDashboard() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl text-light-black -right-3 mt-2 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
 
@@ -163,18 +164,31 @@ function DealerDashboard() {
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/orderDetails/${row._id}`}
-                      className="text-left py-2 px-2 cursor-pointer text-light-black hover:font-semibold w-full flex justify-start"
+                      className="text-left py-2 px-2 cursor-pointer w-full flex justify-start"
                     >
-                      <img
+                      <div
+                        style={{
+                          maskImage: `url(${view})`,
+                          WebkitMaskImage: `url(${view})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img
                         src={view}
                         className="w-4 h-4 mr-2"
                         alt="eye Image"
-                      />{" "}
+                      />{" "} */}
                       View
                     </Link>
                   </div>
                 </>
-              </div>
+              </SingleView>
             )}
           </div>
         );
@@ -223,27 +237,40 @@ function DealerDashboard() {
               />
             </div>
             {selectedAction === row.unique_key && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
               >
                 <>
                   <div onClick={() => localStorage.removeItem("orderMenu")}>
                     <Link
                       to={`/dealer/claimList/${row.unique_key}`}
-                      className="text-left py-1 px-2 cursor-pointer text-light-black hover:font-semibold w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer w-full flex justify-start"
                     >
-                      <img
+                      <div
+                        style={{
+                          maskImage: `url(${view})`,
+                          WebkitMaskImage: `url(${view})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img
                         src={view}
                         className="w-4 h-4 mr-2"
                         alt="eye Image"
-                      />{" "}
+                      />{" "} */}
                       View
                     </Link>
                   </div>
                 </>
-              </div>
+              </SingleView>
             )}
           </div>
         );
