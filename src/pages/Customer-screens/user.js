@@ -28,6 +28,8 @@ import {
 } from "../../services/userServices";
 import Select from "../../common/select";
 import {
+  deleteCustomerAddress,
+  editCustomerAddressById,
   getCustomerDetailsByIdCustomerPortal,
   getCustomerUsersByIdCustomerPortal,
 } from "../../services/customerServices";
@@ -47,11 +49,16 @@ import {
   changePasswordbyToken,
 } from "../../services/extraServices";
 import SingleView from "../../common/singleView";
+import InActiveButton from "../../common/inActiveButton";
+import Card from "../../common/card";
+import textFile from "../../common/textFile";
+import { cityData } from "../../stateCityJson";
 function CustomerUser() {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -61,6 +68,8 @@ function CustomerUser() {
   const [details, setDetails] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [firstMessage, setFirstMessage] = useState("");
+  const [addressData, setAddressData] = useState([]);
+  const [customerId, setCustomerId] = useState([]);
   const [secondMessage, setSecondMessage] = useState("");
   const [deleteId, setDeleteId] = useState("");
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
@@ -70,8 +79,9 @@ function CustomerUser() {
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
+  const state = cityData;
   const [loading1, setLoading1] = useState(false);
-
+  const [activeButton, setActiveButton] = useState("myAccount");
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
@@ -80,6 +90,13 @@ function CustomerUser() {
     position: "",
     status: createAccountOption == "yes" ? true : false,
     id: "",
+  });
+  const [initialFormValues1, setInitialFormValues1] = useState({
+    address: "",
+    addressId: "",
+    city: "",
+    state: "",
+    zip: "",
   });
   const closeUserModal = () => {
     setIsUserModalOpen(false);
@@ -91,6 +108,20 @@ function CustomerUser() {
       status: createAccountOption == "yes" ? true : false,
       id: "",
     });
+  };
+  const openAddressModal = (data) => {
+    console.log(data);
+    setInitialFormValues1({
+      addressId: data._id,
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      zip: data.zip,
+    })
+    setIsAddressModalOpen(true);
+  };
+  const closeAddressModal = () => {
+    setIsAddressModalOpen(false);
   };
   console.log("toggleFlag", createAccountOption);
   const [loading, setLoading] = useState(false);
@@ -114,7 +145,9 @@ function CustomerUser() {
       result.result.dealer.userAccount == true ? "yes" : "no"
     );
     setDetails(result.result);
+    setCustomerId(result.loginMember._id)
     SetIsprimary(result.loginMember.isPrimary);
+    setAddressData(result.result.addresses)
     setServiceStatus(result.loginMember.status);
     setLoading1(false);
   };
@@ -179,6 +212,10 @@ function CustomerUser() {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const handleSelectChange = async (name, value) => {
     formik1.setFieldValue(name, value);
+  };
+
+  const handleSelectChange12 = async (name, value) => {
+    address.setFieldValue(name, value);
   };
   const closeModal1 = () => {
     setIsModalOpen1(false);
@@ -513,7 +550,7 @@ function CustomerUser() {
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                    className="text-left cursor-pointer flex py-1 px-2 border-b"
                     onClick={() => makeUserPrimary(row)}
                   ><div
                       style={{
@@ -534,7 +571,7 @@ function CustomerUser() {
                 )}
 
                 <div
-                  className="text-left cursor-pointer flex hover:font-semibold py-1 px-2 border-b"
+                  className="text-left cursor-pointer flex py-1 px-2 border-b"
                   onClick={() => editUser(row._id)}
                 >
                   <div
@@ -555,7 +592,7 @@ function CustomerUser() {
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    className="text-left cursor-pointer flex py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
                     <div
@@ -744,6 +781,176 @@ function CustomerUser() {
     },
   });
 
+  const handleButtonClick = (button) => {
+    setActiveButton(button);
+  };
+
+  const Address = [
+    {
+      name: "S.#",
+      selector: (row, index) => index + 1,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Street Address",
+      selector: (row) => row.address,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "City",
+      selector: (row) => row.city,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "State",
+      selector: (row) => row?.state,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Zip",
+      selector: (row) => row?.zip,
+      sortable: true,
+      style: { whiteSpace: "pre-wrap" },
+    },
+    {
+      name: "Action",
+      minWidth: "auto",
+      maxWidth: "80px",
+      cell: (row, index) => {
+        // console.log(index, index % 10 == 9)
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === index ? null : index
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
+            {selectedAction === index && (
+              <div
+                ref={dropdownRef}
+                onClick={() => setSelectedAction(null)}
+                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+              >
+                <>
+                  <div>
+                    <div
+                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      onClick={() => openAddressModal(row)}
+                    >
+                      <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                      <span className="self-center">Edit </span>
+                    </div>
+                    <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, customerId)}
+                    >
+                      <img src={delete1} className="w-4 h-4 mr-2" />
+                      <span className="self-center">Delete</span>
+                    </div>
+
+                  </div>
+                </>
+              </div>
+            )
+            }
+          </div >
+        );
+      },
+    },
+  ];
+  const deleteAddress = async (id, customerId) => {
+    setLoading(true);
+    // localStorage.setItem("customer", "Settings");
+    const result = await deleteCustomerAddress(id, customerId)
+    if (result.code === 200) {
+      SetPrimaryText("address Deleted Successfully");
+      SetSecondaryText("Address Deleted successfully");
+      SetIsModalOpen(true);
+      setTimer(3);
+      // localStorage.setItem("customer", "Settings");
+
+    } else {
+      console.error("Error deleting Customer address:", result.message);
+      SetPrimaryText("Error deleting Customer address");
+      SetSecondaryText(
+        "There was an error deleting the Customer address. Please try again."
+      );
+      SetIsModalOpen(true);
+    }
+    setLoading(false);
+  }
+  const handleDownload = () => {
+    console.log("Download");
+    textFile(addressData);
+  };
+
+  const address = useFormik({
+    initialValues: initialFormValues1,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      address: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      localStorage.setItem("customer", "Settings");
+      console.log(values)
+      const data = {
+        customerId: customerId,
+        addressId: values.addressId,
+        city: values.city,
+        street: values.address,
+        state: values.state,
+        zip: values.zip
+      };
+      try {
+        const result = await editCustomerAddressById(
+          data);
+        console.log(result);
+        SetPrimaryText("address Updated Successfully");
+        SetSecondaryText("Address updated successfully");
+        SetIsModalOpen(true);
+        setIsAddressModalOpen(false);
+        getCustomerDetails();
+        formik.resetForm();
+        // customerDetails(props.id)
+        localStorage.setItem("customer", "Settings");
+        setTimer(3);
+      } catch (error) {
+        console.error("Error updating Customer address:", error);
+        SetPrimaryText("Error Updating Customer address");
+        SetSecondaryText(
+          "There was an error updating the Customer address. Please try again."
+        );
+        SetIsModalOpen(true);
+      } finally {
+        setLoading(false);
+      }
+    },
+  });
+
+
   return (
     <>
       {loading1 ? (
@@ -770,64 +977,36 @@ function CustomerUser() {
           </div>
 
           <div className="px-4 relative">
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
-              <Grid>
-                <div className="col-span-2 text-left">
-                  <p className="text-base font-semibold my-3">
-                    {" "}
-                    Dealer Details
-                  </p>
-                </div>
-                <div className="col-span-10 self-center">
-                  <hr />
-                </div>
-              </Grid>
-              <Grid className="mx-auto ">
-                <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-                <div className="col-span-3 border-r border-[#4e4e4e]">
-                  <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                      <img src={dealer} alt="dealer" />
-                    </div>
-                    <div className="self-center w-[80%]">
-                      <p className="text-base font-medium leading-5	">
-                        Account Name
-                      </p>
-                      <p className="opacity-50 text-sm	font-medium">
-                        {details?.dealerName}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-5">
-                  <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                      <img src={terms} className="" alt="terms" />
-                    </div>
-                    <div className="self-center ">
-                      <p className="text-base font-medium leading-5">
-                        Address
-                      </p>
-                      <p className="opacity-50	text-sm font-medium">
-                        {details?.dealer?.street} {", "}
-                        {details?.dealer?.city}
-                        {", "}
-                        {details?.dealer?.state} {details?.dealer?.zip}
-                        {", "}
-                        {details?.dealer?.country}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-2"></div>
-              </Grid>
-              {details?.resellerId1 !== null && (
-                <>
+
+            <div
+              className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey w-1/2 flex`}>
+              {activeButton != "myAccount" ? <InActiveButton
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</InActiveButton> : <Button
+                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                onClick={() => handleButtonClick("myAccount")}
+              >   My Account</Button>
+              }
+              {activeButton != "Address" ?
+                <InActiveButton
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("Address")}
+                >   Address</InActiveButton> :
+                <Button
+                  className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                  onClick={() => handleButtonClick("Address")}
+                >   Address</Button>
+              }
+            </div>
+            {activeButton === "myAccount" ? (
+              <>
+                <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
                   <Grid>
                     <div className="col-span-2 text-left">
                       <p className="text-base font-semibold my-3">
                         {" "}
-                        Reseller Details
+                        Dealer Details
                       </p>
                     </div>
                     <div className="col-span-10 self-center">
@@ -846,7 +1025,7 @@ function CustomerUser() {
                             Account Name
                           </p>
                           <p className="opacity-50 text-sm	font-medium">
-                            {details?.reseller?.name}
+                            {details?.dealerName}
                           </p>
                         </div>
                       </div>
@@ -861,156 +1040,208 @@ function CustomerUser() {
                             Address
                           </p>
                           <p className="opacity-50	text-sm font-medium">
-                            {details?.reseller?.street} {", "}
-                            {details?.reseller?.city}
+                            {details?.dealer?.street} {", "}
+                            {details?.dealer?.city}
                             {", "}
-                            {details?.reseller?.state} {details?.reseller?.zip}
+                            {details?.dealer?.state} {details?.dealer?.zip}
                             {", "}
-                            {details?.reseller?.country}
+                            {details?.dealer?.country}
                           </p>
                         </div>
                       </div>
                     </div>
                     <div className="col-span-2"></div>
                   </Grid>
-                </>
-              )}
-
-              <Grid className="mt-5">
-                <div className="col-span-2 text-left">
-                  <p className="text-base font-semibold">
-                    {" "}
-                    My Details
-                  </p>
-                </div>
-                <div className="col-span-10 self-center">
-                  <hr />
-                </div>
-              </Grid>
-              <Grid className="mx-auto mt-4">
-                <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
-                <div className="col-span-3 border-r border-[#4e4e4e]">
-                  <div className="flex">
-                    <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
-                      <img src={dealer} alt="dealer" />
-                    </div>
-                    <div className="self-center w-[80%]">
-                      <p className="text-base font-medium leading-5	">
-                        Account Name
-                      </p>
-                      <p className="opacity-50 text-sm	font-medium">
-                        {details?.username}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-5">
-                  <div className="flex justify-center">
-                    <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
-                      <img src={terms} className="" alt="terms" />
-                    </div>
-                    <div className="self-center">
-                      <p className="text-base font-medium leading-5">
-                        Address
-                      </p>
-                      <p className="opacity-50	text-sm font-medium">
-                        {details?.street} {", "}
-                        {details?.city}
-                        {", "}
-                        {details?.state} {details?.zip}
-                        {", "}
-                        {details?.country}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-span-2"></div>
-              </Grid>
-            </SingleView>
-            <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-              <p className="text-xl font-semibold mb-5">Change Password</p>
-              <form onSubmit={passwordChnageForm.handleSubmit}>
-                <Grid>
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="oldPassword"
-                      label="Old Password"
-                      value={passwordChnageForm.values.oldPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                      isPassword
-                      className="!bg-white"
-                    />
-                    {passwordChnageForm.touched.oldPassword &&
-                      passwordChnageForm.errors.oldPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.oldPassword}
+                  {details?.resellerId1 !== null && (
+                    <>
+                      <Grid>
+                        <div className="col-span-2 text-left">
+                          <p className="text-base font-semibold my-3">
+                            {" "}
+                            Reseller Details
+                          </p>
                         </div>
-                      )}
-                  </div>
-
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="newPassword"
-                      label="New Password"
-                      isPassword
-                      className="!bg-white"
-                      value={passwordChnageForm.values.newPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                    />
-                    {passwordChnageForm.touched.newPassword &&
-                      passwordChnageForm.errors.newPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.newPassword}
+                        <div className="col-span-10 self-center">
+                          <hr />
                         </div>
-                      )}
-                  </div>
-                  <div className="col-span-4">
-                    <PasswordInput
-                      type="password"
-                      name="confirmPassword"
-                      label="Confirm Password"
-                      isPassword
-                      className="!bg-white"
-                      value={passwordChnageForm.values.confirmPassword}
-                      onChange={passwordChnageForm.handleChange}
-                      onBlur={passwordChnageForm.handleBlur}
-                    />
-                    {passwordChnageForm.touched.confirmPassword &&
-                      passwordChnageForm.errors.confirmPassword && (
-                        <div className="text-red-500">
-                          {passwordChnageForm.errors.confirmPassword}
+                      </Grid>
+                      <Grid className="mx-auto ">
+                        <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                        <div className="col-span-3 border-r border-[#4e4e4e]">
+                          <div className="flex">
+                            <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                              <img src={dealer} alt="dealer" />
+                            </div>
+                            <div className="self-center w-[80%]">
+                              <p className="text-base font-medium leading-5	">
+                                Account Name
+                              </p>
+                              <p className="opacity-50 text-sm	font-medium">
+                                {details?.reseller?.name}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      )}
-                  </div>
-                </Grid>
-                <div className="mt-4 text-right">
-                  <Button type="submit">Change Password</Button>
-                </div>
-              </form>
-            </div>
+                        <div className="col-span-5">
+                          <div className="flex justify-center">
+                            <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                              <img src={terms} className="" alt="terms" />
+                            </div>
+                            <div className="self-center ">
+                              <p className="text-base font-medium leading-5">
+                                Address
+                              </p>
+                              <p className="opacity-50	text-sm font-medium">
+                                {details?.reseller?.street} {", "}
+                                {details?.reseller?.city}
+                                {", "}
+                                {details?.reseller?.state} {details?.reseller?.zip}
+                                {", "}
+                                {details?.reseller?.country}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-span-2"></div>
+                      </Grid>
+                    </>
+                  )}
 
-            {loading ? (
-              <div className=" h-[400px] w-full flex py-5 ">
-                <div className="self-center mx-auto">
-                  <RotateLoader color="#333" />
+                  <Grid className="mt-5">
+                    <div className="col-span-2 text-left">
+                      <p className="text-base font-semibold">
+                        {" "}
+                        My Details
+                      </p>
+                    </div>
+                    <div className="col-span-10 self-center">
+                      <hr />
+                    </div>
+                  </Grid>
+                  <Grid className="mx-auto mt-4">
+                    <div className="col-span-2 self-center border-r border-[#4e4e4e]"></div>
+                    <div className="col-span-3 border-r border-[#4e4e4e]">
+                      <div className="flex">
+                        <div className="self-center bg-[#FFFFFF08] backdrop-blur rounded-xl mr-4">
+                          <img src={dealer} alt="dealer" />
+                        </div>
+                        <div className="self-center w-[80%]">
+                          <p className="text-base font-medium leading-5	">
+                            Account Name
+                          </p>
+                          <p className="opacity-50 text-sm	font-medium">
+                            {details?.username}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-5">
+                      <div className="flex justify-center">
+                        <div className="self-center bg-[#FFFFFF08] rounded-xl mr-4">
+                          <img src={terms} className="" alt="terms" />
+                        </div>
+                        <div className="self-center">
+                          <p className="text-base font-medium leading-5">
+                            Address
+                          </p>
+                          <p className="opacity-50	text-sm font-medium">
+                            {details?.street} {", "}
+                            {details?.city}
+                            {", "}
+                            {details?.state} {details?.zip}
+                            {", "}
+                            {details?.country}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-2"></div>
+                  </Grid>
+                </SingleView>
+                <div className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+                  <p className="text-xl font-semibold mb-5">Change Password</p>
+                  <form onSubmit={passwordChnageForm.handleSubmit}>
+                    <Grid>
+                      <div className="col-span-4">
+                        <PasswordInput
+                          type="password"
+                          name="oldPassword"
+                          label="Old Password"
+                          value={passwordChnageForm.values.oldPassword}
+                          onChange={passwordChnageForm.handleChange}
+                          onBlur={passwordChnageForm.handleBlur}
+                          isPassword
+                          className="!bg-white"
+                        />
+                        {passwordChnageForm.touched.oldPassword &&
+                          passwordChnageForm.errors.oldPassword && (
+                            <div className="text-red-500">
+                              {passwordChnageForm.errors.oldPassword}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="col-span-4">
+                        <PasswordInput
+                          type="password"
+                          name="newPassword"
+                          label="New Password"
+                          isPassword
+                          className="!bg-white"
+                          value={passwordChnageForm.values.newPassword}
+                          onChange={passwordChnageForm.handleChange}
+                          onBlur={passwordChnageForm.handleBlur}
+                        />
+                        {passwordChnageForm.touched.newPassword &&
+                          passwordChnageForm.errors.newPassword && (
+                            <div className="text-red-500">
+                              {passwordChnageForm.errors.newPassword}
+                            </div>
+                          )}
+                      </div>
+                      <div className="col-span-4">
+                        <PasswordInput
+                          type="password"
+                          name="confirmPassword"
+                          label="Confirm Password"
+                          isPassword
+                          className="!bg-white"
+                          value={passwordChnageForm.values.confirmPassword}
+                          onChange={passwordChnageForm.handleChange}
+                          onBlur={passwordChnageForm.handleBlur}
+                        />
+                        {passwordChnageForm.touched.confirmPassword &&
+                          passwordChnageForm.errors.confirmPassword && (
+                            <div className="text-red-500">
+                              {passwordChnageForm.errors.confirmPassword}
+                            </div>
+                          )}
+                      </div>
+                    </Grid>
+                    <div className="mt-4 text-right">
+                      <Button type="submit">Change Password</Button>
+                    </div>
+                  </form>
                 </div>
-              </div>
-            ) : (
-              <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
-                {isprimary && (
-                  <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
-                    <Button onClick={() => openUserModal()}>
-                      {" "}
-                      + Add Member
-                    </Button>
+
+                {loading ? (
+                  <div className=" h-[400px] w-full flex py-5 ">
+                    <div className="self-center mx-auto">
+                      <RotateLoader color="#333" />
+                    </div>
                   </div>
-                )}
-                <p className="text-xl font-semibold mb-3">Users List</p>
-                {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
+                ) : (
+                  <div className="px-8 pb-8 pt-4 mt-8 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl relative">
+                    {isprimary && (
+                      <div className="bg-gradient-to-r from-[#dfdfdf] to-[#e9e9e9] rounded-[20px] absolute top-[-17px] right-[-12px] p-3">
+                        <Button onClick={() => openUserModal()}>
+                          {" "}
+                          + Add Member
+                        </Button>
+                      </div>
+                    )}
+                    <p className="text-xl font-semibold mb-3">Users List</p>
+                    {/* <Grid className="!p-[2px] !pt-[14px] !pb-0">
                     <div className="col-span-5 self-center"></div>
                     <div className="col-span-7">
                       <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
@@ -1094,32 +1325,78 @@ function CustomerUser() {
                       </div>
                     </div>
                   </Grid> */}
-                <DataTable
-                  columns={isprimary ? columns : columns12}
-                  data={userList}
-                  highlightOnHover
-                  sortIcon={
-                    <>
-                      {" "}
-                      <div
-                        style={{
-                          maskImage: `url(${shorting})`,
-                          WebkitMaskImage: `url(${shorting})`,
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                        }}
-                        className="ml-2 tabless"
-                      />
-                    </>
-                  }
-                  noDataComponent={<CustomNoDataComponent />}
-                />
-              </div>
-            )}
+                    <DataTable
+                      columns={isprimary ? columns : columns12}
+                      data={userList}
+                      highlightOnHover
+                      sortIcon={
+                        <>
+                          {" "}
+                          <div
+                            style={{
+                              maskImage: `url(${shorting})`,
+                              WebkitMaskImage: `url(${shorting})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="ml-2 tabless"
+                          />
+                        </>
+                      }
+                      noDataComponent={<CustomNoDataComponent />}
+                    />
+                  </div>
+                )}
+              </>
+            ) :
+              <>
+                <Card className="bg-white mt-4 border-[1px] border-Light-Grey rounded-xl p-5 ">
+                  <div className="users">
+                    <Grid>
+                      <div className="col-span-7 self-center">
+                        <p className="text-lg font-semibold">Customer Address Details </p>
+                      </div>
+                      {addressData.length > 0 && <div className="col-span-5 self-center text-end">
+                        <Button onClick={() => handleDownload()}>Export Addresses</Button>
+                      </div>}
+
+                    </Grid>
+                    <DataTable
+                      columns={Address}
+                      data={addressData}
+                      sortIcon={
+                        <>
+                          {" "}
+                          <div
+                            style={{
+                              maskImage: `url(${shorting})`,
+                              WebkitMaskImage: `url(${shorting})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="ml-2 tabless"
+                          />
+                        </>
+                      }
+                      highlightOnHover
+                      draggableColumns={false}
+                      pagination
+                      paginationPerPage={10}
+                      paginationComponentOptions={paginationOptions}
+                      paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                      noDataComponent={<CustomNoDataComponent />}
+                    />
+                  </div>
+                </Card>
+              </>}
           </div>
         </div>
       )}
@@ -1538,6 +1815,110 @@ function CustomerUser() {
           <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isAddressModalOpen} onClose={closeAddressModal}>
+        <div className=" py-3">
+          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            Edit Address
+          </p>
+          <form onSubmit={address.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-12">
+                <Input
+                  type="text"
+                  name="address"
+                  label="Street Address"
+                  className="!bg-white"
+                  value={address.values.address}
+                  onChange={address.handleChange}
+                  onBlur={address.handleBlur}
+                  disabled={loading}
+                />
+                {address.touched.address &&
+                  address.errors.address && (
+                    <p className="text-red-500 text-xs pl-2">
+                      {address.errors.address}
+                    </p>
+                  )}
+              </div>
+              <div className="col-span-4">
+                <Input
+                  type="text"
+                  name="city"
+                  label="City"
+                  className="!bg-white"
+                  placeholder=" "
+                  maxLength={"20"}
+                  value={address.values.city}
+                  onChange={address.handleChange}
+                  onBlur={address.handleBlur}
+                  error={address.touched.city && address.errors.city}
+                />
+                {address.touched.city && address.errors.city && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {address.errors.city}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-4">
+                <Select
+                  label="State"
+                  name="state"
+                  placeholder=""
+                  className="!bg-white"
+                  onChange={handleSelectChange12}
+                  options={state}
+                  value={address.values.state}
+                  onBlur={address.handleBlur}
+                  error={address.touched.state && address.errors.state}
+                />
+                {address.touched.state && address.errors.state && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {address.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-4">
+                <Input
+                  type="number"
+                  name="zip"
+                  label="Zipcode"
+                  className="!bg-white"
+                  placeholder=""
+                  zipcode={true}
+                  value={address.values.zip}
+                  onChange={address.handleChange}
+                  onBlur={address.handleBlur}
+                  minLength={"5"}
+                  maxLength={"6"}
+                  error={address.touched.zip && address.errors.zip}
+                />
+                {address.touched.zip && address.errors.zip && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {address.errors.zip}
+                  </div>
+                )}
+              </div>
+            </Grid>
+            <Grid className="drop-shadow-5xl px-8 mt-8">
+              <div className="col-span-4">
+                <Button
+                  type="button"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={closeAddressModal}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-span-8">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
         </div>
       </Modal>
     </>
