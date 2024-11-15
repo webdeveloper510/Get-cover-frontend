@@ -47,6 +47,18 @@ function Login() {
         setError("");
         setUserDetails(result.result);
         localStorage.setItem("userDetails", JSON.stringify(result.result));
+        const fetchData = () => {
+          const data = localStorage.getItem("siteSettings");
+          const parsedData = JSON.parse(data);
+
+          if (parsedData !== null) {
+            setSiteDetails(parsedData);
+            console.log(parsedData);
+            // clearInterval(intervalId);
+          } else {
+            console.log('Data is null, will check again...');
+          }
+        }
         navigateToRole(result.result.role);
       }
     },

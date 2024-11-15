@@ -594,7 +594,7 @@ function Setting(props) {
               index={'1'}
               title={
                 <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Dealer Setting</p>
+                  <p className="text-lg font-bold">General Setting</p>
                 </SingleView>
               }
             >
@@ -1199,7 +1199,7 @@ function Setting(props) {
               index={2}
               title={
                 <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">  Logo Setting</p>
+                  <p className="text-lg font-bold">  White Label Setting</p>
                 </SingleView>
 
               }
