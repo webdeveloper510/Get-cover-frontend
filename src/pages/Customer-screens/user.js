@@ -131,6 +131,7 @@ function CustomerUser() {
   };
   const closeAddressModal = () => {
     setIsAddressModalOpen(false);
+
   };
 
   const openAddAddressModal = () => {
@@ -145,6 +146,14 @@ function CustomerUser() {
   };
   const closeAddAddress = () => {
     setAddAddressModalOpen(false);
+    setInitialFormValues1({
+      addressId: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+    })
+
   };
   console.log("toggleFlag", createAccountOption);
   const [loading, setLoading] = useState(false);
@@ -983,7 +992,7 @@ function CustomerUser() {
         const result = await editCustomerAddressById(
           data);
         console.log(result);
-        SetPrimaryText("address Updated Successfully");
+        SetPrimaryText("Address Updated Successfully");
         SetSecondaryText("Address updated successfully");
         SetIsModalOpen(true);
         setIsAddressModalOpen(false);
@@ -1035,13 +1044,14 @@ function CustomerUser() {
         const result = await addCustomerAddressById(customerId, address);
         console.log(result);
         if (result.code == 200) {
-          getCustomerDetails();
           SetIsModalOpen(true);
-          setFirstMessage(" New Address Added Successfully");
-          setSecondMessage("New Address Added Successfully");
+          SetPrimaryText(" New Address Added Successfully");
+          SetSecondaryText("New Address Added Successfully");
           // setMessage("Address Added Successfully");
           setLoading(false);
-          closeAddressModal();
+          closeAddAddress();
+          getCustomerDetails();
+
           // setActiveTab("Settings");
         } else {
           setLoading(false);
