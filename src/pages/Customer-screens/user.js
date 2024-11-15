@@ -28,6 +28,7 @@ import {
 } from "../../services/userServices";
 import Select from "../../common/select";
 import {
+  addCustomerAddressById,
   deleteCustomerAddress,
   editCustomerAddressById,
   getCustomerDetailsByIdCustomerPortal,
@@ -59,6 +60,7 @@ function CustomerUser() {
   const [userList, setUserList] = useState([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [addAddressModalOpen, setAddAddressModalOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
   const [isprimary, SetIsprimary] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -98,6 +100,13 @@ function CustomerUser() {
     state: "",
     zip: "",
   });
+
+  const [initialFormValues2, setInitialFormValues2] = useState({
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setInitialFormValues({
@@ -122,6 +131,20 @@ function CustomerUser() {
   };
   const closeAddressModal = () => {
     setIsAddressModalOpen(false);
+  };
+
+  const openAddAddressModal = () => {
+    setInitialFormValues1({
+      addressId: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+    })
+    setAddAddressModalOpen(true);
+  };
+  const closeAddAddress = () => {
+    setAddAddressModalOpen(false);
   };
   console.log("toggleFlag", createAccountOption);
   const [loading, setLoading] = useState(false);
@@ -413,6 +436,10 @@ function CustomerUser() {
       filterUserDetails(values);
     },
   });
+
+  const handleSelectChange1 = async (name, selectedValue) => {
+    Addaddress.setFieldValue(name, selectedValue);
+  };
 
   const formik1 = useFormik({
     initialValues: initialFormValues,
@@ -838,29 +865,55 @@ function CustomerUser() {
               />
             </div>
             {selectedAction === index && (
-              <div
+              <SingleView
                 ref={dropdownRef}
                 onClick={() => setSelectedAction(null)}
-                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
               >
                 <>
                   <div>
                     <div
-                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      className="text-left cursor-pointer flex border-b py-1 px-2"
                       onClick={() => openAddressModal(row)}
                     >
-                      <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                      <div
+                        style={{
+                          maskImage: `url(${edit})`,
+                          WebkitMaskImage: `url(${edit})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                       <span className="self-center">Edit </span>
                     </div>
-                    <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, customerId)}
+                    <div className="text-left cursor-pointer flex py-1 px-2" onClick={() => deleteAddress(row._id, customerId)}
                     >
-                      <img src={delete1} className="w-4 h-4 mr-2" />
+                      <div
+                        style={{
+                          maskImage: `url(${delete1})`,
+                          WebkitMaskImage: `url(${delete1})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={delete1} className="w-4 h-4 mr-2" /> */}
                       <span className="self-center">Delete</span>
                     </div>
 
                   </div>
                 </>
-              </div>
+              </SingleView>
             )
             }
           </div >
@@ -868,6 +921,7 @@ function CustomerUser() {
       },
     },
   ];
+
   const deleteAddress = async (id, customerId) => {
     setLoading(true);
     // localStorage.setItem("customer", "Settings");
@@ -889,6 +943,7 @@ function CustomerUser() {
     }
     setLoading(false);
   }
+
   const handleDownload = () => {
     console.log("Download");
     textFile(addressData);
@@ -950,6 +1005,57 @@ function CustomerUser() {
     },
   });
 
+  const Addaddress = useFormik({
+    initialValues: initialFormValues1,
+    enableReinitialize: true,
+    validationSchema: Yup.object({
+      address: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required")
+        .max(500, "Must be exactly 500 characters"),
+      state: Yup.string()
+        .required("Required"),
+      city: Yup.string()
+        .transform((originalValue) => originalValue.trim())
+        .required("Required"),
+      zip: Yup.string()
+        .required("Required")
+        .min(5, "Must be at least 5 characters")
+        .max(6, "Must be exactly 6 characters"),
+    }),
+
+    onSubmit: async (values) => {
+      localStorage.setItem("customer", "Settings");
+
+      setLoading(true);
+      try {
+        const address = {
+          address: values,
+        }
+        const result = await addCustomerAddressById(customerId, address);
+        console.log(result);
+        if (result.code == 200) {
+          getCustomerDetails();
+          SetIsModalOpen(true);
+          setFirstMessage(" New Address Added Successfully");
+          setSecondMessage("New Address Added Successfully");
+          // setMessage("Address Added Successfully");
+          setLoading(false);
+          closeAddressModal();
+          // setActiveTab("Settings");
+        } else {
+          setLoading(false);
+          formik.setFieldError("address", "Address Already Added");
+        }
+      } catch (error) {
+        console.error("Error adding address:", error);
+      } finally {
+        localStorage.setItem("customer", "Settings");
+        setLoading(false);
+      }
+    },
+  });
+
 
   return (
     <>
@@ -977,28 +1083,55 @@ function CustomerUser() {
           </div>
 
           <div className="px-4 relative">
+            <Grid className="">
 
-            <div
-              className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey w-1/2 flex`}>
-              {activeButton != "myAccount" ? <InActiveButton
-                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
-                onClick={() => handleButtonClick("myAccount")}
-              >   My Account</InActiveButton> : <Button
-                className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
-                onClick={() => handleButtonClick("myAccount")}
-              >   My Account</Button>
-              }
-              {activeButton != "Address" ?
-                <InActiveButton
+              <div
+                className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey col-span-6 flex`}>
+                {activeButton != "myAccount" ? <InActiveButton
                   className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
-                  onClick={() => handleButtonClick("Address")}
-                >   Address</InActiveButton> :
-                <Button
+                  onClick={() => handleButtonClick("myAccount")}
+                >   My Account</InActiveButton> : <Button
                   className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
-                  onClick={() => handleButtonClick("Address")}
-                >   Address</Button>
-              }
-            </div>
+                  onClick={() => handleButtonClick("myAccount")}
+                >   My Account</Button>
+                }
+                {activeButton != "Address" ?
+                  <InActiveButton
+                    className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                    onClick={() => handleButtonClick("Address")}
+                  >   Address</InActiveButton> :
+                  <Button
+                    className={`flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey `}
+                    onClick={() => handleButtonClick("Address")}
+                  >   Address</Button>
+                }
+              </div>
+              <div className="col-span-4">
+
+              </div>
+              {activeButton == "Address" && <div className="col-span-2">
+                <InActiveButton className=" self-center mb-3 rounded-xl ml-auto flex border-[1px] border-Light-Grey" onClick={() => openAddAddressModal()}>
+
+                  <div
+                    style={{
+                      maskImage: `url(${AddItem})`,
+                      WebkitMaskImage: `url(${AddItem})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center pr-1 py-1 h-4 w-4"
+                  />
+                  {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+                  <span className=" ml-2 text-[14px] font-Regular ">
+                    Add Address
+                  </span>
+                </InActiveButton>
+              </div>}
+            </Grid>
             {activeButton === "myAccount" ? (
               <>
                 <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
@@ -1908,6 +2041,113 @@ function CustomerUser() {
                   type="button"
                   className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
                   onClick={closeAddressModal}
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="col-span-8">
+                <Button type="submit" className="w-full">
+                  Submit
+                </Button>
+              </div>
+            </Grid>
+          </form>
+        </div>
+      </Modal>
+      <Modal isOpen={addAddressModalOpen} onClose={closeAddAddress}>
+        <div className=" py-3">
+          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            Add Address
+          </p>
+          <form onSubmit={Addaddress.handleSubmit}>
+            <Grid className="px-8">
+              <div className="col-span-12">
+                <Input
+                  type="text"
+                  name="address"
+                  label="Street Address"
+                  className="!bg-white"
+                  value={Addaddress.values.address}
+                  onChange={Addaddress.handleChange}
+                  onBlur={Addaddress.handleBlur}
+                  required={true}
+                  disabled={loading}
+                />
+                {Addaddress.touched.address &&
+                  Addaddress.errors.address && (
+                    <p className="text-red-500 text-xs pl-2">
+                      {Addaddress.errors.address}
+                    </p>
+                  )}
+              </div>
+              <div className="col-span-4">
+                <Input
+                  type="text"
+                  name="city"
+                  label="City"
+                  className="!bg-white"
+                  placeholder=" "
+                  maxLength={"20"}
+                  required={true}
+                  value={Addaddress.values.city}
+                  onChange={Addaddress.handleChange}
+                  onBlur={Addaddress.handleBlur}
+                  error={Addaddress.touched.city && Addaddress.errors.city}
+                />
+                {Addaddress.touched.city && Addaddress.errors.city && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {Addaddress.errors.city}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-4">
+                <Select
+                  label="State"
+                  name="state"
+                  placeholder=""
+                  className="!bg-white"
+                  required={true}
+                  onChange={handleSelectChange1}
+                  options={state}
+                  value={Addaddress.values.state}
+                  onBlur={Addaddress.handleBlur}
+                  error={Addaddress.touched.state && Addaddress.errors.state}
+                />
+                {Addaddress.touched.state && Addaddress.errors.state && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {Addaddress.errors.state}
+                  </div>
+                )}
+              </div>
+              <div className="col-span-4">
+                <Input
+                  type="number"
+                  name="zip"
+                  label="Zipcode"
+                  className="!bg-white"
+                  placeholder=""
+                  required={true}
+                  zipcode={true}
+                  value={Addaddress.values.zip}
+                  onChange={Addaddress.handleChange}
+                  onBlur={Addaddress.handleBlur}
+                  minLength={"5"}
+                  maxLength={"6"}
+                  error={Addaddress.touched.zip && Addaddress.errors.zip}
+                />
+                {Addaddress.touched.zip && Addaddress.errors.zip && (
+                  <div className="text-red-500 text-sm pl-2 pt-2">
+                    {Addaddress.errors.zip}
+                  </div>
+                )}
+              </div>
+            </Grid>
+            <Grid className="drop-shadow-5xl px-8 mt-8">
+              <div className="col-span-4">
+                <Button
+                  type="button"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  onClick={closeAddAddress}
                 >
                   Cancel
                 </Button>
