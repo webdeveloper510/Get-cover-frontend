@@ -309,6 +309,21 @@ export const getSetting = async () => {
     throw error;
   }
 };
+export const getprelogin = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/setting/preLoginData`, {
+      headers: {
+        ...headers,
+        // Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const resetSetting = async () => {
   const headers = createHeaders();

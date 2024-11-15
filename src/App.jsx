@@ -3,7 +3,7 @@ import './App.css';
 import { useRoutes } from 'react-router-dom';
 import { MyContextProvider } from './context/context';
 import routes from './routes/routes';
-import { getSetting } from './services/extraServices';
+import { getprelogin, getSetting } from './services/extraServices';
 
 function App() {
   const [siteSettings, setSiteSettings] = useState(null);
@@ -14,8 +14,11 @@ function App() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        console.log("Fetching user details...");
-        const userDetails = await getSetting();
+        let user = localStorage.getItem('userDetails');
+        console.log("Fetching user details...", user);
+
+        const userDetails = user ? await getSetting() : await getprelogin();;
+        // co
         console.log("User details fetched:", userDetails);
 
         if (userDetails && userDetails.result && userDetails.result.length > 0) {
