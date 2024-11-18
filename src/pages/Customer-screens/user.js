@@ -65,6 +65,7 @@ function CustomerUser() {
   const [isprimary, SetIsprimary] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+  const [editAddressLoader, setEditAddressLoader] = useState(false);
   const [active, setActive] = useState(true);
   const [mainStatus, setMainStatus] = useState(true);
   const [details, setDetails] = useState(true);
@@ -936,15 +937,16 @@ function CustomerUser() {
     // localStorage.setItem("customer", "Settings");
     const result = await deleteCustomerAddress(id, customerId)
     if (result.code === 200) {
-      SetPrimaryText("address Deleted Successfully");
-      SetSecondaryText("Address Deleted successfully");
+      SetPrimaryText("Address Deleted Successfully");
+      SetSecondaryText("Address deleted successfully");
       SetIsModalOpen(true);
       setTimer(3);
+      getCustomerDetails();
       // localStorage.setItem("customer", "Settings");
 
     } else {
       console.error("Error deleting Customer address:", result.message);
-      SetPrimaryText("Error deleting Customer address");
+      SetPrimaryText("Error deleting customer address");
       SetSecondaryText(
         "There was an error deleting the Customer address. Please try again."
       );
@@ -989,6 +991,7 @@ function CustomerUser() {
         zip: values.zip
       };
       try {
+        setEditAddressLoader(true);
         const result = await editCustomerAddressById(
           data);
         console.log(result);
@@ -999,7 +1002,8 @@ function CustomerUser() {
         getCustomerDetails();
         formik.resetForm();
         // customerDetails(props.id)
-        localStorage.setItem("customer", "Settings");
+        // localStorage.setItem("customer", "Settings");
+        setEditAddressLoader(false);
         setTimer(3);
       } catch (error) {
         console.error("Error updating Customer address:", error);
@@ -1008,8 +1012,9 @@ function CustomerUser() {
           "There was an error updating the Customer address. Please try again."
         );
         SetIsModalOpen(true);
+        setEditAddressLoader(false);
       } finally {
-        setLoading(false);
+        setEditAddressLoader(false);
       }
     },
   });
@@ -1962,107 +1967,114 @@ function CustomerUser() {
       </Modal>
 
       <Modal isOpen={isAddressModalOpen} onClose={closeAddressModal}>
-        <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
-            Edit Address
-          </p>
-          <form onSubmit={address.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-12">
-                <Input
-                  type="text"
-                  name="address"
-                  label="Street Address"
-                  className="!bg-white"
-                  value={address.values.address}
-                  onChange={address.handleChange}
-                  onBlur={address.handleBlur}
-                  disabled={loading}
-                />
-                {address.touched.address &&
-                  address.errors.address && (
-                    <p className="text-red-500 text-xs pl-2">
-                      {address.errors.address}
-                    </p>
+        {editAddressLoader ?
+          <div className="h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div> :
+          <div className=" py-3">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+              Edit Address
+            </p>
+            <form onSubmit={address.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-12">
+                  <Input
+                    type="text"
+                    name="address"
+                    label="Street Address"
+                    className="!bg-white"
+                    value={address.values.address}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    disabled={loading}
+                  />
+                  {address.touched.address &&
+                    address.errors.address && (
+                      <p className="text-red-500 text-xs pl-2">
+                        {address.errors.address}
+                      </p>
+                    )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="text"
+                    name="city"
+                    label="City"
+                    className="!bg-white"
+                    placeholder=" "
+                    maxLength={"20"}
+                    value={address.values.city}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    error={address.touched.city && address.errors.city}
+                  />
+                  {address.touched.city && address.errors.city && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.city}
+                    </div>
                   )}
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="text"
-                  name="city"
-                  label="City"
-                  className="!bg-white"
-                  placeholder=" "
-                  maxLength={"20"}
-                  value={address.values.city}
-                  onChange={address.handleChange}
-                  onBlur={address.handleBlur}
-                  error={address.touched.city && address.errors.city}
-                />
-                {address.touched.city && address.errors.city && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {address.errors.city}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-4">
-                <Select
-                  label="State"
-                  name="state"
-                  placeholder=""
-                  className="!bg-white"
-                  onChange={handleSelectChange12}
-                  options={state}
-                  value={address.values.state}
-                  onBlur={address.handleBlur}
-                  error={address.touched.state && address.errors.state}
-                />
-                {address.touched.state && address.errors.state && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {address.errors.state}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-4">
-                <Input
-                  type="number"
-                  name="zip"
-                  label="Zipcode"
-                  className="!bg-white"
-                  placeholder=""
-                  zipcode={true}
-                  value={address.values.zip}
-                  onChange={address.handleChange}
-                  onBlur={address.handleBlur}
-                  minLength={"5"}
-                  maxLength={"6"}
-                  error={address.touched.zip && address.errors.zip}
-                />
-                {address.touched.zip && address.errors.zip && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {address.errors.zip}
-                  </div>
-                )}
-              </div>
-            </Grid>
-            <Grid className="drop-shadow-5xl px-8 mt-8">
-              <div className="col-span-4">
-                <Button
-                  type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                  onClick={closeAddressModal}
-                >
-                  Cancel
-                </Button>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
-        </div>
+                </div>
+                <div className="col-span-4">
+                  <Select
+                    label="State"
+                    name="state"
+                    placeholder=""
+                    className="!bg-white"
+                    onChange={handleSelectChange12}
+                    options={state}
+                    value={address.values.state}
+                    onBlur={address.handleBlur}
+                    error={address.touched.state && address.errors.state}
+                  />
+                  {address.touched.state && address.errors.state && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.state}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-4">
+                  <Input
+                    type="number"
+                    name="zip"
+                    label="Zipcode"
+                    className="!bg-white"
+                    placeholder=""
+                    zipcode={true}
+                    value={address.values.zip}
+                    onChange={address.handleChange}
+                    onBlur={address.handleBlur}
+                    minLength={"5"}
+                    maxLength={"6"}
+                    error={address.touched.zip && address.errors.zip}
+                  />
+                  {address.touched.zip && address.errors.zip && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {address.errors.zip}
+                    </div>
+                  )}
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8 mt-8">
+                <div className="col-span-4">
+                  <Button
+                    type="button"
+                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    onClick={closeAddressModal}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>}
+
       </Modal>
       <Modal isOpen={addAddressModalOpen} onClose={closeAddAddress}>
         <div className=" py-3">

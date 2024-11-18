@@ -28,6 +28,7 @@ function CustomerSetting(props) {
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
     const [secondaryText, SetSecondaryText] = useState("");
     const [loading, setLoading] = useState(false);
+    const [editLoading, setEditLoading] = useState(false);
     const [initialFormValues, setInitialFormValues] = useState({
         address: "",
         addressId: "",
@@ -102,10 +103,11 @@ function CustomerSetting(props) {
                 zip: values.zip
             };
             try {
+                setEditLoading(true);
                 const result = await editCustomerAddressById(
                     data);
                 console.log(result);
-                SetPrimaryText("address Updated Successfully");
+                SetPrimaryText("Address Updated Successfully");
                 SetSecondaryText("Address updated successfully");
                 SetIsModalOpen(true);
                 setIsUserModalOpen(false);
@@ -113,6 +115,7 @@ function CustomerSetting(props) {
                 customerDetails(props.id)
                 localStorage.setItem("customer", "Settings");
                 setTimer(3);
+                setEditLoading(false);
             } catch (error) {
                 console.error("Error updating Customer address:", error);
                 SetPrimaryText("Error Updating Customer address");
@@ -120,8 +123,9 @@ function CustomerSetting(props) {
                     "There was an error updating the Customer address. Please try again."
                 );
                 SetIsModalOpen(true);
+                setEditLoading(false);
             } finally {
-                setLoading(false);
+                setEditLoading(false);
             }
         },
     });
@@ -149,6 +153,7 @@ function CustomerSetting(props) {
             SetIsModalOpen(true);
             setTimer(3);
             localStorage.setItem("customer", "Settings");
+            customerDetails(props.id)
 
         } else {
             console.error("Error deleting Customer address:", result.message);
@@ -352,107 +357,114 @@ function CustomerSetting(props) {
             </Modal>
 
             <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-                <div className=" py-3">
-                    <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
-                        Edit Address
-                    </p>
-                    <form onSubmit={formik.handleSubmit}>
-                        <Grid className="px-8">
-                            <div className="col-span-12">
-                                <Input
-                                    type="text"
-                                    name="address"
-                                    label="Street Address"
-                                    className="!bg-white"
-                                    value={formik.values.address}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    disabled={loading}
-                                />
-                                {formik.touched.address &&
-                                    formik.errors.address && (
-                                        <p className="text-red-500 text-xs pl-2">
-                                            {formik.errors.address}
-                                        </p>
+                {editLoading ? (
+                    <div className=" h-[400px] w-full flex py-5">
+                        <div className="self-center mx-auto">
+                            <RotateLoader color="#333" />
+                        </div>
+                    </div>) :
+                    <div className=" py-3">
+                        <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+                            Edit Address
+                        </p>
+                        <form onSubmit={formik.handleSubmit}>
+                            <Grid className="px-8">
+                                <div className="col-span-12">
+                                    <Input
+                                        type="text"
+                                        name="address"
+                                        label="Street Address"
+                                        className="!bg-white"
+                                        value={formik.values.address}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        disabled={loading}
+                                    />
+                                    {formik.touched.address &&
+                                        formik.errors.address && (
+                                            <p className="text-red-500 text-xs pl-2">
+                                                {formik.errors.address}
+                                            </p>
+                                        )}
+                                </div>
+                                <div className="col-span-4">
+                                    <Input
+                                        type="text"
+                                        name="city"
+                                        label="City"
+                                        className="!bg-white"
+                                        placeholder=" "
+                                        maxLength={"20"}
+                                        value={formik.values.city}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.city && formik.errors.city}
+                                    />
+                                    {formik.touched.city && formik.errors.city && (
+                                        <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {formik.errors.city}
+                                        </div>
                                     )}
-                            </div>
-                            <div className="col-span-4">
-                                <Input
-                                    type="text"
-                                    name="city"
-                                    label="City"
-                                    className="!bg-white"
-                                    placeholder=" "
-                                    maxLength={"20"}
-                                    value={formik.values.city}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.city && formik.errors.city}
-                                />
-                                {formik.touched.city && formik.errors.city && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                        {formik.errors.city}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                                <Select
-                                    label="State"
-                                    name="state"
-                                    placeholder=""
-                                    className="!bg-white"
-                                    onChange={handleSelectChange}
-                                    options={state}
-                                    value={formik.values.state}
-                                    onBlur={formik.handleBlur}
-                                    error={formik.touched.state && formik.errors.state}
-                                />
-                                {formik.touched.state && formik.errors.state && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                        {formik.errors.state}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="col-span-4">
-                                <Input
-                                    type="number"
-                                    name="zip"
-                                    label="Zipcode"
-                                    className="!bg-white"
-                                    placeholder=""
-                                    zipcode={true}
-                                    value={formik.values.zip}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    minLength={"5"}
-                                    maxLength={"6"}
-                                    error={formik.touched.zip && formik.errors.zip}
-                                />
-                                {formik.touched.zip && formik.errors.zip && (
-                                    <div className="text-red-500 text-sm pl-2 pt-2">
-                                        {formik.errors.zip}
-                                    </div>
-                                )}
-                            </div>
-                        </Grid>
-                        <Grid className="drop-shadow-5xl px-8 mt-8">
-                            <div className="col-span-4">
-                                <Button
-                                    type="button"
-                                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
-                                    onClick={closeUserModal}
-                                >
-                                    Cancel
-                                </Button>
-                            </div>
-                            <div className="col-span-8">
-                                <Button type="submit" className="w-full">
-                                    Submit
-                                </Button>
-                            </div>
-                        </Grid>
-                    </form>
-                </div>
+                                </div>
+                                <div className="col-span-4">
+                                    <Select
+                                        label="State"
+                                        name="state"
+                                        placeholder=""
+                                        className="!bg-white"
+                                        onChange={handleSelectChange}
+                                        options={state}
+                                        value={formik.values.state}
+                                        onBlur={formik.handleBlur}
+                                        error={formik.touched.state && formik.errors.state}
+                                    />
+                                    {formik.touched.state && formik.errors.state && (
+                                        <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {formik.errors.state}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="col-span-4">
+                                    <Input
+                                        type="number"
+                                        name="zip"
+                                        label="Zipcode"
+                                        className="!bg-white"
+                                        placeholder=""
+                                        zipcode={true}
+                                        value={formik.values.zip}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        minLength={"5"}
+                                        maxLength={"6"}
+                                        error={formik.touched.zip && formik.errors.zip}
+                                    />
+                                    {formik.touched.zip && formik.errors.zip && (
+                                        <div className="text-red-500 text-sm pl-2 pt-2">
+                                            {formik.errors.zip}
+                                        </div>
+                                    )}
+                                </div>
+                            </Grid>
+                            <Grid className="drop-shadow-5xl px-8 mt-8">
+                                <div className="col-span-4">
+                                    <Button
+                                        type="button"
+                                        className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                                        onClick={closeUserModal}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </div>
+                                <div className="col-span-8">
+                                    <Button type="submit" className="w-full">
+                                        Submit
+                                    </Button>
+                                </div>
+                            </Grid>
+                        </form>
+                    </div>
+                }
             </Modal>
         </>
     );
