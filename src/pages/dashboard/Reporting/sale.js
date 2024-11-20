@@ -250,10 +250,10 @@ console.log('All PriceBooks:', allPriceBooks);
       }));
     
       // Automatically filter by category if no category is selected
-      if (!filter.categoryId) {
+      if (!filterCategory.categoryId) {
         const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
         if (selectedPriceBook) {
-          handleFilterChange('categoryId', selectedPriceBook.categoryId);
+          handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
         }
       }
     
