@@ -400,12 +400,9 @@ function Account() {
       status: Yup.boolean().required("Required"),
     }),
     onSubmit: async (values) => {
-      // console.log("Form values:", values);
       setEditLoading(true);
       const result = await updateUserDetailsById(values);
-      // console.log(result);
       if (result.code == 200) {
-        // setLoading(false);
         setEditLoading(false);
         setFirstMessage("User Updated Successfully ");
         setSecondMessage("user updated successfully ");
@@ -514,7 +511,6 @@ function Account() {
     {
       name: "Name",
       selector: "name",
-      // sortable: true,
       cell: (row) => (
         <div className="flex relative">
           {row.isPrimary && (
@@ -872,7 +868,7 @@ function Account() {
 
       if (userDetails.result && userDetails.result[0].colorScheme) {
         const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
+        colorScheme?.forEach(color => {
           switch (color.colorType) {
             case 'sideBarColor':
               setSideBarColor(color.colorCode);

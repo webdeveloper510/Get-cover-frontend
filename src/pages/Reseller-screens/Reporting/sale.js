@@ -100,7 +100,7 @@ function ResellerSale() {
           </div>
         </div>
       )} */}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 px-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -109,10 +109,10 @@ function ResellerSale() {
               Reporting
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {" "}
                 Sale ({activeTab})
               </li>
@@ -132,8 +132,8 @@ function ResellerSale() {
                       <div className={tab.className} key={tab.id}>
                         <Button
                           className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                              ? "!bg-[#2A2A2A] !text-white"
-                              : "!bg-grayf9 !text-black"
+                            ? "!bg-[#2A2A2A] !text-white"
+                            : "!bg-grayf9 !text-black"
                             }`}
                           onClick={() => handleTabClick(tab.id)}
                         >

@@ -122,7 +122,7 @@ function OrderDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -137,7 +137,72 @@ function OrderDetails() {
     }
 
   }, []);
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
 
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading1 && (
@@ -150,7 +215,7 @@ function OrderDetails() {
 
       )}
 
-      <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 px-3 relative ">
 
         <Headbar />
 
@@ -372,7 +437,7 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <InActiveButton className="!bg-white !text-light-black !text-sm border flex">
+                  <InActiveButton className=" !text-sm border flex">
                     <span className="self-center">
                       <PdfGenerator
                         data={orderDetails._id}
@@ -403,47 +468,15 @@ function OrderDetails() {
           <div className="col-span-3 max-h-[85vh] overflow-y-scroll">
             <Grid className="">
               <div className="col-span-5">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className=" rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4"
-                          />
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '7px',
-                              color: activeTab === tab.id ? buttonTextColor : 'black',
-                            }}
-                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </div>
               </div>

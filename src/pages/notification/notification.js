@@ -19,6 +19,7 @@ import { RotateLoader } from "react-spinners";
 import Grid from "../../common/grid";
 import Button from "../../common/button";
 import InActiveButton from "../../common/inActiveButton";
+import SingleView from "../../common/singleView";
 
 function Notification() {
   const [notificationList, setNotificationList] = useState([]);
@@ -113,9 +114,9 @@ function Notification() {
     navigate("/destination?myProp=Hello, World!");
   };
   return (
-    <div className="relative overflow-x-hidden min-h-screen bg-grayf9">
+    <div className="relative overflow-x-hidden min-h-screen">
       <Headbar />
-      <div className="mt-[8%] bg-white p-3 rounded-[20px] pr-2 mx-auto">
+      <div className="mt-[8%] p-3 rounded-[20px] pr-2 mx-auto">
         <div className="flex justify-between mb-3">
           <div>
             <p className="font-semibold text-[25px] leading-9 mb-[3px]">
@@ -186,45 +187,50 @@ function Notification() {
                         style={{ cursor: "pointer" }}
                       >
                         {data?.isRead !== true ? (
-                          <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
-                            <div className="col-span-9 self-center flex w-full">
-                              <img
-                                src={unReadDot}
-                                className="mr-2 w-[10px] h-[10px] my-auto self-center"
-                                alt="Unread dot"
-                              />
-                              <img
-                                src={unRead}
-                                className="mr-2 w-[18px] h-[24px] self-center"
-                                alt="Unread icon"
-                              />
-                              <p className="text-light-black text-base font-semibold">
-                                {data?.title}: {data?.userId?.firstName}
-                              </p>
-                              <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
-                                {data?.description}
-                              </p>
-                            </div>
-                            <div className="col-span-3">
-                              <div className="flex justify-end h-full">
-                                <p className="flex text-sm mr-3 w-1/2 self-center">
-                                  <img src={time} className="mr-2" alt="Time" />{" "}
-                                  {new Date(
-                                    data.createdAt
-                                  ).toLocaleTimeString()}{" "}
-                                </p>
-                                <p className="mr-3 flex text-sm w-1/2 self-center">
-                                  <img src={date} className="mr-2" alt="Date" />{" "}
-                                  {new Date(
-                                    data?.createdAt
-                                  ).toLocaleDateString()}{" "}
+                          <SingleView className="border-[1px] p-2 border-[#D1D1D2] relative">
+                            <Grid>
+                              <div className="col-span-3 self-center flex w-full">
+                                <img
+                                  src={unReadDot}
+                                  className="mr-2 w-[10px] h-[10px] my-auto self-center"
+                                  alt="Unread dot"
+                                />
+                                <img
+                                  src={unRead}
+                                  className="mr-2 w-[18px] h-[24px] self-center"
+                                  alt="Unread icon"
+                                />
+                                <p className=" text-[15px] font-semibold">
+                                  {data?.title} : {data?.userId?.firstName}
                                 </p>
                               </div>
-                            </div>
-                          </Grid>
+                              <div className="col-span-6 self-center flex w-full">
+
+                                <p className="text-sm font-Regular self-center pl-4 pt-1">
+                                  {data?.description}
+                                </p>
+                              </div>
+                              <div className="col-span-3">
+                                <div className="flex justify-end h-full">
+                                  <p className="flex text-sm mr-3 w-1/2  self-center">
+                                    <img src={time} className="mr-2" alt="Time" />{" "}
+                                    {new Date(
+                                      data.createdAt
+                                    ).toLocaleTimeString()}{" "}
+                                  </p>
+                                  <p className="mr-3 flex text-sm w-1/2  self-center">
+                                    <img src={date} className="mr-2" alt="Date" />{" "}
+                                    {new Date(
+                                      data?.createdAt
+                                    ).toLocaleDateString()}{" "}
+                                  </p>
+                                </div>
+                              </div>
+                            </Grid>
+                          </SingleView>
                         ) : (
-                          <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-white relative">
-                            <div className="col-span-9 self-center flex w-full">
+                          <Grid className="border-[1px] p-2 border-[#D1D1D2] relative">
+                            <div className="col-span-3 self-center flex w-full">
                               <img
                                 src={ReadDot}
                                 className="mr-2 w-[10px] h-[10px] my-auto self-center"
@@ -236,21 +242,24 @@ function Notification() {
                                 alt="Read icon"
                               />
                               <p className="text-light-black text-base font-semibold ">
-                                {data?.title}: {data?.userId?.firstName}
+                                {data?.title} : {data?.userId?.firstName}
                               </p>
+                            </div>
+                            <div className="col-span-6 self-center flex w-full">
+
                               <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
                                 {data?.description}
                               </p>
                             </div>
                             <div className="col-span-3">
                               <div className="flex justify-end h-full">
-                                <p className="flex text-sm mr-3 w-1/2  self-center">
+                                <p className="flex text-sm mr-3 w-1/2 text-light-black self-center">
                                   <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
-                                <p className="mr-3 flex text-sm w-1/2  self-center">
+                                <p className="mr-3 flex text-sm w-1/2 text-light-black self-center">
                                   <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
@@ -302,11 +311,11 @@ function Notification() {
                           </div>
                           <div className="col-span-3">
                             <div className="flex justify-end h-full">
-                              <p className="flex text-sm mr-3 w-1/2 self-center">
+                              <p className="flex text-sm mr-3 w-1/2 text-light-black self-center">
                                 <img src={time} className="mr-2" alt="Time" />{" "}
                                 {new Date(data.createdAt).toLocaleTimeString()}{" "}
                               </p>
-                              <p className="mr-3 flex text-sm w-1/2  self-center">
+                              <p className="mr-3 flex text-sm w-1/2 text-light-black  self-center">
                                 <img src={date} className="mr-2" alt="Date" />{" "}
                                 {new Date(data?.createdAt).toLocaleDateString()}{" "}
                               </p>

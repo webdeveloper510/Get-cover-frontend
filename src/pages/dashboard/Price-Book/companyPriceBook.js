@@ -200,7 +200,7 @@ function CompanyPriceBook() {
 
   const columns = [
     {
-      name: "Sr.#",
+      name: "Serial #",
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
@@ -886,10 +886,10 @@ function CompanyPriceBook() {
                       <>
                         <div className="col-span-12">
                           <table className="w-full border text-center">
-                            <tr className="border bg-[#9999]">
+                            <tr className="border staticTable">
                               <th colSpan={"2"}>Quantity Pricing List </th>
                             </tr>
-                            <tr className="border bg-[#9999]">
+                            <tr className="border staticTable">
                               <th className="w-[50%]">Name</th>
                               <th>Max Quantity</th>
                             </tr>

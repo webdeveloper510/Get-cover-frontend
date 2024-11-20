@@ -2024,7 +2024,7 @@ function CustomerAddOrder() {
                             {data.priceType == "Quantity Pricing" && (
                               <div className="col-span-12">
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-white">
+                                  <tr className="border staticTable">
                                     <td
                                       colSpan={"4"}
                                       className="font-bold text-sm"
@@ -2032,7 +2032,7 @@ function CustomerAddOrder() {
                                       Quantity Pricing List{" "}
                                     </td>
                                   </tr>
-                                  <tr className="border bg-white">
+                                  <tr className="border staticTable">
                                     <th className="font-bold text-sm">Name</th>
                                     <th className="font-bold text-sm">
                                       Quantity Per Unit
@@ -2118,7 +2118,7 @@ function CustomerAddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-4 pt-2">
-                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"

@@ -38,7 +38,7 @@ function CustomerList(props) {
 
   const columns = [
     {
-      name: "Sr.#",
+      name: "Serial #",
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",

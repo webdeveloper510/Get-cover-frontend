@@ -118,7 +118,7 @@ function CustomerDetails() {
     if (isPopupOpen) {
       setActiveTab("Users");
     }
-     if (isPopupOpen1) {
+    if (isPopupOpen1) {
       setActiveTab("Settings");
     }
   }, []);
@@ -336,7 +336,7 @@ function CustomerDetails() {
       } catch (error) {
         console.error("Error adding address:", error);
       } finally {
-      localStorage.setItem("customer", "Settings");
+        localStorage.setItem("customer", "Settings");
         setLoading(false);
       }
     },
@@ -513,7 +513,7 @@ function CustomerDetails() {
       label: "Settings",
       icons: User,
       Activeicons: UserActive,
-      content:activeTab === "Settings" && (
+      content: activeTab === "Settings" && (
         <CustomerSetting
           flag={"customer"}
           id={customerId}
@@ -550,7 +550,7 @@ function CustomerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
@@ -640,7 +640,7 @@ function CustomerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -659,13 +659,13 @@ function CustomerDetails() {
               Customer Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey ml-1 font-Regular">
+              <li className="text-sm ml-1 font-Regular">
                 <Link to={"/customerList"}> Customer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {" "}
                 Customer Details ({activeTab})
               </li>
@@ -1061,7 +1061,7 @@ function CustomerDetails() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1339,7 +1339,7 @@ function CustomerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                  <p className="flex text-[11px] mb-3 mt-2 font-semibold ">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"

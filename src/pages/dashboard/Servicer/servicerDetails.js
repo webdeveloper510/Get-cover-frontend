@@ -54,6 +54,7 @@ import shorting from "../../../assets/images/icons/shorting.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import ServicerSetting from "../Dealer/Dealer-Details/servicerSetting";
 
 function ServicerDetails() {
   const getInitialActiveTab = () => {
@@ -223,8 +224,8 @@ function ServicerDetails() {
   );
   const columns = [
     {
-      name: "Dealer ID",
-      selector: (row) => row.unique_key,
+      name: "Serial #  ",
+      selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
       center: true,
@@ -313,6 +314,15 @@ function ServicerDetails() {
       Activeicons: ActivePaid,
       content: activeTab === "Paid Claims" && (
         <ClaimList12 id={servicerId} flag="servicer" activeTab={activeTab} />
+      ),
+    },
+    {
+      id: "Settings",
+      label: "Settings",
+      icons: Paid,
+      Activeicons: ActivePaid,
+      content: activeTab === "Settings" && (
+        <ServicerSetting id={servicerId} flag="servicer" activeTab={activeTab} />
       ),
     },
   ];
@@ -542,7 +552,7 @@ function ServicerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
@@ -634,7 +644,7 @@ function ServicerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -653,13 +663,13 @@ function ServicerDetails() {
               Servicer Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey ml-1 font-Regular">
+              <li className="text-sm  ml-1 font-Regular">
                 <Link to={"/servicerList"}> Servicer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {" "}
                 Servicer Details ({activeTab})
               </li>
@@ -832,9 +842,9 @@ function ServicerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-9">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
-                  <Grid className="!grid-cols-5 !gap-1">
+              <div className="col-span-11">
+                <div className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                  <Grid className="!grid-cols-6 !gap-1">
                     {tabs.map((tab) =>
                       activeTab === tab.id ? (
                         <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
@@ -845,9 +855,10 @@ function ServicerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-3">
+              <div className="col-span-1">
                 {activeTab !== "Unpaid Claims" &&
                   activeTab !== "Paid Claims" &&
+                  activeTab !== "Settings" &&
                   activeTab !== "Claims" ? (
                   <InActiveButton
                     onClick={() => routeToPage(activeTab)}
@@ -1025,7 +1036,7 @@ function ServicerDetails() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1048,13 +1059,13 @@ function ServicerDetails() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !border-Bright-Grey !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -1231,7 +1242,7 @@ function ServicerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-[11px] mb-3 mt-2 font-semibold ">
+                  <p className="flex text-[11px] mb-3 mt-2 font-semibold ">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1303,13 +1314,13 @@ function ServicerDetails() {
               </div>
               <Grid className="drop-shadow-5xl">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full  !text-sm !font-Regular"
                     onClick={closeModal1}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

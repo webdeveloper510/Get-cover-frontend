@@ -10,7 +10,7 @@ const InActiveButton = ({ onClick, type, children, className, disabled }) => {
 
         if (storedUserDetails) {
             const colorScheme = storedUserDetails.colorScheme;
-            colorScheme.forEach(color => {
+            colorScheme?.forEach(color => {
                 switch (color.colorType) {
                     case 'inActiveButtonBackgroundColor':
                         setBackGroundColor(color.colorCode);

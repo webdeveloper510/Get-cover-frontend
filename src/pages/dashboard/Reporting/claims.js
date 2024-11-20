@@ -286,7 +286,7 @@ function Claims() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);

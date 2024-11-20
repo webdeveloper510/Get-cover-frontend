@@ -10,7 +10,7 @@ const MultiColorView = ({ children, className }) => {
 
         if (storedUserDetails) {
             const colorScheme = storedUserDetails.colorScheme;
-            colorScheme.forEach(color => {
+            colorScheme?.forEach(color => {
                 switch (color.colorType) {
                     case 'sideBarColor':
                         setBackGroundColor(color.colorCode);

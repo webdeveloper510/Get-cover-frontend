@@ -16,7 +16,7 @@ const LineChart = ({ graphData, flag }) => {
           const fetchedData = userDetails.result[0];
           localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
           const colorScheme = fetchedData.colorScheme;
-          colorScheme.forEach(color => {
+          colorScheme?.forEach(color => {
             switch (color.colorType) {
               case 'sideBarColor':
                 setSideBarColor(color.colorCode);

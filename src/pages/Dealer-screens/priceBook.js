@@ -34,6 +34,7 @@ import { getCategoryAndPriceBooksforDealerPortal } from "../../services/dealerSe
 import Card from "../../common/card";
 import { MultiSelect } from "react-multi-select-component";
 import InActiveButton from "../../common/inActiveButton";
+import SingleView from "../../common/singleView";
 function DealerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -87,7 +88,7 @@ function DealerPriceBook(props) {
 
   const columns = [
     {
-      name: "Sr.#",
+      name: "Serial #",
       selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
@@ -176,19 +177,33 @@ function DealerPriceBook(props) {
               />
             </div>
             {selectedAction === index && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border text-light-black rounded-lg shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                  className="text-left py-1 px-2 cursor-pointer w-full flex justify-start"
                   onClick={() => openView(row._id)}
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                  View
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );
@@ -560,7 +575,7 @@ function DealerPriceBook(props) {
               </p>
             </div>
             <div className="col-span-4">
-              <p className="text-lg text-light-black font-semibold">
+              <p className="text-lg  font-semibold">
                 Retail Price
               </p>
               <p className="text-base font-semibold">
@@ -638,7 +653,7 @@ function DealerPriceBook(props) {
             </div>
             <div className="col-span-12">
               <table className="w-full border text-center">
-                <tr className="border bg-[#9999]">
+                <tr className="border staticTable">
                   <th>Coverage Type</th>
                   <th>Waiting Days</th>
                   <th>Deductible Amount</th>
@@ -703,10 +718,10 @@ function DealerPriceBook(props) {
                 <>
                   <div className="col-span-12">
                     <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th colSpan={"2"}>Quantity Pricing List </th>
                       </tr>
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th className="w-[50%]">Name</th>
                         <th className="w-[50%]">Max Quantity</th>
                       </tr>

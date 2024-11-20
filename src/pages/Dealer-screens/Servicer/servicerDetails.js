@@ -444,7 +444,7 @@
 //           </div>
 //         </div>
 //       )}
-//       <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+//       <div className="py-8 px-3 relative ">
 //         <Headbar />
 
 //         <div className="flex">

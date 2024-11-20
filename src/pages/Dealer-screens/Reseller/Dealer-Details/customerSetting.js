@@ -17,6 +17,7 @@ import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
 import textFile from "../../../../common/textFile";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -166,11 +167,25 @@ function CustomerSetting(props) {
         textFile(addressData);
     };
 
+    const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+    const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
+
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // Handle rows per page change
+    const handleRowsPerPageChange = (newPerPage, page) => {
+        setRowsPerPage(newPerPage);
+        setCurrentPage(page);
+    };
+
 
     const Address = [
         {
-            name: "S.#",
-            selector: (row, index) => index + 1,
+            name: "Serial #",
+            selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
             sortable: true,
             style: { whiteSpace: "pre-wrap" },
         },
@@ -330,9 +345,16 @@ function CustomerSetting(props) {
                                 highlightOnHover
                                 draggableColumns={false}
                                 pagination
-                                paginationPerPage={10}
-                                paginationComponentOptions={paginationOptions}
+                                paginationPerPage={rowsPerPage}
+                                paginationComponentOptions={{
+                                    rowsPerPageText: "Rows per page:",
+                                    rangeSeparatorText: "of",
+                                    selectAllRowsItem: true,
+                                    selectAllRowsItemText: "All",
+                                }}
                                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                                onChangePage={handlePageChange}
+                                onChangeRowsPerPage={handleRowsPerPageChange}
                                 noDataComponent={<CustomNoDataComponent />}
                             />
                         </div>
@@ -437,13 +459,13 @@ function CustomerSetting(props) {
                         </Grid>
                         <Grid className="drop-shadow-5xl px-8 mt-8">
                             <div className="col-span-4">
-                                <Button
+                                <InActiveButton
                                     type="button"
-                                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                                    className="border w-full !text-sm !font-Regular"
                                     onClick={closeUserModal}
                                 >
                                     Cancel
-                                </Button>
+                                </InActiveButton>
                             </div>
                             <div className="col-span-8">
                                 <Button type="submit" className="w-full">

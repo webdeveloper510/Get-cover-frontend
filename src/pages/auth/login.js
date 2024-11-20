@@ -16,6 +16,7 @@ import PasswordInput from "../../common/passwordInput";
 
 // Importing services
 import { authlogin } from "../../services/authServices";
+import { getSetting } from "../../services/extraServices";
 
 function Login() {
   const [userDetails, setUserDetails] = useState();
@@ -46,21 +47,31 @@ function Login() {
       } else {
         setError("");
         setUserDetails(result.result);
-        localStorage.setItem("userDetails", JSON.stringify(result.result));
-        const fetchData = () => {
-          const data = localStorage.getItem("siteSettings");
-          const parsedData = JSON.parse(data);
 
-          if (parsedData !== null) {
+
+        localStorage.setItem("userDetails", JSON.stringify(result.result));
+
+        try {
+          const siteChanges = await getSetting();
+          localStorage.setItem("siteSettings", JSON.stringify(siteChanges));
+
+          const data = localStorage.getItem("siteSettings");
+          const parsedData = data ? JSON.parse(data) : null;
+
+          if (parsedData) {
             setSiteDetails(parsedData);
-            console.log(parsedData);
-            // clearInterval(intervalId);
+            console.log("Site Settings Updated:", parsedData);
           } else {
-            console.log('Data is null, will check again...');
+            console.log("Site settings are null, will check again...");
           }
+
+          // Navigate based on role
+          navigateToRole(result.result.role);
+        } catch (error) {
+          console.error("Error fetching site settings:", error);
         }
-        navigateToRole(result.result.role);
       }
+
     },
   });
 

@@ -17,6 +17,7 @@ import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
 import textFile from "../../../../common/textFile";
+import SingleView from "../../../../common/singleView";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -171,11 +172,24 @@ function CustomerSetting(props) {
         textFile(addressData);
     };
 
+    const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+    const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
+
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    // Handle rows per page change
+    const handleRowsPerPageChange = (newPerPage, page) => {
+        setRowsPerPage(newPerPage);
+        setCurrentPage(page);
+    };
 
     const Address = [
         {
-            name: "S.#",
-            selector: (row, index) => index + 1,
+            name: "Serial #",
+            selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
             sortable: true,
             style: { whiteSpace: "pre-wrap" },
         },
@@ -225,29 +239,55 @@ function CustomerSetting(props) {
                             />
                         </div>
                         {selectedAction === index && (
-                            <div
+                            <SingleView
                                 ref={dropdownRef}
                                 onClick={() => setSelectedAction(null)}
-                                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+                                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
                             >
                                 <>
                                     <div>
                                         <div
-                                            className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                                            className="text-left cursor-pointer flex border-b py-1 px-2"
                                             onClick={() => openUserModal(row)}
                                         >
-                                            <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                                            <div
+                                                style={{
+                                                    maskImage: `url(${edit})`,
+                                                    WebkitMaskImage: `url(${edit})`,
+                                                    maskRepeat: "no-repeat",
+                                                    WebkitMaskRepeat: "no-repeat",
+                                                    maskPosition: "center",
+                                                    WebkitMaskPosition: "center",
+                                                    maskSize: "contain",
+                                                    WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
+                                            />
+                                            {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                                             <span className="self-center">Edit </span>
                                         </div>
-                                        <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
+                                        <div className="text-left cursor-pointer flex py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
                                         >
-                                            <img src={delete1} className="w-4 h-4 mr-2" />
+                                            <div
+                                                style={{
+                                                    maskImage: `url(${delete1})`,
+                                                    WebkitMaskImage: `url(${delete1})`,
+                                                    maskRepeat: "no-repeat",
+                                                    WebkitMaskRepeat: "no-repeat",
+                                                    maskPosition: "center",
+                                                    WebkitMaskPosition: "center",
+                                                    maskSize: "contain",
+                                                    WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
+                                            />
+                                            {/* <img src={delete1} className="w-4 h-4 mr-2" /> */}
                                             <span className="self-center">Delete</span>
                                         </div>
 
                                     </div>
                                 </>
-                            </div>
+                            </SingleView>
                         )
                         }
                     </div >
@@ -310,34 +350,33 @@ function CustomerSetting(props) {
                                 columns={Address}
                                 data={addressData}
                                 sortIcon={
-                                    <>
-                                        {" "}
-                                        <div
-                                            style={{
-                                                maskImage: `url(${shorting})`,
-                                                WebkitMaskImage: `url(${shorting})`,
-                                                maskRepeat: "no-repeat",
-                                                WebkitMaskRepeat: "no-repeat",
-                                                maskPosition: "center",
-                                                WebkitMaskPosition: "center",
-                                                maskSize: "contain",
-                                                WebkitMaskSize: "contain",
-                                            }}
-                                            className="ml-2 tabless"
-                                        />
-                                        {/* <img
-                                            src={shorting}
-                                            className="ml-2"
-                                            alt="shorting"
-                                        />{" "} */}
-                                    </>
+                                    <div
+                                        style={{
+                                            maskImage: `url(${shorting})`,
+                                            WebkitMaskImage: `url(${shorting})`,
+                                            maskRepeat: "no-repeat",
+                                            WebkitMaskRepeat: "no-repeat",
+                                            maskPosition: "center",
+                                            WebkitMaskPosition: "center",
+                                            maskSize: "contain",
+                                            WebkitMaskSize: "contain",
+                                        }}
+                                        className="ml-2 tabless"
+                                    />
                                 }
                                 highlightOnHover
                                 draggableColumns={false}
                                 pagination
-                                paginationPerPage={10}
-                                paginationComponentOptions={paginationOptions}
+                                paginationPerPage={rowsPerPage}
+                                paginationComponentOptions={{
+                                    rowsPerPageText: "Rows per page:",
+                                    rangeSeparatorText: "of",
+                                    selectAllRowsItem: true,
+                                    selectAllRowsItemText: "All",
+                                }}
                                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                                onChangePage={handlePageChange}
+                                onChangeRowsPerPage={handleRowsPerPageChange}
                                 noDataComponent={<CustomNoDataComponent />}
                             />
                         </div>

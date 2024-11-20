@@ -139,7 +139,7 @@ function ResellerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
@@ -471,7 +471,7 @@ function ResellerDetails() {
   };
   const columns = [
     {
-      name: "S.#",
+      name: "Serial #",
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
@@ -785,7 +785,7 @@ function ResellerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -806,13 +806,13 @@ function ResellerDetails() {
               Reseller Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey ml-1 font-Regular">
+              <li className="text-sm  ml-1 font-Regular">
                 <Link to={"/resellerList"}> Reseller List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {" "}
                 Reseller Detail ({activeTab})
               </li>
@@ -1262,13 +1262,13 @@ function ResellerDetails() {
                 </p>
               </div>
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeModal}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">

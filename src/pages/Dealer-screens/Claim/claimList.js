@@ -2169,7 +2169,7 @@ function ClaimList(props) {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -2309,13 +2309,13 @@ function ClaimList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="w-full !bg-[white] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>

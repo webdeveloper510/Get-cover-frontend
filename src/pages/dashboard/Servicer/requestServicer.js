@@ -441,12 +441,12 @@ function RequestServicer() {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
-                  className="w-full !py-3 !bg-white border-Light-Grey border !text-light-black"
+                <InActiveButton
+                  className="w-full !py-3 border-Light-Grey border"
                   onClick={() => setIsModalOpen(false)}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>
@@ -459,14 +459,14 @@ function RequestServicer() {
         </Button> */}
           <div className="text-center py-3">
             <img src={disapproved} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-semibold">
               {" "}
-              <span className="text-light-black"> Disapproved </span>
+              <span className=""> Disapproved </span>
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-2">
+            <p className=" text-base font-medium mt-2">
               This request has been disapproved by you.{" "}
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-2">
+            <p className=" text-base font-medium mt-2">
               Redirecting you to the Dealer Request Page in {timer} seconds.
             </p>
           </div>

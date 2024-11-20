@@ -50,6 +50,7 @@ import deleteUser123 from "../../assets/images/Disapproved.png";
 import Cross from "../../assets/images/Cross.png";
 import Card from "../../common/card";
 import SingleView from "../../common/singleView";
+import InActiveButton from "../../common/inActiveButton";
 
 function ResellerUser() {
   const { toggleFlag } = useMyContext();
@@ -1196,12 +1197,12 @@ function ResellerUser() {
             </Grid>
             <Grid className="!grid-cols-5 my-5  px-8">
               <div className="col-span-2">
-                <Button
-                  className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
+                <InActiveButton
+                  className="border w-full !text-sm !font-Regular"
                   onClick={() => closeUserModal()}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
 
               <div className="col-span-3">

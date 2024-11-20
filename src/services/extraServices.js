@@ -261,6 +261,23 @@ export const dealerSaveSetting = async (data) => {
     throw error;
   }
 };
+
+export const servicerSaveSetting = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/servicer/saveServicerSetting`, data, {
+      headers: {
+        ...headers,
+
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const saveSetting = async (data) => {
   const headers = createHeaders();
   try {
@@ -282,6 +299,22 @@ export const dealerGetSetting = async (id) => {
   const headers = createHeaders();
   try {
     const response = await axios.get(`${url}/dealer/getDealerColorSetting/${id}`, {
+      headers: {
+        ...headers,
+        // Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const servicerGetSetting = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/servicer/getServicerColorSetting/${id}`, {
       headers: {
         ...headers,
         // Set the content type to multipart/form-data
@@ -340,10 +373,70 @@ export const resetSetting = async () => {
   }
 };
 
+export const dealerResetSetting = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/dealer/resetDealerSetting`, { id }, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const servicerResetSetting = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.post(`${url}/servicer/resetServicerSetting`, { id }, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const resetDefault = async () => {
   const headers = createHeaders();
   try {
     const response = await axios.get(`${url}/user/setting/setDefault`, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const dealerResetDefault = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/dealer/defaultSettingDealer/${id}`, {
+      headers: {
+        ...headers,// Set the content type to multipart/form-data
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const servicerResetDefault = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/servicer/defaultSettingServicer/${id}`, {
       headers: {
         ...headers,// Set the content type to multipart/form-data
       },

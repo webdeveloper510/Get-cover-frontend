@@ -611,7 +611,7 @@ function ResellerAddServicer() {
                   />
                 </div>
                 <div className="col-span-6 self-center">
-                  <p className="text-light-black flex text-[13px]  font-semibold self-center">
+                  <p className=" flex text-[13px]  font-semibold self-center">
                     {" "}
                     Do you want to create an account?
                     <RadioButton
@@ -811,7 +811,7 @@ function ResellerAddServicer() {
                       />
                     </div>
                     <div className="col-span-4">
-                      <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                      <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                         {" "}
                         Do you want to create an account?
                         <RadioButton

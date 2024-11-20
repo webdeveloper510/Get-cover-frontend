@@ -46,7 +46,7 @@ function Layout() {
 
 
       const colorScheme = fetchedData.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'backGroundColor':
             setBackgroundColor(color.colorCode);
@@ -91,7 +91,7 @@ function Layout() {
         </div>
       ) : (
         <div
-          style={{ backgroundColor, color: textColor }}
+          style={{ background: backgroundColor, color: textColor }}
           className={`w-full flex bg-cover h-full ${shouldShowSidebar() ? "p-4" : "p-0 max-h-[100vh] overflow-hidden"
             } pl-0 relative w-full`}
         >

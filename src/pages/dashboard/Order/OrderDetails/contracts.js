@@ -199,7 +199,7 @@ function Contracts(props) {
                   contractDetails.result &&
                   contractDetails.result.map((res, index) => (
                     <div>
-                      <Grid className="bg-light-black !gap-2 !grid-cols-9 rounded-t-xl">
+                      <Grid className=" !gap-2 !grid-cols-9 rounded-t-xl">
                         <div className="col-span-3 self-center text-center bg-contract bg-cover bg-right bg-no-repeat rounded-ss-xl">
                           <p className="text-white py-2 font-Regular">
                             Contract ID : <b>{res?.unique_key} </b>
@@ -229,53 +229,53 @@ function Contracts(props) {
                         </div>
                       </Grid>
 
-                      <Grid className="!gap-0 !grid-cols-8 bg-grayf9 mb-5">
+                      <Grid className="!gap-0 !grid-cols-8 mb-5">
                         <div className="col-span-2 border border-Light-Grey rounded-es-xl">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Manufacturer
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.manufacture}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Model
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.model}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Serial
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.serial}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-2 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Product Description
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               Laptops are designed to be portable computers.
                             </p>
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Retail Price
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               $
                               {res.productValue === undefined
                                 ? parseInt(0).toLocaleString(2)
@@ -288,50 +288,50 @@ function Contracts(props) {
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Condition
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.condition}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Coverage Start Date
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {findDate(res, index, "start")}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Coverage End Date
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {findDate(res, index, "end")}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Claim Amount
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               ${parseInt(res?.claimAmount).toLocaleString(2)}
                             </p>
                           </div>
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-es-xl	">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Status
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.status}
                             </p>
                             Contracts List
@@ -339,10 +339,10 @@ function Contracts(props) {
                         </div>
                         <div className="col-span-1 border border-Light-Grey rounded-ee-xl">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Eligibility
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {res?.eligibilty}
                             </p>
                           </div>
@@ -617,10 +617,10 @@ function Contracts(props) {
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">
-                          <tr className="border bg-[#9999]">
+                          <tr className="border staticTable">
                             <th colSpan={"3"}>Quantity Pricing List </th>
                           </tr>
-                          <tr className="border bg-[#9999]">
+                          <tr className="border staticTable">
                             <th>Name</th>
                             <th> Quantity Per Unit</th>
                             <th> Quantity</th>

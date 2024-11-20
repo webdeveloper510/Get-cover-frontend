@@ -1773,14 +1773,14 @@ function ClaimList(props) {
         ) : (
           <div className="p-3 text-center">
             <img src={request} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-bold ">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className=" text-2xl font-semibold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -1800,12 +1800,12 @@ function ClaimList(props) {
                   </Button>
                 </div>
                 <div className="col-span-3">
-                  <Button
+                  <InActiveButton
                     onClick={closePay}
                     className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
                   >
                     No
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-3"></div>
               </Grid>
@@ -1816,13 +1816,13 @@ function ClaimList(props) {
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             <span className="text-light-black"> Claim Successfully Paid </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
+          <p className=" text-base font-medium mt-2 ">
             You have successfully marked the Claim as paid
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
         </div>
@@ -1843,11 +1843,11 @@ function ClaimList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className=" text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>

@@ -150,7 +150,7 @@ function ResellerPriceBook(props) {
 
   const columns = [
     {
-      name: "Sr.#",
+      name: "Serial #",
       selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
@@ -769,10 +769,10 @@ function ResellerPriceBook(props) {
               <>
                 <div className="col-span-12">
                   <table className="w-full border text-center">
-                    <tr className="border bg-[#9999]">
+                    <tr className="border staticTable">
                       <th colSpan={"2"}>Quantity Pricing List </th>
                     </tr>
-                    <tr className="border bg-[#9999]">
+                    <tr className="border staticTable">
                       <th className="w-[50%]">Name</th>
                       <th className="w-[50%]">Max Quantity</th>
                     </tr>
@@ -842,7 +842,7 @@ function ResellerPriceBook(props) {
             </div>
             <div className="col-span-12">
               <table className="w-full border text-center">
-                <tr className="border bg-[#9999]">
+                <tr className="border staticTable">
                   <th>Coverage Type</th>
                   <th>Waiting Days</th>
                   <th>Deductible Amount</th>
@@ -907,10 +907,10 @@ function ResellerPriceBook(props) {
                 <>
                   <div className="col-span-12">
                     <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th colSpan={"2"}>Quantity Pricing List </th>
                       </tr>
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th className="w-[50%]">Name</th>
                         <th className="w-[50%]">Max Quantity</th>
                       </tr>

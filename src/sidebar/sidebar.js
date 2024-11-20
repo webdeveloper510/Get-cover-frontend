@@ -61,7 +61,7 @@ function SidebarItem({
   const fetchUserDetails = async () => {
     const fetchedData = JSON.parse(localStorage.getItem("siteSettings"))
     const colorScheme = fetchedData.colorScheme;
-    colorScheme.forEach(color => {
+    colorScheme?.forEach(color => {
       switch (color.colorType) {
         case 'sideBarTextColor':
           setSideBarTextColor(color.colorCode);
@@ -595,8 +595,8 @@ function SideBar() {
     let data = JSON.parse(localStorage.getItem("siteSettings"))
     setUrl(data.logoLight ? data.logoLight.baseUrl : null);
     setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
-    const colorScheme = data.colorScheme;
-    colorScheme.forEach(color => {
+    const colorScheme = data?.colorScheme;
+    colorScheme?.forEach(color => {
       switch (color.colorType) {
         case 'sideBarColor':
           setSideBarColor(color.colorCode);
@@ -747,25 +747,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/dealer/servicerList",
     },
-    // {
-    //   name: "Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   items: [
-    //     {
-    //       name: "Sale",
-    //       url: "/dealer/sale",
-    //       image: Dropdown1,
-    //       active: Actives,
-    //     },
-    //     {
-    //       name: "Claims",
-    //       url: "/dealer/reportingclaim",
-    //       image: Dropdown2,
-    //       active: SeacondActive,
-    //     },
-    //   ],
-    // },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/dealer/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/dealer/reportingclaim",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -867,25 +867,25 @@ function SideBar() {
       active: ActiveServicer,
       url: "/reseller/servicerList",
     },
-    // {
-    //   name: "Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   items: [
-    //     {
-    //       name: "Sale",
-    //       url: "/reseller/sale",
-    //       image: Dropdown1,
-    //       active: Actives,
-    //     },
-    //     {
-    //       name: "Claims",
-    //       url: "/reseller/reporting",
-    //       image: Dropdown2,
-    //       active: SeacondActive,
-    //     },
-    //   ],
-    // },
+    {
+      name: "Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      items: [
+        {
+          name: "Sale",
+          url: "/reseller/sale",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Claims",
+          url: "/reseller/reporting",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
+    },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -912,12 +912,12 @@ function SideBar() {
       active: ActiveClaim,
       url: "/servicer/claimList",
     },
-    // {
-    //   name: "Claims Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   url: "/servicer/claims",
-    // },
+    {
+      name: "Claims Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      url: "/servicer/claims",
+    },
     {
       name: "Manage Account",
       image: manageAccount,
@@ -969,12 +969,12 @@ function SideBar() {
       active: ActiveProduct,
       image: ProductImage,
     },
-    // {
-    //   name: "Claims Reporting",
-    //   image: ReportImage,
-    //   active: ActiveReport,
-    //   url: "/customer/claims",
-    // },
+    {
+      name: "Claims Reporting",
+      image: ReportImage,
+      active: ActiveReport,
+      url: "/customer/claims",
+    },
     {
       name: "Manage Account",
       image: manageAccount,

@@ -15,6 +15,7 @@ import RadioButton from '../../../common/radio';
 import FileDropdown from '../../../common/fileDropbox';
 import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
+import InActiveButton from '../../../common/inActiveButton';
 
 function ServicerAddClaim() {
   const [selectedValue, setSelectedValue] = useState('');
@@ -213,7 +214,7 @@ function ServicerAddClaim() {
               </div>
             </div>
             <div className="col-span-6">
-              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+              <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                 Do you want to send notifications?
                 <RadioButton
                   id="yes-create-account"
@@ -232,7 +233,7 @@ function ServicerAddClaim() {
               </p>
             </div>
           </Grid>
-          <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+          <InActiveButton className='!bg-white !text-black' onClick={prevStep}>Previous</InActiveButton>
           <Button>Submit</Button>
         </div>
       </div>

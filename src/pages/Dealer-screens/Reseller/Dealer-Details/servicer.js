@@ -224,7 +224,7 @@ function ServicerList(props) {
     props.flag === "reseller"
       ? [
         {
-          name: "Sr.#",
+          name: "Serial #",
           selector: (row, index) => index + 1,
           sortable: true,
           minWidth: "auto", // Set a custom minimum width

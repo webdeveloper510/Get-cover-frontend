@@ -716,10 +716,10 @@ function PriceBookList(props) {
                 <>
                   <div className="col-span-12">
                     <table className="w-full border text-center">
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th colSpan={"2"}>Quantity Pricing List </th>
                       </tr>
-                      <tr className="border bg-[#9999]">
+                      <tr className="border staticTable">
                         <th>Name</th>
                         <th>Max Quantity</th>
                       </tr>

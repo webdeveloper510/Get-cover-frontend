@@ -39,6 +39,7 @@ import { getOrdersForDealerPortal } from "../../../services/dealerServices/order
 import DocMakeOrderContainer from "../../docMakeOrder";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function OrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -463,18 +464,30 @@ function OrderList() {
               </ul>
             </div>
           </div>
-
-          <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <InActiveButton className="flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
             {" "}
             <Link to={"/dealer/addOrder"} className="flex">
               {" "}
-              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-              <span className="text-black ml-3 text-[14px] font-Regular">
+              <div
+                style={{
+                  maskImage: `url(${AddItem})`,
+                  WebkitMaskImage: `url(${AddItem})`,
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                }}
+                className="self-center pr-1 py-1 h-4 w-4 "
+              />
+              {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+              <span className=" ml-2 text-[14px] font-Regular ">
                 {" "}
                 Add New Order{" "}
               </span>{" "}
             </Link>
-          </Button>
+          </InActiveButton>
           <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !pt-[14px] !pb-0">
               <div className="col-span-3 self-center">
@@ -530,19 +543,32 @@ function OrderList() {
                           />
                         </Button>
 
-                        <Button
+                        <InActiveButton
                           type="submit"
-                          className=" !bg-transparent !p-0"
+                          className='ml-2'
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center singleViews mx-auto h-4 w-4 "
+                          />
+                          {/* <img
                             src={clearFilter}
                             className="cursor-pointer	mx-auto"
                             alt="clearFilter"
-                          />
-                        </Button>
+                          /> */}
+                        </InActiveButton>
                         <Button
                           type="button"
                           className="ml-2 !text-sm"
@@ -682,11 +708,11 @@ function OrderList() {
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Error </span>
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            <span className=""> Error </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             {secondaryMessage}
           </p>
         </div>

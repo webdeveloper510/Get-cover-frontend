@@ -2079,7 +2079,7 @@ function AddOrder() {
                   </div>
                 </div>
                 <div className="col-span-6 ">
-                  <small className="text-neutral-grey p-10p">
+                  <small className=" p-10p">
                     Attachment size limit is 10 MB
                   </small>
                   <div className="relative mt-[0.6rem]">

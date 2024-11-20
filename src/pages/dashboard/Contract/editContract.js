@@ -34,6 +34,8 @@ import { useEffect } from "react";
 import { RotateLoader } from "react-spinners";
 import SingleView from "../../../common/singleView";
 import Modal from "../../../common/model";
+import InActiveButton from "../../../common/inActiveButton";
+import Card from "../../../common/card";
 function EditContract() {
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractDetails, setContractDetails] = useState({});
@@ -451,7 +453,7 @@ function EditContract() {
             </SingleView>
 
             <form className="mt-8 mr-4" onSubmit={formik.handleSubmit}>
-              <div className="px-8 pb-8 pt-6 drop-shadow-4xl bg-white  border-[1px] border-Light-Grey  rounded-3xl">
+              <Card className="px-8 pb-8 pt-6 drop-shadow-4xl   border-[1px] border-Light-Grey  rounded-3xl">
                 <p className="pb-5 text-lg font-semibold">Contracts</p>
                 <Grid className="!grid-cols-5">
                   <div className="col-span-1">
@@ -562,15 +564,15 @@ function EditContract() {
                 </Grid>
 
                 <div className="mt-8">
-                  <Button
-                    className="!bg-white !text-black"
+                  <InActiveButton
+                    className='mr-3'
                     onClick={handleGOBack}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                   <Button type="submit">Update</Button>
                 </div>
-              </div>
+              </Card>
             </form>
 
             {/* Modal Email Popop */}

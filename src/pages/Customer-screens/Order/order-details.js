@@ -109,7 +109,7 @@ function CustomerOrderDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
         <div className="flex">
           <Link
@@ -127,13 +127,13 @@ function CustomerOrderDetails() {
               Order Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular ml-1">
+              <li className="text-sm  font-Regular ml-1">
                 <Link to={"/customer/orderList"}>Order Details / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -142,7 +142,7 @@ function CustomerOrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[80vh] overflow-y-scroll">
-            <SingleView className=" bg-Dealer-details bg-cover h-[80vh]  p-5 rounded-[20px]">
+            <SingleView className=" bg-Dealer-details bg-cover h-[80vh] p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm font-Regular">

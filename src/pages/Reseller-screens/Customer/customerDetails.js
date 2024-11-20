@@ -47,6 +47,7 @@ import { getUserDetailsFromLocalStorage } from "../../../services/extraServices"
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
 import CustomerSetting from "../Reseller/Dealer-Details/customerSetting";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ResellerCustomerDetails() {
   const getInitialActiveTab = () => {
@@ -499,7 +500,7 @@ function ResellerCustomerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -514,6 +515,73 @@ function ResellerCustomerDetails() {
     }
   }, []);
 
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
+
   return (
     <>
       {loading && (
@@ -523,7 +591,7 @@ function ResellerCustomerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -542,13 +610,13 @@ function ResellerCustomerDetails() {
               Customer Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={'/'}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey ml-1 font-Regular">
+              <li className="text-sm  ml-1 font-Regular">
                 <Link to={'/reseller/customerList'}> Customer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {" "}
                 Customer Details ({activeTab})
               </li>
@@ -561,10 +629,10 @@ function ResellerCustomerDetails() {
             <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl font-semibold break-words">
                     {customerDetail?.meta?.username}
                   </p>
                 </div>
@@ -584,10 +652,10 @@ function ResellerCustomerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base font-semibold leading-5">
                     {customerDetail?.meta?.city}
                     {", "}
                     {customerDetail?.meta?.street}
@@ -599,7 +667,7 @@ function ResellerCustomerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3 font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[50%]" />
@@ -664,8 +732,8 @@ function ResellerCustomerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm font-Regular">Name</p>
+                  <p className="text-base  font-semibold ">
                     {customerDetail?.primary?.firstName}{" "}
                     {customerDetail?.primary?.lastName}
                   </p>
@@ -678,10 +746,10 @@ function ResellerCustomerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base leading-[13px] font-semibold break-words">
                     {customerDetail?.primary?.email}
                   </p>
                 </div>
@@ -693,10 +761,10 @@ function ResellerCustomerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base  font-semibold ">
                     +1 {customerDetail?.primary?.phoneNumber}
                   </p>
                 </div>
@@ -757,65 +825,46 @@ function ResellerCustomerDetails() {
               <div className="col-span-8">
                 <Card className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-5 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4"
-                          />
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '7px',
-                              color: activeTab === tab.id ? buttonTextColor : 'black',
-                            }}
-                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </Card>
               </div>
               <div className="col-span-2"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" ? (
-                  <Button
-                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
+                  <InActiveButton
+                    className="flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
                     onClick={() => routeToPage(activeTab)}
                   >
                     {" "}
-                    <img
+                    <div
+                      style={{
+                        maskImage: `url(${AddItem})`,
+                        WebkitMaskImage: `url(${AddItem})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img
                       src={AddItem}
                       className="self-center"
                       alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                    />{" "} */}
+                    <span className=" ml-2 self-center text-[14px] font-Regular !font-[700]">
                       Add {activeTab == "Settings" ? 'Address' : activeTab}
                     </span>{" "}
-                  </Button>
+                  </InActiveButton>
                 ) : (
                   <></>
                 )}
@@ -961,7 +1010,7 @@ function ResellerCustomerDetails() {
                   />
                 </div>
                 <div className="col-span-6">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -988,13 +1037,13 @@ function ResellerCustomerDetails() {
               </Grid>
               <Grid className="px-8 drop-shadow-5xl">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -1128,7 +1177,7 @@ function ResellerCustomerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1155,13 +1204,13 @@ function ResellerCustomerDetails() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

@@ -50,6 +50,7 @@ import DataTable from "react-data-table-component";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
 import { getCovrageList } from "../../../services/priceBookService";
+import InActiveButton from "../../../common/inActiveButton";
 
 function AddClaim() {
   // do this
@@ -506,7 +507,7 @@ function AddClaim() {
                     ) : (
                       <>
                         <table className="w-full border text-center table-auto">
-                          <thead className="bg-grayf9">
+                          <thead className="staticTable">
                             <tr className=" border-b-[1px]">
                               <th className="font-semibold">Contract ID</th>
                               {!location.pathname.includes(
@@ -529,7 +530,7 @@ function AddClaim() {
                               contractList?.map((res, index) => (
                                 <tr
                                   key={res.unique_key}
-                                  className="text-[13px] text-[#626662] font-[400] border-b-[1px]"
+                                  className="text-[13px] font-[400] border-b-[1px]"
                                 >
                                   <td className="py-3">{res.unique_key}</td>
                                   {!location.pathname.includes(
@@ -556,43 +557,60 @@ function AddClaim() {
                                         />
                                       </div>
                                       {selectedAction === res.unique_key && (
-                                        <div
+                                        <SingleView
                                           ref={dropdownRef}
-                                          className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]"
+                                          className="absolute z-[2] w-[90px] drop-shadow-5xl right-0 mt-2 py-1 border rounded-lg shadow-md top-[1rem]"
                                         >
                                           <div
-                                            className="text-left border-b text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                            className="text-left border-b text-[12px] border-[#E6E6E6]  cursor-pointer"
                                             onClick={() => {
                                               handleSelectValue(res);
                                               setSelectedAction(null); // Close dropdown after action
                                             }}
                                           >
-                                            <p className="flex px-3 py-1 hover:font-semibold">
-                                              <img
-                                                src={selectIcon}
-                                                className="w-4 h-4 mr-2"
-                                                alt="selectIcon"
+                                            <p className="flex px-3 py-1">
+                                              <div
+                                                style={{
+                                                  maskImage: `url(${selectIcon})`,
+                                                  WebkitMaskImage: `url(${selectIcon})`,
+                                                  maskRepeat: "no-repeat",
+                                                  WebkitMaskRepeat: "no-repeat",
+                                                  maskPosition: "center",
+                                                  WebkitMaskPosition: "center",
+                                                  maskSize: "contain",
+                                                  WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
                                               />
+
                                               Select
                                             </p>
                                           </div>
                                           <div
-                                            className="text-center text-[12px] border-[#E6E6E6] text-light-black cursor-pointer"
+                                            className="text-center text-[12px] border-[#E6E6E6]  cursor-pointer"
                                             onClick={() => {
                                               openModal(res);
                                               setSelectedAction(null); // Close dropdown after action
                                             }}
                                           >
-                                            <p className="flex hover:font-semibold py-1 px-3">
-                                              <img
-                                                src={View}
-                                                className="w-4 h-4 mr-2"
-                                                alt="View"
-                                              />{" "}
+                                            <p className="flex py-1 px-3">
+                                              <div
+                                                style={{
+                                                  maskImage: `url(${View})`,
+                                                  WebkitMaskImage: `url(${View})`,
+                                                  maskRepeat: "no-repeat",
+                                                  WebkitMaskRepeat: "no-repeat",
+                                                  maskPosition: "center",
+                                                  WebkitMaskPosition: "center",
+                                                  maskSize: "contain",
+                                                  WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
+                                              />
                                               View
                                             </p>
                                           </div>
-                                        </div>
+                                        </SingleView>
                                       )}
                                     </div>
                                   </td>
@@ -1056,7 +1074,7 @@ function AddClaim() {
                       )}
                   </div>
                   <div className="col-span-6">
-                    <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                    <p className="flex text-[12px] font-semibold mt-3 mb-6">
                       Do you want to send notifications?
                       <RadioButton
                         id="yes-create-account"
@@ -1075,9 +1093,9 @@ function AddClaim() {
                     </p>
                   </div>
                 </Grid>
-                <Button className="!bg-white !text-black" onClick={prevStep}>
+                <InActiveButton className="mr-3" onClick={prevStep}>
                   Previous
-                </Button>
+                </InActiveButton>
                 <Button type="submit">Submit</Button>
               </div>
             </form>
@@ -1623,10 +1641,10 @@ function AddClaim() {
                         <div className="col-span-5 border border-Light-Grey ">
                           <table className="w-full">
                             <thead>
-                              <tr className="border-b bg-[#9999]">
+                              <tr className="border-b staticTable">
                                 <th colSpan={4}>Quantity Pricing List</th>
                               </tr>
-                              <tr className="bg-[#9999]">
+                              <tr className="staticTable">
                                 <th>Sr.#</th>
                                 <th>Name</th>
                                 <th>Max Quantity Per Unit</th>
@@ -1704,7 +1722,7 @@ function AddClaim() {
                     </div>
                     <div className="col-span-12">
                       <table className="w-full border text-center">
-                        <tr className="border bg-[#9999]">
+                        <tr className="border staticTable">
                           <th>Coverage Type</th>
                           <th>Waiting Days</th>
                           <th>Deductible</th>

@@ -10,7 +10,7 @@ const Card = ({ children, className }) => {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'cardBackGroundColor':
             setBackGroundColor(color.colorCode);

@@ -72,6 +72,7 @@ import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -2427,13 +2428,13 @@ function ClaimList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
                   className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>
@@ -2595,7 +2596,7 @@ function ClaimList(props) {
             <div>
               <p className="text-sm my-3">
                 <b> Attachment : </b>{" "}
-                <span className="text-black">
+                <span className="">
                   {" "}
                   Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                   file size: 50 MB.{" "}
@@ -3201,14 +3202,14 @@ function ClaimList(props) {
         ) : (
           <div className="p-3 text-center">
             <img src={request} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-bold ">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className="text-2xl font-semibold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -3228,12 +3229,12 @@ function ClaimList(props) {
                   </Button>
                 </div>
                 <div className="col-span-3">
-                  <Button
+                  <InActiveButton
                     onClick={closePay}
-                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                    className="w-full "
                   >
                     No
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-3"></div>
               </Grid>

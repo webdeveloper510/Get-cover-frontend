@@ -137,7 +137,7 @@ function DealerResellerList() {
   };
   const columns = [
     {
-      name: "Sr.#",
+      name: "Serial #",
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
@@ -311,7 +311,7 @@ function DealerResellerList() {
           </div>
         </div>
 
-        <Link
+        {/* <Link
           to={"/dealer/addReseller"}
           className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
         >
@@ -320,7 +320,32 @@ function DealerResellerList() {
             {" "}
             Add New Reseller{" "}
           </span>{" "}
-        </Link>
+        </Link> */}
+        <InActiveButton className="flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <Link
+            to={"/dealer/addReseller"}
+            className="flex"
+          >
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center pr-1 py-1 h-4 w-4"
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-2 text-[14px] font-Regular ">
+              {" "}
+              Add New Reseller{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

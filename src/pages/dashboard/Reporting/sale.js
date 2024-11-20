@@ -81,7 +81,7 @@ function Sale() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -277,10 +277,10 @@ function Sale() {
                 Reporting
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm font-Regular">
                   <Link to={"/"}>Home / </Link>
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   Sale ({activeTab})
                 </li>
               </ul>

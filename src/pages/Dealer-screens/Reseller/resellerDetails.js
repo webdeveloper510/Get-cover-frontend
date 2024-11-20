@@ -69,6 +69,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import Carousel from "react-multi-carousel";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -461,7 +462,7 @@ function DealerResellerDetails() {
   };
   const columns = [
     {
-      name: "S.#",
+      name: "Serial #",
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "33%",
@@ -697,7 +698,7 @@ function DealerResellerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -712,6 +713,73 @@ function DealerResellerDetails() {
     }
   }, []);
 
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
+
   return (
     <>
       {loading && (
@@ -721,7 +789,7 @@ function DealerResellerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -742,13 +810,13 @@ function DealerResellerDetails() {
               Reseller Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/dealer/resellerList"}> Reseller List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {" "}
                 Reseller Detail ({activeTab})
               </li>
@@ -761,10 +829,10 @@ function DealerResellerDetails() {
             <SingleView className=" bg-Dealer-details bg-cover  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Account Name
                   </p>
-                  <p className="text-xl text-white font-semibold break-words">
+                  <p className="text-xl  font-semibold break-words">
                     {resellerDetail?.resellerData?.name}
                   </p>
                 </div>
@@ -784,10 +852,10 @@ function DealerResellerDetails() {
                   alt="Address"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular mt-3">
+                  <p className="text-sm  font-Regular mt-3">
                     Address
                   </p>
-                  <p className="text-base text-white font-semibold leading-5">
+                  <p className="text-base  font-semibold leading-5">
                     {resellerDetail?.resellerData?.street},{" "}
                     {resellerDetail?.resellerData?.city},{" "}
                     {resellerDetail?.resellerData?.state},{" "}
@@ -796,7 +864,7 @@ function DealerResellerDetails() {
                 </div>
               </div>
               <div className="flex w-full my-4">
-                <p className="text-[10px] mr-3 text-neutral-grey font-Regular">
+                <p className="text-[10px] mr-3  font-Regular">
                   PRIMARY CONTACT DETAILS
                 </p>
                 <hr className="self-center border-[#999999] w-[40%]" />
@@ -820,10 +888,10 @@ function DealerResellerDetails() {
                   </Link>
                 </div>
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Dealer Name
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base  font-semibold ">
                     {resellerDetail?.resellerData?.dealerName}
                   </p>
                 </div>
@@ -835,8 +903,8 @@ function DealerResellerDetails() {
                   alt="Name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">Name</p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-sm  font-Regular">Name</p>
+                  <p className="text-base  font-semibold ">
                     {resellerDetail?.firstName} {resellerDetail?.lastName}
                   </p>
                 </div>
@@ -848,10 +916,10 @@ function DealerResellerDetails() {
                   alt="email"
                 />
                 <div className="w-[80%]">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Email
                   </p>
-                  <p className="text-base text-white leading-[13px] font-semibold break-words">
+                  <p className="text-base  leading-[13px] font-semibold break-words">
                     {resellerDetail?.email}
                   </p>
                 </div>
@@ -863,10 +931,10 @@ function DealerResellerDetails() {
                   alt="name"
                 />
                 <div>
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Phone Number
                   </p>
-                  <p className="text-base text-white font-semibold ">
+                  <p className="text-base  font-semibold ">
                     +1 {formatPhoneNumber(resellerDetail?.phoneNumber)}
                   </p>
                 </div>
@@ -874,49 +942,49 @@ function DealerResellerDetails() {
               <Grid className="mt-5">
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg font-semibold ">
+                    <p className=" text-lg text-white font-semibold ">
                       {" "}
                       {resellerDetail?.orderData?.noOfOrders ?? 0}
                     </p>
-                    <p className="text-neutral-grey text-sm font-Regular ">
+                    <p className=" text-white text-sm font-Regular ">
                       Total Number of Orders
                     </p>
                   </div>
                 </div>
                 <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">
+                  <div className="bg-[#2A2A2A] self-center text-white px-4 py-6 rounded-xl">
+                    <p className=" text-lg text-white !font-[600]">
                       $
                       {formatOrderValue(
                         resellerDetail?.orderData?.orderAmount ??
                         parseInt(0).toLocaleString(2)
                       )}
                     </p>
-                    <p className="text-neutral-grey text-sm font-Regular">
+                    <p className=" text-sm font-Regular">
                       Total Value of Orders
                     </p>
                   </div>
                 </div>
                 <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg !font-[600]">
+                  <div className="bg-[#2A2A2A] text-white self-center px-4 py-6 rounded-xl">
+                    <p className=" text-lg !font-[600]">
                       {resellerDetail?.claimData?.numberOfClaims}
                     </p>
-                    <p className="text-neutral-grey text-sm font-Regular">
+                    <p className=" text-sm font-Regular">
                       Total number of Claims
                     </p>
                   </div>
                 </div>
                 <div className="col-span-6 ">
-                  <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
-                    <p className="text-white text-lg  !font-[600]">
+                  <div className="bg-[#2A2A2A] text-white self-center px-4 py-6 rounded-xl">
+                    <p className=" text-lg  !font-[600]">
                       $
                       {formatOrderValue(
                         resellerDetail?.claimData?.valueClaim ??
                         parseInt(0).toLocaleString(2)
                       )}
                     </p>
-                    <p className="text-neutral-grey text-sm font-Regular">
+                    <p className=" text-sm font-Regular">
                       Total Value of Claims
                     </p>
                   </div>
@@ -941,42 +1009,13 @@ function DealerResellerDetails() {
                     responsive={responsive}
                     ref={carouselRef}
                   >
-                    {tabs.map((tab) => (
-                      <Button
-                        className={`flex self-center mr-2 w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? ""
-                          : "!bg-grayf9 !text-black"
-                          }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            maskRepeat: 'no-repeat',
-                            WebkitMaskRepeat: 'no-repeat',
-
-                            maskPosition: 'center',
-                            WebkitMaskPosition: 'center',
-                            maskSize: 'contain',
-                            WebkitMaskSize: 'contain'
-                          }}
-                          className="self-center pr-1 py-1 h-4 w-4"
-                        />
-                        <span
-                          style={{
-                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            borderLeftWidth: '1px',
-                            paddingLeft: '7px',
-                            color: activeTab === tab.id ? buttonTextColor : 'black',
-                          }}
-                          className={`ml-1 py-1 text-sm font-Regular `}
-                        >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Carousel>
                   <div className="absolute h-full bg-grayf9 right-[5px] flex top-0 self-center  shadow-6xl">
                     {" "}
@@ -994,16 +1033,33 @@ function DealerResellerDetails() {
                       className="col-span-2"
                       onClick={() => routeToPage(activeTab)}
                     >
-                      <Button className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
-                        <img
-                          src={AddItem}
-                          className="self-center"
-                          alt="AddItem"
+                      <InActiveButton className="flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+                        <div
+                          style={{
+                            maskImage: `url(${AddItem})`,
+                            WebkitMaskImage: `url(${AddItem})`,
+                            backgroundColor: backGroundColor,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center pr-1 h-4 w-4"
                         />
-                        <span className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]">
+                        <span
+                          style={{
+                            borderColor: backGroundColor,
+                            borderLeftWidth: "1px",
+                            paddingLeft: "7px",
+                            color: backGroundColor,
+                          }}
+                          className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                        >
                           Add {activeTab}
                         </span>
-                      </Button>
+                      </InActiveButton>
                     </div>
                   ) : (
                     <></>
@@ -1151,7 +1207,7 @@ function DealerResellerDetails() {
                 </div>
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[11px] my-5 font-semibold self-center">
+                <p className=" flex text-[11px] my-5 font-semibold self-center">
                   <span className=" text-left">
                     {" "}
                     Do you want to create an account?{" "}
@@ -1171,7 +1227,7 @@ function DealerResellerDetails() {
                     onChange={handleAccountChange}
                   />
                 </p>
-                <p className="text-light-black flex text-[11px]  font-semibold self-center">
+                <p className=" flex text-[11px]  font-semibold self-center">
                   {" "}
                   <span className=" text-left">
                     {" "}
@@ -1196,13 +1252,13 @@ function DealerResellerDetails() {
                 </p>
               </div>
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeModal}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">
@@ -1220,7 +1276,7 @@ function DealerResellerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold ">
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
@@ -1255,7 +1311,7 @@ function DealerResellerDetails() {
               <div className="col-span-4">
                 <Button
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !border-Bright-Grey !bg-[transparent] ! !text-sm !font-Regular"
                   onClick={closeModal1}
                 >
                   Cancel
@@ -1274,7 +1330,7 @@ function DealerResellerDetails() {
       {/* Modal Add User Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
         <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+          <p className=" text-center text-3xl mb-5 mt-2 font-bold ">
             Add New User
           </p>
           <form onSubmit={userValues.handleSubmit}>
@@ -1398,7 +1454,7 @@ function DealerResellerDetails() {
                 />
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1425,13 +1481,13 @@ function DealerResellerDetails() {
             </Grid>
             <Grid className="drop-shadow-5xl px-8">
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeUserModal}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">
@@ -1446,10 +1502,10 @@ function DealerResellerDetails() {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold ">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className=" text-base font-medium mt-4">
             {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>

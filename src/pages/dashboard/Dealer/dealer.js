@@ -1018,7 +1018,7 @@ function Dealer() {
                         {formik.errors.termCondition}
                       </div>
                     )}
-                    <small className="text-neutral-grey p-10p">
+                    <small className=" p-10p">
                       Attachment size limit is 10 MB
                     </small>
                   </div>

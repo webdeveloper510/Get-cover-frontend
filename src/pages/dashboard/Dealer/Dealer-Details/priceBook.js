@@ -33,6 +33,7 @@ import { getPriceBookListByResellerId } from "../../../../services/reSellerServi
 import Card from "../../../../common/card";
 import { MultiSelect } from "react-multi-select-component";
 import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 function PriceBookList(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
@@ -147,12 +148,14 @@ function PriceBookList(props) {
     }
   };
 
+
+
   const columns =
     props.flag === "reseller"
       ? [
         {
-          name: "Sr.#",
-          selector: (row, index) => (1 - 1) * 10 + index + 1,
+          name: "Serial #",
+          selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
           sortable: true,
           minWidth: "auto",
           maxWidth: "90px",
@@ -217,7 +220,7 @@ function PriceBookList(props) {
       ]
       : [
         {
-          name: "Sr.#",
+          name: "Serial #",
           selector: (row, index) => (1 - 1) * 10 + index + 1,
           sortable: true,
           minWidth: "auto",
@@ -347,9 +350,9 @@ function PriceBookList(props) {
                   />
                 </div>
                 {selectedAction === index && (
-                  <div
+                  <SingleView
                     ref={dropdownRef}
-                    className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
+                    className={`absolute z-[2] w-[70px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
                       index
                     )}`}
                   >
@@ -358,17 +361,45 @@ function PriceBookList(props) {
                       onClick={() => {
                         routeToEditPage(row);
                       }}
-                      className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                      className="text-left cursor-pointer flex border-b py-1 px-2"
                     >
-                      <img src={edit} className="w-4 h-4 mr-2" /> Edit
+                      <div
+                        style={{
+                          maskImage: `url(${edit})`,
+                          WebkitMaskImage: `url(${edit})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={edit} className="w-4 h-4 mr-2" /> */}
+                      Edit
                     </div>
                     <div
                       onClick={() => openView(row._id)}
-                      className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                      className="text-left cursor-pointer flex py-1 px-2"
                     >
-                      <img src={view} className="w-4 h-4 mr-2" /> View
+                      <div
+                        style={{
+                          maskImage: `url(${view})`,
+                          WebkitMaskImage: `url(${view})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews mr-2 h-4 w-4 "
+                      />
+                      {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                      View
                     </div>
-                  </div>
+                  </SingleView>
                 )}
               </div>
             );
@@ -560,6 +591,21 @@ function PriceBookList(props) {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+
+  const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle rows per page change
+  const handleRowsPerPageChange = (newPerPage, page) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <div className="my-8">
@@ -693,11 +739,19 @@ function PriceBookList(props) {
                     {/* <img src={shorting} className="ml-2" alt="shorting" /> */}
                   </>
                 }
-                noDataComponent={<CustomNoDataComponent />}
+                // draggableColumns={false}
                 pagination
-                paginationPerPage={10}
-                paginationComponentOptions={paginationOptions}
+                paginationPerPage={rowsPerPage}
+                paginationComponentOptions={{
+                  rowsPerPageText: "Rows per page:",
+                  rangeSeparatorText: "of",
+                  selectAllRowsItem: true,
+                  selectAllRowsItemText: "All",
+                }}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handleRowsPerPageChange}
+                noDataComponent={<CustomNoDataComponent />}
               />
             )}
           </div>
@@ -876,7 +930,7 @@ function PriceBookList(props) {
               </div>
               <div className="col-span-12">
                 <table className="w-full border text-center">
-                  <tr className="border bg-[#9999]">
+                  <tr className="border staticTable">
                     <th>Coverage Type</th>
                     <th>Waiting Days</th>
                     <th>Deductible</th>
@@ -915,10 +969,10 @@ function PriceBookList(props) {
                   <>
                     <div className="col-span-12">
                       <table className="w-full border text-center">
-                        <tr className="border bg-[#9999]">
+                        <tr className="border staticTable">
                           <th colSpan={"2"}>Quantity Pricing List </th>
                         </tr>
-                        <tr className="border bg-[#9999]">
+                        <tr className="border staticTable">
                           <th className="w-1/2">Name</th>
                           <th>Max Quantity</th>
                         </tr>

@@ -69,7 +69,7 @@ function ResellerOrderDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 px-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 px-3 relative ">
         <Headbar />
         <div className="flex">
           <Link
@@ -87,13 +87,13 @@ function ResellerOrderDetails() {
               Order Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular pl-2">
+              <li className="text-sm  font-Regular pl-2">
                 <Link to={"/reseller/orderList"}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>

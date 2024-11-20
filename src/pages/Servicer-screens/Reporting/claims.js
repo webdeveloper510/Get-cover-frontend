@@ -2140,7 +2140,7 @@ function AllList(props) {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -2261,11 +2261,11 @@ function AllList(props) {
           {!showForm ? (
             <Grid>
               <div className="col-span-12">
-                <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+                <p className="text-3xl mb-0 mt-4 font-semibold">
                   {" "}
-                  <span className="text-light-black"> Reject </span>
+                  <span className=""> Reject </span>
                 </p>
-                <p className="text-neutral-grey text-base font-medium mt-2 ">
+                <p className="text-base font-medium mt-2 ">
                   Do you really want to Reject the Claim ?
                 </p>
               </div>
@@ -2276,13 +2276,13 @@ function AllList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>

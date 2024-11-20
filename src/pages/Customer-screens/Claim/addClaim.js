@@ -145,7 +145,7 @@ function CustomerAddClaim() {
           </div>
           <div className='col-span-12'>
             <table className='w-full border text-center'>
-              <thead className='bg-grayf9 '>
+              <thead className='staticTable '>
                 <tr className='py-2'>
                   <th>Contract ID</th>
                   <th className='!py-2'>Serial Number</th>
@@ -297,7 +297,7 @@ function CustomerAddClaim() {
               </div>
             </div>
             <div className="col-span-6">
-              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+              <p className="flex text-[12px] font-semibold mt-3 mb-6">
                 Do you want to send notifications?
                 <RadioButton
                   id="yes-create-account"

@@ -20,6 +20,7 @@ import SelectBoxWIthSerach from '../../../common/selectBoxWIthSerach';
 import DateInput from '../../../common/dateInput';
 import Checkbox from '../../../common/checkbox';
 import Modal from '../../../common/model';
+import InActiveButton from '../../../common/inActiveButton';
 
 function ResellerAddClaim() {
   const [selectedValue, setSelectedValue] = useState('');
@@ -320,7 +321,7 @@ function ResellerAddClaim() {
               </div>
             </div>
             <div className="col-span-6">
-              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+              <p className="flex text-[12px] font-semibold mt-3 mb-6">
                 Do you want to send notifications?
                 <RadioButton
                   id="yes-create-account"
@@ -339,7 +340,7 @@ function ResellerAddClaim() {
               </p>
             </div>
           </Grid>
-          <Button className='!bg-white !text-black' onClick={prevStep}>Previous</Button>
+          <InActiveButton className='mr-3' onClick={prevStep}>Previous</InActiveButton>
           <Button>Submit</Button>
         </div>
       </div>

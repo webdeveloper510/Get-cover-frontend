@@ -12,6 +12,7 @@ import { apiUrl } from "../../../../services/authServices";
 import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
+import InActiveButton from "../../../../common/inActiveButton";
 function OrderSummary(props) {
   const baseUrl = apiUrl();
 
@@ -79,311 +80,319 @@ function OrderSummary(props) {
                           </p>
                         </div>
                       </Grid>
+                    </SingleView>
 
-                      <Grid className="!gap-0 bg-grayf9">
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Product Category
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.catName}
-                            </p>
-                          </div>
+                    <Grid className="!gap-0">
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Product Category
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {res.catName}
+                          </p>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Price Type
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.priceType}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Price Type
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {res.priceType}
+                          </p>
                         </div>
-                        <div className="col-span-6 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Product Description
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.description}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-6 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Product Description
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {res.description}
+                          </p>
                         </div>
+                      </div>
 
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Term
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.term} Months
-                            </p>
-                          </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Term
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {res.term} Months
+                          </p>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Unit Price
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              $
-                              {res.unitPrice === undefined
-                                ? parseInt(0).toLocaleString(2)
-                                : formatOrderValue(res.unitPrice)}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Unit Price
+                          </p>
+                          <p className=" text-base font-semibold">
+                            $
+                            {res.unitPrice === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(res.unitPrice)}
+                          </p>
                         </div>
-                        {/* {props.shown === false && (
+                      </div>
+                      {/* {props.shown === false && (
                           <div className="col-span-3 border border-Light-Grey">
                             <div className="py-4 px-3">
-                              <p className="text-[#5D6E66] text-sm font-Regular">
+                              <p className=" text-sm font-Regular">
                                 ADH (Waiting Days)
                               </p>
-                              <p className="text-light-black text-base font-semibold">
+                              <p className=" text-base font-semibold">
                                 {res?.adh === "" ? 0 : res?.adh}
                               </p>
                             </div>
                           </div>
                         )} */}
 
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              # of Products
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {res.checkNumberProducts}
-                            </p>
-                          </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            # of Products
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {res.checkNumberProducts}
+                          </p>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Price
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              $
-                              {res.price === undefined
-                                ? parseInt(0).toLocaleString(2)
-                                : formatOrderValue(res.price)}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Price
+                          </p>
+                          <p className=" text-base font-semibold">
+                            $
+                            {res.price === undefined
+                              ? parseInt(0).toLocaleString(2)
+                              : formatOrderValue(res.price)}
+                          </p>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Coverage Start Date
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {format(
-                                new Date(res.coverageStartDate1),
-                                "MM/dd/yyyy"
-                              )}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Coverage Start Date
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {format(
+                              new Date(res.coverageStartDate1),
+                              "MM/dd/yyyy"
+                            )}
+                          </p>
                         </div>
-                        <div className="col-span-3 border border-Light-Grey">
-                          <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
-                              Coverage End Date
-                            </p>
-                            <p className="text-light-black text-base font-semibold">
-                              {format(
-                                new Date(res.coverageEndDate1),
-                                "MM/dd/yyyy"
-                              )}
-                            </p>
-                          </div>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey">
+                        <div className="py-4 px-3">
+                          <p className=" text-sm font-Regular">
+                            Coverage End Date
+                          </p>
+                          <p className=" text-base font-semibold">
+                            {format(
+                              new Date(res.coverageEndDate1),
+                              "MM/dd/yyyy"
+                            )}
+                          </p>
                         </div>
-                        {res.priceType == "Flat Pricing" && (
-                          <>
-                            <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 px-3">
-                                <p className="text-[#5D6E66] text-sm font-Regular">
-                                  Start Range
-                                </p>
-                                <p className="text-light-black text-base font-semibold">
-                                  ${res.rangeStart.toLocaleString(2)}
-                                </p>
-                              </div>
+                      </div>
+                      {res.priceType == "Flat Pricing" && (
+                        <>
+                          <div className="col-span-3 border border-Light-Grey">
+                            <div className="py-4 px-3">
+                              <p className=" text-sm font-Regular">
+                                Start Range
+                              </p>
+                              <p className=" text-base font-semibold">
+                                ${res.rangeStart.toLocaleString(2)}
+                              </p>
                             </div>
-                            <div className="col-span-3 border border-Light-Grey">
-                              <div className="py-4 px-3">
-                                <p className="text-[#5D6E66] text-sm font-Regular">
-                                  End Range
-                                </p>
-                                <p className="text-light-black text-base font-semibold">
-                                  ${res.rangeEnd.toLocaleString(2)}
-                                </p>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                        {res.priceType == "Quantity Pricing" && (
-                          <div className="col-span-12">
-                            <table className="w-full border text-center">
-                              <tr className="border bg-white">
-                                <td colSpan={"4"} className="font-bold text-sm">
-                                  Quantity Pricing List{" "}
-                                </td>
-                              </tr>
-                              <tr className="border bg-white">
-                                <th className="font-bold text-sm">Name</th>
-                                <th className="font-bold text-sm">
-                                  Quantity Per Unit
-                                </th>
-                                <th className="font-bold text-sm">Quantity</th>
-                                <th className="font-bold text-sm"># of Unit</th>
-                              </tr>
-                              {res.QuantityPricing &&
-                                res.QuantityPricing.map((value, index) => {
-                                  return (
-                                    <tr key={index} className="border bg-white">
-                                      <td className="text-[12px]">
-                                        {value.name}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {value.quantity}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {value.enterQuantity}
-                                      </td>
-                                      <td className="text-[12px]">
-                                        {Math.max(
-                                          1,
-                                          Math.ceil(
-                                            value.enterQuantity /
-                                            parseFloat(value.quantity)
-                                          )
-                                        )}
-                                      </td>
-                                    </tr>
-                                  );
-                                })}
-                            </table>
                           </div>
-                        )}
-                      </Grid>
-                      <Grid className="!gap-0 bg-grayf9 text-light-black mb-5">
-                        <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className="text-base mb-2 text-left font-semibold">
-                            # of Claims Over the Certain Period
-                          </p>
-                          <p className="text-[14px] mb-2 text-left font-semibold">
-                            {/* {res?.noOfClaim?.period} -{" "} */}
-                            {
-                              res?.noOfClaim?.value == "-1"
-                                ? ""
-                                : `${res?.noOfClaim?.period} - `
-                            }
-                            {res?.noOfClaim?.value == -1
-                              ? "Unlimited"
-                              : res?.noOfClaim?.value}
-                          </p>
-                        </div>
-                        <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className="text-base mb-2 text-left font-semibold">
-                            # of Claims in Coverage Period
-                          </p>
-                          <p className="text-[14px] text-left font-semibold">
-                            {res?.noOfClaimPerPeriod == -1
-                              ? "Unlimited"
-                              : res?.noOfClaimPerPeriod}
-                          </p>
-                        </div>
-                        <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className=" text-base mb-2 text-left font-semibold">
-                            {" "}
-                            Is manufacturer warranty included?
-                          </p>
-                          <p className="text-[14px] text-left font-semibold">
-                            {res?.isManufacturerWarranty == true ? "Yes" : "No"}
-                          </p>
-                        </div>
-                        <div className="col-span-3 border border-Light-Grey pl-4">
-                          <p className=" text-base mb-3 font-semibold">
-                            {" "}
-                            Is There a Maximum Claim Amount?
-                          </p>
-                          <p className="text-[14px] font-semibold">
-                            {res?.isMaxClaimAmount == true
-                              ? "Yes"
-                              : "No"}
-                          </p>
-                        </div>
+                          <div className="col-span-3 border border-Light-Grey">
+                            <div className="py-4 px-3">
+                              <p className=" text-sm font-Regular">
+                                End Range
+                              </p>
+                              <p className=" text-base font-semibold">
+                                ${res.rangeEnd.toLocaleString(2)}
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {res.priceType == "Quantity Pricing" && (
                         <div className="col-span-12">
                           <table className="w-full border text-center">
-                            <tr className="border bg-[#9999]">
-                              <th>Coverage Type</th>
-                              <th>Waiting Days</th>
-                              <th>Deductible</th>
+                            <tr className="border bg-white">
+                              <td colSpan={"4"} className="font-bold text-sm">
+                                Quantity Pricing List{" "}
+                              </td>
                             </tr>
-
-                            {res?.mergedData && res?.mergedData.length > 0 && (
-                              <>
-                                {res?.mergedData.map((type, index) => (
-                                  <tr key={index} className="border ">
-                                    <td className="font-semibold  mx-[19px]">
-                                      {type.label}
+                            <tr className="border bg-white">
+                              <th className="font-bold text-sm">Name</th>
+                              <th className="font-bold text-sm">
+                                Quantity Per Unit
+                              </th>
+                              <th className="font-bold text-sm">Quantity</th>
+                              <th className="font-bold text-sm"># of Unit</th>
+                            </tr>
+                            {res.QuantityPricing &&
+                              res.QuantityPricing.map((value, index) => {
+                                return (
+                                  <tr key={index} className="border bg-white">
+                                    <td className="text-[12px]">
+                                      {value.name}
                                     </td>
-                                    <td className="font-semibold  mx-[19px]">
-                                      {type.waitingDays}
+                                    <td className="text-[12px]">
+                                      {value.quantity}
                                     </td>
-                                    <td className="font-semibold  mx-[19px]">
-                                      {type.amountType != "percentage" && "$"}
-                                      {type.amountType === "percentage"
-                                        ? type.deductible
-                                        : type.deductible === undefined
-                                          ? (0).toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                          })
-                                          : formatOrderValue(
-                                            type.deductible ?? 0
-                                          )}
-                                      {type.amountType == "percentage" && "%"}
+                                    <td className="text-[12px]">
+                                      {value.enterQuantity}
+                                    </td>
+                                    <td className="text-[12px]">
+                                      {Math.max(
+                                        1,
+                                        Math.ceil(
+                                          value.enterQuantity /
+                                          parseFloat(value.quantity)
+                                        )
+                                      )}
                                     </td>
                                   </tr>
-                                ))}
-                              </>
-                            )}
+                                );
+                              })}
                           </table>
                         </div>
-                        <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
-                          <Grid className="">
-                            <div className="col-span-9 py-4 px-3">
-                              <div className="">
-                                <p className="text-[#5D6E66] text-sm font-Regular">
-                                  Note
-                                </p>
-                                <p className="text-light-black text-base font-semibold">
-                                  {res.additionalNotes}
-                                </p>
-                              </div>
+                      )}
+                    </Grid>
+                    <Grid className="!gap-0 mb-5">
+                      <div className="col-span-3 border border-Light-Grey pl-4">
+                        <p className="text-base mb-2 text-left font-semibold">
+                          # of Claims Over the Certain Period
+                        </p>
+                        <p className="text-[14px] mb-2 text-left font-semibold">
+                          {/* {res?.noOfClaim?.period} -{" "} */}
+                          {
+                            res?.noOfClaim?.value == "-1"
+                              ? ""
+                              : `${res?.noOfClaim?.period} - `
+                          }
+                          {res?.noOfClaim?.value == -1
+                            ? "Unlimited"
+                            : res?.noOfClaim?.value}
+                        </p>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey pl-4">
+                        <p className="text-base mb-2 text-left font-semibold">
+                          # of Claims in Coverage Period
+                        </p>
+                        <p className="text-[14px] text-left font-semibold">
+                          {res?.noOfClaimPerPeriod == -1
+                            ? "Unlimited"
+                            : res?.noOfClaimPerPeriod}
+                        </p>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey pl-4">
+                        <p className=" text-base mb-2 text-left font-semibold">
+                          {" "}
+                          Is manufacturer warranty included?
+                        </p>
+                        <p className="text-[14px] text-left font-semibold">
+                          {res?.isManufacturerWarranty == true ? "Yes" : "No"}
+                        </p>
+                      </div>
+                      <div className="col-span-3 border border-Light-Grey pl-4">
+                        <p className=" text-base mb-3 font-semibold">
+                          {" "}
+                          Is There a Maximum Claim Amount?
+                        </p>
+                        <p className="text-[14px] font-semibold">
+                          {res?.isMaxClaimAmount == true
+                            ? "Yes"
+                            : "No"}
+                        </p>
+                      </div>
+                      <div className="col-span-12">
+                        <table className="w-full border text-center">
+                          <tr className="border staticTable">
+                            <th>Coverage Type</th>
+                            <th>Waiting Days</th>
+                            <th>Deductible</th>
+                          </tr>
+
+                          {res?.mergedData && res?.mergedData.length > 0 && (
+                            <>
+                              {res?.mergedData.map((type, index) => (
+                                <tr key={index} className="border ">
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.label}
+                                  </td>
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.waitingDays}
+                                  </td>
+                                  <td className="font-semibold  mx-[19px]">
+                                    {type.amountType != "percentage" && "$"}
+                                    {type.amountType === "percentage"
+                                      ? type.deductible
+                                      : type.deductible === undefined
+                                        ? (0).toLocaleString(undefined, {
+                                          minimumFractionDigits: 2,
+                                        })
+                                        : formatOrderValue(
+                                          type.deductible ?? 0
+                                        )}
+                                    {type.amountType == "percentage" && "%"}
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          )}
+                        </table>
+                      </div>
+                      <div className="col-span-12 border rounded-b-xl	 border-Light-Grey">
+                        <Grid className="">
+                          <div className="col-span-9 py-4 px-3">
+                            <div className="">
+                              <p className=" text-sm font-Regular">
+                                Note
+                              </p>
+                              <p className=" text-base font-semibold">
+                                {res.additionalNotes}
+                              </p>
                             </div>
-                            <div className="col-span-3 self-center justify-end flex pr-4">
-                              <Button
-                                className="!bg-white !text-light-black border flex"
-                                onClick={() => {
-                                  handleDownloadClick(res.orderFile.fileName);
+                          </div>
+                          <div className="col-span-3 self-center justify-end flex pr-4">
+                            <InActiveButton
+                              className=" ! border flex"
+                              onClick={() => {
+                                handleDownloadClick(res.orderFile.fileName);
+                              }}
+                            >
+                              <div
+                                style={{
+                                  maskImage: `url(${Csv})`,
+                                  WebkitMaskImage: `url(${Csv})`,
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
                                 }}
-                              >
-                                <img
-                                  src={Csv}
-                                  className="mr-3 self-center"
-                                  alt="Csv"
-                                />{" "}
-                                <span className="self-center">
-                                  {" "}
-                                  Download File{" "}
-                                </span>
-                              </Button>
-                            </div>
-                          </Grid>
-                        </div>
-                      </Grid>
-                    </SingleView>
+                                className="self-center mr-2 h-4 w-4 "
+                              />
+                              <span className="self-center">
+                                {" "}
+                                Download File{" "}
+                              </span>
+                            </InActiveButton>
+                          </div>
+                        </Grid>
+                      </div>
+                    </Grid>
                   </div>
                 </div>
               );

@@ -50,6 +50,7 @@ import ClaimList from "../../dashboard/Claim/claimList";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
 import CustomerSetting from "../Reseller/Dealer-Details/customerSetting";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CustomerDetails() {
   const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
@@ -525,7 +526,7 @@ function CustomerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -539,6 +540,73 @@ function CustomerDetails() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading && (
@@ -548,7 +616,7 @@ function CustomerDetails() {
           </div>
         </div>
       )}
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -757,65 +825,46 @@ function CustomerDetails() {
               <div className="col-span-8">
                 <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-5 !gap-1">
-                    {tabs.map((tab) => (
-                      <div className="col-span-1" key={tab.id}>
-                        <Button
-                          className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                            ? ""
-                            : "!bg-grayf9 !text-black"
-                            }`}
-                          onClick={() => handleTabClick(tab.id)}
-                        >
-                          <div
-                            style={{
-                              maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                              backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              maskRepeat: 'no-repeat',
-                              WebkitMaskRepeat: 'no-repeat',
-
-                              maskPosition: 'center',
-                              WebkitMaskPosition: 'center',
-                              maskSize: 'contain',
-                              WebkitMaskSize: 'contain'
-                            }}
-                            className="self-center pr-1 py-1 h-4 w-4"
-                          />
-                          <span
-                            style={{
-                              borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                              borderLeftWidth: '1px',
-                              paddingLeft: '7px',
-                              color: activeTab === tab.id ? buttonTextColor : 'black',
-                            }}
-                            className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                              }`}
-                          >
-                            {tab.label}
-                          </span>
-                        </Button>
-                      </div>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </Grid>
                 </div>
               </div>
               <div className="col-span-2"></div>
               <div className="col-span-2">
                 {activeTab !== "Contracts" ? (
-                  <Button
-                    className="!bg-white flex self-center h-full  mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-                    onClick={() => routeToPage(activeTab)}
-                  >
-                    {" "}
-                    <img
-                      src={AddItem}
-                      className="self-center"
-                      alt="AddItem"
-                    />{" "}
-                    <span className="text-black ml-2 self-center text-[14px] font-Regular !font-[700]">
+                  <InActiveButton className="flex self-center h-full mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey" onClick={() => routeToPage(activeTab)}>
+                    <div
+                      style={{
+                        maskImage: `url(${AddItem})`,
+                        WebkitMaskImage: `url(${AddItem})`,
+                        backgroundColor: backGroundColor,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center pr-1 h-4 w-4"
+                    />
+                    <span
+                      style={{
+                        borderColor: backGroundColor,
+                        borderLeftWidth: "1px",
+                        paddingLeft: "7px",
+                        color: backGroundColor,
+                      }}
+                      className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                    >
                       Add {activeTab == "Settings" ? 'Address' : activeTab}
                     </span>{" "}
-                  </Button>
+                  </InActiveButton>
                 ) : (
                   <></>
                 )}
@@ -835,7 +884,7 @@ function CustomerDetails() {
 
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -1130,7 +1179,7 @@ function CustomerDetails() {
                   />
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                     Do you want to create an account?
                     <RadioButton
                       id="yes-create-account"
@@ -1157,13 +1206,13 @@ function CustomerDetails() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -1189,7 +1238,7 @@ function CustomerDetails() {
 
         <Modal isOpen={isUserModalOpen1} onClose={closeUserModal1}>
           <div className=" py-3">
-            <p className=" text-center text-3xl m=b-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
               Add Address
             </p>
             <form onSubmit={address.handleSubmit}>
@@ -1277,13 +1326,13 @@ function CustomerDetails() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8 mt-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal1}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

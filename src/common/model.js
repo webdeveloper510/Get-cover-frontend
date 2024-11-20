@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, children, className }) => {
 
     if (storedUserDetails) {
       const { colorScheme } = storedUserDetails;
-      colorScheme.forEach(({ colorType, colorCode }) => {
+      colorScheme?.forEach(({ colorType, colorCode }) => {
         switch (colorType) {
           case 'modelBackgroundColor':
             setBackgroundColor(colorCode);

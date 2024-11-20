@@ -141,7 +141,19 @@ function DealerDetails() {
     //   size: "",
     // },
   });
+  const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
 
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle rows per page change
+  const handleRowsPerPageChange = (newPerPage, page) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(page);
+  };
   const state = cityData;
   const containerRef = useRef(null);
 
@@ -542,8 +554,8 @@ function DealerDetails() {
   };
   const columns = [
     {
-      name: "S.#",
-      selector: (row, index) => index + 1,
+      name: "Serial #",
+      selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
       sortable: true,
       minWidth: "33%",
       center: true,
@@ -792,7 +804,7 @@ function DealerDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach((color) => {
+      colorScheme?.forEach((color) => {
         switch (color.colorType) {
           case "inActiveButtonColor":
             setBackGroundColor(color.colorCode);
@@ -883,7 +895,7 @@ function DealerDetails() {
         </div>
       )}
 
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
 
         <div className="flex">
@@ -904,13 +916,13 @@ function DealerDetails() {
               Dealer Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey ml-1 font-Regular">
+              <li className="text-sm  ml-1 font-Regular">
                 <Link to={"/dealerList"}> Dealer List / </Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {" "}
                 Dealer Detail ({activeTab})
               </li>
@@ -1317,7 +1329,7 @@ function DealerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold">
               Assign Servicer
             </p>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
@@ -1350,13 +1362,13 @@ function DealerDetails() {
             </div>
             <Grid className="drop-shadow-5xl">
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeModal1}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">
@@ -1495,7 +1507,7 @@ function DealerDetails() {
                 />
               </div>
               <div className="col-span-6">
-                <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+                <p className=" flex text-[12px] font-semibold mt-3 mb-6">
                   Do you want to create an account?
                   <RadioButton
                     id="yes-create-account"
@@ -1522,13 +1534,13 @@ function DealerDetails() {
             </Grid>
             <Grid className="drop-shadow-5xl px-8">
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeUserModal}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">

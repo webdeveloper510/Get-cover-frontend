@@ -2235,13 +2235,13 @@ function ResellerClaimList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="w-full !bg-[white] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>

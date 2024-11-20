@@ -745,10 +745,10 @@ function ContractList(props) {
                     <>
                       <div className="col-span-5">
                         <table className="w-full border text-center">
-                          <tr className="border bg-[#9999]">
+                          <tr className="border staticTable">
                             <th colSpan={"3"}>Quantity Pricing List </th>
                           </tr>
-                          <tr className="border bg-[#9999]">
+                          <tr className="border staticTable">
                             <th className="w-1/3">Name</th>
                             <th className="w-1/3"> Quantity Per Unit</th>
                             <th className="w-1/3"> Quantity</th>

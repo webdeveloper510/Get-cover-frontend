@@ -294,7 +294,7 @@ function AddBulkClaim() {
                   )}
                 </div>
                 <div className="col-span-12">
-                  <p className="text-light-black text-base mb-2 font-semibold">
+                  <p className="text-base mb-2 font-semibold">
                     Bulk Claim Details
                   </p>
                   <FileDropdown

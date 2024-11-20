@@ -8,6 +8,7 @@ import Card from "../../../../common/card";
 import Primary from "../../../../assets/images/SetPrimary.png";
 import Cross1 from "../../../../assets/images/Cross_Button.png";
 import { useFormik } from "formik";
+import assign from "../../../../assets/images/Unassign.png";
 import * as Yup from "yup";
 import {
   DownloadSet,
@@ -22,7 +23,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import Modal from "../../../../common/model";
 import CollapsibleDiv from "../../../../common/collapsibleDiv";
-import { dealerGetSetting, dealerSaveSetting, getSetting, resetDefault, resetSetting, saveSetting } from "../../../../services/extraServices";
+import { dealerGetSetting, dealerResetDefault, dealerResetSetting, dealerSaveSetting, getSetting, resetDefault, resetSetting, saveSetting, uploadFile } from "../../../../services/extraServices";
 import InActiveButton from "../../../../common/inActiveButton";
 import SingleView from "../../../../common/singleView";
 
@@ -81,6 +82,10 @@ function Setting(props) {
       return acc;
     }, []),
   });
+
+  const closeDefalt = () => {
+    setIsSetDefalt(false);
+  };
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
@@ -102,10 +107,11 @@ function Setting(props) {
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");
   const [lastMessage, setLastMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState();
   const [selectedFile1, setSelectedFile1] = useState();
   const [selectedFile3, setSelectedFile3] = useState();
   const [isSetDefalt, setIsSetDefalt] = useState(false);
-  const [selectedFile, setSelectedFile] = useState();
+
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
@@ -115,26 +121,29 @@ function Setting(props) {
     siteChange.setFieldValue(field, newColor);
     setDefaults(false);
   };
-
-  const handleDefault = async () => {
+  console.log(selectedFile1)
+  const handleDefault = async (id) => {
     setIsSetDefalt(false);
     setLoading(true);
     try {
-      const data = await resetDefault();
-      setFirstMessage(" Successfully ");
-      setSecondMessage("Default color set successfully ");
+      const data = await dealerResetDefault(id);
+      SetPrimaryText(" Successfully ");
+      SetSecondaryText("Default color set successfully ");
       SetIsModalOpen(true);
       setLoading(false);
       setTimer(3);
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 3000);
+      setLoading(false);
     } catch (error) {
-      setFirstMessage(" Error ");
-      setSecondMessage(error.message);
+      SetPrimaryText(" Error ");
+      SetSecondaryText(error.message);
       SetIsModalOpen(true);
       console.error('Error Default settings:', error);
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -148,7 +157,7 @@ function Setting(props) {
 
     if (timer === 0) {
       closeModal();
-      window.location.reload();
+      // window.location.reload();
     }
 
     if (!isModalOpen) {
@@ -277,6 +286,27 @@ function Setting(props) {
       }
     }
   };
+
+  const handleFileChange1 = (event, setterFunction, fieldName) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      uploadFile(formData).then((res) => {
+        console.log("API response:", res);
+        if (res && res.result) {
+          siteChange.setFieldValue(fieldName, res.result);
+          setterFunction(res.result);
+        } else {
+          console.error("Unexpected response format:", res);
+        }
+      }).catch((error) => {
+        console.error("Error uploading file:", error);
+      });
+    }
+  };
+
 
   const handelDownload = async (fileName) => {
     try {
@@ -409,6 +439,24 @@ function Setting(props) {
 
   }, []);
 
+  const handleRemoveFile1 = (inputRef, setFieldValue, fieldName, setFileState) => {
+    console.log(inputRef, setFieldValue, fieldName, setFileState);
+
+    // Ensure all parameters are valid
+    if (inputRef?.current) {
+      // Reset the form field value in Formik
+      setFieldValue(fieldName, undefined);
+
+      // Clear the input field
+      inputRef.current.value = "";
+
+      // Reset the file state
+      setFileState(undefined);
+    } else {
+      console.error("Invalid inputRef or other parameters.");
+    }
+  };
+
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile3,
@@ -463,8 +511,8 @@ function Setting(props) {
         console.log(apiData);
         const result = await dealerSaveSetting(apiData);
 
-        setFirstMessage("Site Setting Updated Successfully ");
-        setSecondMessage("site setting updated successfully ");
+        SetPrimaryText("Site Setting Updated Successfully ");
+        SetSecondaryText("site setting updated successfully ");
         setLastMessage("site will be reloaded after setting has been updated successfully");
         SetIsModalOpen(true);
         setTimer(3);
@@ -487,7 +535,7 @@ function Setting(props) {
 
       if (userDetails.result && userDetails.result[0].colorScheme) {
         const colorScheme = userDetails.result[0].colorScheme;
-        colorScheme.forEach(color => {
+        colorScheme?.forEach(color => {
           switch (color.colorType) {
             case 'sideBarColor':
               setSideBarColor(color.colorCode);
@@ -550,27 +598,26 @@ function Setting(props) {
       console.error("Error fetching user details:", error);
     }
   };
-  const handleReset = async () => {
+  const handleReset = async (id) => {
     setLoading(true);
     try {
-      const data = await resetSetting();
+      const data = await dealerResetSetting(id);
       console.log(data)
-      if (data) {
-        localStorage.setItem('siteSettings', JSON.stringify(data.result))
-      }
       SetPrimaryText("Site Setting Reset Successfully ");
-      setSecondMessage("Site setting Reset successfully ");
+      SetSecondaryText("Site setting Reset successfully ");
       setLastMessage("Site will be reloaded after setting has been reset successfully");
       SetIsModalOpen(true);
       setTimer(3);
       fetchColorDetails12();
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 3000);
+      setLoading(false);
     } catch (error) {
       console.error('Error resetting settings:', error);
-
+      setLoading(false);
     }
+    setLoading(false);
   };
 
 
@@ -673,7 +720,7 @@ function Setting(props) {
                         {formik.errors.termCondition}
                       </div>
                     )}
-                    <small className="text-neutral-grey p-10p">
+                    <small className=" p-10p">
                       Attachment size limit is 10 MB
                     </small>
                   </div>
@@ -1220,7 +1267,7 @@ function Setting(props) {
                         id="favicon-upload"
                         name="favIcon"
                         className="hidden"
-                        onChange={(event) => handleFileChange(event, setSelectedFile2, "favIcon")}
+                        onChange={(event) => handleFileChange1(event, setSelectedFile3, "favIcon")}
                         ref={inputRef2}
                       />
 
@@ -1228,7 +1275,7 @@ function Setting(props) {
                         {selectedFile3 && (
                           <button
                             type="button"
-                            onClick={() => handleRemoveFile(setSelectedFile2, "favIcon")}
+                            onClick={() => handleRemoveFile1(inputRef2, siteChange.setFieldValue, "favIcon", setSelectedFile3)}
                             className="absolute -right-2 -top-2 mx-auto mb-3"
                           >
                             <img src={Cross1} className="w-6 h-6" alt="Remove" />
@@ -1262,14 +1309,14 @@ function Setting(props) {
                         id="logo-upload"
                         name="logoImage"
                         className="hidden"
-                        onChange={(event) => handleFileChange(event, setSelectedFile1, "logoLight")}
+                        onChange={(event) => handleFileChange1(event, setSelectedFile1, "logoLight")}
                         ref={inputRef1}
                       />
                       <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
                         {selectedFile1 && (
                           <button
                             type="button"
-                            onClick={() => handleRemoveFile(setSelectedFile1, "logoLight")}
+                            onClick={() => handleRemoveFile1(inputRef1, siteChange.setFieldValue, "logoLight", setSelectedFile1)}
                             className="absolute -right-2 -top-2 mx-auto mb-3"
                           >
                             <img src={Cross1} className="w-6 h-6" alt="Remove" />
@@ -1303,14 +1350,14 @@ function Setting(props) {
                         id="favicon-upload"
                         name="favIcon"
                         className="hidden"
-                        onChange={(event) => handleFileChange(event, setSelectedFile, "logoDark")}
+                        onChange={(event) => handleFileChange1(event, setSelectedFile, "logoDark")}
                         ref={inputRef3}
                       />
                       <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
                         {selectedFile && (
                           <button
                             type="button"
-                            onClick={() => handleRemoveFile(setSelectedFile, "logoDark")}
+                            onClick={() => handleRemoveFile1(inputRef3, siteChange.setFieldValue, "logoDark", setSelectedFile)}
                             className="absolute -right-2 -top-2 mx-auto mb-3"
                           >
                             <img src={Cross1} className="w-6 h-6" alt="Remove" />
@@ -1523,7 +1570,7 @@ function Setting(props) {
                 <div className="text-right">
                   {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
 
-                  <InActiveButton onClick={() => handleReset()} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
+                  <InActiveButton onClick={() => handleReset(props.dealerDetails._id)} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>
                 </div>
               </form>
@@ -1542,6 +1589,32 @@ function Setting(props) {
             {secondaryText} <br />
             Redirecting Back to User List in {timer} Seconds
           </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isSetDefalt} onClose={closeDefalt}>
+        <div className="text-center py-3">
+          <img src={assign} alt="email Image" className="mx-auto" />
+          <p className="text-3xl mb-0 mt-2 font-semibold ">
+            Would you like to set it as the default color?
+          </p>
+          <Grid className="!grid-cols-4 my-5 ">
+            <div className="col-span-1"></div>
+            <Button
+              onClick={() => {
+                handleDefault(props.dealerDetails._id);
+              }}
+            >
+              Yes
+            </Button>
+            <Button
+              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+              onClick={() => closeDefalt()}
+            >
+              No
+            </Button>
+            <div className="col-span-1"></div>
+          </Grid>
         </div>
       </Modal>
     </>

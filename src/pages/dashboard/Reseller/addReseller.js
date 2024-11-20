@@ -967,7 +967,7 @@ function AddReseller() {
                   <img src={AddDealer} alt="email Image" className="mx-auto" />
                   <p className="text-3xl mb-0 mt-4 font-semibold ">
                     Submitted
-                    <span className="text-light-black"> Successfully </span>
+                    <span className=""> Successfully </span>
                   </p>
                   <p className=" text-base font-medium mt-2">
                     {message}

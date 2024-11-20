@@ -224,7 +224,7 @@ function OrderDetails() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme.forEach(color => {
+      colorScheme?.forEach(color => {
         switch (color.colorType) {
           case 'inActiveButtonColor':
             setBackGroundColor(color.colorCode);
@@ -315,7 +315,7 @@ function OrderDetails() {
         </div>
       )}
 
-      <div className="py-8 pl-3 relative overflow-x-hidden bg-grayf9">
+      <div className="py-8 pl-3 relative ">
         <Headbar />
         <div className="flex">
           <Link
@@ -333,13 +333,13 @@ function OrderDetails() {
               Order Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular pl-2">
+              <li className="text-sm  font-Regular pl-2">
                 <Link to={"/orderList"}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm  font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -587,7 +587,7 @@ function OrderDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-5">
-                <Card className="!rounded-[30px] border-[1px] border-Light-Grey">
+                <div className="!rounded-[30px] border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) =>
                       activeTab === tab.id ? (
@@ -597,7 +597,7 @@ function OrderDetails() {
                       )
                     )}
                   </Grid>
-                </Card>
+                </div>
               </div>
             </Grid>
 

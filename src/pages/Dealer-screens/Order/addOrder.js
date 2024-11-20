@@ -1835,7 +1835,7 @@ function DealerAddOrder() {
                   </div>
                 </div>
                 <div className="col-span-6 ">
-                  <small className="text-neutral-grey p-10p">
+                  <small className=" p-10p">
                     Attachment size limit is 10 MB
                   </small>
                   <div className="relative mt-[0.6rem]">
@@ -3476,7 +3476,7 @@ function DealerAddOrder() {
 
               <Grid className="mt-5">
                 <div className="col-span-5 pt-2">
-                  <p className="text-light-black flex text-sm font-semibold mt-3 mb-6">
+                  <p className="flex text-sm font-semibold mt-3 mb-6">
                     Do you want to sent notifications ?
                     <RadioButton
                       id="yes-create-account"
@@ -3511,12 +3511,12 @@ function DealerAddOrder() {
               {error && <p className="text-red-500">{error}</p>}
             </Card>
 
-            <Button
-              className="!bg-[transparent] !text-black"
+            <InActiveButton
+              className="mr-2"
               onClick={prevStep}
             >
               Previous
-            </Button>
+            </InActiveButton>
             <Button type="submit">Submit</Button>
           </form>
         )}
@@ -3548,14 +3548,14 @@ function DealerAddOrder() {
             {type} Order
           </p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm font-Regular">
               <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey ml-1 font-Regular">
+            <li className="text-sm ml-1 font-Regular">
               {" "}
               {type} Order /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+            <li className="text-sm font-semibold ml-1 pt-[1px]">
               {" "}
               {type} Details{" "}
             </li>

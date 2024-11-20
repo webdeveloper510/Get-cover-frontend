@@ -20,6 +20,7 @@ import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
 import DateInput from "../../../common/dateInput";
 import Checkbox from "../../../common/checkbox";
 import Modal from "../../../common/model";
+import InActiveButton from "../../../common/inActiveButton";
 
 function DealerAddClaim() {
   const [selectedValue, setSelectedValue] = useState("");
@@ -331,7 +332,7 @@ function DealerAddClaim() {
               </div>
             </div>
             <div className="col-span-6">
-              <p className="text-light-black flex text-[12px] font-semibold mt-3 mb-6">
+              <p className="flex text-[12px] font-semibold mt-3 mb-6">
                 Do you want to send notifications?
                 <RadioButton
                   id="yes-create-account"
@@ -350,9 +351,9 @@ function DealerAddClaim() {
               </p>
             </div>
           </Grid>
-          <Button className="!bg-white !text-black" onClick={prevStep}>
+          <InActiveButton className="mr-2" onClick={prevStep}>
             Previous
-          </Button>
+          </InActiveButton>
           <Button>Submit</Button>
         </div>
       </div>
@@ -376,10 +377,10 @@ function DealerAddClaim() {
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm  font-Regular">
               <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+            <li className="text-sm  font-semibold ml-1 pt-[1px]">
               {" "}
               Add Claim{" "}
             </li>

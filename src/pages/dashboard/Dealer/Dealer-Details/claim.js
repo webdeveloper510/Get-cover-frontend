@@ -1718,9 +1718,10 @@ function ClaimList(props) {
                                         Approved Date
                                       </p>
                                       <p className="text-light-black text-sm font-semibold">
-                                        {res?.approveDate != '' && <>
+                                        {res?.approveDate == '' ? <>
                                           {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
-                                        </>
+                                        </> :
+                                          <></>
                                         }
                                       </p>
                                     </div>
@@ -3337,12 +3338,12 @@ function ClaimList(props) {
             <img src={request} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className=" text-2xl font-semibold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -3362,12 +3363,12 @@ function ClaimList(props) {
                   </Button>
                 </div>
                 <div className="col-span-3">
-                  <Button
+                  <InActiveButton
                     onClick={closePay}
-                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                    className="w-full "
                   >
                     No
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-3"></div>
               </Grid>
@@ -3392,9 +3393,9 @@ function ClaimList(props) {
           onApply={handleApply}
         />
         <div className="flex justify-end mb-4">
-          <Button onClick={closeModal} className="mr-3">
+          <InActiveButton onClick={closeModal} className="mr-3">
             Cancel
-          </Button>
+          </InActiveButton>
           <Button onClick={handleApply}>Apply</Button>
         </div>
       </Modal>

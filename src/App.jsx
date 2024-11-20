@@ -17,7 +17,7 @@ function App() {
         let user = localStorage.getItem('userDetails');
         console.log("Fetching user details...", user);
 
-        const userDetails = user ? await getSetting() : await getprelogin();;
+        const userDetails = user ? await getSetting() : await getprelogin();
         // co
         console.log("User details fetched:", userDetails);
 
@@ -26,7 +26,7 @@ function App() {
           localStorage.setItem("siteSettings", JSON.stringify(fetchedData));
           setSiteSettings(fetchedData);
           const colorScheme = fetchedData.colorScheme;
-          colorScheme.forEach(color => {
+          colorScheme?.forEach(color => {
             switch (color.colorType) {
               case 'sideBarColor':
                 setSideBarColor(color.colorCode);
@@ -70,6 +70,10 @@ function App() {
       <div>
         <style>
           {`
+          .staticTable {
+            background-color: ${sideBarColor} !important;
+            color: ${sideBarTextColor} !important;
+          }
           .newImagecolor .singleViews {
           background-color:  ${sideBarTextColor} !important;
           }

@@ -73,6 +73,7 @@ import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
 import { getCustomerDetailsById } from "../../../../services/customerServices";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -2404,13 +2405,13 @@ function ClaimList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>
