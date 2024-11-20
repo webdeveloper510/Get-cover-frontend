@@ -67,6 +67,19 @@ export const UserDetailAccount = async () => {
   }
 };
 
+export const getDropDownValueForDealer  = async (activeTab) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/reporting/getReportingDropdowns1/${activeTab}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const changePrimaryByUserIdCustomerPortal = async (id) => {
   const headers = createHeaders();
   try {
