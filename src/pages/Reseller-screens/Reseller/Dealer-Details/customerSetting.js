@@ -17,6 +17,8 @@ import DataTable from "react-data-table-component";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
 import textFile from "../../../../common/textFile";
+import InActiveButton from "../../../../common/inActiveButton";
+import SingleView from "../../../../common/singleView";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -235,10 +237,10 @@ function CustomerSetting(props) {
                             />
                         </div>
                         {selectedAction === index && (
-                            <div
+                            <SingleView
                                 ref={dropdownRef}
                                 onClick={() => setSelectedAction(null)}
-                                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 bg-white border rounded-lg shadow-md top-[1rem]`}
+                                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
                             >
                                 <>
                                     <div>
@@ -246,18 +248,44 @@ function CustomerSetting(props) {
                                             className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
                                             onClick={() => openUserModal(row)}
                                         >
-                                            <img src={edit} className="w-4 h-4 mr-2" />{" "}
+                                            <div
+                                                style={{
+                                                    maskImage: `url(${edit})`,
+                                                    WebkitMaskImage: `url(${edit})`,
+                                                    maskRepeat: "no-repeat",
+                                                    WebkitMaskRepeat: "no-repeat",
+                                                    maskPosition: "center",
+                                                    WebkitMaskPosition: "center",
+                                                    maskSize: "contain",
+                                                    WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
+                                            />
+                                            {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                                             <span className="self-center">Edit </span>
                                         </div>
                                         <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
                                         >
-                                            <img src={delete1} className="w-4 h-4 mr-2" />
+                                            <div
+                                                style={{
+                                                    maskImage: `url(${delete1})`,
+                                                    WebkitMaskImage: `url(${delete1})`,
+                                                    maskRepeat: "no-repeat",
+                                                    WebkitMaskRepeat: "no-repeat",
+                                                    maskPosition: "center",
+                                                    WebkitMaskPosition: "center",
+                                                    maskSize: "contain",
+                                                    WebkitMaskSize: "contain",
+                                                }}
+                                                className="self-center singleViews mr-2 h-4 w-4 "
+                                            />
+                                            {/* <img src={delete1} className="w-4 h-4 mr-2" /> */}
                                             <span className="self-center">Delete</span>
                                         </div>
 
                                     </div>
                                 </>
-                            </div>
+                            </SingleView>
                         )
                         }
                     </div >
@@ -382,7 +410,7 @@ function CustomerSetting(props) {
                     </div>
                 ) : (
                     <div className=" py-3">
-                        <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+                        <p className=" text-center text-3xl mb-5 mt-2 font-bold">
                             Edit Address
                         </p>
                         <form onSubmit={formik.handleSubmit}>
@@ -466,13 +494,13 @@ function CustomerSetting(props) {
                             </Grid>
                             <Grid className="drop-shadow-5xl px-8 mt-8">
                                 <div className="col-span-4">
-                                    <Button
+                                    <InActiveButton
                                         type="button"
-                                        className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                                        className="border w-full !text-sm !font-Regular"
                                         onClick={closeUserModal}
                                     >
                                         Cancel
-                                    </Button>
+                                    </InActiveButton>
                                 </div>
                                 <div className="col-span-8">
                                     <Button type="submit" className="w-full">

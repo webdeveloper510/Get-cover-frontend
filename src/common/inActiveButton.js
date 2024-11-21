@@ -30,10 +30,10 @@ const InActiveButton = ({ onClick, type, children, className, disabled }) => {
             <style>
                 {`
                 .inactive {
-                 backgroundColor: ${backGroundColor}; color:  ${buttonTextColor} !important;
+                 backgroundColor: ${backGroundColor} !important; color:  ${buttonTextColor} !important;
                 }
             .inactive div {
-                background: ${buttonTextColor};
+                background: ${buttonTextColor} !important;
             }
         `}
             </style>

@@ -207,18 +207,33 @@ function ResellerCustomerList() {
             </ul>
           </div>
         </div>
+        <InActiveButton className=" w-[200px] font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
 
-        <Link
-          to={"/reseller/addCustomer"}
-          className=" w-[200px] !bg-white font-semibold py-2 px-4 flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey"
-        >
-          {" "}
-          <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-          <span className="text-black ml-3 text-[14px] font-Regular">
+          <Link
+            to={"/reseller/addCustomer"}
+            className="flex"
+          >
             {" "}
-            Add New Customer{" "}
-          </span>{" "}
-        </Link>
+            <div
+              style={{
+                maskImage: `url(${AddItem})`,
+                WebkitMaskImage: `url(${AddItem})`,
+                maskRepeat: "no-repeat",
+                WebkitMaskRepeat: "no-repeat",
+                maskPosition: "center",
+                WebkitMaskPosition: "center",
+                maskSize: "contain",
+                WebkitMaskSize: "contain",
+              }}
+              className="self-center  h-4 w-4 "
+            />
+            {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+            <span className=" ml-3 text-[14px] font-Regular">
+              {" "}
+              Add New Customer{" "}
+            </span>{" "}
+          </Link>
+        </InActiveButton>
 
         <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">

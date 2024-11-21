@@ -1337,10 +1337,10 @@ function ClaimList(props) {
                     Claim
                   </p>
                   <ul className="flex self-center">
-                    <li className="text-sm text-neutral-grey font-Regular">
+                    <li className="text-sm font-Regular">
                       <Link to={"/"}>Home </Link> /
                     </li>
-                    <li className="text-sm text-neutral-grey font-semibold ml-1">
+                    <li className="text-sm font-semibold ml-1">
                       {" "}
                       Claim Listing
                     </li>
@@ -1348,15 +1348,28 @@ function ClaimList(props) {
                 </div>
               </div>
 
-              <button
+              <InActiveButton
                 onClick={handleAddClaim}
-                className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
+                className="w-[150px] font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
               >
-                <img src={AddItem} className="self-center" alt="AddItem" />
+                <div
+                  style={{
+                    maskImage: `url(${AddItem})`,
+                    WebkitMaskImage: `url(${AddItem})`,
+                    maskRepeat: "no-repeat",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskPosition: "center",
+                    WebkitMaskPosition: "center",
+                    maskSize: "contain",
+                    WebkitMaskSize: "contain",
+                  }}
+                  className="self-center mr-2 h-4 w-4 "
+                />
+                {/* <img src={AddItem} className="self-center" alt="AddItem" /> */}
                 <span className="text-black ml-3 text-[14px] font-Regular">
                   Add Claim
                 </span>
-              </button>
+              </InActiveButton>
             </>
           )}
 
@@ -1415,18 +1428,25 @@ function ClaimList(props) {
                             alt="Search"
                           />
                         </Button>
-                        <Button
-                          className="!bg-transparent !p-0"
+                        <InActiveButton
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
-                            src={clearFilter}
-                            className="cursor-pointer	mx-auto"
-                            alt="clearFilter"
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
                           />
-                        </Button>
+                        </InActiveButton>
                         <Button
                           type="button"
                           className="ml-2 !text-[14px] !px-2"
@@ -2310,7 +2330,7 @@ function ClaimList(props) {
                                       <div className="px-3 mb-4">
                                         <Grid>
                                           <div className="col-span-12">
-                                            <p className="text-white">
+                                            <p className="">
 
                                               <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
                                             </p>
@@ -2322,7 +2342,7 @@ function ClaimList(props) {
                                       <div className="px-3 mb-4">
                                         <Grid>
                                           <div className="col-span-12">
-                                            <p className="text-white">
+                                            <p className="">
                                               <b>Reason For Rejection : </b>{" "}
                                               <span>{res.reason}</span>
                                             </p>
@@ -2334,7 +2354,7 @@ function ClaimList(props) {
                                       <div className="px-3 mb-4">
                                         <Grid>
                                           <div className="col-span-12">
-                                            <p className="text-white">
+                                            <p className="">
                                               <b>Note : </b> <span>{res.note}</span>
                                             </p>
                                           </div>
@@ -2386,13 +2406,13 @@ function ClaimList(props) {
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Claim Successfully Paid </span>
+          <p className="text-3xl mb-0 mt-4 font-semibold ">
+            <span className=""> Claim Successfully Paid </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
+          <p className="text-base font-medium mt-2 ">
             You have successfully marked the Claim as paid
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
         </div>
@@ -2957,12 +2977,12 @@ function ClaimList(props) {
               </div>
 
               <div className="mt-3">
-                <Button
-                  className="!bg-white !text-black mr-2"
+                <InActiveButton
+                  className=" mr-2"
                   onClick={closeEdit}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
                 <Button type="submit">Update</Button>
               </div>
             </form>
@@ -2996,9 +3016,9 @@ function ClaimList(props) {
           </p>
           <div className="mt-3">
             <Button type="submit">Yes</Button>
-            <Button className="!bg-white !text-black" onClick={closeComplete}>
+            <InActiveButton className="ml-2" onClick={closeComplete}>
               No
-            </Button>
+            </InActiveButton>
           </div>
         </div>
       </Modal>

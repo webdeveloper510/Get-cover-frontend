@@ -2005,9 +2005,9 @@ function DealerAddOrder() {
         </Card>
 
         <div className="flex">
-          <Button onClick={prevStep} className="!bg-[transparent] !text-black">
+          <InActiveButton onClick={prevStep} className="mr-2">
             Previous
-          </Button>
+          </InActiveButton>
           <Button onClick={formikStep2.handleSubmit}>Next</Button>
         </div>
       </>
@@ -2749,7 +2749,7 @@ function DealerAddOrder() {
                                   className="mx-auto mb-3"
                                   alt="Dropbox"
                                 />
-                                <p className="text-[#5D6E66]">
+                                <p className="">
                                   Accepted file types: csv, xlsx, xls Max. file
                                   size: 50 MB.
                                 </p>
@@ -2774,7 +2774,7 @@ function DealerAddOrder() {
                           />
                         </div>
                       </div>
-                      <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                      <p className="text-[12px] mt-1 font-medium">
                         Please click on file option and make a copy. Upload the
                         list of Product Name and Price using our provided Google
                         Sheets template, by{" "}
@@ -3065,12 +3065,12 @@ function DealerAddOrder() {
                   </Grid>
                 </Card>
               ))}
-              <Button
-                className="!bg-[transparent] !text-black"
+              <InActiveButton
+                className="mr-2"
                 onClick={prevStep}
               >
                 Previous
-              </Button>
+              </InActiveButton>
               <Button onClick={formikStep3.handleSubmit}>Next</Button>
               {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
             </div>

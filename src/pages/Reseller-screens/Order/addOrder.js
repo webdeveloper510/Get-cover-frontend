@@ -1879,9 +1879,9 @@ function ResellerAddOrder() {
         </Card>
 
         <div className="flex">
-          <Button onClick={prevStep} className="!bg-[white] !text-black">
+          <InActiveButton onClick={prevStep} className="mr-2">
             Previous
-          </Button>
+          </InActiveButton>
           <Button onClick={formikStep2.handleSubmit}>Next</Button>
         </div>
       </>
@@ -1907,7 +1907,7 @@ function ResellerAddOrder() {
                 <div className="flex justify-between w-[66%]">
                   <p className="text-2xl font-bold mb-4">Add Product</p>
                   <InActiveButton
-                    className="text-sm !py-0 h-[30px] self-center !bg-[transparent] !text-light-black !font-semibold !border-light-black !border-[1px]"
+                    className="text-sm !py-0 h-[30px] self-center !font-semibold "
                     onClick={() => {
                       handleInputClickReset(index);
                     }}
@@ -2641,7 +2641,7 @@ function ResellerAddOrder() {
                                 className="mx-auto mb-3"
                                 alt="Dropbox"
                               />
-                              <p className="text-[#5D6E66]">
+                              <p className="">
                                 Accepted file types: csv, xlsx, xls Max. file
                                 size: 50 MB.
                               </p>
@@ -2666,7 +2666,7 @@ function ResellerAddOrder() {
                         />
                       </div>
                     </div>
-                    <p className="text-[12px] mt-1 text-[#5D6E66] font-medium">
+                    <p className="text-[12px] mt-1 font-medium">
                       Please click on file option and make a copy. Upload the
                       list of Product Name and Price using our provided Google
                       Sheets template, by{" "}
@@ -2957,9 +2957,9 @@ function ResellerAddOrder() {
                 </Grid>
               </Card>
             ))}
-            <Button className="!bg-[white] !text-black" onClick={prevStep}>
+            <InActiveButton className="mr-2" onClick={prevStep}>
               Previous
-            </Button>
+            </InActiveButton>
             <Button onClick={formikStep3.handleSubmit}>Next</Button>
             {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
           </div>

@@ -36,6 +36,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
+import InActiveButton from "../../../common/inActiveButton";
 
 function ResellerOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -304,7 +305,7 @@ function ResellerOrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => navigate(`/reseller/editOrder/${row._id}`)}
                     >
                       <div
@@ -324,7 +325,7 @@ function ResellerOrderList() {
                       Edit
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex border-b text-black hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <div
@@ -352,7 +353,7 @@ function ResellerOrderList() {
                       />
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex cursor-pointer text-black hover:font-semibold"
+                      className="text-left py-1 px-2 flex cursor-pointer"
                       onClick={() => openArchive(row._id)}
                     >
                       <div
@@ -376,7 +377,7 @@ function ResellerOrderList() {
                   <>
                     <Link
                       to={`/reseller/orderDetails/${row._id}`}
-                      className="text-left py-1 px-2 cursor-pointer text-black hover:font-semibold border-b w-full flex justify-start"
+                      className="text-left py-1 px-2 cursor-pointer border-b w-full flex justify-start"
                     >
                       <div
                         style={{
@@ -397,10 +398,6 @@ function ResellerOrderList() {
                     <div className="">
                       <PdfGenerator data={row._id} setLoading={setLoading} />
                     </div>
-                    {/* <DocMakeOrderContainer
-                      setLoading={setLoading}
-                      data={row._id}
-                    /> */}
                   </>
                 )}
               </SingleView>
@@ -429,10 +426,10 @@ function ResellerOrderList() {
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm  font-Regular">
                   <Link to={"/"}>Home </Link> /{" "}
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm  font-semibold ml-1 pt-[1px]">
                   {" "}
                   Order List{" "}
                 </li>
@@ -440,17 +437,30 @@ function ResellerOrderList() {
             </div>
           </div>
 
-          <Button className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
+          <InActiveButton className="!bg-white flex self-center mb-4 rounded-xl ml-auto border-[1px] border-Light-Grey">
             {" "}
             <Link to={"/reseller/addOrder"} className="flex">
               {" "}
-              <img src={AddItem} className="self-center" alt="AddItem" />{" "}
-              <span className="text-black ml-3 text-[14px] font-Regular">
+              <div
+                style={{
+                  maskImage: `url(${AddItem})`,
+                  WebkitMaskImage: `url(${AddItem})`,
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                }}
+                className="self-center mr-2 h-4 w-4 "
+              />
+              {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+              <span className=" ml-3 text-[14px] font-Regular">
                 {" "}
                 Add New Order{" "}
               </span>{" "}
             </Link>
-          </Button>
+          </InActiveButton>
 
           <Card className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
             <Grid className="!p-[26px] !pt-[14px] !pb-0">
@@ -506,19 +516,32 @@ function ResellerOrderList() {
                             alt="Search"
                           />
                         </Button>
-                        <Button
+                        <InActiveButton
                           type="button"
-                          className=" !bg-transparent !p-0"
+                          className=" ml-2"
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center mr-1 h-4 w-4 "
+                          />
+                          {/* <img
                             src={clearFilter}
                             className="cursor-pointer mx-auto"
                             alt="clearFilter"
-                          />
-                        </Button>
+                          /> */}
+                        </InActiveButton>
                         <Button
                           type="button"
                           className="ml-2 !text-sm"
@@ -606,7 +629,7 @@ function ResellerOrderList() {
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
           <p className="text-3xl mb-0 mt-4 font-bold">
-            <span className="text-light-black">Error</span>{" "}
+            <span className="">Error</span>{" "}
           </p>
 
           <p className="text-base font-medium mt-2">
@@ -625,12 +648,12 @@ function ResellerOrderList() {
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !text-sm !font-Regular"
               onClick={() => closeArchive()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>
@@ -664,11 +687,11 @@ function ResellerOrderList() {
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             <span className="text-light-black"> Error </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             {secondaryMessage}
           </p>
         </div>

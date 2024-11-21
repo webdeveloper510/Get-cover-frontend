@@ -379,7 +379,7 @@ function Claims() {
           </div>
         </>
       ) : (
-        <div className="pb-8 mt-2 px-3 bg-grayf9">
+        <div className="pb-8 mt-2 px-3">
           <Headbar />
           <div className="flex">
             <div className="pl-3">

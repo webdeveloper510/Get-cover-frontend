@@ -2250,9 +2250,9 @@ function AddOrder() {
         </Card>
 
         <div className="flex">
-          <Button onClick={prevStep} className="!bg-[transparent] !text-black">
+          <InActiveButton onClick={prevStep} className="mr-2">
             Previous
-          </Button>
+          </InActiveButton>
           <Button onClick={formikStep2.handleSubmit}>Next</Button>
         </div>
       </>
@@ -3329,12 +3329,12 @@ function AddOrder() {
                 </Grid>
               </Card>
             ))}
-            <Button
-              className="!bg-[transparent] !text-black"
+            <InActiveButton
+              className="mr-2"
               onClick={prevStep}
             >
               Previous
-            </Button>
+            </InActiveButton>
             <Button onClick={formikStep3.handleSubmit}>Next</Button>
             {/* <Button className="ml-2" onClick={()=>openError()}>Error</Button> */}
           </div>
@@ -3935,12 +3935,12 @@ function AddOrder() {
               {error && <p className="text-red-500">{error}</p>}
             </Card>
 
-            <Button
-              className="!bg-[transparent] !text-black"
+            <InActiveButton
+              className="mr-2"
               onClick={prevStep}
             >
               Previous
-            </Button>
+            </InActiveButton>
             <Button type="submit">Submit</Button>
           </form>
         )}

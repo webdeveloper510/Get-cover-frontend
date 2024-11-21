@@ -66,7 +66,7 @@ function Sale() {
 
   useEffect(() => {
     resetAllFilters();
-   
+
   }, []);
 
 
@@ -93,74 +93,74 @@ function Sale() {
     }
   }, []);
 
-  const getDropDownValues = async () => { 
-    const data = await getDropDownValueForDealer(activeButton== "dealer" ?"Dealer":"Category");
+  const getDropDownValues = async () => {
+    const data = await getDropDownValueForDealer(activeButton == "dealer" ? "Dealer" : "Category");
 
-if (activeButton == "dealer"){
-  const dealers = data.result.map(dealer => {
-    const categories = (dealer.categories || []).map(category => {
-      const priceBooks = (category.priceBooks || []).map(priceBook => ({
-        label: priceBook.priceBookName,
-        value: priceBook.priceBookId,
-        categoryId:category.categoryId,
-        dealerSku: (priceBook.dealerSku || []).map(skuObj => ({
-          label: skuObj.sku,
-          value: priceBook.priceBookId
-        }))
-      }));
-  
-      return {
-        label: category.categoryName,
-        value: category.categoryId,
-        priceBooks, // Nested priceBooks within each category
-      };
-    });
-  
-    console.log('All Categories:', categories);
-    
-    return {
-      label: dealer.name,
-      value: dealer._id,
-      categories
-    };
-  });
+    if (activeButton == "dealer") {
+      const dealers = data.result.map(dealer => {
+        const categories = (dealer.categories || []).map(category => {
+          const priceBooks = (category.priceBooks || []).map(priceBook => ({
+            label: priceBook.priceBookName,
+            value: priceBook.priceBookId,
+            categoryId: category.categoryId,
+            dealerSku: (priceBook.dealerSku || []).map(skuObj => ({
+              label: skuObj.sku,
+              value: priceBook.priceBookId
+            }))
+          }));
 
-  setDealerList(dealers);
-}
-else {
+          return {
+            label: category.categoryName,
+            value: category.categoryId,
+            priceBooks, // Nested priceBooks within each category
+          };
+        });
 
-const categoriesWithPriceBooks = [];
-const allPriceBooks = [];
+        console.log('All Categories:', categories);
 
-(data.result || []).forEach(category => {
-  const priceBooks = (category.priceBooks || []).map(priceBook => {
-    const priceBookObj = {
-      label: priceBook.priceBookName,
-      value: priceBook.priceBookId,
-      categoryId: category.categoryId
-    };
-    allPriceBooks.push(priceBookObj);
+        return {
+          label: dealer.name,
+          value: dealer._id,
+          categories
+        };
+      });
 
-    return priceBookObj;
-  });
-  categoriesWithPriceBooks.push({
-    label: category.categoryName,
-    value: category.categoryId,
-    priceBooks
-  });
-});
+      setDealerList(dealers);
+    }
+    else {
 
-console.log('Categories with PriceBooks:', categoriesWithPriceBooks);
-console.log('All PriceBooks:', allPriceBooks);
+      const categoriesWithPriceBooks = [];
+      const allPriceBooks = [];
+
+      (data.result || []).forEach(category => {
+        const priceBooks = (category.priceBooks || []).map(priceBook => {
+          const priceBookObj = {
+            label: priceBook.priceBookName,
+            value: priceBook.priceBookId,
+            categoryId: category.categoryId
+          };
+          allPriceBooks.push(priceBookObj);
+
+          return priceBookObj;
+        });
+        categoriesWithPriceBooks.push({
+          label: category.categoryName,
+          value: category.categoryId,
+          priceBooks
+        });
+      });
+
+      console.log('Categories with PriceBooks:', categoriesWithPriceBooks);
+      console.log('All PriceBooks:', allPriceBooks);
 
 
-  
-  setCategoryListCat(categoriesWithPriceBooks)
-  setPriceBookListCat(allPriceBooks)
-}
+
+      setCategoryListCat(categoriesWithPriceBooks)
+      setPriceBookListCat(allPriceBooks)
+    }
 
   };
-  
+
   const handleFilterChange = (name, value) => {
     setFilters(prev => ({
       ...prev,
@@ -170,16 +170,16 @@ console.log('All PriceBooks:', allPriceBooks);
     if (name === "dealerId" && value) {
       const filteredDealer = dealerList.find(dealer => dealer.value === value);
       console.log(filteredDealer);
-  
+
       if (filteredDealer) {
         const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
         const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
-      
+
         setCategoryList(filteredDealer.categories);
         setPriceBookList(allPriceBooks);
         setDealerSkuList(allDealerSku)
       }
-      
+
     }
     if (name === "categoryId" && filter.dealerId) {
       let filteredPriceBooks = [];
@@ -198,18 +198,18 @@ console.log('All PriceBooks:', allPriceBooks);
       setDealerSkuList(dealerSkuList);
       setPriceBookList(filteredPriceBooks);
     }
-    
+
     if (name === "priceBookId" && value && filter.dealerId) {
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookList.filter(priceBook => selectedValues.includes(priceBook.value));
       setSelected(matchingPriceBooks);
       setDealerSkuSelected(matchingPriceBooks.flatMap(priceBook => priceBook.dealerSku || []));
-    
+
       setFilters(prev => ({
         ...prev,
         [name]: priceBookList.map(item => item.value)
       }));
-    
+
       // Automatically filter by category if no category is selected
       if (!filter.categoryId) {
         const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
@@ -217,12 +217,12 @@ console.log('All PriceBooks:', allPriceBooks);
           handleFilterChange('categoryId', selectedPriceBook.categoryId);
         }
       }
-    
+
       console.log(matchingPriceBooks);
     }
-    
+
   };
-  
+
   const handleFilterChangeforCategory = (name, value) => {
     setFiltersCategory(prev => ({
       ...prev,
@@ -233,7 +233,7 @@ console.log('All PriceBooks:', allPriceBooks);
       console.log(value)
       const filteredCategory = categoryListCat.find(category => category.value === value);
       console.log(filteredCategory);
-      if (filteredCategory) {    
+      if (filteredCategory) {
         setPriceBookListCat(filteredCategory.priceBooks);
       }
       setSelectedCat([])
@@ -243,12 +243,12 @@ console.log('All PriceBooks:', allPriceBooks);
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
       setSelectedCat(matchingPriceBooks);
-    
+
       setFiltersCategory(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-    
+
       // Automatically filter by category if no category is selected
       if (!filterCategory.categoryId) {
         const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
@@ -256,7 +256,7 @@ console.log('All PriceBooks:', allPriceBooks);
           handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
         }
       }
-    
+
       console.log(matchingPriceBooks);
     }
 
@@ -282,7 +282,7 @@ console.log('All PriceBooks:', allPriceBooks);
 
 
 
- 
+
 
   const handleApplyFilters = () => {
     setFilterLoading(true);
@@ -388,7 +388,7 @@ console.log('All PriceBooks:', allPriceBooks);
           </div>{" "}
         </>
       ) : (
-        <div className="pb-8 mt-2 px-3 bg-grayf9">
+        <div className="pb-8 mt-2 px-3">
           <Headbar />
           <div className="flex">
             <div className="pl-3">
@@ -464,69 +464,69 @@ console.log('All PriceBooks:', allPriceBooks);
                       options={dealerList}
                     />
                   </div>
-              {
-                filter.dealerId !="" && (
-                  <>
-                      <div className="col-span-3 self-center pl-1">
-                    <SelectBoxWithSearch
-                      label="Category Name"
-                      name="categoryId"
-                      placeholder="Category Name"
-                      value={filter.categoryId}
-                      className="!bg-white"
-                      className1="filter"
-                      options={categoryList}
-                      pName="Category Name"
-                      onChange={handleFilterChange}
-                    />
-                  </div>
-                  <div className="col-span-3 self-center pl-1 relative">
-                    <MultiSelect
-                      label="Product SKU"
-                      name="priceBookId"
-                      placeholder="Product SKU"
-                      value={selected}
-                      options={priceBookList}
-                      pName="Product SKU"
-                      onChange={(value) => {
-                        setSelected(value);
-                        handleFilterChange("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
-                      Product SKU
-                    </small>
-                  </div>
-                  <div className="col-span-3 self-center pl-1 relative">
-                    <MultiSelect
-                      label="Dealer SKU"
-                      name="dealerSku"
-                      placeholder="Dealer SKU"
-                      value={dealerSkuSelected}
-                      options={dealerSkuList}
-                      pName="dealer SKU"
-                      onChange={(value) => {
-                        setDealerSkuSelected(value);
-                        handleFilterChange("priceBookId", value);
-                      }}
-                      labelledBy="Select"
-                      overrideStrings={{
-                        selectSomeItems: "Select",
-                      }}
-                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
-                    />
-                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
-                      Dealer SKU
-                    </small>
-                  </div>
-                  </>
-                )
-              }
+                  {
+                    filter.dealerId != "" && (
+                      <>
+                        <div className="col-span-3 self-center pl-1">
+                          <SelectBoxWithSearch
+                            label="Category Name"
+                            name="categoryId"
+                            placeholder="Category Name"
+                            value={filter.categoryId}
+                            className="!bg-white"
+                            className1="filter"
+                            options={categoryList}
+                            pName="Category Name"
+                            onChange={handleFilterChange}
+                          />
+                        </div>
+                        <div className="col-span-3 self-center pl-1 relative">
+                          <MultiSelect
+                            label="Product SKU"
+                            name="priceBookId"
+                            placeholder="Product SKU"
+                            value={selected}
+                            options={priceBookList}
+                            pName="Product SKU"
+                            onChange={(value) => {
+                              setSelected(value);
+                              handleFilterChange("priceBookId", value);
+                            }}
+                            labelledBy="Select"
+                            overrideStrings={{
+                              selectSomeItems: "Select",
+                            }}
+                            className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                          />
+                          <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                            Product SKU
+                          </small>
+                        </div>
+                        <div className="col-span-3 self-center pl-1 relative">
+                          <MultiSelect
+                            label="Dealer SKU"
+                            name="dealerSku"
+                            placeholder="Dealer SKU"
+                            value={dealerSkuSelected}
+                            options={dealerSkuList}
+                            pName="dealer SKU"
+                            onChange={(value) => {
+                              setDealerSkuSelected(value);
+                              handleFilterChange("priceBookId", value);
+                            }}
+                            labelledBy="Select"
+                            overrideStrings={{
+                              selectSomeItems: "Select",
+                            }}
+                            className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                          />
+                          <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                            Dealer SKU
+                          </small>
+                        </div>
+                      </>
+                    )
+                  }
                   <div className="col-span-3 self-center ml-auto pl-3 flex">
                     <Button onClick={handleApplyFilters}>Filter</Button>
                     <InActiveButton

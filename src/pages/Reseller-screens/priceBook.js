@@ -31,6 +31,7 @@ import {
 import Card from "../../common/card";
 import { MultiSelect } from "react-multi-select-component";
 import InActiveButton from "../../common/inActiveButton";
+import SingleView from "../../common/singleView";
 function ResellerPriceBook(props) {
   console.log(props);
   const [dealerPriceBook, setDealerPriceBook] = useState();
@@ -227,19 +228,33 @@ function ResellerPriceBook(props) {
               />
             </div>
             {selectedAction === index && (
-              <div
+              <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 bg-white border rounded-lg text-light-black shadow-md ${calculateDropdownPosition(
+                className={`absolute z-[2] w-[80px] justify-center drop-shadow-5xl -right-3 py-1 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
               >
                 <div
-                  className="text-left py-1 px-2 cursor-pointer hover:font-semibold w-full flex justify-start"
+                  className="text-left py-1 px-2 cursor-pointer w-full flex justify-start"
                   onClick={() => openView(row._id)}
                 >
-                  <img src={view} className="w-4 h-4 mr-2" /> View
+                  <div
+                    style={{
+                      maskImage: `url(${view})`,
+                      WebkitMaskImage: `url(${view})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={view} className="w-4 h-4 mr-2" /> */}
+                  View
                 </div>
-              </div>
+              </SingleView>
             )}
           </div>
         );

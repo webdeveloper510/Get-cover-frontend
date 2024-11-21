@@ -2128,6 +2128,74 @@ function ResellerClaimList(props) {
       }
     );
   }
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          // backgroundColor: backGroundColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          // borderColor: backGroundColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          // color: backGroundColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          // backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          // borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          // color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -2147,10 +2215,10 @@ function ResellerClaimList(props) {
                   Claim
                 </p>
                 <ul className="flex self-center">
-                  <li className="text-sm text-neutral-grey font-Regular">
+                  <li className="text-sm font-Regular">
                     <Link to={"/"}>Home </Link> /
                   </li>
-                  <li className="text-sm text-neutral-grey font-semibold ml-1">
+                  <li className="text-sm font-semibold ml-1">
                     {" "}
                     Claim Listing
                   </li>
@@ -2158,42 +2226,41 @@ function ResellerClaimList(props) {
               </div>
             </div>
 
-            <button
-              onClick={handleAddClaim} // Call handleAddClaim function onClick
-              className="w-[150px] bg-white font-semibold py-2 px-4 flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
+            <InActiveButton
+              onClick={handleAddClaim}
+              className="w-[150px] font-semibold py-2 px-4 flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
             >
-              <img src={AddItem} className="self-center" alt="AddItem" />
-              <span className="text-black ml-3 text-[14px] font-Regular">
+              <div
+                style={{
+                  maskImage: `url(${AddItem})`,
+                  WebkitMaskImage: `url(${AddItem})`,
+                  maskRepeat: "no-repeat",
+                  WebkitMaskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  WebkitMaskPosition: "center",
+                  maskSize: "contain",
+                  WebkitMaskSize: "contain",
+                }}
+                className="self-center mr-2 h-4 w-4 "
+              />
+              {/* <img src={AddItem} className="self-center" alt="AddItem" /> */}
+              <span className=" ml-3 text-[14px] font-Regular">
                 Add Claim
               </span>
-            </button>
+            </InActiveButton>
           </>
         )}
         <div
           className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${createServicerAccountOption ? "w-[45%]" : "w-[16%]"
             }`}
         >
-          {tabs.map((tab) => (
-            <Button
-              className={`flex self-center mr-2 w-[150px] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                ? "!bg-[#2A2A2A] !text-white"
-                : "!bg-grayf9 !text-black"
-                }`}
-              onClick={() => handleTabClick(tab.id)}
-            >
-              <img
-                src={activeTab === tab.id ? tab.Activeicons : tab.icons}
-                className="self-center pr-1 py-1 border-Light-Grey border-r-[1px]"
-                alt={tab.label}
-              />
-              <span
-                className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                  }`}
-              >
-                {tab.label}
-              </span>
-            </Button>
-          ))}
+          {tabs.map((tab) =>
+            activeTab === tab.id ? (
+              <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+            ) : (
+              <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+            )
+          )}
         </div>
         {tabs.map((tab) => (
           <div
@@ -2553,13 +2620,13 @@ function ResellerClaimList(props) {
               </Button>
             </div>
             <div className="col-span-3">
-              <Button
+              <InActiveButton
                 type="button"
-                className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                className="w-full !border-[1px]"
                 onClick={closeCoveragType}
               >
                 No
-              </Button>
+              </InActiveButton>
             </div>
             <div className="col-span-3"></div>
           </Grid>
@@ -2811,9 +2878,9 @@ function ResellerClaimList(props) {
               </Card>
 
               <div className="mt-3">
-                <Button className="!bg-white !text-black" onClick={closeEdit}>
+                <InActiveButton className="mr-2" onClick={closeEdit}>
                   Cancel
-                </Button>
+                </InActiveButton>
                 <Button type="submit">Update</Button>
               </div>
             </form>
@@ -3043,9 +3110,9 @@ function ResellerClaimList(props) {
           </p>
           <div className="mt-3">
             <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>
-            <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeShipped}>
+            <InActiveButton className="ml-8 border !px-8 !border-[#333]" onClick={closeShipped}>
               No
-            </Button>
+            </InActiveButton>
           </div>
         </div>
 
@@ -3064,9 +3131,9 @@ function ResellerClaimList(props) {
           </p>
           <div className="mt-3">
             <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("customerStatus", { type: 'product_received' }); }}>Yes</Button>
-            <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeReceived}>
+            <InActiveButton className="ml-8 border !px-8 !border-[#333]" onClick={closeReceived}>
               No
-            </Button>
+            </InActiveButton>
           </div>
         </div>
 

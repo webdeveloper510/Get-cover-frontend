@@ -14,6 +14,7 @@ import {
   updateNotifications,
 } from "../services/extraServices";
 import { checkUserToken } from "../services/userServices";
+import SingleView from "./singleView";
 function Headbar({ className = "" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [notificationList, setNotificationList] = useState([]);
@@ -121,39 +122,67 @@ function Headbar({ className = "" }) {
       ) : (
         <Grid
           className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  ${className} ${Location.pathname !== "/Reporting/sale"
-              ? "md:top-[24px]  xl:top-[24px]"
-              : "md:top-0  xl:top-0"
+            ? "md:top-[24px]  xl:top-[24px]"
+            : "md:top-0  xl:top-0"
             }`}
         >
           <div className="col-span-4"></div>
           <div className="col-span-1"></div>
           <div className="col-span-7 ml-auto ">
-            <Grid className="border-2 w-[250px] bg-white ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl">
-              <div className="col-span-4  flex self-center justify-around border-r-2 border-Light-Grey">
-                <div className="s:hidden md:block xl:block">
-                  <Link to={route} className="relative">
-                    <img
-                      src={NotificationImage}
-                      className="cursor-pointer mt-[-2%]"
-                      alt="NotificationImage"
+            <SingleView className='border-2 ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl'>
+              <Grid className=" w-[250px]">
+                <div className="col-span-3  flex self-center justify-around border-r-2 border-Light-Grey">
+                  <div className="s:hidden md:block xl:block">
+                    <Link to={route} className="relative">
+                      <div
+                        style={{
+                          maskImage: `url(${NotificationImage})`,
+                          WebkitMaskImage: `url(${NotificationImage})`,
+                          maskRepeat: "no-repeat",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskPosition: "center",
+                          WebkitMaskPosition: "center",
+                          maskSize: "contain",
+                          WebkitMaskSize: "contain",
+                        }}
+                        className="self-center singleViews h-4 w-4 cursor-pointer mt-[-2%] "
+                      />
+                      {/* <img
+                        src={NotificationImage}
+                        className="cursor-pointer mt-[-2%]"
+                        alt="NotificationImage"
+                      /> */}
+                      {notificationList !== 0 && (
+                        <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
+                          {notificationList > 9 ? "9+" : notificationList}
+                        </p>
+                      )}
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-9 self-center flex justify-around">
+                  <p className=" font-semibold text-base self-center">
+                    {truncateString(firstName, 12)}
+                  </p>
+                  <div className="self-center relative" onClick={handleLogOut}>
+                    <div
+                      style={{
+                        maskImage: `url(${Logout})`,
+                        WebkitMaskImage: `url(${Logout})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews h-4 w-4 cursor-pointer "
                     />
-                    {notificationList !== 0 && (
-                      <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
-                        {notificationList > 9 ? "9+" : notificationList}
-                      </p>
-                    )}
-                  </Link>
+                    {/* <img src={Logout} className="cursor-pointer" alt="Logout" /> */}
+                  </div>
                 </div>
-              </div>
-              <div className="col-span-8 self-center flex justify-around">
-                <p className="text-light-black font-semibold text-base self-center">
-                  {truncateString(firstName, 12)}
-                </p>
-                <div className="self-center relative" onClick={handleLogOut}>
-                  <img src={Logout} className="cursor-pointer" alt="Logout" />
-                </div>
-              </div>
-            </Grid>
+              </Grid>
+            </SingleView>
           </div>
         </Grid>
       )}

@@ -105,10 +105,10 @@ function ResellerOrderDetails() {
             <SingleView className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
-                  <p className="text-sm text-neutral-grey font-Regular">
+                  <p className="text-sm  font-Regular">
                     Order ID
                   </p>
-                  <p className="text-xl text-white font-semibold">315174</p>
+                  <p className="text-xl font-semibold">315174</p>
                 </div>
                 <div className="col-span-3 text-end">
                   {/* <Button

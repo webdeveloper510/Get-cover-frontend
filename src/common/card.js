@@ -39,7 +39,7 @@ const Card = ({ children, className }) => {
   `;
 
   return (
-    <div className={`bg-white p-2 rounded-xl h-full ${className}`} style={parentStyle}>
+    <div className={` p-2 rounded-xl h-full ${className}`} style={parentStyle}>
       <style>{tableRowStyle}</style>
       {children}
     </div>

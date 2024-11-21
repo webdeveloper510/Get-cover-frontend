@@ -235,13 +235,13 @@ function OrderDetails() {
               Order Details
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={`/`}>Home / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-Regular ml-1">
+              <li className="text-sm font-Regular ml-1">
                 <Link to={`${location.pathname.includes("/reseller/orderDetails/") ? '/reseller/orderList' : '/dealer/orderList'}`}>Order List / </Link>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {activeTab}
               </li>
             </ul>
@@ -448,7 +448,7 @@ function OrderDetails() {
                 </div>
                 <div className="col-span-6">
                   {orderDetails?.termCondition?.fileName == '' || orderDetails?.termCondition == undefined ? <></> : (
-                    <InActiveButton className="!text-sm border flex cursor-pointer hover:font-semibold">
+                    <InActiveButton className="!text-sm border flex cursor-pointer">
                       <span className="self-center">
                         {" "}
                         <FileDownloader

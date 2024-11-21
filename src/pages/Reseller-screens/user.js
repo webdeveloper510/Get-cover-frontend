@@ -752,7 +752,7 @@ function ResellerUser() {
                 Manage Users
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>
@@ -764,7 +764,7 @@ function ResellerUser() {
             <SingleView className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
-                  <p className="text-base text-white font-semibold my-3">
+                  <p className="text-base font-semibold my-3">
                     {" "}
                     Dealer Details
                   </p>
@@ -781,10 +781,10 @@ function ResellerUser() {
                       <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className=" text-base font-medium leading-5	">
                         Account Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {details?.dealer?.name}
                       </p>
                     </div>
@@ -796,10 +796,10 @@ function ResellerUser() {
                       <img src={terms} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className=" text-base font-medium leading-5">
                         Address
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className=" opacity-50	text-sm font-medium">
                         {details?.dealer?.street} {", "}
                         {details?.dealer?.city}
                         {", "}
@@ -814,7 +814,7 @@ function ResellerUser() {
               </Grid>
               <Grid className="mt-5">
                 <div className="col-span-2 text-left">
-                  <p className="text-base text-white font-semibold">
+                  <p className="text-base font-semibold">
                     {" "}
                     My Details
                   </p>
@@ -832,10 +832,10 @@ function ResellerUser() {
                       <img src={dealer} alt="dealer" />
                     </div>
                     <div className="self-center w-[80%]">
-                      <p className="text-white text-base font-medium leading-5	">
+                      <p className="text-base font-medium leading-5	">
                         Account Name
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                      <p className=" opacity-50 text-sm	font-medium">
                         {details?.name}
                       </p>
                     </div>
@@ -847,10 +847,10 @@ function ResellerUser() {
                       <img src={terms} className="" alt="terms" />
                     </div>
                     <div className="self-center">
-                      <p className="text-white text-base font-medium leading-5">
+                      <p className=" text-base font-medium leading-5">
                         Address
                       </p>
-                      <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                      <p className=" opacity-50	text-sm font-medium">
                         {details?.street} {", "}
                         {details?.city}
                         {", "}

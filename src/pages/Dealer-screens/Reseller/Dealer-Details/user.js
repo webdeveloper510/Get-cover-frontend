@@ -670,12 +670,12 @@ function UserList(props) {
             >
               Yes
             </Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>

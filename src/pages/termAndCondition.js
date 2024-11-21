@@ -45,7 +45,7 @@ function FileDownloader(props) {
 
   return (
     <span
-      className={`text-left flex py-1 px-2 cursor-pointer hover:font-semibold ${props.className}`}
+      className={`text-left flex py-1 px-2 cursor-pointer ${props.className}`}
       onClick={() => handleClick(props)}
     >
       <div
