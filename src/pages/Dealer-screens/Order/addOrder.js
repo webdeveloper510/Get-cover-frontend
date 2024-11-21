@@ -3094,7 +3094,7 @@ function DealerAddOrder() {
             <Card className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey rounded-xl">
               <Grid>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Order Details
                   </p>
                   <Grid className="bg-grayf9 border-Light-Grey border rounded-xl px-4 ">
@@ -3113,7 +3113,7 @@ function DealerAddOrder() {
                   </Grid>
                 </div>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
                   <Grid className="bg-grayf9 !gap-2 border-Light-Grey border rounded-xl px-2 ">
@@ -3268,7 +3268,7 @@ function DealerAddOrder() {
                             {data.priceType == "Quantity Pricing" && (
                               <div className="col-span-12">
                                 <table className="w-full border text-center">
-                                  <tr className="border bg-white">
+                                  <tr className="border staticTable">
                                     <td
                                       colSpan={"4"}
                                       className="font-bold text-sm"
@@ -3276,7 +3276,7 @@ function DealerAddOrder() {
                                       Quantity Pricing List{" "}
                                     </td>
                                   </tr>
-                                  <tr className="border bg-white">
+                                  <tr className="border staticTable">
                                     <th className="font-bold text-sm">Name</th>
                                     <th className="font-bold text-sm">
                                       Quantity Per Unit
@@ -3349,8 +3349,21 @@ function DealerAddOrder() {
                       </div>
                       <div className="col-span-4 pt-3 px-2">
                         <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
-                          <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
-                            <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <InActiveButton className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
+                            <div
+                              style={{
+                                maskImage: `url(${csvFile})`,
+                                WebkitMaskImage: `url(${csvFile})`,
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                              }}
+                              className="self-center mr-2 h-4 w-4 cursor-pointer"
+                            />
+                            {/* <img src={csvFile} className="mr-2" alt="Dropbox" /> */}
                             <div className="flex justify-between w-full">
                               <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
@@ -3365,7 +3378,7 @@ function DealerAddOrder() {
                                   "kb"}
                               </p>
                             </div>
-                          </div>
+                          </InActiveButton>
                         </div>
                         <div className="col-span-12 my-4 border-t py-3">
                           <div className=" w-full">

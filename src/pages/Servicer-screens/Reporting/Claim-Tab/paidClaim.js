@@ -19,6 +19,7 @@ import productName from "../../../../assets/images/icons/productName1.svg";
 import pen from "../../../../assets/images/pencil.png";
 import Sendto from "../../../../assets/images/double-arrow.png";
 import Money from "../../../../assets/images/icons/money.svg";
+import clock from "../../../../assets/images/icons/clock.svg";
 import AddItem from "../../../../assets/images/icons/addItem.svg";
 import model from "../../../../assets/images/icons/ProductModel.svg";
 import serial from "../../../../assets/images/icons/ProductSerial.svg";
@@ -1434,18 +1435,30 @@ function ClaimList(props) {
                             alt="Search"
                           />
                         </Button>
-                        <Button
-                          className="!bg-transparent !p-0"
+                        <InActiveButton
                           onClick={() => {
                             handleFilterIconClick();
                           }}
                         >
-                          <img
+                          <div
+                            style={{
+                              maskImage: `url(${clearFilter})`,
+                              WebkitMaskImage: `url(${clearFilter})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center pr-1 py-1 h-4 w-4 cursor-pointer mx-auto"
+                          />
+                          {/* <img
                             src={clearFilter}
                             className="cursor-pointer	mx-auto"
                             alt="clearFilter"
-                          />
-                        </Button>
+                          /> */}
+                        </InActiveButton>
                         <Button
                           type="button"
                           className="ml-2 !text-[14px] !px-2"
@@ -1625,21 +1638,41 @@ function ClaimList(props) {
                                 className={`${isExcludedPath ? "!grid-cols-4" : "!grid-cols-5"
                                   } !gap-0 bg-grayf9  border-Gray28 border-x`}
                               >
-                                <div className="col-span-1 flex ">
-                                  <img
-                                    src={productName}
-                                    className="self-center h-[50px] w-[50px] ml-3"
-                                    alt="productName"
-                                  />
-                                  <div className="py-4 px-3 self-center">
-                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                      Dealer SKU
-                                    </p>
-                                    <p className="text-light-black text-sm font-semibold">
-                                      {res?.dealerSku}
-                                    </p>
+                                {props.activeTab == "Paid Claims" ?
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={clock}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="clock"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Approved Date
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.approveDate != '' && <>
+                                          {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                        </>
+                                        }
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
+                                  :
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={productName}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="productName"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Dealer SKU
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.dealerSku}
+                                      </p>
+                                    </div>
+                                  </div>}
 
                                 <div className="col-span-1 flex">
                                   <img

@@ -42,6 +42,7 @@ import { getResellerListByDealerId } from "../../../services/reSellerServices";
 import Cross from "../../../assets/images/Cross.png";
 import { RotateLoader } from "react-spinners";
 import SelectBoxWIthSerach from "../../../common/selectBoxWIthSerach";
+import InActiveButton from "../../../common/inActiveButton";
 
 function CustomerAddOrder() {
   const [productNameOptions, setProductNameOptions] = useState([]);
@@ -1902,7 +1903,7 @@ function CustomerAddOrder() {
             <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
               <Grid>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold  mb-4">
                     Order Details
                   </p>
                   <Grid className="bg-grayf9 border-Light-Grey border rounded-xl px-4 ">
@@ -1925,7 +1926,7 @@ function CustomerAddOrder() {
                   </Grid>
                 </div>
                 <div className="col-span-6">
-                  <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                  <p className="text-2xl font-bold mb-4">
                     Dealer Order Details
                   </p>
                   <Grid className="bg-grayf9 !gap-2 border-Light-Grey border rounded-xl px-2 ">
@@ -1953,7 +1954,7 @@ function CustomerAddOrder() {
                   return (
                     <>
                       <div className="col-span-8">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Product Details
                         </p>
                         <div className="bg-grayf9 border-Light-Grey border rounded-xl ">
@@ -2089,12 +2090,25 @@ function CustomerAddOrder() {
                         </div>
                       </div>
                       <div className="col-span-4">
-                        <p className="text-2xl font-bold text-[#bbbbbc] mb-4">
+                        <p className="text-2xl font-bold mb-4">
                           Uploaded Data
                         </p>
                         <div className="border border-dashed bg-grayf9 w-full h-[83%] relative flex">
-                          <div className="self-center flex text-center mx-4 relative bg-white border w-full rounded-md p-3">
-                            <img src={csvFile} className="mr-2" alt="Dropbox" />
+                          <InActiveButton className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
+                            <div
+                              style={{
+                                maskImage: `url(${csvFile})`,
+                                WebkitMaskImage: `url(${csvFile})`,
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                              }}
+                              className="self-center h-4 w-4 cursor-pointer mr-2"
+                            />
+                            {/* <img src={csvFile} className="mr-2" alt="Dropbox" /> */}
                             <div className="flex justify-between w-full">
                               <p className="self-center">
                                 {data?.file === ""
@@ -2108,7 +2122,7 @@ function CustomerAddOrder() {
                                   "kb"}
                               </p>
                             </div>
-                          </div>
+                          </InActiveButton>
                         </div>
                       </div>
                     </>
@@ -2229,14 +2243,14 @@ function CustomerAddOrder() {
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Order</p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm font-Regular">
               <Link to={"/"}>Home </Link> /{" "}
             </li>
-            <li className="text-sm text-neutral-grey ml-1 font-Regular">
+            <li className="text-sm ml-1 font-Regular">
               {" "}
               Add Order /{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+            <li className="text-sm font-semibold ml-1 pt-[1px]">
               {" "}
               Order Details{" "}
             </li>
@@ -2334,15 +2348,15 @@ function CustomerAddOrder() {
         <div className="text-center py-3">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold">
             Added
-            <span className="text-light-black"> Successfully </span>
+            <span className=""> Successfully </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             <b> New Order </b> Added Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting you on Order List Page {timer} seconds.
           </p>
         </div>
@@ -2361,11 +2375,11 @@ function CustomerAddOrder() {
         <div className="text-center py-3">
           <img src={disapproved} alt="email Image" className="mx-auto" />
 
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
-            <span className="text-light-black"> Error </span>
+          <p className="text-3xl mb-0 mt-4 font-semibold">
+            <span className=""> Error </span>
           </p>
 
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Some Errors Please Check Form Validations
           </p>
         </div>

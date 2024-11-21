@@ -155,7 +155,7 @@ function ResellerAddClaim() {
           </div>
           <div className='col-span-12'>
             <table className='w-full border text-center'>
-              <thead className='bg-grayf9 '>
+              <thead className='staticTable '>
                 <tr className='py-2'>
                   <th>Contract ID</th>
                   <th className='!py-2'>Customer Name</th>

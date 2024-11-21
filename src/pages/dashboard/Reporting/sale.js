@@ -17,6 +17,7 @@ import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import InActiveButton from "../../../common/inActiveButton";
+import { getDropDownValueForDealer } from "../../../services/userServices";
 
 function Sale() {
   const [loading, setLoading] = useState(false)
@@ -41,7 +42,9 @@ function Sale() {
   const [activeButton, setActiveButton] = useState("dealer");
 
   const [selected, setSelected] = useState([]);
+  const [dealerSkuSelected, setDealerSkuSelected] = useState([]);
   const [dealerList, setDealerList] = useState([]);
+  const [dealerSkuList, setDealerSkuList] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [priceBookList, setPriceBookList] = useState([]);
   const [selectedCat, setSelectedCat] = useState([]);
@@ -58,20 +61,14 @@ function Sale() {
   }, [activeTab]);
 
   useEffect(() => {
-    if (activeButton === "dealer") {
-      getDatasetAtEvent({});
-    } else {
-      getDatasetAtEvent({
-        dealerId: "",
-        priceBookId: [],
-        categoryId: "",
-      });
-    }
+    getDropDownValues(activeButton)
   }, [activeButton]);
 
   useEffect(() => {
     resetAllFilters();
+   
   }, []);
+
 
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
@@ -96,24 +93,173 @@ function Sale() {
     }
   }, []);
 
-  const getDatasetAtEvent = async (data) => {
-    console.log(data);
-    try {
-      setLoading(true);
-      const res = await getFilterList(data);
-      if (activeButton === "dealer") {
-        setDealerList(res.result.getDealers);
-        setCategoryList(res.result.getCategories);
-        setPriceBookList(res.result.getPriceBooks);
-      } else {
-        setCategoryListCat(res.result.getCategories);
-        setPriceBookListCat(res.result.getPriceBooks);
+  const getDropDownValues = async () => { 
+    const data = await getDropDownValueForDealer(activeButton== "dealer" ?"Dealer":"Category");
+
+if (activeButton == "dealer"){
+  const dealers = data.result.map(dealer => {
+    const categories = (dealer.categories || []).map(category => {
+      const priceBooks = (category.priceBooks || []).map(priceBook => ({
+        label: priceBook.priceBookName,
+        value: priceBook.priceBookId,
+        categoryId:category.categoryId,
+        dealerSku: (priceBook.dealerSku || []).map(skuObj => ({
+          label: skuObj.sku,
+          value: priceBook.priceBookId
+        }))
+      }));
+  
+      return {
+        label: category.categoryName,
+        value: category.categoryId,
+        priceBooks, // Nested priceBooks within each category
+      };
+    });
+  
+    console.log('All Categories:', categories);
+    
+    return {
+      label: dealer.name,
+      value: dealer._id,
+      categories
+    };
+  });
+
+  setDealerList(dealers);
+}
+else {
+
+const categoriesWithPriceBooks = [];
+const allPriceBooks = [];
+
+(data.result || []).forEach(category => {
+  const priceBooks = (category.priceBooks || []).map(priceBook => {
+    const priceBookObj = {
+      label: priceBook.priceBookName,
+      value: priceBook.priceBookId,
+      categoryId: category.categoryId
+    };
+    allPriceBooks.push(priceBookObj);
+
+    return priceBookObj;
+  });
+  categoriesWithPriceBooks.push({
+    label: category.categoryName,
+    value: category.categoryId,
+    priceBooks
+  });
+});
+
+console.log('Categories with PriceBooks:', categoriesWithPriceBooks);
+console.log('All PriceBooks:', allPriceBooks);
+
+
+  
+  setCategoryListCat(categoriesWithPriceBooks)
+  setPriceBookListCat(allPriceBooks)
+}
+
+  };
+  
+  const handleFilterChange = (name, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === "dealerId" && value) {
+      const filteredDealer = dealerList.find(dealer => dealer.value === value);
+      console.log(filteredDealer);
+  
+      if (filteredDealer) {
+        const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
+        const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+      
+        setCategoryList(filteredDealer.categories);
+        setPriceBookList(allPriceBooks);
+        setDealerSkuList(allDealerSku)
       }
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching sales data:", error);
-      setLoading(false);
+      
     }
+    if (name === "categoryId" && filter.dealerId) {
+      let filteredPriceBooks = [];
+      let dealerSkuList = [];
+      setSelected([]);
+      setDealerSkuSelected([]);
+      handleFilterChange('priceBookId', []);
+      if (value) {
+        const filteredCategory = categoryList.find(category => category.value === value);
+        filteredPriceBooks = filteredCategory?.priceBooks || [];
+      } else {
+        filteredPriceBooks = categoryList.flatMap(category => category.priceBooks || []);
+      }
+      dealerSkuList = filteredPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+
+      setDealerSkuList(dealerSkuList);
+      setPriceBookList(filteredPriceBooks);
+    }
+    
+    if (name === "priceBookId" && value && filter.dealerId) {
+      const selectedValues = value.map(item => item.value);
+      const matchingPriceBooks = priceBookList.filter(priceBook => selectedValues.includes(priceBook.value));
+      setSelected(matchingPriceBooks);
+      setDealerSkuSelected(matchingPriceBooks.flatMap(priceBook => priceBook.dealerSku || []));
+    
+      setFilters(prev => ({
+        ...prev,
+        [name]: priceBookList.map(item => item.value)
+      }));
+    
+      // Automatically filter by category if no category is selected
+      if (!filter.categoryId) {
+        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+        if (selectedPriceBook) {
+          handleFilterChange('categoryId', selectedPriceBook.categoryId);
+        }
+      }
+    
+      console.log(matchingPriceBooks);
+    }
+    
+  };
+  
+  const handleFilterChangeforCategory = (name, value) => {
+    setFiltersCategory(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === "categoryId") {
+      console.log(value)
+      const filteredCategory = categoryListCat.find(category => category.value === value);
+      console.log(filteredCategory);
+      if (filteredCategory) {    
+        setPriceBookListCat(filteredCategory.priceBooks);
+      }
+      setSelectedCat([])
+      handleFilterChangeforCategory('priceBookId', []);
+    }
+    if (name === "priceBookId" && value && filterCategory.categoryId) {
+      const selectedValues = value.map(item => item.value);
+      const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
+      setSelectedCat(matchingPriceBooks);
+    
+      setFiltersCategory(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+    
+      // Automatically filter by category if no category is selected
+      if (!filterCategory.categoryId) {
+        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+        if (selectedPriceBook) {
+          handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
+        }
+      }
+    
+      console.log(matchingPriceBooks);
+    }
+
   };
 
   const tabs = [
@@ -134,37 +280,9 @@ function Sale() {
     setActiveButton(button);
   };
 
-  const handleFilterChange = (name, value) => {
-    let updatedFilters = { ...filter };
 
-    if (name === "dealerId") {
-      updatedFilters = { dealerId: value, categoryId: "", priceBookId: [] };
-      setSelected([]);
-    } else if (name === "categoryId") {
-      updatedFilters.categoryId = value;
-      setSelected([]);
-    } else if (name === "priceBookId") {
-      updatedFilters.priceBookId = value.map((item) => item.label);
-    }
 
-    setFilters(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
-  };
-
-  const handleFilterChangeforCategory = (name, value) => {
-    let updatedFilters = { ...filterCategory };
-
-    if (name === "categoryId") {
-      updatedFilters = { categoryId: value, priceBookId: [], dealerId: "" };
-      setSelectedCat([]);
-    } else if (name === "priceBookId") {
-      updatedFilters.priceBookId = value.map((item) => item.label);
-      setSelectedCat(value);
-    }
-
-    setFiltersCategory(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
-  };
+ 
 
   const handleApplyFilters = () => {
     setFilterLoading(true);
@@ -190,6 +308,7 @@ function Sale() {
       setAppliedFilters(data);
       setFilters(data);
       setSelected([]);
+      setDealerSkuSelected([]);
     }
   };
   const InactiveTabButton = ({ tab, onClick }) => (
@@ -345,7 +464,10 @@ function Sale() {
                       options={dealerList}
                     />
                   </div>
-                  <div className="col-span-3 self-center pl-1">
+              {
+                filter.dealerId !="" && (
+                  <>
+                      <div className="col-span-3 self-center pl-1">
                     <SelectBoxWithSearch
                       label="Category Name"
                       name="categoryId"
@@ -380,6 +502,31 @@ function Sale() {
                       Product SKU
                     </small>
                   </div>
+                  <div className="col-span-3 self-center pl-1 relative">
+                    <MultiSelect
+                      label="Dealer SKU"
+                      name="dealerSku"
+                      placeholder="Dealer SKU"
+                      value={dealerSkuSelected}
+                      options={dealerSkuList}
+                      pName="dealer SKU"
+                      onChange={(value) => {
+                        setDealerSkuSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                      Dealer SKU
+                    </small>
+                  </div>
+                  </>
+                )
+              }
                   <div className="col-span-3 self-center ml-auto pl-3 flex">
                     <Button onClick={handleApplyFilters}>Filter</Button>
                     <InActiveButton

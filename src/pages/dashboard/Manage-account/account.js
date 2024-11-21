@@ -2141,7 +2141,7 @@ function Account() {
                       </Grid>
 
                       <table className="w-full border-collapse border mt-5">
-                        <thead className="w-full border-collapse border bg-[#F9F9F9]">
+                        <thead className="w-full border-collapse border staticTable">
                           <tr>
                             <th>Label</th>
                             <th>Value</th>

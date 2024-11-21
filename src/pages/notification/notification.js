@@ -126,13 +126,13 @@ function Notification() {
               {activeTab === "all" ?
                 <>
                   <Button
-                    className={`tab-button border-b-2 mr-3 font-semibold py-1 px-4 text-sm rounded`}
+                    className={`tab-button mr-3 font-semibold py-1 px-4 text-sm rounded`}
                     onClick={() => handleTabClick("all")}
                   >
                     All
                   </Button>
                   <InActiveButton
-                    className={`tab-button border-b-2 font-semibold py-1 px-4 text-sm rounded`}
+                    className={`tab-button font-semibold py-1 px-4 text-sm rounded`}
                     onClick={() => handleTabClick("unread")}
                   >
                     Unread
@@ -141,14 +141,14 @@ function Notification() {
                 :
                 <>
                   <InActiveButton
-                    className={`tab-button  border-b-2 mr-3  font-semibold py-1 px-4 text-sm rounded
+                    className={`tab-button mr-3  font-semibold py-1 px-4 text-sm rounded
                       `}
                     onClick={() => handleTabClick("all")}
                   >
                     All
                   </InActiveButton>
                   <Button
-                    className={`tab-button border-b-2 font-semibold py-1 px-4 text-sm rounded`}
+                    className={`tab-button font-semibold py-1 px-4 text-sm rounded`}
                     onClick={() => handleTabClick("unread")}
                   >
                     Unread
@@ -173,7 +173,7 @@ function Notification() {
           </div>
         ) : (
           <>
-            <div className="tab-content overflow-y-scroll min-h-[70vh] h-[70vh]">
+            <div className="tab-content overflow-y-scroll min-h-[70vh] h-[70vh] bg-white">
               {activeTab === "all" && (
                 <div>
                   {notificationList?.length !== 0 ? (
@@ -190,16 +190,42 @@ function Notification() {
                           <SingleView className="border-[1px] p-2 border-[#D1D1D2] relative">
                             <Grid>
                               <div className="col-span-3 self-center flex w-full">
-                                <img
+                                <div
+                                  style={{
+                                    maskImage: `url(${unReadDot})`,
+                                    WebkitMaskImage: `url(${unReadDot})`,
+                                    maskRepeat: "no-repeat",
+                                    WebkitMaskRepeat: "no-repeat",
+                                    maskPosition: "center",
+                                    WebkitMaskPosition: "center",
+                                    maskSize: "contain",
+                                    WebkitMaskSize: "contain",
+                                  }}
+                                  className="self-center singleViews mr-2 w-[10px] h-[10px] my-auto"
+                                />
+                                {/* <img
                                   src={unReadDot}
                                   className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                   alt="Unread dot"
+                                /> */}
+                                <div
+                                  style={{
+                                    maskImage: `url(${unRead})`,
+                                    WebkitMaskImage: `url(${unRead})`,
+                                    maskRepeat: "no-repeat",
+                                    WebkitMaskRepeat: "no-repeat",
+                                    maskPosition: "center",
+                                    WebkitMaskPosition: "center",
+                                    maskSize: "contain",
+                                    WebkitMaskSize: "contain",
+                                  }}
+                                  className="mr-2 w-[18px] singleViews h-[24px] self-center"
                                 />
-                                <img
+                                {/* <img
                                   src={unRead}
                                   className="mr-2 w-[18px] h-[24px] self-center"
                                   alt="Unread icon"
-                                />
+                                /> */}
                                 <p className=" text-[15px] font-semibold">
                                   {data?.title} : {data?.userId?.firstName}
                                 </p>
@@ -213,13 +239,39 @@ function Notification() {
                               <div className="col-span-3">
                                 <div className="flex justify-end h-full">
                                   <p className="flex text-sm mr-3 w-1/2  self-center">
-                                    <img src={time} className="mr-2" alt="Time" />{" "}
+                                    <div
+                                      style={{
+                                        maskImage: `url(${time})`,
+                                        WebkitMaskImage: `url(${time})`,
+                                        maskRepeat: "no-repeat",
+                                        WebkitMaskRepeat: "no-repeat",
+                                        maskPosition: "center",
+                                        WebkitMaskPosition: "center",
+                                        maskSize: "contain",
+                                        WebkitMaskSize: "contain",
+                                      }}
+                                      className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
+                                    />
+                                    {/* <img src={time} className="mr-2" alt="Time" />{" "} */}
                                     {new Date(
                                       data.createdAt
                                     ).toLocaleTimeString()}{" "}
                                   </p>
                                   <p className="mr-3 flex text-sm w-1/2  self-center">
-                                    <img src={date} className="mr-2" alt="Date" />{" "}
+                                    <div
+                                      style={{
+                                        maskImage: `url(${date})`,
+                                        WebkitMaskImage: `url(${date})`,
+                                        maskRepeat: "no-repeat",
+                                        WebkitMaskRepeat: "no-repeat",
+                                        maskPosition: "center",
+                                        WebkitMaskPosition: "center",
+                                        maskSize: "contain",
+                                        WebkitMaskSize: "contain",
+                                      }}
+                                      className="self-center singleViews mr-2 h-4 w-4 cursor-pointer "
+                                    />
+                                    {/* <img src={date} className="mr-2" alt="Date" />{" "} */}
                                     {new Date(
                                       data?.createdAt
                                     ).toLocaleDateString()}{" "}
@@ -231,36 +283,88 @@ function Notification() {
                         ) : (
                           <Grid className="border-[1px] p-2 border-[#D1D1D2] relative">
                             <div className="col-span-3 self-center flex w-full">
-                              <img
+                              <div
+                                style={{
+                                  maskImage: `url(${ReadDot})`,
+                                  WebkitMaskImage: `url(${ReadDot})`,
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
+                                }}
+                                className="mr-2 w-[10px] singleViews h-[10px] my-auto self-center"
+                              />
+                              {/* <img
                                 src={ReadDot}
                                 className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                 alt="Read dot"
+                              /> */}
+                              <div
+                                style={{
+                                  maskImage: `url(${Read})`,
+                                  WebkitMaskImage: `url(${Read})`,
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
+                                }}
+                                className="mr-2 w-[18px] singleViews h-[18px] mt-[3px] self-center"
                               />
-                              <img
+                              {/* <img
                                 src={Read}
                                 className="mr-2 w-[18px] h-[18px] mt-[3px] self-center"
                                 alt="Read icon"
-                              />
-                              <p className="text-light-black text-base font-semibold ">
+                              /> */}
+                              <p className=" text-base font-semibold ">
                                 {data?.title} : {data?.userId?.firstName}
                               </p>
                             </div>
                             <div className="col-span-6 self-center flex w-full">
 
-                              <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
+                              <p className="text-sm font-Regular self-center pl-4 pt-1">
                                 {data?.description}
                               </p>
                             </div>
                             <div className="col-span-3">
                               <div className="flex justify-end h-full">
-                                <p className="flex text-sm mr-3 w-1/2 text-light-black self-center">
-                                  <img src={time} className="mr-2" alt="Time" />{" "}
+                                <p className="flex text-sm mr-3 w-1/2  self-center">
+                                  <div
+                                    style={{
+                                      maskImage: `url(${time})`,
+                                      WebkitMaskImage: `url(${time})`,
+                                      maskRepeat: "no-repeat",
+                                      WebkitMaskRepeat: "no-repeat",
+                                      maskPosition: "center",
+                                      WebkitMaskPosition: "center",
+                                      maskSize: "contain",
+                                      WebkitMaskSize: "contain",
+                                    }}
+                                    className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
+                                  />
+                                  {/* <img src={time} className="mr-2" alt="Time" />{" "} */}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
                                 <p className="mr-3 flex text-sm w-1/2 text-light-black self-center">
-                                  <img src={date} className="mr-2" alt="Date" />{" "}
+                                  <div
+                                    style={{
+                                      maskImage: `url(${date})`,
+                                      WebkitMaskImage: `url(${date})`,
+                                      maskRepeat: "no-repeat",
+                                      WebkitMaskRepeat: "no-repeat",
+                                      maskPosition: "center",
+                                      WebkitMaskPosition: "center",
+                                      maskSize: "contain",
+                                      WebkitMaskSize: "contain",
+                                    }}
+                                    className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
+                                  />
+                                  {/* <img src={date} className="mr-2" alt="Date" />{" "} */}
                                   {new Date(
                                     data?.createdAt
                                   ).toLocaleDateString()}{" "}
@@ -290,38 +394,94 @@ function Notification() {
                         }
                         style={{ cursor: "pointer" }}
                       >
-                        <Grid className="border-[1px] p-2 border-[#D1D1D2] bg-[#E8E8E9] relative">
-                          <div className="col-span-9 self-center flex w-full">
-                            <img
+                        <SingleView>
+                          <Grid className="border-[1px] p-2 border-[#D1D1D2] relative">
+                            <div className="col-span-3 self-center flex w-full">
+                              <div
+                                style={{
+                                  maskImage: `url(${unReadDot})`,
+                                  WebkitMaskImage: `url(${unReadDot})`,
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
+                                }}
+                                className="mr-2 w-[10px] singleViews h-[10px] my-auto self-center"
+                              />
+                              {/* <img
                               src={unReadDot}
                               className="mr-2 w-[10px] h-[10px] my-auto self-center"
                               alt="Unread dot"
-                            />
-                            <img
+                            /> */}
+                              <div
+                                style={{
+                                  maskImage: `url(${unRead})`,
+                                  WebkitMaskImage: `url(${unRead})`,
+                                  maskRepeat: "no-repeat",
+                                  WebkitMaskRepeat: "no-repeat",
+                                  maskPosition: "center",
+                                  WebkitMaskPosition: "center",
+                                  maskSize: "contain",
+                                  WebkitMaskSize: "contain",
+                                }}
+                                className="mr-2 w-[18px] singleViews h-[24px] self-center"
+                              />
+                              {/* <img
                               src={unRead}
                               className="mr-2 w-[18px] h-[24px] self-center"
                               alt="Unread icon"
-                            />
-                            <p className="text-light-black text-base font-semibold">
-                              {data?.title}: {data?.flag}
-                            </p>
-                            <p className="text-sm text-neutral-grey font-Regular self-center pl-4 pt-1">
-                              {data?.description}
-                            </p>
-                          </div>
-                          <div className="col-span-3">
-                            <div className="flex justify-end h-full">
-                              <p className="flex text-sm mr-3 w-1/2 text-light-black self-center">
-                                <img src={time} className="mr-2" alt="Time" />{" "}
-                                {new Date(data.createdAt).toLocaleTimeString()}{" "}
-                              </p>
-                              <p className="mr-3 flex text-sm w-1/2 text-light-black  self-center">
-                                <img src={date} className="mr-2" alt="Date" />{" "}
-                                {new Date(data?.createdAt).toLocaleDateString()}{" "}
+                            /> */}
+                              <p className=" text-base font-semibold">
+                                {data?.title}: {data?.flag}
                               </p>
                             </div>
-                          </div>
-                        </Grid>
+                            <div className="col-span-6 self-center flex w-full">
+                              <p className="text-sm  font-Regular self-center pl-4 pt-1">
+                                {data?.description}
+                              </p>
+                            </div>
+                            <div className="col-span-3">
+                              <div className="flex justify-end h-full">
+                                <p className="flex text-sm mr-3 w-1/2 self-center">
+                                  <div
+                                    style={{
+                                      maskImage: `url(${time})`,
+                                      WebkitMaskImage: `url(${time})`,
+                                      maskRepeat: "no-repeat",
+                                      WebkitMaskRepeat: "no-repeat",
+                                      maskPosition: "center",
+                                      WebkitMaskPosition: "center",
+                                      maskSize: "contain",
+                                      WebkitMaskSize: "contain",
+                                    }}
+                                    className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
+                                  />
+                                  {/* <img src={time} className="mr-2" alt="Time" />{" "} */}
+                                  {new Date(data.createdAt).toLocaleTimeString()}{" "}
+                                </p>
+                                <p className="mr-3 flex text-sm w-1/2  self-center">
+                                  <div
+                                    style={{
+                                      maskImage: `url(${date})`,
+                                      WebkitMaskImage: `url(${date})`,
+                                      maskRepeat: "no-repeat",
+                                      WebkitMaskRepeat: "no-repeat",
+                                      maskPosition: "center",
+                                      WebkitMaskPosition: "center",
+                                      maskSize: "contain",
+                                      WebkitMaskSize: "contain",
+                                    }}
+                                    className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
+                                  />
+                                  {/* <img src={date} className="mr-2" alt="Date" />{" "} */}
+                                  {new Date(data?.createdAt).toLocaleDateString()}{" "}
+                                </p>
+                              </div>
+                            </div>
+                          </Grid>
+                        </SingleView>
                       </div>
                     ))
                   ) : (
