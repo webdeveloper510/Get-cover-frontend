@@ -150,11 +150,6 @@ const allPriceBooks = [];
   });
 });
 
-console.log('Categories with PriceBooks:', categoriesWithPriceBooks);
-console.log('All PriceBooks:', allPriceBooks);
-
-
-  
   setCategoryListCat(categoriesWithPriceBooks)
   setPriceBookListCat(allPriceBooks)
 }
@@ -169,7 +164,6 @@ console.log('All PriceBooks:', allPriceBooks);
 
     if (name === "dealerId" && value) {
       const filteredDealer = dealerList.find(dealer => dealer.value === value);
-      console.log(filteredDealer);
   
       if (filteredDealer) {
         const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
@@ -217,8 +211,6 @@ console.log('All PriceBooks:', allPriceBooks);
           handleFilterChange('categoryId', selectedPriceBook.categoryId);
         }
       }
-    
-      console.log(matchingPriceBooks);
     }
     
   };
@@ -230,9 +222,7 @@ console.log('All PriceBooks:', allPriceBooks);
     }));
 
     if (name === "categoryId") {
-      console.log(value)
       const filteredCategory = categoryListCat.find(category => category.value === value);
-      console.log(filteredCategory);
       if (filteredCategory) {    
         setPriceBookListCat(filteredCategory.priceBooks);
       }
@@ -256,10 +246,7 @@ console.log('All PriceBooks:', allPriceBooks);
           handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
         }
       }
-    
-      console.log(matchingPriceBooks);
     }
-
   };
 
   const tabs = [
