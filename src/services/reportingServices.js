@@ -79,6 +79,22 @@ export const getFilterListForClaim = async (data) => {
   }
 };
 
+export const getReportingFilterListForClaim = async (data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(
+      `${url}/reporting/claimReportinDropdown1/${data}`,
+      {
+        headers,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getFilterListDropdown = async (data, type) => {
   const headers = createHeaders();
   try {

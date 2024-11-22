@@ -94,7 +94,7 @@ function Sale() {
   }, []);
 
   const getDropDownValues = async () => {
-    const data = await getDropDownValueForDealer(activeButton == "dealer" ? "Dealer" : "Category");
+    const data = await getDropDownValueForDealer(activeButton);
 
     if (activeButton == "dealer") {
       const dealers = data.result.map(dealer => {
@@ -129,32 +129,6 @@ function Sale() {
     }
     else {
 
-      const categoriesWithPriceBooks = [];
-      const allPriceBooks = [];
-
-      (data.result || []).forEach(category => {
-        const priceBooks = (category.priceBooks || []).map(priceBook => {
-          const priceBookObj = {
-            label: priceBook.priceBookName,
-            value: priceBook.priceBookId,
-            categoryId: category.categoryId
-          };
-          allPriceBooks.push(priceBookObj);
-
-          return priceBookObj;
-        });
-        categoriesWithPriceBooks.push({
-          label: category.categoryName,
-          value: category.categoryId,
-          priceBooks
-        });
-      });
-
-      console.log('Categories with PriceBooks:', categoriesWithPriceBooks);
-      console.log('All PriceBooks:', allPriceBooks);
-
-
-
       setCategoryListCat(categoriesWithPriceBooks)
       setPriceBookListCat(allPriceBooks)
     }
@@ -169,8 +143,6 @@ function Sale() {
 
     if (name === "dealerId" && value) {
       const filteredDealer = dealerList.find(dealer => dealer.value === value);
-      console.log(filteredDealer);
-
       if (filteredDealer) {
         const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
         const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
@@ -207,18 +179,16 @@ function Sale() {
 
       setFilters(prev => ({
         ...prev,
-        [name]: priceBookList.map(item => item.value)
+        [name]: matchingPriceBooks.map(item => item.value)
       }));
 
       // Automatically filter by category if no category is selected
-      if (!filter.categoryId) {
-        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
-        if (selectedPriceBook) {
-          handleFilterChange('categoryId', selectedPriceBook.categoryId);
-        }
-      }
-
-      console.log(matchingPriceBooks);
+      // if (!filter.categoryId) {
+      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+      //   if (selectedPriceBook) {
+      //     handleFilterChange('categoryId', selectedPriceBook.categoryId);
+      //   }
+      // }
     }
 
   };
@@ -230,9 +200,7 @@ function Sale() {
     }));
 
     if (name === "categoryId") {
-      console.log(value)
       const filteredCategory = categoryListCat.find(category => category.value === value);
-      console.log(filteredCategory);
       if (filteredCategory) {
         setPriceBookListCat(filteredCategory.priceBooks);
       }
@@ -250,16 +218,13 @@ function Sale() {
       }));
 
       // Automatically filter by category if no category is selected
-      if (!filterCategory.categoryId) {
-        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
-        if (selectedPriceBook) {
-          handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
-        }
-      }
-
-      console.log(matchingPriceBooks);
+      // if (!filterCategory.categoryId) {
+      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+      //   if (selectedPriceBook) {
+      //     handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
+      //   }
+      // }
     }
-
   };
 
   const tabs = [
@@ -575,6 +540,7 @@ function Sale() {
                       Product SKU
                     </small>
                   </div>
+
 
                   <div className="col-span-1 self-center mx-auto pl-3">
                     <Button onClick={handleApplyFilters}>Filter</Button>

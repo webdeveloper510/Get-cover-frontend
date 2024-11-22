@@ -17,6 +17,7 @@ import { useMyContext } from "./../../../context/context";
 import {
   getFilterListForClaim,
   getFilterListForServicerClaim,
+  getReportingFilterListForClaim,
 } from "../../../services/reportingServices";
 import Card from "../../../common/card";
 import { RotateLoader } from "react-spinners";
@@ -37,9 +38,11 @@ function Claims() {
   const [selected, setSelected] = useState([]);
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
   const [dealerList, setDealerList] = useState([]);
+  const [dealerSkuSelected, setDealerSkuSelected] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
   const [priceBookList, setPriceBookList] = useState([]);
   const [servicerList, setServicerList] = useState([]);
+  const [dealerSkuList, setDealerSkuList] = useState([]);
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
@@ -116,7 +119,6 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
-    setLoading(true);
     try {
       const res =
         isServicerClaims || isResellerClaims
@@ -124,26 +126,101 @@ function Claims() {
             data,
             !isResellerClaims ? "servicerPortal" : "resellerPortal"
           )
-          : await getFilterListForClaim(data);
-      const { dealers, categories, priceBooks, servicers } = res.result;
-      const getName = (obj) => obj.name;
-      const mapToLabelValue = (value) =>
-        value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      if (activeButton === "dealer") {
-        setDealerList(mapToLabelValue(dealers));
-        setCategoryList(mapToLabelValue(categories));
-        setPriceBookList(mapToLabelValue(priceBooks));
-        setServicerList(mapToLabelValue(servicers));
-      } else if (activeButton === "category") {
-        setCategoryListCat(mapToLabelValue(categories));
-        setPriceBookListCat(mapToLabelValue(priceBooks));
-      } else {
-        setServicerListServicer(mapToLabelValue(servicers));
-        setCategoryListServicer(mapToLabelValue(categories));
-        setPriceBookListServicer(mapToLabelValue(priceBooks));
-        setDealerListServicer(mapToLabelValue(dealers));
-      }
-      setLoading(false);
+          : await getReportingFilterListForClaim(activeButton);
+          if (activeButton == "dealer"){
+            const dealers = res?.result.map((dealer) => {
+              // Map over dealer's categories
+              const categories = (dealer.categories || []).map((category) => {
+                const priceBooks = (category.priceBooks || []).map((priceBook) => ({
+                  label: priceBook.priceBookName,
+                  value: priceBook.priceBookId,
+                  categoryId: category.categoryId,
+                  dealerSku: (priceBook.dealerSku || []).map((skuObj) => ({
+                    label: skuObj.sku,
+                    value: priceBook.priceBookId,
+                  })),
+                }));
+            
+                return {
+                  label: category.categoryName,
+                  value: category.categoryId,
+                  priceBooks, // Nested priceBooks within each category
+                };
+              });
+            
+              // Map over dealer's servicer
+              const servicer = (dealer.servicer || []).map((servicer) => {
+                return {
+                  label: servicer.name,
+                  value: servicer._id,
+                  dealer: dealer._id,
+                };
+              });
+            
+              // Return structured dealer object
+              return {
+                label: dealer.name,
+                value: dealer._id,
+                categories,
+                servicer, 
+              };
+            });
+            setDealerList(dealers);
+          }
+          else if(activeButton == "category"){
+
+            const categoriesWithPriceBooks = [];
+            const allPriceBooks = [];
+            
+            (res.result || []).forEach(category => {
+              const priceBooks = (category.priceBooks || []).map(priceBook => {
+                const priceBookObj = {
+                  label: priceBook.priceBookName,
+                  value: priceBook.priceBookId,
+                  categoryId: category.categoryId
+                };
+                allPriceBooks.push(priceBookObj);
+            
+                return priceBookObj;
+              });
+              categoriesWithPriceBooks.push({
+                label: category.categoryName,
+                value: category.categoryId,
+                priceBooks
+              });
+            });
+              setCategoryListCat(categoriesWithPriceBooks)
+              setPriceBookListCat(allPriceBooks)
+            }
+            else {
+              const servicerData = res?.result?.map((servicer) => ({
+                label: servicer?.name ,
+                value: servicer?._id ,
+                dealer: (servicer?.dealers || []).map((dealer) => ({
+                  label: dealer?.name, 
+                  value: dealer?._id 
+                })),
+                category: (servicer?.categories || []).map((category) => ({
+                  label: category?.categoryName, 
+                  value: category?.categoryId ,
+                  priceBooks: (category?.priceBooks || []).map((priceBook) => ({
+                    label: priceBook?.priceBookName ,
+                    value: priceBook?.priceBookId , 
+                    dealerSku: (priceBook?.dealerSku && priceBook.dealerSku.length > 0) 
+                    ? priceBook.dealerSku.map((skuObj) => ({
+                        label: skuObj?.sku , 
+                        value: category?.categoryId , 
+                      }))
+                    : [] 
+
+                  })),
+                })),
+              }));
+              
+              console.log("Transformed Data:", servicerData);
+              setServicerListServicer(servicerData)
+            }
+            
     } catch (error) {
       console.error("Error fetching sales data:", error);
       setLoading(false);
@@ -155,77 +232,149 @@ function Claims() {
   };
 
   const handleFilterChange = (name, value) => {
-    let updatedFilters = { ...filter };
-    const commonUpdates = {
-      categoryId: "",
-      priceBookId: [],
-      servicerId: "",
-      primary: activeButton,
-    };
-    switch (name) {
-      case "dealerId":
-        updatedFilters = { dealerId: value, ...commonUpdates };
-        setSelected([]);
-        break;
-      case "servicerId":
-        updatedFilters = { ...updatedFilters, servicerId: value };
-        setSelected([]);
-        break;
-      case "categoryId":
-        updatedFilters.categoryId = value;
-        setSelected([]);
-        break;
-      case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.value);
-        break;
-      default:
-        return;
+    setFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === "dealerId" && value) {
+      const filteredDealer = dealerList.find(dealer => dealer.value === value);
+  
+      if (filteredDealer) {
+        const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
+        const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+      
+        setCategoryList(filteredDealer.categories);
+        setServicerList(filteredDealer.servicer)
+        setPriceBookList(allPriceBooks);
+        setDealerSkuList(allDealerSku)
+      }
+      
     }
-    setFilters(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
+    if (name === "categoryId" && filter.dealerId) {
+      let filteredPriceBooks = [];
+      let dealerSkuList = [];
+      setSelected([]);
+      setDealerSkuSelected([]);
+      handleFilterChange('priceBookId', []);
+      if (value) {
+        const filteredCategory = categoryList.find(category => category.value === value);
+        filteredPriceBooks = filteredCategory?.priceBooks || [];
+      } else {
+        filteredPriceBooks = categoryList.flatMap(category => category.priceBooks || []);
+      }
+      dealerSkuList = filteredPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+
+      setDealerSkuList(dealerSkuList);
+      setPriceBookList(filteredPriceBooks);
+    }
+    if (name === "priceBookId" && value && filter.dealerId) {
+      const selectedValues = value.map(item => item.value);
+      const matchingPriceBooks = priceBookList.filter(priceBook => selectedValues.includes(priceBook.value));
+      setSelected(matchingPriceBooks);
+      setDealerSkuSelected(matchingPriceBooks.flatMap(priceBook => priceBook.dealerSku || []));
+    
+      setFilters(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+    
+      // // Automatically filter by category if no category is selected
+      // if (!filter.categoryId) {
+      //   const selectedPriceBook = matchingPriceBooks[0]; 
+      //   if (selectedPriceBook) {
+      //     handleFilterChange('categoryId', selectedPriceBook.categoryId);
+      //   }
+      // }
+    }
+    
   };
 
   const handleFilterChangeCat = (name, value) => {
-    let updatedFilters = { ...filterCategory };
-    switch (name) {
-      case "categoryId":
-        updatedFilters.categoryId = value;
-        updatedFilters.priceBookId = [];
-        setSelectedCat([]);
-        break;
-      case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.value);
-        break;
-      default:
-        return;
+    setFiltersCategory(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    if (name === "categoryId") {
+      const filteredCategory = categoryListCat.find(category => category.value === value);
+      if (filteredCategory) {    
+        setPriceBookListCat(filteredCategory.priceBooks);
+      }
+  setSelectedCat([])
+  handleFilterChangeCat('priceBookId', []);
+
     }
-    setFiltersCategory(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
+    if (name === "priceBookId" && value ) {
+      const selectedValues = value.map(item => item.value);
+      const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
+      setSelectedCat(matchingPriceBooks);
+    
+      setFiltersCategory(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+    // console.log(matchingPriceBooks[0])
+      // Automatically filter by category if no category is selected
+      // if (!filterCategory.categoryId) {
+
+      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+      //   if (selectedPriceBook) {
+      //     handleFilterChangeCat('categoryId', selectedPriceBook.categoryId,'price');
+      //   }
+      // }
+    }
   };
 
   const handleFilterChangeServicer = (name, value) => {
-    let updatedFilters = { ...filterServicer };
-    switch (name) {
-      case "servicerId":
-        updatedFilters = { ...updatedFilters, servicerId: value };
-        setSelectedSer([]);
-        break;
-      case "dealerId":
-        updatedFilters.dealerId = value;
-        setSelectedSer([]);
-        break;
-      case "categoryId":
-        updatedFilters.categoryId = value;
-        setSelectedSer([]);
-        break;
-      case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.value);
-        break;
-      default:
-        return;
+    setFiltersServicer(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (name === "servicerId" && value) {
+      const filteredServicer = servicerListServicer.find(servicer => servicer.value === value);
+  console.log(filteredServicer)
+      if (filteredServicer) {
+        const allPriceBooks = filteredServicer?.category?.flatMap(category => category.priceBooks || []);
+        //  const allDealerSku = allPriceBooks?.flatMap(priceBook => priceBook.dealerSku || []);
+      
+         setCategoryListServicer(filteredServicer.category);
+        setDealerListServicer(filteredServicer.dealer)
+        setPriceBookListServicer(allPriceBooks);
+        //  setDealerSkuList(allDealerSku)
+      }
+      
+      if (name === "categoryId") {
+        const filteredCategory = categoryListCat.find(category => category.value === value);
+        if (filteredCategory) {    
+          setPriceBookListServicer(filteredCategory.priceBooks);
+        }
+        setSelectedSer([])
+     handleFilterChangeServicer('priceBookId', []);
+  
+      }
+      if (name === "priceBookId" && value ) {
+        const selectedValues = value.map(item => item.value);
+        const matchingPriceBooks = priceBookListServicer.filter(priceBook => selectedValues.includes(priceBook.value));
+        console.log(matchingPriceBooks)
+        setSelectedSer(matchingPriceBooks);
+      
+        setFiltersServicer(prev => ({
+          ...prev,
+          [name]: matchingPriceBooks.map(item => item.value)
+        }));
+      // console.log(matchingPriceBooks[0])
+        // Automatically filter by category if no category is selected
+        // if (!filterCategory.categoryId) {
+  
+        //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+        //   if (selectedPriceBook) {
+        //     handleFilterChangeCat('categoryId', selectedPriceBook.categoryId,'price');
+        //   }
+        // }
+      }
     }
-    setFiltersServicer(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
+   
   };
 
   useEffect(() => {
@@ -239,7 +388,7 @@ function Claims() {
   }, [activeButton]);
 
   const handleApplyFilters = () => {
-    setLoading(true);
+    // setLoading(true);
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "dealer") {
@@ -247,7 +396,7 @@ function Claims() {
     } else if (activeButton == "servicer") {
       setFiltersForClaimServicer(filterServicer);
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   const handleResetFilters = () => {
@@ -274,9 +423,10 @@ function Claims() {
       setFiltersForClaimServicer(data);
     }
     setSelected([]);
+    setDealerSkuSelected([]);
     setSelectedCat([]);
     setSelectedSer([]);
-    getDatasetAtEvent(data);
+    // getDatasetAtEvent(data);
   };
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
@@ -529,6 +679,28 @@ function Claims() {
                     />
                     <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white ">
                       Product SKU
+                    </small>
+                  </div>
+                  <div className="col-span-3 self-center pl-1 relative">
+                    <MultiSelect
+                      label="Dealer SKU"
+                      name="dealerSku"
+                      placeholder="Dealer SKU"
+                      value={dealerSkuSelected}
+                      options={dealerSkuList}
+                      pName="dealer SKU"
+                      onChange={(value) => {
+                        setDealerSkuSelected(value);
+                        handleFilterChange("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                      Dealer SKU
                     </small>
                   </div>
                   <div className="col-span-2 self-center ml-auto pl-3">

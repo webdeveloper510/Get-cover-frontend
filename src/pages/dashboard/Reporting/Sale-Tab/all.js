@@ -80,7 +80,7 @@ function All({ activeTab, activeButton }) {
       flag: flag,
     };
 
-    // getDatasetAtEvent(data);
+     getDatasetAtEvent(data);
     setIsModalOpen(false);
   };
 
@@ -100,7 +100,7 @@ function All({ activeTab, activeButton }) {
           : filtersCategoryTab1.categoryId,
       flag: flag,
     });
-    setLoading(false);
+
   }, []);
 
   useEffect(() => {
@@ -120,7 +120,6 @@ function All({ activeTab, activeButton }) {
             : filtersCategoryTab1.categoryId,
         flag: flag,
       });
-      setLoading(false);
     }
   }, [flag1]);
 
@@ -157,7 +156,6 @@ function All({ activeTab, activeButton }) {
       //     };
       //   });
       // }
-      console.log(amountData, countData);
       setGraphData(amountData);
       setGraphDataCount(countData);
       setTotalFees(res.result.totalFees);
