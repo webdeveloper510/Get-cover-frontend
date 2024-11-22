@@ -94,7 +94,7 @@ function Sale() {
   }, []);
 
   const getDropDownValues = async () => { 
-    const data = await getDropDownValueForDealer(activeButton== "dealer" ?"Dealer":"Category");
+    const data = await getDropDownValueForDealer(activeButton);
 
 if (activeButton == "dealer"){
   const dealers = data.result.map(dealer => {
@@ -201,16 +201,16 @@ const allPriceBooks = [];
     
       setFilters(prev => ({
         ...prev,
-        [name]: priceBookList.map(item => item.value)
+        [name]: matchingPriceBooks.map(item => item.value)
       }));
     
       // Automatically filter by category if no category is selected
-      if (!filter.categoryId) {
-        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
-        if (selectedPriceBook) {
-          handleFilterChange('categoryId', selectedPriceBook.categoryId);
-        }
-      }
+      // if (!filter.categoryId) {
+      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+      //   if (selectedPriceBook) {
+      //     handleFilterChange('categoryId', selectedPriceBook.categoryId);
+      //   }
+      // }
     }
     
   };
@@ -240,12 +240,12 @@ const allPriceBooks = [];
       }));
     
       // Automatically filter by category if no category is selected
-      if (!filterCategory.categoryId) {
-        const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
-        if (selectedPriceBook) {
-          handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
-        }
-      }
+      // if (!filterCategory.categoryId) {
+      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
+      //   if (selectedPriceBook) {
+      //     handleFilterChangeforCategory('categoryId', selectedPriceBook.categoryId);
+      //   }
+      // }
     }
   };
 
@@ -562,6 +562,7 @@ const allPriceBooks = [];
                       Product SKU
                     </small>
                   </div>
+
 
                   <div className="col-span-1 self-center mx-auto pl-3">
                     <Button onClick={handleApplyFilters}>Filter</Button>
