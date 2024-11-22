@@ -1356,10 +1356,10 @@ function ClaimList(props) {
                     Claim
                   </p>
                   <ul className="flex self-center">
-                    <li className="text-sm text-neutral-grey font-Regular">
+                    <li className="text-sm font-Regular">
                       <Link to={"/"}>Home </Link> /
                     </li>
-                    <li className="text-sm text-neutral-grey font-semibold ml-1">
+                    <li className="text-sm font-semibold ml-1">
                       {" "}
                       Claim Listing
                     </li>
@@ -2366,9 +2366,9 @@ function ClaimList(props) {
 
               {totalRecords === 0 && !loaderType ? (
                 <>
-                  <div className="text-center my-5">
+                  <Card className="text-center my-5">
                     <p>No records found.</p>
-                  </div>
+                  </Card>
                 </>
               ) : (
                 <>
@@ -3180,14 +3180,14 @@ function ClaimList(props) {
         ) : (
           <div className="p-3 text-center">
             <img src={request} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-4 font-bold text-neutral-grey">
+            <p className="text-3xl mb-0 mt-4 font-bold">
               {" "}
-              <span className="text-light-black"> Marked As Paid </span>
+              <span className=""> Marked As Paid </span>
             </p>
-            <p className="text-neutral-grey text-2xl font-semibold mt-2 ">
-              You have <span className="text-light-black">{claims} unpaid</span>{" "}
+            <p className=" text-2xl font-semibold mt-2 ">
+              You have <span className="">{claims} unpaid</span>{" "}
               claim with{" "}
-              <span className="text-light-black">
+              <span className="">
                 ${formatOrderValue(claimValues ?? parseInt(0))}
               </span>{" "}
               amount.
@@ -3207,12 +3207,12 @@ function ClaimList(props) {
                   </Button>
                 </div>
                 <div className="col-span-3">
-                  <Button
+                  <InActiveButton
                     onClick={closePay}
-                    className="w-full !text-light-black !border-[1px] !border-[#000] !bg-[transparent]"
+                    className="w-full"
                   >
                     No
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-3"></div>
               </Grid>

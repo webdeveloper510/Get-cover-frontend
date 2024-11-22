@@ -21,6 +21,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { RotateLoader } from "react-spinners";
 import InActiveButton from "../../../common/inActiveButton";
+import Card from "../../../common/card";
 
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
@@ -129,9 +130,9 @@ function ServicerDealerList() {
   });
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters

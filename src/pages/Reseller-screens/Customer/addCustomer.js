@@ -366,10 +366,10 @@ function ResellerAddCustomer() {
                 Add Customer
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm font-Regular">
                   <Link to={"/"}>Home </Link> /{" "}
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {" "}
                   Add Customer{" "}
                 </li>

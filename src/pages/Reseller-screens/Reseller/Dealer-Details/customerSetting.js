@@ -245,7 +245,7 @@ function CustomerSetting(props) {
                                 <>
                                     <div>
                                         <div
-                                            className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                                            className="text-left cursor-pointer flex border-b  py-1 px-2"
                                             onClick={() => openUserModal(row)}
                                         >
                                             <div
@@ -264,7 +264,7 @@ function CustomerSetting(props) {
                                             {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                                             <span className="self-center">Edit </span>
                                         </div>
-                                        <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
+                                        <div className="text-left cursor-pointer flex  py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
                                         >
                                             <div
                                                 style={{
@@ -313,9 +313,9 @@ function CustomerSetting(props) {
     };
 
     const CustomNoDataComponent = () => (
-        <div className="text-center my-5">
+        <Card className="text-center my-5">
             <p>No records found.</p>
-        </div>
+        </Card>
     );
 
     const paginationOptions = {
@@ -377,8 +377,8 @@ function CustomerSetting(props) {
                                 paginationComponentOptions={{
                                     rowsPerPageText: "Rows per page:",
                                     rangeSeparatorText: "of",
-                                    selectAllRowsItem: true,
-                                    selectAllRowsItemText: "All",
+
+
                                 }}
                                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
                                 onChangePage={handlePageChange}

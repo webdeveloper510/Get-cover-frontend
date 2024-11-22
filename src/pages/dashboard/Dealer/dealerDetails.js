@@ -72,6 +72,7 @@ import { getCovrageList } from "../../../services/priceBookService";
 import Setting from "./Dealer-Details/setting";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import Card from "../../../common/card";
 function DealerDetails() {
   const getInitialActiveTab = () => {
     const storedTab = localStorage.getItem("menu");
@@ -598,9 +599,9 @@ function DealerDetails() {
   ];
 
   const CustomNoDataComponent = () => (
-    <div className="text-center">
+    <Card className="text-center">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const tabs = [
@@ -1307,13 +1308,13 @@ function DealerDetails() {
                 />
               </div>
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeModal}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">

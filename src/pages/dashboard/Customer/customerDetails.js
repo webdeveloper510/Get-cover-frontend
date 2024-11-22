@@ -1090,13 +1090,13 @@ function CustomerDetails() {
               </Grid>
               <Grid className="px-8 drop-shadow-5xl">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -1197,13 +1197,13 @@ function CustomerDetails() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8 mt-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal1}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -1366,13 +1366,13 @@ function CustomerDetails() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

@@ -39,6 +39,7 @@ import { useMyContext } from "../../context/context";
 import { getSevicerDetailPortal } from "../../services/customerServices";
 import Card from "../../common/card";
 import SingleView from "../../common/singleView";
+import InActiveButton from "../../common/inActiveButton";
 
 function ServicerUser() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -579,9 +580,9 @@ function ServicerUser() {
   ];
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const editDetail = async (values) => {
@@ -1023,13 +1024,13 @@ function ServicerUser() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

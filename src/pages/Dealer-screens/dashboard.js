@@ -332,6 +332,12 @@ function DealerDashboard() {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <Card className="text-center my-5">
+      <p>No records found.</p>
+    </Card>
+  );
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -445,6 +451,7 @@ function DealerDashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -479,6 +486,7 @@ function DealerDashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -516,6 +524,7 @@ function DealerDashboard() {
                     }
                     highlightOnHover
                     draggableColumns={false}
+                    noDataComponent={<CustomNoDataComponent />}
                   />
                 </Card>
               </div>
@@ -548,6 +557,7 @@ function DealerDashboard() {
                       </>
                     }
                     highlightOnHover
+                    noDataComponent={<CustomNoDataComponent />}
                     draggableColumns={false}
                   />
                 </Card>

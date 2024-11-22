@@ -109,9 +109,9 @@ function DealerCustomerList() {
   });
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {

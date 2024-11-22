@@ -71,9 +71,9 @@ function ResellerCustomerList() {
   });
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const formatPhoneNumber = (phoneNumber) => {
@@ -197,11 +197,11 @@ function ResellerCustomerList() {
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Customer</p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={"/"}>Home /</Link>{" "}
                 {/* <div>Customer / </div>{" "} */}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
+              <li className="text-sm font-semibold ml-1">
                 Customers List
               </li>
             </ul>

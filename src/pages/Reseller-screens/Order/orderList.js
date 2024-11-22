@@ -208,9 +208,9 @@ function ResellerOrderList() {
   };
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
   const handleSelectChange = (name, selectedValue) => {
     formik.setFieldValue(name, selectedValue);

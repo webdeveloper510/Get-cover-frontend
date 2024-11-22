@@ -514,6 +514,12 @@ function Dashboard() {
     },
   ];
 
+  const CustomNoDataComponent = () => (
+    <Card className="text-center my-5">
+      <p>No records found.</p>
+    </Card>
+  );
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -626,6 +632,7 @@ function Dashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -660,6 +667,7 @@ function Dashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -696,6 +704,7 @@ function Dashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -729,6 +738,7 @@ function Dashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </div>
                 </Card>
@@ -766,6 +776,7 @@ function Dashboard() {
                     }
                     highlightOnHover
                     draggableColumns={false}
+                    noDataComponent={<CustomNoDataComponent />}
                   />
                 </Card>
               </div>
@@ -797,6 +808,7 @@ function Dashboard() {
                         />
                       </>
                     }
+                    noDataComponent={<CustomNoDataComponent />}
                     highlightOnHover
                     draggableColumns={false}
                   />

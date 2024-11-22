@@ -95,7 +95,7 @@ function DealerAddClaim() {
   const renderStep1 = () => {
     // Step 1 content
     return (
-      <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl bg-white border-[1px] border-Light-Grey  rounded-xl">
+      <div className="px-8 pb-8 pt-4 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl">
         <p className="text-xl font-bold mb-4">Step 1</p>
         <Grid>
           <div className="col-span-12">

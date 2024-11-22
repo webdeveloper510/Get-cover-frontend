@@ -315,9 +315,9 @@ function CustomerSetting(props) {
     };
 
     const CustomNoDataComponent = () => (
-        <div className="text-center my-5">
+        <Card className="text-center my-5">
             <p>No records found.</p>
-        </div>
+        </Card>
     );
 
     const paginationOptions = {
@@ -371,8 +371,8 @@ function CustomerSetting(props) {
                                 paginationComponentOptions={{
                                     rowsPerPageText: "Rows per page:",
                                     rangeSeparatorText: "of",
-                                    selectAllRowsItem: true,
-                                    selectAllRowsItemText: "All",
+
+
                                 }}
                                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
                                 onChangePage={handlePageChange}

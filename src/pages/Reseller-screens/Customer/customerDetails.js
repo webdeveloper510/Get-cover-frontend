@@ -773,7 +773,7 @@ function ResellerCustomerDetails() {
                 <div className="col-span-6 ">
                   <div className="bg-[#2A2A2A] self-center px-4 py-6 rounded-xl">
                     <p className="text-white text-lg !font-[600]">
-                      {customerDetail?.orderData?.[0]?.noOfOrders}
+                      {customerDetail?.orderData == '' ? 0 : customerDetail?.orderData?.[0]?.noOfOrders}
                     </p>
                     <p className="text-neutral-grey text-sm font-Regular">
                       Total number of Orders
@@ -1324,13 +1324,13 @@ function ResellerCustomerDetails() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8 mt-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal1}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

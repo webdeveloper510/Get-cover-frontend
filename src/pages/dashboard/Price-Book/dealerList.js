@@ -86,9 +86,9 @@ function DealerPriceList() {
 
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
   const pricetype = [
     { label: "Regular Pricing", value: "Regular Pricing" },
@@ -501,10 +501,10 @@ function DealerPriceList() {
               Dealer Book
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={"/"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {" "}
                 Dealer Book{" "}
               </li>

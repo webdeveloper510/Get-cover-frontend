@@ -776,9 +776,9 @@ function CustomerUser() {
   };
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const userValues = useFormik({
@@ -1099,7 +1099,7 @@ function CustomerUser() {
                 Manage Users
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>
@@ -1549,8 +1549,8 @@ function CustomerUser() {
                       paginationComponentOptions={{
                         rowsPerPageText: "Rows per page:",
                         rangeSeparatorText: "of",
-                        selectAllRowsItem: true,
-                        selectAllRowsItemText: "All",
+
+
                       }}
                       paginationRowsPerPageOptions={[10, 20, 50, 100]}
                       onChangePage={handlePageChange}

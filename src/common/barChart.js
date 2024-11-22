@@ -43,6 +43,7 @@ const BarChart = ({ graphData }) => {
 
     fetchUserDetails();
   }, []);
+
   const keys = [
     {
       key: "total_orders",

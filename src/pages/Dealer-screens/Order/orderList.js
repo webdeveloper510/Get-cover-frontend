@@ -217,9 +217,9 @@ function OrderList() {
   };
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const markasPaid = async (row) => {
@@ -454,10 +454,10 @@ function OrderList() {
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9	mb-[3px]">Order</p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm font-Regular">
                   <Link to={"/"}>Home </Link> /{" "}
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {" "}
                   Order List{" "}
                 </li>

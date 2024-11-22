@@ -2376,9 +2376,9 @@ function ClaimList(props) {
 
               {totalRecords === 0 && !loaderType ? (
                 <>
-                  <div className="text-center my-5">
+                  <Card className="text-center my-5">
                     <p>No records found.</p>
-                  </div>
+                  </Card>
                 </>
               ) : (
                 <>

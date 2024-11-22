@@ -70,6 +70,7 @@ import Carousel from "react-multi-carousel";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import Card from "../../../common/card";
 
 // import Reseller from "../Dealer/Dealer-Details/reseller";
 
@@ -506,9 +507,9 @@ function DealerResellerDetails() {
   ];
 
   const CustomNoDataComponent = () => (
-    <div className="text-center">
+    <Card className="text-center">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   const carouselRef = useRef(null);
@@ -1309,13 +1310,13 @@ function DealerResellerDetails() {
             </div>
             <Grid className="drop-shadow-5xl">
               <div className="col-span-4">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="border w-full !border-Bright-Grey !bg-[transparent] ! !text-sm !font-Regular"
+                  className="border w-full !text-sm !font-Regular"
                   onClick={closeModal1}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-8">
                 <Button type="submit" className="w-full">

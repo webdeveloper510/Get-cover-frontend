@@ -36,6 +36,9 @@ const Card = ({ children, className }) => {
     .rdt_TableRow {
       color: ${buttonTextColor} !Important;
     }
+      .cardImage {
+      backgroundColor: ${buttonTextColor} !important;
+      }
   `;
 
   return (

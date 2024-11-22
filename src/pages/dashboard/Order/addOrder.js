@@ -3664,8 +3664,8 @@ function AddOrder() {
                       </div>
                       <div className="col-span-4 pt-3 px-2">
                         <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
-                          <InActiveButton className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
-                            <div
+                          <div className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
+                            {/* <div
                               style={{
                                 maskImage: `url(${csvFile})`,
                                 WebkitMaskImage: `url(${csvFile})`,
@@ -3676,9 +3676,9 @@ function AddOrder() {
                                 maskSize: "contain",
                                 WebkitMaskSize: "contain",
                               }}
-                              className="self-center h-4 w-4 cursor-pointer mr-2"
-                            />
-                            {/* <img src={csvFile} className="mr-2" alt="Dropbox" /> */}
+                              className="self-center h-4 w-4 cardImage cursor-pointer mr-2"
+                            /> */}
+                            <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
                               <p className="self-center">
                                 {data?.file === "" || data?.file?.name === ""
@@ -3693,7 +3693,7 @@ function AddOrder() {
                                   "kb"}
                               </p>
                             </div>
-                          </InActiveButton>
+                          </div>
                         </div>
                         <div className="col-span-12 my-4 border-t py-3">
                           <div className=" w-full">

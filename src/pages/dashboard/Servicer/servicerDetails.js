@@ -55,6 +55,7 @@ import { getUserDetailsFromLocalStorage } from "../../../services/extraServices"
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
 import ServicerSetting from "../Dealer/Dealer-Details/servicerSetting";
+import Card from "../../../common/card";
 
 function ServicerDetails() {
   const getInitialActiveTab = () => {
@@ -218,9 +219,9 @@ function ServicerDetails() {
   };
 
   const CustomNoDataComponent = () => (
-    <div className="text-center">
+    <Card className="text-center">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
   const columns = [
     {
@@ -1261,13 +1262,13 @@ function ServicerDetails() {
                   </p>
                 </div>
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">

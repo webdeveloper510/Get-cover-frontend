@@ -424,13 +424,11 @@ function UserList(props) {
               <SingleView
                 ref={dropdownRef}
                 className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
-                  } drop-shadow-5xl -right-3 mt-2 border rounded-lg shadow-md ${calculateDropdownPosition(
-                    index
-                  )}`}
+                  }  drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem] newImagecolor`}
               >
                 {!row.isPrimary && row.status && (
                   <div
-                    className=" py-2 cursor-pointer border-b"
+                    className=" text-left cursor-pointer flex border-b py-1 px-2"
                     onClick={() => makeUserPrimary(row)}
                   >
                     <div
@@ -446,12 +444,13 @@ function UserList(props) {
                       }}
                       className="self-center singleViews mr-2 h-4 w-4 "
                     />
-                    Make Primary
+                    <span class="self-center"> Make Primary </span>
+
                   </div>
                 )}
 
                 <div
-                  className=" py-2 cursor-pointer border-b"
+                  className="text-left cursor-pointer flex border-b py-1 px-2"
                   onClick={() => editUser(row._id)}
                 >
                   <div
@@ -467,11 +466,13 @@ function UserList(props) {
                     }}
                     className="self-center singleViews mr-2 h-4 w-4 "
                   />
-                  Edit
+                  <span class="self-center">
+                    Edit
+                  </span>
                 </div>
                 {!row.isPrimary && (
                   <div
-                    className=" py-2 cursor-pointer"
+                    className="text-left cursor-pointer flex border-b py-1 px-2"
                     onClick={() => openModal1(row._id)}
                   >
                     <div
@@ -487,7 +488,9 @@ function UserList(props) {
                       }}
                       className="self-center singleViews mr-2 h-4 w-4 "
                     />
-                    Delete
+                    <span class="self-center">
+                      Delete
+                    </span>
                   </div>
                 )}
               </SingleView>
@@ -499,9 +502,9 @@ function UserList(props) {
   ];
 
   const CustomNoDataComponent = () => (
-    <div className="text-center my-5">
+    <Card className="text-center my-5">
       <p>No records found.</p>
-    </div>
+    </Card>
   );
 
   return (

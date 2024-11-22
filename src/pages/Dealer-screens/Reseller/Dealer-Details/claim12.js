@@ -1345,10 +1345,10 @@ function ClaimList(props) {
                     Claim
                   </p>
                   <ul className="flex self-center">
-                    <li className="text-sm text-neutral-grey font-Regular">
+                    <li className="text-sm font-Regular">
                       <Link to={"/"}>Home </Link> /
                     </li>
-                    <li className="text-sm text-neutral-grey font-semibold ml-1">
+                    <li className="text-sm font-semibold ml-1">
                       {" "}
                       Claim Listing
                     </li>
@@ -2378,9 +2378,9 @@ function ClaimList(props) {
 
               {totalRecords === 0 && !loaderType ? (
                 <>
-                  <div className="text-center my-5">
+                  <Card className="text-center my-5">
                     <p>No records found.</p>
-                  </div>
+                  </Card>
                 </>
               ) : (
                 <>
