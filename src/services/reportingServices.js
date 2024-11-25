@@ -127,12 +127,11 @@ export const getFilterListForDealerClaim = async (data) => {
   }
 };
 
-export const getFilterListForServicerClaim = async (data,type) => {
+export const getFilterListForServicerClaim = async (action,type) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/${type}/claimReportinDropdown`,
-      data,
+    const response = await axios.get(
+      `${url}/${type}/getClaimReportingDropdown/${action}`,
       {
         headers,
       }
@@ -161,11 +160,11 @@ export const getAllSalesForReporting = async (data,type) => {
   }
 };
 
-export const getAllClaimsForDealer = async (data) => {
+export const getAllClaimsForDealer = async (data,type) => {
   const headers = createHeaders();
   try {
     const response = await axios.post(
-      `${url}/dealerPortal/claimReporting`,
+      `${url}/${type}/claimReporting`,
       data,
       {
         headers,

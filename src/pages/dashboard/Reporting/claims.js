@@ -123,7 +123,7 @@ function Claims() {
       const res =
         isServicerClaims || isResellerClaims
           ? await getFilterListForServicerClaim(
-            data,
+            activeButton,
             !isResellerClaims ? "servicerPortal" : "resellerPortal"
           )
           : await getReportingFilterListForClaim(activeButton);
@@ -189,6 +189,7 @@ function Claims() {
                 priceBooks
               });
             });
+            console.log(categoriesWithPriceBooks)
               setCategoryListCat(categoriesWithPriceBooks)
               setPriceBookListCat(allPriceBooks)
             }

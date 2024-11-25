@@ -999,7 +999,7 @@ const routes = [
       },
       {
         path: "/reseller/Reporting",
-        element: <PrivateRoute element={<Claims />} role={"reseller"} />,
+        element: <PrivateRoute element={<DealerClaims />} role={"reseller"} />,
       },
       {
         path: "/reseller/claimList/:claimIdValue?",

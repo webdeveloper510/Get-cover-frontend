@@ -10,6 +10,7 @@ import {
   getAllClaimsForDealer,
 } from "../../../../services/reportingServices";
 import { useMyContext } from "../../../../context/context";
+import { useLocation } from "react-router-dom";
 
 function ClaimContent({
   activeTab,
@@ -19,6 +20,7 @@ function ClaimContent({
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphDataCount, setGraphDataCount] = useState([]);
+  const location = useLocation();
   const [graphData, setGraphData] = useState([]);
   const [flag, setFlag] = useState("daily");
 
@@ -34,7 +36,7 @@ function ClaimContent({
   const openModal = () => {
     setIsModalOpen(true);
   };
-
+  const isResellerReporting = location.pathname.includes("/reseller/reporting");
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -132,8 +134,9 @@ function ClaimContent({
       primary: activeButton,
       flag: flag,
     };
+    // alert(isResellerReporting)
     try {
-      const res = await getAllClaimsForDealer(data);
+      const res = await getAllClaimsForDealer(data,isResellerReporting ? "resellerPortal":"dealerPortal");
       const amountData = res?.result?.graphData?.map((item) => {
         const {
           total_claim,
