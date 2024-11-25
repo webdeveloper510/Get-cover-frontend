@@ -28,7 +28,6 @@ function ClaimContent({
   const {
     filtersClaimCategory,
     filtersClaimServicer,
-    filtersClaimDealer,
     flag1,
     toggleFilterFlag,
   } = useMyContext();

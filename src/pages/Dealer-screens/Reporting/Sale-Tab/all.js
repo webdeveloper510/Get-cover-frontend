@@ -95,6 +95,7 @@ function DealerAll({ activeTab, activeButton }) {
   }, [flag1]);
 
   const getDatasetAtEvent = async (data) => {
+    console.log('here',data)
     setLoading(true);
     try {
       const res = await getAllSalesForReporting(
