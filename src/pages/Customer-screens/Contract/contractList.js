@@ -27,6 +27,7 @@ import { useFormik } from "formik";
 import CommonTooltip from "../../../common/toolTip";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import Card from "../../../common/card";
 function CustomerContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
@@ -204,7 +205,7 @@ function CustomerContractList(props) {
           </div>
         </div>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Contracts List</p>
@@ -343,13 +344,13 @@ function CustomerContractList(props) {
                             </div>
                           </Grid>
                         </SingleView>
-                        <Grid className="!gap-0 !grid-cols-5 bg-grayf9 mb-5">
+                        <Grid className="!gap-0 !grid-cols-5 mb-5">
                           <div className="col-span-1 border border-Light-Grey">
                             <div className="py-4 px-3">
                               <p className="font-bold text-sm font-Regular">
                                 Manufacturer
                               </p>
-                              <p className="text-light-black text-base font-semibold">
+                              <p className=" text-base font-semibold">
                                 {res.manufacture}
                               </p>
                             </div>
@@ -359,7 +360,7 @@ function CustomerContractList(props) {
                               <p className="font-bold text-sm font-Regular">
                                 Model
                               </p>
-                              <p className="text-light-black text-base font-semibold">
+                              <p className=" text-base font-semibold">
                                 {res.model}
                               </p>
                             </div>
@@ -369,7 +370,7 @@ function CustomerContractList(props) {
                               <p className="font-bold text-sm font-Regular">
                                 Serial # / Device ID
                               </p>
-                              <p className="text-light-black text-base font-semibold break-words">
+                              <p className=" text-base font-semibold break-words">
                                 {res.serial}
                               </p>
                             </div>
@@ -379,7 +380,7 @@ function CustomerContractList(props) {
                               <p className="font-bold text-sm font-Regular">
                                 Status
                               </p>
-                              <p className="text-light-black text-base font-semibold">
+                              <p className=" text-base font-semibold">
                                 {res.status}
                               </p>
                             </div>
@@ -396,13 +397,13 @@ function CustomerContractList(props) {
                                     id={`tooltip-${index}`}
                                     content={res?.reason}
                                   >
-                                    <p className="text-light-black cursor-pointer text-base font-semibold">
+                                    <p className=" cursor-pointer text-base font-semibold">
                                       Not Eligible
                                     </p>
                                   </CommonTooltip>
                                 </>
                               ) : (
-                                <p className="text-light-black text-base font-semibold">
+                                <p className=" text-base font-semibold">
                                   Eligible
                                 </p>
                               )}
@@ -578,8 +579,8 @@ function CustomerContractList(props) {
               </form>
             </div>
           </Modal>
-        </div>
-      </div>
+        </Card>
+      </div >
       <Modal isOpen={isViewOpen} onClose={closeView} className="!w-[1100px]">
         <Button
           onClick={closeView}
@@ -627,7 +628,7 @@ function CustomerContractList(props) {
                     <div className="col-span-1 self-center justify-end"></div>
                   </Grid>
                 </SingleView>
-                <div className="bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
+                <div className="mb-5 max-h-[70vh] overflow-y-scroll">
                   <Grid className="!gap-0 !grid-cols-5 ">
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
@@ -684,7 +685,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Status
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetails?.status}
                         </p>
                       </div>
@@ -694,7 +695,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Product Category
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetails?.order?.[0]?.productsArray?.[0]
                               ?.priceBook?.[0].category.name
@@ -707,7 +708,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Dealer SKU
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetails?.dealerSku}
                         </p>
                       </div>
@@ -717,7 +718,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Product Name
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetails?.pName}
                         </p>
                       </div>
@@ -727,7 +728,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Product Description
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetails?.order?.[0]?.productsArray?.[0]
                               ?.description
@@ -740,7 +741,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Price Type
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetails?.order?.[0]?.productsArray?.[0]
                               ?.priceType
@@ -753,7 +754,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Eligibility
                         </p>
-                        {/* <p className="text-light-black text-base font-semibold">
+                        {/* <p className=" text-base font-semibold">
                             {contractDetails?.eligibilty === true
                               ? "Eligible"
                               : "Not Eligible "}
@@ -765,13 +766,13 @@ function CustomerContractList(props) {
                               id={`tooltip`}
                               content={contractDetails?.reason}
                             >
-                              <p className="text-light-black cursor-pointer text-base font-semibold">
+                              <p className=" cursor-pointer text-base font-semibold">
                                 Not Eligible
                               </p>
                             </CommonTooltip>
                           </>
                         ) : (
-                          <p className="text-light-black text-base font-semibold">
+                          <p className=" text-base font-semibold">
                             Eligible
                           </p>
                         )}
@@ -785,7 +786,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Coverage Start Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetails?.order?.[0]?.productsArray?.[0]?.coverageStartDate1
                           ).toLocaleDateString("en-US", {
@@ -801,7 +802,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Coverage End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetails?.order?.[0]?.productsArray?.[0]?.coverageEndDate1
                           ).toLocaleDateString("en-US", {
@@ -817,7 +818,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Manufacturer Labour Warranty End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetails?.labourWarranty
                           ).toLocaleDateString("en-US", {
@@ -833,7 +834,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Manufacturer Parts Warranty End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetails?.partsWarranty
                           ).toLocaleDateString("en-US", {
@@ -849,7 +850,7 @@ function CustomerContractList(props) {
                         <p className="font-bold text-sm font-Regular">
                           Purchase Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetails?.purchaseDate
                           ).toLocaleDateString("en-US", {

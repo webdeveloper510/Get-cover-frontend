@@ -6,6 +6,7 @@ import Card from "../../../../common/card";
 import Primary from "../../../../assets/images/SetPrimary.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import star from "../../../../assets/images/icons/star.svg";
 import Button from "../../../../common/button";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
@@ -18,6 +19,7 @@ import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import { deleteCustomerAddress, editCustomerAddressById, getCustomerDetailsById } from "../../../../services/customerServices";
 import textFile from "../../../../common/textFile";
 import SingleView from "../../../../common/singleView";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function CustomerSetting(props) {
     console.log("i am looking for this ", props);
@@ -189,7 +191,16 @@ function CustomerSetting(props) {
     const Address = [
         {
             name: "Serial #",
-            selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
+            cell: (row, index) => (
+                <div className="flex relative">
+                    {row.isPrimary && (
+                        <img src={star} alt="" className="absolute -left-3 top-0" />
+                    )}
+                    <span className="self-center pt-2 ml-3">
+                        {index + 1}
+                    </span>
+                </div>
+            ),
             sortable: true,
             style: { whiteSpace: "pre-wrap" },
         },
@@ -224,73 +235,77 @@ function CustomerSetting(props) {
             cell: (row, index) => {
                 // console.log(index, index % 10 == 9)
                 return (
-                    <div className="relative">
-                        <div
-                            onClick={() =>
-                                setSelectedAction(
-                                    selectedAction === index ? null : index
-                                )
-                            }
-                        >
-                            <img
-                                src={ActiveIcon}
-                                className="cursor-pointer w-[35px]"
-                                alt="Active Icon"
-                            />
-                        </div>
-                        {selectedAction === index && (
-                            <SingleView
-                                ref={dropdownRef}
-                                onClick={() => setSelectedAction(null)}
-                                className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
-                            >
-                                <>
-                                    <div>
-                                        <div
-                                            className="text-left cursor-pointer flex border-b py-1 px-2"
-                                            onClick={() => openUserModal(row)}
-                                        >
-                                            <div
-                                                style={{
-                                                    maskImage: `url(${edit})`,
-                                                    WebkitMaskImage: `url(${edit})`,
-                                                    maskRepeat: "no-repeat",
-                                                    WebkitMaskRepeat: "no-repeat",
-                                                    maskPosition: "center",
-                                                    WebkitMaskPosition: "center",
-                                                    maskSize: "contain",
-                                                    WebkitMaskSize: "contain",
-                                                }}
-                                                className="self-center singleViews mr-2 h-4 w-4 "
-                                            />
-                                            {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
-                                            <span className="self-center">Edit </span>
-                                        </div>
-                                        <div className="text-left cursor-pointer flex py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
-                                        >
-                                            <div
-                                                style={{
-                                                    maskImage: `url(${delete1})`,
-                                                    WebkitMaskImage: `url(${delete1})`,
-                                                    maskRepeat: "no-repeat",
-                                                    WebkitMaskRepeat: "no-repeat",
-                                                    maskPosition: "center",
-                                                    WebkitMaskPosition: "center",
-                                                    maskSize: "contain",
-                                                    WebkitMaskSize: "contain",
-                                                }}
-                                                className="self-center singleViews mr-2 h-4 w-4 "
-                                            />
-                                            {/* <img src={delete1} className="w-4 h-4 mr-2" /> */}
-                                            <span className="self-center">Delete</span>
-                                        </div>
+                    <>
+                        {!row.isPrimary &&
+                            <div className="relative">
+                                <div
+                                    onClick={() =>
+                                        setSelectedAction(
+                                            selectedAction === index ? null : index
+                                        )
+                                    }
+                                >
+                                    <img
+                                        src={ActiveIcon}
+                                        className="cursor-pointer w-[35px]"
+                                        alt="Active Icon"
+                                    />
+                                </div>
+                                {selectedAction === index && (
+                                    <SingleView
+                                        ref={dropdownRef}
+                                        onClick={() => setSelectedAction(null)}
+                                        className={`absolute z-[2] w-[100px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem]`}
+                                    >
+                                        <>
+                                            <div>
+                                                <div
+                                                    className="text-left cursor-pointer flex border-b py-1 px-2"
+                                                    onClick={() => openUserModal(row)}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            maskImage: `url(${edit})`,
+                                                            WebkitMaskImage: `url(${edit})`,
+                                                            maskRepeat: "no-repeat",
+                                                            WebkitMaskRepeat: "no-repeat",
+                                                            maskPosition: "center",
+                                                            WebkitMaskPosition: "center",
+                                                            maskSize: "contain",
+                                                            WebkitMaskSize: "contain",
+                                                        }}
+                                                        className="self-center singleViews mr-2 h-4 w-4 "
+                                                    />
+                                                    {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                                                    <span className="self-center">Edit </span>
+                                                </div>
+                                                <div className="text-left cursor-pointer flex py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            maskImage: `url(${delete1})`,
+                                                            WebkitMaskImage: `url(${delete1})`,
+                                                            maskRepeat: "no-repeat",
+                                                            WebkitMaskRepeat: "no-repeat",
+                                                            maskPosition: "center",
+                                                            WebkitMaskPosition: "center",
+                                                            maskSize: "contain",
+                                                            WebkitMaskSize: "contain",
+                                                        }}
+                                                        className="self-center singleViews mr-2 h-4 w-4 "
+                                                    />
+                                                    {/* <img src={delete1} className="w-4 h-4 mr-2" /> */}
+                                                    <span className="self-center">Delete</span>
+                                                </div>
 
-                                    </div>
-                                </>
-                            </SingleView>
-                        )
-                        }
-                    </div >
+                                            </div>
+                                        </>
+                                    </SingleView>
+                                )
+                                }
+                            </div >}
+                    </>
+
                 );
             },
         },
@@ -403,7 +418,7 @@ function CustomerSetting(props) {
                         </div>
                     </div>) :
                     <div className=" py-3">
-                        <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+                        <p className=" text-center text-3xl mb-5 mt-2 font-bold">
                             Edit Address
                         </p>
                         <form onSubmit={formik.handleSubmit}>
@@ -487,13 +502,13 @@ function CustomerSetting(props) {
                             </Grid>
                             <Grid className="drop-shadow-5xl px-8 mt-8">
                                 <div className="col-span-4">
-                                    <Button
+                                    <InActiveButton
                                         type="button"
-                                        className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                                        className="border w-full !text-sm !font-Regular"
                                         onClick={closeUserModal}
                                     >
                                         Cancel
-                                    </Button>
+                                    </InActiveButton>
                                 </div>
                                 <div className="col-span-8">
                                     <Button type="submit" className="w-full">

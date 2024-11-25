@@ -957,7 +957,7 @@ function AddClaim() {
                       <div>
                         <div className="border border-dashed w-full relative py-8">
                           <label
-                            className={`absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75   `}
+                            className={`absolute text-base font-Regular  leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75   `}
                           >
                             Add Files  {formikStep2.values.coverageType == 'theft_and_lost' && <span className="text-red-500">*</span>}
                           </label>
@@ -1051,7 +1051,7 @@ function AddClaim() {
                     <div className="relative">
                       <label
                         htmlFor="description"
-                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        className="absolute text-base  leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
                       >
                         Diagnosis & Cause  {formikStep2.values.coverageType == 'theft_and_lost' && '- Upload image Theft or Lost'} <span className="text-red-500">*</span>
                       </label>
@@ -1060,7 +1060,7 @@ function AddClaim() {
                         rows="11"
                         name="diagnosis"
                         maxLength={150}
-                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none"
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold  bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none"
                         onChange={formikStep2.handleChange}
                         onBlur={formikStep2.handleBlur}
                         value={formikStep2.values.diagnosis}
@@ -1122,10 +1122,10 @@ function AddClaim() {
         <div className="pl-3">
           <p className="font-bold text-[36px] leading-9 mb-[3px]">Add Claim</p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm  font-Regular">
               <Link to={"/"}>Home </Link>/{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+            <li className="text-sm font-semibold ml-1 pt-[1px]">
               {" "}
               Add Claim{" "}
             </li>
@@ -1139,26 +1139,26 @@ function AddClaim() {
           {currentStep > 1 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
-            <p className="border border-black rounded-full mx-auto w-[26px]">
+            <p className="border  rounded-full mx-auto w-[26px]">
               1
             </p>
           )}
 
           <p
-            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 1 ? "" : "text-[#ADADAD] "
               } text-sm font-bold`}
           >
             Step 1
           </p>
         </div>
-        <hr className="w-[150px] border-black mt-3" />
+        <hr className="w-[150px]  mt-3" />
         <div className="text-center">
           {currentStep > 2 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
             <p
               className={`border ${currentStep > 1
-                ? "text-black border-black"
+                ? ""
                 : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
@@ -1167,7 +1167,7 @@ function AddClaim() {
           )}
 
           <p
-            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 2 ? "" : "text-[#ADADAD] "
               } text-sm font-bold`}
           >
             Step 2
@@ -1205,24 +1205,24 @@ function AddClaim() {
           {code === "200" ? (
             <>
               <img src={AddDealer} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              <p className="text-3xl mb-0 mt-4 font-semibold">
                 Submitted
-                <span className="text-light-black"> Successfully </span>
+                <span className=""> Successfully </span>
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 {message}
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 Redirecting you on Claim List Page {timer} seconds.
               </p>
             </>
           ) : (
             <>
               <img src={disapprove} alt="email Image" className="mx-auto" />
-              <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+              <p className="text-3xl mb-0 mt-4 font-semibold">
                 Error
               </p>
-              <p className="text-neutral-grey text-base font-medium mt-2">
+              <p className=" text-base font-medium mt-2">
                 {message}
               </p>
             </>
@@ -1284,54 +1284,54 @@ function AddClaim() {
                     </div>
                   </Grid>
                 </SingleView>
-                <div className="bg-grayf9 mb-5 max-h-[70vh] overflow-y-scroll">
+                <div className="mb-5 max-h-[70vh] overflow-y-scroll">
                   <Grid className="!gap-0 !grid-cols-5">
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Manufacturer
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.manufacture}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Model
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.model}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Serial # / Device ID
                         </p>
-                        <p className="text-light-black text-base font-semibold break-words">
+                        <p className=" text-base font-semibold break-words">
                           {contractDetail?.serial}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Condition
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.condition}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Retail Price
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {/* ${contractDetail?.productValue} */}$
                           {contractDetail?.productValue === undefined
                             ? parseInt(0).toLocaleString(2)
@@ -1348,10 +1348,10 @@ function AddClaim() {
                       role !== "Dealer" && (
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Dealer Name
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {contractDetail?.order?.[0]?.dealer?.[0]?.name}
                             </p>
                           </div>
@@ -1361,10 +1361,10 @@ function AddClaim() {
                     {role !== "Reseller" && role !== "Customer" && (
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 px-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className=" text-sm font-Regular">
                             Reseller Name
                           </p>
-                          <p className="text-light-black text-base font-semibold">
+                          <p className=" text-base font-semibold">
                             {contractDetail?.order?.[0]?.reseller?.[0]?.name}
                           </p>
                         </div>
@@ -1374,10 +1374,10 @@ function AddClaim() {
                     {role !== "Customer" && (
                       <div className="col-span-1 border border-Light-Grey">
                         <div className="py-4 px-3">
-                          <p className="text-[#5D6E66] text-sm font-Regular">
+                          <p className=" text-sm font-Regular">
                             Customer Name
                           </p>
-                          <p className="text-light-black text-base font-semibold">
+                          <p className=" text-base font-semibold">
                             {contractDetail?.order?.[0]?.customer?.[0]?.username}
                           </p>
                         </div>
@@ -1386,30 +1386,30 @@ function AddClaim() {
 
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Servicer Name
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.order?.[0]?.servicer?.[0]?.name}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Status
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.status}
                         </p>
                       </div>
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Product Category
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.priceBook?.[0]?.category?.name
@@ -1422,10 +1422,10 @@ function AddClaim() {
                       role !== "Dealer" && (
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Product SKU
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               {
                                 contractDetail?.order?.[0]?.productsArray?.[0]
                                   ?.priceBook?.[0]?.name
@@ -1436,10 +1436,10 @@ function AddClaim() {
                       )}
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Dealer SKU
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetail?.dealerSku
                           }
@@ -1448,10 +1448,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Product Name
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.priceBook?.[0]?.pName
@@ -1461,10 +1461,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Price Type
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.priceType
@@ -1474,10 +1474,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-2 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Product Description
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {
                             contractDetail?.order?.[0]?.productsArray?.[0]
                               ?.priceBook?.[0]?.description
@@ -1488,10 +1488,10 @@ function AddClaim() {
 
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Eligibility
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {contractDetail?.eligibilty === true
                             ? "Eligible"
                             : "Not Eligible "}
@@ -1500,10 +1500,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Claim Amount
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           $
                           {contractDetail?.claimAmount === undefined
                             ? parseInt(0).toLocaleString(2)
@@ -1519,10 +1519,10 @@ function AddClaim() {
                       <>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               Start Range
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               $
                               {contractDetail?.order?.[0]?.productsArray?.[0]
                                 ?.rangeStart === undefined
@@ -1536,10 +1536,10 @@ function AddClaim() {
                         </div>
                         <div className="col-span-1 border border-Light-Grey">
                           <div className="py-4 px-3">
-                            <p className="text-[#5D6E66] text-sm font-Regular">
+                            <p className=" text-sm font-Regular">
                               End Range
                             </p>
-                            <p className="text-light-black text-base font-semibold">
+                            <p className=" text-base font-semibold">
                               $
                               {contractDetail?.order?.[0]?.productsArray?.[0]
                                 ?.rangeEnd === undefined
@@ -1557,10 +1557,10 @@ function AddClaim() {
                     )}
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Coverage Start Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetail?.coverageStartDate1
                           ).toLocaleDateString("en-US", {
@@ -1573,10 +1573,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Coverage End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetail?.coverageEndDate1
                           ).toLocaleDateString("en-US", {
@@ -1589,10 +1589,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Manufacturer Labour Warranty End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetail?.labourWarranty
                           ).toLocaleDateString("en-US", {
@@ -1605,10 +1605,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Manufacturer Parts Warranty End Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetail?.partsWarranty
                           ).toLocaleDateString("en-US", {
@@ -1621,10 +1621,10 @@ function AddClaim() {
                     </div>
                     <div className="col-span-1 border border-Light-Grey ">
                       <div className="py-4 px-3">
-                        <p className="text-[#5D6E66] text-sm font-Regular">
+                        <p className=" text-sm font-Regular">
                           Purchase Date
                         </p>
-                        <p className="text-light-black text-base font-semibold">
+                        <p className=" text-base font-semibold">
                           {new Date(
                             contractDetail?.purchaseDate
                           ).toLocaleDateString("en-US", {

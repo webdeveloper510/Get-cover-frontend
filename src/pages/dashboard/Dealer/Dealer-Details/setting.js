@@ -1607,12 +1607,12 @@ function Setting(props) {
             >
               Yes
             </Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !text-sm !font-Regular"
               onClick={() => closeDefalt()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>

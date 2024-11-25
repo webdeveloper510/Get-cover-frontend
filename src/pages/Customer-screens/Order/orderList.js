@@ -191,7 +191,7 @@ function CustomerOrderList() {
                 <div className="text-center py-1 cursor-pointer">
                   <Link
                     to={`/customer/orderDetails/${row._id}`}
-                    className="text-left cursor-pointer flex hover:font-semibold py-1 px-2"
+                    className="text-left cursor-pointer flex py-1 px-2"
                   >
                     <div
                       style={{
@@ -264,7 +264,7 @@ function CustomerOrderList() {
           </div>
         </div>
 
-        <div className="bg-white mt-6 border-[1px] border-Light-Grey rounded-xl">
+        <Card className=" mt-6 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold">Order List</p>
@@ -392,7 +392,7 @@ function CustomerOrderList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div className="text-center py-3">

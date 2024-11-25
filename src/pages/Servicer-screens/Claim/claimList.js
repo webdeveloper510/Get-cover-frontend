@@ -93,11 +93,11 @@ function ServicerClaimList() {
               Claim
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={"/"}>Claim </Link>{" "}
                 <span className="mx-2"> /</span>
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
+              <li className="text-sm font-semibold ml-1">
                 {" "}
                 Claim Listing
               </li>

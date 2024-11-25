@@ -347,7 +347,11 @@ function OrderList() {
             {selectedAction === row.unique_key && (
               <SingleView
                 ref={dropdownRef}
-                onClick={() => setSelectedAction(null)}
+                onClick={(e) => {
+                  // e.stopPropagation(); // Prevent event from reaching the document listener
+                  setSelectedAction(null);
+                }}
+                // onClick={() => setSelectedAction(null)}
                 className={`absolute z-[2] w-[140px] drop-shadow-5xl -right-3 mt-2 py-2 border rounded-lg shadow-md top-[1rem]`}
               >
                 {/* <img src={downArrow} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
@@ -704,12 +708,12 @@ function OrderList() {
               <Grid className="!grid-cols-4 my-5 ">
                 <div className="col-span-1"></div>
                 <Button onClick={() => openModal1()}>Yes</Button>
-                <Button
-                  className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                <InActiveButton
+                  className="border w-full !text-sm !font-Regular"
                   onClick={() => closeArchive()}
                 >
                   No
-                </Button>
+                </InActiveButton>
                 <div className="col-span-1"></div>
               </Grid>
             </div>

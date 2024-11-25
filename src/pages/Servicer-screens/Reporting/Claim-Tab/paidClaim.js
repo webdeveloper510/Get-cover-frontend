@@ -2396,13 +2396,13 @@ function ClaimList(props) {
       <Modal isOpen={isSuccessOpen} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto my-4" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold ">
             <span className="text-light-black"> Claim Successfully Paid </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2 ">
+          <p className=" text-base font-medium mt-2 ">
             You have successfully marked the Claim as paid
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Claim List Page {timer} seconds.
           </p>
         </div>
@@ -2606,7 +2606,7 @@ function ClaimList(props) {
             <div>
               <p className="text-sm my-3">
                 <b> Attachment : </b>{" "}
-                <span className="text-black">
+                <span className="">
                   {" "}
                   Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                   file size: 50 MB.{" "}
@@ -2763,7 +2763,7 @@ function ClaimList(props) {
 
                 return null;
               })()}
-              <Card className="px-8 pb-2 pt-2 drop-shadow-4xl bg-white mb-3 border-[1px] border-Light-Grey rounded-3xl">
+              <Card className="px-8 pb-2 pt-2 drop-shadow-4xl mb-3 border-[1px] border-Light-Grey rounded-3xl">
                 <div className="flex justify-between">
                   <p className="pb-5 text-lg font-semibold">Repair Parts</p>
 

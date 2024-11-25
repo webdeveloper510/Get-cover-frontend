@@ -206,10 +206,10 @@ function ServicerDealerList() {
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9	mb-[3px]">Dealer</p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={"/servicer/dashboard"}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {" "}
                 Dealer List{" "}
               </li>
@@ -217,7 +217,7 @@ function ServicerDealerList() {
           </div>
         </div>
 
-        <div className="bg-white mt-10 border-[1px] border-Light-Grey rounded-xl">
+        <Card className=" mt-10 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Dealers List</p>
@@ -358,7 +358,7 @@ function ServicerDealerList() {
               />
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </>
   );

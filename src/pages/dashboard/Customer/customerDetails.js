@@ -874,7 +874,7 @@ function CustomerDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-8">
-                <div className="bg-white rounded-[30px] p-3 border-[1px] border-Light-Grey">
+                <div className=" rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-5 !gap-1">
                     {tabs.map((tab) =>
                       activeTab === tab.id ? (
@@ -935,7 +935,7 @@ function CustomerDetails() {
 
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className=" py-3">
-            <p className=" text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold ">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>

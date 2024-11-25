@@ -145,20 +145,20 @@ function AddCategory() {
             {type} Category
           </p>
           <ul className="flex self-center">
-            <li className="text-sm text-neutral-grey font-Regular">
+            <li className="text-sm font-Regular">
               <Link to={'/'}>Home </Link>{" "}
               <span className=""> /</span>{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-Regular ml-1">
+            <li className="text-sm font-Regular ml-1">
               <Link
                 to={"/category"}
-                className="text-sm text-neutral-grey font-Regular"
+                className="text-sm font-Regular"
               >
                 Category{" "}
               </Link>{" "}
               <span className=""> /</span>{" "}
             </li>
-            <li className="text-sm text-neutral-grey font-semibold ml-1">
+            <li className="text-sm  font-semibold ml-1">
               {" "}
               {type} Category{" "}
             </li>

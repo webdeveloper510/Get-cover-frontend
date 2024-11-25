@@ -669,12 +669,12 @@ function OrderList() {
           <Grid className="!grid-cols-4 my-5 ">
             <div className="col-span-1"></div>
             <Button onClick={() => openModal1()}>Yes</Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[white] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full  !text-sm !font-Regular"
               onClick={() => closeArchive()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>

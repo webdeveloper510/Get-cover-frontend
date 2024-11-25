@@ -148,10 +148,10 @@ function EditContract() {
               Edit Contracts
             </p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm  font-Regular">
                 <Link to={"/"}>Contracts /</Link>{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1">
+              <li className="text-sm  font-semibold ml-1">
                 Edit Contracts
               </li>
             </ul>

@@ -87,6 +87,7 @@ function Account() {
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
+  const inputRef4 = useRef(null);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -805,6 +806,7 @@ function Account() {
   const [activeButton, setActiveButton] = useState("myAccount");
   const [selectedFile1, setSelectedFile1] = useState();
   const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile4, setSelectedFile4] = useState();
   const handleFileChange = (event, setterFunction, fieldName) => {
     const file = event.target.files[0];
     if (file) {
@@ -937,6 +939,7 @@ function Account() {
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile2,
+      whiteLabelLogo: selectedFile4,
       logoImage: selectedFile1,
       title: title,
       sideBarColor: sideBarColor,
@@ -987,6 +990,7 @@ function Account() {
           title: values.title || title,
           logoLight: values.logoLight || selectedFile1,
           logoDark: values.logoDark || selectedFile,
+          whiteLabelLogo: values.whiteLabelLogo || selectedFile4,
           address: values.address || address,
           paymentDetail: values.bankDetails || bankDetails,
         };
@@ -1693,7 +1697,7 @@ function Account() {
                       }
                     />
                   </div>
-                  <div className="col-span-4">
+                  <div className="col-span-3">
                     <div className="relative">
                       <label
                         htmlFor="favicon-upload"
@@ -1735,7 +1739,7 @@ function Account() {
                     </div>
                     <img src={`${selectedFile2?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile2?.fileName)}`} className="upload w-[100px] h-[50px] mt-2 mr-auto object-contain	" alt="favicon" />
                   </div>
-                  <div className="col-span-4 mb-2">
+                  <div className="col-span-3 mb-2">
                     <div className="relative">
                       <label
                         htmlFor="logo-upload"
@@ -1776,7 +1780,7 @@ function Account() {
                     </div>
                     <img src={`${selectedFile1?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile1?.fileName)}`} style={{ backgroundColor: sideBarColor }} className={`upload w-[100px] mt-2 mr-auto object-contain`} alt="favicon" />
                   </div>
-                  <div className="col-span-4">
+                  <div className="col-span-3">
                     <div className="relative">
                       <label
                         htmlFor="favicon-upload"
@@ -1816,6 +1820,47 @@ function Account() {
                       <p className="text-[12px]">The image size should be 150x50 px for the best display.</p>
                     </div>
                     <img src={`${selectedFile?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
+                  </div>
+                  <div className="col-span-3">
+                    <div className="relative">
+                      <label
+                        htmlFor="favicon-upload"
+                        className="absolute text-base font-Regular w-[122%] text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Company Logo for White Label Upload
+                      </label>
+                      <input
+                        type="file"
+                        id="favicon-upload"
+                        name="whiteLabelLogo"
+                        className="hidden"
+                        onChange={(event) => handleFileChange(event, setSelectedFile4, "whiteLabelLogo")}
+                        ref={inputRef4}
+                      />
+                      <div className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold bg-white rounded-lg border-[1px] border-gray-300 appearance-none text-light-black peer">
+                        {selectedFile4 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveFile(setSelectedFile4, "whiteLabelLogo")}
+                            className="absolute -right-2 -top-2 mx-auto mb-3"
+                          >
+                            <img src={Cross1} className="w-6 h-6" alt="Remove" />
+                          </button>
+                        )}
+                        {selectedFile4 ? (
+                          <p className="w-full break-words">{selectedFile4.name}</p>
+                        ) : (
+                          <p
+                            className="w-full cursor-pointer"
+                            onClick={() => inputRef4.current.click()}
+                          >
+                            Select File
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-[12px]">The image size should be 50x50 px for the best display.</p>
+                    </div>
+                    <img src={`${selectedFile4?.baseUrl}uploads/logo/${encodeURIComponent(selectedFile4?.fileName)}`} className="upload w-[100px] mt-2 object-contain mr-auto" alt="favicon" />
                   </div>
                   <div className="col-span-6">
                     <div className="relative">
@@ -2338,13 +2383,13 @@ function Account() {
               </Grid>
               <Grid className="drop-shadow-5xl px-8">
                 <div className="col-span-4">
-                  <Button
+                  <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
                 <div className="col-span-8">
                   <Button type="submit" className="w-full">
@@ -2487,12 +2532,12 @@ function Account() {
               </Grid>
               <Grid className="!grid-cols-5 my-5  px-8">
                 <div className="col-span-2">
-                  <Button
-                    className="border w-full !border-Bright-Grey !bg-white !text-light-black !text-sm !font-Regular"
+                  <InActiveButton
+                    className="border w-full !text-sm !font-Regular"
                     onClick={() => closeModal2()}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
 
                 <div className="col-span-3">
@@ -2536,12 +2581,12 @@ function Account() {
             >
               Yes
             </Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>

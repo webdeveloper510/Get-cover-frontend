@@ -583,6 +583,7 @@ function SideBar() {
     JSON.parse(localStorage.getItem("userDetails"))
   );
   const [selectedFile2, setSelectedFile2] = useState('');
+  const [selectedFile3, setSelectedFile3] = useState('');
   const [url, setUrl] = useState('');
   const [siteDetails, setSiteDetails] = useState({})
 
@@ -595,6 +596,7 @@ function SideBar() {
     let data = JSON.parse(localStorage.getItem("siteSettings"))
     setUrl(data.logoLight ? data.logoLight.baseUrl : null);
     setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+    setSelectedFile3(data.whiteLabelLogo ? data.whiteLabelLogo.fileName : null);
     const colorScheme = data?.colorScheme;
     colorScheme?.forEach(color => {
       switch (color.colorType) {
@@ -992,7 +994,7 @@ function SideBar() {
   };
 
   const sidebarItems = sidebarItemsByRole[userType?.role] || [];
-
+  console.log(userType?.role, 'console')
   const renderSidebarItems = sidebarItems.map((item, index) => (
     <SidebarItem
       key={index}
@@ -1017,11 +1019,17 @@ function SideBar() {
         }
       `}
       </style>
-      <div className="xl:w-[220px] 2xl:w-[260px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
+      <div className="xl:w-[220px] 2xl:w-[260px] md:w-[180px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
         <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
+          {userType?.role != 'Super Admin' &&
+            <img
+              src={`${url}uploads/logo/${encodeURIComponent(selectedFile3)}`}
+              className="pt-6 w-[60%] px-5"
+              alt="logo"
+            />}
           <img
             src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-            className="mx-auto py-6 w-full px-5"
+            className={`mx-auto pt-2 pb-6 w-full px-5 ${userType?.role == 'Super Admin' && 'pt-6'}`}
             alt="logo"
           />
           <hr className="border-Gray28 border-[1px]" />

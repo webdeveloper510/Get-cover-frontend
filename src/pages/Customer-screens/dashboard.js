@@ -74,6 +74,21 @@ function CustomerDashboard() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    setLoading(true);
+    if (window.location.pathname === '/customer/dashboard') {
+      const reloadFlag = localStorage.getItem('reloadDashboard');
+
+      if (reloadFlag === 'true') {
+        localStorage.setItem('reloadDashboard', 'false');
+        setTimeout(() => {
+          window.location.reload(true);
+          setLoading(false);
+        }, 3000)
+      }
+    }
+  }, []);
+
 
   return (
     <>
@@ -95,15 +110,15 @@ function CustomerDashboard() {
             <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-9'>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfDevices}</p>
-                <p className='text-neutral-grey text-sm'>Number of Devices</p>
+                <p className=' text-sm'>Number of Devices</p>
               </MultiColorView>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfSubmittedClaims}</p>
-                <p className='text-neutral-grey text-sm'>Total Number of Submitted claims</p>
+                <p className=' text-sm'>Total Number of Submitted claims</p>
               </MultiColorView>
               <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfCompletedClaims}</p>
-                <p className='text-neutral-grey text-sm'>Total Number of Completed Claims</p>
+                <p className=' text-sm'>Total Number of Completed Claims</p>
               </MultiColorView>
               {/* <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
                 <p className='text-2xl font-bold'>${customerDashboardDetail?.claimData?.valueClaim === undefined
@@ -112,7 +127,7 @@ function CustomerDashboard() {
                     customerDashboardDetail?.claimData?.valueClaim ?? parseInt(0)
                   )}</p>
 
-                <p className='text-neutral-grey text-sm'>Total Value of Claims</p>
+                <p className=' text-sm'>Total Value of Claims</p>
               </MultiColorView> */}
             </Grid>
 

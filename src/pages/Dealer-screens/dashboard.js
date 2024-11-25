@@ -338,6 +338,21 @@ function DealerDashboard() {
     </Card>
   );
 
+  useEffect(() => {
+    setLoading(true);
+    if (window.location.pathname === '/dealer/dashboard') {
+      const reloadFlag = localStorage.getItem('reloadDashboard');
+
+      if (reloadFlag === 'true') {
+        localStorage.setItem('reloadDashboard', 'false');
+        setTimeout(() => {
+          window.location.reload(true);
+          setLoading(false);
+        }, 2000)
+      }
+    }
+  }, []);
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -403,33 +418,107 @@ function DealerDashboard() {
                 </p>
               </MultiColorView>
             </Grid>
+            <div className="s:hidden md:hidden xl:block">
+              <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
+                <div className="col-span-6">
+                  <MultiColorView className="p-3 rounded-xl">
+                    <p className="font-lg font-bold pl-2 mb-3">
+                      Amount of Orders
+                    </p>
+                    <BarChart graphData={orderAmount} />
+                  </MultiColorView>
+                </div>
+                <div className="col-span-6">
+                  <MultiColorView className="p-3 rounded-xl">
+                    <p className="font-lg font-bold pl-2 mb-3">
+                      Amount of Claims
+                    </p>
+                    <BarChart graphData={claimAmount} />
+                  </MultiColorView>
+                </div>
+                <div className="col-span-6 border-2 rounded-xl">
+                  <Card>
+                    <p className="text-xl font-semibold pl-3 pt-2">
+                      Last 5 Completed Orders
+                    </p>
+                    <div className="">
+                      <DataTable
+                        columns={columns}
+                        data={orderList}
+                        sortIcon={
+                          <>
+                            {" "}
+                            <div
+                              style={{
+                                maskImage: `url(${shorting})`,
+                                WebkitMaskImage: `url(${shorting})`,
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                              }}
+                              className="ml-2 tabless"
+                            />
 
-            <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-              <div className="col-span-6">
-                <MultiColorView className="p-3 rounded-xl">
-                  <p className="font-lg font-bold pl-2 mb-3">
-                    Amount of Orders
-                  </p>
-                  <BarChart graphData={orderAmount} />
-                </MultiColorView>
-              </div>
-              <div className="col-span-6">
-                <MultiColorView className="p-3 rounded-xl">
-                  <p className="font-lg font-bold pl-2 mb-3">
-                    Amount of Claims
-                  </p>
-                  <BarChart graphData={claimAmount} />
-                </MultiColorView>
-              </div>
-              <div className="col-span-6 border-2 rounded-xl">
-                <Card>
-                  <p className="text-xl font-semibold pl-3 pt-2">
-                    Last 5 Completed Orders
-                  </p>
-                  <div className="">
+                          </>
+                        }
+                        highlightOnHover
+                        draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
+                      />
+                    </div>
+                  </Card>
+                </div>
+
+                <div className="col-span-6 border-2 rounded-xl">
+                  <Card>
+                    <p className="text-xl font-semibold pl-3 pt-2">
+                      Last 5 Completed Claims
+                    </p>
+                    <div className="">
+                      <DataTable
+                        columns={Claim}
+                        data={claimList}
+                        sortIcon={
+                          <>
+                            {" "}
+                            <div
+                              style={{
+                                maskImage: `url(${shorting})`,
+                                WebkitMaskImage: `url(${shorting})`,
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                              }}
+                              className="ml-2 tabless"
+                            />
+                          </>
+                        }
+                        highlightOnHover
+                        draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
+                      />
+                    </div>
+                  </Card>
+                </div>
+              </Grid>
+
+              <Grid className="mt-3">
+                <div className="col-span-6 border-2 rounded-xl">
+                  <Card>
+                    <div className="">
+                      <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                        Top 5 Performing SKU's 30 Days
+                      </p>
+                    </div>
                     <DataTable
-                      columns={columns}
-                      data={orderList}
+                      columns={Product}
+                      data={dealerPriceBook}
                       sortIcon={
                         <>
                           {" "}
@@ -446,26 +535,24 @@ function DealerDashboard() {
                             }}
                             className="ml-2 tabless"
                           />
-
                         </>
                       }
                       highlightOnHover
                       draggableColumns={false}
                       noDataComponent={<CustomNoDataComponent />}
                     />
-                  </div>
-                </Card>
-              </div>
-
-              <div className="col-span-6 border-2 rounded-xl">
-                <Card>
-                  <p className="text-xl font-semibold pl-3 pt-2">
-                    Last 5 Completed Claims
-                  </p>
-                  <div className="">
+                  </Card>
+                </div>
+                <div className="col-span-6 border-2 rounded-xl">
+                  <Card>
+                    <div className="">
+                      <p className="text-xl font-semibold pl-1 pr-1 pt-2">
+                        Top 5 Performing SKU's 1 Year
+                      </p>
+                    </div>
                     <DataTable
-                      columns={Claim}
-                      data={claimList}
+                      columns={Product}
+                      data={dealerPriceBookYear}
                       sortIcon={
                         <>
                           {" "}
@@ -485,84 +572,13 @@ function DealerDashboard() {
                         </>
                       }
                       highlightOnHover
-                      draggableColumns={false}
                       noDataComponent={<CustomNoDataComponent />}
+                      draggableColumns={false}
                     />
-                  </div>
-                </Card>
-              </div>
-            </Grid>
-
-            <Grid className="mt-3">
-              <div className="col-span-6 border-2 rounded-xl">
-                <Card>
-                  <div className="">
-                    <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                      Top 5 Performing SKU's 30 Days
-                    </p>
-                  </div>
-                  <DataTable
-                    columns={Product}
-                    data={dealerPriceBook}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <div
-                          style={{
-                            maskImage: `url(${shorting})`,
-                            WebkitMaskImage: `url(${shorting})`,
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="ml-2 tabless"
-                        />
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                    noDataComponent={<CustomNoDataComponent />}
-                  />
-                </Card>
-              </div>
-              <div className="col-span-6 border-2 rounded-xl">
-                <Card>
-                  <div className="">
-                    <p className="text-xl font-semibold pl-1 pr-1 pt-2">
-                      Top 5 Performing SKU's 1 Year
-                    </p>
-                  </div>
-                  <DataTable
-                    columns={Product}
-                    data={dealerPriceBookYear}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <div
-                          style={{
-                            maskImage: `url(${shorting})`,
-                            WebkitMaskImage: `url(${shorting})`,
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="ml-2 tabless"
-                        />
-                      </>
-                    }
-                    highlightOnHover
-                    noDataComponent={<CustomNoDataComponent />}
-                    draggableColumns={false}
-                  />
-                </Card>
-              </div>
-            </Grid>
+                  </Card>
+                </div>
+              </Grid>
+            </div>
           </div>
         )}
       </div>

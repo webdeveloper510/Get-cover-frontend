@@ -179,12 +179,14 @@ function ResellerClaimList(props) {
     getLoginUser();
   }, [messageList, claimId]);
   const getLoginUser = async () => {
-    setModelLoading(true);
+    setLoading1(true);
     const result = await UserDetailAccount("", {});
     console.log(result.result, "------------------Login--------------->>>>");
     setLoginDetails(result.result);
     setServicerCreateAccountOption(result?.result?.isServicer);
-    setModelLoading(false);
+    setTimeout(() => {
+      setLoading1(false); // End the loading process after the delay
+    }, 3000);
   };
   const downloadImage = async (file) => {
     try {
@@ -2200,7 +2202,7 @@ function ResellerClaimList(props) {
     <>
       <div className="mb-8 ml-3">
         {loading1 && (
-          <div className=" fixed z-[999999] bg-[#f9f9f99c] backdrop-blur-xl top-0 h-screen w-full flex py-5">
+          <div className=" fixed z-[999999]  backdrop-blur-xl top-0 h-screen w-full flex py-5">
             <div className="self-center ml-[40%]">
               <RotateLoader color="#333" />
             </div>
@@ -2251,7 +2253,7 @@ function ResellerClaimList(props) {
           </>
         )}
         <div
-          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey bg-white flex ${createServicerAccountOption ? "w-[45%]" : "w-[16%]"
+          className={` rounded-[30px] px-2 py-3 border-[1px] border-Light-Grey flex ${createServicerAccountOption ? "w-[45%]" : "w-[16%]"
             }`}
         >
           {tabs.map((tab) =>

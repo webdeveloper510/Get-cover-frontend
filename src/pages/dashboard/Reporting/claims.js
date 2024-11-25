@@ -127,100 +127,100 @@ function Claims() {
             !isResellerClaims ? "servicerPortal" : "resellerPortal"
           )
           : await getReportingFilterListForClaim(activeButton);
-          if (activeButton == "dealer"){
-            const dealers = res?.result.map((dealer) => {
-              // Map over dealer's categories
-              const categories = (dealer.categories || []).map((category) => {
-                const priceBooks = (category.priceBooks || []).map((priceBook) => ({
-                  label: priceBook.priceBookName,
-                  value: priceBook.priceBookId,
-                  categoryId: category.categoryId,
-                  dealerSku: (priceBook.dealerSku || []).map((skuObj) => ({
-                    label: skuObj.sku,
-                    value: priceBook.priceBookId,
-                  })),
-                }));
-            
-                return {
-                  label: category.categoryName,
-                  value: category.categoryId,
-                  priceBooks, // Nested priceBooks within each category
-                };
-              });
-            
-              // Map over dealer's servicer
-              const servicer = (dealer.servicer || []).map((servicer) => {
-                return {
-                  label: servicer.name,
-                  value: servicer._id,
-                  dealer: dealer._id,
-                };
-              });
-            
-              // Return structured dealer object
-              return {
-                label: dealer.name,
-                value: dealer._id,
-                categories,
-                servicer, 
-              };
-            });
-            setDealerList(dealers);
-          }
-          else if(activeButton == "category"){
+      if (activeButton == "dealer") {
+        const dealers = res?.result.map((dealer) => {
+          // Map over dealer's categories
+          const categories = (dealer.categories || []).map((category) => {
+            const priceBooks = (category.priceBooks || []).map((priceBook) => ({
+              label: priceBook.priceBookName,
+              value: priceBook.priceBookId,
+              categoryId: category.categoryId,
+              dealerSku: (priceBook.dealerSku || []).map((skuObj) => ({
+                label: skuObj.sku,
+                value: priceBook.priceBookId,
+              })),
+            }));
 
-            const categoriesWithPriceBooks = [];
-            const allPriceBooks = [];
-            
-            (res.result || []).forEach(category => {
-              const priceBooks = (category.priceBooks || []).map(priceBook => {
-                const priceBookObj = {
-                  label: priceBook.priceBookName,
-                  value: priceBook.priceBookId,
-                  categoryId: category.categoryId
-                };
-                allPriceBooks.push(priceBookObj);
-            
-                return priceBookObj;
-              });
-              categoriesWithPriceBooks.push({
-                label: category.categoryName,
-                value: category.categoryId,
-                priceBooks
-              });
-            });
-              setCategoryListCat(categoriesWithPriceBooks)
-              setPriceBookListCat(allPriceBooks)
-            }
-            else {
-              const servicerData = res?.result?.map((servicer) => ({
-                label: servicer?.name ,
-                value: servicer?._id ,
-                dealer: (servicer?.dealers || []).map((dealer) => ({
-                  label: dealer?.name, 
-                  value: dealer?._id 
-                })),
-                category: (servicer?.categories || []).map((category) => ({
-                  label: category?.categoryName, 
-                  value: category?.categoryId ,
-                  priceBooks: (category?.priceBooks || []).map((priceBook) => ({
-                    label: priceBook?.priceBookName ,
-                    value: priceBook?.priceBookId , 
-                    dealerSku: (priceBook?.dealerSku && priceBook.dealerSku.length > 0) 
-                    ? priceBook.dealerSku.map((skuObj) => ({
-                        label: skuObj?.sku , 
-                        value: category?.categoryId , 
-                      }))
-                    : [] 
+            return {
+              label: category.categoryName,
+              value: category.categoryId,
+              priceBooks, // Nested priceBooks within each category
+            };
+          });
 
-                  })),
-                })),
-              }));
-              
-              console.log("Transformed Data:", servicerData);
-              setServicerListServicer(servicerData)
-            }
-            
+          // Map over dealer's servicer
+          const servicer = (dealer.servicer || []).map((servicer) => {
+            return {
+              label: servicer.name,
+              value: servicer._id,
+              dealer: dealer._id,
+            };
+          });
+
+          // Return structured dealer object
+          return {
+            label: dealer.name,
+            value: dealer._id,
+            categories,
+            servicer,
+          };
+        });
+        setDealerList(dealers);
+      }
+      else if (activeButton == "category") {
+
+        const categoriesWithPriceBooks = [];
+        const allPriceBooks = [];
+
+        (res.result || []).forEach(category => {
+          const priceBooks = (category.priceBooks || []).map(priceBook => {
+            const priceBookObj = {
+              label: priceBook.priceBookName,
+              value: priceBook.priceBookId,
+              categoryId: category.categoryId
+            };
+            allPriceBooks.push(priceBookObj);
+
+            return priceBookObj;
+          });
+          categoriesWithPriceBooks.push({
+            label: category.categoryName,
+            value: category.categoryId,
+            priceBooks
+          });
+        });
+        setCategoryListCat(categoriesWithPriceBooks)
+        setPriceBookListCat(allPriceBooks)
+      }
+      else {
+        const servicerData = res?.result?.map((servicer) => ({
+          label: servicer?.name,
+          value: servicer?._id,
+          dealer: (servicer?.dealers || []).map((dealer) => ({
+            label: dealer?.name,
+            value: dealer?._id
+          })),
+          category: (servicer?.categories || []).map((category) => ({
+            label: category?.categoryName,
+            value: category?.categoryId,
+            priceBooks: (category?.priceBooks || []).map((priceBook) => ({
+              label: priceBook?.priceBookName,
+              value: priceBook?.priceBookId,
+              dealerSku: (priceBook?.dealerSku && priceBook.dealerSku.length > 0)
+                ? priceBook.dealerSku.map((skuObj) => ({
+                  label: skuObj?.sku,
+                  value: category?.categoryId,
+                }))
+                : []
+
+            })),
+          })),
+        }));
+
+        console.log("Transformed Data:", servicerData);
+        setServicerListServicer(servicerData)
+      }
+
     } catch (error) {
       console.error("Error fetching sales data:", error);
       setLoading(false);
@@ -239,17 +239,17 @@ function Claims() {
 
     if (name === "dealerId" && value) {
       const filteredDealer = dealerList.find(dealer => dealer.value === value);
-  
+
       if (filteredDealer) {
         const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
         const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
-      
+
         setCategoryList(filteredDealer.categories);
         setServicerList(filteredDealer.servicer)
         setPriceBookList(allPriceBooks);
         setDealerSkuList(allDealerSku)
       }
-      
+
     }
     if (name === "categoryId" && filter.dealerId) {
       let filteredPriceBooks = [];
@@ -273,12 +273,12 @@ function Claims() {
       const matchingPriceBooks = priceBookList.filter(priceBook => selectedValues.includes(priceBook.value));
       setSelected(matchingPriceBooks);
       setDealerSkuSelected(matchingPriceBooks.flatMap(priceBook => priceBook.dealerSku || []));
-    
+
       setFilters(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-    
+
       // // Automatically filter by category if no category is selected
       // if (!filter.categoryId) {
       //   const selectedPriceBook = matchingPriceBooks[0]; 
@@ -287,7 +287,7 @@ function Claims() {
       //   }
       // }
     }
-    
+
   };
 
   const handleFilterChangeCat = (name, value) => {
@@ -298,23 +298,23 @@ function Claims() {
 
     if (name === "categoryId") {
       const filteredCategory = categoryListCat.find(category => category.value === value);
-      if (filteredCategory) {    
+      if (filteredCategory) {
         setPriceBookListCat(filteredCategory.priceBooks);
       }
-  setSelectedCat([])
-  handleFilterChangeCat('priceBookId', []);
+      setSelectedCat([])
+      handleFilterChangeCat('priceBookId', []);
 
     }
-    if (name === "priceBookId" && value ) {
+    if (name === "priceBookId" && value) {
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
       setSelectedCat(matchingPriceBooks);
-    
+
       setFiltersCategory(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-    // console.log(matchingPriceBooks[0])
+      // console.log(matchingPriceBooks[0])
       // Automatically filter by category if no category is selected
       // if (!filterCategory.categoryId) {
 
@@ -333,40 +333,40 @@ function Claims() {
     }));
     if (name === "servicerId" && value) {
       const filteredServicer = servicerListServicer.find(servicer => servicer.value === value);
-  console.log(filteredServicer)
+      console.log(filteredServicer)
       if (filteredServicer) {
         const allPriceBooks = filteredServicer?.category?.flatMap(category => category.priceBooks || []);
         //  const allDealerSku = allPriceBooks?.flatMap(priceBook => priceBook.dealerSku || []);
-      
-         setCategoryListServicer(filteredServicer.category);
+
+        setCategoryListServicer(filteredServicer.category);
         setDealerListServicer(filteredServicer.dealer)
         setPriceBookListServicer(allPriceBooks);
         //  setDealerSkuList(allDealerSku)
       }
-      
+
       if (name === "categoryId") {
         const filteredCategory = categoryListCat.find(category => category.value === value);
-        if (filteredCategory) {    
+        if (filteredCategory) {
           setPriceBookListServicer(filteredCategory.priceBooks);
         }
         setSelectedSer([])
-     handleFilterChangeServicer('priceBookId', []);
-  
+        handleFilterChangeServicer('priceBookId', []);
+
       }
-      if (name === "priceBookId" && value ) {
+      if (name === "priceBookId" && value) {
         const selectedValues = value.map(item => item.value);
         const matchingPriceBooks = priceBookListServicer.filter(priceBook => selectedValues.includes(priceBook.value));
         console.log(matchingPriceBooks)
         setSelectedSer(matchingPriceBooks);
-      
+
         setFiltersServicer(prev => ({
           ...prev,
           [name]: matchingPriceBooks.map(item => item.value)
         }));
-      // console.log(matchingPriceBooks[0])
+        // console.log(matchingPriceBooks[0])
         // Automatically filter by category if no category is selected
         // if (!filterCategory.categoryId) {
-  
+
         //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
         //   if (selectedPriceBook) {
         //     handleFilterChangeCat('categoryId', selectedPriceBook.categoryId,'price');
@@ -374,7 +374,7 @@ function Claims() {
         // }
       }
     }
-   
+
   };
 
   useEffect(() => {
@@ -546,7 +546,7 @@ function Claims() {
               </ul>
             </div >
           </div >
-          <Card className="p-3 mt-4">
+          <Card className="p-3 mt-4 rounded-[30px] !border-[1px] !border-Light-Grey ">
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
@@ -608,7 +608,7 @@ function Claims() {
             </div>
             <Grid
               className={`${activeButton === "dealer"
-                ? "!grid-cols-10"
+                ? "!grid-cols-12"
                 : activeButton === "category"
                   ? "!grid-cols-6"
                   : "!grid-cols-10"
@@ -681,7 +681,7 @@ function Claims() {
                       Product SKU
                     </small>
                   </div>
-                  <div className="col-span-3 self-center pl-1 relative">
+                  <div className="col-span-2 self-center pl-1 relative">
                     <MultiSelect
                       label="Dealer SKU"
                       name="dealerSku"

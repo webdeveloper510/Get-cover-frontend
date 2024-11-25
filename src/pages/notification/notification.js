@@ -283,7 +283,7 @@ function Notification() {
                         ) : (
                           <Grid className="border-[1px] p-2 border-[#D1D1D2] relative">
                             <div className="col-span-3 self-center flex w-full">
-                              <div
+                              {/* <div
                                 style={{
                                   maskImage: `url(${ReadDot})`,
                                   WebkitMaskImage: `url(${ReadDot})`,
@@ -295,13 +295,13 @@ function Notification() {
                                   WebkitMaskSize: "contain",
                                 }}
                                 className="mr-2 w-[10px] singleViews h-[10px] my-auto self-center"
-                              />
-                              {/* <img
+                              /> */}
+                              <img
                                 src={ReadDot}
                                 className="mr-2 w-[10px] h-[10px] my-auto self-center"
                                 alt="Read dot"
-                              /> */}
-                              <div
+                              />
+                              {/* <div
                                 style={{
                                   maskImage: `url(${Read})`,
                                   WebkitMaskImage: `url(${Read})`,
@@ -313,12 +313,12 @@ function Notification() {
                                   WebkitMaskSize: "contain",
                                 }}
                                 className="mr-2 w-[18px] singleViews h-[18px] mt-[3px] self-center"
-                              />
-                              {/* <img
+                              /> */}
+                              <img
                                 src={Read}
                                 className="mr-2 w-[18px] h-[18px] mt-[3px] self-center"
                                 alt="Read icon"
-                              /> */}
+                              />
                               <p className=" text-base font-semibold ">
                                 {data?.title} : {data?.userId?.firstName}
                               </p>
@@ -332,7 +332,7 @@ function Notification() {
                             <div className="col-span-3">
                               <div className="flex justify-end h-full">
                                 <p className="flex text-sm mr-3 w-1/2  self-center">
-                                  <div
+                                  {/* <div
                                     style={{
                                       maskImage: `url(${time})`,
                                       WebkitMaskImage: `url(${time})`,
@@ -344,14 +344,14 @@ function Notification() {
                                       WebkitMaskSize: "contain",
                                     }}
                                     className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
-                                  />
-                                  {/* <img src={time} className="mr-2" alt="Time" />{" "} */}
+                                  /> */}
+                                  <img src={time} className="mr-2" alt="Time" />{" "}
                                   {new Date(
                                     data.createdAt
                                   ).toLocaleTimeString()}{" "}
                                 </p>
                                 <p className="mr-3 flex text-sm w-1/2 text-light-black self-center">
-                                  <div
+                                  {/* <div
                                     style={{
                                       maskImage: `url(${date})`,
                                       WebkitMaskImage: `url(${date})`,
@@ -363,8 +363,8 @@ function Notification() {
                                       WebkitMaskSize: "contain",
                                     }}
                                     className="self-center singleViews mr-2 h-4 w-4 cursor-pointer"
-                                  />
-                                  {/* <img src={date} className="mr-2" alt="Date" />{" "} */}
+                                  /> */}
+                                  <img src={date} className="mr-2" alt="Date" />{" "}
                                   {new Date(
                                     data?.createdAt
                                   ).toLocaleDateString()}{" "}

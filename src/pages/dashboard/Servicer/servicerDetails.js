@@ -911,7 +911,7 @@ function ServicerDetails() {
         {/* user popup */}
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
           <div className="py-3">
-            <p className="text-center text-3xl mb-5 mt-2 font-bold text-light-black">
+            <p className="text-center text-3xl mb-5 mt-2 font-bold">
               Add New User
             </p>
             <form onSubmit={userValues.handleSubmit}>
@@ -1062,7 +1062,7 @@ function ServicerDetails() {
                 <div className="col-span-4">
                   <InActiveButton
                     type="button"
-                    className="border w-full !border-Bright-Grey !text-sm !font-Regular"
+                    className="border w-full !text-sm !font-Regular"
                     onClick={closeUserModal}
                   >
                     Cancel
@@ -1283,7 +1283,7 @@ function ServicerDetails() {
         <Modal isOpen={isModalOpen1} onClose={closeModal1}>
           <form onSubmit={dealerForm.handleSubmit}>
             <div className="text-center py-3">
-              <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+              <p className="text-3xl mb-0 mt-2 font-bold">
                 Assign Dealer
               </p>
               <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
@@ -1335,10 +1335,10 @@ function ServicerDetails() {
         <Modal isOpen={modalOpen} onClose={closeModal10}>
           <div className="text-center py-3">
             <img src={Primary} alt="email Image" className="mx-auto" />
-            <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+            <p className="text-3xl mb-0 mt-2 font-bold">
               {firstMessage}
             </p>
-            <p className="text-neutral-grey text-base font-medium mt-4">
+            <p className=" text-base font-medium mt-4">
               {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
               {timer} Seconds
             </p>

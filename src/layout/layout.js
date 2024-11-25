@@ -96,12 +96,12 @@ function Layout() {
             } pl-0 relative w-full`}
         >
           {shouldShowSidebar() && (
-            <div className="xl:w-[260px] 2xl:w-[320px] w-[260px] relative h-full s:hidden md:hidden xl:block">
+            <div className="xl:w-[260px] 2xl:w-[320px] w-[170px] relative h-full s:hidden md:block xl:block">
               <SideBar />
             </div>
           )}
           <div
-            className={`${shouldShowSidebar() ? "w-[calc(100%-10px)] pl-3" : "w-[100%]"
+            className={`${shouldShowSidebar() ? "2xl:w-[calc(100%-10px)] xl:w-[calc(100%-10px)] md:w-[calc(100%-160px)] s:w-full sm:w-full pl-3" : "w-[100%]"
               } h-full min-h-[94vh]`}
           >
             <Outlet />

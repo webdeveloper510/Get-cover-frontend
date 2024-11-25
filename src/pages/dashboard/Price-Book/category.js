@@ -174,7 +174,7 @@ function Category() {
               >
                 <div
                   onClick={() => navigate(`/editCategory/${row._id}`)}
-                  className="text-left cursor-pointer text-black flex py-1 px-2"
+                  className="text-left cursor-pointer flex py-1 px-2"
                 >
                   <div
                     style={{

@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { getUserDetailsFromLocalStorage } from '../services/extraServices';
+import React, { useEffect, useState, forwardRef } from "react";
+import { getUserDetailsFromLocalStorage } from "../services/extraServices";
 
-const SingleView = ({ children, className }) => {
-    const [buttonTextColor, setButtonTextColor] = useState('');
-    const [backGroundColor, setBackGroundColor] = useState('');
+const SingleView = forwardRef(({ children, className }, ref) => {
+    const [buttonTextColor, setButtonTextColor] = useState("");
+    const [backGroundColor, setBackGroundColor] = useState("");
 
     useEffect(() => {
         const storedUserDetails = getUserDetailsFromLocalStorage();
 
         if (storedUserDetails) {
             const colorScheme = storedUserDetails.colorScheme;
-            colorScheme?.forEach(color => {
+            colorScheme?.forEach((color) => {
                 switch (color.colorType) {
-                    case 'sideBarColor':
+                    case "sideBarColor":
                         setBackGroundColor(color.colorCode);
                         break;
-                    case 'sideBarTextColor':
+                    case "sideBarTextColor":
                         setButtonTextColor(color.colorCode);
                         break;
                     default:
@@ -31,13 +31,15 @@ const SingleView = ({ children, className }) => {
         color: buttonTextColor,
     };
 
-
-
     return (
-        <div className={`${className} newImagecolor`} style={parentStyle}>
+        <div
+            className={`${className} newImagecolor`}
+            ref={ref}
+            style={parentStyle}
+        >
             {children}
         </div>
     );
-};
+});
 
-export default SingleView
+export default SingleView;

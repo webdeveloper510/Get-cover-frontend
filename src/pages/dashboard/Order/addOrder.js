@@ -3989,13 +3989,13 @@ function AddOrder() {
           {currentStep > 1 ? (
             <img src={check} className="text-center mx-auto" />
           ) : (
-            <p className="border border-black rounded-full mx-auto w-[26px]">
+            <p className="border rounded-full mx-auto w-[26px]">
               1
             </p>
           )}
 
           <p
-            className={` ${currentStep == 1 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 1 ? "" : "text-[#ADADAD] "
               } text-sm font-bold`}
           >
             Order Details
@@ -4008,7 +4008,7 @@ function AddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 1
-                ? "text-black border-black"
+                ? ""
                 : "text-[#ADADAD] border-[#ADADAD]"
                 }  rounded-full mx-auto w-[26px]`}
             >
@@ -4016,14 +4016,14 @@ function AddOrder() {
             </p>
           )}
           <p
-            className={` ${currentStep == 2 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 2 ? "" : "text-[#ADADAD] "
               } text-sm font-bold`}
           >
             Dealer Order Details
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 2 ? "border-black" : "border-[#ADADAD]"
+          className={`w-[150px]  ${currentStep > 2 ? "" : "border-[#ADADAD]"
             } mt-3`}
         />
         <div className="text-center">
@@ -4032,7 +4032,7 @@ function AddOrder() {
           ) : (
             <p
               className={`border ${currentStep > 2
-                ? "text-black border-black"
+                ? ""
                 : "text-[#ADADAD] border-[#ADADAD]"
                 } rounded-full mx-auto w-[26px]`}
             >
@@ -4040,27 +4040,27 @@ function AddOrder() {
             </p>
           )}
           <p
-            className={` ${currentStep == 3 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 3 ? "" : "text-[#ADADAD] "
               }text-sm font-bold`}
           >
             Add Product
           </p>
         </div>
         <hr
-          className={`w-[150px]  ${currentStep > 3 ? "border-black" : "border-[#ADADAD]"
+          className={`w-[150px]  ${currentStep > 3 ? "" : "border-[#ADADAD]"
             } mt-3`}
         />
         <div className="text-center">
           <p
             className={`border ${currentStep > 3
-              ? "text-black border-black"
+              ? ""
               : "text-[#ADADAD] border-[#ADADAD]"
               } rounded-full mx-auto w-[26px]`}
           >
             4
           </p>
           <p
-            className={` ${currentStep == 4 ? "text-black" : "text-[#ADADAD] "
+            className={` ${currentStep == 4 ? "" : "text-[#ADADAD] "
               }text-sm font-bold`}
           >
             Order Details

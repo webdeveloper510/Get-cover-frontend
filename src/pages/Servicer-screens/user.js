@@ -696,7 +696,7 @@ function ServicerUser() {
                 Manage Users
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {" "}
                   Edit Account{" "}
                 </li>
@@ -708,7 +708,7 @@ function ServicerUser() {
           <SingleView className="bg-Edit bg-cover mt-5 px-8 py-4 rounded-[30px]">
             <Grid>
               <div className="col-span-2 text-left">
-                <p className="text-base text-white font-semibold mb-3 mr-3 mt-5">
+                <p className="text-base  font-semibold mb-3 mr-3 mt-5">
                   {" "}
                   My Details
                 </p>
@@ -726,10 +726,10 @@ function ServicerUser() {
                     <img src={dealer} className="" alt="terms" />
                   </div>
                   <div className="self-center">
-                    <p className="text-white text-base font-medium leading-5	">
+                    <p className=" text-base font-medium leading-5	">
                       Account Name
                     </p>
-                    <p className="text-[#FFFFFF] opacity-50 text-sm	font-medium">
+                    <p className=" opacity-50 text-sm	font-medium">
                       {userDetails?.meta?.name}
                     </p>
                   </div>
@@ -741,10 +741,10 @@ function ServicerUser() {
                     <img src={terms} className="" alt="terms" />
                   </div>
                   <div className="self-center">
-                    <p className="text-white text-base font-medium leading-5">
+                    <p className=" text-base font-medium leading-5">
                       Address
                     </p>
-                    <p className="text-[#FFFFFF] opacity-50	text-sm font-medium">
+                    <p className=" opacity-50	text-sm font-medium">
                       {userDetails?.meta?.street}, {userDetails?.meta?.city},{" "}
                       {userDetails?.meta?.state} {userDetails?.meta?.zip},{" "}
                       {userDetails?.meta?.country}
@@ -1052,7 +1052,7 @@ function ServicerUser() {
           </div>
         ) : (
           <div className=" py-3">
-            <p className="text-3xl text-center mb-5 mt-2 font-semibold text-light-black">
+            <p className="text-3xl text-center mb-5 mt-2 font-semibold">
               Edit User
             </p>
             <form className="mt-8" onSubmit={formik.handleSubmit}>
@@ -1173,12 +1173,12 @@ function ServicerUser() {
               </Grid>
               <Grid className="!grid-cols-5 my-5  px-8">
                 <div className="col-span-2">
-                  <Button
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  <InActiveButton
+                    className="border w-full !text-sm !font-Regular"
                     onClick={() => closeModal2()}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
 
                 <div className="col-span-3">
@@ -1195,10 +1195,10 @@ function ServicerUser() {
       <Modal isOpen={modalOpen} onClose={closeModal10}>
         <div className="text-center py-3">
           <img src={Primary} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className=" text-base font-medium mt-4">
             {secondMessage} {""} <br /> Redirecting Back to Detail page in{" "}
             {timer} Seconds
           </p>
@@ -1208,7 +1208,7 @@ function ServicerUser() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <div className="text-center py-3">
           <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Would you like to delete it?
           </p>
           <Grid className="!grid-cols-4 my-5 ">
@@ -1220,12 +1220,12 @@ function ServicerUser() {
             >
               Yes
             </Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>
@@ -1235,13 +1235,13 @@ function ServicerUser() {
       <Modal isOpen={isModalOpen12} onClose={closeModal12}>
         <div className="text-center py-3">
           <img src={deleteUser10} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-semibold">
             Deleted Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             You have successfully deleted this user.
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className="text-base font-medium mt-2">
             Redirecting Back to User List in {timer} seconds
           </p>
         </div>
@@ -1259,10 +1259,10 @@ function ServicerUser() {
         </Button>
         <div className="text-center py-3">
           <img src={deleteUser123} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-bold text-light-black">
+          <p className="text-3xl mb-0 mt-2 font-bold">
             {firstMessage}
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-4">
+          <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
         </div>

@@ -77,9 +77,9 @@ function App() {
           .newImagecolor .singleViews {
           background-color:  ${sideBarTextColor} !important;
           }
-          .newImagecolor .invoices  {
-          background-color:  ${sideBarTextColor} !important;
-          }
+          // .newImagecolor .invoices  {
+          // background-color:  ${sideBarTextColor} !important;
+          // }
         .rdt_Pagination {
           background-color: ${sideBarColor} !important;
           color: ${sideBarTextColor} !important;

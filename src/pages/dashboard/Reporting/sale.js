@@ -78,7 +78,7 @@ function Sale() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme?.forEach(color => {
+      colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -129,6 +129,27 @@ function Sale() {
     }
     else {
 
+      const categoriesWithPriceBooks = [];
+      const allPriceBooks = [];
+
+      (data.result || []).forEach(category => {
+        const priceBooks = (category.priceBooks || []).map(priceBook => {
+          const priceBookObj = {
+            label: priceBook.priceBookName,
+            value: priceBook.priceBookId,
+            categoryId: category.categoryId
+          };
+          allPriceBooks.push(priceBookObj);
+
+          return priceBookObj;
+        });
+        categoriesWithPriceBooks.push({
+          label: category.categoryName,
+          value: category.categoryId,
+          priceBooks
+        });
+      });
+
       setCategoryListCat(categoriesWithPriceBooks)
       setPriceBookListCat(allPriceBooks)
     }
@@ -143,6 +164,7 @@ function Sale() {
 
     if (name === "dealerId" && value) {
       const filteredDealer = dealerList.find(dealer => dealer.value === value);
+
       if (filteredDealer) {
         const allPriceBooks = filteredDealer.categories.flatMap(category => category.priceBooks || []);
         const allDealerSku = allPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
@@ -370,7 +392,7 @@ function Sale() {
               </ul>
             </div >
           </div >
-          <Card className="p-3 mt-4">
+          <Card className="p-3 mt-4 rounded-[30px] !border-[1px] !border-Light-Grey">
             <div className="flex w-full mb-3">
               <p className="p-0 font-bold self-center mr-4">Filter By :</p>{" "}
               <div className="self-center">
@@ -410,12 +432,12 @@ function Sale() {
               </div>
             </div>
             <Grid
-              className={`${activeButton === "dealer" ? "grid-cols-12" : "!grid-cols-5"
+              className={`${activeButton === "dealer" ? "!grid-cols-10" : "!grid-cols-5"
                 } !gap-0`}
             >
               {activeButton === "dealer" && (
                 <>
-                  <div className="col-span-3 self-center">
+                  <div className="col-span-2 self-center">
                     <SelectBoxWithSearch
                       label="Dealer Name"
                       name="dealerId"
@@ -430,9 +452,9 @@ function Sale() {
                     />
                   </div>
                   {
-                    filter.dealerId != "" && (
+                    filter.dealerId != "" ? (
                       <>
-                        <div className="col-span-3 self-center pl-1">
+                        <div className="col-span-2 self-center pl-1">
                           <SelectBoxWithSearch
                             label="Category Name"
                             name="categoryId"
@@ -445,7 +467,7 @@ function Sale() {
                             onChange={handleFilterChange}
                           />
                         </div>
-                        <div className="col-span-3 self-center pl-1 relative">
+                        <div className="col-span-2 self-center pl-1 relative">
                           <MultiSelect
                             label="Product SKU"
                             name="priceBookId"
@@ -467,7 +489,7 @@ function Sale() {
                             Product SKU
                           </small>
                         </div>
-                        <div className="col-span-3 self-center pl-1 relative">
+                        <div className="col-span-2 self-center pl-1 relative">
                           <MultiSelect
                             label="Dealer SKU"
                             name="dealerSku"
@@ -490,9 +512,10 @@ function Sale() {
                           </small>
                         </div>
                       </>
-                    )
+                    ) :
+                      <div className="col-span-6"></div>
                   }
-                  <div className="col-span-3 self-center ml-auto pl-3 flex">
+                  <div className="col-span-2 self-center ml-auto pl-3 flex justify-end">
                     <Button onClick={handleApplyFilters}>Filter</Button>
                     <InActiveButton
                       className="!ml-2 !border-[1px] !border-[#333]"

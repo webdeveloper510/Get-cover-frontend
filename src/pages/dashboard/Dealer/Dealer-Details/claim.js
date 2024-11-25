@@ -1424,15 +1424,28 @@ function ClaimList(props) {
                 </div>
               </div>
 
-              <button
+              <InActiveButton
                 onClick={handleAddClaim}
-                className="w-[150px] bg-white font-semibold py-2 px-4 ml-auto flex self-center mb-3 rounded-xl border-[1px] border-Light-Grey"
+                className=" flex self-center mb-3 rounded-xl ml-auto border-[1px] border-Light-Grey"
               >
-                <img src={AddItem} className="self-center" alt="AddItem" />
-                <span className="text-black ml-3 text-[14px] font-Regular">
+                <div
+                  style={{
+                    maskImage: `url(${AddItem})`,
+                    WebkitMaskImage: `url(${AddItem})`,
+                    maskRepeat: "no-repeat",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskPosition: "center",
+                    WebkitMaskPosition: "center",
+                    maskSize: "contain",
+                    WebkitMaskSize: "contain",
+                  }}
+                  className="self-center pr-1 py-1 h-4 w-4"
+                />
+                {/* <img src={AddItem} className="self-center" alt="AddItem" />{" "} */}
+                <span className=" ml-2 text-[14px] font-Regular ">
                   Add Claim
                 </span>
-              </button>
+              </InActiveButton>
             </>
           )}
 

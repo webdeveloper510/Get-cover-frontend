@@ -555,7 +555,7 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <InActiveButton className=" !text-sm border flex cursor-pointer hover:font-semibold ">
+                  <InActiveButton className=" !text-sm border flex cursor-pointer ">
                     <span className="self-center">
                       {" "}
                       <PdfGenerator
@@ -569,7 +569,7 @@ function OrderDetails() {
                   {orderTandC == undefined || orderTandC?.fileName == "" ? (
                     <></>
                   ) : (
-                    <InActiveButton className="!text-sm border flex cursor-pointer hover:font-semibold">
+                    <InActiveButton className="!text-sm border flex cursor-pointer">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -587,7 +587,7 @@ function OrderDetails() {
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
               <div className="col-span-5">
-                <div className="!rounded-[30px] border-[1px] border-Light-Grey">
+                <div className="!rounded-[30px] px-2 py-3  border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-2 !gap-1">
                     {tabs.map((tab) =>
                       activeTab === tab.id ? (

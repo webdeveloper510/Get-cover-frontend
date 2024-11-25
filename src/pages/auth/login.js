@@ -64,8 +64,8 @@ function Login() {
           } else {
             console.log("Site settings are null, will check again...");
           }
+          localStorage.setItem('reloadDashboard', 'true');
 
-          // Navigate based on role
           navigateToRole(result.result.role);
         } catch (error) {
           console.error("Error fetching site settings:", error);
@@ -111,6 +111,9 @@ function Login() {
       </div>
     </div>;
   }
+
+
+
 
   return (
     <Layout>

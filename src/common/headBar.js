@@ -121,17 +121,17 @@ function Headbar({ className = "" }) {
         <></>
       ) : (
         <Grid
-          className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[20%]  ${className} ${Location.pathname !== "/Reporting/sale"
+          className={` md:right-[0%] xl:right-[0%] s:relative md:absolute xl:absolute s:top-[-12px] s:right-[0%]  ${className} ${Location.pathname !== "/Reporting/sale"
             ? "md:top-[24px]  xl:top-[24px]"
             : "md:top-0  xl:top-0"
             }`}
         >
           <div className="col-span-4"></div>
           <div className="col-span-1"></div>
-          <div className="col-span-7 ml-auto ">
+          <div className="col-span-7 xl:ml-auto md:ml-0 ">
             <SingleView className='border-2 ms-auto border-Light-Grey border-r-0 flex self-center py-2 pl-4 rounded-s-xl'>
               <Grid className=" w-[250px]">
-                <div className="col-span-3  flex self-center justify-around border-r-2 border-Light-Grey">
+                <SingleView className="col-span-3  flex self-center justify-around border-r-2 ">
                   <div className="s:hidden md:block xl:block">
                     <Link to={route} className="relative">
                       <div
@@ -159,7 +159,7 @@ function Headbar({ className = "" }) {
                       )}
                     </Link>
                   </div>
-                </div>
+                </SingleView>
                 <div className="col-span-9 self-center flex justify-around">
                   <p className=" font-semibold text-base self-center">
                     {truncateString(firstName, 12)}

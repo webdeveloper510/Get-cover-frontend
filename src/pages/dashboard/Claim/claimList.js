@@ -2205,23 +2205,32 @@ function ClaimList(props) {
                                      Track Repair Status
                                    </Button> */}
                                             {res.receiptImage != null && (
-                                              <Button
-                                                className="!bg-white col-span-9 !rounded-[11px] !text-light-black !text-[13px] flex"
+                                              <InActiveButton
+                                                className="col-span-9 !rounded-[11px] !text-[13px] flex"
                                                 onClick={() => {
                                                   downloadAttachments(
                                                     res.receiptImage
                                                   );
                                                 }}
                                               >
-                                                <img
-                                                  src={download}
-                                                  className="w-5 h-5 mr-2"
-                                                  alt="download"
+                                                <div
+                                                  style={{
+                                                    maskImage: `url(${download})`,
+                                                    WebkitMaskImage: `url(${download})`,
+                                                    maskRepeat: "no-repeat",
+                                                    WebkitMaskRepeat: "no-repeat",
+                                                    maskPosition: "center",
+                                                    WebkitMaskPosition: "center",
+                                                    maskSize: "contain",
+                                                    WebkitMaskSize: "contain",
+                                                  }}
+                                                  className="self-center mr-2 h-4 w-4 cursor-pointer mx-auto"
                                                 />
+
                                                 <p className="text-[13px] font-semibold text-center">
                                                   Download Attachments
                                                 </p>
-                                              </Button>
+                                              </InActiveButton>
                                             )}
                                           </Grid>
                                         </div>
@@ -2232,7 +2241,7 @@ function ClaimList(props) {
                                     <div className="px-3 mb-4">
                                       <Grid>
                                         <div className="col-span-12">
-                                          <p className="text-white">
+                                          <p className="">
 
                                             <span style={{ color: "red" }}>{res.threshHoldMessage}</span>
                                           </p>
@@ -2245,7 +2254,7 @@ function ClaimList(props) {
                                     <div className="px-3 mb-4">
                                       <Grid>
                                         <div className="col-span-12">
-                                          <p className="text-white">
+                                          <p className="">
                                             <b>Reason For Rejection : </b>{" "}
                                             <span>{res.reason}</span>
                                           </p>
@@ -2257,7 +2266,7 @@ function ClaimList(props) {
                                     <div className="px-3 mb-4">
                                       <Grid>
                                         <div className="col-span-12">
-                                          <p className="text-white">
+                                          <p className="">
                                             <b>Note : </b> <span>{res.note}</span>
                                           </p>
                                         </div>
@@ -2334,13 +2343,13 @@ function ClaimList(props) {
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
+                <InActiveButton
                   type="button"
-                  className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                  className="w-full !border-[1px]"
                   onClick={closeReject}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>
@@ -2433,13 +2442,13 @@ function ClaimList(props) {
               </Button>
             </div>
             <div className="col-span-3">
-              <Button
+              <InActiveButton
                 type="button"
-                className="w-full !bg-[transparent] !text-light-black !border-light-black !border-[1px]"
+                className="w-full !border-[1px]"
                 onClick={closeCoveragType}
               >
                 No
-              </Button>
+              </InActiveButton>
             </div>
             <div className="col-span-3"></div>
           </Grid>
@@ -2548,7 +2557,7 @@ function ClaimList(props) {
             <div>
               <p className="text-sm my-3">
                 <b> Attachment : </b>{" "}
-                <span className="text-black">
+                <span className="">
                   {" "}
                   Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                   file size: 50 MB.{" "}
@@ -2911,12 +2920,12 @@ function ClaimList(props) {
               </div>
 
               <div className="mt-3">
-                <Button
-                  className="!bg-white !text-black mr-2"
+                <InActiveButton
+                  className=" mr-2"
                   onClick={closeEdit}
                 >
                   Cancel
-                </Button>
+                </InActiveButton>
                 <Button type="submit">Update</Button>
               </div>
             </form>
@@ -2955,9 +2964,9 @@ function ClaimList(props) {
             </p>
             <div className="mt-3">
               <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("claimStatus", { type: 'completed' }); }}>Yes</Button>
-              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeComplete}>
+              <InActiveButton className="ml-8 border !px-8 !border-[#333]" onClick={closeComplete}>
                 No
-              </Button>
+              </InActiveButton>
             </div>
           </div>
         }
@@ -2981,9 +2990,9 @@ function ClaimList(props) {
             </p>
             <div className="mt-3">
               <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>
-              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeShipped}>
+              <InActiveButton className="ml-8  border !px-8 !border-[#333]" onClick={closeShipped}>
                 No
-              </Button>
+              </InActiveButton>
             </div>
           </div>
         }
@@ -3007,9 +3016,9 @@ function ClaimList(props) {
             </p>
             <div className="mt-3">
               <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("customerStatus", { type: 'product_received' }); }}>Yes</Button>
-              <Button className="ml-8 !bg-white !text-black border !px-8 !border-[#333]" onClick={closeReceived}>
+              <InActiveButton className="ml-8 border !px-8 !border-[#333]" onClick={closeReceived}>
                 No
-              </Button>
+              </InActiveButton>
             </div>
           </div>
         }
