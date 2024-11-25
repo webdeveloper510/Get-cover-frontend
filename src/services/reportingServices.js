@@ -95,12 +95,11 @@ export const getReportingFilterListForClaim = async (data) => {
   }
 };
 
-export const getFilterListDropdown = async (data, type) => {
+export const getFilterListDropdown = async ( type) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/${type}/claimReportinDropdown`,
-      data,
+    const response = await axios.get(
+      `${url}/${type}/getSaleReportingDropdown`,
       {
         headers,
       }
@@ -115,9 +114,8 @@ export const getFilterListDropdown = async (data, type) => {
 export const getFilterListForDealerClaim = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.post(
-      `${url}/dealerPortal/claimReportinDropdown`,
-      data,
+    const response = await axios.get(
+      `${url}/dealerPortal/getClaimReportingDropdown/${data}`,
       {
         headers,
       }

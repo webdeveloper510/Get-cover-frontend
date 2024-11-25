@@ -87,25 +87,60 @@ function DealerClaims() {
 
   const getDatasetAtEvent = async (data) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await getFilterListForDealerClaim(data);
-      const { dealers, categories, priceBooks, servicers } = res.result;
+  if(activeButton=="servicer"){
+   
+    const transformedServicer = res.result[0].servicer.map(servicer => ({
+      label: servicer.name,
+      value: servicer._id,
+    }));
+    const categoriesWithPriceBooks = res.result[0].categories.map((category) => ({
+      label: category.categoryName,
+      value: category.categoryId, 
+      priceBooks: category.priceBooks.map((priceBook) => ({
+        label: priceBook.priceBookName,
+        value: priceBook.priceBookId,   
+      })),
+    }));
+    const allPriceBooks = res.result[0].categories.flatMap((category) =>
+      category?.priceBooks.map((priceBook) => ({
+        label: priceBook?.priceBookName ,
+        value: priceBook?.priceBookId ,
+      }))
+    );
+    setCategoryListServicer(categoriesWithPriceBooks);
+    setServicerListServicer(transformedServicer);
+    setPriceBookListServicer(allPriceBooks)
+  }
+  else {
 
-      const getName = (obj) => obj.name;
-      const mapToLabelValue = (value) =>
-        value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      const mapPriceBooks = (value) =>
-        value.map((obj) => ({ label: obj.name, value: obj.name }));
-      if (activeButton === "category") {
-        setCategoryListCat(mapToLabelValue(categories));
-        setPriceBookListCat(mapPriceBooks(priceBooks));
-      } else {
-        setServicerListServicer(mapToLabelValue(servicers));
-        setCategoryListServicer(mapToLabelValue(categories));
-        setPriceBookListServicer(mapPriceBooks(priceBooks));
-      }
+    const categoriesWithPriceBooks = [];
+    const allPriceBooks = [];
+    
+    res.result[0].categories.forEach(category => {
+      console.log(category)
+      const priceBooks = (category.priceBooks || []).map(priceBook => {
+        const priceBookObj = {
+          label: priceBook.priceBookName,
+          value: priceBook.priceBookId,
+          categoryId: category.categoryId
+        };
+        allPriceBooks.push(priceBookObj);
+    
+        return priceBookObj;
+      });
+      categoriesWithPriceBooks.push({
+        label: category.categoryName,
+        value: category.categoryId,
+        priceBooks
+      });
+    });
+    
+      setCategoryListCat(categoriesWithPriceBooks)
+      setPriceBookListCat(allPriceBooks)
+    }
     } catch (error) {
-      setLoading(false);
       console.error("Error fetching sales data:", error);
     }
     setLoading(false);
@@ -116,65 +151,79 @@ function DealerClaims() {
   };
 
   const handleFilterChangeCat = (name, value) => {
-    setLoading1(true);
-    let updatedFilters = { ...filterCategory };
-    switch (name) {
-      case "categoryId":
-        updatedFilters.categoryId = value;
-        updatedFilters.priceBookId = [];
-        setSelectedCat([]);
-        break;
-      case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
-        break;
-      default:
-        return;
+    setFiltersCategory(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // setLoading1(true);
+    if (name === "categoryId") {
+      const filteredCategory = categoryListCat.find(category => category.value === value);
+      if (filteredCategory) {    
+        setPriceBookListCat(filteredCategory.priceBooks);
+      }
+      setSelectedCat([])
+      handleFilterChangeCat('priceBookId', []);
     }
-    setFiltersCategory(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
-    setLoading1(false);
+    if (name === "priceBookId" && value && filterCategory.categoryId) {
+      const selectedValues = value.map(item => item.value);
+      const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
+      setSelectedCat(matchingPriceBooks);
+    
+      setFiltersCategory(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+    }
+ 
+    // getDatasetAtEvent(updatedFilters);
+    // setLoading1(false);
   };
 
   const handleFilterChangeServicer = (name, value) => {
+    console.log()
     setLoading1(true);
-    let updatedFilters = { ...filterServicer };
-    switch (name) {
-      case "servicerId":
-        updatedFilters = { ...updatedFilters, servicerId: value };
-        setSelectedSer([]);
-        break;
-      case "categoryId":
-        updatedFilters.categoryId = value;
-        setSelectedSer([]);
-        break;
-      case "priceBookId":
-        updatedFilters.priceBookId = value.map((item) => item.label);
-        break;
-      default:
-        return;
+    setFiltersServicer(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (name === "categoryId") {
+      const filteredCategory = categoryListServicer.find(category => category.value === value);
+      if (filteredCategory) {    
+        setPriceBookListServicer(filteredCategory.priceBooks);
+      }
+      setSelectedSer([])
+      handleFilterChangeServicer('priceBookId', []);
     }
-    setFiltersServicer(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
+    if (name === "priceBookId" && value) {
+      const selectedValues = value.map(item => item.value);
+      console.log(selectedValues,priceBookListServicer)
+      const matchingPriceBooks = priceBookListServicer.filter(priceBook => selectedValues.includes(priceBook.value));
+      // setSelectedCat(matchingPriceBooks);
+    console.log(matchingPriceBooks)
+    setFiltersServicer(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+   }
+
+  //  setFiltersServicer(updatedFilters);
     setLoading1(false);
   };
 
   useEffect(() => {
-    getDatasetAtEvent({
-      priceBookId: [],
-      categoryId: "",
-      servicerId: "",
-      primary: activeButton,
-    });
+    getDatasetAtEvent(activeButton);
   }, [activeButton]);
 
   const handleApplyFilters = () => {
-    setLoading1(true);
+    // setLoading1(true);
+    console.log(filterServicer,activeButton)
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "servicer") {
       setFiltersForClaimServicer(filterServicer);
-      setLoading1(false);
+    
     }
+    // setLoading1(false);
   };
 
   const handleResetFilters = () => {
@@ -193,7 +242,7 @@ function DealerClaims() {
     }
     setSelectedCat([]);
     setSelectedSer([]);
-    getDatasetAtEvent(data);
+    // getDatasetAtEvent(data);
   };
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');

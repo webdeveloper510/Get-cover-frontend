@@ -33,48 +33,58 @@ function Sale() {
   });
 
   const [activeTab, setActiveTab] = useState(getInitialActiveTab());
-  const [activeButton, setActiveButton] = useState("dealer");
+  const [activeButton, setActiveButton] = useState("category");
   const [selectedCat, setSelectedCat] = useState([]);
   const [categoryListCat, setCategoryListCat] = useState([]);
   const [priceBookListCat, setPriceBookListCat] = useState([]);
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const { setAppliedFilters, setFiltersForCategory } = useMyContext();
+  const {  setFiltersCategoryTab,setFiltersForCategory,resetAllFilters } = useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
   }, [activeTab]);
 
+  // useEffect(() => {
+  //   getDatasetAtEvent({
+  //     dealerId: "",
+  //     priceBookId: [],
+  //     categoryId: "",
+  //   });
+  // }, []);
   useEffect(() => {
-    getDatasetAtEvent({
-      dealerId: "",
-      priceBookId: [],
-      categoryId: "",
-    });
+    resetAllFilters();
+    getDatasetAtEvent();
   }, []);
-
   const getDatasetAtEvent = async (data) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await getFilterListDropdown(
-        data,
         isResellerReporting ? "resellerPortal" : "dealerPortal"
       );
-      const { categories, priceBooks } = res.result;
-
-      const getName = (obj) => obj.name;
-      const mapToLabelValue = (value) =>
-        value.map((obj) => ({ label: getName(obj), value: obj._id }));
-      const mapPriceBooks = (value) =>
-        value.map((obj) => ({ label: obj.name, value: obj.name }));
-      setCategoryListCat(mapToLabelValue(categories));
-      setPriceBookListCat(mapPriceBooks(priceBooks));
+   
+      const transformedData = res.result[0].categories.map((category) => ({
+        label: category?.categoryName , 
+        value: category?.categoryId , 
+        priceBooks: (category?.priceBooks).map((priceBook) => ({
+          label: priceBook?.priceBookName ,
+          value: priceBook?.priceBookId ,
+        })),
+      }));
+      const allPriceBooks = res.result[0].categories.flatMap((category) =>
+        category?.priceBooks.map((priceBook) => ({
+          label: priceBook?.priceBookName ,
+          value: priceBook?.priceBookId ,
+        }))
+      );
+      console.log("allPriceBooks",allPriceBooks)
+       setCategoryListCat(transformedData);
+       setPriceBookListCat(allPriceBooks);
     } catch (error) {
-      console.error("Error fetching sales data:", error);
-      setLoading(false);
+ 
     }
-    setLoading(false);
+    // setLoading(false);
   };
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
@@ -113,35 +123,56 @@ function Sale() {
   };
 
   const handleFilterChangeforCategory = (name, value) => {
-    setLoading1(true);
-
-    let updatedFilters = { ...filterCategory };
-
+    setFiltersCategory(prev => ({
+      ...prev,
+      [name]: value
+    }));
     if (name === "categoryId") {
-      updatedFilters = { categoryId: value, priceBookId: [], dealerId: "" };
-      setSelectedCat([]);
-    } else if (name === "priceBookId") {
-      updatedFilters.priceBookId = value.map((item) => item.label);
+      const filteredCategory = categoryListCat.find(category => category.value === value);
+      if (filteredCategory) {    
+        setPriceBookListCat(filteredCategory.priceBooks);
+      }
+      setSelectedCat([])
+      handleFilterChangeforCategory('priceBookId', []);
     }
-
-    setFiltersCategory(updatedFilters);
-    getDatasetAtEvent(updatedFilters);
-    setLoading1(false);
-  };
+    if (name === "priceBookId" && value) {
+      const selectedValues = value.map(item => item.value);
+      console.log(selectedValues)
+      const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
+      // setSelectedCat(matchingPriceBooks);
+    console.log(matchingPriceBooks)
+      setFiltersCategory(prev => ({
+        ...prev,
+        [name]: matchingPriceBooks.map(item => item.value)
+      }));
+   }
+   };
 
   const handleApplyFilters = () => {
     setFiltersForCategory(filterCategory);
   };
 
+  // const handleResetFilters = () => {
+  //   let data = {
+  //     dealerId: "",
+  //     priceBookId: [],
+  //     categoryId: "",
+  //   };
+ 
+  // };
   const handleResetFilters = () => {
+    resetAllFilters();
     let data = {
       dealerId: "",
       priceBookId: [],
       categoryId: "",
     };
-    setFiltersForCategory(data);
+    console.log(data)
+    setFiltersForCategory(data)
     setFiltersCategory(data);
     setSelectedCat([]);
+    // handleApplyFilters()
+
   };
 
   return (

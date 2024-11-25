@@ -50,6 +50,7 @@ export const MyContextProvider = ({ children }) => {
     setFilters(newFilters);
   };
   const setFiltersForCategory = (newFilters) => {
+    console.log("newFilters",newFilters)
     setFlag1(true);
     setFiltersCategoryTab(newFilters);
   };
@@ -58,16 +59,17 @@ export const MyContextProvider = ({ children }) => {
     setFiltersClaimCategory(newFilters);
   };
   const setFiltersForClaimDealer = (newFilters) => {
-    console.log("ssssss");
     setFiltersClaimDealer(newFilters);
     setFlag1(true);
   };
   const setFiltersForClaimServicer = (newFilters) => {
     setFlag1(true);
+    console.log(newFilters)
     setFiltersClaimServicer(newFilters);
   };
 
   const resetAllFilters = () => {
+    setFlag1(false);
     setFilters({
       dealerId: "",
       priceBookId: [],
@@ -99,7 +101,6 @@ export const MyContextProvider = ({ children }) => {
       servicer: "",
       primary: "dealer",
     });
-    setFlag1(false);
   };
 
 
