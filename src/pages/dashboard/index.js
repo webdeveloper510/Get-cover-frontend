@@ -21,6 +21,7 @@ import SingleView from "../../common/singleView";
 
 function Dashboard() {
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
   const [dashboardDetail, setDashboardDetails] = useState({});
   const [dealerList, setDealerList] = useState([]);
   const [orderList, setOrderList] = useState([]);
@@ -98,7 +99,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    setLoading1(true);
     if (window.location.pathname === '/dashboard') {
       const reloadFlag = localStorage.getItem('reloadDashboard');
 
@@ -106,9 +107,9 @@ function Dashboard() {
         localStorage.setItem('reloadDashboard', 'false');
         setTimeout(() => {
           window.location.reload(true);
-          setLoading(false);
         }, 2000)
       }
+      setLoading1(false);
     }
   }, []);
 
@@ -527,6 +528,13 @@ function Dashboard() {
 
   return (
     <>
+      {loading1 && (
+        <div className=" fixed z-[999999] backdrop-blur-xl top-0 h-screen w-full left-0 flex py-5">
+          <div className="self-center ml-[50%]">
+            <RotateLoader color="#333" />
+          </div>
+        </div>
+      )}
       <div className="mb-8 ml-3">
         <Headbar />
         <div className="flex mt-2">

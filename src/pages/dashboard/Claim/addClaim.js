@@ -892,7 +892,7 @@ function AddClaim() {
                 <Grid>
                   <div className="col-span-6 mt-5">
                     <Grid className="my-3">
-                      {role == "Super Admin" ? <div className="col-span-6">
+                      {role == "Super Admin" ? <div className="col-span-4">
                         <SelectBoxWithSearch
                           label="Coverage Type"
                           name="coverageType"
@@ -903,7 +903,7 @@ function AddClaim() {
                           onBlur={formikStep2.handleBlur}
                           isDisabled={data.role != "Super Admin"}
                         />
-                      </div> : <div className="col-span-6">
+                      </div> : <div className="col-span-4">
                         <SelectBoxWithSearch
                           label="Servicer Name"
                           name="servicerId"
@@ -915,7 +915,7 @@ function AddClaim() {
                           isDisabled={data.role != "Super Admin"}
                         />
                       </div>}
-                      <div className="col-span-6">
+                      <div className="col-span-4">
                         <Input
                           label="Damage Date"
                           type="date"
@@ -934,6 +934,17 @@ function AddClaim() {
                             </div>
                           )}
                       </div>
+                      <div className="col-span-4">
+                        <SelectBoxWithSearch
+                          label="Submit By"
+                          name="servicerId"
+                          className="!bg-white"
+                          onChange={handleChange}
+                          options={servicerData}
+                          value={formikStep2.values.servicerId}
+                          onBlur={formikStep2.handleBlur}
+                        />
+                      </div>
                       {formikStep2.values.coverageType == 'theft_and_lost' ? <></> :
                         <>
                           {role == "Super Admin" && <div className="col-span-12">
@@ -951,11 +962,21 @@ function AddClaim() {
                           </div>}
                         </>
                       }
-
+                      <div className="col-span-12">
+                        <SelectBoxWithSearch
+                          label="Shipped To"
+                          name="servicerId"
+                          className="!bg-white"
+                          onChange={handleChange}
+                          options={servicerData}
+                          value={formikStep2.values.servicerId}
+                          onBlur={formikStep2.handleBlur}
+                        />
+                      </div>
                     </Grid>
                     <div>
                       <div>
-                        <div className="border border-dashed w-full relative py-8">
+                        <div className="border border-dashed w-full relative py-2">
                           <label
                             className={`absolute text-base font-Regular  leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75   `}
                           >
@@ -976,7 +997,7 @@ function AddClaim() {
                           >
                             <img
                               src={Dropbox}
-                              className="mx-auto mb-3"
+                              className="mx-auto mb-1"
                               alt="Dropbox"
                             />
                             <p>

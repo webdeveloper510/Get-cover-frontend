@@ -7,6 +7,7 @@ import Primary from "../../../../assets/images/SetPrimary.png";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Button from "../../../../common/button";
+import star from "../../../../assets/images/icons/star.svg";
 import shorting from "../../../../assets/images/icons/shorting.svg";
 import { RotateLoader } from "react-spinners";
 import Modal from "../../../../common/model";
@@ -187,7 +188,17 @@ function CustomerSetting(props) {
     const Address = [
         {
             name: "Serial #",
-            selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
+            cell: (row, index) => (
+                <div className="flex relative">
+                    {row.isPrimary && (
+                        <img src={star} alt="" className="absolute -left-3 top-0" />
+                    )}
+                    <span className="self-center pt-2 ml-3">
+                        {(currentPage - 1) * rowsPerPage + index + 1}
+                    </span>
+                </div>
+            ),
+            // selector: (row, index) =>
             sortable: true,
             style: { whiteSpace: "pre-wrap" },
         },

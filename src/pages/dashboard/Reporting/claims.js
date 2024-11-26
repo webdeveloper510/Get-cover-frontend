@@ -26,6 +26,7 @@ import InActiveButton from "../../../common/inActiveButton";
 
 function Claims() {
   const [loading, setLoading] = useState(false);
+  const [filterLoading, setLoading1] = useState(false);
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
   const isResellerClaims = location.pathname.includes("/reseller/reporting");
@@ -50,7 +51,9 @@ function Claims() {
   const [priceBookListServicer, setPriceBookListServicer] = useState([]);
   const [servicerListServicer, setServicerListServicer] = useState([]);
   const [dealerListServicer, setDealerListServicer] = useState([]);
+  const [dealerSkuSelectedCat, setDealerSkuSelectedCat] = useState([]);
   const [selectedSer, setSelectedSer] = useState([]);
+  const [dealerSkuListCat, setDealerSkuListCat] = useState([]);
   const [activeButton, setActiveButton] = useState(
     isResellerClaims ? "servicer" : "dealer"
   );
@@ -119,11 +122,12 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
+
     try {
       const res =
         isServicerClaims || isResellerClaims
           ? await getFilterListForServicerClaim(
-            data,
+            activeButton,
             !isResellerClaims ? "servicerPortal" : "resellerPortal"
           )
           : await getReportingFilterListForClaim(activeButton);
@@ -168,30 +172,44 @@ function Claims() {
         setDealerList(dealers);
       }
       else if (activeButton == "category") {
-
         const categoriesWithPriceBooks = [];
         const allPriceBooks = [];
+        const allDealerSkus = [];
 
         (res.result || []).forEach(category => {
           const priceBooks = (category.priceBooks || []).map(priceBook => {
+            const dealerSkuObjects = (priceBook.dealerSku || []).map(skuObj => ({
+              label: skuObj.sku,
+              value: priceBook.priceBookId
+            }));
+
+            allDealerSkus.push(...dealerSkuObjects);
+
             const priceBookObj = {
               label: priceBook.priceBookName,
               value: priceBook.priceBookId,
-              categoryId: category.categoryId
+              categoryId: category.categoryId,
+              dealerSku: dealerSkuObjects
             };
+
             allPriceBooks.push(priceBookObj);
 
             return priceBookObj;
           });
+
           categoriesWithPriceBooks.push({
             label: category.categoryName,
             value: category.categoryId,
             priceBooks
           });
         });
-        setCategoryListCat(categoriesWithPriceBooks)
-        setPriceBookListCat(allPriceBooks)
+
+        console.log(allDealerSkus);
+        setCategoryListCat(categoriesWithPriceBooks);
+        setPriceBookListCat(allPriceBooks);
+        setDealerSkuListCat(allDealerSkus);
       }
+
       else {
         const servicerData = res?.result?.map((servicer) => ({
           label: servicer?.name,
@@ -223,6 +241,9 @@ function Claims() {
 
     } catch (error) {
       console.error("Error fetching sales data:", error);
+
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -291,40 +312,53 @@ function Claims() {
   };
 
   const handleFilterChangeCat = (name, value) => {
+    let filteredPriceBooks = [];
+    let dealerSkuList = [];
+
     setFiltersCategory(prev => ({
       ...prev,
       [name]: value
     }));
 
     if (name === "categoryId") {
-      const filteredCategory = categoryListCat.find(category => category.value === value);
-      if (filteredCategory) {
-        setPriceBookListCat(filteredCategory.priceBooks);
-      }
-      setSelectedCat([])
-      handleFilterChangeCat('priceBookId', []);
+      if (!value) {
+        // Show all priceBooks and dealerSkus when category is not selected
+        filteredPriceBooks = categoryListCat.flatMap(category => category.priceBooks || []);
+        dealerSkuList = filteredPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
 
+        setPriceBookListCat(filteredPriceBooks);
+        setDealerSkuListCat(dealerSkuList);
+      } else {
+        const filteredCategory = categoryListCat.find(category => category.value === value);
+        filteredPriceBooks = filteredCategory?.priceBooks || [];
+        dealerSkuList = filteredPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+
+        setPriceBookListCat(filteredPriceBooks);
+        setDealerSkuListCat(dealerSkuList);
+      }
+      // Reset dependent filters
+      setSelectedCat([]);
+      setDealerSkuSelectedCat([]);
+      handleFilterChangeCat('priceBookId', []);
     }
+
     if (name === "priceBookId" && value) {
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
+      console.log(priceBookListCat)
       setSelectedCat(matchingPriceBooks);
+
+      // Automatically select related dealer SKUs
+      const selectedDealerSkus = matchingPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
+      setDealerSkuSelectedCat(selectedDealerSkus);
 
       setFiltersCategory(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-      // console.log(matchingPriceBooks[0])
-      // Automatically filter by category if no category is selected
-      // if (!filterCategory.categoryId) {
-
-      //   const selectedPriceBook = matchingPriceBooks[0]; // Assuming the first match
-      //   if (selectedPriceBook) {
-      //     handleFilterChangeCat('categoryId', selectedPriceBook.categoryId,'price');
-      //   }
-      // }
     }
   };
+
 
   const handleFilterChangeServicer = (name, value) => {
     setFiltersServicer(prev => ({
@@ -388,7 +422,7 @@ function Claims() {
   }, [activeButton]);
 
   const handleApplyFilters = () => {
-    // setLoading(true);
+    setLoading1(true);
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "dealer") {
@@ -396,7 +430,7 @@ function Claims() {
     } else if (activeButton == "servicer") {
       setFiltersForClaimServicer(filterServicer);
     }
-    // setLoading(false);
+    setLoading1(false);
   };
 
   const handleResetFilters = () => {
@@ -426,6 +460,7 @@ function Claims() {
     setDealerSkuSelected([]);
     setSelectedCat([]);
     setSelectedSer([]);
+    setDealerSkuSelectedCat([])
     // getDatasetAtEvent(data);
   };
   const [buttonTextColor, setButtonTextColor] = useState('');
@@ -436,7 +471,7 @@ function Claims() {
 
     if (storedUserDetails) {
       const colorScheme = storedUserDetails.colorScheme;
-      colorScheme?.forEach(color => {
+      colorScheme.forEach(color => {
         switch (color.colorType) {
           case 'buttonColor':
             setBackGroundColor(color.colorCode);
@@ -529,7 +564,7 @@ function Claims() {
           </div>
         </>
       ) : (
-        <div className="pb-8 mt-2 px-3">
+        <div className="pb-8 mt-2 px-3 ">
           <Headbar />
           <div className="flex">
             <div className="pl-3">
@@ -546,7 +581,7 @@ function Claims() {
               </ul>
             </div >
           </div >
-          <Card className="p-3 mt-4 rounded-[30px] !border-[1px] !border-Light-Grey ">
+          <Card className="p-3 mt-4 rounded-[30px] !border-[1px] !border-Light-Grey">
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
@@ -610,7 +645,7 @@ function Claims() {
               className={`${activeButton === "dealer"
                 ? "!grid-cols-12"
                 : activeButton === "category"
-                  ? "!grid-cols-6"
+                  ? "!grid-cols-7"
                   : "!grid-cols-10"
                 } !gap-0`}
             >
@@ -753,7 +788,29 @@ function Claims() {
                       Product SKU
                     </small>
                   </div>
-                  <div className="col-span-2 self-center ml-auto pl-3">
+                  <div className="col-span-2 self-center pl-1 relative">
+                    <MultiSelect
+                      label="Dealer SKU"
+                      name="dealerSku"
+                      placeholder="Dealer SKU"
+                      value={dealerSkuSelectedCat}
+                      options={dealerSkuListCat}
+                      pName="dealer SKU"
+                      onChange={(value) => {
+                        setDealerSkuSelectedCat(value);
+                        handleFilterChangeCat("priceBookId", value);
+                      }}
+                      labelledBy="Select"
+                      overrideStrings={{
+                        selectSomeItems: "Select",
+                      }}
+                      className="SearchSelect css-b62m3t-container p-[0.425rem]"
+                    />
+                    <small className="absolute text-base font-Regular text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-[12px] left-[17px] px-1 -translate-y-4 !hover:bg-grayf9 scale-75 !bg-white">
+                      Dealer SKU
+                    </small>
+                  </div>
+                  <div className="col-span-1 self-center ml-auto pl-3">
                     <Button className="mr-2" onClick={handleApplyFilters}>
                       Filter
                     </Button>
@@ -872,13 +929,20 @@ function Claims() {
             </div >
             <div className="col-span-1 self-center"></div>
           </Grid >
-
-          <ClaimContent
-            activeTab={activeTab}
-            selectedRange={selectedRange}
-            activeButton={activeButton}
-            setSelectedRange={setSelectedRange}
-          />
+          {filterLoading ? <>
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div>{" "}
+          </> :
+            <ClaimContent
+              activeTab={activeTab}
+              selectedRange={selectedRange}
+              activeButton={activeButton}
+              setSelectedRange={setSelectedRange}
+            />
+          }
         </div >
       )
       }

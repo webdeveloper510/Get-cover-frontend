@@ -197,7 +197,7 @@ function CustomerSetting(props) {
                         <img src={star} alt="" className="absolute -left-3 top-0" />
                     )}
                     <span className="self-center pt-2 ml-3">
-                        {index + 1}
+                        {(currentPage - 1) * rowsPerPage + index + 1}
                     </span>
                 </div>
             ),

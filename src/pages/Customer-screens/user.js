@@ -835,7 +835,16 @@ function CustomerUser() {
   const Address = [
     {
       name: "Serial #",
-      selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
+      cell: (row, index) => (
+        <div className="flex relative">
+          {row.isPrimary && (
+            <img src={star} alt="" className="absolute -left-3 top-0" />
+          )}
+          <span className="self-center pt-2 ml-3">
+            {(currentPage - 1) * rowsPerPage + index + 1}
+          </span>
+        </div>
+      ),
       sortable: true,
       style: { whiteSpace: "pre-wrap" },
     },

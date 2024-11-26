@@ -5,7 +5,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logout from "../assets/images/side-bar/logout-black.svg";
 import Nonotification from "../assets/images/icons/readed-noti.svg";
 import NotificationImage from "../assets/images/icons/Notification-icon.svg";
-import ProfileImage from "../assets/images/icons/Profile.svg";
 import Down from "../assets/images/icons/Drop.svg";
 import {
   getNotifications,

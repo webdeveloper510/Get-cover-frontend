@@ -1,11 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.23d7c234.css",
-    "main.js": "/static/js/main.4b5c5924.js",
+    "main.css": "/static/css/main.e98fa0f6.css",
+    "main.js": "/static/js/main.03230d37.js",
     "static/js/703.9ed85247.chunk.js": "/static/js/703.9ed85247.chunk.js",
     "static/js/198.e1b2539e.chunk.js": "/static/js/198.e1b2539e.chunk.js",
     "static/js/787.c7997b7d.chunk.js": "/static/js/787.c7997b7d.chunk.js",
-    "static/media/Profile.svg": "/static/media/Profile.8f0377abeb3a80e98a53f65b6fd202c4.svg",
     "static/media/Edit-Dealer.png": "/static/media/Edit-Dealer.59325ada5926e0702dc5.png",
     "static/media/deleteUser.svg": "/static/media/deleteUser.c81abc394b7792454ecaa98213c02803.svg",
     "static/media/attachment.png": "/static/media/attachment.71e2ce2e326c35e2d9b0.png",
@@ -184,14 +183,14 @@
     "static/media/dropwhite.svg": "/static/media/dropwhite.c8ae50a08ad52f32dd37ffec22fa9500.svg",
     "static/media/ReadDot.svg": "/static/media/ReadDot.1207756e5fd0c3503ddc05a3ae75287e.svg",
     "static/media/UnReadDot.svg": "/static/media/UnReadDot.e63ab1aeffb7955c9dc2201cfb965dc7.svg",
-    "main.23d7c234.css.map": "/static/css/main.23d7c234.css.map",
-    "main.4b5c5924.js.map": "/static/js/main.4b5c5924.js.map",
+    "main.e98fa0f6.css.map": "/static/css/main.e98fa0f6.css.map",
+    "main.03230d37.js.map": "/static/js/main.03230d37.js.map",
     "703.9ed85247.chunk.js.map": "/static/js/703.9ed85247.chunk.js.map",
     "198.e1b2539e.chunk.js.map": "/static/js/198.e1b2539e.chunk.js.map",
     "787.c7997b7d.chunk.js.map": "/static/js/787.c7997b7d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.23d7c234.css",
-    "static/js/main.4b5c5924.js"
+    "static/css/main.e98fa0f6.css",
+    "static/js/main.03230d37.js"
   ]
 }

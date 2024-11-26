@@ -21,6 +21,7 @@ function ClaimContent({
   const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
   const [flag, setFlag] = useState("daily");
+  const [loader, setLoader] = useState(false);
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
   const isResellerClaims = location.pathname.includes("/reseller/claim");
@@ -116,6 +117,7 @@ function ClaimContent({
   }, [flag1]);
 
   const getDatasetAtEvent = async (value) => {
+    setLoader(true)
     let dealerId = "";
     let categoryId = "";
     let servicerId = "";
@@ -220,6 +222,9 @@ function ClaimContent({
       setGraphDataCount(countData);
     } catch (error) {
       console.error("Error fetching sales data:", error);
+    }
+    finally {
+      setLoader(false)
     }
   };
 
