@@ -1625,7 +1625,7 @@ function AllList(props) {
 
                                       {
                                         <>
-                                          <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                          <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                             <span className="self-center mr-4">
 
                                               Coverage Type:
@@ -1656,7 +1656,7 @@ function AllList(props) {
                                       <span className="self-center w-[75px] mr-[1rem] text-red-500">
                                         {errorForCoverageType && `${errorForCoverageType}`}
                                       </span>
-                                      <p className="text-light-green mb-4 text-[11px] font-Regular flex self-center">
+                                      <p className=" mb-4 text-[11px] font-Regular flex self-center">
                                         <span className="self-center w-[75px]  mr-[1rem]">
                                           {shipment.label}:
                                         </span>
@@ -2241,10 +2241,10 @@ function AllList(props) {
                   Claim
                 </p>
                 <ul className="flex self-center  mb-[20px]">
-                  <li className="text-sm text-neutral-grey font-Regular">
+                  <li className="text-sm  font-Regular">
                     <Link to={"/servicer/dashboard"}>Home </Link> /
                   </li>
-                  <li className="text-sm text-neutral-grey font-semibold ml-1">
+                  <li className="text-sm  font-semibold ml-1">
                     {" "}
                     Claim Listing
                   </li>
@@ -2413,12 +2413,25 @@ function AllList(props) {
                         </div>
                       </div>
                       <div className="col-span-11">
-                        <div className="bg-white rounded-md relative p-1">
-                          <img
+                        <SingleView className=" rounded-md relative p-1">
+                          <div
+                            style={{
+                              maskImage: `url(${arrowImage})`,
+                              WebkitMaskImage: `url(${arrowImage})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center absolute singleViewsbg -left-3 rotate-[270deg] top-2 h-4 w-4 "
+                          />
+                          {/* <img
                             src={arrowImage}
                             className="absolute -left-3 rotate-[270deg] top-2"
                             alt="arrowImage"
-                          />
+                          /> */}
                           <Grid>
                             <div className="col-span-6">
                               <p className="text-xl font-semibold">
@@ -2467,7 +2480,7 @@ function AllList(props) {
                           <p className="text-right">
                             <span className="text-[11px]">(To {msg.type})</span>
                           </p>
-                        </div>
+                        </SingleView>
                       </div>
                     </Grid>
                   ))
@@ -2483,7 +2496,7 @@ function AllList(props) {
             <div>
               <p className="text-sm my-3">
                 <b> Attachment : </b>{" "}
-                <span className="text-black">
+                <span className="">
                   {" "}
                   Accepted file types: jpg, pdf, jpeg, doc, xls, xlxs, png, Max.
                   file size: 50 MB.{" "}
@@ -2855,14 +2868,14 @@ function AllList(props) {
       <Modal isOpen={isAttachmentsOpen} onClose={closeAttachments}>
         <div className="py-1 text-center">
           <img src={AddDealer} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-4 font-semibold text-neutral-grey">
+          <p className="text-3xl mb-0 mt-4 font-semibold ">
             Submitted
             <span className="text-light-black"> Successfully </span>
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Edit Claim Successfully
           </p>
-          <p className="text-neutral-grey text-base font-medium mt-2">
+          <p className=" text-base font-medium mt-2">
             Redirecting you on Claim Page {timer} seconds.
           </p>
         </div>

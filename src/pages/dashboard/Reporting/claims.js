@@ -26,7 +26,7 @@ import InActiveButton from "../../../common/inActiveButton";
 
 function Claims() {
   const [loading, setLoading] = useState(false);
-  const [filterLoading, setLoading1] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false);
   const location = useLocation();
   const isServicerClaims = location.pathname.includes("/servicer/claims");
   const isResellerClaims = location.pathname.includes("/reseller/reporting");
@@ -422,7 +422,7 @@ function Claims() {
   }, [activeButton]);
 
   const handleApplyFilters = () => {
-    setLoading1(true);
+    setFilterLoading(true);
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "dealer") {
@@ -430,7 +430,7 @@ function Claims() {
     } else if (activeButton == "servicer") {
       setFiltersForClaimServicer(filterServicer);
     }
-    setLoading1(false);
+    setFilterLoading(false);
   };
 
   const handleResetFilters = () => {

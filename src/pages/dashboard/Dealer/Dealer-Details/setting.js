@@ -35,6 +35,7 @@ function Setting(props) {
     size: "",
   });
   const [createAccountOption, setCreateAccountOption] = useState("yes");
+  const [isShow, setIsShow] = useState("no");
   const [separateAccountOption, setSeparateAccountOption] = useState("yes");
   const [shipping, setShipping] = useState("yes");
   const [coverage, setCoverage] = useState([]);
@@ -350,6 +351,17 @@ function Setting(props) {
     }
   };
 
+  const handleRadioChange1 = (event) => {
+    const selectedValue = event.target.value;
+    setIsShow(selectedValue);
+
+    if (selectedValue === "no") {
+      siteChange.setFieldValue("isWhiteLabelShow", false);
+    } else {
+      siteChange.setFieldValue("isWhiteLabelShow", true);
+    }
+  };
+
   const handleAddFile = () => {
     if (inputRef) {
       inputRef.current.click();
@@ -475,7 +487,8 @@ function Setting(props) {
       cardBackGroundColor: cardBackGroundColor,
       cardColor: cardColor,
       inActiveButtonBackgroundColor: inActiveButtonBackgroundColor,
-      inActiveButtonColor: inActiveButtonColor
+      inActiveButtonColor: inActiveButtonColor,
+      isWhiteLabelShow: isShow
     },
     validationSchema: Yup.object({
       favIcon: Yup.mixed().nullable(),
@@ -507,6 +520,7 @@ function Setting(props) {
           colorScheme: colorScheme,
           logoLight: values.logoLight || selectedFile1,
           logoDark: values.logoDark || selectedFile,
+          isWhiteLabelShow: values.isWhiteLabelShow || isShow
         };
         console.log(apiData);
         const result = await dealerSaveSetting(apiData);
@@ -592,6 +606,7 @@ function Setting(props) {
         setSelectedFile1(userDetails.result[0].logoLight || null);
         setSelectedFile(userDetails.result[0].logoDark || null);
         setDefaults(userDetails.result[0].setDefault === 0 ? true : false);
+        setIsShow(userDetails.result[0].isWhiteLabelShow === true ? 'yes' : 'no');
 
       }
     } catch (error) {
@@ -1563,6 +1578,33 @@ function Setting(props) {
                           placeholder=""
                           value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                         />
+                      </div>
+                    </Grid>
+                  </div>
+                  <div className="col-span-6">
+                    <Grid>
+                      <div className="col-span-8">
+                        <p className="flex text-[14px]  font-semibold justify-between pr-4">
+                          Do you want to show white label logo?
+                        </p>
+                      </div>
+                      <div className="col-span-4">
+                        <div className="flex w-full justify-between">
+                          <RadioButton
+                            id="yes-isShow"
+                            label="Yes"
+                            value="yes"
+                            checked={isShow === "yes"}
+                            onChange={handleRadioChange1}
+                          />
+                          <RadioButton
+                            id="no-isShow"
+                            label="No"
+                            value="no"
+                            checked={isShow === "no"}
+                            onChange={handleRadioChange1}
+                          />
+                        </div>
                       </div>
                     </Grid>
                   </div>

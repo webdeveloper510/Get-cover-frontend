@@ -48,6 +48,7 @@ function ServicerSetting(props) {
     const closeDefalt = () => {
         setIsSetDefalt(false);
     };
+    const [isShow, setIsShow] = useState("no");
     const [sideBarColor, setSideBarColor] = useState('');
     const [sideBarTextColor, setSideBarTextColor] = useState('');
     const [sideBarButtonColor, setSideBarButtonColor] = useState('');
@@ -173,6 +174,18 @@ function ServicerSetting(props) {
         }
     };
 
+
+    const handleRadioChange1 = (event) => {
+        const selectedValue = event.target.value;
+        setIsShow(selectedValue);
+
+        if (selectedValue === "no") {
+            siteChange.setFieldValue("isWhiteLabelShow", false);
+        } else {
+            siteChange.setFieldValue("isWhiteLabelShow", true);
+        }
+    };
+
     const siteChange = useFormik({
         initialValues: {
             favIcon: selectedFile3,
@@ -191,7 +204,8 @@ function ServicerSetting(props) {
             cardBackGroundColor: cardBackGroundColor,
             cardColor: cardColor,
             inActiveButtonBackgroundColor: inActiveButtonBackgroundColor,
-            inActiveButtonColor: inActiveButtonColor
+            inActiveButtonColor: inActiveButtonColor,
+            isWhiteLabelShow: isShow
         },
         validationSchema: Yup.object({
             favIcon: Yup.mixed().nullable(),
@@ -223,6 +237,7 @@ function ServicerSetting(props) {
                     colorScheme: colorScheme,
                     logoLight: values.logoLight || selectedFile1,
                     logoDark: values.logoDark || selectedFile,
+                    isWhiteLabelShow: values.isWhiteLabelShow || isShow
                 };
                 console.log(apiData);
                 const result = await servicerSaveSetting(apiData);
@@ -308,6 +323,7 @@ function ServicerSetting(props) {
                 setSelectedFile1(userDetails.result[0].logoLight || null);
                 setSelectedFile(userDetails.result[0].logoDark || null);
                 setDefaults(userDetails.result[0].setDefault === 0 ? true : false);
+                setIsShow(userDetails.result[0].isWhiteLabelShow === true ? 'yes' : 'no');
 
             }
         } catch (error) {
@@ -662,6 +678,33 @@ function ServicerSetting(props) {
                                                 placeholder=""
                                                 value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                                             />
+                                        </div>
+                                    </Grid>
+                                </div>
+                                <div className="col-span-6">
+                                    <Grid>
+                                        <div className="col-span-8">
+                                            <p className="flex text-[14px]  font-semibold justify-between pr-4">
+                                                Do you want to show white label logo?
+                                            </p>
+                                        </div>
+                                        <div className="col-span-4">
+                                            <div className="flex w-full justify-between">
+                                                <RadioButton
+                                                    id="yes-isShow"
+                                                    label="Yes"
+                                                    value="yes"
+                                                    checked={isShow === "yes"}
+                                                    onChange={handleRadioChange1}
+                                                />
+                                                <RadioButton
+                                                    id="no-isShow"
+                                                    label="No"
+                                                    value="no"
+                                                    checked={isShow === "no"}
+                                                    onChange={handleRadioChange1}
+                                                />
+                                            </div>
                                         </div>
                                     </Grid>
                                 </div>

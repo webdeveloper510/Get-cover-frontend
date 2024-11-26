@@ -926,6 +926,7 @@ function Account() {
         setTitle(userDetails.result[0].title);
         setSelectedFile2(userDetails.result[0].favIcon || null);
         setSelectedFile1(userDetails.result[0].logoLight || null);
+        setSelectedFile4(userDetails.result[0].whiteLabelLogo || null);
         setSelectedFile(userDetails.result[0].logoDark || null);
         setAddress(userDetails.result[0].address);
         setBankDetails(userDetails.result[0].paymentDetail);
