@@ -121,6 +121,7 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
+
     try {
       const res =
         isServicerClaims || isResellerClaims
@@ -239,6 +240,9 @@ function Claims() {
             
     } catch (error) {
       console.error("Error fetching sales data:", error);
+      
+    }
+    finally{
       setLoading(false);
     }
   };
@@ -324,7 +328,6 @@ function Claims() {
         setPriceBookListCat(filteredPriceBooks);
         setDealerSkuListCat(dealerSkuList);
       } else {
-        // Filter priceBooks and dealerSkus based on selected category
         const filteredCategory = categoryListCat.find(category => category.value === value);
         filteredPriceBooks = filteredCategory?.priceBooks || [];
         dealerSkuList = filteredPriceBooks.flatMap(priceBook => priceBook.dealerSku || []);
@@ -341,7 +344,7 @@ function Claims() {
     if (name === "priceBookId" && value) {
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
-      
+      console.log(priceBookListCat)
       setSelectedCat(matchingPriceBooks);
   
       // Automatically select related dealer SKUs
