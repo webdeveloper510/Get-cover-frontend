@@ -2536,15 +2536,28 @@ function ClaimList(props) {
                         </div>
                       </div>
                       <div className="col-span-11">
-                        <div className="bg-white text-light-black rounded-md relative p-1">
-                          <img
+                        <SingleView className="rounded-md relative p-1">
+                          {/* <img
                             src={arrowImage}
                             className="absolute -left-3 rotate-[270deg] top-2"
                             alt="arrowImage"
+                          /> */}
+                          <div
+                            style={{
+                              maskImage: `url(${arrowImage})`,
+                              WebkitMaskImage: `url(${arrowImage})`,
+                              maskRepeat: "no-repeat",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskPosition: "center",
+                              WebkitMaskPosition: "center",
+                              maskSize: "contain",
+                              WebkitMaskSize: "contain",
+                            }}
+                            className="self-center absolute singleViewsbg -left-3 rotate-[270deg] top-2 h-4 w-4 "
                           />
                           <Grid>
                             <div className="col-span-6">
-                              <p className="text-xl text-light-black font-semibold">
+                              <p className="text-xl font-semibold">
                                 {msg?.commentBy?.firstName} {"  "}
                                 {msg?.commentBy?.lastName}
                                 <span className="text-[12px] pl-1">
@@ -2590,7 +2603,7 @@ function ClaimList(props) {
                           <p className="text-right">
                             <span className="text-[11px]">(To {msg.type})</span>
                           </p>
-                        </div>
+                        </SingleView>
                       </div>
                     </Grid>
                   ))

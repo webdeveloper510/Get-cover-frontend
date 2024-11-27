@@ -95,6 +95,12 @@ function ServicerDashboard() {
     }
   };
 
+  const CustomNoDataComponent = () => (
+    <Card className="text-center my-5">
+      <p>No records found.</p>
+    </Card>
+  );
+
   const Claim = [
     {
       name: "Claim ID",
@@ -255,7 +261,7 @@ function ServicerDashboard() {
                 <p className="text-2xl font-bold">
                   {dashboardDetail?.claimData?.numberOfClaims}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className=" text-sm">
                   Total Number of Claims
                 </p>
               </MultiColorView>
@@ -268,7 +274,7 @@ function ServicerDashboard() {
                       dashboardDetail?.claimData?.valueClaim ?? parseInt(0)
                     )}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className=" text-sm">
                   Total Value of Claims
                 </p>
               </MultiColorView>
@@ -282,7 +288,7 @@ function ServicerDashboard() {
                       parseInt(0)
                     )}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className=" text-sm">
                   Total Value of Paid Claims
                 </p>
               </MultiColorView>
@@ -296,7 +302,7 @@ function ServicerDashboard() {
                       parseInt(0)
                     )}
                 </p>
-                <p className="text-neutral-grey text-sm">
+                <p className=" text-sm">
                   Total Value of Unpaid Claims
                 </p>
               </MultiColorView>
@@ -305,7 +311,7 @@ function ServicerDashboard() {
               <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
                 <div className="col-span-12">
                   <MultiColorView className="p-3 rounded-xl">
-                    <p className="font-lg font-bold text-white pl-2 mb-3">
+                    <p className="font-lg font-bold  pl-2 mb-3">
                       Amount of Claims
                     </p>
                     <BarChart graphData={claimAmount} />
@@ -341,6 +347,7 @@ function ServicerDashboard() {
                         }
                         highlightOnHover
                         draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
                       />
                     </div>
                   </Card>
@@ -372,6 +379,7 @@ function ServicerDashboard() {
                         }
                         highlightOnHover
                         draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
                       />
                     </div>
                   </Card>

@@ -574,7 +574,7 @@ function SideBar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
-
+  const [isShow, setIsShow] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen); // Toggle the state when the button is clicked
   };
@@ -596,6 +596,7 @@ function SideBar() {
     let data = JSON.parse(localStorage.getItem("siteSettings"))
     setUrl(data.logoLight ? data.logoLight.baseUrl : null);
     setSelectedFile2(data.logoLight ? data.logoLight.fileName : null);
+    setIsShow(data.isWhiteLabelShow)
     setSelectedFile3(data.whiteLabelLogo ? data.whiteLabelLogo.fileName : null);
     const colorScheme = data?.colorScheme;
     colorScheme?.forEach(color => {
@@ -1020,16 +1021,16 @@ function SideBar() {
       `}
       </style>
       <div className="xl:w-[220px] 2xl:w-[260px] md:w-[180px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
-        <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px]`}>
-          {userType?.role != 'Super Admin' &&
+        <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px] pt-6`}>
+          {(userType?.role != 'Super Admin' && isShow) &&
             <img
               src={`${url}uploads/logo/${encodeURIComponent(selectedFile3)}`}
-              className="pt-6 w-[60%] px-5"
+              className=" w-[60%] px-5"
               alt="logo"
             />}
           <img
             src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-            className={`mx-auto pt-2 pb-6 w-full px-5 ${userType?.role == 'Super Admin' && 'pt-6'}`}
+            className={`mx-auto pt-2 pb-6 w-full px-5`}
             alt="logo"
           />
           <hr className="border-Gray28 border-[1px]" />

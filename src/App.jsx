@@ -74,6 +74,9 @@ function App() {
             background-color: ${sideBarColor} !important;
             color: ${sideBarTextColor} !important;
           }
+          .newImagecolor .singleViewsbg {
+            background-color:  ${sideBarColor} !important;
+            }
           .newImagecolor .singleViews {
           background-color:  ${sideBarTextColor} !important;
           }
