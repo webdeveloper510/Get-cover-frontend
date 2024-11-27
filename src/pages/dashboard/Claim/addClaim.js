@@ -75,6 +75,8 @@ function AddClaim() {
   const [price, setPrice] = useState(null);
   const [contractDetail, setcontractDetail] = useState({});
   const [servicerData, setServicerData] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  const [customerList, setCustomerList] = useState([]);
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState('');
   const [coverageTypes, setCoverageTypes] = useState([]);
@@ -347,8 +349,27 @@ function AddClaim() {
     setLoading21(true);
     getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
-      console.log(res.result.mergedData, "------------loading21");
+      console.log(res.result.order[0].customer[0].addresses, "------------loading21");
       setcontractDetail(res.result);
+      setCustomerList(res.result.allUsers)
+      const addresses = res?.result?.order?.[0]?.customer?.[0]?.addresses.map(res => ({
+        label: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`,
+        value: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`
+      }));
+      console.log('addresses',addresses)
+      setAddressList(addressList)
+      if(role=='Customer'){
+       const customerName = res.result.allUsers.find((res)=>{
+          return res.label==data.userInfo.firstName +' ' + data.userInfo.lastName
+        })
+        console.log(customerName)
+        formikStep2.setFieldValue("submittedBy",customerName.value)
+      }
+      else{
+      formikStep2.setFieldValue("submittedBy",res.result.allUsers[0].value)
+      }
+      formikStep2.setFieldValue("shippingTo",addresses[0].value)
+
       setCoverageTypes(res.result.mergedData)
       getServicerList(
         {
@@ -722,6 +743,8 @@ function AddClaim() {
       servicePaymentStatus: true,
       coverageType: "",
       contractId: contractDetail?._id,
+      submittedBy:"",
+      shippingTo:""
     },
     validationSchema: () => {
       return formikStep2.values.coverageType === 'theft_and_lost'
@@ -940,8 +963,8 @@ function AddClaim() {
                           name="servicerId"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
+                          options={customerList}
+                          value={formikStep2.values.submittedBy}
                           onBlur={formikStep2.handleBlur}
                         />
                       </div>
@@ -968,8 +991,8 @@ function AddClaim() {
                           name="servicerId"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
+                          options={addressList}
+                          value={formikStep2.values.shippingTo}
                           onBlur={formikStep2.handleBlur}
                         />
                       </div>

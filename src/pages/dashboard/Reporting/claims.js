@@ -122,7 +122,7 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
-    setLoading1(true)
+    // setLoading1(true)
     try {
       const res =
         isServicerClaims || isResellerClaims
@@ -255,7 +255,7 @@ function Claims() {
 
     }
     finally {
-      setLoading1(false);
+      // setLoading1(false);
     }
   };
 
