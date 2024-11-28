@@ -752,29 +752,45 @@ function AddClaim() {
         : validationSchemaStep1;
     },
     onSubmit: (values) => {
-      const selectedDate = new Date(values.lossDate);
-      const formattedDate = selectedDate.toISOString();
-      values.lossDate = formattedDate;
+      const formatDateToMidnight = (date) => {
+        const newDate = new Date(date);
+        newDate.setUTCDate(newDate.getUTCDate()); 
+        newDate.setUTCHours(0, 0, 0, 0); 
+        return newDate.toISOString();
+      };
+      values.lossDate = formatDateToMidnight(values.lossDate);
+    
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
-
-      addClaim(values).then((res) => {
-        if (res.code == 200) {
-          setCode("200");
-          setIsCreateOpen(true);
-          setTimer(3);
-          setMessage("New Claim Created Successfully");
+    
+      // Submit the claim
+      addClaim(values)
+        .then((res) => {
+          if (res.code === 200) {
+            setCode("200");
+            setIsCreateOpen(true);
+            setTimer(3);
+            setMessage("New Claim Created Successfully");
+          } else {
+            setCode(res.code);
+            setIsCreateOpen(true);
+            setMessage(res.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting claim:", error);
+        })
+        .catch((error) => {
+          console.error("Retry failed:", error);
+          setMessage("Failed to submit the claim after retry.");
+        })
+        .finally(() => {
           setLoading1(false);
-        } else {
-          setTimer(null);
-          setCode(res.code);
-          setIsCreateOpen(true);
-          setMessage(res.message);
-        }
-        setLoading1(false);
-      });
-    },
+        });
+      }
+    
+    
   });
 
   const renderStep2 = () => {
