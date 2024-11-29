@@ -75,6 +75,8 @@ function AddClaim() {
   const [price, setPrice] = useState(null);
   const [contractDetail, setcontractDetail] = useState({});
   const [servicerData, setServicerData] = useState([]);
+  const [addressList, setAddressList] = useState([]);
+  const [customerList, setCustomerList] = useState([]);
   const [images, setImages] = useState([]);
   const [selected, setSelected] = useState('');
   const [coverageTypes, setCoverageTypes] = useState([]);
@@ -347,8 +349,27 @@ function AddClaim() {
     setLoading21(true);
     getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
-      console.log(res.result.mergedData, "------------loading21");
+      console.log(res.result.order[0].customer[0].addresses, "------------loading21");
       setcontractDetail(res.result);
+      setCustomerList(res.result.allUsers)
+      const addresses = res?.result?.order?.[0]?.customer?.[0]?.addresses.map(res => ({
+        label: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`,
+        value: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`
+      }));
+      console.log('addresses',addresses)
+      setAddressList(addressList)
+      if(role=='Customer'){
+       const customerName = res.result.allUsers.find((res)=>{
+          return res.label==data.userInfo.firstName +' ' + data.userInfo.lastName
+        })
+        console.log(customerName)
+        formikStep2.setFieldValue("submittedBy",customerName.value)
+      }
+      else{
+      formikStep2.setFieldValue("submittedBy",res.result.allUsers[0].value)
+      }
+      formikStep2.setFieldValue("shippingTo",addresses[0].value)
+
       setCoverageTypes(res.result.mergedData)
       getServicerList(
         {
@@ -722,6 +743,8 @@ function AddClaim() {
       servicePaymentStatus: true,
       coverageType: "",
       contractId: contractDetail?._id,
+      submittedBy:"",
+      shippingTo:""
     },
     validationSchema: () => {
       return formikStep2.values.coverageType === 'theft_and_lost'
@@ -729,29 +752,45 @@ function AddClaim() {
         : validationSchemaStep1;
     },
     onSubmit: (values) => {
-      const selectedDate = new Date(values.lossDate);
-      const formattedDate = selectedDate.toISOString();
-      values.lossDate = formattedDate;
+      const formatDateToMidnight = (date) => {
+        const newDate = new Date(date);
+        newDate.setUTCDate(newDate.getUTCDate()); 
+        newDate.setUTCHours(0, 0, 0, 0); 
+        return newDate.toISOString();
+      };
+      values.lossDate = formatDateToMidnight(values.lossDate);
+    
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
-
-      addClaim(values).then((res) => {
-        if (res.code == 200) {
-          setCode("200");
-          setIsCreateOpen(true);
-          setTimer(3);
-          setMessage("New Claim Created Successfully");
+    
+      // Submit the claim
+      addClaim(values)
+        .then((res) => {
+          if (res.code === 200) {
+            setCode("200");
+            setIsCreateOpen(true);
+            setTimer(3);
+            setMessage("New Claim Created Successfully");
+          } else {
+            setCode(res.code);
+            setIsCreateOpen(true);
+            setMessage(res.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error submitting claim:", error);
+        })
+        .catch((error) => {
+          console.error("Retry failed:", error);
+          setMessage("Failed to submit the claim after retry.");
+        })
+        .finally(() => {
           setLoading1(false);
-        } else {
-          setTimer(null);
-          setCode(res.code);
-          setIsCreateOpen(true);
-          setMessage(res.message);
-        }
-        setLoading1(false);
-      });
-    },
+        });
+      }
+    
+    
   });
 
   const renderStep2 = () => {
@@ -940,8 +979,8 @@ function AddClaim() {
                           name="servicerId"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
+                          options={customerList}
+                          value={formikStep2.values.submittedBy}
                           onBlur={formikStep2.handleBlur}
                         />
                       </div>
@@ -968,8 +1007,8 @@ function AddClaim() {
                           name="servicerId"
                           className="!bg-white"
                           onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
+                          options={addressList}
+                          value={formikStep2.values.shippingTo}
                           onBlur={formikStep2.handleBlur}
                         />
                       </div>

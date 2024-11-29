@@ -122,7 +122,7 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
-    setLoading(true)
+    // setLoading1(true)
     try {
       const res =
         isServicerClaims || isResellerClaims
@@ -255,7 +255,7 @@ function Claims() {
 
     }
     finally {
-      setLoading(false);
+      // setLoading1(false);
     }
   };
 
@@ -676,7 +676,7 @@ function Claims() {
                 ? "!grid-cols-12"
                 : activeButton === "category"
                   ? "!grid-cols-7"
-                  : "!grid-cols-10"
+                  : "!grid-cols-12"
                 } !gap-0`}
             >
               {activeButton === "dealer" && (
