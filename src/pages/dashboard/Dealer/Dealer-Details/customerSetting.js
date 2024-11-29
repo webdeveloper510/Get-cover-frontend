@@ -188,6 +188,21 @@ function CustomerSetting(props) {
         setCurrentPage(page);
     };
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setSelectedAction(null);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            // Cleanup the event listener on component unmount
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
     const Address = [
         {
             name: "Serial #",

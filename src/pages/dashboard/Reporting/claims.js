@@ -122,7 +122,7 @@ function Claims() {
   };
 
   const getDatasetAtEvent = async (data) => {
-    setLoading1(true)
+    setLoading(true)
     try {
       const res =
         isServicerClaims || isResellerClaims
@@ -226,7 +226,7 @@ function Claims() {
             return {
               label: category.categoryName,
               value: category.categoryId,
-              priceBooks, 
+              priceBooks,
             };
           });
 
@@ -247,7 +247,7 @@ function Claims() {
           };
         });
         console.log(servicer)
-         setServicerListServicer(servicer)
+        setServicerListServicer(servicer)
       }
 
     } catch (error) {
@@ -255,7 +255,7 @@ function Claims() {
 
     }
     finally {
-      setLoading1(false);
+      setLoading(false);
     }
   };
 
@@ -381,18 +381,18 @@ function Claims() {
       console.log(filteredServicer)
       if (filteredServicer) {
         const allPriceBooks = filteredServicer?.categories?.flatMap(category => category.priceBooks || []);
-          const allDealerSku = allPriceBooks?.flatMap(priceBook => priceBook.dealerSku || []);
+        const allDealerSku = allPriceBooks?.flatMap(priceBook => priceBook.dealerSku || []);
         setCategoryListServicer(filteredServicer.categories);
         setDealerListServicer(filteredServicer.dealer)
         setPriceBookListServicer(allPriceBooks);
-          setDealerSkuListServicer(allDealerSku)
-           setFiltersServicer({
-            dealerId: "",
-            priceBookId: [],
-            categoryId:""
-        } )
-          setSelected([]);
-          setDealerSkuSelected([]);
+        setDealerSkuListServicer(allDealerSku)
+        setFiltersServicer({
+          dealerId: "",
+          priceBookId: [],
+          categoryId: ""
+        })
+        setSelected([]);
+        setDealerSkuSelected([]);
       }
       setSelectedSer([]);
       setDealerSkuSelectedServicer([]);
@@ -415,10 +415,10 @@ function Claims() {
       setPriceBookListServicer(filteredPriceBooks);
 
     }
-    if (name === "priceBookId" ) {
+    if (name === "priceBookId") {
       console.log(value)
       const selectedValues = value.map(item => item.value);
-      console.log(selectedValues,priceBookListServicer)
+      console.log(selectedValues, priceBookListServicer)
       const matchingPriceBooks = priceBookListServicer.filter(priceBook => selectedValues.includes(priceBook.value));
       console.log(matchingPriceBooks)
       setSelectedSer(matchingPriceBooks);
@@ -441,7 +441,7 @@ function Claims() {
   };
 
   useEffect(() => {
-  
+
     getDatasetAtEvent({
       dealerId: "",
       priceBookId: [],
