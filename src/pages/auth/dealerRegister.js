@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import Logo from "../../assets/images/Get-Cover.png";
-import Logi from "../../assets/images/login.png";
+import Logi from "../../assets/images/authImages/register.png";
 import Logi1 from "../../assets/images/Welcome_page.png";
 import email from "../../assets/images/approval-image.png";
 
@@ -144,9 +144,9 @@ function DealerRegister() {
             <div className="mx-auto md:w-4/6	s:w-full py-5 self-center  ">
               <img loading="lazy" src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-3 font-bold text-light-black">
-                <span className="text-neutral-grey"> Welcome to </span> {siteDetails?.title}
+                <span className="text-[#8D66CC]"> Welcome to </span> {siteDetails?.title}
               </p>
-              <p className="text-neutral-grey text-xl font-medium mb-4 mt-2">
+              <p className="text-[#7B758B] text-xl font-medium mb-4 mt-2">
                 {" "}
                 Sign up to your{" "}
                 <span className="font-semibold"> {userType} Account </span>{" "}
@@ -386,14 +386,14 @@ function DealerRegister() {
               )}
 
               <div>
-                <Button
+                <button
                   type="submit"
-                  className="w-full h-[50px] mt-3 text-xl font-semibold"
+                  className="w-full bg-custom-gradient mt-4 rounded-lg text-white h-[50px] text-xl font-semibold "
                 >
                   Register
-                </Button>
+                </button>
 
-                <p className="text-base text-neutral-grey font-medium mt-4">
+                <p className="text-base text-[#7B758B] font-medium mt-4">
                   Already have an account?{" "}
                   <Link
                     to={"/"}
@@ -404,7 +404,7 @@ function DealerRegister() {
                   </Link>{" "}
                 </p>
                 <div>
-                  <p className="text-base text-neutral-grey font-medium mt-4 text-center " style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" target="_blank">Codenomad India </a></p>
+                  <p className="text-base text-[#7B758B] font-medium mt-4 text-center " style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline" target="_blank">Codenomad India </a></p>
                 </div>
               </div>
             </div>

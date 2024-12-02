@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 // Media Imports
-import ImageRegister from "../../assets/images/register-image.png";
+import ImageRegister from "../../assets/images/authImages/userType.png";
 import ImageRegister1 from "../../assets/images/pageRegister.png";
 import RegisterButton from "../../assets/images/register-Button.png";
 import Back from "../../assets/images/back.png";
@@ -18,7 +18,7 @@ function Register() {
   return (
     <Layout>
       <div className="bg-hero-pattern bg-no-repeat bg-cover h-full min-h-screen p-4">
-        <div className="bg-hero-register bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
+        <div className="bg-hero-pattern1 bg-no-repeat bg-cover pt-1 rounded-[50px] mb-[70px]">
           <Link
             to={"/"}
             className="absolute bg-grayf9 top-0 rounded-full p-[19px] left-0"
@@ -33,10 +33,10 @@ function Register() {
             alt="Register Image"
           />
           <div className="text-center">
-            <p className="text-2xl mb-0 mt-3 font-bold text-neutral-grey">
-              Choose your <span className="text-light-black"> User type </span>{" "}
+            <p className="text-2xl mb-0 mt-3 font-bold text-white">
+              Choose your <span className="text-[#8D66CC]"> User type </span>{" "}
             </p>
-            <p className="text-neutral-grey text-base font-medium mb-4">
+            <p className="text-white text-base font-medium mb-4">
               Below are the options you can choose from based <br /> on your{" "}
               <b> account type </b>.
             </p>
@@ -55,7 +55,7 @@ function Register() {
                     <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerDealer"}>
                         {" "}
-                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" className="w-[70px]" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>
@@ -72,7 +72,7 @@ function Register() {
                   <div className="group-hover:block hidden">
                     <Button className="!bg-[#dfdfdf] !px-2 rounded-[36px] left-1/2 transforms absolute">
                       <Link to={"/registerProvider"}>
-                        <img src={RegisterButton} loading="lazy" alt="Button Image" />{" "}
+                        <img src={RegisterButton} loading="lazy" className="w-[70px]" alt="Button Image" />{" "}
                       </Link>
                     </Button>
                   </div>

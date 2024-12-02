@@ -10,7 +10,7 @@ import { RotateLoader } from "react-spinners";
 
 // Media imports
 import Logo from "../../assets/images/Get-Cover.png";
-import Logi from "../../assets/images/login.png";
+import Logi from "../../assets/images/authImages/login.png";
 import Login_image from "../../assets/images/Login_Page.png";
 import PasswordInput from "../../common/passwordInput";
 
@@ -138,11 +138,11 @@ function Login() {
                   alt="Logo "
                 />
                 <p className="text-3xl mb-3 mt-4 font-bold text-light-black">
-                  <span className="text-neutral-grey"> Welcome to </span>{" "}
+                  <span className="text-[#8D66CC]"> Welcome to </span>{" "}
                   {siteDetails?.title}
                 </p>
-                <p className="text-neutral-grey text-xl font-medium mb-5">
-                  <span className="font-semibold"> Sign in </span> to your
+                <p className="text-[#7B758B] text-xl font-medium mb-5">
+                  <span className="font-bold"> Sign in </span> to your
                   account
                 </p>
                 {error && (
@@ -191,20 +191,20 @@ function Login() {
                 <div className="my-3 text-end">
                   <Link
                     to={"/forgot"}
-                    className="text-base text-neutral-grey underline font-medium"
+                    className="text-base text-[#7B758B] underline font-medium"
                   >
                     {" "}
                     Forgot my password?{" "}
                   </Link>
                 </div>
                 <div>
-                  <Button
+                  <button
                     type="submit"
-                    className="w-full !bg-[#333] !text-white h-[50px] text-xl font-semibold"
+                    className="w-full bg-custom-gradient rounded-lg text-white h-[50px] text-xl font-semibold "
                   >
                     Sign in
-                  </Button>
-                  <p className="text-base text-neutral-grey font-medium mt-4">
+                  </button>
+                  <p className="text-base text-[#7B758B] font-medium mt-4">
                     Don’t have an account?{" "}
                     <Link to={"/register"} className="text-light-black ml-3">
                       <b> Register </b>
@@ -212,7 +212,7 @@ function Login() {
                   </p>
                   <div>
                     <p
-                      className="text-base text-neutral-grey font-medium mt-4 text-center absolute bottom-0 left-0 right-0"
+                      className="text-base text-[#7B758B] font-medium mt-4 text-center absolute bottom-0 left-0 right-0"
                       style={{ bottom: "20px" }}
                     >
                       Designed, Developed & Maintain by{" "}

@@ -46,7 +46,9 @@ module.exports = {
         'red-500': 'rgb(var(--red-500) / <alpha-value>)',
       },
       backgroundImage: {
+        'custom-gradient': 'linear-gradient(121.85deg, #643F9F 0%, #B1ADBC 100%)',
         'hero-pattern': "url('/src/assets/images/Bg.png')",
+        'hero-pattern1': "url('/src/assets/images/authImages/Bg.png')",
         'hero-register': "url('/src/assets/images/register_banner.png')",
         'Dropdown': "url('/src/assets/images/DropdownImage.png')",
         'Edit': "url('/src/assets/images/Edit-Dealer.png')",

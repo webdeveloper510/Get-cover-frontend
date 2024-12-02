@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 // Media imports
 import Logo from "../../assets/images/Get-Cover.png";
-import NewPasswordImage from "../../assets/images/new_password.png";
+import NewPasswordImage from "../../assets/images/authImages/newPassword.png";
 import NewPasswordEmail from "../../assets/images/reset-password.png";
 import Cross from "../../assets/images/Cross.png";
 import PasswordInput from "../../common/passwordInput";
@@ -91,9 +91,9 @@ function NewPassword() {
             <div className="mx-auto max-w-md">
               <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
-                <span className="text-neutral-grey"> Enter </span> New Password
+                <span className="text-[#8D66CC]"> Enter </span> New Password
               </p>
-              <p className="text-neutral-grey text-xl font-medium mt-4 mb-5">
+              <p className="text-[#7B758B] text-xl font-medium mt-4 mb-5">
                 Strong passwords include <b> numbers, letters, </b> and{" "}
                 <b> punctuation marks </b>.
               </p>
@@ -130,12 +130,12 @@ function NewPassword() {
                 isPassword
               />
               <div>
-                <Button
-                  className="w-full h-[50px] text-lg mt-3 font-semibold"
+                <button
                   type="submit"
+                  className="w-full bg-custom-gradient mt-4 rounded-lg text-white h-[50px] text-xl font-semibold "
                 >
                   Set New Password
-                </Button>
+                </button>
               </div>
             </div>
           </div>

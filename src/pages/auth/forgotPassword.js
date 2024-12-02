@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 // Media imports
 import Logo from "../../assets/images/Get-Cover.png";
-import forgot from "../../assets/images/forgot_banner.png";
+import forgot from "../../assets/images/authImages/Forgot.png";
 import email1 from "../../assets/images/CheckEmail.png";
 import forgotPage from "../../assets/images/Forgot_password.png";
 import email from "../../assets/images/email.png";
@@ -69,14 +69,14 @@ function ForgotPassword() {
               alt="Logo "
             />
           </div>
-          <div className="col-span-6 self-center">
-            <div className="mx-auto max-w-md">
+          <div className="col-span-6 self-center relative flex h-screen md:h-full">
+            <div className="mx-auto max-w-md self-center">
               <img src={`${siteDetails?.logoDark?.baseUrl}uploads/logo/${encodeURIComponent(siteDetails?.logoDark?.fileName)}`} className="w-[224px]" alt="Logo " />
               <p className="text-3xl mb-0 mt-4 font-bold text-light-black">
-                <span className="text-neutral-grey"> Forgot </span> Your
+                <span className="text-[#8D66CC]"> Forgot </span> Your
                 Password?
               </p>
-              <p className="text-neutral-grey text-xl font-medium mt-4 mb-5">
+              <p className="text-[#7B758B] text-xl font-medium mt-4 mb-5">
                 Please enter the <b> email address </b> you'd like your password
                 reset information sent to{" "}
               </p>
@@ -101,12 +101,12 @@ function ForgotPassword() {
               )}
 
               <div>
-                <Button
+                <button
                   type="submit"
-                  className="w-full mt-3 h-[50px] text-lg font-semibold"
+                  className="w-full bg-custom-gradient mt-4 rounded-lg text-white h-[50px] text-xl font-semibold "
                 >
                   Request Reset Password
-                </Button>
+                </button>
 
                 <p className="text-base font-medium mt-4">
                   <Link
@@ -119,7 +119,7 @@ function ForgotPassword() {
 
               </div>
               <div>
-                <p className="text-base text-neutral-grey font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad India </a></p>
+                <p className="text-base text-[#7B758B] font-medium mt-4 text-center absolute botton-0 left-0 right-0" style={{ bottom: '20px' }}>Design, Develop & Maintain by <a href="https://codenomad.net/" className="underline text-light-black" target="_blank">Codenomad India </a></p>
               </div>
             </div>
           </div>
