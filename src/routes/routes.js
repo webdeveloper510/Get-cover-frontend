@@ -239,6 +239,12 @@ const routes = [
         ),
       },
       {
+        path: "/addCustomer/:dealerValueId?/:resellerValueId?/:typeofUser?",
+        element: (
+          <PrivateRoute element={<AddCustomer />} role={"Super Admin"} />
+        ),
+      },
+      {
         path: "/addPriceBook/:dealerIdValue?",
         element: (
           <PrivateRoute element={<AddDealerBook />} role={"Super Admin"} />
@@ -246,6 +252,10 @@ const routes = [
       },
       {
         path: "/addOrderforReseller/:resellerId?/:dealerValue?",
+        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
+      },
+  {
+        path: "/addOrder",
         element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {

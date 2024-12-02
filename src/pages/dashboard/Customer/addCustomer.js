@@ -43,8 +43,8 @@ function AddCustomer() {
   const [dealerList, setDealerList] = useState([]);
   const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
-  const { dealerValueId, typeofUser } = useParams();
-  console.log(dealerValueId, typeofUser);
+  const { dealerValueId,resellerValueId, typeofUser } = useParams();
+  console.log(dealerValueId,resellerValueId, typeofUser);
 
   useEffect(() => {
     if (dealerValueId || typeofUser) {
@@ -245,6 +245,9 @@ function AddCustomer() {
     });
     setResellerList(arr);
     console.log(data.result);
+    if(resellerValueId !== undefined){
+      formik.setFieldValue("resellerName", resellerValueId);
+    }
   };
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
@@ -273,9 +276,10 @@ function AddCustomer() {
       getResellerList(dealerValueId);
     } else {
       getDealerListData();
+      getDealerDetails(dealerValueId);
     }
     getDealerDetailsByValue(dealerValueId);
-    getDealerDetails(dealerValueId);
+  
   }, [dealerValueId]);
 
   const getDealerDetailsByValue = async (id) => {
@@ -422,6 +426,7 @@ function AddCustomer() {
     if (dealerValueId !== undefined) {
       getResellerList(dealerValueId);
       formik.setFieldValue("dealerName", dealerValueId);
+    
     }
     const result = await getDealersList();
     console.log(result.data);
