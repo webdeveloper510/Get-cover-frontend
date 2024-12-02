@@ -52,6 +52,7 @@ function SidebarItem({
 }) {
 
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButton2ndColor, setSideBarButton2ndColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   useEffect(() => {
@@ -68,6 +69,9 @@ function SidebarItem({
           break;
         case 'sideBarButtonColor':
           setSideBarButtonColor(color.colorCode);
+          break;
+        case 'sideBarButton2ndColor':
+          setSideBarButton2ndColor(color.colorCode);
           break;
         case 'sideBarButtonTextColor':
           setSideBarButtonTextColor(color.colorCode);
@@ -149,7 +153,10 @@ function SidebarItem({
     >
       <Link
         to={hasItems ? window.location.href : item.url}
-        style={{ backgroundColor: activeUrl ? sideBarButtonColor : null, color: activeUrl ? sideBarButtonTextColor : sideBarTextColor }}
+        style={{
+          background: activeUrl ? `linear-gradient(121.85deg, ${sideBarButtonColor} 0%, ${sideBarButton2ndColor} 100%)` : undefined,
+          color: activeUrl ? sideBarButtonTextColor : sideBarTextColor,
+        }}
         className={`flex cursor-pointer d-flex ps-[20px] relative z-[2] mb-[3px] py-[19px] pe-3 ${activeUrl
           ? `!bg-[${sideBarButtonColor}] !text-[${sideBarButtonTextColor}]  rounded-s-[30px]`
           : `text-[${sideBarTextColor}]`
@@ -573,6 +580,7 @@ function SideBar() {
   const [expandedItem, setExpandedItem] = useState(active);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sideBarColor, setSideBarColor] = useState('');
+  const [sideBar2ndColor, setSideBar2ndColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [isShow, setIsShow] = useState(false);
   const toggleSidebar = () => {
@@ -603,6 +611,9 @@ function SideBar() {
       switch (color.colorType) {
         case 'sideBarColor':
           setSideBarColor(color.colorCode);
+          break;
+        case 'sideBar2ndColor':
+          setSideBar2ndColor(color.colorCode);
           break;
         case 'sideBarTextColor':
           setSideBarTextColor(color.colorCode);

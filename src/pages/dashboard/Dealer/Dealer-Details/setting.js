@@ -90,6 +90,7 @@ function Setting(props) {
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButton2ndColor, setSideBarButton2ndColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
   const [buttonColor, setButtonColor] = useState('');
   const [buttonTextColor, setButtonTextColor] = useState('');
@@ -559,6 +560,9 @@ function Setting(props) {
               break;
             case 'sideBarButtonColor':
               setSideBarButtonColor(color.colorCode);
+              break;
+            case 'sideBarButton2ndColor':
+              setSideBarButton2ndColor(color.colorCode);
               break;
             case 'sideBarButtonTextColor':
               setSideBarButtonTextColor(color.colorCode);
@@ -1428,11 +1432,24 @@ function Setting(props) {
                           name={`sideBarButtonColor`}
                           tooltip="3"
                           className="!bg-white flex"
-                          content='you can change the sideBar active page button color here'
+                          content='you can change the sideBar active page button first background  color here'
                           className1="h-11"
                           label="SideBar Button "
                           placeholder=""
                           value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarButtonColor`}
+                          tooltip="3"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar active page button second background color here'
+                          className1="h-11"
+                          label="SideBar 2nd Button "
+                          placeholder=""
+                          value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                         />
                       </div>
                       <div className="col-span-3 relative">

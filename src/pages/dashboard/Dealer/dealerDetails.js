@@ -1093,7 +1093,7 @@ function DealerDetails() {
                       )
                     )}
                   </Carousel>
-                  <div className="absolute h-full bg-grayf9 right-[-15px] flex top-0 self-center  shadow-6xl">
+                  <div className="absolute h-full  right-[-15px] flex top-0 self-center">
                     {" "}
                   </div>
                 </div>

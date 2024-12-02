@@ -837,6 +837,7 @@ function Account() {
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
+  const [sideBarButton2ndColor, setSideBarButton2ndColor] = useState('');
   const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
   const [buttonColor, setButtonColor] = useState('');
   const [buttonTextColor, setButtonTextColor] = useState('');
@@ -880,6 +881,9 @@ function Account() {
               break;
             case 'sideBarButtonColor':
               setSideBarButtonColor(color.colorCode);
+              break;
+            case 'sideBarButton2ndColor':
+              setSideBarButton2ndColor(color.colorCode);
               break;
             case 'sideBarButtonTextColor':
               setSideBarButtonTextColor(color.colorCode);
@@ -944,6 +948,7 @@ function Account() {
       logoImage: selectedFile1,
       title: title,
       sideBarColor: sideBarColor,
+      sideBarButton2ndColor: sideBarButton2ndColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
       sideBarButtonTextColor: sideBarButtonTextColor,
@@ -972,6 +977,7 @@ function Account() {
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
+          { colorCode: values.sideBarButton2ndColor || sideBarButton2ndColor, colorType: "sideBarButton2ndColor" },
           { colorCode: values.sideBarButtonTextColor || sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
           { colorCode: values.buttonColor || buttonColor, colorType: "buttonColor" },
           { colorCode: values.buttonTextColor || buttonTextColor, colorType: "buttonTextColor" },
@@ -1947,12 +1953,25 @@ function Account() {
                           type="color"
                           name={`sideBarButtonColor`}
                           tooltip="3"
-                          className="!bg-white flex"
-                          content='you can change the sideBar active page button color here'
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar active page button gradent first color here'
                           className1="h-11"
-                          label="SideBar Button "
+                          label="SideBar 1st Button "
                           placeholder=""
                           value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
+                          name={`sideBarButton2ndColor`}
+                          tooltip="4"
+                          className="!bg-white flex !w-[111%]"
+                          content='you can change the sideBar active page button gradent second color here'
+                          className1="h-11"
+                          label="SideBar 2nd Color "
+                          placeholder=""
+                          value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                         />
                       </div>
                       <div className="col-span-2 relative">

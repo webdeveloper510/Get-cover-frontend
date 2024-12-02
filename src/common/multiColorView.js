@@ -27,7 +27,7 @@ const MultiColorView = ({ children, className }) => {
 
     // Define styles for the parent div
     const parentStyle = {
-        backgroundImage: `linear-gradient(to right, #000000, ${backGroundColor})`, // Corrected linear-gradient format
+        backgroundImage: `linear-gradient(to right, #643F9F, ${backGroundColor})`, // Corrected linear-gradient format
         color: buttonTextColor,
     };
 
