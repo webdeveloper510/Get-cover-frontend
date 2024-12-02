@@ -1908,7 +1908,7 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                         <span className="ml-3 mt-2"></span>
-                        {/* {formik.values?.dealerId != '' && <Link to={'/addCustomer'}>Add Customer</Link>} */}
+                        {formik.values?.dealerId != '' && formik.values?.customerId == '' && <Link to={`/addCustomer/${formik.values?.dealerId}/${formik.values?.resellerId}/order`}>Add Customer</Link>}
                       </div>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach

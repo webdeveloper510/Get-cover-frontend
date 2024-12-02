@@ -349,15 +349,15 @@ function AddClaim() {
     setLoading21(true);
     getClaimPrice(res._id);
     getContractValues(res._id).then((res) => {
-      console.log(res.result.order[0].customer[0].addresses, "------------loading21");
-      setcontractDetail(res.result);
-      setCustomerList(res.result.allUsers)
-      const addresses = res?.result?.order?.[0]?.customer?.[0]?.addresses.map(res => ({
+      console.log(res.result.order[0].customer[0].addresses, "------------");
+      const addresses = res.result.order[0].customer[0].addresses.map(res => ({
         label: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`,
         value: `${res.address}, ${res.city}, ${res.state}, ${res.zip}`
       }));
-      console.log('addresses',addresses)
-      setAddressList(addressList)
+      setAddressList(addresses)
+      setcontractDetail(res.result);
+      setCustomerList(res.result.allUsers)
+   
       if(role=='Customer'){
        const customerName = res.result.allUsers.find((res)=>{
           return res.label==data.userInfo.firstName +' ' + data.userInfo.lastName
@@ -753,11 +753,13 @@ function AddClaim() {
     },
     onSubmit: (values) => {
       const formatDateToMidnight = (date) => {
-        const newDate = new Date(date);
-        newDate.setUTCDate(newDate.getUTCDate()); 
-        newDate.setUTCHours(0, 0, 0, 0); 
-        return newDate.toISOString();
+        const localDate = new Date(date); 
+        const utcMidnight = new Date(
+          Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate())
+        );
+        return utcMidnight.toISOString();
       };
+      
       values.lossDate = formatDateToMidnight(values.lossDate);
     
       setLoading1(true);
@@ -773,9 +775,10 @@ function AddClaim() {
             setTimer(3);
             setMessage("New Claim Created Successfully");
           } else {
-            setCode(res.code);
-            setIsCreateOpen(true);
-            setMessage(res.message);
+        setTimer(null);
+          setCode(res.code);
+          setIsCreateOpen(true);
+          setMessage(res.message);
           }
         })
         .catch((error) => {
@@ -976,7 +979,7 @@ function AddClaim() {
                       <div className="col-span-4">
                         <SelectBoxWithSearch
                           label="Submit By"
-                          name="servicerId"
+                          name="submittedBy"
                           className="!bg-white"
                           onChange={handleChange}
                           options={customerList}
@@ -1001,10 +1004,12 @@ function AddClaim() {
                           </div>}
                         </>
                       }
-                      <div className="col-span-12">
+                      {
+                        addressList.length !=0 && 
+                        <div className="col-span-12">
                         <SelectBoxWithSearch
                           label="Shipped To"
-                          name="servicerId"
+                          name="shippingTo"
                           className="!bg-white"
                           onChange={handleChange}
                           options={addressList}
@@ -1012,6 +1017,8 @@ function AddClaim() {
                           onBlur={formikStep2.handleBlur}
                         />
                       </div>
+                      }
+                    
                     </Grid>
                     <div>
                       <div>
