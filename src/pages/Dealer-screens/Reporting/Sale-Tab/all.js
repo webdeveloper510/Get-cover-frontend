@@ -14,14 +14,22 @@ import { useMyContext } from "../../../../context/context";
 import { useLocation } from "react-router-dom";
 
 function DealerAll({ activeTab, activeButton }) {
+  const formatDateToYYYYDDMM = (date) => {
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
   const location = useLocation();
   const isResellerReporting = location.pathname.includes("/reseller/sale");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState("daily");
   const [selectedRange, setSelectedRange] = useState({
-    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
-    endDate: new Date(),
+    startDate: formatDateToYYYYDDMM(new Date(new Date().setDate(new Date().getDate() - 14))),
+    endDate: formatDateToYYYYDDMM(new Date()),
   });
   const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
@@ -40,8 +48,8 @@ function DealerAll({ activeTab, activeButton }) {
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
 
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+    const startDateStr = formatDateToYYYYDDMM(startDate)
+    const endDateStr =formatDateToYYYYDDMM(endDate)
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -69,8 +77,8 @@ function DealerAll({ activeTab, activeButton }) {
   useEffect(() => {
     setLoading(true);
     getDatasetAtEvent({
-      startDate: selectedRange.startDate.toISOString().split("T")[0],
-      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      startDate:  formatDateToYYYYDDMM(selectedRange.startDate),
+      endDate: formatDateToYYYYDDMM(selectedRange.endDate),
       dealerId: "",
       priceBookId: filtersCategoryTab1.priceBookId,
       categoryId: filtersCategoryTab1.categoryId,
@@ -83,8 +91,8 @@ function DealerAll({ activeTab, activeButton }) {
     if (flag1) {
       setLoading(true);
       getDatasetAtEvent({
-        startDate: selectedRange.startDate.toISOString().split("T")[0],
-        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        startDate: formatDateToYYYYDDMM(selectedRange.startDate),
+        endDate: formatDateToYYYYDDMM(selectedRange.endDate),
         dealerId: "",
         priceBookId: filtersCategoryTab1.priceBookId,
         categoryId: filtersCategoryTab1.categoryId,
@@ -95,7 +103,6 @@ function DealerAll({ activeTab, activeButton }) {
   }, [flag1]);
 
   const getDatasetAtEvent = async (data) => {
-    console.log('here',data)
     setLoading(true);
     try {
       const res = await getAllSalesForReporting(
@@ -150,12 +157,19 @@ function DealerAll({ activeTab, activeButton }) {
   };
 
   const handleRangeChange = (ranges) => {
-    const { startDate, endDate } = ranges.selection;
+    let { startDate, endDate } = ranges.selection;
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    const adjustDateToUTC = (date) => {
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
+  
+    const today = adjustDateToUTC(new Date());
 
     if (isValidDateRange(startDate, endDate)) {
       setSelectedRange({
-        startDate: startDate > new Date() ? new Date() : startDate,
-        endDate: endDate > new Date() ? new Date() : endDate,
+        startDate: formatDateToYYYYDDMM(startDate > today ? today : adjustDateToUTC(startDate)),
+        endDate: formatDateToYYYYDDMM(endDate > today ? today : adjustDateToUTC(endDate)),
       });
     } else {
       alert("Date range cannot exceed one year.");
@@ -180,7 +194,7 @@ function DealerAll({ activeTab, activeButton }) {
                 </div>
                 <div className="col-span-6 self-center flex ml-auto">
                   <p className="text-sm self-center mr-5">
-                    {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                    {`Selected Range: ${selectedRange.startDate} - ${selectedRange.endDate}`}
                   </p>
                   <Button className="!bg-white !text-black" onClick={openModal}>
                     <span className="py-1">Date Filter</span>

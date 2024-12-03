@@ -18,12 +18,20 @@ import InActiveButton from "../../../../common/inActiveButton";
 import MultiColorView from "../../../../common/multiColorView";
 
 function All({ activeTab, activeButton }) {
+  const formatDateToYYYYDDMM = (date) => {
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flag, setFlag] = useState("daily");
   const [selectedRange, setSelectedRange] = useState({
-    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
-    endDate: new Date(),
+    startDate: formatDateToYYYYDDMM(new Date(new Date().setDate(new Date().getDate() - 14))),
+    endDate: formatDateToYYYYDDMM(new Date()),
   });
   const [graphDataCount, setGraphDataCount] = useState([]);
   const [graphData, setGraphData] = useState([]);
@@ -52,9 +60,9 @@ function All({ activeTab, activeButton }) {
 
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
-
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+console.log(startDate,endDate)
+    const startDateStr = startDate;
+    const endDateStr = endDate;
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -84,11 +92,13 @@ function All({ activeTab, activeButton }) {
     setIsModalOpen(false);
   };
 
+
+
   useEffect(() => {
     setLoading(true);
     getDatasetAtEvent({
-      startDate: selectedRange.startDate.toISOString().split("T")[0],
-      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      startDate: formatDateToYYYYDDMM(selectedRange.startDate),
+      endDate: formatDateToYYYYDDMM(selectedRange.endDate),
       dealerId: activeButton == "dealer" ? filters.dealerId : "",
       priceBookId:
         activeButton == "dealer"
@@ -107,8 +117,8 @@ function All({ activeTab, activeButton }) {
     if (flag1) {
       setLoading(true);
       getDatasetAtEvent({
-        startDate: selectedRange.startDate.toISOString().split("T")[0],
-        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        startDate: formatDateToYYYYDDMM(selectedRange.startDate),
+        endDate: formatDateToYYYYDDMM(selectedRange.endDate),
         dealerId: activeButton == "dealer" ? filters.dealerId : "",
         priceBookId:
           activeButton == "dealer"
@@ -172,17 +182,30 @@ function All({ activeTab, activeButton }) {
   };
 
   const handleRangeChange = (ranges) => {
-    const { startDate, endDate } = ranges.selection;
-
+    let { startDate, endDate } = ranges.selection;
+  
+    // Convert startDate and endDate to Date objects (if needed)
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+  
+    // Ensure no time offset is affecting the date selection
+    const adjustDateToUTC = (date) => {
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
+  
+    const today = adjustDateToUTC(new Date());
+  
     if (isValidDateRange(startDate, endDate)) {
       setSelectedRange({
-        startDate: startDate > new Date() ? new Date() : startDate,
-        endDate: endDate > new Date() ? new Date() : endDate,
+        startDate: formatDateToYYYYDDMM(startDate > today ? today : adjustDateToUTC(startDate)),
+        endDate: formatDateToYYYYDDMM(endDate > today ? today : adjustDateToUTC(endDate)),
       });
     } else {
       alert("Date range cannot exceed one year.");
     }
   };
+  
+  
 
   return (
     <>
@@ -202,11 +225,11 @@ function All({ activeTab, activeButton }) {
                 </div>
                 <div className="col-span-6 self-center flex ml-auto">
                   <p className="text-sm self-center mr-5">
-                    {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                    {`Selected Range: ${selectedRange?.startDate} - ${selectedRange?.endDate}`}
                   </p>
                   <InActiveButton onClick={openModal}>
                     {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
-                    <span className="py-1">Date Filter</span>
+                    <span className="py-1">Date Filter123</span>
                   </InActiveButton>
                 </div>
 

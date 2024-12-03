@@ -18,6 +18,14 @@ function ClaimContent({
   setSelectedRange,
   activeButton,
 }) {
+  const formatDateToYYYYDDMM = (date) => {
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphDataCount, setGraphDataCount] = useState([]);
   const location = useLocation();
@@ -51,8 +59,8 @@ function ClaimContent({
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
 
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+    const startDateStr = formatDateToYYYYDDMM(startDate);
+    const endDateStr = formatDateToYYYYDDMM(endDate);
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -91,8 +99,8 @@ function ClaimContent({
 
   useEffect(() => {
     getDatasetAtEvent({
-      startDate: selectedRange.startDate.toISOString().split("T")[0],
-      endDate: selectedRange.endDate.toISOString().split("T")[0],
+      startDate:formatDateToYYYYDDMM(selectedRange.startDate),
+      endDate:formatDateToYYYYDDMM(selectedRange.endDate),
       priceBookId: [],
       categoryId: [],
       flag: flag,
@@ -102,8 +110,8 @@ function ClaimContent({
   useEffect(() => {
     if (flag1) {
       getDatasetAtEvent({
-        startDate: selectedRange.startDate.toISOString().split("T")[0],
-        endDate: selectedRange.endDate.toISOString().split("T")[0],
+        startDate:formatDateToYYYYDDMM(selectedRange.startDate),
+        endDate:formatDateToYYYYDDMM(selectedRange.endDate),
         primary: activeButton,
         flag: flag,
       });
@@ -172,12 +180,19 @@ function ClaimContent({
   };
 
   const handleRangeChange = (ranges) => {
-    const { startDate, endDate } = ranges.selection;
+    let { startDate, endDate } = ranges.selection;
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
+    const adjustDateToUTC = (date) => {
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    };
+  
+    const today = adjustDateToUTC(new Date());
 
     if (isValidDateRange(startDate, endDate)) {
       setSelectedRange({
-        startDate: startDate > new Date() ? new Date() : startDate,
-        endDate: endDate > new Date() ? new Date() : endDate,
+        startDate: formatDateToYYYYDDMM(startDate > today ? today : adjustDateToUTC(startDate)),
+        endDate: formatDateToYYYYDDMM(endDate > today ? today : adjustDateToUTC(endDate)),
       });
     } else {
       alert("Date range cannot exceed one year.");
@@ -199,7 +214,7 @@ function ClaimContent({
               </div>
               <div className="col-span-7 justify-end flex">
                 <p className="pr-4 self-center">
-                  {`Selected Range: ${selectedRange.startDate.toLocaleDateString()} - ${selectedRange.endDate.toLocaleDateString()}`}
+                  {`Selected Range: ${selectedRange.startDate} - ${selectedRange.endDate}`}
                 </p>
                 <Button
                   className="!bg-white border-[1px] !text-[#333] font-normal py-2 border-Light-Grey"
