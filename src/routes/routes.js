@@ -260,10 +260,6 @@ const routes = [
         path: "/addOrderforReseller/:resellerId?/:dealerValue?",
         element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
-  {
-        path: "/addOrder",
-        element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
-      },
       {
         path: "/addOrderforCustomer/:customerId?/:dealerValue?/:resellerId?",
         element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,

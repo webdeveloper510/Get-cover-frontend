@@ -367,6 +367,24 @@ function AddCustomer() {
             },
           });
         }
+      else if(pathname== `/addOrder/${dealerId}`){
+          navigate('/addOrder', {
+            state: {
+              dealerIdFromCustomer: dealerId || null,
+              resellerIdFromCustomer: resellerId || null,
+              customerIdFromCustomer:customerData._id || undefined
+            },
+          });
+        }
+        else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
+          navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
+            state: {
+              dealerIdFromCustomer: dealerId || null,
+              resellerIdFromCustomer: resellerId || null,
+              customerIdFromCustomer:customerData._id || undefined
+            },
+          });
+        }
       }
       else {
         navigate("/customerList");
@@ -442,6 +460,7 @@ function AddCustomer() {
   };
 
   const handleLinkClick = () => {
+    console.log(dealerId,pathname)
     if (dealerValueId !== undefined && typeofUser != "reseller") {
       navigate(`/dealerDetails/${dealerValueId}`);
     } else if (dealerValueId !== undefined && typeofUser == "reseller") {
@@ -465,10 +484,29 @@ function AddCustomer() {
           },
         });
       }
+     else if(pathname== `/addOrder/${dealerId}`){
+        navigate(`/addOrder/${dealerId}`, {
+          state: {
+            dealerIdFromCustomer: dealerId || null,
+            resellerIdFromCustomer: resellerId || null,
+            customerIdFromCustomer:customerData._id || undefined
+          },
+        });
+      }
+      else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
+        navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
+          state: {
+            dealerIdFromCustomer: dealerId || null,
+            resellerIdFromCustomer: resellerId || null,
+            customerIdFromCustomer:customerData._id || undefined
+          },
+        });
+      }
      else {
       navigate("/customerList");
     }
   };
+
   const getDealerListData = async () => {
     if (dealerValueId !== undefined) {
       getResellerList(dealerValueId);
