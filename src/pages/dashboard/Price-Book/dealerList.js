@@ -939,7 +939,7 @@ function DealerPriceList() {
             <p className="text-center text-3xl font-semibold ">
               Advance Search
             </p>
-            <Grid className="mt-5 px-6 max-h-[80vh] overflow-y-scroll">
+            <Grid className="mt-5 px-6 max-h-[80vh] pt-3 overflow-y-scroll">
               <div className="col-span-6">
                 <Input
                   type="text"

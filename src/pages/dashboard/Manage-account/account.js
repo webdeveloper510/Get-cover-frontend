@@ -54,6 +54,7 @@ import SwitchButton from "../../../common/switch";
 import { editOption, getOptions } from "../../../services/claimServices";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import USPhoneNumberInput from "../../../common/usPhoneInput";
 
 function Account() {
   const [repairValue, repair_status] = useState({});
@@ -108,12 +109,12 @@ function Account() {
   });
 
   const [radioStates, setRadioStates] = useState({
-    addingNotProcessing: null,
-    addingAndProcessing: null,
-    markingPaid: null,
-    updatingNotProcessing: null,
-    updatingAndProcessing: null,
-    archivingOrder: null,
+    addingNotProcessing: false,
+    addingAndProcessing: false,
+    markingPaid: false,
+    updatingNotProcessing: false,
+    updatingAndProcessing: false,
+    archivingOrder: false,
   });
 
   const handleRadioNotification = (event, groupName) => {
@@ -597,29 +598,30 @@ function Account() {
         // console.log(index, index % 10 == 9)
         return (
           <>
-            {!row.isPrimary && (
-              <div className="relative">
-                <div
-                  onClick={() =>
-                    setSelectedAction(
-                      selectedAction === row.email ? null : row.email
-                    )
-                  }
+
+            <div className="relative">
+              <div
+                onClick={() =>
+                  setSelectedAction(
+                    selectedAction === row.email ? null : row.email
+                  )
+                }
+              >
+                <img
+                  src={ActiveIcon}
+                  className="cursor-pointer w-[35px]"
+                  alt="Active Icon"
+                />
+              </div>
+              {selectedAction === row.email && (
+                <SingleView
+                  ref={dropdownRef}
+                  className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[130px]"
+                    } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                      index
+                    )}`}
                 >
-                  <img
-                    src={ActiveIcon}
-                    className="cursor-pointer w-[35px]"
-                    alt="Active Icon"
-                  />
-                </div>
-                {selectedAction === row.email && (
-                  <SingleView
-                    ref={dropdownRef}
-                    className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[80px]"
-                      } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                        index
-                      )}`}
-                  >
+                  {!row.isPrimary && (
                     <div
                       onClick={() => editUser(row._id)}
                       className="text-left cursor-pointer flex border-b py-1 px-2"
@@ -640,14 +642,36 @@ function Account() {
                       {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                       <span className="self-center">Edit </span>
                     </div>
+                  )}
+                  <div
+                    onClick={() => openNotification(row._id)}
+                    className={`text-left cursor-pointer flex ${!row.isPrimary && 'border-b'} py-1 px-2`}
+                  >
                     <div
-                      onClick={() => openNotification(row._id)}
-                      className="text-left cursor-pointer flex border-b py-1 px-2"
+                      style={{
+                        maskImage: `url(${NotificationImage})`,
+                        WebkitMaskImage: `url(${NotificationImage})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                    <span className="self-center">Notification </span>
+                  </div>
+                  {!row.isPrimary && (
+                    <div
+                      onClick={() => openModal1(row._id)}
+                      className="text-left cursor-pointer flex py-1 px-2"
                     >
                       <div
                         style={{
-                          maskImage: `url(${NotificationImage})`,
-                          WebkitMaskImage: `url(${NotificationImage})`,
+                          maskImage: `url(${delete1})`,
+                          WebkitMaskImage: `url(${delete1})`,
                           maskRepeat: "no-repeat",
                           WebkitMaskRepeat: "no-repeat",
                           maskPosition: "center",
@@ -657,35 +681,13 @@ function Account() {
                         }}
                         className="self-center singleViews mr-2 h-4 w-4 "
                       />
-                      {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
-                      <span className="self-center">Notification </span>
+                      {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
+                      <span className="self-center">Delete</span>
                     </div>
-                    {!row.isPrimary && (
-                      <div
-                        onClick={() => openModal1(row._id)}
-                        className="text-left cursor-pointer flex py-1 px-2"
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${delete1})`,
-                            WebkitMaskImage: `url(${delete1})`,
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="self-center singleViews mr-2 h-4 w-4 "
-                        />
-                        {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
-                        <span className="self-center">Delete</span>
-                      </div>
-                    )}
-                  </SingleView>
-                )}
-              </div>
-            )}
+                  )}
+                </SingleView>
+              )}
+            </div>
           </>
         );
       },
@@ -1292,6 +1294,30 @@ function Account() {
     },
   });
 
+
+  const handleAddOrUpdate12 = (actionType) => {
+    switch (actionType) {
+      case "newAdminUserCreated":
+        console.log("Handling: New Admin User Created");
+        // Add logic for new admin user creation
+        break;
+      case "pricebookCategoryAdded":
+        console.log("Handling: Pricebook Category Added");
+        // Add logic for pricebook category addition
+        break;
+      case "pricebookCategoryUpdated":
+        console.log("Handling: Pricebook Category Updated");
+        // Add logic for pricebook category update
+        break;
+      case "pricebookCategoryStatusChange":
+        console.log("Handling: Pricebook Category Status Change");
+        // Add logic for pricebook category status change
+        break;
+      // Add cases for other actions
+      default:
+        console.log("Unknown action:", actionType);
+    }
+  };
 
   return (
     <>
@@ -2188,6 +2214,7 @@ function Account() {
                     setActiveIndex={setActiveIndex}
                     index={index} // Pass the index to the child
                     imageClass="w-10 h-10"
+                    className='!my-2'
                     title={
                       <SingleView className="border-Gray28 border bg-Edit bg-cover rounded-t-[22px]">
                         <Grid className=" !gap-2 ">
@@ -2375,7 +2402,7 @@ function Account() {
                   )}
                 </div>
                 <div className="col-span-6">
-                  <Input
+                  <USPhoneNumberInput
                     type="tel"
                     name="phoneNumber"
                     label="Phone"
@@ -2392,7 +2419,7 @@ function Account() {
                       userValues.handleChange({
                         target: {
                           name: "phoneNumber",
-                          value: sanitizedValue,
+                          value: e.target.value,
                         },
                       });
                     }}
@@ -2458,7 +2485,7 @@ function Account() {
                     Cancel
                   </InActiveButton>
                 </div>
-                <div className="col-span-8">
+                <div className="col-span-8 self-center">
                   <Button type="submit" className="w-full">
                     Submit
                   </Button>
@@ -2733,1702 +2760,993 @@ function Account() {
             className="w-full h-full text-black rounded-full p-0"
           />
         </Button>
-        <div className="text-center py-3">
-          <p className="text-3xl font-bold">Notification Settings</p>
-          <div className="overflow-y-scroll min-h-[500px] max-h-[500px]">
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'11'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Order Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Adding New Order but not processing
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Adding new Order and processing also
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Marking Order Paid
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Updating Order but not processing
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Updating Order and processing also
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Archiving Order
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+        <div className=" py-3">
+          <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
+          <div className="overflow-y-scroll min-h-[400px] max-h-[400px]">
+            <Grid className="!grid-cols-2 ">
+              <div className="">
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'12'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Claims Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          File New Single Claim
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'11'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Order Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Adding New Order but not processing
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryUpdated")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Adding new Order and processing also
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          File Bulk Claim - Admin Portal
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Marking Order Paid
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Updating Order but not processing
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          File Bulk Claim - Dealer Portal
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Updating Order and processing also
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          File Bulk Claim - Reseller Portal
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Archiving Order
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          File Bulk Claim - Customer Portal
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Claim List - Servicer Update
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Claim list - Customer status Update
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Claim list - Claim Status update
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Claim list - Repair Status Update
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Repair Parts/ labor update
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Claim Comments
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'13'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Admin Actions Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Admin User Created
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'12'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Claims Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              File New Single Claim
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              File Bulk Claim - Admin Portal
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Pricebook Category Added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              File Bulk Claim - Dealer Portal
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              File Bulk Claim - Reseller Portal
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Pricebook Category Updated
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              File Bulk Claim - Customer Portal
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Claim List - Servicer Update
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Pricebook Category Status Change
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Claim list - Customer status Update
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Claim list - Claim Status update
+                            </p>
+                          </div>
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Company pricebook added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Claim list - Repair Status Update
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Repair Parts/ labor update
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Company pricebook updated
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Company pricebook status change
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Claim Comments
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          assign dealer of the servicer
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          unassign servicer for the dealer
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'14'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Servicer Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Servicer Added
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'13'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Admin Actions Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Admin User Created
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Pricebook Category Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New User Added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Pricebook Category Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Pricebook Category Status Change
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Status Changed
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Company pricebook added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Company pricebook updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Details Updated
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Company pricebook status change
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              assign dealer of the servicer
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Primary User Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              unassign servicer for the dealer
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Status Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Deleted
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'15'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Dealer Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Dealer Added
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'14'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Servicer Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Servicer Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New User Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New User Added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Details Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Status Changed
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Primary User Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Details Updated
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Deleted
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Primary User Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Status Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Deleted
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Dealer Price Book Uploaded (bulk)
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Single Dealer Book Added
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Single Dealer Book Updated
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Single Dealer Book Status Change
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
+                </CollapsibleDiv>
               </div>
-            </CollapsibleDiv>
+              <div>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'15'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Dealer Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Dealer Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New User Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Details Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Primary User Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Deleted
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Dealer Price Book Uploaded (bulk)
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Single Dealer Book Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Single Dealer Book Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Single Dealer Book Status Change
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                    </Grid>
+                  </div>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'16'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Reseller Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Dealer Added
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'16'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Reseller Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Dealer Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New User Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New User Added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Details Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Status Changed
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Primary User Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Details Updated
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Deleted
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Primary User Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Status Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Deleted
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'17'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Customer Notifications</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Dealer Added
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'17'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Customer Notifications</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Dealer Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New User Added
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New User Added
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Details Updated
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Status Changed
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Primary User Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Status Changed
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Details Updated
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              User Deleted
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Primary User Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Status Changed
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          User Deleted
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-archiving-order"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.archivingOrder === true}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                        <RadioButton
-                          id="no-archiving-order"
-                          label="No"
-                          value={false}
-                          checked={radioStates.archivingOrder === false}
-                          onChange={(e) => handleRadioNotification(e, "archivingOrder")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
-              </div>
-            </CollapsibleDiv>
+                </CollapsibleDiv>
 
-            <CollapsibleDiv
-              ShowData={showdata}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-              imageClass="w-10 h-10"
-              index={'18'}
-              title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
-                  <p className="text-lg font-bold">Register Requests</p>
-                </SingleView>
-              }
-            >
-              <div className="p-4 border">
-                <Grid>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Dealer Registration Requests
-                        </p>
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'18'}
+                  title={
+                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Register Requests</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Dealer Registration Requests
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-not-processing"
-                          label="No"
-                          value="no"
-                          checked={radioStates.addingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingNotProcessing")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Servicer Registration Requests
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          New Servicer Registration Requests
-                        </p>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Dealer Disapproved
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-adding-and-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.addingAndProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                        <RadioButton
-                          id="no-adding-and-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.addingAndProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "addingAndProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Dealer Disapproved
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-marking-paid"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.markingPaid === true}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
-                        <RadioButton
-                          id="no-marking-paid"
-                          label="No"
-                          value={false}
-                          checked={radioStates.markingPaid === false}
-                          onChange={(e) => handleRadioNotification(e, "markingPaid")}
-                        />
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Servicer Disapproved
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
                       </div>
                     </Grid>
                   </div>
-                  <div className="col-span-6">
-                    <Grid className="!gap-0">
-                      <div className="col-span-8">
-                        <p className="flex text-[12px] font-semibold justify-between ">
-                          Servicer Disapproved
-                        </p>
-                      </div>
-                      <div className="col-span-4 flex">
-                        <RadioButton
-                          id="yes-updating-not-processing"
-                          label="Yes"
-                          value={true}
-                          checked={radioStates.updatingNotProcessing === true}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                        <RadioButton
-                          id="no-updating-not-processing"
-                          label="No"
-                          value={false}
-                          checked={radioStates.updatingNotProcessing === false}
-                          onChange={(e) => handleRadioNotification(e, "updatingNotProcessing")}
-                        />
-                      </div>
-                    </Grid>
-                  </div>
-                </Grid>
+                </CollapsibleDiv>
               </div>
-            </CollapsibleDiv>
+
+            </Grid>
           </div>
         </div>
       </Modal>

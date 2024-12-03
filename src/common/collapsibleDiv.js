@@ -10,6 +10,7 @@ const CollapsibleDiv = ({
   setActiveIndex,
   ShowData,
   imageClass,
+  className,
 }) => {
   const contentRef = useRef(null);
   const [isCollapsed, setIsCollapsed] = useState(true);
@@ -39,7 +40,7 @@ const CollapsibleDiv = ({
   }, [isCollapsed]);
 
   return (
-    <div className="my-8">
+    <div className={`my-8 ${className}`}>
       <div
         className={`w-full justify-between items-center relative ${isCollapsed ? "border-b border-black" : ""
           }`}

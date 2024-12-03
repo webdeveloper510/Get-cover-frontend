@@ -196,9 +196,9 @@ function CustomerList() {
                   index
                 )}`}
               >
-                {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
                   onClick={() => {
+                    localStorage.removeItem("customer");
                     navigate(`/customerDetails/${row.customerData._id}`);
                   }}
                   className="text-left cursor-pointer flex py-1 px-2"
@@ -216,7 +216,6 @@ function CustomerList() {
                     }}
                     className="self-center singleViews mr-2 h-4 w-4 "
                   />
-                  {/* <img src={view} className="w-4 h-4 mr-2" />  */}
                   View
                 </div>
               </SingleView>
