@@ -358,7 +358,7 @@ function OrderList() {
                 {row.status == "Pending" ? (
                   <>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => navigate(`/editOrder/${row._id}`)}
                     >
                       <div
@@ -376,7 +376,7 @@ function OrderList() {
                       /> Edit
                     </div>
                     <div
-                      className="text-left py-1 px-2 flex border-b hover:font-semibold cursor-pointer"
+                      className="text-left py-1 px-2 flex border-b cursor-pointer"
                       onClick={() => openModal(row._id)}
                     >
                       <div

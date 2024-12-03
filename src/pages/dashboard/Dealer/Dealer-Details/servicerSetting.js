@@ -191,6 +191,7 @@ function ServicerSetting(props) {
         initialValues: {
             favIcon: selectedFile3,
             logoImage: selectedFile1,
+            sideBarButton2ndColor: sideBarButton2ndColor,
             sideBarColor: sideBarColor,
             sideBarTextColor: sideBarTextColor,
             sideBarButtonColor: sideBarButtonColor,
@@ -218,6 +219,7 @@ function ServicerSetting(props) {
                 const colorScheme = [
                     { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
                     { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
+                    { colorCode: values.sideBarButton2ndColor || sideBarButton2ndColor, colorType: "sideBarButton2ndColor" },
                     { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
                     { colorCode: values.sideBarButtonTextColor || sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
                     { colorCode: values.buttonColor || buttonColor, colorType: "buttonColor" },

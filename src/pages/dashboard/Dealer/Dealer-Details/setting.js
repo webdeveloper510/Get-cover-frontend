@@ -477,6 +477,7 @@ function Setting(props) {
       sideBarColor: sideBarColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
+      sideBarButton2ndColor: sideBarButton2ndColor,
       sideBarButtonTextColor: sideBarButtonTextColor,
       buttonColor: buttonColor,
       buttonTextColor: buttonTextColor,
@@ -502,6 +503,7 @@ function Setting(props) {
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
+          { colorCode: values.sideBarButton2ndColor || sideBarButton2ndColor, colorType: "sideBarButton2ndColor" },
           { colorCode: values.sideBarButtonTextColor || sideBarButtonTextColor, colorType: "sideBarButtonTextColor" },
           { colorCode: values.buttonColor || buttonColor, colorType: "buttonColor" },
           { colorCode: values.buttonTextColor || buttonTextColor, colorType: "buttonTextColor" },
@@ -1443,7 +1445,7 @@ function Setting(props) {
                         <Input
                           type="color"
                           name={`sideBarButtonColor`}
-                          tooltip="3"
+                          tooltip="13"
                           className="!bg-white flex !w-[111%]"
                           content='you can change the sideBar active page button second background color here'
                           className1="h-11"

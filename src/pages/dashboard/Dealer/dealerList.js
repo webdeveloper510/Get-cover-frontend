@@ -252,6 +252,7 @@ function DealerList() {
                 <Link
                   to={`/dealerDetails/${row?.dealerData._id}`}
                   className="text-left cursor-pointer flex py-2 px-2"
+                  onClick={() => localStorage.removeItem("menu")}
                 >
                   <div
                     style={{
