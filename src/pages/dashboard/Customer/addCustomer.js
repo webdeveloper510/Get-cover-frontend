@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
+import { useHistory } from "react-router-dom";
 import Input from "../../../common/input";
 
 // Media Include
@@ -18,7 +19,6 @@ import disapprove from "../../../assets/images/Disapproved.png";
 import * as Yup from "yup";
 import {
   checkDealersEmailValidation,
-  getDealersDetailsByid,
   getDealersList,
 } from "../../../services/dealerServices";
 import { addNewCustomer } from "../../../services/customerServices";
@@ -31,6 +31,7 @@ import { RotateLoader } from "react-spinners";
 import SelectBoxWithSearch from "../../../common/selectBoxWIthSerach";
 import { getUserListByDealerId } from "../../../services/userServices";
 import Card from "../../../common/card";
+import { createBrowserHistory } from "history";
 
 function AddCustomer() {
   const [timer, setTimer] = useState(3);
@@ -42,12 +43,14 @@ function AddCustomer() {
   const [userAccount, setUserAccount] = useState(true);
   const [dealerList, setDealerList] = useState([]);
   const [resellerList, setResellerList] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId,resellerValueId, typeofUser } = useParams();
-  console.log(dealerValueId,resellerValueId, typeofUser);
-
+  const location = useLocation();
+  const { dealerId, resellerId,pathname ,orderId} = location.state || {};
+  console.log(dealerId, resellerId,pathname);
   useEffect(() => {
-    if (dealerValueId || typeofUser) {
+    if (dealerValueId || dealerId|| typeofUser) {
       setLoading(true);
 
       const timer = setTimeout(() => {
@@ -56,7 +59,7 @@ function AddCustomer() {
 
       return () => clearTimeout(timer);
     }
-  }, [dealerValueId, typeofUser]);
+  }, [dealerValueId, typeofUser,dealerId]);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -190,6 +193,7 @@ function AddCustomer() {
       const result = await addNewCustomer(newValues);
       console.log(result.message);
       if (result.code == 200) {
+        setCustomerData(result.result)
         setMessage("Customer Created Successfully");
         setLoading(false);
         setIsModalOpen(true);
@@ -247,6 +251,8 @@ function AddCustomer() {
     console.log(data.result);
     if(resellerValueId !== undefined){
       formik.setFieldValue("resellerName", resellerValueId);
+    }else if(resellerId !== undefined){
+      formik.setFieldValue("resellerName", resellerId);
     }
   };
   const handleRadioChange = (event) => {
@@ -340,7 +346,29 @@ function AddCustomer() {
         navigate(`/dealerDetails/${dealerValueId}`);
       } else if (typeofUser == "reseller") {
         navigate(`/resellerDetails/${dealerValueId}`);
-      } else {
+      } 
+      else if (dealerId !=undefined || resellerId != undefined){
+        if(pathname== '/addOrder'){
+          navigate('/addOrder', {
+            state: {
+              dealerIdFromCustomer: dealerId || null,
+              resellerIdFromCustomer: resellerId || null,
+              customerIdFromCustomer:customerData._id || undefined
+            },
+          });
+        }
+        else if(pathname== `/editOrder/${orderId}`)
+        {
+          navigate(`/editOrder/${orderId}`, {
+            state: {
+              dealerIdFromCustomer: dealerId || null,
+              resellerIdFromCustomer: resellerId || null,
+              customerIdFromCustomer:customerData._id || undefined
+            },
+          });
+        }
+      }
+      else {
         navigate("/customerList");
       }
     }
@@ -418,7 +446,26 @@ function AddCustomer() {
       navigate(`/dealerDetails/${dealerValueId}`);
     } else if (dealerValueId !== undefined && typeofUser == "reseller") {
       navigate(`/resellerDetails/${dealerValueId}`);
-    } else {
+    }
+    else if(pathname== '/addOrder'){
+      navigate('/addOrder', {
+        state: {
+          dealerIdFromCustomer: dealerId || null,
+          resellerIdFromCustomer: resellerId || null,
+        },
+      });
+    }
+    else if(pathname== `/editOrder/${orderId}`)
+      {
+        navigate(`/editOrder/${orderId}`, {
+          state: {
+            dealerIdFromCustomer: dealerId || null,
+            resellerIdFromCustomer: resellerId || null,
+            customerIdFromCustomer:customerData._id || undefined
+          },
+        });
+      }
+     else {
       navigate("/customerList");
     }
   };
@@ -428,8 +475,12 @@ function AddCustomer() {
       formik.setFieldValue("dealerName", dealerValueId);
     
     }
+    else if(dealerId!== undefined)
+    {
+      getResellerList(dealerId);
+      formik.setFieldValue("dealerName", dealerId);
+    }
     const result = await getDealersList();
-    console.log(result.data);
     let arr = [];
     const filteredDealers = result.data.filter(
       (data) => data.dealerData.accountStatus === true
