@@ -2762,7 +2762,7 @@ function Account() {
         </Button>
         <div className=" py-3">
           <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
-          <div className="overflow-y-scroll min-h-[400px] max-h-[400px]">
+          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
             <Grid className="!grid-cols-2 ">
               <div className="">
 
