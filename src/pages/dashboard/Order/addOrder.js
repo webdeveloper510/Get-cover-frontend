@@ -99,6 +99,8 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
+  const { dealerIdFromCustomer, resellerIdFromCustomer,customerIdFromCustomer } = location.state || {};
+  console.log(dealerIdFromCustomer, resellerIdFromCustomer);
 
   const period = [
     { label: "Monthly", value: "Monthly" },
@@ -207,6 +209,9 @@ function AddOrder() {
         });
       });
       setDealerList(arr);
+      if(dealerIdFromCustomer){
+        formik.setFieldValue("dealerId",dealerIdFromCustomer)
+      }
       setLoading1(false);
     } catch (error) {
       console.error("Error while getting dealer list data:", error);
@@ -215,9 +220,27 @@ function AddOrder() {
   };
 
   const handleGOBack = () => {
-    navigate(-1);
+    console.log("dealerId:", dealerId); 
+    console.log("dealerIdFromCustomer:", dealerIdFromCustomer);
+  
+    if (dealerIdFromCustomer && !dealerId && !dealerValue) {
+      navigate('/orderList', { replace: true });
+    } else if (dealerId) {
+      navigate(`/dealerDetails/${dealerId}`, { replace: true });
+    }else if (dealerValue && resellerId) {
+      navigate(`/resellerDetails/${resellerId}`, { replace: true });
+    } 
+    else {
+      navigate('/orderList', { replace: true }); 
+    }
   };
-
+  
+  useEffect(() => {
+    if (dealerId) {
+      console.log(`Navigating to /dealerDetails/${dealerId}`);
+      // navigate(`/dealerDetails/${dealerId}`);
+    }
+  }, [dealerId]);
   const getServicerList = async (data) => {
     setLoading1(true);
     try {
@@ -298,7 +321,11 @@ function AddOrder() {
         emailKey: res?.email,
       });
     });
+    
     setCustomerList(arr);
+    if(customerIdFromCustomer){
+      formik.setFieldValue('customerId',customerIdFromCustomer)
+    }
   };
 
   const getResellerList = async (dealerId) => {
@@ -311,6 +338,9 @@ function AddOrder() {
       });
     });
     setResllerList(arr);
+    if(resellerIdFromCustomer){
+      formik.setFieldValue('resellerId',resellerIdFromCustomer)
+    }
   };
 
   const getResellerListByDealerCustomerId = async (
@@ -335,7 +365,6 @@ function AddOrder() {
       }
       else {
         formik.setFieldValue("resellerId", '');
-
       }
     });
     setResllerList(arr);
@@ -388,6 +417,18 @@ function AddOrder() {
       getServicerList({
         dealerId: dealerValue,
         resellerId: resellerId,
+      });
+    }
+    if(dealerIdFromCustomer !=undefined || resellerIdFromCustomer != undefined ){
+      getServiceCoverage(dealerIdFromCustomer);
+      getResellerList(dealerIdFromCustomer);
+      getCustomerList({
+        dealerId: dealerIdFromCustomer,
+        resellerId: resellerIdFromCustomer,
+      });
+      getServicerList({
+        dealerId: dealerIdFromCustomer,
+        resellerId: resellerIdFromCustomer,
       });
     }
     getDealerListData();
@@ -1908,7 +1949,21 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                         <span className="ml-3 mt-2"></span>
-                        {formik.values?.dealerId != '' && formik.values?.customerId == '' && <Link to={`/addCustomer/${formik.values?.dealerId}/${formik.values?.resellerId}/order`}>Add Customer</Link>}
+                        {formik.values?.dealerId !== '' && formik.values?.customerId === '' && (
+  <Link
+    to={{
+      pathname: "/addCustomer",
+    }}
+    state={{
+      dealerId: formik.values?.dealerId,
+      resellerId: formik.values?.resellerId,
+      pathname:location.pathname
+    }}
+  >
+    Add Customer
+  </Link>
+)}
+
                       </div>
                       <div className="col-span-4">
                         <SelectBoxWIthSerach
@@ -3954,7 +4009,10 @@ function AddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-          onClick={handleGOBack}
+            onClick={(e) => {
+              e.preventDefault(); 
+              handleGOBack();
+            }}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img
