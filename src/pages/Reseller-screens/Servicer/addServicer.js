@@ -565,6 +565,7 @@ function ResellerAddServicer() {
                     required={true}
                     value={formik.values.phoneNumber}
                     className="!bg-white"
+                    nonumber={true}
                     placeholder=""
                     onChange={(e) => {
                       const sanitizedValue = e.target.value.replace(

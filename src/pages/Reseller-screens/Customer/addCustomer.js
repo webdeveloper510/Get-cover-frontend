@@ -591,6 +591,7 @@ function ResellerAddCustomer() {
                         label="Phone"
                         required={true}
                         className="!bg-white"
+                        nonumber={true}
                         placeholder=""
                         value={formik.values.phoneNumber}
                         onChange={(e) => {

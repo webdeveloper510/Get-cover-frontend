@@ -2402,11 +2402,12 @@ function Account() {
                   )}
                 </div>
                 <div className="col-span-6">
-                  <USPhoneNumberInput
+                  <Input
                     type="tel"
                     name="phoneNumber"
                     label="Phone"
                     required={true}
+                    nonumber={true}
                     className="!bg-white"
                     placeholder=""
                     value={userValues.values.phoneNumber}
@@ -2570,6 +2571,7 @@ function Account() {
                     name="phoneNumber"
                     label="Phone Number"
                     required={true}
+                    nonumber={true}
                     className="!bg-white"
                     placeholder=""
                     value={formik.values.phoneNumber}
@@ -2780,7 +2782,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -2887,7 +2889,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3059,7 +3061,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3195,7 +3197,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3306,7 +3308,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3468,7 +3470,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3578,7 +3580,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -3688,7 +3690,7 @@ function Account() {
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-12">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">

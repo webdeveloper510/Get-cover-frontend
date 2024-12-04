@@ -586,6 +586,7 @@ function AddServicer() {
                         name="phoneNumber"
                         label="Phone"
                         required={true}
+                        nonumber={true}
                         value={formik.values.phoneNumber}
                         className="!bg-white"
                         placeholder=""

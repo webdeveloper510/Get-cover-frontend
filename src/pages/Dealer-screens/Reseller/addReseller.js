@@ -596,6 +596,7 @@ function DealerAddReseller() {
                       name="phoneNumber"
                       label="Phone"
                       required={true}
+                      nonumber={true}
                       className="!bg-white"
                       placeholder=""
                       value={formik.values.phoneNumber}

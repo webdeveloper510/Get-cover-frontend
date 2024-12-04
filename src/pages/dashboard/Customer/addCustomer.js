@@ -45,12 +45,12 @@ function AddCustomer() {
   const [resellerList, setResellerList] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const navigate = useNavigate();
-  const { dealerValueId,resellerValueId, typeofUser } = useParams();
+  const { dealerValueId, resellerValueId, typeofUser } = useParams();
   const location = useLocation();
-  const { dealerId, resellerId,pathname ,orderId} = location.state || {};
-  console.log(dealerId, resellerId,pathname);
+  const { dealerId, resellerId, pathname, orderId } = location.state || {};
+  console.log(dealerId, resellerId, pathname);
   useEffect(() => {
-    if (dealerValueId || dealerId|| typeofUser) {
+    if (dealerValueId || dealerId || typeofUser) {
       setLoading(true);
 
       const timer = setTimeout(() => {
@@ -59,7 +59,7 @@ function AddCustomer() {
 
       return () => clearTimeout(timer);
     }
-  }, [dealerValueId, typeofUser,dealerId]);
+  }, [dealerValueId, typeofUser, dealerId]);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     dealerName: "",
@@ -249,9 +249,9 @@ function AddCustomer() {
     });
     setResellerList(arr);
     console.log(data.result);
-    if(resellerValueId !== undefined){
+    if (resellerValueId !== undefined) {
       formik.setFieldValue("resellerName", resellerValueId);
-    }else if(resellerId !== undefined){
+    } else if (resellerId !== undefined) {
       formik.setFieldValue("resellerName", resellerId);
     }
   };
@@ -285,7 +285,7 @@ function AddCustomer() {
       getDealerDetails(dealerValueId);
     }
     getDealerDetailsByValue(dealerValueId);
-  
+
   }, [dealerValueId]);
 
   const getDealerDetailsByValue = async (id) => {
@@ -346,42 +346,41 @@ function AddCustomer() {
         navigate(`/dealerDetails/${dealerValueId}`);
       } else if (typeofUser == "reseller") {
         navigate(`/resellerDetails/${dealerValueId}`);
-      } 
-      else if (dealerId !=undefined || resellerId != undefined){
-        if(pathname== '/addOrder'){
+      }
+      else if (dealerId != undefined || resellerId != undefined) {
+        if (pathname == '/addOrder') {
           navigate('/addOrder', {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer:customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined
             },
           });
         }
-        else if(pathname== `/editOrder/${orderId}`)
-        {
+        else if (pathname == `/editOrder/${orderId}`) {
           navigate(`/editOrder/${orderId}`, {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer:customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined
             },
           });
         }
-      else if(pathname== `/addOrder/${dealerId}`){
+        else if (pathname == `/addOrder/${dealerId}`) {
           navigate('/addOrder', {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer:customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined
             },
           });
         }
-        else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
+        else if (pathname == `/addOrderforReseller/${resellerId}/${dealerId}`) {
           navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer:customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined
             },
           });
         }
@@ -460,13 +459,13 @@ function AddCustomer() {
   };
 
   const handleLinkClick = () => {
-    console.log(dealerId,pathname)
+    console.log(dealerId, pathname)
     if (dealerValueId !== undefined && typeofUser != "reseller") {
       navigate(`/dealerDetails/${dealerValueId}`);
     } else if (dealerValueId !== undefined && typeofUser == "reseller") {
       navigate(`/resellerDetails/${dealerValueId}`);
     }
-    else if(pathname== '/addOrder'){
+    else if (pathname == '/addOrder') {
       navigate('/addOrder', {
         state: {
           dealerIdFromCustomer: dealerId || null,
@@ -474,35 +473,34 @@ function AddCustomer() {
         },
       });
     }
-    else if(pathname== `/editOrder/${orderId}`)
-      {
-        navigate(`/editOrder/${orderId}`, {
-          state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
-            customerIdFromCustomer:customerData._id || undefined
-          },
-        });
-      }
-     else if(pathname== `/addOrder/${dealerId}`){
-        navigate(`/addOrder/${dealerId}`, {
-          state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
-            customerIdFromCustomer:customerData._id || undefined
-          },
-        });
-      }
-      else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
-        navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
-          state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
-            customerIdFromCustomer:customerData._id || undefined
-          },
-        });
-      }
-     else {
+    else if (pathname == `/editOrder/${orderId}`) {
+      navigate(`/editOrder/${orderId}`, {
+        state: {
+          dealerIdFromCustomer: dealerId || null,
+          resellerIdFromCustomer: resellerId || null,
+          customerIdFromCustomer: customerData._id || undefined
+        },
+      });
+    }
+    else if (pathname == `/addOrder/${dealerId}`) {
+      navigate(`/addOrder/${dealerId}`, {
+        state: {
+          dealerIdFromCustomer: dealerId || null,
+          resellerIdFromCustomer: resellerId || null,
+          customerIdFromCustomer: customerData._id || undefined
+        },
+      });
+    }
+    else if (pathname == `/addOrderforReseller/${resellerId}/${dealerId}`) {
+      navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
+        state: {
+          dealerIdFromCustomer: dealerId || null,
+          resellerIdFromCustomer: resellerId || null,
+          customerIdFromCustomer: customerData._id || undefined
+        },
+      });
+    }
+    else {
       navigate("/customerList");
     }
   };
@@ -511,10 +509,9 @@ function AddCustomer() {
     if (dealerValueId !== undefined) {
       getResellerList(dealerValueId);
       formik.setFieldValue("dealerName", dealerValueId);
-    
+
     }
-    else if(dealerId!== undefined)
-    {
+    else if (dealerId !== undefined) {
       getResellerList(dealerId);
       formik.setFieldValue("dealerName", dealerId);
     }
@@ -821,6 +818,7 @@ function AddCustomer() {
                         name="phoneNumber"
                         label="Phone"
                         required={true}
+                        nonumber={true}
                         className="!bg-white"
                         placeholder=""
                         value={formik.values.phoneNumber}

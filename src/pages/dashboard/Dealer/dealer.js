@@ -1558,6 +1558,7 @@ function Dealer() {
                   name="firstName"
                   label="First Name"
                   required={true}
+
                   placeholder=""
                   className="!bg-white"
                   maxLength={"30"}
@@ -1630,6 +1631,7 @@ function Dealer() {
                   name="phoneNumber"
                   label="Phone"
                   required={true}
+                  nonumber={true}
                   className="!bg-white"
                   placeholder=""
                   value={formik.values.phoneNumber}
