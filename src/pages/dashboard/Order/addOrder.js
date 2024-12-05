@@ -1961,6 +1961,7 @@ function AddOrder() {
       dealerId: formik.values?.dealerId,
       resellerId: formik.values?.resellerId,
       servicerId:formik.values?.servicerId,
+      orderId:orderId,
       pathname:location.pathname
     }}
   >

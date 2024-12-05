@@ -1702,6 +1702,7 @@ function DealerAddOrder() {
     state={{
       resellerValue: formik.values?.resellerId,
       servicerId:formik.values?.servicerId,
+      orderId:orderId,
       pathname:location.pathname
     }}
   >
@@ -3574,7 +3575,7 @@ function DealerAddOrder() {
   };
 
   const handleGOBack = () => {
-   if ( resellerId) {
+   if (resellerId) {
       navigate(`/dealer/resellerDetails/${resellerId}`, { replace: true });
     } 
     else {
