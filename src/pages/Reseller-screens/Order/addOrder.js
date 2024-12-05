@@ -80,7 +80,7 @@ function ResellerAddOrder() {
   const navigate = useNavigate();
   const { orderId, resellerId, customerId } = useParams();
   const location = useLocation();
-  const {customerIdFromCustomer,servicerIdFromCustomer } = location.state || {};
+  const { customerIdFromCustomer, servicerIdFromCustomer } = location.state || {};
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -147,8 +147,8 @@ function ResellerAddOrder() {
         value: res._id,
       }));
       setServicerData(arr);
-      if(servicerIdFromCustomer){
-        formik.setFieldValue('servicerId',servicerIdFromCustomer)
+      if (servicerIdFromCustomer) {
+        formik.setFieldValue('servicerId', servicerIdFromCustomer)
       }
     } catch (error) {
       console.error("An error occurred while fetching servicer list:", error);
@@ -194,8 +194,8 @@ function ResellerAddOrder() {
         });
       });
       setCustomerList(arr);
-      if(customerIdFromCustomer){
-        formik.setFieldValue('customerId',customerIdFromCustomer)
+      if (customerIdFromCustomer) {
+        formik.setFieldValue('customerId', customerIdFromCustomer)
       }
       console.log(arr, "----customer");
     } catch (error) {
@@ -1492,20 +1492,21 @@ function ResellerAddOrder() {
                         }
                         onBlur={formik.handleBlur}
                       />
+                      <Link
+                        to={{
+                          pathname: "/reseller/addCustomer",
+                        }}
+                        state={{
+                          servicerId: formik.values?.servicerId,
+                          orderId: orderId,
+                          pathname: location.pathname
+                        }}
+                      >
+                        Add Customer
+                      </Link>
                     </div>
-                    
-  <Link
-    to={{
-      pathname: "/reseller/addCustomer",
-    }}
-    state={{
-      servicerId:formik.values?.servicerId,
-      orderId:orderId,
-      pathname:location.pathname
-    }}
-  >
-    Add Customer
-  </Link>
+
+
 
                     <div className="col-span-6">
                       {/* <Select */}
@@ -3448,7 +3449,7 @@ function ResellerAddOrder() {
   };
 
   const handleGOBack = () => {
-      navigate('/reseller/orderList', { replace: true }); 
+    navigate('/reseller/orderList', { replace: true });
   };
 
   return (
@@ -3457,7 +3458,7 @@ function ResellerAddOrder() {
       <div className="flex mt-2">
         <Link
           onClick={(e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             handleGOBack();
           }}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
