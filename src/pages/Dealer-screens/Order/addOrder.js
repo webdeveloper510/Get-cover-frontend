@@ -84,6 +84,7 @@ function DealerAddOrder() {
   const navigate = useNavigate();
   const { orderId, resellerId, customerId, typeValue } = useParams();
   const location = useLocation();
+  const {resellerIdFromCustomer,customerIdFromCustomer,servicerIdFromCustomer } = location.state || {};
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
 
@@ -186,6 +187,9 @@ function DealerAddOrder() {
         value: res._id,
       }));
       setServicerData(arr);
+      if(servicerIdFromCustomer){
+        formik.setFieldValue('servicerId',servicerIdFromCustomer)
+      }
     } catch (error) {
       console.error("Error fetching servicer list:", error);
       setLoading1(false);
@@ -233,6 +237,9 @@ function DealerAddOrder() {
         });
       });
       setCustomerList(arr);
+      if(customerIdFromCustomer){
+        formik.setFieldValue('customerId',customerIdFromCustomer)
+      }
       // console.log(arr, "----customer");
     } catch (error) {
       console.error("Error occurred while fetching customer list:", error);
@@ -266,9 +273,7 @@ function DealerAddOrder() {
     try {
       const result = await getResellerListforDealerPortal({});
       result?.result?.map((res) => {
-        // console.log("ssssssssssssssssssssss", res.resellerData.status);
         if (res.resellerData.status) {
-          // Check if status is true
           arr.push({
             label: res.resellerData.name,
             value: res.resellerData._id,
@@ -276,6 +281,9 @@ function DealerAddOrder() {
         }
       });
       setResllerList(arr);
+      if(resellerIdFromCustomer){
+        formik.setFieldValue('resellerId',resellerIdFromCustomer)
+      }
     } catch (error) {
       console.error("Error occurred while fetching reseller list:", error);
       setLoading1(false);
@@ -300,6 +308,16 @@ function DealerAddOrder() {
       });
       getServicerList({
         resellerId: resellerId,
+      });
+    }
+    else if (resellerIdFromCustomer != undefined) {
+      formik.setFieldValue("resellerId", resellerIdFromCustomer);
+      getResellerList();
+      getCustomerList({
+        resellerId: resellerIdFromCustomer,
+      });
+      getServicerList({
+        resellerId: resellerIdFromCustomer,
       });
     }
     if (customerId) {
@@ -1675,7 +1693,24 @@ function DealerAddOrder() {
                         }
                         onBlur={formik.handleBlur}
                       />
+                      
+                      {formik.values?.customerId === '' && (
+  <Link
+    to={{
+      pathname: "/dealer/addCustomer",
+    }}
+    state={{
+      resellerValue: formik.values?.resellerId,
+      servicerId:formik.values?.servicerId,
+      pathname:location.pathname
+    }}
+  >
+    Add Customer
+  </Link>
+)}
+
                     </div>
+                    
                     <div className="col-span-4">
                       <SelectBoxWIthSerach
                         label="Bill Address"
@@ -3539,7 +3574,12 @@ function DealerAddOrder() {
   };
 
   const handleGOBack = () => {
-    navigate(-1);
+   if ( resellerId) {
+      navigate(`/dealer/resellerDetails/${resellerId}`, { replace: true });
+    } 
+    else {
+      navigate('/dealer/orderList', { replace: true }); 
+    }
   };
 
   return (
@@ -3547,7 +3587,10 @@ function DealerAddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-          onClick={handleGOBack}
+            onClick={(e) => {
+              e.preventDefault(); 
+              handleGOBack();
+            }}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img

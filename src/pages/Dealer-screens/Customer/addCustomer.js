@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -41,7 +41,11 @@ function DealerAddCustomer() {
   const [infoAccount, setInfoAccount] = useState();
   const [resellerList, setResellerList] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const { resellerId, typeofUser } = useParams();
+  const {  resellerValue,pathname ,orderId,servicerId} = location.state || {};
+  const [customerData, setCustomerData] = useState([]);
+  console.log( resellerValue,location);
   const [initialFormValues, setInitialFormValues] = useState({
     accountName: "",
     status: true,
@@ -175,6 +179,7 @@ function DealerAddCustomer() {
       const result = await addNewCustomerDealer(newValues);
       console.log(result.message);
       if (result.code == 200) {
+        setCustomerData(result.result)
         setMessage("Customer Created Successfully");
         setLoading1(false);
         setIsModalOpen(true);
@@ -228,7 +233,12 @@ function DealerAddCustomer() {
       });
     });
     setResellerList(arr);
+
+    if(resellerValue !== undefined){
+      formik.setFieldValue("resellerName", resellerValue);
+    }else{
     formik.setFieldValue("resellerName", resellerId);
+    }
     console.log(data.result);
   };
   const handleRadioChange = (event) => {
@@ -293,7 +303,29 @@ function DealerAddCustomer() {
         navigate(`/dealer/resellerDetails/${resellerId}`);
       } else if (typeofUser == "reseller") {
         navigate(`/dealer/resellerDetails/${resellerId}`);
-      } else {
+      }
+      else if (resellerValue != undefined){
+        if(pathname== '/dealer/addOrder'){
+          navigate('/dealer/addOrder', {
+            state: {
+              resellerIdFromCustomer: resellerValue || null,
+              customerIdFromCustomer:customerData._id || undefined,
+              servicerIdFromCustomer:servicerId
+            },
+          });
+        }
+        else if(pathname== `/dealer/editOrder/${orderId}`)
+        {
+          navigate(`/dealer/editOrder/${orderId}`, {
+            state: {
+              resellerIdFromCustomer: resellerValue || null,
+              customerIdFromCustomer:customerData._id || undefined,
+              servicerIdFromCustomer:servicerId
+            },
+          });
+        }
+      }
+       else {
         navigate("/dealer/customerList");
       }
     }
@@ -367,7 +399,38 @@ function DealerAddCustomer() {
   };
 
   const handleLinkClick = () => {
-    navigate(-1);
+     if(pathname== '/addOrder'){
+      navigate('/dealer/addOrder', {
+        state: {
+          resellerIdFromCustomer: resellerValue || null,
+          servicerIdFromCustomer:servicerId
+        },
+      });
+    }
+    else if(pathname== `/dealer/editOrder/${orderId}`)
+      {
+        navigate(`/dealer/editOrder/${orderId}`, {
+          state: {
+            resellerIdFromCustomer: resellerValue || null,
+            customerIdFromCustomer:customerData._id || undefined,
+            servicerIdFromCustomer:servicerId
+
+          },
+        });
+      }
+      else if(pathname== `/dealer/addOrderforReseller/${resellerId}`){
+        navigate(`/addOrderforReseller/${resellerId}`, {
+          state: {
+           
+            resellerIdFromCustomer: resellerValue || null,
+            customerIdFromCustomer:customerData._id || undefined,
+            servicerIdFromCustomer:servicerId
+          },
+        });
+      }
+     else {
+      navigate(-1);
+    }
   };
   // const getDealerListData = async () => {
   //   if (dealerValueId !== undefined) {
@@ -435,7 +498,7 @@ function DealerAddCustomer() {
                   name="resellerName"
                   placeholder=""
                   onChange={handleSelectChange}
-                  disabled={resellerId != undefined ? true : false}
+                  disabled={resellerId != undefined || resellerValue ? true : false}
                   options={resellerList}
                   value={formik.values.resellerName}
                   onBlur={formik.handleBlur}
