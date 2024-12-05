@@ -47,7 +47,7 @@ function AddCustomer() {
   const navigate = useNavigate();
   const { dealerValueId, resellerValueId, typeofUser } = useParams();
   const location = useLocation();
-  const { dealerId, resellerId, pathname, orderId } = location.state || {};
+  const { dealerId, resellerId, pathname, orderId, servicerId } = location.state || {};
   console.log(dealerId, resellerId, pathname);
   useEffect(() => {
     if (dealerValueId || dealerId || typeofUser) {
@@ -353,7 +353,8 @@ function AddCustomer() {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer: customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined,
+              servicerIdFromCustomer: servicerId
             },
           });
         }
@@ -362,7 +363,8 @@ function AddCustomer() {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer: customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined,
+              servicerIdFromCustomer: servicerId
             },
           });
         }
@@ -371,7 +373,8 @@ function AddCustomer() {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer: customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined,
+              servicerIdFromCustomer: servicerId
             },
           });
         }
@@ -380,7 +383,8 @@ function AddCustomer() {
             state: {
               dealerIdFromCustomer: dealerId || null,
               resellerIdFromCustomer: resellerId || null,
-              customerIdFromCustomer: customerData._id || undefined
+              customerIdFromCustomer: customerData._id || undefined,
+              servicerIdFromCustomer: servicerId
             },
           });
         }
@@ -470,6 +474,7 @@ function AddCustomer() {
         state: {
           dealerIdFromCustomer: dealerId || null,
           resellerIdFromCustomer: resellerId || null,
+          servicerIdFromCustomer: servicerId
         },
       });
     }
@@ -478,7 +483,9 @@ function AddCustomer() {
         state: {
           dealerIdFromCustomer: dealerId || null,
           resellerIdFromCustomer: resellerId || null,
-          customerIdFromCustomer: customerData._id || undefined
+          customerIdFromCustomer: customerData._id || undefined,
+          servicerIdFromCustomer: servicerId
+
         },
       });
     }
@@ -487,7 +494,8 @@ function AddCustomer() {
         state: {
           dealerIdFromCustomer: dealerId || null,
           resellerIdFromCustomer: resellerId || null,
-          customerIdFromCustomer: customerData._id || undefined
+          customerIdFromCustomer: customerData._id || undefined,
+          servicerIdFromCustomer: servicerId
         },
       });
     }
@@ -496,7 +504,8 @@ function AddCustomer() {
         state: {
           dealerIdFromCustomer: dealerId || null,
           resellerIdFromCustomer: resellerId || null,
-          customerIdFromCustomer: customerData._id || undefined
+          customerIdFromCustomer: customerData._id || undefined,
+          servicerIdFromCustomer: servicerId
         },
       });
     }
@@ -577,7 +586,7 @@ function AddCustomer() {
                   placeholder=""
                   required={true}
                   onChange={handleSelectChange}
-                  isDisabled={dealerValueId != undefined ? true : false}
+                  isDisabled={dealerValueId || dealerId != undefined ? true : false}
                   options={dealerList}
                   value={formik.values.dealerName}
                   onBlur={formik.handleBlur}
@@ -595,7 +604,7 @@ function AddCustomer() {
                     label="Reseller Name"
                     name="resellerName"
                     placeholder=""
-                    isDisabled={typeofUser == "reseller"}
+                    isDisabled={typeofUser == "reseller" || resellerId}
                     onChange={handleSelectChange}
                     options={resellerList}
                     value={formik.values.resellerName}

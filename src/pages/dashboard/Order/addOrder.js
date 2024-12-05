@@ -99,7 +99,7 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
-  const { dealerIdFromCustomer, resellerIdFromCustomer,customerIdFromCustomer } = location.state || {};
+  const { dealerIdFromCustomer, resellerIdFromCustomer,customerIdFromCustomer,servicerIdFromCustomer } = location.state || {};
   console.log(dealerIdFromCustomer, resellerIdFromCustomer);
 
   const period = [
@@ -268,6 +268,9 @@ function AddOrder() {
           "servicerId",
           matchedServicer ? matchedServicer._id : ""
         );
+      }
+      if(servicerIdFromCustomer){
+        formik.setFieldValue('servicerId',servicerIdFromCustomer)
       }
       setLoading1(false);
     } catch (error) {
@@ -1957,6 +1960,7 @@ function AddOrder() {
     state={{
       dealerId: formik.values?.dealerId,
       resellerId: formik.values?.resellerId,
+      servicerId:formik.values?.servicerId,
       pathname:location.pathname
     }}
   >
