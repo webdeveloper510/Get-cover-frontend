@@ -78,7 +78,6 @@ function CustomerDashboard() {
     setLoading(true);
     if (window.location.pathname === '/customer/dashboard') {
       const reloadFlag = localStorage.getItem('reloadDashboard');
-
       if (reloadFlag === 'true') {
         localStorage.setItem('reloadDashboard', 'false');
         setTimeout(() => {
@@ -108,95 +107,20 @@ function CustomerDashboard() {
         ) : (
           <div className='mt-5'>
             <Grid className='s:grid-cols-3 md:grid-cols-6 xl:grid-cols-9'>
-              <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
+              <MultiColorView className='col-span-3 cursor-pointer rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfDevices}</p>
                 <p className=' text-sm'>Number of Devices</p>
               </MultiColorView>
-              <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
+              <MultiColorView className='col-span-3 cursor-pointer rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfSubmittedClaims}</p>
                 <p className=' text-sm'>Total Number of Submitted claims</p>
               </MultiColorView>
-              <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
+              <MultiColorView className='col-span-3 cursor-pointer rounded-xl p-8'>
                 <p className='text-2xl font-bold'>{customerDashboardDetail?.numberOfCompletedClaims}</p>
                 <p className=' text-sm'>Total Number of Completed Claims</p>
               </MultiColorView>
-              {/* <MultiColorView className='col-span-3 cursor-pointer text-white rounded-xl p-8'>
-                <p className='text-2xl font-bold'>${customerDashboardDetail?.claimData?.valueClaim === undefined
-                  ? parseInt(0).toLocaleString(2)
-                  : formatOrderValue(
-                    customerDashboardDetail?.claimData?.valueClaim ?? parseInt(0)
-                  )}</p>
 
-                <p className=' text-sm'>Total Value of Claims</p>
-              </MultiColorView> */}
             </Grid>
-
-            {/* <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-              <div className="col-span-6">
-                <MultiColorView className="p-3 rounded-xl">
-                  <p className="font-lg font-bold text-white pl-2 mb-3">
-                    Amount of Orders
-                  </p>
-                  <BarChart graphData={orderAmount} />
-                </MultiColorView>
-              </div>
-              <div className="col-span-6">
-                <MultiColorView className="p-3 rounded-xl">
-                  <p className="font-lg font-bold text-white pl-2 mb-3">
-                    Amount of Claims
-                  </p>
-                  <BarChart graphData={claimAmount} />
-                </MultiColorView>
-              </div>
-              <div className="col-span-6 border-2 rounded-xl">
-                <Card>
-                  <p className="text-xl font-semibold pl-3 pt-2">
-                    Last 5 Completed Orders
-                  </p>
-                  <div className="">
-                    <DataTable
-                      columns={columns}
-                      data={orderList}
-                      sortIcon={
-                        <>
-                          {" "}
-                          <img
-                            src={shorting}
-                            className="ml-2"
-                            alt="shorting"
-                          />{" "}
-                        </>
-                      }
-                      highlightOnHover
-                      draggableColumns={false}
-                    />
-                  </div>
-                </Card>
-              </div>
-              <div className="col-span-6 border-2  bg-white rounded-xl px-2 pb-2">
-                <p className="text-xl font-semibold pl-3 pt-2">
-                  Last 5 Completed Claims
-                </p>
-                <div className="">
-                  <DataTable
-                    columns={Claim}
-                    data={claimList}
-                    sortIcon={
-                      <>
-                        {" "}
-                        <img
-                          src={shorting}
-                          className="ml-2"
-                          alt="shorting"
-                        />{" "}
-                      </>
-                    }
-                    highlightOnHover
-                    draggableColumns={false}
-                  />
-                </div>
-              </div>
-            </Grid> */}
           </div>
         )}
       </div>

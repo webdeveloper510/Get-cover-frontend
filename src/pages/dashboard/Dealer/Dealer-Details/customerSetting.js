@@ -519,7 +519,7 @@ function CustomerSetting(props) {
                                 <div className="col-span-4">
                                     <InActiveButton
                                         type="button"
-                                        className="border w-full !text-sm !font-Regular"
+                                        className="w-full !text-sm !font-Regular"
                                         onClick={closeUserModal}
                                     >
                                         Cancel

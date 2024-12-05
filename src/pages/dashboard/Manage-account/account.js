@@ -74,6 +74,7 @@ function Account() {
   const [tags, setTags] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const [isSetDefalt, setIsSetDefalt] = useState(false);
@@ -294,11 +295,13 @@ function Account() {
   };
 
   const deleteUser = async () => {
+    setDeleteLoading(true);
     const result = await deleteUserByUserId(deleteId);
     // console.log(result);
     if (result.code === 200) {
       setIsModalOpen12(true);
     }
+    setDeleteLoading(false);
   };
   const closeModal12 = () => {
     setIsModalOpen12(false);
@@ -579,7 +582,7 @@ function Account() {
               } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
           ></div>
           <select
-            disabled={row.isPrimary}
+            disabled={row?.isPrimary}
             value={row.status === true ? "active" : "inactive"}
             onChange={(e) => handleStatusChange(row, e.target.value)}
             className="text-[12px] border border-gray-300 text-[#727378] pl-[20px] py-2 pr-1 font-semibold rounded-xl"
@@ -621,7 +624,7 @@ function Account() {
                       index
                     )}`}
                 >
-                  {!row.isPrimary && (
+                  {!row?.isPrimary && (
                     <div
                       onClick={() => editUser(row._id)}
                       className="text-left cursor-pointer flex border-b py-1 px-2"
@@ -663,7 +666,7 @@ function Account() {
                     {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                     <span className="self-center">Notification </span>
                   </div>
-                  {!row.isPrimary && (
+                  {!row?.isPrimary && (
                     <div
                       onClick={() => openModal1(row._id)}
                       className="text-left cursor-pointer flex py-1 px-2"
@@ -2663,29 +2666,37 @@ function Account() {
 
       {/* Modal Delete Popop */}
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
-        <div className="text-center py-3">
-          <img src={assign} alt="email Image" className="mx-auto" />
-          <p className="text-3xl mb-0 mt-2 font-semibold ">
-            Would you like to delete it?
-          </p>
-          <Grid className="!grid-cols-4 my-5 ">
-            <div className="col-span-1"></div>
-            <Button
-              onClick={() => {
-                deleteUser();
-              }}
-            >
-              Yes
-            </Button>
-            <InActiveButton
-              className="border w-full !text-sm !font-Regular"
-              onClick={() => closeModal1()}
-            >
-              No
-            </InActiveButton>
-            <div className="col-span-1"></div>
-          </Grid>
-        </div>
+        {deleteLoading ? (
+          <div className="h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-3">
+            <img src={assign} alt="email Image" className="mx-auto" />
+            <p className="text-3xl mb-0 mt-2 font-semibold ">
+              Would you like to delete it?
+            </p>
+            <Grid className="!grid-cols-4 my-5 ">
+              <div className="col-span-1"></div>
+              <Button
+                onClick={() => {
+                  deleteUser();
+                }}
+              >
+                Yes
+              </Button>
+              <InActiveButton
+                className="border w-full !text-sm !font-Regular"
+                onClick={() => closeModal1()}
+              >
+                No
+              </InActiveButton>
+              <div className="col-span-1"></div>
+            </Grid>
+          </div>
+        )}
       </Modal>
 
       {/* Modal Delete Popop */}
@@ -2776,7 +2787,7 @@ function Account() {
                   className='!my-2'
                   index={'11'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Order Notifications</p>
                     </SingleView>
                   }
@@ -2883,7 +2894,7 @@ function Account() {
                   className='!my-2'
                   index={'12'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border  px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Claims Notifications</p>
                     </SingleView>
                   }
@@ -2907,56 +2918,13 @@ function Account() {
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Admin Portal
+                              File Bulk Claim
                             </p>
                           </div>
                           <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
                           /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Dealer Portal
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Reseller Portal
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Customer Portal
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -3055,7 +3023,7 @@ function Account() {
                   className='!my-2'
                   index={'13'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Admin Actions Notifications</p>
                     </SingleView>
                   }
@@ -3191,7 +3159,7 @@ function Account() {
                   className='!my-2'
                   index={'14'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Servicer Notifications</p>
                     </SingleView>
                   }
@@ -3302,7 +3270,7 @@ function Account() {
                   className='!my-2'
                   index={'15'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Dealer Notifications</p>
                     </SingleView>
                   }
@@ -3464,7 +3432,7 @@ function Account() {
                   className='!my-2'
                   index={'16'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Reseller Notifications</p>
                     </SingleView>
                   }
@@ -3475,7 +3443,7 @@ function Account() {
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Added
+                              New Reseller Added
                             </p>
                           </div>
                           <div className="col-span-4"><SwitchButton
@@ -3574,7 +3542,7 @@ function Account() {
                   className='!my-2'
                   index={'17'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Customer Notifications</p>
                     </SingleView>
                   }
@@ -3585,7 +3553,7 @@ function Account() {
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Added
+                              New Customer Added
                             </p>
                           </div>
                           <div className="col-span-4"><SwitchButton
@@ -3684,7 +3652,7 @@ function Account() {
                   className='!my-2'
                   index={'18'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Register Requests</p>
                     </SingleView>
                   }

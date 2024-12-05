@@ -767,6 +767,7 @@ function UserList(props) {
                   label="Phone Number"
                   required={true}
                   className="!bg-white"
+                  nonumber={true}
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={(e) => {

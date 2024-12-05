@@ -152,7 +152,7 @@ function Headbar({ className = "" }) {
                         alt="NotificationImage"
                       /> */}
                       {notificationList !== 0 && (
-                        <p className="text-[11px] right-[-8px] font-semibold -top-2 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2 border-[#333333]">
+                        <p className="text-[11px] right-[-8px] font-semibold -top-3 rounded-full text-white absolute bg-[red] h-5 w-5 pt-[0px] text-center border-2">
                           {notificationList > 9 ? "9+" : notificationList}
                         </p>
                       )}

@@ -840,6 +840,7 @@ function UserList(props) {
                   name="phoneNumber"
                   label="Phone Number"
                   required={true}
+                  nonumber={true}
                   className="!bg-white"
                   placeholder=""
                   value={formik.values.phoneNumber}

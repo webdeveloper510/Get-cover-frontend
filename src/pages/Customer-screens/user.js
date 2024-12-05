@@ -880,7 +880,7 @@ function CustomerUser() {
         // console.log(index, index % 10 == 9)
         return (
           <div className="relative">
-            <div
+            {!row.isPrimary && <div
               onClick={() =>
                 setSelectedAction(
                   selectedAction === index ? null : index
@@ -893,6 +893,7 @@ function CustomerUser() {
                 alt="Active Icon"
               />
             </div>
+            }
             {selectedAction === index && (
               <SingleView
                 ref={dropdownRef}
@@ -1786,6 +1787,7 @@ function CustomerUser() {
                     name="phoneNumber"
                     label="Phone Number"
                     required={true}
+                    nonumber={true}
                     className="!bg-white"
                     placeholder=""
                     value={userValues.values.phoneNumber}
@@ -1867,12 +1869,12 @@ function CustomerUser() {
               </Grid>
               <Grid className="!grid-cols-5 my-5  px-8">
                 <div className="col-span-2">
-                  <Button
-                    className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                  <InActiveButton
+                    className="w-full !text-sm !font-Regular"
                     onClick={() => closeUserModal()}
                   >
                     Cancel
-                  </Button>
+                  </InActiveButton>
                 </div>
 
                 <div className="col-span-3">

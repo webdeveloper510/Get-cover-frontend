@@ -273,7 +273,7 @@ function CustomerSetting(props) {
                                         <>
                                             <div>
                                                 <div
-                                                    className="text-left cursor-pointer flex border-b hover:font-semibold py-1 px-2"
+                                                    className="text-left cursor-pointer flex border-b py-1 px-2"
                                                     onClick={() => openUserModal(row)}
                                                 >
                                                     <div
@@ -292,7 +292,7 @@ function CustomerSetting(props) {
                                                     {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
                                                     <span className="self-center">Edit </span>
                                                 </div>
-                                                <div className="text-left cursor-pointer flex hover:font-semibold py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
+                                                <div className="text-left cursor-pointer flex py-1 px-2" onClick={() => deleteAddress(row._id, props.id)}
                                                 >
                                                     <div
                                                         style={{
@@ -523,13 +523,13 @@ function CustomerSetting(props) {
                             </Grid>
                             <Grid className="drop-shadow-5xl px-8 mt-8">
                                 <div className="col-span-4">
-                                    <Button
+                                    <InActiveButton
                                         type="button"
-                                        className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+                                        className="w-full !text-sm !font-Regular"
                                         onClick={closeUserModal}
                                     >
                                         Cancel
-                                    </Button>
+                                    </InActiveButton>
                                 </div>
                                 <div className="col-span-8">
                                     <Button type="submit" className="w-full">

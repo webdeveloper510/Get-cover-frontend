@@ -1119,6 +1119,7 @@ function ResellerUser() {
                   label="Phone"
                   required={true}
                   className="!bg-white"
+                  nonumber={true}
                   placeholder=""
                   value={userValues.values.phoneNumber}
                   onChange={(e) => {
@@ -1282,6 +1283,7 @@ function ResellerUser() {
                   name="phoneNumber"
                   label="Phone #"
                   required={true}
+                  nonumber={true}
                   className="!bg-white"
                   placeholder=""
                   value={formik1.values.phoneNumber}

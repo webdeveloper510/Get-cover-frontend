@@ -5,6 +5,8 @@ import Dropbox from "../assets/images/icons/dropBox.svg";
 import info from "../assets/images/info.svg";
 import csvFile from "../assets/images/icons/csvFile.svg";
 import CommonTooltip from "./toolTip";
+import { PatternFormat } from "react-number-format";
+
 
 const Input = ({
   type,
@@ -36,7 +38,7 @@ const Input = ({
   }, [value]);
 
   const formatPhoneNumber = (phone) => {
-    const cleaned = phone.replace(/\D/g, ""); // Remove non-digit characters
+    const cleaned = phone.replace(/\D/g, "");
     if (cleaned.length <= 3) {
       return cleaned;
     } else if (cleaned.length <= 6) {
@@ -45,18 +47,34 @@ const Input = ({
     return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
   };
 
-  const handleInput = (event) => {
-    let inputValue = event.target.value;
+  const handleInput = (values) => {
+    const { value = "", formattedValue = "" } = values;
+    let inputValue = formattedValue;
 
-    if (type === "tel") {
-      // Format phone number for type 'tel'
-      const rawValue = inputValue.replace(/[^0-9]/g, ""); // Keep only numbers
-      const formattedValue = formatPhoneNumber(rawValue);
-      inputValue = formattedValue;
-    }
+    switch (type) {
+      case "tel": {
+        const rawValue = value.replace(/[^0-9]/g, "");
+        inputValue = formatPhoneNumber(rawValue);
+        break;
+      }
 
-    if (zipcode) {
-      inputValue = inputValue.replace(/\D/g, ""); // Remove any non-digit characters
+      case "text": {
+        inputValue = value.replace(/[|&;$%*"<>()+,]/g, "");
+        inputValue = inputValue.replace(/\s+/g, " ").trim();
+        break;
+      }
+
+      case "email": {
+        inputValue = value.replace(/\s/g, "");
+        break;
+      }
+
+      default: {
+        if (zipcode) {
+          inputValue = value.replace(/\D/g, "");
+        }
+        break;
+      }
     }
 
     setInputValue(inputValue);
@@ -64,12 +82,13 @@ const Input = ({
     if (onChange) {
       onChange({
         target: {
-          name: event.target.name,
-          value: type === "tel" ? inputValue.replace(/[^0-9]/g, "") : inputValue, // Raw value for 'tel'
+          name,
+          value: type === "tel" ? value.replace(/[^0-9]/g, "") : inputValue,
         },
       });
     }
   };
+
 
   return (
     <div className={`relative ${classBox} rounded-lg`}>
@@ -129,38 +148,48 @@ const Input = ({
             </div>
           ) : (
             <>
-              {type === "tel" &&
-                (nonumber && (
-                  <div className="text-base font-semibold absolute top-[17px] left-[10px]">
-                    +1
-                  </div>
-                ))}
-              <input
-                type={type}
-                name={name}
-                value={inputValue}
-                id={name}
-                onBlur={onBlur}
-                minLength={minLength}
-                maxLength={type === "tel" ? "14" : maxLength} // Match US phone length
-                pattern={type === "number" ? "[0-9]*" : undefined}
-                step={type === "number" ? "1" : undefined}
-                className={`block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
-                  } ${disabled
-                    ? "text-[#5D6E66] !bg-[#ebebebc4]"
-                    : "text-light-black bg-white"
-                  } ${type === "tel" && 'pl-[30px]'}`}
-                onChange={handleInput}
-                disabled={disabled}
-                required={required}
-                placeholder={placeholder}
-                onWheel={(e) => e.target.blur()}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                  }
-                }}
-              />
+              {type === "tel" ? (
+                <>
+                  {nonumber && (
+                    <div className="text-base font-semibold absolute top-[17px] left-[10px]">
+                      +1
+                    </div>
+                  )}
+                  <PatternFormat
+                    format="(###) ###-####"
+                    mask="_"
+                    value={inputValue}
+                    onValueChange={handleInput}
+                    placeholder={placeholder}
+                    className={`${nonumber ? "pl-[30px]" : 'pl-2.5'
+                      } block pr-2.5 pb-2.5 pt-4 w-full text-base font-semibold rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-[red]" : "border-gray-300"
+                      } ${disabled
+                        ? "text-[#5D6E66] !bg-[#ebebebc4]"
+                        : "text-light-black bg-white"
+                      }`}
+                    disabled={disabled}
+                  />
+                </>
+              ) : (
+                <input
+                  type={type}
+                  value={inputValue}
+                  onChange={(e) => {
+                    setInputValue(e.target.value);
+                    if (onChange) {
+                      onChange({
+                        target: {
+                          name,
+                          value: e.target.value,
+                        },
+                      });
+                    }
+                  }}
+                  placeholder={placeholder}
+                  disabled={disabled}
+                  className={`block px-2.5  pb-2.5 pt-4 w-full text-base font-semibold rounded-lg border-[1px] border-gray-300 appearance-none peer ${className1} ${error ? "border-red-500" : "border-gray-300"} ${disabled ? "bg-gray-200 text-gray-500" : "bg-white text-black"}`}
+                />
+              )}
             </>
           )}
         </>

@@ -1019,6 +1019,7 @@ function AddCustomer() {
                             name={`members[${index}].phoneNumber`}
                             className="!bg-white"
                             label="Phone"
+                            nonumber={true}
                             required={true}
                             placeholder=""
                             value={formik.values.members[index].phoneNumber}

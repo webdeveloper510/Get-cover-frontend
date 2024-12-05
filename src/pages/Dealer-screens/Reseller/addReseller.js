@@ -811,6 +811,7 @@ function DealerAddReseller() {
                           type="tel"
                           name={`members[${index}].phoneNumber`}
                           className="!bg-white"
+                          nonumber={true}
                           label="Phone"
                           required={true}
                           placeholder=""

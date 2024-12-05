@@ -1419,7 +1419,7 @@ function Dealer() {
                               <>
                                 <div className="my-3">
                                   <Input
-                                    type="tel"
+                                    type="number"
                                     name={`adhDays[${type.value}].waitingDays`}
                                     label={`Waiting Days`}
                                     className="!bg-white"
