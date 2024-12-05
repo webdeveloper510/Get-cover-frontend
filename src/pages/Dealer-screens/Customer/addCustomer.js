@@ -288,6 +288,7 @@ function DealerAddCustomer() {
       return () => clearTimeout(timer);
     }
   }, [resellerId, typeofUser]);
+
   useEffect(() => {
     setLoading(true);
     let intervalId;
@@ -348,23 +349,25 @@ function DealerAddCustomer() {
 
     formik.setFieldValue("members", [...formik.values.members, members]);
   };
-  const checkEmailAvailability = async (email) => {
-    console.log(emailValidationRegex.test(email));
-    if (emailValidationRegex.test(email) != false) {
-      const result = await checkDealersEmailValidation(email);
-      console.log(result);
-      if (result.code === 200) {
-        setIsEmailAvailable(true);
-        formik.setFieldError("email", "");
-      } else if (result.code === 401) {
-        setIsEmailAvailable(false);
-        // setMessage("Some Errors Please Check Form Validations ");
-        // setIsModalOpen(true);
 
-        return false;
-      }
-    }
-  };
+  // const checkEmailAvailability = async (email) => {
+  //   console.log(emailValidationRegex.test(email));
+  //   if (emailValidationRegex.test(email) != false) {
+  //     const result = await checkDealersEmailValidation(email);
+  //     console.log(result);
+  //     if (result.code === 200) {
+  //       setIsEmailAvailable(true);
+  //       formik.setFieldError("email", "");
+  //     } else if (result.code === 401) {
+  //       setIsEmailAvailable(false);
+  //       // setMessage("Some Errors Please Check Form Validations ");
+  //       // setIsModalOpen(true);
+
+  //       return false;
+  //     }
+  //   }
+  // };
+
   const handleDeleteMembers = (index) => {
     const updatedMembers = [...formik.values.members];
     updatedMembers.splice(index, 1);
@@ -399,11 +402,12 @@ function DealerAddCustomer() {
   };
 
   const handleLinkClick = () => {
-     if(pathname== '/addOrder'){
+     if(pathname== '/dealer/addOrder'){
       navigate('/dealer/addOrder', {
         state: {
           resellerIdFromCustomer: resellerValue || null,
-          servicerIdFromCustomer:servicerId
+          servicerIdFromCustomer:servicerId,
+          customerIdFromCustomer:customerData._id || undefined,
         },
       });
     }

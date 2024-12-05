@@ -80,6 +80,7 @@ function ResellerAddOrder() {
   const navigate = useNavigate();
   const { orderId, resellerId, customerId } = useParams();
   const location = useLocation();
+  const {customerIdFromCustomer,servicerIdFromCustomer } = location.state || {};
   const [serviceCoverage, setServiceCoverage] = useState([]);
   const [coverage, setCoverage] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -146,6 +147,9 @@ function ResellerAddOrder() {
         value: res._id,
       }));
       setServicerData(arr);
+      if(servicerIdFromCustomer){
+        formik.setFieldValue('servicerId',servicerIdFromCustomer)
+      }
     } catch (error) {
       console.error("An error occurred while fetching servicer list:", error);
       setLoading1(false);
@@ -190,6 +194,9 @@ function ResellerAddOrder() {
         });
       });
       setCustomerList(arr);
+      if(customerIdFromCustomer){
+        formik.setFieldValue('customerId',customerIdFromCustomer)
+      }
       console.log(arr, "----customer");
     } catch (error) {
       console.error("Error occurred while fetching customer list:", error);
@@ -1486,6 +1493,20 @@ function ResellerAddOrder() {
                         onBlur={formik.handleBlur}
                       />
                     </div>
+                    
+  <Link
+    to={{
+      pathname: "/reseller/addCustomer",
+    }}
+    state={{
+      servicerId:formik.values?.servicerId,
+      orderId:orderId,
+      pathname:location.pathname
+    }}
+  >
+    Add Customer
+  </Link>
+
                     <div className="col-span-6">
                       {/* <Select */}
                       {console.log(
@@ -3427,7 +3448,7 @@ function ResellerAddOrder() {
   };
 
   const handleGOBack = () => {
-    navigate(-1);
+      navigate('/reseller/orderList', { replace: true }); 
   };
 
   return (
@@ -3435,7 +3456,10 @@ function ResellerAddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-          onClick={handleGOBack}
+          onClick={(e) => {
+            e.preventDefault(); 
+            handleGOBack();
+          }}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img

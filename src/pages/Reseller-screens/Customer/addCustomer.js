@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "../../../common/select";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -44,6 +44,9 @@ function ResellerAddCustomer() {
   const [details, setDetails] = useState([]);
   const navigate = useNavigate();
   const { dealerValueId, typeofUser } = useParams();
+  const location = useLocation();
+  const [customerData, setCustomerData] = useState([]);
+  const {pathname ,orderId,servicerId} = location.state || {};
   console.log(dealerValueId, typeofUser);
   const getCustomerDetails = async () => {
     const result = await getUserDetailsByIdResellerPortal();
@@ -195,6 +198,7 @@ function ResellerAddCustomer() {
         const result = await addNewCustomerResellerPortal(newValues);
         console.log(result.message);
         if (result.code == 200) {
+          setCustomerData(result.result)
           setMessage("Customer Created Successfully");
           setLoading(false);
           setIsModalOpen(true);
@@ -266,7 +270,27 @@ function ResellerAddCustomer() {
         navigate(`/dealerDetails/${dealerValueId}`);
       } else if (typeofUser == "reseller") {
         navigate(`/resellerDetails/${dealerValueId}`);
-      } else {
+      }
+
+      else if(pathname == '/reseller/addOrder'){
+          navigate('/reseller/addOrder', {
+            state: {
+              customerIdFromCustomer:customerData._id || undefined,
+              servicerIdFromCustomer:servicerId
+            },
+          });
+        }
+        else if(pathname == `/reseller/editOrder/${orderId}`)
+        {
+          navigate(`/reseller/editOrder/${orderId}`, {
+            state: {
+              customerIdFromCustomer:customerData._id || undefined,
+              servicerIdFromCustomer:servicerId
+            },
+          });
+        }
+      
+       else {
         navigate("/reseller/customerList");
       }
     }
@@ -336,8 +360,28 @@ function ResellerAddCustomer() {
   };
 
   const handleLinkClick = () => {
-    navigate("/reseller/customerList");
-  };
+    console.log(pathname ,`/reseller/editOrder/${orderId}`)
+    if(pathname == '/reseller/addOrder'){
+     navigate('/reseller/addOrder', {
+       state: {
+         servicerIdFromCustomer:servicerId,
+         customerIdFromCustomer:customerData._id || undefined,
+       },
+     });
+   }
+   else if(pathname == `/reseller/editOrder/${orderId}`)
+     {
+       navigate(`/reseller/editOrder/${orderId}`, {
+         state: {
+           customerIdFromCustomer:customerData._id || undefined,
+           servicerIdFromCustomer:servicerId
+           },
+       });
+     }
+    else {
+      navigate("/reseller/customerList");
+   }
+ };
 
   return (
     <>
