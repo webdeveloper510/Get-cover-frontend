@@ -1566,101 +1566,213 @@ function AddOrder() {
     );
   };
 
+  // const handleSelectChange = (name, value) => {
+  //   formik.handleChange({ target: { name, value } });
+
+  //   if (name == "dealerId") {
+  //     getDealerSettingsDetails(value);
+  //     setProductNameOptions([]);
+  //     formikStep3.resetForm();
+  //     setFileValues([]);
+  //     formik.setFieldValue("servicerId", "");
+  //     formik.setFieldValue("customerId", "");
+  //     formik.setFieldValue("resellerId", "");
+  //     formik.setFieldValue("dealerId", value);
+  //     setSelected([]); //add this
+  //     formikStep2.resetForm();
+  //     let data = {
+  //       dealerId: value,
+  //       resellerId: formik.values.resellerId,
+  //     };
+  //     getServicerList(data);
+  //     getServiceCoverage(value);
+  //     getCustomerList({
+  //       dealerId: value,
+  //       resellerId: formik.values.resellerId,
+  //     });
+  //     getResellerList(value);
+  //     getCategoryList(
+  //       value,
+  //       {
+  //         priceBookId: "",
+  //         dealerSku: "", //add this
+  //         priceCatId: "",
+  //         pName: "",
+  //         term: "",
+  //         coverageType: formikStep2?.values?.coverageType.map(
+  //           (item) => item.value
+  //         ),
+  //       },
+  //       0
+  //     );
+  //   }
+  //   if (name == "resellerId") {
+  //     if (value == "") {
+  //       formik.setFieldValue("billTo", "Dealer");
+  //     }
+  //     getCustomerList({
+  //       dealerId: formik.values.dealerId,
+  //       resellerId: value,
+  //     });
+  //     formik.setFieldValue("customerId", "");
+  //     let data = {
+  //       dealerId: formik.values.dealerId,
+  //       resellerId: value,
+  //     };
+  //     getServicerList(data);
+  //   }
+
+  //   if (name == "customerId") {
+  //     let data = {
+  //       dealerId: formik.values.dealerId,
+  //       resellerId: formik.values.resellerId,
+  //     };
+
+  //     customerList.length &&
+  //       customerList.find((res) => {
+  //         if (res.value == value) {
+  //           if (res.customerData.resellerStatus != false) {
+  //             formik.setFieldValue("resellerId", res.customerData.resellerId);
+  //             let data = {
+  //               dealerId: formik.values.dealerId,
+  //               resellerId: res.customerData.resellerId,
+  //             };
+  //             getServicerList(data);
+  //             getCustomerList(data);
+  //           }
+  //         }
+  //       });
+
+  //     let customerEmail = null;
+  //     customerList.forEach((customer) => {
+  //       if (customer.customerData._id === formik.values.customerId) {
+  //         customerEmail = customer.customerData.email;
+  //       }
+  //     });
+
+  //     setCustomerEmail(customerEmail);
+  //   }
+
+  //   if (value === "Custom") {
+  //     formik.setFieldValue("name", "");
+  //     formik.setFieldValue("email", "");
+  //     formik.setFieldValue("phoneNumber", "");
+  //     formik.setFieldValue("address", "");
+  //   }
+  // };
+
   const handleSelectChange = (name, value) => {
     formik.handleChange({ target: { name, value } });
-
-    if (name == "dealerId") {
+    let {
+      dealerIdFromCustomer,
+      resellerIdFromCustomer,
+      customerIdFromCustomer,
+      servicerIdFromCustomer,
+    } = location.state || {};
+  
+    if (name === "dealerId") {
+      // Clear dependent values and fetch data for the new dealer
       getDealerSettingsDetails(value);
       setProductNameOptions([]);
       formikStep3.resetForm();
       setFileValues([]);
+      setSelected([]); // Clear selected items
+      formikStep2.resetForm();
+  
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
       formik.setFieldValue("dealerId", value);
-      setSelected([]); //add this
-      formikStep2.resetForm();
-      let data = {
+      dealerIdFromCustomer = value;
+      resellerIdFromCustomer = "";
+      customerIdFromCustomer = "";
+      servicerIdFromCustomer = "";
+  
+      const dealerData = {
         dealerId: value,
-        resellerId: formik.values.resellerId,
+        resellerId: "",
       };
-      getServicerList(data);
+      getServicerList(dealerData);
       getServiceCoverage(value);
-      getCustomerList({
-        dealerId: value,
-        resellerId: formik.values.resellerId,
-      });
+      getCustomerList(dealerData);
       getResellerList(value);
       getCategoryList(
         value,
         {
           priceBookId: "",
-          dealerSku: "", //add this
+          dealerSku: "", // Reset SKU
           priceCatId: "",
           pName: "",
           term: "",
-          coverageType: formikStep2?.values?.coverageType.map(
-            (item) => item.value
-          ),
+          coverageType: formikStep2?.values?.coverageType.map((item) => item.value),
         },
         0
       );
     }
-    if (name == "resellerId") {
-      if (value == "") {
+  
+    if (name === "resellerId") {
+      // Clear dependent values if reseller is changed or empty
+      if (value === "") {
+
         formik.setFieldValue("billTo", "Dealer");
+        formik.setFieldValue("servicerId", "");
+        formik.setFieldValue("customerId", "");
+      } else {
+        formik.setFieldValue("customerId", "");
       }
-      getCustomerList({
-        dealerId: formik.values.dealerId,
-        resellerId: value,
-      });
-      formik.setFieldValue("customerId", "");
-      let data = {
+     resellerIdFromCustomer = value;
+    customerIdFromCustomer = "";
+    servicerIdFromCustomer = "";
+      const resellerData = {
         dealerId: formik.values.dealerId,
         resellerId: value,
       };
-      getServicerList(data);
+      getServicerList(resellerData);
+      getCustomerList(resellerData);
     }
-
-    if (name == "customerId") {
-      let data = {
-        dealerId: formik.values.dealerId,
-        resellerId: formik.values.resellerId,
-      };
-
-      customerList.length &&
-        customerList.find((res) => {
-          if (res.value == value) {
-            if (res.customerData.resellerStatus != false) {
-              formik.setFieldValue("resellerId", res.customerData.resellerId);
-              let data = {
-                dealerId: formik.values.dealerId,
-                resellerId: res.customerData.resellerId,
-              };
-              getServicerList(data);
-              getCustomerList(data);
-            }
-          }
-        });
-
+  
+    if (name === "customerId") {
+    
+      // Clear and set values based on selected customer
       let customerEmail = null;
+      customerIdFromCustomer = value;
       customerList.forEach((customer) => {
-        if (customer.customerData._id === formik.values.customerId) {
+        if (customer.customerData._id === value) {
           customerEmail = customer.customerData.email;
+          if (customer.customerData.resellerStatus !== false) {
+            formik.setFieldValue("resellerId", customer.customerData.resellerId);
+  
+            const resellerData = {
+              dealerId: formik.values.dealerId,
+              resellerId: customer.customerData.resellerId,
+            };
+            getServicerList(resellerData);
+            getCustomerList(resellerData);
+          }
         }
       });
-
+      location.state = {
+        dealerIdFromCustomer,
+        resellerIdFromCustomer,
+        customerIdFromCustomer,
+        servicerIdFromCustomer,
+      };
       setCustomerEmail(customerEmail);
     }
-
+  
     if (value === "Custom") {
+      // Reset fields for custom input
       formik.setFieldValue("name", "");
       formik.setFieldValue("email", "");
       formik.setFieldValue("phoneNumber", "");
       formik.setFieldValue("address", "");
     }
   };
+  
+  // Initial values from location state (optional)
 
+
+  
   const getCategoryList = async (value, data, index) => {
     try {
       setLoading3(true);
