@@ -351,8 +351,8 @@ function AddCustomer() {
         if(pathname== '/addOrder'){
           navigate('/addOrder', {
             state: {
-              dealerIdFromCustomer: dealerId || null,
-              resellerIdFromCustomer: resellerId || null,
+              dealerIdFromCustomer: dealerId || "",
+              resellerIdFromCustomer: resellerId || "",
               customerIdFromCustomer:customerData._id || undefined,
               servicerIdFromCustomer:servicerId
             },
@@ -362,8 +362,8 @@ function AddCustomer() {
         {
           navigate(`/editOrder/${orderId}`, {
             state: {
-              dealerIdFromCustomer: dealerId || null,
-              resellerIdFromCustomer: resellerId || null,
+              dealerIdFromCustomer: dealerId || "",
+              resellerIdFromCustomer: resellerId || "",
               customerIdFromCustomer:customerData._id || undefined,
               servicerIdFromCustomer:servicerId
             },
@@ -372,8 +372,8 @@ function AddCustomer() {
       else if(pathname== `/addOrder/${dealerId}`){
           navigate('/addOrder', {
             state: {
-              dealerIdFromCustomer: dealerId || null,
-              resellerIdFromCustomer: resellerId || null,
+              dealerIdFromCustomer: dealerId || "",
+              resellerIdFromCustomer: resellerId || "",
               customerIdFromCustomer:customerData._id || undefined,
               servicerIdFromCustomer:servicerId
             },
@@ -382,8 +382,8 @@ function AddCustomer() {
         else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
           navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
             state: {
-              dealerIdFromCustomer: dealerId || null,
-              resellerIdFromCustomer: resellerId || null,
+              dealerIdFromCustomer: dealerId || "",
+              resellerIdFromCustomer: resellerId || "",
               customerIdFromCustomer:customerData._id || undefined,
               servicerIdFromCustomer:servicerId
             },
@@ -473,8 +473,8 @@ function AddCustomer() {
     else if(pathname== '/addOrder'){
       navigate('/addOrder', {
         state: {
-          dealerIdFromCustomer: dealerId || null,
-          resellerIdFromCustomer: resellerId || null,
+          dealerIdFromCustomer: dealerId || "",
+          resellerIdFromCustomer: resellerId || "",
           servicerIdFromCustomer:servicerId
         },
       });
@@ -483,8 +483,8 @@ function AddCustomer() {
       {
         navigate(`/editOrder/${orderId}`, {
           state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
+            dealerIdFromCustomer: dealerId || "",
+            resellerIdFromCustomer: resellerId || "",
             customerIdFromCustomer:customerData._id || undefined,
             servicerIdFromCustomer:servicerId
 
@@ -494,8 +494,8 @@ function AddCustomer() {
      else if(pathname== `/addOrder/${dealerId}`){
         navigate(`/addOrder/${dealerId}`, {
           state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
+            dealerIdFromCustomer: dealerId || "",
+            resellerIdFromCustomer: resellerId || "",
             customerIdFromCustomer:customerData._id || undefined,
             servicerIdFromCustomer:servicerId
           },
@@ -504,8 +504,8 @@ function AddCustomer() {
       else if(pathname== `/addOrderforReseller/${resellerId}/${dealerId}`){
         navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
           state: {
-            dealerIdFromCustomer: dealerId || null,
-            resellerIdFromCustomer: resellerId || null,
+            dealerIdFromCustomer: dealerId || "",
+            resellerIdFromCustomer: resellerId || "",
             customerIdFromCustomer:customerData._id || undefined,
             servicerIdFromCustomer:servicerId
           },
