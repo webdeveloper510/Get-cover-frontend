@@ -357,18 +357,18 @@ function AddClaim() {
       setAddressList(addresses)
       setcontractDetail(res.result);
       setCustomerList(res.result.allUsers)
-   
-      if(role=='Customer'){
-       const customerName = res.result.allUsers.find((res)=>{
-          return res.label==data.userInfo.firstName +' ' + data.userInfo.lastName
+
+      if (role == 'Customer') {
+        const customerName = res.result.allUsers.find((res) => {
+          return res.label == data.userInfo.firstName + ' ' + data.userInfo.lastName
         })
         console.log(customerName)
-        formikStep2.setFieldValue("submittedBy",customerName.value)
+        formikStep2.setFieldValue("submittedBy", customerName.value)
       }
-      else{
-      formikStep2.setFieldValue("submittedBy",res.result.allUsers[0].value)
+      else {
+        formikStep2.setFieldValue("submittedBy", res.result.allUsers[0].value)
       }
-      formikStep2.setFieldValue("shippingTo",addresses[0].value)
+      formikStep2.setFieldValue("shippingTo", addresses[0].value)
 
       setCoverageTypes(res.result.mergedData)
       getServicerList(
@@ -743,8 +743,8 @@ function AddClaim() {
       servicePaymentStatus: true,
       coverageType: "",
       contractId: contractDetail?._id,
-      submittedBy:"",
-      shippingTo:""
+      submittedBy: "",
+      shippingTo: ""
     },
     validationSchema: () => {
       return formikStep2.values.coverageType === 'theft_and_lost'
@@ -753,19 +753,19 @@ function AddClaim() {
     },
     onSubmit: (values) => {
       const formatDateToMidnight = (date) => {
-        const localDate = new Date(date); 
+        const localDate = new Date(date);
         const utcMidnight = new Date(
           Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate())
         );
         return utcMidnight.toISOString();
       };
-      
+
       values.lossDate = formatDateToMidnight(values.lossDate);
-    
+
       setLoading1(true);
       values.servicePaymentStatus = sendNotifications;
       values.contractId = contractDetail?._id;
-    
+
       // Submit the claim
       addClaim(values)
         .then((res) => {
@@ -775,10 +775,10 @@ function AddClaim() {
             setTimer(3);
             setMessage("New Claim Created Successfully");
           } else {
-        setTimer(null);
-          setCode(res.code);
-          setIsCreateOpen(true);
-          setMessage(res.message);
+            setTimer(null);
+            setCode(res.code);
+            setIsCreateOpen(true);
+            setMessage(res.message);
           }
         })
         .catch((error) => {
@@ -791,9 +791,9 @@ function AddClaim() {
         .finally(() => {
           setLoading1(false);
         });
-      }
-    
-    
+    }
+
+
   });
 
   const renderStep2 = () => {
@@ -934,29 +934,32 @@ function AddClaim() {
                 <Grid>
                   <div className="col-span-6 mt-5">
                     <Grid className="my-3">
-                      {role == "Super Admin" ? <div className="col-span-4">
-                        <SelectBoxWithSearch
-                          label="Coverage Type"
-                          name="coverageType"
-                          className="!bg-white"
-                          onChange={handleChange}
-                          options={coverageTypes}
-                          value={formikStep2.values.coverageType}
-                          onBlur={formikStep2.handleBlur}
-                          isDisabled={data.role != "Super Admin"}
-                        />
-                      </div> : <div className="col-span-4">
-                        <SelectBoxWithSearch
-                          label="Servicer Name"
-                          name="servicerId"
-                          className="!bg-white"
-                          onChange={handleChange}
-                          options={servicerData}
-                          value={formikStep2.values.servicerId}
-                          onBlur={formikStep2.handleBlur}
-                          isDisabled={data.role != "Super Admin"}
-                        />
-                      </div>}
+                      {role == "Super Admin" ?
+                        <div className="col-span-4">
+                          <SelectBoxWithSearch
+                            label="Coverage Type"
+                            name="coverageType"
+                            className="!bg-white"
+                            onChange={handleChange}
+                            options={coverageTypes}
+                            value={formikStep2.values.coverageType}
+                            onBlur={formikStep2.handleBlur}
+                            isDisabled={data.role != "Super Admin"}
+                          />
+                        </div>
+                        :
+                        <div className="col-span-4">
+                          <SelectBoxWithSearch
+                            label="Servicer Name"
+                            name="servicerId"
+                            className="!bg-white"
+                            onChange={handleChange}
+                            options={servicerData}
+                            value={formikStep2.values.servicerId}
+                            onBlur={formikStep2.handleBlur}
+                            isDisabled={data.role != "Super Admin"}
+                          />
+                        </div>}
                       <div className="col-span-4">
                         <Input
                           label="Damage Date"
@@ -1005,20 +1008,20 @@ function AddClaim() {
                         </>
                       }
                       {
-                        addressList.length !=0 && 
+                        addressList.length != 0 &&
                         <div className="col-span-12">
-                        <SelectBoxWithSearch
-                          label="Shipped To"
-                          name="shippingTo"
-                          className="!bg-white"
-                          onChange={handleChange}
-                          options={addressList}
-                          value={formikStep2.values.shippingTo}
-                          onBlur={formikStep2.handleBlur}
-                        />
-                      </div>
+                          <SelectBoxWithSearch
+                            label="Shipped To"
+                            name="shippingTo"
+                            className="!bg-white"
+                            onChange={handleChange}
+                            options={addressList}
+                            value={formikStep2.values.shippingTo}
+                            onBlur={formikStep2.handleBlur}
+                          />
+                        </div>
                       }
-                    
+
                     </Grid>
                     <div>
                       <div>

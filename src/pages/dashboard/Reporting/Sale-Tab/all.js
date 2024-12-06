@@ -23,7 +23,7 @@ function All({ activeTab, activeButton }) {
     const year = newDate.getUTCFullYear();
     const day = String(newDate.getUTCDate()).padStart(2, '0');
     const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,7 +60,7 @@ function All({ activeTab, activeButton }) {
 
   const handleApply = () => {
     const { startDate, endDate } = selectedRange;
-console.log(startDate,endDate)
+    console.log(startDate, endDate)
     const startDateStr = startDate;
     const endDateStr = endDate;
     const diffTime = Math.abs(endDate - startDate);
@@ -88,7 +88,7 @@ console.log(startDate,endDate)
       flag: flag,
     };
 
-     getDatasetAtEvent(data);
+    getDatasetAtEvent(data);
     setIsModalOpen(false);
   };
 
@@ -183,18 +183,18 @@ console.log(startDate,endDate)
 
   const handleRangeChange = (ranges) => {
     let { startDate, endDate } = ranges.selection;
-  
+
     // Convert startDate and endDate to Date objects (if needed)
     startDate = new Date(startDate);
     endDate = new Date(endDate);
-  
+
     // Ensure no time offset is affecting the date selection
     const adjustDateToUTC = (date) => {
       return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     };
-  
+
     const today = adjustDateToUTC(new Date());
-  
+
     if (isValidDateRange(startDate, endDate)) {
       setSelectedRange({
         startDate: formatDateToYYYYDDMM(startDate > today ? today : adjustDateToUTC(startDate)),
@@ -204,8 +204,8 @@ console.log(startDate,endDate)
       alert("Date range cannot exceed one year.");
     }
   };
-  
-  
+
+
 
   return (
     <>
@@ -229,7 +229,7 @@ console.log(startDate,endDate)
                   </p>
                   <InActiveButton onClick={openModal}>
                     {/* <img src={Broker} className="pr-1 py-1" alt="Filter" /> */}
-                    <span className="py-1">Date Filter123</span>
+                    <span className="py-1">Date Filter</span>
                   </InActiveButton>
                 </div>
 

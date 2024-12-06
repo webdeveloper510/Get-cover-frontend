@@ -20,6 +20,10 @@
   /* Change the color to match your design */
 }
 
+.rdrDateDisplayWrapper {
+  display: none !important;
+}
+
 .rdrInputRange {
   display: none !important;
 }
