@@ -1662,7 +1662,8 @@ function AddOrder() {
   // };
 
   const handleSelectChange = (name, value) => {
-    formik.handleChange({ target: { name, value } });
+    console.log(name,value)
+    formik.setFieldValue( name, value);
     let {
       dealerIdFromCustomer,
       resellerIdFromCustomer,
