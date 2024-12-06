@@ -99,7 +99,7 @@ function AddOrder() {
   const { orderId, dealerId, resellerId, dealerValue, customerId } =
     useParams();
   const location = useLocation();
-  const { dealerIdFromCustomer, resellerIdFromCustomer,customerIdFromCustomer,servicerIdFromCustomer } = location.state || {};
+  const { dealerIdFromCustomer, resellerIdFromCustomer, customerIdFromCustomer, servicerIdFromCustomer } = location.state || {};
   console.log(dealerIdFromCustomer, resellerIdFromCustomer);
 
   const period = [
@@ -209,8 +209,8 @@ function AddOrder() {
         });
       });
       setDealerList(arr);
-      if(dealerIdFromCustomer){
-        formik.setFieldValue("dealerId",dealerIdFromCustomer)
+      if (dealerIdFromCustomer) {
+        formik.setFieldValue("dealerId", dealerIdFromCustomer)
       }
       setLoading1(false);
     } catch (error) {
@@ -220,21 +220,21 @@ function AddOrder() {
   };
 
   const handleGOBack = () => {
-    console.log("dealerId:", dealerId); 
+    console.log("dealerId:", dealerId);
     console.log("dealerIdFromCustomer:", dealerIdFromCustomer);
-  
+
     if (dealerIdFromCustomer && !dealerId && !dealerValue) {
       navigate('/orderList', { replace: true });
     } else if (dealerId) {
       navigate(`/dealerDetails/${dealerId}`, { replace: true });
-    }else if (dealerValue && resellerId) {
+    } else if (dealerValue && resellerId) {
       navigate(`/resellerDetails/${resellerId}`, { replace: true });
-    } 
+    }
     else {
-      navigate('/orderList', { replace: true }); 
+      navigate('/orderList', { replace: true });
     }
   };
-  
+
   useEffect(() => {
     if (dealerId) {
       console.log(`Navigating to /dealerDetails/${dealerId}`);
@@ -269,8 +269,8 @@ function AddOrder() {
           matchedServicer ? matchedServicer._id : ""
         );
       }
-      if(servicerIdFromCustomer){
-        formik.setFieldValue('servicerId',servicerIdFromCustomer)
+      if (servicerIdFromCustomer) {
+        formik.setFieldValue('servicerId', servicerIdFromCustomer)
       }
       setLoading1(false);
     } catch (error) {
@@ -324,10 +324,10 @@ function AddOrder() {
         emailKey: res?.email,
       });
     });
-    
+
     setCustomerList(arr);
-    if(customerIdFromCustomer){
-      formik.setFieldValue('customerId',customerIdFromCustomer)
+    if (customerIdFromCustomer) {
+      formik.setFieldValue('customerId', customerIdFromCustomer)
     }
   };
 
@@ -341,8 +341,8 @@ function AddOrder() {
       });
     });
     setResllerList(arr);
-    if(resellerIdFromCustomer){
-      formik.setFieldValue('resellerId',resellerIdFromCustomer)
+    if (resellerIdFromCustomer) {
+      formik.setFieldValue('resellerId', resellerIdFromCustomer)
     }
   };
 
@@ -422,7 +422,7 @@ function AddOrder() {
         resellerId: resellerId,
       });
     }
-    if(dealerIdFromCustomer !=undefined || resellerIdFromCustomer != undefined ){
+    if (dealerIdFromCustomer != undefined || resellerIdFromCustomer != undefined) {
       getServiceCoverage(dealerIdFromCustomer);
       getResellerList(dealerIdFromCustomer);
       getCustomerList({
@@ -1669,7 +1669,7 @@ function AddOrder() {
       customerIdFromCustomer,
       servicerIdFromCustomer,
     } = location.state || {};
-  
+
     if (name === "dealerId") {
       // Clear dependent values and fetch data for the new dealer
       getDealerSettingsDetails(value);
@@ -1678,7 +1678,7 @@ function AddOrder() {
       setFileValues([]);
       setSelected([]); // Clear selected items
       formikStep2.resetForm();
-  
+
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
@@ -1687,7 +1687,7 @@ function AddOrder() {
       resellerIdFromCustomer = "";
       customerIdFromCustomer = "";
       servicerIdFromCustomer = "";
-  
+
       const dealerData = {
         dealerId: value,
         resellerId: "",
@@ -1709,7 +1709,7 @@ function AddOrder() {
         0
       );
     }
-  
+
     if (name === "resellerId") {
       // Clear dependent values if reseller is changed or empty
       if (value === "") {
@@ -1720,9 +1720,9 @@ function AddOrder() {
       } else {
         formik.setFieldValue("customerId", "");
       }
-     resellerIdFromCustomer = value;
-    customerIdFromCustomer = "";
-    servicerIdFromCustomer = "";
+      resellerIdFromCustomer = value;
+      customerIdFromCustomer = "";
+      servicerIdFromCustomer = "";
       const resellerData = {
         dealerId: formik.values.dealerId,
         resellerId: value,
@@ -1730,9 +1730,9 @@ function AddOrder() {
       getServicerList(resellerData);
       getCustomerList(resellerData);
     }
-  
+
     if (name === "customerId") {
-    
+
       // Clear and set values based on selected customer
       let customerEmail = null;
       customerIdFromCustomer = value;
@@ -1741,7 +1741,7 @@ function AddOrder() {
           customerEmail = customer.customerData.email;
           if (customer.customerData.resellerStatus !== false) {
             formik.setFieldValue("resellerId", customer.customerData.resellerId);
-  
+
             const resellerData = {
               dealerId: formik.values.dealerId,
               resellerId: customer.customerData.resellerId,
@@ -1759,7 +1759,7 @@ function AddOrder() {
       };
       setCustomerEmail(customerEmail);
     }
-  
+
     if (value === "Custom") {
       // Reset fields for custom input
       formik.setFieldValue("name", "");
@@ -1768,11 +1768,11 @@ function AddOrder() {
       formik.setFieldValue("address", "");
     }
   };
-  
+
   // Initial values from location state (optional)
 
 
-  
+
   const getCategoryList = async (value, data, index) => {
     try {
       setLoading3(true);
@@ -2065,21 +2065,21 @@ function AddOrder() {
                         />
                         <span className="ml-3 mt-2"></span>
                         {formik.values?.dealerId !== '' && formik.values?.customerId === '' && (
-  <Link
-    to={{
-      pathname: "/addCustomer",
-    }}
-    state={{
-      dealerId: formik.values?.dealerId,
-      resellerId: formik.values?.resellerId,
-      servicerId:formik.values?.servicerId,
-      orderId:orderId,
-      pathname:location.pathname
-    }}
-  >
-    Add Customer
-  </Link>
-)}
+                          <Link
+                            to={{
+                              pathname: "/addCustomer",
+                            }}
+                            state={{
+                              dealerId: formik.values?.dealerId,
+                              resellerId: formik.values?.resellerId,
+                              servicerId: formik.values?.servicerId,
+                              orderId: orderId,
+                              pathname: location.pathname
+                            }}
+                          >
+                            Add Customer
+                          </Link>
+                        )}
 
                       </div>
                       <div className="col-span-4">
@@ -3312,7 +3312,7 @@ function AddOrder() {
                               <Input
                                 className1="!pt-2.5"
                                 placeholder="# of claims"
-                                type="tel"
+                                type="number"
                                 name={`productsArray[${index}].noOfClaim.value`}
                                 value={
                                   formikStep3?.values?.productsArray[index]
@@ -3390,7 +3390,7 @@ function AddOrder() {
                               <Input
                                 className1="!pt-2.5"
                                 placeholder="# of claims"
-                                type="tel"
+                                type="number"
                                 name={`productsArray[${index}].noOfClaimPerPeriod`}
                                 value={
                                   formikStep3?.values?.productsArray[index]
@@ -4126,10 +4126,10 @@ function AddOrder() {
       <Headbar />
       <div className="flex mt-2">
         <Link
-            onClick={(e) => {
-              e.preventDefault(); 
-              handleGOBack();
-            }}
+          onClick={(e) => {
+            e.preventDefault();
+            handleGOBack();
+          }}
           className="h-[60px] w-[60px] flex border-[1px] bg-white border-Light-Grey rounded-[25px]"
         >
           <img

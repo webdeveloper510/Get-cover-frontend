@@ -929,7 +929,7 @@ function UserList(props) {
         </Button>
         <div className=" py-3">
           <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
-          <div className="overflow-y-scroll min-h-[400px] max-h-[400px]">
+          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
             <Grid className="!grid-cols-2 ">
               <div className="">
 
@@ -941,13 +941,13 @@ function UserList(props) {
                   className='!my-2'
                   index={'11'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Order Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -955,10 +955,12 @@ function UserList(props) {
                               Adding New Order but not processing
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryUpdated")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryUpdated")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -968,10 +970,12 @@ function UserList(props) {
                               Adding new Order and processing also
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -981,10 +985,10 @@ function UserList(props) {
                               Marking Order Paid
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -994,10 +998,12 @@ function UserList(props) {
                               Updating Order but not processing
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1007,10 +1013,12 @@ function UserList(props) {
                               Updating Order and processing also
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1020,10 +1028,12 @@ function UserList(props) {
                               Archiving Order
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                     </Grid>
@@ -1038,13 +1048,13 @@ function UserList(props) {
                   className='!my-2'
                   index={'12'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border  px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Claims Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -1052,62 +1062,23 @@ function UserList(props) {
                               File New Single Claim
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Admin Portal
+                              File Bulk Claim
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Dealer Portal
-                            </p>
-                          </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Reseller Portal
-                            </p>
-                          </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim - Customer Portal
-                            </p>
-                          </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1117,10 +1088,12 @@ function UserList(props) {
                               Claim List - Servicer Update
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1130,10 +1103,12 @@ function UserList(props) {
                               Claim list - Customer status Update
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1143,10 +1118,12 @@ function UserList(props) {
                               Claim list - Claim Status update
                             </p>
                           </div>
-                          <SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          <div className="col-span-4">
+                            <SwitchButton
+                              isOn={false}
+                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                            />
+                          </div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1156,10 +1133,10 @@ function UserList(props) {
                               Claim list - Repair Status Update
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1169,10 +1146,10 @@ function UserList(props) {
                               Repair Parts/ labor update
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1182,10 +1159,10 @@ function UserList(props) {
                               Claim Comments
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>
@@ -1200,13 +1177,13 @@ function UserList(props) {
                   className='!my-2'
                   index={'13'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Admin Actions Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -1214,10 +1191,10 @@ function UserList(props) {
                               New Admin User Created
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1227,10 +1204,10 @@ function UserList(props) {
                               Pricebook Category Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1240,10 +1217,10 @@ function UserList(props) {
                               Pricebook Category Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1253,10 +1230,10 @@ function UserList(props) {
                               Pricebook Category Status Change
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1266,10 +1243,10 @@ function UserList(props) {
                               Company pricebook added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1279,10 +1256,10 @@ function UserList(props) {
                               Company pricebook updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1292,10 +1269,10 @@ function UserList(props) {
                               Company pricebook status change
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1305,10 +1282,10 @@ function UserList(props) {
                               assign dealer of the servicer
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1318,17 +1295,17 @@ function UserList(props) {
                               unassign servicer for the dealer
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>
                   </div>
                 </CollapsibleDiv>
 
-                {/* <CollapsibleDiv
+                <CollapsibleDiv
                   ShowData={showdata}
                   activeIndex={activeIndex}
                   setActiveIndex={setActiveIndex}
@@ -1336,13 +1313,13 @@ function UserList(props) {
                   className='!my-2'
                   index={'14'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Servicer Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -1350,10 +1327,10 @@ function UserList(props) {
                               New Servicer Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1363,10 +1340,10 @@ function UserList(props) {
                               New User Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1376,10 +1353,10 @@ function UserList(props) {
                               Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1389,10 +1366,10 @@ function UserList(props) {
                               Details Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1402,10 +1379,10 @@ function UserList(props) {
                               Primary User Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1415,10 +1392,10 @@ function UserList(props) {
                               User Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1428,15 +1405,15 @@ function UserList(props) {
                               User Deleted
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>
                   </div>
-                </CollapsibleDiv> */}
+                </CollapsibleDiv>
               </div>
               <div>
                 <CollapsibleDiv
@@ -1447,13 +1424,13 @@ function UserList(props) {
                   className='!my-2'
                   index={'15'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Dealer Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
@@ -1461,10 +1438,10 @@ function UserList(props) {
                               New Dealer Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1474,10 +1451,10 @@ function UserList(props) {
                               New User Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1487,10 +1464,10 @@ function UserList(props) {
                               Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1500,10 +1477,10 @@ function UserList(props) {
                               Details Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1513,10 +1490,10 @@ function UserList(props) {
                               Primary User Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1526,10 +1503,10 @@ function UserList(props) {
                               User Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1539,10 +1516,10 @@ function UserList(props) {
                               User Deleted
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1552,10 +1529,10 @@ function UserList(props) {
                               Dealer Price Book Uploaded (bulk)
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1565,10 +1542,10 @@ function UserList(props) {
                               Single Dealer Book Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1578,10 +1555,10 @@ function UserList(props) {
                               Single Dealer Book Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1591,10 +1568,10 @@ function UserList(props) {
                               Single Dealer Book Status Change
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>
@@ -1609,24 +1586,24 @@ function UserList(props) {
                   className='!my-2'
                   index={'16'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Reseller Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Added
+                              New Reseller Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1636,10 +1613,10 @@ function UserList(props) {
                               New User Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1649,10 +1626,10 @@ function UserList(props) {
                               Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1662,10 +1639,10 @@ function UserList(props) {
                               Details Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1675,10 +1652,10 @@ function UserList(props) {
                               Primary User Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1688,10 +1665,10 @@ function UserList(props) {
                               User Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1701,10 +1678,10 @@ function UserList(props) {
                               User Deleted
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>
@@ -1719,24 +1696,24 @@ function UserList(props) {
                   className='!my-2'
                   index={'17'}
                   title={
-                    <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
                       <p className="text-lg font-bold">Customer Notifications</p>
                     </SingleView>
                   }
                 >
                   <div className="p-4 border">
-                    <Grid className="!grid-cols-6">
+                    <Grid className="!grid-cols-12 !gap-2">
                       <div className="col-span-6">
                         <Grid className="!gap-0">
                           <div className="col-span-8 self-center">
                             <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Added
+                              New Customer Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1746,10 +1723,10 @@ function UserList(props) {
                               New User Added
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1759,10 +1736,10 @@ function UserList(props) {
                               Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1772,10 +1749,10 @@ function UserList(props) {
                               Details Updated
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1785,10 +1762,10 @@ function UserList(props) {
                               Primary User Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1798,10 +1775,10 @@ function UserList(props) {
                               User Status Changed
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
                         </Grid>
                       </div>
                       <div className="col-span-6">
@@ -1811,10 +1788,81 @@ function UserList(props) {
                               User Deleted
                             </p>
                           </div>
-                          <SwitchButton
+                          <div className="col-span-4"><SwitchButton
                             isOn={false}
                             handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          />
+                          /></div>
+                        </Grid>
+                      </div>
+                    </Grid>
+                  </div>
+                </CollapsibleDiv>
+
+                <CollapsibleDiv
+                  ShowData={showdata}
+                  activeIndex={activeIndex}
+                  setActiveIndex={setActiveIndex}
+                  imageClass="w-10 h-10"
+                  className='!my-2'
+                  index={'18'}
+                  title={
+                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+                      <p className="text-lg font-bold">Register Requests</p>
+                    </SingleView>
+                  }
+                >
+                  <div className="p-4 border">
+                    <Grid className="!grid-cols-12 !gap-2">
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Dealer Registration Requests
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              New Servicer Registration Requests
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Dealer Disapproved
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
+                        </Grid>
+                      </div>
+                      <div className="col-span-6">
+                        <Grid className="!gap-0">
+                          <div className="col-span-8 self-center">
+                            <p className="flex text-[12px] font-semibold justify-between ">
+                              Servicer Disapproved
+                            </p>
+                          </div>
+                          <div className="col-span-4"><SwitchButton
+                            isOn={false}
+                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
+                          /></div>
                         </Grid>
                       </div>
                     </Grid>

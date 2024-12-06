@@ -1261,7 +1261,7 @@ function Dealer() {
                                 <Input
                                   className1="!pt-2.5"
                                   placeholder="# of claims"
-                                  type="tel"
+                                  type="number"
                                   name={`noOfClaim.value`}
                                   value={formik.values.noOfClaim.value}
                                   onBlur={formik.handleBlur}
@@ -1328,7 +1328,7 @@ function Dealer() {
                               <Input
                                 className1="!pt-2.5"
                                 placeholder="# of claims"
-                                type="tel"
+                                type="number"
                                 name={`noOfClaimPerPeriod`}
                                 value={formik.values.noOfClaimPerPeriod}
                                 onBlur={formik.handleBlur}

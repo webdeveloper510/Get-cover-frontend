@@ -1703,7 +1703,7 @@ function CustomerAddOrder() {
                                     </div>
                                     <div className="col-span-12">
                                       <Input
-                                        type="tel"
+                                        type="number"
                                         name={`productsArray[${index}].QuantityPricing[${index1}].enterQuantity`}
                                         className="!bg-grayf9"
                                         label="# of Quantity"

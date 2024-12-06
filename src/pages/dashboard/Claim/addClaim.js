@@ -934,32 +934,19 @@ function AddClaim() {
                 <Grid>
                   <div className="col-span-6 mt-5">
                     <Grid className="my-3">
-                      {role == "Super Admin" ?
-                        <div className="col-span-4">
-                          <SelectBoxWithSearch
-                            label="Coverage Type"
-                            name="coverageType"
-                            className="!bg-white"
-                            onChange={handleChange}
-                            options={coverageTypes}
-                            value={formikStep2.values.coverageType}
-                            onBlur={formikStep2.handleBlur}
-                            isDisabled={data.role != "Super Admin"}
-                          />
-                        </div>
-                        :
-                        <div className="col-span-4">
-                          <SelectBoxWithSearch
-                            label="Servicer Name"
-                            name="servicerId"
-                            className="!bg-white"
-                            onChange={handleChange}
-                            options={servicerData}
-                            value={formikStep2.values.servicerId}
-                            onBlur={formikStep2.handleBlur}
-                            isDisabled={data.role != "Super Admin"}
-                          />
-                        </div>}
+                      <div className="col-span-4">
+                        <SelectBoxWithSearch
+                          label="Coverage Type"
+                          name="coverageType"
+                          className="!bg-white"
+                          onChange={handleChange}
+                          options={coverageTypes}
+                          value={formikStep2.values.coverageType}
+                          onBlur={formikStep2.handleBlur}
+                        // isDisabled={data.role != "Super Admin"}
+                        />
+                      </div>
+
                       <div className="col-span-4">
                         <Input
                           label="Damage Date"
@@ -992,7 +979,7 @@ function AddClaim() {
                       </div>
                       {formikStep2.values.coverageType == 'theft_and_lost' ? <></> :
                         <>
-                          {role == "Super Admin" && <div className="col-span-12">
+                          <div className="col-span-12">
                             <SelectBoxWithSearch
                               label="Servicer Name"
                               name="servicerId"
@@ -1004,7 +991,7 @@ function AddClaim() {
                               // do this
                               isDisabled={data.role != "Super Admin"}
                             />
-                          </div>}
+                          </div>
                         </>
                       }
                       {

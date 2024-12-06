@@ -58,13 +58,13 @@ function Login() {
           const data = localStorage.getItem("siteSettings");
           const parsedData = data ? JSON.parse(data) : null;
 
+          localStorage.setItem('reloadDashboard', 'true');
           if (parsedData) {
             setSiteDetails(parsedData);
             console.log("Site Settings Updated:", parsedData);
           } else {
             console.log("Site settings are null, will check again...");
           }
-          localStorage.setItem('reloadDashboard', 'true');
 
           navigateToRole(result.result.role);
         } catch (error) {
