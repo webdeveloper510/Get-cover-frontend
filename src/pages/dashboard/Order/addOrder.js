@@ -1662,8 +1662,8 @@ function AddOrder() {
   // };
 
   const handleSelectChange = (name, value) => {
-    console.log(name,value)
-    formik.setFieldValue( name, value);
+    console.log(name, value)
+    formik.setFieldValue(name, value);
     let {
       dealerIdFromCustomer,
       resellerIdFromCustomer,
@@ -1733,10 +1733,10 @@ function AddOrder() {
     }
 
     if (name === "customerId") {
-
+      customerIdFromCustomer = value;
       // Clear and set values based on selected customer
       let customerEmail = null;
-      customerIdFromCustomer = value;
+
       customerList.forEach((customer) => {
         if (customer.customerData._id === value) {
           customerEmail = customer.customerData.email;
@@ -1748,7 +1748,7 @@ function AddOrder() {
               resellerId: customer.customerData.resellerId,
             };
             getServicerList(resellerData);
-            getCustomerList(resellerData);
+            // getCustomerList(resellerData);
           }
         }
       });
