@@ -2072,7 +2072,7 @@ function AddOrder() {
     }}
     state={{
       dealerId: formik.values?.dealerId,
-      resellerId: formik.values?.resellerId,
+      resellerId: formik.values?.resellerId == null ? "": formik.values?.resellerId,
       servicerId:formik.values?.servicerId,
       orderId:orderId,
       pathname:location.pathname
