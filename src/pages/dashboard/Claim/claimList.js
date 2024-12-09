@@ -1117,16 +1117,16 @@ function ClaimList(props) {
 
   const filterBy = [
     {
-      value: "Damage Date",
+      value: "damageDate",
       label: "Damage Date",
     },
     {
-      value: "Open Claim",
+      value: "openClaim",
       label: "Open Claim",
     },
     {
-      value: "Complete Claim",
-      label: "Complete Claim",
+      value: "closeClaim",
+      label: "Close Claim",
     },
   ];
 
@@ -1149,7 +1149,7 @@ function ClaimList(props) {
       claimStatus: "",
       orderId: "",
       trackingNumber: "",
-      filterbyName: "",
+      dateFilter: "",
       startDate: "",
       endDate: "",
       trackingType: "",
@@ -1464,9 +1464,10 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-                <div className="text-right">
-                  <Button className='!text-sm'>Export Report</Button>
-                </div>
+                {/* <div className="text-right">
+                  <Button className='!text-sm'>Generate Report</Button>
+                  <Button className='!text-sm !ml-3'>View Report</Button>
+                </div> */}
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -3258,14 +3259,14 @@ function ClaimList(props) {
                     </div>
                   </>
                 )}
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <Select
-                    name="filterbyName"
-                    label="Date Filter By"
+                    name="dateFilter"
+                    label=" Filter By (Date Range)"
                     options={filterBy}
                     className="!bg-white"
                     onChange={handleSelectChange2}
-                    value={formik1.values.filterbyName}
+                    value={formik1.values.dateFilter}
                   />
                 </div>
                 {formik1.values.filterbyName != '' && <>
@@ -3289,7 +3290,7 @@ function ClaimList(props) {
                       {...formik1.getFieldProps("endDate")}
                     />
                   </div>
-                </>}
+                </>} */}
 
               </Grid>
             </div>

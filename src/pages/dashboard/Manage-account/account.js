@@ -601,52 +601,52 @@ function Account() {
         // console.log(index, index % 10 == 9)
         return (
           <>
-
-            <div className="relative">
-              <div
-                onClick={() =>
-                  setSelectedAction(
-                    selectedAction === row.email ? null : row.email
-                  )
-                }
-              >
-                <img
-                  src={ActiveIcon}
-                  className="cursor-pointer w-[35px]"
-                  alt="Active Icon"
-                />
-              </div>
-              {selectedAction === row.email && (
-                <SingleView
-                  ref={dropdownRef}
-                  className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[130px]"
-                    } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
-                      index
-                    )}`}
+            {!row?.isPrimary && (
+              <div className="relative">
+                <div
+                  onClick={() =>
+                    setSelectedAction(
+                      selectedAction === row.email ? null : row.email
+                    )
+                  }
                 >
-                  {!row?.isPrimary && (
-                    <div
-                      onClick={() => editUser(row._id)}
-                      className="text-left cursor-pointer flex border-b py-1 px-2"
-                    >
+                  <img
+                    src={ActiveIcon}
+                    className="cursor-pointer w-[35px]"
+                    alt="Active Icon"
+                  />
+                </div>
+                {selectedAction === row.email && (
+                  <SingleView
+                    ref={dropdownRef}
+                    className={`absolute z-[9999] ${!row.isPrimary ? "w-[130px]" : "w-[130px]"
+                      } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md ${calculateDropdownPosition(
+                        index
+                      )}`}
+                  >
+                    {!row?.isPrimary && (
                       <div
-                        style={{
-                          maskImage: `url(${edit})`,
-                          WebkitMaskImage: `url(${edit})`,
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                        }}
-                        className="self-center singleViews mr-2 h-4 w-4 "
-                      />
-                      {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
-                      <span className="self-center">Edit </span>
-                    </div>
-                  )}
-                  <div
+                        onClick={() => editUser(row._id)}
+                        className="text-left cursor-pointer flex border-b py-1 px-2"
+                      >
+                        <div
+                          style={{
+                            maskImage: `url(${edit})`,
+                            WebkitMaskImage: `url(${edit})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
+                        {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                        <span className="self-center">Edit </span>
+                      </div>
+                    )}
+                    {/* <div
                     onClick={() => openNotification(row._id)}
                     className={`text-left cursor-pointer flex ${!row.isPrimary && 'border-b'} py-1 px-2`}
                   >
@@ -663,34 +663,35 @@ function Account() {
                       }}
                       className="self-center singleViews mr-2 h-4 w-4 "
                     />
-                    {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                    {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} 
                     <span className="self-center">Notification </span>
-                  </div>
-                  {!row?.isPrimary && (
-                    <div
-                      onClick={() => openModal1(row._id)}
-                      className="text-left cursor-pointer flex py-1 px-2"
-                    >
+                  </div> */}
+                    {!row?.isPrimary && (
                       <div
-                        style={{
-                          maskImage: `url(${delete1})`,
-                          WebkitMaskImage: `url(${delete1})`,
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                        }}
-                        className="self-center singleViews mr-2 h-4 w-4 "
-                      />
-                      {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
-                      <span className="self-center">Delete</span>
-                    </div>
-                  )}
-                </SingleView>
-              )}
-            </div>
+                        onClick={() => openModal1(row._id)}
+                        className="text-left cursor-pointer flex py-1 px-2"
+                      >
+                        <div
+                          style={{
+                            maskImage: `url(${delete1})`,
+                            WebkitMaskImage: `url(${delete1})`,
+                            maskRepeat: "no-repeat",
+                            WebkitMaskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            WebkitMaskPosition: "center",
+                            maskSize: "contain",
+                            WebkitMaskSize: "contain",
+                          }}
+                          className="self-center singleViews mr-2 h-4 w-4 "
+                        />
+                        {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
+                        <span className="self-center">Delete</span>
+                      </div>
+                    )}
+                  </SingleView>
+                )}
+              </div>
+            )}
           </>
         );
       },
