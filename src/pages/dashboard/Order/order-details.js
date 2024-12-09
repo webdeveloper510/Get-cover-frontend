@@ -555,7 +555,7 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <InActiveButton className=" !text-sm border flex cursor-pointer ">
+                  <Button className=" !text-sm flex cursor-pointer ">
                     <span className="self-center">
                       {" "}
                       <PdfGenerator
@@ -563,7 +563,7 @@ function OrderDetails() {
                         data={orderDetails._id}
                       />
                     </span>
-                  </InActiveButton>
+                  </Button>
                 </div>
                 <div className="col-span-6">
                   {orderTandC == undefined || orderTandC?.fileName == "" ? (

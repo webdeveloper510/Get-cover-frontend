@@ -1464,10 +1464,10 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-                {/* <div className="text-right">
+                <div className="text-right">
                   <Button className='!text-sm'>Generate Report</Button>
                   <Button className='!text-sm !ml-3'>View Report</Button>
-                </div> */}
+                </div>
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -3259,7 +3259,7 @@ function ClaimList(props) {
                     </div>
                   </>
                 )}
-                {/* <div className="col-span-6">
+                <div className="col-span-6">
                   <Select
                     name="dateFilter"
                     label=" Filter By (Date Range)"
@@ -3290,7 +3290,7 @@ function ClaimList(props) {
                       {...formik1.getFieldProps("endDate")}
                     />
                   </div>
-                </>} */}
+                </>}
 
               </Grid>
             </div>
