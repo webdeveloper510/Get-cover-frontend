@@ -480,7 +480,7 @@ function UserList(props) {
                     <span className="self-center"> Make Primary </span>
                   </div>
                 )}
-                {/* <div
+                <div
                   onClick={() => openNotification(row._id)}
                   className={`text-left cursor-pointer flex border-b py-1 px-2`}
                 >
@@ -497,9 +497,9 @@ function UserList(props) {
                     }}
                     className="self-center singleViews mr-2 h-4 w-4 "
                   />
-                  {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} 
+                  {/* {/* <img src={edit} className="w-4 h-4 mr-2" />{" "}  */}
                   <span className="self-center">Notification </span>
-                </div> */}
+                </div>
                 <div
                   onClick={() => editUser(row._id)}
                   className={`text-left cursor-pointer flex ${!row.isPrimary && 'border-b'} py-1 px-2`}
