@@ -16,15 +16,13 @@ import { Link } from 'react-router-dom'
 import Card from '../../common/card'
 import MultiColorView from '../../common/multiColorView'
 function CustomerDashboard() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [orderAmount, setOrderAmount] = useState([]);
-  const [claimAmount, setClaimAmount] = useState([]);
-  const [orderList, setOrderList] = useState([]);
-  const [claimList, setClaimList] = useState([]);
-  const [selectedAction, setSelectedAction] = useState(null);
   const [customerDashboardDetail, setCustomerDashboardDetail] = useState({});
-  const dropdownRef = useRef(null);
+  // const [orderAmount, setOrderAmount] = useState([]);
+  // const [claimAmount, setClaimAmount] = useState([]);
+  // const [orderList, setOrderList] = useState([]);
+  // const [claimList, setClaimList] = useState([]);
+  // const dropdownRef = useRef(null);
   const customerDashboardDetails = async () => {
     setLoading(true)
     try {
@@ -39,45 +37,45 @@ function CustomerDashboard() {
   };
   useEffect(() => {
     customerDashboardDetails();
-    getDashboardData();
-    getDashboardCart();
   }, []);
-  const getDashboardData = async () => {
-    try {
-      const result = await getCustomerDashboardList();
-      console.log(result, "-------------------");
-      setClaimList(result.result.lastFiveClaims);
-      setOrderList(result.result.lastFiveOrder);
-    } catch (error) {
-      console.error("Error fetching dealer list:", error);
-    }
-  };
 
-  const getDashboardCart = async () => {
-    setLoading(true);
-    const result = await getDashboardForCustomer();
-    const countData = result.order_result.map((item) => {
-      return {
-        weekStart: item.weekStart,
-        total_orders: item.order_amount,
-      };
-    });
-    const claimData = result.claim_result.map((item) => {
-      return {
-        weekStart: item.weekStart,
-        total_orders: item.total_amount,
-      };
-    });
-    console.log(countData);
-    setOrderAmount(countData);
-    setClaimAmount(claimData);
-    setLoading(false);
-  };
+  // const getDashboardData = async () => {
+  //   try {
+  //     const result = await getCustomerDashboardList();
+  //     console.log(result, "-------------------");
+  //     setClaimList(result.result.lastFiveClaims);
+  //     setOrderList(result.result.lastFiveOrder);
+  //   } catch (error) {
+  //     console.error("Error fetching dealer list:", error);
+  //   }
+  // };
+
+  // const getDashboardCart = async () => {
+  //   setLoading(true);
+  //   const result = await getDashboardForCustomer();
+  //   const countData = result.order_result.map((item) => {
+  //     return {
+  //       weekStart: item.weekStart,
+  //       total_orders: item.order_amount,
+  //     };
+  //   });
+  //   const claimData = result.claim_result.map((item) => {
+  //     return {
+  //       weekStart: item.weekStart,
+  //       total_orders: item.total_amount,
+  //     };
+  //   });
+  //   console.log(countData);
+  //   setOrderAmount(countData);
+  //   setClaimAmount(claimData);
+  //   setLoading(false);
+  // };
 
   useEffect(() => {
     setLoading(true);
     if (window.location.pathname === '/customer/dashboard') {
       const reloadFlag = localStorage.getItem('reloadDashboard');
+
       if (reloadFlag === 'true') {
         localStorage.setItem('reloadDashboard', 'false');
         setTimeout(() => {
@@ -99,7 +97,7 @@ function CustomerDashboard() {
           </div>
         </div>
         {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
+          <div className=" fixed h-screen w-full bg-[#f9f9f954] backdrop-blur-xl top-0 left-0 flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
             </div>

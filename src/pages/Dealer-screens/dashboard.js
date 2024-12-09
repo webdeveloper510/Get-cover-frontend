@@ -363,7 +363,7 @@ function DealerDashboard() {
           </div>
         </div>
         {loading ? (
-          <div className=" h-[400px] w-full flex py-5">
+          <div className="fixed z-[999999] bg-[#f9f9f954] backdrop-blur-xl top-0 h-screen w-full left-0 flex py-5">
             <div className="self-center mx-auto">
               <RotateLoader color="#333" />
             </div>

@@ -528,8 +528,8 @@ function Dashboard() {
 
   return (
     <>
-      {loading1 && (
-        <div className=" fixed z-[999999] backdrop-blur-xl top-0 h-screen w-full left-0 flex py-5">
+      {loading && (
+        <div className=" fixed z-[999999] bg-[#f9f9f954] backdrop-blur-xl top-0 h-screen w-full left-0 flex py-5">
           <div className="self-center ml-[50%]">
             <RotateLoader color="#333" />
           </div>
