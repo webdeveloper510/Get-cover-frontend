@@ -761,7 +761,7 @@ function ResellerUser() {
           </div>
 
           <Card className="px-8 pb-8 pt-4 mt-5 mb-8 drop-shadow-4xl border-[1px] border-Light-Grey  rounded-xl relative">
-            <SingleView className="bg-Edit bg-cover px-8 py-4 rounded-[30px]">
+            <SingleView className=" px-8 py-4 rounded-[30px]">
               <Grid>
                 <div className="col-span-2 text-left">
                   <p className="text-base font-semibold my-3">

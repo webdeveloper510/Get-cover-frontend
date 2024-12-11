@@ -2193,7 +2193,6 @@ function ClaimList(props) {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -2205,10 +2204,8 @@ function ClaimList(props) {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >
@@ -3234,7 +3231,7 @@ function ClaimList(props) {
               </div>
             </>
           ) : (
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+            <SingleView className=" px-8 mt-8 mr-4 py-4 rounded-[30px]">
               <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
                 View Customer Detail
               </p>

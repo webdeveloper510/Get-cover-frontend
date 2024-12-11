@@ -440,7 +440,7 @@ function AddDealerBook() {
             </p>
           )} */}
           {type === "Edit" && (
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+            <SingleView className=" px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-auto ">
                 <div className="col-span-4 self-center ">
                   <div className="flex">

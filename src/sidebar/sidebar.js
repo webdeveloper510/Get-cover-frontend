@@ -580,6 +580,7 @@ function SideBar() {
   const [expandedItem, setExpandedItem] = useState(active);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sideBarColor, setSideBarColor] = useState('');
+  const [adminSideBarColor, setAdminSideBarColor] = useState('');
   const [sideBar2ndColor, setSideBar2ndColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [isShow, setIsShow] = useState(false);
@@ -611,6 +612,9 @@ function SideBar() {
       switch (color.colorType) {
         case 'sideBarColor':
           setSideBarColor(color.colorCode);
+          break;
+        case 'adminSideBarColor':
+          setAdminSideBarColor(color.colorCode);
           break;
         case 'sideBar2ndColor':
           setSideBar2ndColor(color.colorCode);
@@ -1035,17 +1039,17 @@ function SideBar() {
         <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px] pt-6`}>
 
           {(userType?.role != 'Super Admin' && isShow) &&
-            <div className="bg-red py-[16px] absolute top-0 left-0 rounded-t-[24px]">
+            <div className="py-[16px] absolute top-0 left-0 rounded-t-[24px]" style={{ backgroundColor: adminSideBarColor }}>
               <img
                 src={`${url}uploads/logo/${encodeURIComponent(selectedFile3)}`}
-                className=" w-[64%] px-5"
+                className=" w-[87%] px-5"
                 alt="logo"
               />
             </div>
           }
           <img
             src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-            className={`mx-auto pt-2 pb-6 w-full px-5 ${(userType?.role != 'Super Admin' && isShow) && '!mt-[44px]'}`}
+            className={`mx-auto pt-2 pb-6 w-full px-5 ${(userType?.role != 'Super Admin' && isShow) && '!mt-[65px]'}`}
             alt="logo"
           />
           <hr className="border-Gray28 border-[1px]" />

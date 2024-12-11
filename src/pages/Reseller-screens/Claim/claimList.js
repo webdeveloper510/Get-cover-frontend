@@ -3173,7 +3173,7 @@ function ResellerClaimList(props) {
               </div>
             </>
           ) : (
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-4 rounded-[30px]">
+            <SingleView className=" px-8 mt-8 mr-4 py-4 rounded-[30px]">
               <p className="text-center text-3xl font-semibold  w-[70%] mx-auto">
                 View Customer Detail
               </p>

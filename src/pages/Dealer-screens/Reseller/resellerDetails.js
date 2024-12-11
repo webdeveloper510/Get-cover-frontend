@@ -723,7 +723,6 @@ function DealerResellerDetails() {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -735,10 +734,8 @@ function DealerResellerDetails() {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >
@@ -1039,7 +1036,6 @@ function DealerResellerDetails() {
                           style={{
                             maskImage: `url(${AddItem})`,
                             WebkitMaskImage: `url(${AddItem})`,
-                            backgroundColor: backGroundColor,
                             maskRepeat: "no-repeat",
                             WebkitMaskRepeat: "no-repeat",
                             maskPosition: "center",
@@ -1051,12 +1047,10 @@ function DealerResellerDetails() {
                         />
                         <span
                           style={{
-                            borderColor: backGroundColor,
                             borderLeftWidth: "1px",
                             paddingLeft: "7px",
-                            color: backGroundColor,
                           }}
-                          className="text-black ml-1 text-[13px] self-center font-Regular !font-[700]"
+                          className=" ml-1 text-[13px] self-center font-Regular !font-[700]"
                         >
                           Add {activeTab}
                         </span>

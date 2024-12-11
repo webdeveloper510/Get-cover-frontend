@@ -107,7 +107,7 @@ function Dashboard() {
         localStorage.setItem('reloadDashboard', 'false');
         setTimeout(() => {
           window.location.reload(true);
-        }, 2000)
+        }, 3000)
       }
       setLoading1(false);
     }

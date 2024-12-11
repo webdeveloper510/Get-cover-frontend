@@ -502,7 +502,7 @@ function AddCompanyPriceBook() {
             </p>
           )} */}
           {type == "Edit" && (
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 py-16 rounded-[30px]">
+            <SingleView className=" px-8 mt-8 py-16 rounded-[30px]">
               <Grid className="mx-auto !grid-cols-12">
                 <div className="col-span-3 border-r border-[#4e4e4e]">
                   <div className="flex justify-center">

@@ -248,7 +248,6 @@ function OrderDetails() {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -260,10 +259,8 @@ function OrderDetails() {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >

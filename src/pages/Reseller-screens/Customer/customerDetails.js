@@ -524,7 +524,6 @@ function ResellerCustomerDetails() {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -536,10 +535,8 @@ function ResellerCustomerDetails() {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >
