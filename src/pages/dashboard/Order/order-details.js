@@ -566,7 +566,7 @@ function OrderDetails() {
                   {orderTandC == undefined || orderTandC?.fileName == "" ? (
                     <></>
                   ) : (
-                    <InActiveButton className="!text-sm border flex cursor-pointer">
+                    <Button className="!text-sm flex cursor-pointer">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -575,7 +575,7 @@ function OrderDetails() {
                           apiUrlData={baseUrl}
                         />
                       </span>
-                    </InActiveButton>
+                    </Button>
                   )}
                 </div>
               </Grid>

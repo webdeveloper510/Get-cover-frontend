@@ -9,11 +9,13 @@ import DataTable from "react-data-table-component";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
+import { getdeleteReports } from "../../../services/claimServices";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function ReportDownload() {
   const [selectedAction, setSelectedAction] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [deleteReport, setDeleteReport] = useState();
   const dropdownRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,19 +47,18 @@ function ReportDownload() {
       selector: (row, index) => (1 - 1) * 10 + index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "120px",
     },
     {
       name: (
         <div>
           Report
-          <br />
           Name
         </div>
       ),
-      selector: (row) => row.dealer[0]?.name,
+      selector: (row) => row.fileName,
       sortable: true,
-      minWidth: "100px",
+      // minWidth: "100px",
 
       style: {
         whiteSpace: "pre-wrap",
@@ -67,27 +68,39 @@ function ReportDownload() {
     {
       name: (
         <div>
-          Date And
-          <br />
-          Time
+          Report Created On
         </div>
       ),
-      selector: (row) => row.priceBooks[0]?.name,
+      selector: (row) => {
+        const date = new Date(row.date);
+        const formattedDate = date.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+        const formattedTime = date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return `${formattedDate}    ${formattedTime}`;
+      },
       sortable: true,
-      minWidth: "130px",
+      // minWidth: "130px",
     },
     {
-      name: "Status",
+      name: "Remarks",
       selector: (row) => row.status,
       sortable: true,
       cell: (row) => (
-        <div className="flex border py-2 rounded-lg w-[80%] mx-auto">
-          <div
-            className={` ${row.status === "Pending" ? "bg-[#8B33D1]" : "bg-[#6BD133]"
-              }  h-3 w-3 rounded-full self-center  mr-2 ml-[8px]`}
-          ></div>
-          <p className="self-center"> {row.status} </p>
-        </div>
+        <p className="self-center"> {row.status} </p>
+      ),
+    },
+    {
+      name: "Last Download",
+      selector: (row) => row.status,
+      sortable: true,
+      cell: (row) => (
+        <p className="self-center"> {row.status} </p>
       ),
     },
     {
@@ -121,6 +134,23 @@ function ReportDownload() {
       },
     },
   ];
+
+  useEffect(() => {
+    getReportListData();
+    window.scrollTo(0, 0);
+  }, []);
+
+  const getReportListData = async (data) => {
+    try {
+      setLoading(true);
+      const res = await getdeleteReports(data);
+      setDeleteReport(res.result);
+    } catch (error) {
+      console.error("Error fetching category list:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -162,7 +192,7 @@ function ReportDownload() {
               <DataTable
                 draggableColumns={false}
                 columns={columns}
-                data={''}
+                data={deleteReport}
                 highlightOnHover
                 sortIcon={
                   <>

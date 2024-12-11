@@ -33,6 +33,20 @@ export const getContractList = async (data = {}) => {
   }
 };
 
+export const getdeleteReports = async () => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/getClaimReportings`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const getContractPrice = async (id) => {
   const headers = createHeaders();
   try {

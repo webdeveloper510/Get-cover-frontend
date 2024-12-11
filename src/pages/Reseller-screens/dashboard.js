@@ -29,7 +29,11 @@ function ResellerDashboard() {
   const [claimAmount, setClaimAmount] = useState([]);
   const [selectedAction, setSelectedAction] = useState(null);
   const dropdownRef = useRef(null);
-
+  const CustomNoDataComponent = () => (
+    <Card className="text-center my-5">
+      <p>No records found.</p>
+    </Card>
+  );
   const dashboardDetails = async () => {
     try {
       setLoading(true);
@@ -344,7 +348,7 @@ function ResellerDashboard() {
         setTimeout(() => {
           window.location.reload(true);
           setLoading(false);
-        }, 2000)
+        }, 3000)
       }
     }
   }, []);
@@ -461,6 +465,7 @@ function ResellerDashboard() {
                         }
                         highlightOnHover
                         draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
                       />
                     </div>
                   </Card>
@@ -495,6 +500,7 @@ function ResellerDashboard() {
                         }
                         highlightOnHover
                         draggableColumns={false}
+                        noDataComponent={<CustomNoDataComponent />}
                       />
                     </div>
                   </Card>
@@ -532,6 +538,7 @@ function ResellerDashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </Card>
                 </div>
@@ -565,6 +572,7 @@ function ResellerDashboard() {
                       }
                       highlightOnHover
                       draggableColumns={false}
+                      noDataComponent={<CustomNoDataComponent />}
                     />
                   </Card>
                 </div>

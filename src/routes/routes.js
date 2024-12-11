@@ -486,12 +486,12 @@ const routes = [
         ),
       },
       {
-        path: "/Reporting/download",
+        path: "/Reporting/list",
         element: (
           <PrivateRoute
             element={<ReportDownload />}
             role={"Super Admin"}
-            path="/Reporting/download"
+            path="/Reporting/list"
           />
         ),
       },

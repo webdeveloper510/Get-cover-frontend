@@ -527,8 +527,8 @@ const Lists = [
         active: SeacondActive,
       },
       {
-        name: "Report Download",
-        url: "/Reporting/download",
+        name: "Report List",
+        url: "/Reporting/List",
         image: Dropdown2,
         active: ForthActive,
       },

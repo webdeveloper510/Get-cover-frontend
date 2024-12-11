@@ -45,6 +45,7 @@ function Dashboard() {
       console.error(error);
     }
   };
+
   const getDashboardCart = async () => {
     setLoading(true);
     const result = await getDashboard();
@@ -58,7 +59,7 @@ function Dashboard() {
       return {
         weekStart: item.weekStart,
         total_claims: item.total_amount,
-        type:'claim'
+        type: 'claim'
       };
     });
     setOrderAmount(countData);
@@ -68,6 +69,7 @@ function Dashboard() {
     setDealerPriceBook(trimmedData);
     setDealerPriceBookYear(trimmedData1);
   };
+
   useEffect(() => {
     getDashboardCart();
     dashboardDetails();

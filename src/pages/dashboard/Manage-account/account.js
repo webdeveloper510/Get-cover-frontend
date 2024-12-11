@@ -2007,20 +2007,20 @@ function Account() {
                   <div className="col-span-12">
                     <p className="mb-3 font-bold">Color Setting </p>
                     <Grid >
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`chartFirstColor`}
                           tooltip="15"
                           className="!bg-white flex "
-                          content='you can change website chart first color here'
+                          content='you can change website chart start color here'
                           className1="h-11"
-                          label="Chart first Color "
+                          label="Gradient Start Color "
                           placeholder=""
                           value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`sideBarColor`}
@@ -2033,7 +2033,7 @@ function Account() {
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`sideBarTextColor`}
@@ -2046,7 +2046,7 @@ function Account() {
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`sideBarButtonColor`}
@@ -2059,7 +2059,7 @@ function Account() {
                           value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`sideBarButton2ndColor`}
@@ -2072,7 +2072,7 @@ function Account() {
                           value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`sideBarButtonTextColor`}
@@ -2085,7 +2085,7 @@ function Account() {
                           value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`buttonColor`}
@@ -2098,7 +2098,7 @@ function Account() {
                           value={buttonColor} onChange={handleColorChange('buttonColor', setButtonColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`buttonTextColor`}
@@ -2111,7 +2111,7 @@ function Account() {
                           value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`backGroundColor`}
@@ -2124,7 +2124,7 @@ function Account() {
                           value={backGroundColor} onChange={handleColorChange('backGroundColor', setBackGroundColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`titleColor`}
@@ -2137,7 +2137,7 @@ function Account() {
                           value={titleColor} onChange={handleColorChange('titleColor', setTitleColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`cardBackGroundColor`}
@@ -2150,7 +2150,7 @@ function Account() {
                           value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`cardColor`}
@@ -2163,8 +2163,7 @@ function Account() {
                           value={cardColor} onChange={handleColorChange('cardColor', setCardColor)}
                         />
                       </div>
-
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`modelBackgroundColor`}
@@ -2177,7 +2176,7 @@ function Account() {
                           value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                         />
                       </div>
-                      <div className="col-span-2 relative">
+                      <div className="col-span-3 relative">
                         <Input
                           type="color"
                           name={`modelColor`}
@@ -2816,7 +2815,7 @@ function Account() {
                       </SingleView>
                     }
                   >
-                    <div className="p-4 border">
+                    <div className="px-4 pt-2 pb-4 border">
                       <div className="text-end ml-auto mb-2">
                         <Button type="button" className='!text-sm ' >Select All</Button>
                       </div>
@@ -2859,7 +2858,7 @@ function Account() {
                       </SingleView>
                     }
                   >
-                    <div className="p-4 border">
+                    <div className="px-4 pt-2 pb-4 border">
                       <div className="text-end ml-auto mb-2">
                         <Button type="button" className='!text-sm ' >Select All</Button>
                       </div>

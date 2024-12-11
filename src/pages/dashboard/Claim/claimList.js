@@ -74,6 +74,7 @@ function ClaimList(props) {
   const [timer, setTimer] = useState(3);
   const [showDetails, setShowDetails] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isReportOpen, setIsReportOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -660,6 +661,14 @@ function ClaimList(props) {
   const closeCustomer = () => {
     setIsCustomerOpen(false);
   };
+
+  const openReport = () => {
+    setIsReportOpen(true);
+  }
+  const closeReport = () => {
+    setIsReportOpen(false)
+  }
+
   const formatPhoneNumber = (phoneNumber) => {
     const cleaned = ("" + phoneNumber).replace(/\D/g, ""); // Remove non-numeric characters
     const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/); // Match groups of 3 digits
@@ -1465,8 +1474,8 @@ function ClaimList(props) {
             ) : (
               <>
                 <div className="text-right">
-                  <Button className='!text-sm'>Generate Report</Button>
-                  <Button className='!text-sm !ml-3'>View Report</Button>
+                  <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
+                  <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
                 </div>
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
@@ -3274,7 +3283,7 @@ function ClaimList(props) {
                     <Input
                       type="date"
                       name="startDate"
-                      className="!bg-white"
+                      className="!bg-white z-10"
                       label="Start Date"
                       placeholder=""
                       {...formik1.getFieldProps("startDate")}
@@ -3284,7 +3293,7 @@ function ClaimList(props) {
                     <Input
                       type="date"
                       name="endDate"
-                      className="!bg-white"
+                      className="!bg-white z-10"
                       label="End Date"
                       placeholder=""
                       {...formik1.getFieldProps("endDate")}
@@ -3409,6 +3418,61 @@ function ClaimList(props) {
                 </Grid>
               }
             </SingleView>
+          )}
+        </div>
+      </Modal>
+
+      <Modal isOpen={isReportOpen} onClose={closeReport}>
+        <Button
+          onClick={closeReport}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <div>
+              <p className="text-center text-3xl font-semibold mb-5 mx-auto">
+                Report
+              </p>
+              <div>
+                <form>
+                  <Grid>
+                    <div className="col-span-12">
+                      <Input type="text" required={true}
+                        label='File Name'
+                        name="fileName"
+                        className="!bg-white"
+                        placeholder="" />
+
+                    </div>
+                    <div className="col-span-12">
+                      <Input type="text"
+                        name="remarks"
+                        className="!bg-white"
+                        label='Remarks' />
+                    </div>
+                    <div className="col-span-12 ml-auto">
+                      <Button type='button'>
+                        Generate File
+                      </Button>
+                    </div>
+                  </Grid>
+                </form>
+              </div>
+
+            </div>
           )}
         </div>
       </Modal>
