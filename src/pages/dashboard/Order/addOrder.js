@@ -2745,50 +2745,46 @@ function AddOrder() {
                           }}
                         />
                       </div>
-                      <div className="col-span-4">
-                        <Input
-                          type="date"
-                          name={`productsArray[${index}].coverageStartDate`}
-                          className="!bg-white"
-                          label="Coverage Start Date"
-                          placeholder=""
-                          readOnly
-                          value={
-                            formikStep3.values.productsArray[index]
-                              .coverageStartDate === ""
-                              ? formikStep3.values.productsArray[index]
+                        <div className="col-span-4">
+                          <Input
+                            type="date"
+                            name={`productsArray[${index}].coverageStartDate`}
+                            className="!bg-white"
+                            label="Coverage Start Date"
+                            placeholder=""
+                            readOnly
+                            value={
+                              formikStep3.values.productsArray[index].coverageStartDate !== "" &&
+                              !isNaN(new Date(formikStep3.values.productsArray[index].coverageStartDate).getTime())
+                                ? format(
+                                    new Date(formikStep3.values.productsArray[index].coverageStartDate),
+                                    "MM/dd/yyyy"
+                                  )
+                                : ""
+                            }
+                            
+                            onChange={(e) => handleDateChange(e, index)}
+                            onBlur={formikStep3.handleBlur}
+                            error={
+                              formikStep3.errors.productsArray &&
+                              formikStep3.errors.productsArray[index] &&
+                              formikStep3.errors.productsArray[index]
                                 .coverageStartDate
-                              : format(
-                                new Date(
-                                  formikStep3.values.productsArray[
-                                    index
-                                  ].coverageStartDate
-                                ),
-                                "MM/dd/yyyy"
-                              )
-                          }
-                          onChange={(e) => handleDateChange(e, index)}
-                          onBlur={formikStep3.handleBlur}
-                          error={
-                            formikStep3.errors.productsArray &&
-                            formikStep3.errors.productsArray[index] &&
-                            formikStep3.errors.productsArray[index]
-                              .coverageStartDate
-                          }
-                        />
+                            }
+                          />
 
-                        {formikStep3.touched.productsArray &&
-                          formikStep3.touched.productsArray[index] &&
-                          formikStep3.touched.productsArray[index]
-                            .coverageStartDate && (
-                            <div className="text-red-500 text-sm pl-2 pt-2">
-                              {formikStep3.errors.productsArray &&
-                                formikStep3.errors.productsArray[index] &&
-                                formikStep3.errors.productsArray[index]
-                                  .coverageStartDate}
-                            </div>
-                          )}
-                      </div>
+                          {formikStep3.touched.productsArray &&
+                            formikStep3.touched.productsArray[index] &&
+                            formikStep3.touched.productsArray[index]
+                              .coverageStartDate && (
+                              <div className="text-red-500 text-sm pl-2 pt-2">
+                                {formikStep3.errors.productsArray &&
+                                  formikStep3.errors.productsArray[index] &&
+                                  formikStep3.errors.productsArray[index]
+                                    .coverageStartDate}
+                              </div>
+                            )}
+                        </div>
                       <div className="col-span-4">
                         <Input
                           type="text"
