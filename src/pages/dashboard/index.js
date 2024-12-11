@@ -57,7 +57,8 @@ function Dashboard() {
     const claimData = result.claim_result.map((item) => {
       return {
         weekStart: item.weekStart,
-        total_orders: item.total_amount,
+        total_claims: item.total_amount,
+        type:'claim'
       };
     });
     setOrderAmount(countData);
