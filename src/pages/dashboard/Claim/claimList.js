@@ -71,7 +71,7 @@ import InActiveButton from "../../../common/inActiveButton";
 function ClaimList(props) {
   const location = useLocation();
   const [timer, setTimer] = useState(3);
-  const [showDetails, setShowDetails] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [pageValue, setPageValue] = useState(1);
   const [loaderType, setLoaderType] = useState(false);
@@ -303,7 +303,10 @@ function ClaimList(props) {
       updateAndCallAPI(setServicer);
     } else {
       if (value === 'servicer_shipped') {
-        setIsShipped(true)
+        const newRepairValue = repairValue?.value.find((data) => data.value === value); // Explicit 
+        console.log(newRepairValue.label);
+        setSelectedValue(newRepairValue.label);
+        setIsShipped(true);
       }
       else if (value === 'product_received') {
         setIsReceived(true)
@@ -2999,7 +3002,7 @@ function ClaimList(props) {
               <span className=""> sure ? </span>
             </p>
             <p className="text-xl font-medium mt-2">
-              You want to change repair status (Servicer Shipped) for this Claim ?
+              You want to change repair status {selectedValue} for this Claim ?
             </p>
             <div className="mt-3">
               <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>

@@ -132,7 +132,7 @@ function AllList(props) {
   const [messageList, setMessageList] = useState([]);
   const [claimDetail, setClaimDetail] = useState({});
   const [error, setError] = useState("");
-  const [userType, setUserType] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
   const [selfServicer, setSelfServicer] = useState(false);
   const [showdata, setShowdata] = useState(false);
   const [customerStatus, setCustomerStatus] = useState({
@@ -160,11 +160,11 @@ function AllList(props) {
   useEffect(() => {
     const userDetails = JSON.parse(localStorage.getItem("userDetails"));
     setRole(userDetails.role);
-    if (location.pathname.includes("/dealer/")) {
-      setUserType("dealer");
-    } else {
-      setUserType("admin"); // Reset userType if condition doesn't match
-    }
+    // if (location.pathname.includes("/dealer/")) {
+    //   setUserType("dealer");
+    // } else {
+    //   setUserType("admin"); // Reset userType if condition doesn't match
+    // }
   }, [location.pathname]);
   const dropdownRef = useRef(null);
   const handleToggleDropdown = (value) => {
@@ -308,8 +308,12 @@ function AllList(props) {
     } else {
 
       if (value === 'servicer_shipped') {
-        setIsShipped(true)
+        const newRepairValue = repairValue?.value.find((data) => data.value === value); // Explicit 
+        console.log(newRepairValue.label);
+        setSelectedValue(newRepairValue.label);
+        setIsShipped(true);
       }
+      
       else if (value === 'product_received') {
         setIsReceived(true)
       }
@@ -3209,7 +3213,7 @@ function AllList(props) {
             <span className=""> sure ? </span>
           </p>
           <p className="text-xl font-medium mt-2">
-            You want to change repair status (Servicer Shipped) for this Claim ?
+            You want to change repair status {selectedValue} for this Claim ?
           </p>
           <div className="mt-3">
             <Button type="submit" className='!px-8' onClick={() => { handleSelectChange("repairStatus", { type: 'servicer_shipped' }); }}>Yes</Button>
