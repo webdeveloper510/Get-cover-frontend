@@ -17,6 +17,7 @@ import { getFilterListForDealerClaim } from "../../../services/reportingServices
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import InActiveButton from "../../../common/inActiveButton";
 
 function DealerClaims() {
   const location = useLocation();
@@ -89,57 +90,57 @@ function DealerClaims() {
     try {
       // setLoading(true);
       const res = await getFilterListForDealerClaim(data);
-  if(activeButton=="servicer"){
-   
-    const transformedServicer = res.result[0].servicer.map(servicer => ({
-      label: servicer.name,
-      value: servicer._id,
-    }));
-    const categoriesWithPriceBooks = res.result[0].categories.map((category) => ({
-      label: category.categoryName,
-      value: category.categoryId, 
-      priceBooks: category.priceBooks.map((priceBook) => ({
-        label: priceBook.priceBookName,
-        value: priceBook.priceBookId,   
-      })),
-    }));
-    const allPriceBooks = res.result[0].categories.flatMap((category) =>
-      category?.priceBooks.map((priceBook) => ({
-        label: priceBook?.priceBookName ,
-        value: priceBook?.priceBookId ,
-      }))
-    );
-    setCategoryListServicer(categoriesWithPriceBooks);
-    setServicerListServicer(transformedServicer);
-    setPriceBookListServicer(allPriceBooks)
-  }
-  else {
+      if (activeButton == "servicer") {
 
-    const categoriesWithPriceBooks = [];
-    const allPriceBooks = [];
-    
-    res.result[0].categories.forEach(category => {
-      console.log(category)
-      const priceBooks = (category.priceBooks || []).map(priceBook => {
-        const priceBookObj = {
-          label: priceBook.priceBookName,
-          value: priceBook.priceBookId,
-          categoryId: category.categoryId
-        };
-        allPriceBooks.push(priceBookObj);
-    
-        return priceBookObj;
-      });
-      categoriesWithPriceBooks.push({
-        label: category.categoryName,
-        value: category.categoryId,
-        priceBooks
-      });
-    });
-    
-      setCategoryListCat(categoriesWithPriceBooks)
-      setPriceBookListCat(allPriceBooks)
-    }
+        const transformedServicer = res.result[0].servicer.map(servicer => ({
+          label: servicer.name,
+          value: servicer._id,
+        }));
+        const categoriesWithPriceBooks = res.result[0].categories.map((category) => ({
+          label: category.categoryName,
+          value: category.categoryId,
+          priceBooks: category.priceBooks.map((priceBook) => ({
+            label: priceBook.priceBookName,
+            value: priceBook.priceBookId,
+          })),
+        }));
+        const allPriceBooks = res.result[0].categories.flatMap((category) =>
+          category?.priceBooks.map((priceBook) => ({
+            label: priceBook?.priceBookName,
+            value: priceBook?.priceBookId,
+          }))
+        );
+        setCategoryListServicer(categoriesWithPriceBooks);
+        setServicerListServicer(transformedServicer);
+        setPriceBookListServicer(allPriceBooks)
+      }
+      else {
+
+        const categoriesWithPriceBooks = [];
+        const allPriceBooks = [];
+
+        res.result[0].categories.forEach(category => {
+          console.log(category)
+          const priceBooks = (category.priceBooks || []).map(priceBook => {
+            const priceBookObj = {
+              label: priceBook.priceBookName,
+              value: priceBook.priceBookId,
+              categoryId: category.categoryId
+            };
+            allPriceBooks.push(priceBookObj);
+
+            return priceBookObj;
+          });
+          categoriesWithPriceBooks.push({
+            label: category.categoryName,
+            value: category.categoryId,
+            priceBooks
+          });
+        });
+
+        setCategoryListCat(categoriesWithPriceBooks)
+        setPriceBookListCat(allPriceBooks)
+      }
     } catch (error) {
       console.error("Error fetching sales data:", error);
     }
@@ -158,7 +159,7 @@ function DealerClaims() {
     // setLoading1(true);
     if (name === "categoryId") {
       const filteredCategory = categoryListCat.find(category => category.value === value);
-      if (filteredCategory) {    
+      if (filteredCategory) {
         setPriceBookListCat(filteredCategory.priceBooks);
       }
       setSelectedCat([])
@@ -168,13 +169,13 @@ function DealerClaims() {
       const selectedValues = value.map(item => item.value);
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
       setSelectedCat(matchingPriceBooks);
-    
+
       setFiltersCategory(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
     }
- 
+
     // getDatasetAtEvent(updatedFilters);
     // setLoading1(false);
   };
@@ -188,7 +189,7 @@ function DealerClaims() {
     }));
     if (name === "categoryId") {
       const filteredCategory = categoryListServicer.find(category => category.value === value);
-      if (filteredCategory) {    
+      if (filteredCategory) {
         setPriceBookListServicer(filteredCategory.priceBooks);
       }
       setSelectedSer([])
@@ -196,17 +197,17 @@ function DealerClaims() {
     }
     if (name === "priceBookId" && value) {
       const selectedValues = value.map(item => item.value);
-      console.log(selectedValues,priceBookListServicer)
+      console.log(selectedValues, priceBookListServicer)
       const matchingPriceBooks = priceBookListServicer.filter(priceBook => selectedValues.includes(priceBook.value));
       // setSelectedCat(matchingPriceBooks);
-    console.log(matchingPriceBooks)
-    setFiltersServicer(prev => ({
+      console.log(matchingPriceBooks)
+      setFiltersServicer(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-   }
+    }
 
-  //  setFiltersServicer(updatedFilters);
+    //  setFiltersServicer(updatedFilters);
     setLoading1(false);
   };
 
@@ -216,12 +217,12 @@ function DealerClaims() {
 
   const handleApplyFilters = () => {
     // setLoading1(true);
-    console.log(filterServicer,activeButton)
+    console.log(filterServicer, activeButton)
     if (activeButton == "category") {
       setFiltersForClaimCategory(filterCategory);
     } else if (activeButton == "servicer") {
       setFiltersForClaimServicer(filterServicer);
-    
+
     }
     // setLoading1(false);
   };
@@ -266,6 +267,70 @@ function DealerClaims() {
       });
     }
   }, []);
+
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
   return (
     <>
       {loading || loading1 ? <>
@@ -274,7 +339,7 @@ function DealerClaims() {
             <RotateLoader color="#333" />
           </div>
         </div> </> :
-        <div className="pb-8 mt-2 px-3 bg-grayf9">
+        <div className="pb-8 mt-2 px-3 ">
           <Headbar />
 
           <div className="flex">
@@ -283,10 +348,10 @@ function DealerClaims() {
                 Reporting
               </p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm font-Regular">
                   <Link to={`${location.pathname.includes("/reseller/sale") ? '/reseller/dashboard' : '/dealer/dashboard'}`}>Home / </Link>{" "}
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   {activeTab}
                 </li>
               </ul>
@@ -296,20 +361,39 @@ function DealerClaims() {
             <div className="flex w-full mb-3">
               <p className="p-0 self-center font-bold mr-4">Filter By :</p>
               <div className="self-center">
-                <Button
-                  onClick={() => handleButtonClick("servicer")}
-                  className={`!rounded-e-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${activeButton !== "servicer" && "!bg-[white] !text-[#333] "
-                    }`}
-                >
-                  Servicer
-                </Button>
-                <Button
-                  onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] ${activeButton !== "category" && "!bg-[white] !text-[#333] "
-                    }`}
-                >
-                  Category
-                </Button>
+                {activeButton === "servicer" ?
+                  <>
+                    <Button
+                      onClick={() => handleButtonClick("servicer")}
+                      className={`!rounded-e-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] `}
+                    >
+                      Servicer
+                    </Button>
+                    <InActiveButton
+                      onClick={() => handleButtonClick("category")}
+                      className={`!rounded-s-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] `}
+                    >
+                      Category
+                    </InActiveButton>
+                  </>
+                  :
+                  <>
+                    <InActiveButton
+                      onClick={() => handleButtonClick("servicer")}
+                      className={`!rounded-e-[0px] !px-2 !py-1 !border-[#333333] !border-[1px] `}
+                    >
+                      Servicer
+                    </InActiveButton>
+                    <Button
+                      onClick={() => handleButtonClick("category")}
+                      className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px]  `}
+                    >
+                      Category
+                    </Button>
+                  </>
+                }
+
+
               </div>
             </div>
             <Grid
@@ -361,12 +445,12 @@ function DealerClaims() {
                     <Button className="mr-2" onClick={handleApplyFilters}>
                       Filter
                     </Button>
-                    <Button
-                      className="!bg-white !text-[#333] border-[1px] border-[#333]"
+                    <InActiveButton
+                      className=""
                       onClick={handleResetFilters}
                     >
                       Reset
-                    </Button>
+                    </InActiveButton>
                   </div>
                 </>
               )}
@@ -426,12 +510,11 @@ function DealerClaims() {
                     <Button className="mr-2" onClick={handleApplyFilters}>
                       Filter
                     </Button>
-                    <Button
-                      className="!bg-white !text-[#333] border-[1px] border-[#333]"
+                    <InActiveButton
                       onClick={handleResetFilters}
                     >
                       Reset
-                    </Button>
+                    </InActiveButton>
                   </div>
                 </>
               )}
@@ -443,46 +526,14 @@ function DealerClaims() {
               <Grid className="mt-2">
                 <div className="col-span-5">
                   <div className="rounded-[30px] bg-white p-3 border-[1px] border-Light-Grey">
-                    <Grid className="!gap-1">
-                      {tabs.map((tab) => (
-                        <div className={tab.className} key={tab.id}>
-                          <Button
-                            className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                              ? ""
-                              : "!bg-grayf9 !text-black"
-                              }`}
-                            onClick={() => handleTabClick(tab.id)}
-                          >
-                            <div
-                              style={{
-                                maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                                backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                                maskRepeat: 'no-repeat',
-                                WebkitMaskRepeat: 'no-repeat',
-
-                                maskPosition: 'center',
-                                WebkitMaskPosition: 'center',
-                                maskSize: 'contain',
-                                WebkitMaskSize: 'contain'
-                              }}
-                              className="self-center pr-1 py-1 h-4 w-4"
-                            />
-                            <span
-                              style={{
-                                borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                                borderLeftWidth: '1px',
-                                paddingLeft: '7px',
-                                color: activeTab === tab.id ? buttonTextColor : 'black',
-                              }}
-                              className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                                }`}
-                            >
-                              {tab.label}
-                            </span>
-                          </Button>
-                        </div>
-                      ))}
+                    <Grid className="!gap-1 !grid-cols-2">
+                      {tabs.map((tab) =>
+                        activeTab === tab.id ? (
+                          <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                        ) : (
+                          <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                        )
+                      )}
                     </Grid>
                   </div>
                 </div>

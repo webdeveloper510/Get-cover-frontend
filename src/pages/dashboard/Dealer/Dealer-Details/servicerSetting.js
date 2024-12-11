@@ -545,7 +545,7 @@ function ServicerSetting(props) {
                                             <Input
                                                 type="color"
                                                 name={`sideBarButton2ndColor`}
-                                                tooltip="3"
+                                                tooltip="23"
                                                 className="!bg-white flex"
                                                 content='you can change the sideBar active page button color here'
                                                 className1="h-11"

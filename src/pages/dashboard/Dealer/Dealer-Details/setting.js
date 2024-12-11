@@ -88,6 +88,7 @@ function Setting(props) {
     setIsSetDefalt(false);
   };
   const [sideBarColor, setSideBarColor] = useState('');
+  const [chartFirstColor, setChartFirstColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
   const [sideBarButton2ndColor, setSideBarButton2ndColor] = useState('');
@@ -474,6 +475,7 @@ function Setting(props) {
     initialValues: {
       favIcon: selectedFile3,
       logoImage: selectedFile1,
+      chartFirstColor: chartFirstColor,
       sideBarColor: sideBarColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -500,6 +502,7 @@ function Setting(props) {
       try {
         setLoading(true);
         const colorScheme = [
+          { colorCode: values.chartFirstColor || chartFirstColor, colorType: "chartFirstColor" },
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
@@ -661,7 +664,7 @@ function Setting(props) {
               imageClass="w-10 h-10"
               index={'1'}
               title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                <SingleView className="border-Gray28 border  px-4 py-2 rounded-t-[22px]">
                   <p className="text-lg font-bold">General Setting</p>
                 </SingleView>
               }
@@ -1266,7 +1269,7 @@ function Setting(props) {
               imageClass="w-10 h-10"
               index={2}
               title={
-                <SingleView className="border-Gray28 border bg-Edit bg-cover px-4 py-2 rounded-t-[22px]">
+                <SingleView className="border-Gray28 border  px-4 py-2 rounded-t-[22px]">
                   <p className="text-lg font-bold">  White Label Setting</p>
                 </SingleView>
 
@@ -1402,7 +1405,20 @@ function Setting(props) {
                   <div className="col-span-12">
                     <p className="mb-3 font-bold">Color Setting </p>
                     <Grid >
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
+                        <Input
+                          type="color"
+                          name={`chartFirstColor`}
+                          tooltip="15"
+                          className="!bg-white flex "
+                          content='you can change website chart first color here'
+                          className1="h-11 "
+                          label="Chart first Color "
+                          placeholder=""
+                          value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                        />
+                      </div>
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`sideBarColor`}
@@ -1415,7 +1431,7 @@ function Setting(props) {
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`sideBarTextColor`}
@@ -1428,7 +1444,7 @@ function Setting(props) {
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`sideBarButtonColor`}
@@ -1441,11 +1457,11 @@ function Setting(props) {
                           value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`sideBarButtonColor`}
-                          tooltip="13"
+                          tooltip="23"
                           className="!bg-white flex !w-[111%]"
                           content='you can change the sideBar active page button second background color here'
                           className1="h-11"
@@ -1454,7 +1470,7 @@ function Setting(props) {
                           value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`sideBarButtonTextColor`}
@@ -1467,7 +1483,7 @@ function Setting(props) {
                           value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`buttonColor`}
@@ -1480,7 +1496,7 @@ function Setting(props) {
                           value={buttonColor} onChange={handleColorChange('buttonColor', setButtonColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`buttonTextColor`}
@@ -1493,7 +1509,7 @@ function Setting(props) {
                           value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`backGroundColor`}
@@ -1506,7 +1522,7 @@ function Setting(props) {
                           value={backGroundColor} onChange={handleColorChange('backGroundColor', setBackGroundColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`titleColor`}
@@ -1519,7 +1535,7 @@ function Setting(props) {
                           value={titleColor} onChange={handleColorChange('titleColor', setTitleColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`cardBackGroundColor`}
@@ -1532,7 +1548,7 @@ function Setting(props) {
                           value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`cardColor`}
@@ -1546,7 +1562,7 @@ function Setting(props) {
                         />
                       </div>
 
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`modelBackgroundColor`}
@@ -1559,7 +1575,7 @@ function Setting(props) {
                           value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`modelColor`}
@@ -1572,7 +1588,7 @@ function Setting(props) {
                           value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
                         />
                       </div>
-                      <div className="col-span-3 relative">
+                      <div className="col-span-4 relative">
                         <Input
                           type="color"
                           name={`inActiveButtonBackgroundColor`}
@@ -1590,7 +1606,7 @@ function Setting(props) {
                           type="color"
                           name={`inActiveButtonColor`}
                           tooltip="14"
-                          className="!bg-white flex "
+                          className="!bg-white flex w-[230px]"
                           content='you can change website inactive button text color here'
                           className1="h-11"
                           label="Inactive Button Text Color"

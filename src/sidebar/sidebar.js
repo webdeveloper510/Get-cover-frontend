@@ -526,12 +526,12 @@ const Lists = [
         image: Dropdown2,
         active: SeacondActive,
       },
-      // {
-      //   name: "Accounting",
-      //   url: "#",
-      //   image: Dropdown2,
-      //   active: ForthActive,
-      // },
+      {
+        name: "Report Download",
+        url: "/Reporting/download",
+        image: Dropdown2,
+        active: ForthActive,
+      },
     ],
   },
   {
@@ -1033,15 +1033,19 @@ function SideBar() {
       </style>
       <div className="xl:w-[220px] 2xl:w-[260px] md:w-[180px] min-h-[96vh] xl:h-full mb-8 fixed overflow-y-auto pl-3">
         <div style={{ backgroundColor: sideBarColor, color: sideBarTextColor }} className={` min-h-[95vh] rounded-3xl relative pl-[5px] pt-6`}>
+
           {(userType?.role != 'Super Admin' && isShow) &&
-            <img
-              src={`${url}uploads/logo/${encodeURIComponent(selectedFile3)}`}
-              className=" w-[60%] px-5"
-              alt="logo"
-            />}
+            <div className="bg-red py-[16px] absolute top-0 left-0 rounded-t-[24px]">
+              <img
+                src={`${url}uploads/logo/${encodeURIComponent(selectedFile3)}`}
+                className=" w-[64%] px-5"
+                alt="logo"
+              />
+            </div>
+          }
           <img
             src={`${url}uploads/logo/${encodeURIComponent(selectedFile2)}`}
-            className={`mx-auto pt-2 pb-6 w-full px-5`}
+            className={`mx-auto pt-2 pb-6 w-full px-5 ${(userType?.role != 'Super Admin' && isShow) && '!mt-[44px]'}`}
             alt="logo"
           />
           <hr className="border-Gray28 border-[1px]" />

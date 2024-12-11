@@ -1169,7 +1169,7 @@ function CustomerUser() {
             </Grid>
             {activeButton === "myAccount" ? (
               <>
-                <SingleView className="bg-Edit bg-cover px-8 mt-8 py-4 rounded-[30px]">
+                <SingleView className="px-8 mt-8 py-4 rounded-[30px]">
                   <Grid>
                     <div className="col-span-2 text-left">
                       <p className="text-base font-semibold my-3">
@@ -1521,12 +1521,12 @@ function CustomerUser() {
             >
               Yes
             </Button>
-            <Button
-              className="border w-full !border-Bright-Grey !bg-[transparent] !text-light-black !text-sm !font-Regular"
+            <InActiveButton
+              className="border w-full !border-Bright-Grey !text-sm !font-Regular"
               onClick={() => closeModal1()}
             >
               No
-            </Button>
+            </InActiveButton>
             <div className="col-span-1"></div>
           </Grid>
         </div>

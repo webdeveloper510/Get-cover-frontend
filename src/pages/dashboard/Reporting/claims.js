@@ -526,7 +526,6 @@ function Claims() {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -538,10 +537,8 @@ function Claims() {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >
@@ -620,14 +617,14 @@ function Claims() {
                     {activeButton !== "dealer" ?
                       <InActiveButton
                         onClick={() => handleButtonClick("dealer")}
-                        className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] `}
+                        className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] `}
                       >
                         Dealer
                       </InActiveButton>
                       :
                       <Button
                         onClick={() => handleButtonClick("dealer")}
-                        className={`!rounded-e-[0px] !py-1 !px-2 !border-light-black !border-[1px] `}
+                        className={`!rounded-e-[0px] !py-1 !px-2 !border-[1px] `}
                       >
                         Dealer
                       </Button>
@@ -639,7 +636,7 @@ function Claims() {
                     {activeButton !== "servicer" ?
                       <InActiveButton
                         onClick={() => handleButtonClick("servicer")}
-                        className={` !px-2 !py-1 !border-light-black !border-[1px]  ${isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
+                        className={` !px-2 !py-1 !border-[1px]  ${isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
                           }`}
                       >
                         Servicer
@@ -647,7 +644,7 @@ function Claims() {
                       :
                       <Button
                         onClick={() => handleButtonClick("servicer")}
-                        className={` !px-2 !py-1 !border-light-black !border-[1px]  ${isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
+                        className={` !px-2 !py-1 !border-[1px]  ${isResellerClaims ? "!rounded-e-[0px]" : "!rounded-[0px]"
                           }`}
                       >
                         Servicer
@@ -658,7 +655,7 @@ function Claims() {
                 )}
                 {activeButton !== "category" ? <InActiveButton
                   onClick={() => handleButtonClick("category")}
-                  className={`!rounded-s-[0px] !px-2 !py-1 !border-light-black !border-[1px]  `}
+                  className={`!rounded-s-[0px] !px-2 !py-1 !border-[1px]  `}
                 >
                   Category
                 </InActiveButton>
@@ -773,7 +770,6 @@ function Claims() {
                       Filter
                     </Button>
                     <InActiveButton
-                      className=" border-[1px] border-[#333]"
                       onClick={handleResetFilters}
                     >
                       Reset
@@ -823,7 +819,6 @@ function Claims() {
                       Filter
                     </Button>
                     <InActiveButton
-                      className="border-[1px] border-[#333]"
                       onClick={handleResetFilters}
                     >
                       Reset
@@ -928,7 +923,6 @@ function Claims() {
                       Filter
                     </Button>
                     <InActiveButton
-                      className="border-[1px] border-[#333]"
                       onClick={handleResetFilters}
                     >
                       Reset

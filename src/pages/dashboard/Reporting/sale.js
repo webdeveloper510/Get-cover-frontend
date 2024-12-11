@@ -74,6 +74,8 @@ function Sale() {
 
   const [buttonTextColor, setButtonTextColor] = useState('');
   const [backGroundColor, setBackGroundColor] = useState('');
+  const [buttonTextColor1, setButtonTextColor1] = useState('');
+  const [backGroundColor1, setBackGroundColor1] = useState('');
 
   useEffect(() => {
     const storedUserDetails = getUserDetailsFromLocalStorage();
@@ -87,6 +89,12 @@ function Sale() {
             break;
           case 'buttonTextColor':
             setButtonTextColor(color.colorCode);
+            break;
+          case 'inActiveButtonBackgroundColor':
+            setBackGroundColor1(color.colorCode);
+            break;
+          case 'inActiveButtonColor':
+            setButtonTextColor1(color.colorCode);
             break;
           default:
             break;
@@ -325,7 +333,6 @@ function Sale() {
         style={{
           maskImage: `url(${tab.icons})`,
           WebkitMaskImage: `url(${tab.icons})`,
-          backgroundColor: backGroundColor,
           maskRepeat: "no-repeat",
           WebkitMaskRepeat: "no-repeat",
           maskPosition: "center",
@@ -337,10 +344,8 @@ function Sale() {
       />
       <span
         style={{
-          borderColor: backGroundColor,
           borderLeftWidth: "1px",
           paddingLeft: "7px",
-          color: backGroundColor,
         }}
         className="ml-1 py-1 text-sm font-Regular"
       >

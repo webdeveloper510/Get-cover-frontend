@@ -102,7 +102,7 @@ function ResellerOrderDetails() {
 
         <Grid className="!grid-cols-4">
           <div className="col-span-1">
-            <SingleView className=" bg-Dealer-details bg-cover mt-5 p-5 rounded-[20px]">
+            <SingleView className="  mt-5 p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm  font-Regular">

@@ -1496,6 +1496,7 @@ function ResellerAddOrder() {
                         to={{
                           pathname: "/reseller/addCustomer",
                         }}
+                        className="text-blue-700 underline"
                         state={{
                           servicerId: formik.values?.servicerId,
                           orderId: orderId,

@@ -4,6 +4,7 @@ import { getUserDetailsFromLocalStorage } from '../services/extraServices';
 const MultiColorView = ({ children, className }) => {
     const [buttonTextColor, setButtonTextColor] = useState('');
     const [backGroundColor, setBackGroundColor] = useState('');
+    const [chartFirstColor, setChartFirstColor] = useState('');
 
     useEffect(() => {
         const storedUserDetails = getUserDetailsFromLocalStorage();
@@ -14,6 +15,9 @@ const MultiColorView = ({ children, className }) => {
                 switch (color.colorType) {
                     case 'sideBarColor':
                         setBackGroundColor(color.colorCode);
+                        break;
+                    case 'chartFirstColor':
+                        setChartFirstColor(color.colorCode);
                         break;
                     case 'sideBarTextColor':
                         setButtonTextColor(color.colorCode);
@@ -27,7 +31,7 @@ const MultiColorView = ({ children, className }) => {
 
     // Define styles for the parent div
     const parentStyle = {
-        backgroundImage: `linear-gradient(to right, #643F9F, ${backGroundColor})`, // Corrected linear-gradient format
+        backgroundImage: `linear-gradient(to right, ${chartFirstColor}, ${backGroundColor})`, // Corrected linear-gradient format
         color: buttonTextColor,
     };
 

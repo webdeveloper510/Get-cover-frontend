@@ -92,6 +92,7 @@ import ClaimList12 from "../pages/Dealer-screens/Claim/claimList";
 import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 import AllList from "../pages/Servicer-screens/Reporting/claims";
 import ClaimListing from "../pages/dashboard/Claim/claimListing";
+import ReportDownload from "../pages/dashboard/Reporting/reportDownload";
 
 const routes = [
   {
@@ -481,6 +482,16 @@ const routes = [
             element={<Sale />}
             role={"Super Admin"}
             path="/Reporting/sale"
+          />
+        ),
+      },
+      {
+        path: "/Reporting/download",
+        element: (
+          <PrivateRoute
+            element={<ReportDownload />}
+            role={"Super Admin"}
+            path="/Reporting/download"
           />
         ),
       },

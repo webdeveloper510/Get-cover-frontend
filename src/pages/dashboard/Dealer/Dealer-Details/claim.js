@@ -420,6 +420,7 @@ function ClaimList(props) {
     if (apiResponse) {
       getAllClaims();
     }
+    handleUnselectAll()
     setLoading1(false);
   };
 
@@ -1604,12 +1605,12 @@ function ClaimList(props) {
                           >
                             Mark As Paid
                           </Button>
-                          <Button
+                          <InActiveButton
                             onClick={handleUnselectAll}
-                            className="!bg-[white] border-[1px] !text-light-black hover:!bg-light-black hover:!text-[white] transition-colors duration-300 focus:outline-none !text-[14px] !py-[4px]"
+                            className=" !text-[14px] !py-[4px]"
                           >
                             Unselect
-                          </Button>
+                          </InActiveButton>
                         </div>
                       </div>
                     </Grid>
@@ -1732,9 +1733,11 @@ function ClaimList(props) {
                                       </p>
                                       <p className="text-light-black text-sm font-semibold">
                                         {res?.approveDate == '' ? <>
-                                          {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
-                                        </> :
-                                          <></>
+                                        </>
+                                          :
+                                          <>
+                                            {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                          </>
                                         }
                                       </p>
                                     </div>

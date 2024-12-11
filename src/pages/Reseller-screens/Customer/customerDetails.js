@@ -626,7 +626,7 @@ function ResellerCustomerDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[85vh] overflow-y-scroll">
-            <SingleView className=" bg-Dealer-details bg-cover p-5 rounded-[20px]">
+            <SingleView className="  p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm font-Regular">

@@ -16,6 +16,7 @@ import { useMyContext } from "./../../../context/context";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
+import InActiveButton from "../../../common/inActiveButton";
 
 function Sale() {
   const location = useLocation();
@@ -40,7 +41,7 @@ function Sale() {
   const containerRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const {  setFiltersCategoryTab,setFiltersForCategory,resetAllFilters } = useMyContext();
+  const { setFiltersCategoryTab, setFiltersForCategory, resetAllFilters } = useMyContext();
 
   useEffect(() => {
     localStorage.setItem("SaleMenu", activeTab);
@@ -63,26 +64,26 @@ function Sale() {
       const res = await getFilterListDropdown(
         isResellerReporting ? "resellerPortal" : "dealerPortal"
       );
-   
+
       const transformedData = res.result[0].categories.map((category) => ({
-        label: category?.categoryName , 
-        value: category?.categoryId , 
+        label: category?.categoryName,
+        value: category?.categoryId,
         priceBooks: (category?.priceBooks).map((priceBook) => ({
-          label: priceBook?.priceBookName ,
-          value: priceBook?.priceBookId ,
+          label: priceBook?.priceBookName,
+          value: priceBook?.priceBookId,
         })),
       }));
       const allPriceBooks = res.result[0].categories.flatMap((category) =>
         category?.priceBooks.map((priceBook) => ({
-          label: priceBook?.priceBookName ,
-          value: priceBook?.priceBookId ,
+          label: priceBook?.priceBookName,
+          value: priceBook?.priceBookId,
         }))
       );
-      console.log("allPriceBooks",allPriceBooks)
-       setCategoryListCat(transformedData);
-       setPriceBookListCat(allPriceBooks);
+      console.log("allPriceBooks", allPriceBooks)
+      setCategoryListCat(transformedData);
+      setPriceBookListCat(allPriceBooks);
     } catch (error) {
- 
+
     }
     // setLoading(false);
   };
@@ -129,7 +130,7 @@ function Sale() {
     }));
     if (name === "categoryId") {
       const filteredCategory = categoryListCat.find(category => category.value === value);
-      if (filteredCategory) {    
+      if (filteredCategory) {
         setPriceBookListCat(filteredCategory.priceBooks);
       }
       setSelectedCat([])
@@ -140,13 +141,13 @@ function Sale() {
       console.log(selectedValues)
       const matchingPriceBooks = priceBookListCat.filter(priceBook => selectedValues.includes(priceBook.value));
       // setSelectedCat(matchingPriceBooks);
-    console.log(matchingPriceBooks)
+      console.log(matchingPriceBooks)
       setFiltersCategory(prev => ({
         ...prev,
         [name]: matchingPriceBooks.map(item => item.value)
       }));
-   }
-   };
+    }
+  };
 
   const handleApplyFilters = () => {
     setFiltersForCategory(filterCategory);
@@ -158,7 +159,7 @@ function Sale() {
   //     priceBookId: [],
   //     categoryId: "",
   //   };
- 
+
   // };
   const handleResetFilters = () => {
     resetAllFilters();
@@ -175,6 +176,70 @@ function Sale() {
 
   };
 
+  const InactiveTabButton = ({ tab, onClick }) => (
+    <InActiveButton
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey "
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.icons})`,
+          WebkitMaskImage: `url(${tab.icons})`,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </InActiveButton>
+  );
+
+  // ActiveTabButton Component
+  const ActiveTabButton = ({ tab, onClick }) => (
+    <Button
+      className="flex self-center mr-2 w-[95%] !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey"
+      onClick={onClick}
+    >
+      <div
+        style={{
+          maskImage: `url(${tab.Activeicons})`,
+          WebkitMaskImage: `url(${tab.Activeicons})`,
+          backgroundColor: buttonTextColor,
+          maskRepeat: "no-repeat",
+          WebkitMaskRepeat: "no-repeat",
+          maskPosition: "center",
+          WebkitMaskPosition: "center",
+          maskSize: "contain",
+          WebkitMaskSize: "contain",
+        }}
+        className="self-center pr-1 py-1 h-4 w-4"
+      />
+      <span
+        style={{
+          borderColor: buttonTextColor,
+          borderLeftWidth: "1px",
+          paddingLeft: "7px",
+          color: buttonTextColor,
+        }}
+        className="ml-1 py-1 text-sm font-Regular"
+      >
+        {tab.label}
+      </span>
+    </Button>
+  );
+
   return (
     <>
       {loading || loading1 ?
@@ -184,16 +249,16 @@ function Sale() {
           </div>
         </div>
         :
-        <div className="pb-8 mt-2 px-3 bg-grayf9">
+        <div className="pb-8 mt-2 px-3">
           <Headbar />
           <div className="flex">
             <div className="pl-3">
               <p className="font-bold text-[36px] leading-9 mb-[3px]">Reporting</p>
               <ul className="flex self-center">
-                <li className="text-sm text-neutral-grey font-Regular">
+                <li className="text-sm font-Regular">
                   <Link to={`${location.pathname.includes("/reseller/sale") ? '/reseller/dashboard' : '/dealer/dashboard'}`}>Home / </Link>
                 </li>
-                <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+                <li className="text-sm font-semibold ml-1 pt-[1px]">
                   Sale ({activeTab})
                 </li>
               </ul>
@@ -239,12 +304,12 @@ function Sale() {
               </div>
               <div className="col-span-1 self-center mx-auto pl-3">
                 <Button onClick={handleApplyFilters}>Filter</Button>
-                <Button
-                  className="!ml-2 !bg-white !border-[1px] !border-[#333] !text-[#333]"
+                <InActiveButton
+                  className="!ml-2 "
                   onClick={handleResetFilters}
                 >
                   Reset
-                </Button>
+                </InActiveButton>
               </div>
             </Grid>
           </Card>
@@ -256,43 +321,13 @@ function Sale() {
                     className={`rounded-[30px] px-2 py-3 border-[1px] flex border-Light-Grey`}
                     ref={containerRef}
                   >
-                    {tabs.map((tab) => (
-                      <Button
-                        className={`flex self-center w-full !px-2 !py-1 rounded-xl border-[1px] border-Light-Grey ${activeTab === tab.id
-                          ? ""
-                          : "!bg-grayf9 !text-black"
-                          }`}
-                        onClick={() => handleTabClick(tab.id)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            WebkitMaskImage: `url(${activeTab === tab.id ? tab.Activeicons : tab.icons})`,
-                            backgroundColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            maskRepeat: 'no-repeat',
-                            WebkitMaskRepeat: 'no-repeat',
-
-                            maskPosition: 'center',
-                            WebkitMaskPosition: 'center',
-                            maskSize: 'contain',
-                            WebkitMaskSize: 'contain'
-                          }}
-                          className="self-center pr-1 py-1 h-4 w-4"
-                        />
-                        <span
-                          style={{
-                            borderColor: activeTab === tab.id ? buttonTextColor : 'black',
-                            borderLeftWidth: '1px',
-                            paddingLeft: '7px',
-                            color: activeTab === tab.id ? buttonTextColor : 'black',
-                          }}
-                          className={`ml-1 py-1 text-sm font-Regular ${activeTab === tab.id ? "text-white" : "text-black"
-                            }`}
-                        >
-                          {tab.label}
-                        </span>
-                      </Button>
-                    ))}
+                    {tabs.map((tab) =>
+                      activeTab === tab.id ? (
+                        <ActiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      ) : (
+                        <InactiveTabButton key={tab.id} tab={tab} onClick={() => handleTabClick(tab.id)} />
+                      )
+                    )}
                   </div>
                 </div>
               </Grid>

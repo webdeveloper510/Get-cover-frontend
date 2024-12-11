@@ -348,7 +348,7 @@ function DealerDashboard() {
         setTimeout(() => {
           window.location.reload(true);
           setLoading(false);
-        }, 2000)
+        }, 3000)
       }
     }
   }, []);

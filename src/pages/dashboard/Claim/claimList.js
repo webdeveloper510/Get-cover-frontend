@@ -3269,7 +3269,7 @@ function ClaimList(props) {
                     value={formik1.values.dateFilter}
                   />
                 </div>
-                {formik1.values.filterbyName != '' && <>
+                {formik1.values.dateFilter != '' && <>
                   <div className="col-span-6">
                     <Input
                       type="date"

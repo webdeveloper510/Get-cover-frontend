@@ -20,6 +20,10 @@
   /* Change the color to match your design */
 }
 
+.react-tooltip  {
+  z-index: 9999;
+}
+
 .rdrDateDisplayWrapper {
   display: none !important;
 }

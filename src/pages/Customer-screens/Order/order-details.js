@@ -212,7 +212,7 @@ function CustomerOrderDetails() {
 
         <Grid className="!grid-cols-4 mt-5">
           <div className="col-span-1 max-h-[80vh] overflow-y-scroll">
-            <SingleView className=" bg-Dealer-details bg-cover h-[80vh] p-5 rounded-[20px]">
+            <SingleView className="  h-[80vh] p-5 rounded-[20px]">
               <Grid>
                 <div className="col-span-9">
                   <p className="text-sm font-Regular">

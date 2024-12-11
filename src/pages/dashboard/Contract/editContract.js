@@ -165,7 +165,7 @@ function EditContract() {
           </div>
         ) : (
           <>
-            <SingleView className="bg-Edit bg-cover px-8 mt-8 mr-4 py-16 rounded-[30px]">
+            <SingleView className=" px-8 mt-8 mr-4 py-16 rounded-[30px]">
               <Grid className="mx-auto ">
                 <div className="col-span-3 self-center py-2 border-r border-[#4e4e4e]">
                   <div className="flex">

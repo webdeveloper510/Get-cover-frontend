@@ -12,6 +12,7 @@ import {
 import { RotateLoader } from "react-spinners";
 import { useMyContext } from "../../../../context/context";
 import { useLocation } from "react-router-dom";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function DealerAll({ activeTab, activeButton }) {
   const formatDateToYYYYDDMM = (date) => {
@@ -19,7 +20,7 @@ function DealerAll({ activeTab, activeButton }) {
     const year = newDate.getUTCFullYear();
     const day = String(newDate.getUTCDate()).padStart(2, '0');
     const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   };
   const location = useLocation();
@@ -49,7 +50,7 @@ function DealerAll({ activeTab, activeButton }) {
     const { startDate, endDate } = selectedRange;
 
     const startDateStr = formatDateToYYYYDDMM(startDate)
-    const endDateStr =formatDateToYYYYDDMM(endDate)
+    const endDateStr = formatDateToYYYYDDMM(endDate)
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -77,7 +78,7 @@ function DealerAll({ activeTab, activeButton }) {
   useEffect(() => {
     setLoading(true);
     getDatasetAtEvent({
-      startDate:  formatDateToYYYYDDMM(selectedRange.startDate),
+      startDate: formatDateToYYYYDDMM(selectedRange.startDate),
       endDate: formatDateToYYYYDDMM(selectedRange.endDate),
       dealerId: "",
       priceBookId: filtersCategoryTab1.priceBookId,
@@ -163,7 +164,7 @@ function DealerAll({ activeTab, activeButton }) {
     const adjustDateToUTC = (date) => {
       return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     };
-  
+
     const today = adjustDateToUTC(new Date());
 
     if (isValidDateRange(startDate, endDate)) {
@@ -196,9 +197,9 @@ function DealerAll({ activeTab, activeButton }) {
                   <p className="text-sm self-center mr-5">
                     {`Selected Range: ${selectedRange.startDate} - ${selectedRange.endDate}`}
                   </p>
-                  <Button className="!bg-white !text-black" onClick={openModal}>
+                  <InActiveButton onClick={openModal}>
                     <span className="py-1">Date Filter</span>
-                  </Button>
+                  </InActiveButton>
                 </div>
 
                 <div className="col-span-12">

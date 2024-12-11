@@ -2070,6 +2070,7 @@ function AddOrder() {
                             to={{
                               pathname: "/addCustomer",
                             }}
+                            className="text-blue-700 underline"
                             state={{
                               dealerId: formik.values?.dealerId,
                               resellerId: formik.values?.resellerId == null ? "" : formik.values?.resellerId,

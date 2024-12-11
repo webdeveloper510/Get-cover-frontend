@@ -11,6 +11,7 @@ import {
 } from "../../../../services/reportingServices";
 import { useMyContext } from "../../../../context/context";
 import { useLocation } from "react-router-dom";
+import InActiveButton from "../../../../common/inActiveButton";
 
 function ClaimContent({
   activeTab,
@@ -23,9 +24,10 @@ function ClaimContent({
     const year = newDate.getUTCFullYear();
     const day = String(newDate.getUTCDate()).padStart(2, '0');
     const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
-  
+
     return `${year}-${month}-${day}`;
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [graphDataCount, setGraphDataCount] = useState([]);
   const location = useLocation();
@@ -99,8 +101,8 @@ function ClaimContent({
 
   useEffect(() => {
     getDatasetAtEvent({
-      startDate:formatDateToYYYYDDMM(selectedRange.startDate),
-      endDate:formatDateToYYYYDDMM(selectedRange.endDate),
+      startDate: formatDateToYYYYDDMM(selectedRange.startDate),
+      endDate: formatDateToYYYYDDMM(selectedRange.endDate),
       priceBookId: [],
       categoryId: [],
       flag: flag,
@@ -110,8 +112,8 @@ function ClaimContent({
   useEffect(() => {
     if (flag1) {
       getDatasetAtEvent({
-        startDate:formatDateToYYYYDDMM(selectedRange.startDate),
-        endDate:formatDateToYYYYDDMM(selectedRange.endDate),
+        startDate: formatDateToYYYYDDMM(selectedRange.startDate),
+        endDate: formatDateToYYYYDDMM(selectedRange.endDate),
         primary: activeButton,
         flag: flag,
       });
@@ -144,7 +146,7 @@ function ClaimContent({
     };
     // alert(isResellerReporting)
     try {
-      const res = await getAllClaimsForDealer(data,isResellerReporting ? "resellerPortal":"dealerPortal");
+      const res = await getAllClaimsForDealer(data, isResellerReporting ? "resellerPortal" : "dealerPortal");
       const amountData = res?.result?.graphData?.map((item) => {
         const {
           total_claim,
@@ -186,7 +188,7 @@ function ClaimContent({
     const adjustDateToUTC = (date) => {
       return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     };
-  
+
     const today = adjustDateToUTC(new Date());
 
     if (isValidDateRange(startDate, endDate)) {
@@ -216,12 +218,12 @@ function ClaimContent({
                 <p className="pr-4 self-center">
                   {`Selected Range: ${selectedRange.startDate} - ${selectedRange.endDate}`}
                 </p>
-                <Button
-                  className="!bg-white border-[1px] !text-[#333] font-normal py-2 border-Light-Grey"
+                <InActiveButton
+                  className="font-normal py-2 border-Light-Grey"
                   onClick={openModal}
                 >
                   Date Filter
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-12">
                 <LineChart

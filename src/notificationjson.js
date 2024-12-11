@@ -336,6 +336,11 @@ export const Notifications = [
                 "label": "Servicer Disapproved",
 
                 "action": "pricebookCategoryStatusChange"
+            },
+            {
+                "label": "Contact form from B2C Portal",
+
+                "action": "pricebookCategoryStatusChange"
             }
         ]
     }

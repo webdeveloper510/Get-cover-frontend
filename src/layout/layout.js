@@ -102,7 +102,7 @@ function Layout() {
           )}
           <div
             className={`${shouldShowSidebar() ? "2xl:w-[calc(100%-10px)] xl:w-[calc(100%-10px)] md:w-[calc(100%-160px)] s:w-full sm:w-full pl-3" : "w-[100%]"
-              } h-full min-h-[94vh]`}
+              } h-full min-h-[94vh] pb-[40px]`}
           >
             <Outlet />
           </div>

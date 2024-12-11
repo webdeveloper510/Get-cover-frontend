@@ -900,6 +900,8 @@ function Account() {
   const [modelBackgroundColor, setModelBackgroundColor] = useState('');
   const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
   const [inActiveButtonColor, setInActiveButtonColor] = useState('');
+  const [chartFirstColor, setChartFirstColor] = useState('');
+
   const [modelColor, setModelColor] = useState('');
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
   const [cardColor, setCardColor] = useState('');
@@ -1003,6 +1005,7 @@ function Account() {
       logoImage: selectedFile1,
       title: title,
       sideBarColor: sideBarColor,
+      chartFirstColor: chartFirstColor,
       sideBarButton2ndColor: sideBarButton2ndColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -1029,6 +1032,7 @@ function Account() {
       try {
         setLoading(true);
         const colorScheme = [
+          { colorCode: values.chartFirstColor || chartFirstColor, colorType: "chartFirstColor" },
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
@@ -1157,32 +1161,6 @@ function Account() {
     }
   };
 
-  const OrderNotifications = [
-    {
-      "text": "Adding New Order but not processing",
-      "action": "pricebookCategoryUpdated"
-    },
-    {
-      "text": "Adding new Order and processing also",
-      "action": "pricebookCategoryStatusChange"
-    },
-    {
-      "text": "Marking Order Paid",
-      "action": "pricebookCategoryStatusChange"
-    },
-    {
-      "text": "Updating Order but not processing",
-      "action": "pricebookCategoryStatusChange"
-    },
-    {
-      "text": "Updating Order and processing also",
-      "action": "pricebookCategoryStatusChange"
-    },
-    {
-      "text": "Archiving Order",
-      "action": "pricebookCategoryStatusChange"
-    }
-  ]
 
 
   const [labels, setLabels] = useState(Array(sections.length).fill(""));
@@ -2032,6 +2010,19 @@ function Account() {
                       <div className="col-span-2 relative">
                         <Input
                           type="color"
+                          name={`chartFirstColor`}
+                          tooltip="15"
+                          className="!bg-white flex "
+                          content='you can change website chart first color here'
+                          className1="h-11"
+                          label="Chart first Color "
+                          placeholder=""
+                          value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                        />
+                      </div>
+                      <div className="col-span-2 relative">
+                        <Input
+                          type="color"
                           name={`sideBarColor`}
                           className1="h-11"
                           tooltip="1"
@@ -2072,7 +2063,7 @@ function Account() {
                         <Input
                           type="color"
                           name={`sideBarButton2ndColor`}
-                          tooltip="4"
+                          tooltip="24"
                           className="!bg-white flex !w-[111%]"
                           content='you can change the sideBar active page button gradent second color here'
                           className1="h-11"
@@ -2225,6 +2216,7 @@ function Account() {
                           value={inActiveButtonColor} onChange={handleColorChange('inActiveButtonColor', setInActiveButtonColor)}
                         />
                       </div>
+
                     </Grid>
                   </div>
                 </Grid>
@@ -2250,7 +2242,7 @@ function Account() {
                     imageClass="w-10 h-10"
                     className='!my-2'
                     title={
-                      <SingleView className="border-Gray28 border bg-Edit bg-cover rounded-t-[22px]">
+                      <SingleView className="border-Gray28 border  rounded-t-[22px]">
                         <Grid className=" !gap-2 ">
                           <div className="col-span-12 px-4 py-2">
                             <p className="text-lg font-bold">{section.title}</p>
