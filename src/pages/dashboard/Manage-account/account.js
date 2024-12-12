@@ -998,6 +998,7 @@ function Account() {
       console.error("Error fetching user details:", error);
     }
   };
+
   const siteChange = useFormik({
     initialValues: {
       favIcon: selectedFile2,
@@ -2220,7 +2221,7 @@ function Account() {
                   </div>
                 </Grid>
                 <div className="text-right">
-                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
+                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold " type="button">Set As Default Color</Button>}
 
                   <InActiveButton onClick={() => handleReset()} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>
