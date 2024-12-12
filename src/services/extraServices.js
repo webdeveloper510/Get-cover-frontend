@@ -230,6 +230,19 @@ export const getSuperAdminMembers = async (data) => {
   }
 };
 
+export const getUserNotificationData = async (id) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/user/getUserNotificationData/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const uploadFile = async (data) => {
   const headers = createHeaders();
   try {

@@ -24,7 +24,7 @@ import Cross1 from "../../../assets/images/Cross_Button.png";
 import {
   addSuperAdminMembers,
   changePasswordbyToken,
-  changePrimaryById,
+  getUserNotificationData,
   editUserDetailsbyToken,
   getSuperAdminMembers,
   uploadFile,
@@ -45,16 +45,13 @@ import {
 } from "../../../services/userServices";
 import Select from "../../../common/select";
 import PasswordInput from "../../../common/passwordInput";
-import { WithContext as ReactTags } from "react-tag-input";
 import { MultiSelect } from "react-multi-select-component";
-import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
 import CollapsibleDiv from "../../../common/collapsibleDiv";
 import SwitchButton from "../../../common/switch";
 import { editOption, getOptions } from "../../../services/claimServices";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
-import USPhoneNumberInput from "../../../common/usPhoneInput";
 import { Notifications } from "../../../notificationjson.js";
 function Account() {
   const [repairValue, repair_status] = useState({});
@@ -88,6 +85,8 @@ function Account() {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [email, setEmail] = useState("");
   const [selectedFile2, setSelectedFile2] = useState(null);
+  const [notificationSettings, setNotificationSettings] = useState({});
+  const [notificationList,setNotificationList]= useState(Notifications)
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
@@ -100,8 +99,6 @@ function Account() {
     phone: "",
     position: "",
   });
-  const notificationList = Notifications;
-  console.log('------------red', notificationList)
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
     firstName: "",
@@ -317,10 +314,38 @@ function Account() {
     setIsPasswordOpen(false);
   };
 
-  const openNotification = () => {
+  const openNotification = async (id) => {
+    const data = await getUserNotificationData(id);
+    const notifications = data.result.notifications;
+  console.log(notifications)
+    const mappedSettings = {};
+    Object.keys(notifications).forEach((categoryKey) => {
+      Object.keys(notifications[categoryKey]).forEach((subKey) => {
+        if (typeof notifications[categoryKey][subKey] === "boolean") {
+          mappedSettings[subKey] = notifications[categoryKey][subKey];
+        }
+      });
+    });
+const newValue =notificationList.map((notification) => ({
+      ...notification,
+      sections: notification.sections.map((section) => ({
+        ...section,
+        isOn: mappedSettings[section.actionKey || section.action] || false,
+      })),
+    }));
+    
+    console.log('------------red', newValue)
+    setNotificationSettings(mappedSettings);
     setIsNotificationOpen(true);
-  }
-
+  };
+  
+  const handleAddOrUpdate1 = (actionKey) => {
+    setNotificationSettings((prevSettings) => ({
+      ...prevSettings,
+      [actionKey]: !prevSettings[actionKey],
+    }));
+  };
+  
   const closeNotification = () => {
     setIsNotificationOpen(false);
   }
@@ -491,6 +516,17 @@ function Account() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreatethreshold(selectedValue);
   };
+  
+  const handleSelectAll = (sectionKey) => {
+    const updatedSettings = { ...notificationSettings };
+    const section = Notifications.find((notification) => notification.index === sectionKey);
+    section.sections.forEach(({ action, actionKey }) => {
+      const actionKeyToUse = actionKey || action;
+      updatedSettings[actionKeyToUse] = true;
+    });
+    setNotificationSettings(updatedSettings);
+  };
+
   const formikEmail = useFormik({
     initialValues: {
       notificationTo: [],
@@ -2785,111 +2821,64 @@ function Account() {
         </div>
       </Modal>
 
-      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className='!w-[90%]'>
-        <Button
-          onClick={closeNotification}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-        >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
-        </Button>
-        <div className=" py-3">
-          <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
-          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
-            <Grid className="!grid-cols-2 ">
-              <div>
-                {(notificationList || []).slice(0, 4).map(({ index, title, sections }, idx) => (
-                  <CollapsibleDiv
-                    key={index}
-                    ShowData={showdata}
-                    activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                    imageClass="w-10 h-10"
-                    className="!my-2"
-                    index={index}
-                    title={
-                      <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                        <p className="text-lg font-bold">{title}</p>
-                      </SingleView>
-                    }
-                  >
-                    <div className="px-4 pt-2 pb-4 border">
-                      <div className="text-end ml-auto mb-2">
-                        <Button type="button" className='!text-sm ' >Select All</Button>
-                      </div>
-                      <Grid className="!grid-cols-12 !gap-2">
-                        {sections.map(({ label, action }, itemIdx) => (
-                          <div className="col-span-6" key={itemIdx}>
-                            <Grid className="!gap-0">
-                              <div className="col-span-8 self-center">
-                                <p className="flex text-[12px] font-semibold justify-between">
-                                  {label}
-                                </p>
-                              </div>
-                              <div className="col-span-4">
-                                <SwitchButton
-                                  isOn={false}
-                                  handleToggle={() => handleAddOrUpdate12(action)}
-                                />
-                              </div>
-                            </Grid>
-                          </div>
-                        ))}
+      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
+  <Button
+    onClick={closeNotification}
+    className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+  >
+    <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+  </Button>
+  <div className="py-3">
+    <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
+    <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
+      <Grid className="!grid-cols-2">
+        {Object.entries(notificationList || []).map(([key, { index, title, sections }], i) => (
+          <div key={index} className="mb-4">
+            <CollapsibleDiv
+              key={index}
+              ShowData={showdata}
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+              imageClass="w-10 h-10"
+              className="!my-2"
+              index={index}
+              title={
+                <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+                  <p className="text-lg font-bold">{title}</p>
+                </SingleView>
+              }
+            >
+              <div className="px-4 pt-2 pb-4 border">
+                <div className="text-end ml-auto mb-2">
+                  <Button type="button" className="!text-sm"   onClick={() => handleSelectAll(index)}>Select All</Button>
+                </div>
+                <Grid className="!grid-cols-12 !gap-2">
+                  {sections.map(({ label, action }, itemIdx) => (
+                  
+                    <div className="col-span-6" key={itemIdx}>
+                      <Grid className="!gap-0">
+                        <div className="col-span-8 self-center">
+                          <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                        </div>
+                        <div className="col-span-4">
+                          <SwitchButton
+                            isOn={notificationSettings[action] || false}
+                            handleToggle={() => handleAddOrUpdate1(action)}
+                          />
+                        </div>
                       </Grid>
                     </div>
-                  </CollapsibleDiv>
-                ))}
+                  ))}
+                </Grid>
               </div>
-              <div>
-                {(notificationList || []).slice(4, 8).map(({ index, title, sections }, idx) => (
-                  <CollapsibleDiv
-                    key={index}
-                    ShowData={showdata}
-                    activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                    imageClass="w-10 h-10"
-                    className="!my-2"
-                    index={index}
-                    title={
-                      <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                        <p className="text-lg font-bold">{title}</p>
-                      </SingleView>
-                    }
-                  >
-                    <div className="px-4 pt-2 pb-4 border">
-                      <div className="text-end ml-auto mb-2">
-                        <Button type="button" className='!text-sm ' >Select All</Button>
-                      </div>
-                      <Grid className="!grid-cols-12 !gap-2">
-                        {sections.map(({ label, action }, itemIdx) => (
-                          <div className="col-span-6" key={itemIdx}>
-                            <Grid className="!gap-0">
-                              <div className="col-span-8 self-center">
-                                <p className="flex text-[12px] font-semibold justify-between">
-                                  {label}
-                                </p>
-                              </div>
-                              <div className="col-span-4">
-                                <SwitchButton
-                                  isOn={false}
-                                  handleToggle={() => handleAddOrUpdate12(action)}
-                                />
-                              </div>
-                            </Grid>
-                          </div>
-                        ))}
-                      </Grid>
-                    </div>
-                  </CollapsibleDiv>
-                ))}
-              </div>
-
-            </Grid>
+            </CollapsibleDiv>
           </div>
-        </div>
-      </Modal>
+        ))}
+      </Grid>
+    </div>
+  </div>
+</Modal>
+
 
     </>
   );
