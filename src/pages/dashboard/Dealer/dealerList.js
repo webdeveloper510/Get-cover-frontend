@@ -182,7 +182,7 @@ function DealerList() {
       selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "120px",
     },
     {
       name: "Name",

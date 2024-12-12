@@ -143,7 +143,7 @@ function ServicerList() {
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "120px",
     },
     {
       name: "Servicer Name",

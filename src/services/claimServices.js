@@ -394,6 +394,21 @@ export const editClaimServicerValue = async (id, data) => {
   }
 };
 
+export const deleteDownloadReport = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.delete(`${url}/claim/deleteClaimReporting/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const editClaimTypeValue = async (id, data) => {
   const headers = createHeaders();
 

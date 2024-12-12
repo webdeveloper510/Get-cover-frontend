@@ -147,7 +147,7 @@ function ResellerList() {
       selector: (row, index) => index + 1,
       sortable: true,
       minWidth: "auto",
-      maxWidth: "90px",
+      maxWidth: "120px",
     },
     {
       name: "Name",
