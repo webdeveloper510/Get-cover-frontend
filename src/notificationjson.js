@@ -5,27 +5,27 @@ export const Notifications = [
         "sections": [
             {
                 "label": "Adding New Order but not processing",
-                "action": "pricebookCategoryUpdated"
+                "action": "addingNewOrderPending"
             },
             {
                 "label": "Adding new Order and processing also",
-                "action": "pricebookCategoryStatusChange"
+                "action": "addingNewOrderActive"
             },
             {
                 "label": "Marking Order Paid",
-                "action": "pricebookCategoryStatusChange"
+                "action": "makingOrderPaid"
             },
             {
                 "label": "Updating Order but not processing",
-                "action": "pricebookCategoryStatusChange"
+                "action": "updateOrderPending"
             },
             {
                 "label": "Updating Order and processing also",
-                "action": "pricebookCategoryStatusChange"
+                "action": "updateOrderActive"
             },
             {
                 "label": "Archiving Order",
-                "action": "pricebookCategoryStatusChange"
+                "action": "archivinOrder"
             }
         ]
     },
@@ -35,42 +35,42 @@ export const Notifications = [
         "sections": [
             {
                 "label": "File New Single Claim",
-                "actionKey": "fileNewSingleClaim",
+                "action": "newClaim",
 
             },
             {
                 "label": "File Bulk Claim",
-                "actionKey": "fileBulkClaim",
+                "action": "fileBulkClaimAdmin",
 
             },
             {
                 "label": "Claim List - Servicer Update",
-                "actionKey": "claimListServicerUpdate",
+                "action": "servicerUpdate",
 
             },
             {
                 "label": "Claim List - Customer Status Update",
-                "actionKey": "claimListCustomerStatusUpdate",
+                "action": "customerStatusUpdate",
 
             },
             {
                 "label": "Claim List - Claim Status Update",
-                "actionKey": "claimListClaimStatusUpdate",
+                "action": "claimStatusUpdate",
 
             },
             {
                 "label": "Claim List - Repair Status Update",
-                "actionKey": "claimListRepairStatusUpdate",
+                "action": "repairStatusUpdate",
 
             },
             {
                 "label": "Repair Parts/ Labor Update",
-                "actionKey": "repairPartsLaborUpdate",
+                "action": "partsUpdate",
 
             },
             {
                 "label": "Claim Comments",
-                "actionKey": "claimComments",
+                "action": "claimComment",
 
             }
         ]
@@ -81,47 +81,37 @@ export const Notifications = [
         "sections": [
             {
                 "label": "New Admin User Created",
-                "actionKey": "newAdminUserCreated",
+                "action": "userAdded",
 
             },
             {
                 "label": "Pricebook Category Added",
-                "actionKey": "pricebookCategoryAdded",
+                "action": "categoryAdded",
 
             },
             {
                 "label": "Pricebook Category Updated",
-                "actionKey": "pricebookCategoryUpdated",
-
-            },
-            {
-                "label": "Pricebook Category Status Change",
-                "actionKey": "pricebookCategoryStatusChange",
+                "action": "categoryUpdate",
 
             },
             {
                 "label": "Company Pricebook Added",
-                "actionKey": "companyPricebookAdded",
+                "action": "priceBookAdd",
 
             },
             {
                 "label": "Company Pricebook Updated",
-                "actionKey": "companyPricebookUpdated",
-
-            },
-            {
-                "label": "Company Pricebook Status Change",
-                "actionKey": "companyPricebookStatusChange",
+                "action": "priceBookUpdate",
 
             },
             {
                 "label": "Assign Dealer of the Servicer",
-                "actionKey": "assignDealerServicer",
+                "action": "assignDealerServicer",
 
             },
             {
                 "label": "Unassign Servicer for the Dealer",
-                "actionKey": "unassignServicerDealer",
+                "action": "unassignDealerServicer",
 
             }
         ]
@@ -132,37 +122,37 @@ export const Notifications = [
         "sections": [
             {
                 "label": "New Servicer Added",
-                "actionKey": "newServicerAdded",
+                "action": "servicerAdded",
 
             },
             {
                 "label": "New User Added",
-                "actionKey": "newUserAdded",
+                "action": "userAdded",
 
             },
-            {
-                "label": "Status Changed",
-                "actionKey": "statusChanged",
+            // {
+            //     "label": "Status Changed",
+            //     "action": "statusChanged",
 
-            },
+            // },
             {
                 "label": "Details Updated",
-                "actionKey": "detailsUpdated",
+                "action": "userUpdate",
 
             },
             {
                 "label": "Primary User Changed",
-                "actionKey": "primaryUserChanged",
+                "action": "primaryChanged",
 
             },
-            {
-                "label": "User Status Changed",
-                "actionKey": "userStatusChanged",
+            // {
+            //     "label": "User Status Changed",
+            //     "action": "userStatusChanged",
 
-            },
+            // },
             {
                 "label": "User Deleted",
-                "actionKey": "userDeleted",
+                "action": "userDelete",
 
             }
         ]
@@ -175,58 +165,58 @@ export const Notifications = [
             {
                 "label": "New Dealer Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerAdded"
             },
             {
                 "label": "New User Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userAdded"
             },
-            {
-                "label": "Status Changed",
+            // {
+            //     "label": "Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "Details Updated",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userUpdate"
             },
             {
                 "label": "Primary User Changed",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "primaryChanged"
             },
-            {
-                "label": "User Status Changed",
+            // {
+            //     "label": "User Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "User Deleted",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userDelete"
             },
             {
                 "label": "Dealer Price Book Uploaded (bulk)",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerPriceBookUpload"
             },
             {
                 "label": "Single Dealer Book Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerPriceBookAdd"
             },
             {
                 "label": "Single Dealer Book Updated",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerPriceBookUpdate"
             },
-            {
-                "label": "Single Dealer Book Status Change",
+            // {
+            //     "label": "Single Dealer Book Status Change",
 
-                "action": "pricebookCategoryStatusChange"
-            }
+            //     "action": "pricebookCategoryStatusChange"
+            // }
         ]
     },
     {
@@ -236,37 +226,37 @@ export const Notifications = [
             {
                 "label": "New Reseller Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "resellerAdded"
             },
             {
                 "label": "New User Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userAdd"
             },
-            {
-                "label": "Status Changed",
+            // {
+            //     "label": "Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "Details Updated",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userUpdate"
             },
             {
                 "label": "Primary User Changed",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "primaryChange"
             },
-            {
-                "label": "User Status Changed",
+            // {
+            //     "label": "User Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "User Deleted",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userDelete"
             }
         ]
     },
@@ -277,37 +267,37 @@ export const Notifications = [
             {
                 "label": "New Customer Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "customerAdded"
             },
             {
                 "label": "New User Added",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userAdd"
             },
-            {
-                "label": "Status Changed",
+            // {
+            //     "label": "Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "Details Updated",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userUpdate"
             },
             {
                 "label": "Primary User Changed",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "primaryChange"
             },
-            {
-                "label": "User Status Changed",
+            // {
+            //     "label": "User Status Changed",
 
-                "action": "pricebookCategoryStatusChange"
-            },
+            //     "action": "pricebookCategoryStatusChange"
+            // },
             {
                 "label": "User Deleted",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "userDelete"
             }
         ]
     },
@@ -318,30 +308,30 @@ export const Notifications = [
             {
                 "label": "New Dealer Registration Requests",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerRegistrationRequest"
 
             },
             {
                 "label": "New Servicer Registration Requests",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "servicerRegistrationRequest"
 
             },
             {
                 "label": "Dealer Disapproved",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "dealerDisapproved"
             },
             {
                 "label": "Servicer Disapproved",
 
-                "action": "pricebookCategoryStatusChange"
+                "action": "servicerDisapproved"
             },
-            {
-                "label": "Contact form from B2C Portal",
+            // {
+            //     "label": "Contact form from B2C Portal",
 
-                "action": "pricebookCategoryStatusChange"
-            }
+            //     "action": "pricebookCategoryStatusChange"
+            // }
         ]
     }
 
