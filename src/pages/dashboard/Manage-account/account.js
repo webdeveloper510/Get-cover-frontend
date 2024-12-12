@@ -928,6 +928,16 @@ function Account() {
     }
   };
 
+  const handleSelectAll = (sectionKey) => {
+    const updatedSettings = { ...notificationSettings };
+    const section = Notifications.find((notification) => notification.index === sectionKey);
+    section.sections.forEach(({ action, actionKey }) => {
+      const actionKeyToUse = actionKey || action;
+      updatedSettings[actionKeyToUse] = true;
+    });
+    setNotificationSettings(updatedSettings);
+  };
+
   const [thresholdAmount, setThresholdAmount] = useState("");
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
