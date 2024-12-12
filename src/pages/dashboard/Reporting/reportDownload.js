@@ -82,7 +82,7 @@ function ReportDownload() {
     {
       name: (
         <div>
-          Report Created On
+          Created On
         </div>
       ),
       selector: (row) => {

@@ -127,6 +127,7 @@ function Account() {
       [groupName]: value === "true" ? true : false,
     }));
   };
+
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
   const [sections, setSections] = useState([]);
@@ -135,6 +136,7 @@ function Account() {
       setSelectedAction(null);
     }
   };
+
   const closeUserModal = () => {
     setIsUserModalOpen(false);
     setInitialFormValues({
@@ -147,6 +149,7 @@ function Account() {
     });
     userValues.resetForm();
   };
+
   useEffect(() => {
     setLoading(true);
     fetchUserDetails();
@@ -155,8 +158,6 @@ function Account() {
       fetchUserMembers();
     }, 2000);
   }, []);
-
-  useEffect(() => { }, []);
 
   const fetchUserDetails = async () => {
     try {
@@ -211,10 +212,12 @@ function Account() {
     });
     setIsUserModalOpen(true);
   };
+
   const status = [
     { label: "Active", value: true },
     { label: "Inactive", value: false },
   ];
+
   const closeModal2 = () => {
     setIsModalOpen2(false);
     setInitialFormValues({
@@ -226,16 +229,20 @@ function Account() {
       id: "",
     });
   };
+
   const closeModal1 = () => {
     setIsModalOpen1(false);
   };
+
   const openModal2 = () => {
     setIsModalOpen2(true);
   };
+
   const openModal1 = (id) => {
     setDeleteId(id);
     setIsModalOpen1(true);
   };
+
   useEffect(() => {
     let intervalId;
 
@@ -305,6 +312,7 @@ function Account() {
     }
     setDeleteLoading(false);
   };
+
   const closeModal12 = () => {
     setIsModalOpen12(false);
   };
@@ -414,6 +422,7 @@ function Account() {
   const handleSelectChange = async (name, value) => {
     formik.setFieldValue(name, value);
   };
+
   const formik = useFormik({
     initialValues: initialFormValues,
     enableReinitialize: true,
@@ -491,6 +500,7 @@ function Account() {
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreatethreshold(selectedValue);
   };
+
   const formikEmail = useFormik({
     initialValues: {
       notificationTo: [],
@@ -520,6 +530,7 @@ function Account() {
       }
     },
   });
+
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .transform((originalValue) => originalValue.trim())
@@ -853,6 +864,7 @@ function Account() {
 
     console.log(value);
   };
+
   const [selectedEmail, setSelectedEmail] = useState([]);
   const [emails, setEmails] = useState([]);
   const handleButtonClick = (button) => {
@@ -862,6 +874,7 @@ function Account() {
   const [selectedFile1, setSelectedFile1] = useState();
   const [selectedFile, setSelectedFile] = useState();
   const [selectedFile4, setSelectedFile4] = useState();
+
   const handleFileChange = (event, setterFunction, fieldName) => {
     const file = event.target.files[0];
     if (file) {
@@ -881,6 +894,7 @@ function Account() {
       });
     }
   };
+
   const handleRemoveFile = (setterFunction, fieldName) => {
     if (inputRef1.current) {
       inputRef1.current.value = null;
@@ -888,6 +902,7 @@ function Account() {
       setterFunction(null);
     }
   };
+
   const [thresholdAmount, setThresholdAmount] = useState("");
   const [sideBarColor, setSideBarColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
@@ -901,7 +916,6 @@ function Account() {
   const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
   const [inActiveButtonColor, setInActiveButtonColor] = useState('');
   const [chartFirstColor, setChartFirstColor] = useState('');
-
   const [modelColor, setModelColor] = useState('');
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
   const [cardColor, setCardColor] = useState('');
@@ -913,6 +927,7 @@ function Account() {
   const [defaults, setDefaults] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
   const [showdata, setShowdata] = useState(true);
+
   const handleColorChange = (field, setter) => (event) => {
     const newColor = event.target.value;
     setter(newColor);
@@ -930,6 +945,9 @@ function Account() {
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme?.forEach(color => {
           switch (color.colorType) {
+            case 'chartFirstColor':
+              setChartFirstColor(color.colorCode);
+              break;
             case 'sideBarColor':
               setSideBarColor(color.colorCode);
               break;
@@ -2014,11 +2032,12 @@ function Account() {
                           name={`chartFirstColor`}
                           tooltip="15"
                           className="!bg-white flex "
-                          content='you can change website chart start color here'
+                          content='You can change website chart start color here.'
                           className1="h-11"
                           label="Gradient Start Color "
                           placeholder=""
-                          value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                          value={chartFirstColor}
+                          onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
                         />
                       </div>
                       <div className="col-span-3 relative">
@@ -2028,7 +2047,7 @@ function Account() {
                           className1="h-11"
                           tooltip="1"
                           className="!bg-white  flex"
-                          content='you can change the theme background color here'
+                          content='You can change the theme background color here.'
                           label="Theme Color"
                           placeholder=""
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
@@ -2041,7 +2060,7 @@ function Account() {
                           className1="h-11"
                           tooltip="2"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the theme text color here'
+                          content='You can change the theme text color here.'
                           label="Theme Text Color"
                           placeholder=""
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
@@ -2053,9 +2072,9 @@ function Account() {
                           name={`sideBarButtonColor`}
                           tooltip="3"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar active page button gradent first color here'
+                          content='You can change the sideBar active page button gradient first color here.'
                           className1="h-11"
-                          label="SideBar 1st Button "
+                          label="SideBar Gradient Start Button "
                           placeholder=""
                           value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                         />
@@ -2066,9 +2085,9 @@ function Account() {
                           name={`sideBarButton2ndColor`}
                           tooltip="24"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar active page button gradent second color here'
+                          content='You can change the sideBar active page button gradient second color here.'
                           className1="h-11"
-                          label="SideBar 2nd Color "
+                          label="SideBar Gradient End Color "
                           placeholder=""
                           value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                         />
@@ -2079,7 +2098,7 @@ function Account() {
                           name={`sideBarButtonTextColor`}
                           tooltip="4"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar active page button text color here'
+                          content='You can change the sideBar active page button text color here.'
                           className1="h-11"
                           label="SideBar Text Button "
                           placeholder=""
@@ -2092,7 +2111,7 @@ function Account() {
                           name={`buttonColor`}
                           tooltip="5"
                           className="!bg-white flex"
-                          content='you can change all button background color here'
+                          content='You can change all button background color here.'
                           className1="h-11"
                           label="Button Color"
                           placeholder=""
@@ -2105,7 +2124,7 @@ function Account() {
                           name={`buttonTextColor`}
                           tooltip="6"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all button text color here'
+                          content='You can change all button text color here.'
                           className1="h-11"
                           label="Button Text Color"
                           placeholder=""
@@ -2118,7 +2137,7 @@ function Account() {
                           name={`backGroundColor`}
                           tooltip="7"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all backGround color here'
+                          content='You can change all backGround color here.'
                           className1="h-11"
                           label="Background Color"
                           placeholder=""
@@ -2131,7 +2150,7 @@ function Account() {
                           name={`titleColor`}
                           tooltip="8"
                           className="!bg-white flex"
-                          content='you can change website text color here'
+                          content='You can change website text color here.'
                           className1="h-11"
                           label="Text Color"
                           placeholder=""
@@ -2144,7 +2163,7 @@ function Account() {
                           name={`cardBackGroundColor`}
                           tooltip="10"
                           className="!bg-white flex"
-                          content='you can change website box backGround color here'
+                          content='You can change website box backGround color here.'
                           className1="h-11"
                           label="Box Color"
                           placeholder=""
@@ -2157,7 +2176,7 @@ function Account() {
                           name={`cardColor`}
                           tooltip="9"
                           className="!bg-white flex"
-                          content='you can change website box color here'
+                          content='You can change website box color here.'
                           className1="h-11"
                           label="Box Text Color"
                           placeholder=""
@@ -2170,7 +2189,7 @@ function Account() {
                           name={`modelBackgroundColor`}
                           tooltip="11"
                           className="!bg-white flex "
-                          content='you can change website popup background color here'
+                          content='You can change website popup background color here.'
                           className1="h-11 "
                           label="Popup Color"
                           placeholder=""
@@ -2183,7 +2202,7 @@ function Account() {
                           name={`modelColor`}
                           tooltip="12"
                           className="!bg-white flex !w-[163px]"
-                          content='you can change website popup text color here'
+                          content='You can change website popup text color here.'
                           className1="h-11"
                           label="Popup Text Color"
                           placeholder=""
@@ -2196,7 +2215,7 @@ function Account() {
                           name={`inActiveButtonBackgroundColor`}
                           tooltip="13"
                           className="!bg-white flex "
-                          content='you can change website inactive button background color here'
+                          content='You can change website inactive button background color here.'
                           className1="h-11 "
                           label="Inactive Button Color"
                           placeholder=""
@@ -2209,7 +2228,7 @@ function Account() {
                           name={`inActiveButtonColor`}
                           tooltip="14"
                           className="!bg-white flex "
-                          content='you can change website inactive button text color here'
+                          content='You can change website inactive button text color here.'
                           className1="h-11"
                           label="Inactive Button Text Color"
                           placeholder=""

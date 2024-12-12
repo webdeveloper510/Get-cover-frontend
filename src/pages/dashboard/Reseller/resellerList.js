@@ -12,7 +12,6 @@ import Grid from "../../../common/grid";
 import view from "../../../assets/images/eye.png";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
-import Select from "../../../common/select";
 import { getDealersList } from "../../../services/dealerServices";
 import { RotateLoader } from "react-spinners";
 import { useFormik } from "formik";

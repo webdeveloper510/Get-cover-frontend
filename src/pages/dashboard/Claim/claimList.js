@@ -1130,11 +1130,11 @@ function ClaimList(props) {
       label: "Damage Date",
     },
     {
-      value: "openClaim",
-      label: "Open Claim",
+      value: "openDate",
+      label: "Open Date",
     },
     {
-      value: "closeClaim",
+      value: "closeDate",
       label: "Close Claim",
     },
   ];
@@ -1158,7 +1158,7 @@ function ClaimList(props) {
       claimStatus: "",
       orderId: "",
       trackingNumber: "",
-      dateFilter: "",
+      dateFilter: "openDate",
       startDate: "",
       endDate: "",
       trackingType: "",
@@ -1473,10 +1473,12 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-                <div className="text-right">
-                  <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
-                  <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
-                </div>
+                {claimList?.result?.length !== 0 &&
+                  <div className="text-right">
+                    <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
+                    <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
+                  </div>}
+
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -3273,6 +3275,7 @@ function ClaimList(props) {
                     name="dateFilter"
                     label=" Filter By (Date Range)"
                     options={filterBy}
+                    disableFirstOption={true}
                     className="!bg-white"
                     onChange={handleSelectChange2}
                     value={formik1.values.dateFilter}
@@ -3464,6 +3467,9 @@ function ClaimList(props) {
                         label='Remarks' />
                     </div>
                     <div className="col-span-12 ml-auto">
+                      <InActiveButton type='button' className='mr-3 border'>
+                        Cancel
+                      </InActiveButton>
                       <Button type='button'>
                         Generate File
                       </Button>
