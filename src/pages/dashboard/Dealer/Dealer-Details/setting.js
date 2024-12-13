@@ -633,9 +633,6 @@ function Setting(props) {
       SetIsModalOpen(true);
       setTimer(3);
       fetchColorDetails12();
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 3000);
       setLoading(false);
     } catch (error) {
       console.error('Error resetting settings:', error);
@@ -1411,7 +1408,7 @@ function Setting(props) {
                           name={`chartFirstColor`}
                           tooltip="15"
                           className="!bg-white flex w-full"
-                          content='you can change website chart start color here'
+                          content='You can change website chart start color here.'
                           className1="h-11 "
                           label="Gradient Start Color "
                           placeholder=""
@@ -1425,7 +1422,7 @@ function Setting(props) {
                           className1="h-11"
                           tooltip="1"
                           className="!bg-white  flex w-full"
-                          content='you can change the theme background color here'
+                          content='You can change the theme background color here.'
                           label="Theme Color"
                           placeholder=""
                           value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
@@ -1438,7 +1435,7 @@ function Setting(props) {
                           className1="h-11"
                           tooltip="2"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the theme text color here'
+                          content='You can change the theme text color here.'
                           label="Theme Text Color"
                           placeholder=""
                           value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
@@ -1450,7 +1447,7 @@ function Setting(props) {
                           name={`sideBarButtonColor`}
                           tooltip="3"
                           className="!bg-white flex w-full"
-                          content='you can change active page button start background color here'
+                          content='You can change active page button start background color here.'
                           className1="h-11"
                           label="SideBar Gradient Start Button "
                           placeholder=""
@@ -1463,7 +1460,7 @@ function Setting(props) {
                           name={`sideBarButtonColor`}
                           tooltip="23"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change active page button end background color here'
+                          content='You can change active page button end background color here.'
                           className1="h-11"
                           label="SideBar Gradient End Button "
                           placeholder=""
@@ -1476,7 +1473,7 @@ function Setting(props) {
                           name={`sideBarButtonTextColor`}
                           tooltip="4"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change the sideBar active page button text color here'
+                          content='You can change the sideBar active page button text color here.'
                           className1="h-11"
                           label="SideBar Text Button "
                           placeholder=""
@@ -1489,7 +1486,7 @@ function Setting(props) {
                           name={`buttonColor`}
                           tooltip="5"
                           className="!bg-white flex w-full"
-                          content='you can change all button background color here'
+                          content='You can change all button background color here.'
                           className1="h-11"
                           label="Button Background Color"
                           placeholder=""
@@ -1502,7 +1499,7 @@ function Setting(props) {
                           name={`buttonTextColor`}
                           tooltip="6"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all button text color here'
+                          content='You can change all button text color here.'
                           className1="h-11"
                           label="Button Text Color"
                           placeholder=""
@@ -1515,7 +1512,7 @@ function Setting(props) {
                           name={`backGroundColor`}
                           tooltip="7"
                           className="!bg-white flex !w-[111%]"
-                          content='you can change all backGround color here'
+                          content='You can change all backGround color here.'
                           className1="h-11"
                           label="Background Color"
                           placeholder=""
@@ -1528,7 +1525,7 @@ function Setting(props) {
                           name={`titleColor`}
                           tooltip="8"
                           className="!bg-white flex w-full"
-                          content='you can change website text color here'
+                          content='You can change website text color here.'
                           className1="h-11"
                           label="Text Color"
                           placeholder=""
@@ -1541,7 +1538,7 @@ function Setting(props) {
                           name={`cardBackGroundColor`}
                           tooltip="10"
                           className="!bg-white flex w-full"
-                          content='you can change website box backGround color here'
+                          content='You can change website box backGround color here.'
                           className1="h-11"
                           label="Box Color"
                           placeholder=""
@@ -1554,7 +1551,7 @@ function Setting(props) {
                           name={`cardColor`}
                           tooltip="9"
                           className="!bg-white flex w-full"
-                          content='you can change website box color here'
+                          content='You can change website box color here.'
                           className1="h-11"
                           label="Box Text Color"
                           placeholder=""
@@ -1568,7 +1565,7 @@ function Setting(props) {
                           name={`modelBackgroundColor`}
                           tooltip="11"
                           className="!bg-white flex w-full"
-                          content='you can change website popup background color here'
+                          content='You can change website popup background color here.'
                           className1="h-11 "
                           label="Popup Background Color"
                           placeholder=""
@@ -1581,7 +1578,7 @@ function Setting(props) {
                           name={`modelColor`}
                           tooltip="12"
                           className="!bg-white flex !w-[163px]"
-                          content='you can change website popup text color here'
+                          content='You can change website popup text color here.'
                           className1="h-11"
                           label="Popup Text Color"
                           placeholder=""
@@ -1594,7 +1591,7 @@ function Setting(props) {
                           name={`inActiveButtonBackgroundColor`}
                           tooltip="13"
                           className="!bg-white flex w-full"
-                          content='you can change website inactive button background color here'
+                          content='You can change website inactive button background color here.'
                           className1="h-11 "
                           label="Inactive Button Color"
                           placeholder=""
@@ -1607,7 +1604,7 @@ function Setting(props) {
                           name={`inActiveButtonColor`}
                           tooltip="14"
                           className="!bg-white flex w-full"
-                          content='you can change website inactive button text color here'
+                          content='You can change website inactive button text color here.'
                           className1="h-11"
                           label="Inactive Button Text Color"
                           placeholder=""
@@ -1645,7 +1642,7 @@ function Setting(props) {
                   </div>
                 </Grid>
                 <div className="text-right">
-                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold !border-light-black !border-[1px]" type="button">Set As Default Color</Button>}
+                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold" type="button">Set As Default Color</Button>}
 
                   <InActiveButton onClick={() => handleReset(props.dealerDetails._id)} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>

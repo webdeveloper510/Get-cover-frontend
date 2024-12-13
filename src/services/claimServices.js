@@ -394,6 +394,36 @@ export const editClaimServicerValue = async (id, data) => {
   }
 };
 
+export const DownloadReport = async (id) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/claim/getClaimReporting/${id}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+export const GenerateReport = async (id, data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/exportDataForClaim/${id}`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const deleteDownloadReport = async (id) => {
   const headers = createHeaders();
 

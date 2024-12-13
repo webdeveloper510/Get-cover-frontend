@@ -1130,16 +1130,21 @@ function ClaimList(props) {
       label: "Damage Date",
     },
     {
-      value: "openClaim",
-      label: "Open Claim",
+      value: "openDate",
+      label: "Open Date",
     },
     {
-      value: "closeClaim",
+      value: "closeDate",
       label: "Close Claim",
     },
   ];
 
   const validationSchema = Yup.object().shape({});
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() - 1);
+
+  const today = new Date();
 
   const formik1 = useFormik({
     initialValues: {
@@ -1158,13 +1163,25 @@ function ClaimList(props) {
       claimStatus: "",
       orderId: "",
       trackingNumber: "",
-      dateFilter: "",
-      startDate: "",
-      endDate: "",
+      dateFilter: "openDate",
+      startDate: oneYearAgo.toISOString().split("T")[0], // Set default to 1 year ago
+      endDate: today.toISOString().split("T")[0],
       trackingType: "",
       claimPaidStatus: "",
     },
-    validationSchema,
+    validationSchema: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Start Date is required")
+        .min(
+          new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+          "Date must be within the last year"
+        )
+        .max(new Date(), "Date cannot be in the future"),
+      endDate: Yup.date()
+        .required("End Date is required")
+        .max(new Date(), "End Date cannot be in the future"),
+    }),
+
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
       setIsDisapprovedOpen(false);
@@ -1473,10 +1490,12 @@ function ClaimList(props) {
               </div>
             ) : (
               <>
-                <div className="text-right">
-                  <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
-                  <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
-                </div>
+                {claimList?.result?.length !== 0 &&
+                  <div className="text-right">
+                    <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
+                    <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
+                  </div>}
+
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
                   claimList?.result?.map((res, index) => {
@@ -3273,6 +3292,7 @@ function ClaimList(props) {
                     name="dateFilter"
                     label=" Filter By (Date Range)"
                     options={filterBy}
+                    disableFirstOption={true}
                     className="!bg-white"
                     onChange={handleSelectChange2}
                     value={formik1.values.dateFilter}
@@ -3286,6 +3306,10 @@ function ClaimList(props) {
                       className="!bg-white z-10"
                       label="Start Date"
                       placeholder=""
+                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                        .toISOString()
+                        .split("T")[0]}
+                      maxDate={new Date().toISOString().split("T")[0]}
                       {...formik1.getFieldProps("startDate")}
                     />
                   </div>
@@ -3295,6 +3319,7 @@ function ClaimList(props) {
                       name="endDate"
                       className="!bg-white z-10"
                       label="End Date"
+                      maxDate={new Date().toISOString().split("T")[0]}
                       placeholder=""
                       {...formik1.getFieldProps("endDate")}
                     />
@@ -3444,9 +3469,9 @@ function ClaimList(props) {
           ) : (
             <div>
               <p className="text-center text-3xl font-semibold mb-5 mx-auto">
-                Report
+                Generate Report
               </p>
-              <div>
+              <div className="px-8">
                 <form>
                   <Grid>
                     <div className="col-span-12">
@@ -3464,6 +3489,9 @@ function ClaimList(props) {
                         label='Remarks' />
                     </div>
                     <div className="col-span-12 ml-auto">
+                      <InActiveButton type='button' className='mr-3 border'>
+                        Cancel
+                      </InActiveButton>
                       <Button type='button'>
                         Generate File
                       </Button>
