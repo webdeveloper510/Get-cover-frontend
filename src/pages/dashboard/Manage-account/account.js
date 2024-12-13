@@ -34,6 +34,7 @@ import {
   resetSetting,
   resetDefault,
   updateThreshHoldLimit,
+  updateNotificationData,
 } from "../../../services/extraServices";
 import { Formik, Form, Field, ErrorMessage, useFormik } from "formik";
 import * as Yup from "yup";
@@ -87,6 +88,7 @@ function Account() {
   const [selectedFile2, setSelectedFile2] = useState(null);
   const [notificationSettings, setNotificationSettings] = useState({});
   const [notificationList,setNotificationList]= useState(Notifications)
+  const [notification,setNotification]= useState({})
   const inputRef1 = useRef(null);
   const inputRef2 = useRef(null);
   const inputRef3 = useRef(null);
@@ -317,7 +319,7 @@ function Account() {
   const openNotification = async (id) => {
     const data = await getUserNotificationData(id);
     const notifications = data.result.notifications;
-  console.log(notifications)
+    setNotification(data.result)
     const mappedSettings = {};
     Object.keys(notifications).forEach((categoryKey) => {
       Object.keys(notifications[categoryKey]).forEach((subKey) => {
@@ -339,11 +341,32 @@ const newValue =notificationList.map((notification) => ({
     setIsNotificationOpen(true);
   };
   
+
   const handleAddOrUpdate1 = (actionKey) => {
     setNotificationSettings((prevSettings) => ({
       ...prevSettings,
       [actionKey]: !prevSettings[actionKey],
     }));
+  
+    setNotification((prevNotifications) =>
+      toggleNotification(prevNotifications, actionKey)
+    );
+  };
+
+  const toggleNotification = (prevNotifications, actionKey) => {
+    const updatedNotifications = { ...prevNotifications };
+    for (const category in updatedNotifications.notifications) {
+      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
+        if (actionKey in updatedNotifications.notifications[category]) {
+          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
+          break; 
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id,updatedNotifications.notifications).then((res)=>{
+      console.log(res)
+    })
+    return updatedNotifications;
   };
   
   const closeNotification = () => {
@@ -516,16 +539,48 @@ const newValue =notificationList.map((notification) => ({
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreatethreshold(selectedValue);
   };
-  
-  const handleSelectAll = (sectionKey) => {
-    const updatedSettings = { ...notificationSettings };
+
+const toggleAllActionsInSection = (notifications, apiFieldName, value) => {
+  const updatedNotifications = { ...notifications };
+  console.log(notifications,apiFieldName)
+
+  if (updatedNotifications.notifications[apiFieldName]) {
+    const section = updatedNotifications.notifications[apiFieldName];
+    for (const key in section) {
+      if (key !== "_id" && typeof section[key] === "boolean") {
+        section[key] = value;
+      }
+    }
+  }
+  updateNotificationData(updatedNotifications._id,updatedNotifications.notifications).then((res)=>{
+    console.log(res)
+  })
+console.log(updatedNotifications)
+  return updatedNotifications;
+};
+
+const handleSelectAll = (sectionKey,apiFieldName) => {
+  console.log(title,apiFieldName);
+  setNotificationSettings((prevSettings) => {
+    const updatedSettings = { ...prevSettings };
     const section = Notifications.find((notification) => notification.index === sectionKey);
-    section.sections.forEach(({ action, actionKey }) => {
-      const actionKeyToUse = actionKey || action;
-      updatedSettings[actionKeyToUse] = true;
-    });
-    setNotificationSettings(updatedSettings);
-  };
+
+    if (section && section.sections) {
+      section.sections.forEach(({ action, actionKey }) => {
+        const actionKeyToUse = actionKey || action;
+        updatedSettings[actionKeyToUse] = true;
+      });
+    }
+
+    console.log(updatedSettings);
+    
+    return updatedSettings;
+  });
+  setNotification((prevNotifications) =>
+    toggleAllActionsInSection(prevNotifications, apiFieldName, true)
+  );
+};
+
 
   const formikEmail = useFormik({
     initialValues: {
@@ -2833,7 +2888,7 @@ const newValue =notificationList.map((notification) => ({
     <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
     <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
       <Grid className="!grid-cols-2">
-        {Object.entries(notificationList || []).map(([key, { index, title, sections }], i) => (
+        {Object.entries(notificationList || []).map(([key, { index, title, sections,apiFieldName }], i) => (
           <div key={index} className="mb-4">
             <CollapsibleDiv
               key={index}
@@ -2851,7 +2906,7 @@ const newValue =notificationList.map((notification) => ({
             >
               <div className="px-4 pt-2 pb-4 border">
                 <div className="text-end ml-auto mb-2">
-                  <Button type="button" className="!text-sm"   onClick={() => handleSelectAll(index)}>Select All</Button>
+                  <Button type="button" className="!text-sm"   onClick={() => handleSelectAll(index,apiFieldName)}>Select All</Button>
                 </div>
                 <Grid className="!grid-cols-12 !gap-2">
                   {sections.map(({ label, action }, itemIdx) => (
