@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import Grid from '../../../../common/grid'
-import Arrow from '../../../../assets/images/Reporting/icons/arrows.svg'
-import Select from '../../../../common/select'
 import Button from '../../../../common/button'
 import drop from '../../../../assets/images/icons/dropwhite.svg'
 import ChartComponent from '../../../../common/chart'

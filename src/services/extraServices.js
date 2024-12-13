@@ -243,6 +243,19 @@ export const getUserNotificationData = async (id) => {
   }
 };
 
+export const updateNotificationData = async (id,data) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.put(`${url}/user/updateNotificationData/${id}`,data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const uploadFile = async (data) => {
   const headers = createHeaders();
   try {

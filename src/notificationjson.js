@@ -2,6 +2,7 @@ export const Notifications = [
     {
         "index": '11',
         "title": "Order Notifications",
+        "apiFieldName":"orderNotifications",
         "sections": [
             {
                 "label": "Adding new order but not processing",
@@ -32,6 +33,7 @@ export const Notifications = [
     {
         "index": '12',
         "title": "Claims Notifications",
+        "apiFieldName":"claimNotification",
         "sections": [
             {
                 "label": "File new single claim",
@@ -78,6 +80,7 @@ export const Notifications = [
     {
         "index": '13',
         "title": "Admin Actions Notifications",
+        "apiFieldName":"adminNotification",
         "sections": [
             {
                 "label": "New admin user created",
@@ -119,6 +122,7 @@ export const Notifications = [
     {
         "index": '14',
         "title": "Servicer Notifications",
+        "apiFieldName":"servicerNotification",
         "sections": [
             {
                 "label": "New servicer added",
@@ -161,6 +165,7 @@ export const Notifications = [
     {
         "index": '15',
         "title": "Dealer Notifications",
+        "apiFieldName":"dealerNotifications",
         "sections": [
             {
                 "label": "New dealer added",
@@ -222,6 +227,8 @@ export const Notifications = [
     {
         "index": '16',
         "title": "Reseller Notifications",
+        "apiFieldName":"resellerNotifications",
+
         "sections": [
             {
                 "label": "New reseller added",
@@ -263,6 +270,7 @@ export const Notifications = [
     {
         "index": '17',
         "title": "Customer Notifications",
+        "apiFieldName":"customerNotifications",
         "sections": [
             {
                 "label": "New customer added",
@@ -304,6 +312,7 @@ export const Notifications = [
     {
         "index": '18',
         "title": "Register Requests",
+        "apiFieldName":"registerNotifications",
         "sections": [
             {
                 "label": "New dealer registration requests",
