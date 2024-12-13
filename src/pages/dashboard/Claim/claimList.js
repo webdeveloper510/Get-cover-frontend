@@ -1164,23 +1164,12 @@ function ClaimList(props) {
       orderId: "",
       trackingNumber: "",
       dateFilter: "openDate",
-      startDate: oneYearAgo.toISOString().split("T")[0], // Set default to 1 year ago
+      startDate: oneYearAgo.toISOString().split("T")[0],
       endDate: today.toISOString().split("T")[0],
       trackingType: "",
       claimPaidStatus: "",
     },
-    validationSchema: Yup.object().shape({
-      startDate: Yup.date()
-        .required("Start Date is required")
-        .min(
-          new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
-          "Date must be within the last year"
-        )
-        .max(new Date(), "Date cannot be in the future"),
-      endDate: Yup.date()
-        .required("End Date is required")
-        .max(new Date(), "End Date cannot be in the future"),
-    }),
+    validationSchema,
 
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
@@ -3483,17 +3472,28 @@ function ClaimList(props) {
 
                     </div>
                     <div className="col-span-12">
-                      <Input type="text"
-                        name="remarks"
-                        className="!bg-white"
-                        label='Remarks' />
+                      <div className="relative">
+                        <label
+                          htmlFor="description"
+                          className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                        >
+                          Remarks
+                        </label>
+                        <textarea
+                          id="description"
+                          rows="4"
+                          name="description"
+                          maxLength={150}
+                          className="resize-none block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer"
+                        ></textarea>
+                      </div>
                     </div>
                     <div className="col-span-12 ml-auto">
-                      <InActiveButton type='button' className='mr-3 border'>
+                      <InActiveButton type='button' className='mr-3 border' onClick={closeReport}>
                         Cancel
                       </InActiveButton>
                       <Button type='button'>
-                        Generate File
+                        Generate
                       </Button>
                     </div>
                   </Grid>

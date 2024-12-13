@@ -38,6 +38,8 @@ import InActiveButton from "../../../../common/inActiveButton";
 import SingleView from "../../../../common/singleView";
 import SwitchButton from "../../../../common/switch";
 import CollapsibleDiv from "../../../../common/collapsibleDiv";
+import { Notifications } from "../../../../notificationjson";
+import { getUserNotificationData, updateNotificationData } from "../../../../services/extraServices";
 
 function UserList(props) {
   console.log(props, 'hello world');
@@ -58,6 +60,10 @@ function UserList(props) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [showdata, setShowdata] = useState(true);
   const [isModalOpen12, setIsModalOpen12] = useState(false);
+  const [notificationSettings, setNotificationSettings] = useState({});
+  const [notificationList, setNotificationList] = useState(Notifications)
+  const [notification, setNotification] = useState({})
+  const [title, setTitle] = useState('');
   const [initialFormValues, setInitialFormValues] = useState({
     lastName: "",
     firstName: "",
@@ -124,14 +130,6 @@ function UserList(props) {
       setSelectedAction(null);
     }
   };
-
-  const openNotification = () => {
-    setIsNotificationOpen(true);
-  }
-
-  const closeNotification = () => {
-    setIsNotificationOpen(false);
-  }
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -556,6 +554,104 @@ function UserList(props) {
     </Card>
   );
 
+  const openNotification = async (id) => {
+    const data = await getUserNotificationData(id);
+    const notifications = data.result.notifications;
+    setNotification(data.result)
+    const mappedSettings = {};
+    Object.keys(notifications).forEach((categoryKey) => {
+      Object.keys(notifications[categoryKey]).forEach((subKey) => {
+        if (typeof notifications[categoryKey][subKey] === "boolean") {
+          mappedSettings[subKey] = notifications[categoryKey][subKey];
+        }
+      });
+    });
+    const newValue = notificationList.map((notification) => ({
+      ...notification,
+      sections: notification.sections.map((section) => ({
+        ...section,
+        isOn: mappedSettings[section.actionKey || section.action] || false,
+      })),
+    }));
+
+    console.log('------------red', newValue)
+    setNotificationSettings(mappedSettings);
+    setIsNotificationOpen(true);
+  };
+
+
+  const handleAddOrUpdate1 = (actionKey) => {
+    setNotificationSettings((prevSettings) => ({
+      ...prevSettings,
+      [actionKey]: !prevSettings[actionKey],
+    }));
+
+    setNotification((prevNotifications) =>
+      toggleNotification(prevNotifications, actionKey)
+    );
+  };
+
+  const toggleNotification = (prevNotifications, actionKey) => {
+    const updatedNotifications = { ...prevNotifications };
+    for (const category in updatedNotifications.notifications) {
+      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
+        if (actionKey in updatedNotifications.notifications[category]) {
+          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
+          break;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    return updatedNotifications;
+  };
+
+  const closeNotification = () => {
+    setIsNotificationOpen(false);
+  }
+
+  const handleSelectAll = (sectionKey, apiFieldName) => {
+    console.log(title, apiFieldName);
+    setNotificationSettings((prevSettings) => {
+      const updatedSettings = { ...prevSettings };
+      const section = Notifications.find((notification) => notification.index === sectionKey);
+
+      if (section && section.sections) {
+        section.sections.forEach(({ action, actionKey }) => {
+          const actionKeyToUse = actionKey || action;
+          updatedSettings[actionKeyToUse] = true;
+        });
+      }
+
+      console.log(updatedSettings);
+
+      return updatedSettings;
+    });
+    setNotification((prevNotifications) =>
+      toggleAllActionsInSection(prevNotifications, apiFieldName, true)
+    );
+  };
+
+  const toggleAllActionsInSection = (notifications, apiFieldName, value) => {
+    const updatedNotifications = { ...notifications };
+    console.log(notifications, apiFieldName)
+
+    if (updatedNotifications.notifications[apiFieldName]) {
+      const section = updatedNotifications.notifications[apiFieldName];
+      for (const key in section) {
+        if (key !== "_id" && typeof section[key] === "boolean") {
+          section[key] = value;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    console.log(updatedNotifications)
+    return updatedNotifications;
+  };
+
   return (
     <>
       <div className="my-8">
@@ -917,959 +1013,61 @@ function UserList(props) {
         </div>
       </Modal>
 
-      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className='!w-[90%]'>
+
+
+      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
         <Button
           onClick={closeNotification}
           className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
         >
-          <img
-            src={Cross}
-            className="w-full h-full text-black rounded-full p-0"
-          />
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
-        <div className=" py-3">
+        <div className="py-3">
           <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
           <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
-            <Grid className="!grid-cols-2 ">
-              <div className="">
+            <Grid className="!grid-cols-2">
+              {Object.entries(notificationList || []).map(([key, { index, title, sections, apiFieldName }], i) => (
+                <div key={index} className="mb-4">
+                  <CollapsibleDiv
+                    key={index}
+                    ShowData={showdata}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    imageClass="w-10 h-10"
+                    className="!my-2"
+                    index={index}
+                    title={
+                      <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+                        <p className="text-lg font-bold">{title}</p>
+                      </SingleView>
+                    }
+                  >
+                    <div className="px-4 pt-2 pb-4 border">
+                      <div className="text-end ml-auto mb-2">
+                        <Button type="button" className="!text-sm" onClick={() => handleSelectAll(index, apiFieldName)}>Select All</Button>
+                      </div>
+                      <Grid className="!grid-cols-12 !gap-2">
+                        {sections.map(({ label, action }, itemIdx) => (
 
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'11'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Order Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Adding New Order but not processing
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryUpdated")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Adding new Order and processing also
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Marking Order Paid
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Updating Order but not processing
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Updating Order and processing also
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Archiving Order
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'12'}
-                  title={
-                    <SingleView className="border-Gray28 border  px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Claims Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File New Single Claim
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              File Bulk Claim
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Claim List - Servicer Update
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Claim list - Customer status Update
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Claim list - Claim Status update
-                            </p>
-                          </div>
-                          <div className="col-span-4">
-                            <SwitchButton
-                              isOn={false}
-                              handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                            />
-                          </div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Claim list - Repair Status Update
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Repair Parts/ labor update
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Claim Comments
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'13'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Admin Actions Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Admin User Created
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Pricebook Category Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Pricebook Category Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Pricebook Category Status Change
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Company pricebook added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Company pricebook updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Company pricebook status change
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              assign dealer of the servicer
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              unassign servicer for the dealer
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'14'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Servicer Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Servicer Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New User Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Details Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Primary User Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Deleted
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-              </div>
-              <div>
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'15'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Dealer Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New User Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Details Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Primary User Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Deleted
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Dealer Price Book Uploaded (bulk)
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Single Dealer Book Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Single Dealer Book Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Single Dealer Book Status Change
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'16'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Reseller Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Reseller Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New User Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Details Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Primary User Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Deleted
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'17'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Customer Notifications</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Customer Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New User Added
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Details Updated
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Primary User Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Status Changed
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              User Deleted
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-
-                <CollapsibleDiv
-                  ShowData={showdata}
-                  activeIndex={activeIndex}
-                  setActiveIndex={setActiveIndex}
-                  imageClass="w-10 h-10"
-                  className='!my-2'
-                  index={'18'}
-                  title={
-                    <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                      <p className="text-lg font-bold">Register Requests</p>
-                    </SingleView>
-                  }
-                >
-                  <div className="p-4 border">
-                    <Grid className="!grid-cols-12 !gap-2">
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Dealer Registration Requests
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              New Servicer Registration Requests
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Dealer Disapproved
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                      <div className="col-span-6">
-                        <Grid className="!gap-0">
-                          <div className="col-span-8 self-center">
-                            <p className="flex text-[12px] font-semibold justify-between ">
-                              Servicer Disapproved
-                            </p>
-                          </div>
-                          <div className="col-span-4"><SwitchButton
-                            isOn={false}
-                            handleToggle={() => handleAddOrUpdate12("pricebookCategoryStatusChange")}
-                          /></div>
-                        </Grid>
-                      </div>
-                    </Grid>
-                  </div>
-                </CollapsibleDiv>
-              </div>
-
+                          <div className="col-span-6" key={itemIdx}>
+                            <Grid className="!gap-0">
+                              <div className="col-span-8 self-center">
+                                <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                              </div>
+                              <div className="col-span-4">
+                                <SwitchButton
+                                  isOn={notificationSettings[action] || false}
+                                  handleToggle={() => handleAddOrUpdate1(action)}
+                                />
+                              </div>
+                            </Grid>
+                          </div>
+                        ))}
+                      </Grid>
+                    </div>
+                  </CollapsibleDiv>
+                </div>
+              ))}
             </Grid>
           </div>
         </div>

@@ -21,6 +21,8 @@ import {
   changePasswordbyToken,
   editUserDetailsbyToken,
   getSuperAdminMembers,
+  getUserNotificationData,
+  updateNotificationData,
 } from "../../services/extraServices";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -40,6 +42,9 @@ import { getSevicerDetailPortal } from "../../services/customerServices";
 import Card from "../../common/card";
 import SingleView from "../../common/singleView";
 import InActiveButton from "../../common/inActiveButton";
+import CollapsibleDiv from "../../common/collapsibleDiv";
+import { Notifications } from "../../notificationjson";
+import SwitchButton from "../../common/switch";
 
 function ServicerUser() {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -61,7 +66,13 @@ function ServicerUser() {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [servicerStatus, setServiceStatus] = useState(true);
   const { toggleFlag } = useMyContext();
-
+  const [activeIndex, setActiveIndex] = useState(null);
+  const [showdata, setShowdata] = useState(true);
+  const [notificationSettings, setNotificationSettings] = useState({});
+  const [notificationList, setNotificationList] = useState(Notifications)
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [notification, setNotification] = useState({})
+  const [title, setTitle] = useState('');
   const [isModalOpen12, setIsModalOpen12] = useState(false);
 
   const [initialFormValues, setInitialFormValues] = useState({
@@ -678,6 +689,104 @@ function ServicerUser() {
   const [selectedEmail, setSelectedEmail] = useState([]);
   const [emails, setEmails] = useState([]);
 
+  const openNotification = async (id) => {
+    const data = await getUserNotificationData(id);
+    const notifications = data.result.notifications;
+    setNotification(data.result)
+    const mappedSettings = {};
+    Object.keys(notifications).forEach((categoryKey) => {
+      Object.keys(notifications[categoryKey]).forEach((subKey) => {
+        if (typeof notifications[categoryKey][subKey] === "boolean") {
+          mappedSettings[subKey] = notifications[categoryKey][subKey];
+        }
+      });
+    });
+    const newValue = notificationList.map((notification) => ({
+      ...notification,
+      sections: notification.sections.map((section) => ({
+        ...section,
+        isOn: mappedSettings[section.actionKey || section.action] || false,
+      })),
+    }));
+
+    console.log('------------red', newValue)
+    setNotificationSettings(mappedSettings);
+    setIsNotificationOpen(true);
+  };
+
+
+  const handleAddOrUpdate1 = (actionKey) => {
+    setNotificationSettings((prevSettings) => ({
+      ...prevSettings,
+      [actionKey]: !prevSettings[actionKey],
+    }));
+
+    setNotification((prevNotifications) =>
+      toggleNotification(prevNotifications, actionKey)
+    );
+  };
+
+  const toggleNotification = (prevNotifications, actionKey) => {
+    const updatedNotifications = { ...prevNotifications };
+    for (const category in updatedNotifications.notifications) {
+      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
+        if (actionKey in updatedNotifications.notifications[category]) {
+          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
+          break;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    return updatedNotifications;
+  };
+
+  const closeNotification = () => {
+    setIsNotificationOpen(false);
+  }
+
+  const handleSelectAll = (sectionKey, apiFieldName) => {
+    console.log(title, apiFieldName);
+    setNotificationSettings((prevSettings) => {
+      const updatedSettings = { ...prevSettings };
+      const section = Notifications.find((notification) => notification.index === sectionKey);
+
+      if (section && section.sections) {
+        section.sections.forEach(({ action, actionKey }) => {
+          const actionKeyToUse = actionKey || action;
+          updatedSettings[actionKeyToUse] = true;
+        });
+      }
+
+      console.log(updatedSettings);
+
+      return updatedSettings;
+    });
+    setNotification((prevNotifications) =>
+      toggleAllActionsInSection(prevNotifications, apiFieldName, true)
+    );
+  };
+
+  const toggleAllActionsInSection = (notifications, apiFieldName, value) => {
+    const updatedNotifications = { ...notifications };
+    console.log(notifications, apiFieldName)
+
+    if (updatedNotifications.notifications[apiFieldName]) {
+      const section = updatedNotifications.notifications[apiFieldName];
+      for (const key in section) {
+        if (key !== "_id" && typeof section[key] === "boolean") {
+          section[key] = value;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    console.log(updatedNotifications)
+    return updatedNotifications;
+  };
+
   return (
     <>
       {loading ? (
@@ -1265,6 +1374,64 @@ function ServicerUser() {
           <p className="text-base font-medium mt-4">
             {secondMessage}
           </p>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
+        <Button
+          onClick={closeNotification}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className="py-3">
+          <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
+          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
+            <Grid className="!grid-cols-2">
+              {Object.entries(notificationList || []).map(([key, { index, title, sections, apiFieldName }], i) => (
+                <div key={index} className="mb-4">
+                  <CollapsibleDiv
+                    key={index}
+                    ShowData={showdata}
+                    activeIndex={activeIndex}
+                    setActiveIndex={setActiveIndex}
+                    imageClass="w-10 h-10"
+                    className="!my-2"
+                    index={index}
+                    title={
+                      <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+                        <p className="text-lg font-bold">{title}</p>
+                      </SingleView>
+                    }
+                  >
+                    <div className="px-4 pt-2 pb-4 border">
+                      <div className="text-end ml-auto mb-2">
+                        <Button type="button" className="!text-sm" onClick={() => handleSelectAll(index, apiFieldName)}>Select All</Button>
+                      </div>
+                      <Grid className="!grid-cols-12 !gap-2">
+                        {sections.map(({ label, action }, itemIdx) => (
+
+                          <div className="col-span-6" key={itemIdx}>
+                            <Grid className="!gap-0">
+                              <div className="col-span-8 self-center">
+                                <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                              </div>
+                              <div className="col-span-4">
+                                <SwitchButton
+                                  isOn={notificationSettings[action] || false}
+                                  handleToggle={() => handleAddOrUpdate1(action)}
+                                />
+                              </div>
+                            </Grid>
+                          </div>
+                        ))}
+                      </Grid>
+                    </div>
+                  </CollapsibleDiv>
+                </div>
+              ))}
+            </Grid>
+          </div>
         </div>
       </Modal>
     </>

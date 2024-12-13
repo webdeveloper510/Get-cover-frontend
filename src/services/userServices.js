@@ -67,7 +67,7 @@ export const UserDetailAccount = async () => {
   }
 };
 
-export const getDropDownValueForDealer  = async (activeTab) => {
+export const getDropDownValueForDealer = async (activeTab) => {
   const headers = createHeaders();
   try {
     const response = await axios.get(`${url}/reporting/getReportingDropdowns1/${activeTab}`, {
@@ -195,9 +195,9 @@ export const downloadFile = async (fileName) => {
   try {
     const response = await axios.post(`${url}/user/downloadFile`, fileName, {
       headers,
-      responseType: "arraybuffer", // Ensure binary data is handled correctly
+      responseType: "arraybuffer",
     });
-    //  handleAuthError(response.data);
+
 
     return response.data;
   } catch (error) {

@@ -18,6 +18,7 @@ import Modal from "../../../common/model";
 import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
 import { downloadFile } from "../../../services/userServices";
+import { saveAs } from "file-saver";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function ReportDownload() {
@@ -26,6 +27,7 @@ function ReportDownload() {
   const [deleteReport, setDeleteReport] = useState();
   const [timer, setTimer] = useState(3);
   const [reportId, setReportId] = useState();
+  const [report, setReport] = useState();
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
@@ -184,7 +186,7 @@ function ReportDownload() {
                   </div>
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer"
-                    onClick={() => openArchive(row._id)}
+                    onClick={() => openArchive(row)}
                   >
                     <div
                       style={{
@@ -246,23 +248,28 @@ function ReportDownload() {
 
   const downloadReports = async (fileName) => {
     try {
-      setMarkLoader(true);
-      let data = {
-        key: `${fileName}`,
-      };
-      const res = await downloadFile(data);
-      if (res.status === 200) {
-        setPrimaryMessage("Download Report Successfully");
-        setSecondaryMessage("You have successfully Download the report");
-        setTimer(3);
-        setIsModalOpen1(true);
-      }
+
+      const data = { key: fileName };
+      const fileBuffer = await downloadFile(data);
+
+      // Create a Blob for the file
+      const blob = new Blob([fileBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      // Use file-saver to save the file
+      saveAs(blob, `${fileName}`);
+
+      setSelectedAction(null)
     } catch (error) {
-      console.error("Error deleting report:", error);
+      console.error("Error downloading report:", error);
+      setPrimaryMessage("Download Failed");
+      setSecondaryMessage("Unable to download the report. Please try again.");
+      setTimer(3);
+      setIsModalOpen1(true);
     } finally {
-      setMarkLoader(false);
     }
-  }
+  };
 
   useEffect(() => {
     let intervalId;
@@ -283,8 +290,9 @@ function ReportDownload() {
     setIsModalOpen1(false);
   };
 
-  const openArchive = (id) => {
-    setReportId(id);
+  const openArchive = (data) => {
+    setReportId(data._id);
+    setReport(data)
     setIsArchiveOpen(true);
   };
   const closeArchive = () => {
@@ -392,7 +400,7 @@ function ReportDownload() {
             <div className="text-center py-3">
               <img src={unassign} alt="email Image" className="mx-auto my-4" />
               <p className="text-3xl mb-0 mt-2 font-[800] px-10">
-                Would you like to delete it?
+                Would you like to delete {report?.fileName} Report?
               </p>
               <Grid className="!grid-cols-4 my-5 ">
                 <div className="col-span-1"></div>
