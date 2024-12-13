@@ -557,6 +557,9 @@ function Setting(props) {
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme?.forEach(color => {
           switch (color.colorType) {
+            case 'chartFirstColor':
+              setChartFirstColor(color.colorCode);
+              break;
             case 'sideBarColor':
               setSideBarColor(color.colorCode);
               break;

@@ -17,6 +17,7 @@ import { deleteDownloadReport, DownloadReport, getdeleteReports } from "../../..
 import Modal from "../../../common/model";
 import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
+import { downloadFile } from "../../../services/userServices";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function ReportDownload() {
@@ -80,6 +81,14 @@ function ReportDownload() {
       },
     },
     {
+      name: "Remarks",
+      selector: (row) => row.remark,
+      sortable: true,
+      cell: (row) => (
+        <p className="self-center"> {row.remark} </p>
+      ),
+    },
+    {
       name: (
         <div>
           Created On
@@ -101,14 +110,7 @@ function ReportDownload() {
       sortable: true,
       // minWidth: "130px",
     },
-    {
-      name: "Remarks",
-      selector: (row) => row.remark,
-      sortable: true,
-      cell: (row) => (
-        <p className="self-center"> {row.remark} </p>
-      ),
-    },
+
     {
       name: "Last Download",
       selector: (row) => row.lastDownloadTime,
@@ -164,7 +166,7 @@ function ReportDownload() {
                 >
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer border-b"
-                    onClick={() => downloadReports(row._id)}
+                    onClick={() => downloadReports(row.filePath)}
                   >
                     <div
                       style={{
@@ -242,10 +244,13 @@ function ReportDownload() {
     }
   }
 
-  const downloadReports = async (id) => {
+  const downloadReports = async (fileName) => {
     try {
       setMarkLoader(true);
-      const res = await DownloadReport(id);
+      let data = {
+        key: `${fileName}`,
+      };
+      const res = await downloadFile(data);
       if (res.status === 200) {
         setPrimaryMessage("Download Report Successfully");
         setSecondaryMessage("You have successfully Download the report");

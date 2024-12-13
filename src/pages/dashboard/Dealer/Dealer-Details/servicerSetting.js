@@ -56,6 +56,7 @@ function ServicerSetting(props) {
     const [sideBarButtonTextColor, setSideBarButtonTextColor] = useState('');
     const [buttonColor, setButtonColor] = useState('');
     const [buttonTextColor, setButtonTextColor] = useState('');
+    const [chartFirstColor, setChartFirstColor] = useState('');
     const [backGroundColor, setBackGroundColor] = useState('');
     const [modelBackgroundColor, setModelBackgroundColor] = useState('');
     const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
@@ -191,6 +192,7 @@ function ServicerSetting(props) {
         initialValues: {
             favIcon: selectedFile3,
             logoImage: selectedFile1,
+            chartFirstColor: chartFirstColor,
             sideBarButton2ndColor: sideBarButton2ndColor,
             sideBarColor: sideBarColor,
             sideBarTextColor: sideBarTextColor,
@@ -217,6 +219,7 @@ function ServicerSetting(props) {
             try {
                 setLoading(true);
                 const colorScheme = [
+                    { colorCode: values.chartFirstColor || chartFirstColor, colorType: "chartFirstColor" },
                     { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
                     { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
                     { colorCode: values.sideBarButton2ndColor || sideBarButton2ndColor, colorType: "sideBarButton2ndColor" },
@@ -502,143 +505,156 @@ function ServicerSetting(props) {
                                 <div className="col-span-12">
                                     <p className="mb-3 font-bold">Color Setting </p>
                                     <Grid >
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
+                                            <Input
+                                                type="color"
+                                                name={`chartFirstColor`}
+                                                tooltip="15"
+                                                className="!bg-white flex w-full"
+                                                content='You can change website chart start color here.'
+                                                className1="h-11 "
+                                                label="Gradient Start Color "
+                                                placeholder=""
+                                                value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                                            />
+                                        </div>
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`sideBarColor`}
                                                 className1="h-11"
                                                 tooltip="1"
-                                                className="!bg-white  flex"
-                                                content='you can change the theme background color here'
+                                                className="!bg-white  flex w-full"
+                                                content='You can change the theme background color here.'
                                                 label="Theme Color"
                                                 placeholder=""
                                                 value={sideBarColor} onChange={handleColorChange('sideBarColor', setSideBarColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`sideBarTextColor`}
                                                 className1="h-11"
                                                 tooltip="2"
                                                 className="!bg-white flex !w-[111%]"
-                                                content='you can change the theme text color here'
+                                                content='You can change the theme text color here.'
                                                 label="Theme Text Color"
                                                 placeholder=""
                                                 value={sideBarTextColor} onChange={handleColorChange('sideBarTextColor', setSideBarTextColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`sideBarButtonColor`}
                                                 tooltip="3"
-                                                className="!bg-white flex"
-                                                content='you can change the sideBar active page button color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change active page button start background color here.'
                                                 className1="h-11"
-                                                label="SideBar Button "
+                                                label="SideBar Gradient Start Button "
                                                 placeholder=""
                                                 value={sideBarButtonColor} onChange={handleColorChange('sideBarButtonColor', setSideBarButtonColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
-                                                name={`sideBarButton2ndColor`}
+                                                name={`sideBarButtonColor`}
                                                 tooltip="23"
-                                                className="!bg-white flex"
-                                                content='you can change the sideBar active page button color here'
+                                                className="!bg-white flex !w-[111%]"
+                                                content='You can change active page button end background color here.'
                                                 className1="h-11"
-                                                label="SideBar 2nd Button "
+                                                label="SideBar Gradient End Button "
                                                 placeholder=""
                                                 value={sideBarButton2ndColor} onChange={handleColorChange('sideBarButton2ndColor', setSideBarButton2ndColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`sideBarButtonTextColor`}
                                                 tooltip="4"
                                                 className="!bg-white flex !w-[111%]"
-                                                content='you can change the sideBar active page button text color here'
+                                                content='You can change the sideBar active page button text color here.'
                                                 className1="h-11"
                                                 label="SideBar Text Button "
                                                 placeholder=""
                                                 value={sideBarButtonTextColor} onChange={handleColorChange('sideBarButtonTextColor', setSideBarButtonTextColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`buttonColor`}
                                                 tooltip="5"
-                                                className="!bg-white flex"
-                                                content='you can change all button background color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change all button background color here.'
                                                 className1="h-11"
-                                                label="Button Color"
+                                                label="Button Background Color"
                                                 placeholder=""
                                                 value={buttonColor} onChange={handleColorChange('buttonColor', setButtonColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`buttonTextColor`}
                                                 tooltip="6"
                                                 className="!bg-white flex !w-[111%]"
-                                                content='you can change all button text color here'
+                                                content='You can change all button text color here.'
                                                 className1="h-11"
                                                 label="Button Text Color"
                                                 placeholder=""
                                                 value={buttonTextColor} onChange={handleColorChange('buttonTextColor', setButtonTextColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`backGroundColor`}
                                                 tooltip="7"
                                                 className="!bg-white flex !w-[111%]"
-                                                content='you can change all backGround color here'
+                                                content='You can change all backGround color here.'
                                                 className1="h-11"
                                                 label="Background Color"
                                                 placeholder=""
                                                 value={backGroundColor} onChange={handleColorChange('backGroundColor', setBackGroundColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`titleColor`}
                                                 tooltip="8"
-                                                className="!bg-white flex"
-                                                content='you can change website text color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website text color here.'
                                                 className1="h-11"
                                                 label="Text Color"
                                                 placeholder=""
                                                 value={titleColor} onChange={handleColorChange('titleColor', setTitleColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`cardBackGroundColor`}
                                                 tooltip="10"
-                                                className="!bg-white flex"
-                                                content='you can change website box backGround color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website box backGround color here.'
                                                 className1="h-11"
                                                 label="Box Color"
                                                 placeholder=""
                                                 value={cardBackGroundColor} onChange={handleColorChange('cardBackGroundColor', setCardBackGroundColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`cardColor`}
                                                 tooltip="9"
-                                                className="!bg-white flex"
-                                                content='you can change website box color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website box color here.'
                                                 className1="h-11"
                                                 label="Box Text Color"
                                                 placeholder=""
@@ -646,39 +662,39 @@ function ServicerSetting(props) {
                                             />
                                         </div>
 
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`modelBackgroundColor`}
                                                 tooltip="11"
-                                                className="!bg-white flex "
-                                                content='you can change website popup background color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website popup background color here.'
                                                 className1="h-11 "
-                                                label="Popup Color"
+                                                label="Popup Background Color"
                                                 placeholder=""
                                                 value={modelBackgroundColor} onChange={handleColorChange('modelBackgroundColor', setModelBackgroundColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`modelColor`}
                                                 tooltip="12"
                                                 className="!bg-white flex !w-[163px]"
-                                                content='you can change website popup text color here'
+                                                content='You can change website popup text color here.'
                                                 className1="h-11"
                                                 label="Popup Text Color"
                                                 placeholder=""
                                                 value={modelColor} onChange={handleColorChange('modelColor', setModelColor)}
                                             />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-4 relative">
                                             <Input
                                                 type="color"
                                                 name={`inActiveButtonBackgroundColor`}
                                                 tooltip="13"
-                                                className="!bg-white flex "
-                                                content='you can change website inactive button background color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website inactive button background color here.'
                                                 className1="h-11 "
                                                 label="Inactive Button Color"
                                                 placeholder=""
@@ -690,8 +706,8 @@ function ServicerSetting(props) {
                                                 type="color"
                                                 name={`inActiveButtonColor`}
                                                 tooltip="14"
-                                                className="!bg-white flex "
-                                                content='you can change website inactive button text color here'
+                                                className="!bg-white flex w-full"
+                                                content='You can change website inactive button text color here.'
                                                 className1="h-11"
                                                 label="Inactive Button Text Color"
                                                 placeholder=""
