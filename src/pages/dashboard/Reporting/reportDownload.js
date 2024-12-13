@@ -13,7 +13,7 @@ import Primary from "../../../assets/images/SetPrimary.png";
 import { RotateLoader } from "react-spinners";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
-import { deleteDownloadReport, getdeleteReports } from "../../../services/claimServices";
+import { deleteDownloadReport, DownloadReport, getdeleteReports } from "../../../services/claimServices";
 import Modal from "../../../common/model";
 import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
@@ -103,80 +103,103 @@ function ReportDownload() {
     },
     {
       name: "Remarks",
-      selector: (row) => row.status,
+      selector: (row) => row.remark,
       sortable: true,
       cell: (row) => (
-        <p className="self-center"> {row.status} </p>
+        <p className="self-center"> {row.remark} </p>
       ),
     },
     {
       name: "Last Download",
-      selector: (row) => row.status,
+      selector: (row) => row.lastDownloadTime,
       sortable: true,
-      cell: (row) => (
-        <p className="self-center"> {row.status} </p>
-      ),
+
+      cell: (row) => {
+
+        const Timedate = new Date(row.lastDownloadTime);
+        const formattedDate1 = Timedate.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+        const formattedTime1 = Timedate.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+        return `${formattedDate1}    ${formattedTime1}`;
+
+      },
     },
     {
       name: "Action",
       minWidth: "auto",
-      maxWidth: "80px",
+      maxWidth: "120px",
       cell: (row, index) => {
         return (
           <div className="relative">
-            <div
-              onClick={() =>
-                setSelectedAction(selectedAction === index ? null : index)
-              }
-            >
-              <img
-                src={ActiveIcon}
-                className="cursor-pointer w-[35px]"
-                alt="Active Icon"
-              />
-            </div>
-            {selectedAction === index && (
-              <SingleView
-                ref={dropdownRef}
-                className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md`}
+
+            {row.status === 'Active' ?
+              <div
+                onClick={() =>
+                  setSelectedAction(selectedAction === index ? null : index)
+                }
               >
-                <div
-                  className="text-left py-1 px-2 flex cursor-pointer border-b"
-                // onClick={() => openArchive(row._id)}
+                <img
+                  src={ActiveIcon}
+                  className="cursor-pointer w-[35px]"
+                  alt="Active Icon"
+                />
+              </div> :
+              <>
+                {row.status === 'pending' ?
+                  <p className="bg-[blue] text-white rounded-[10px] p-2"> Preparing ... </p> : <p className="bg-red text-white rounded-[10px] p-2"> Failed </p>
+
+                }
+              </>}
+            {selectedAction === index && (
+              <>
+                <SingleView
+                  ref={dropdownRef}
+                  className={`absolute z-[2] w-[120px] drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md`}
                 >
                   <div
-                    style={{
-                      maskImage: `url(${download})`,
-                      WebkitMaskImage: `url(${download})`,
-                      maskRepeat: "no-repeat",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskPosition: "center",
-                      WebkitMaskPosition: "center",
-                      maskSize: "contain",
-                      WebkitMaskSize: "contain",
-                    }}
-                    className="self-center singleViews mr-2 h-4 w-4 "
-                  /> Download
-                </div>
-                <div
-                  className="text-left py-1 px-2 flex cursor-pointer"
-                  onClick={() => openArchive(row._id)}
-                >
+                    className="text-left py-1 px-2 flex cursor-pointer border-b"
+                    onClick={() => downloadReports(row._id)}
+                  >
+                    <div
+                      style={{
+                        maskImage: `url(${download})`,
+                        WebkitMaskImage: `url(${download})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    /> Download
+                  </div>
                   <div
-                    style={{
-                      maskImage: `url(${remove})`,
-                      WebkitMaskImage: `url(${remove})`,
-                      maskRepeat: "no-repeat",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskPosition: "center",
-                      WebkitMaskPosition: "center",
-                      maskSize: "contain",
-                      WebkitMaskSize: "contain",
-                    }}
-                    className="self-center singleViews mr-2 h-4 w-4 "
-                  /> Delete
-                </div>
-              </SingleView>
+                    className="text-left py-1 px-2 flex cursor-pointer"
+                    onClick={() => openArchive(row._id)}
+                  >
+                    <div
+                      style={{
+                        maskImage: `url(${remove})`,
+                        WebkitMaskImage: `url(${remove})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    /> Delete
+                  </div>
+                </SingleView>
+              </>
             )}
           </div>
         );
@@ -209,6 +232,23 @@ function ReportDownload() {
         setIsArchiveOpen(false);
         setPrimaryMessage("Delete Report Successfully");
         setSecondaryMessage("You have successfully delete the report");
+        setTimer(3);
+        setIsModalOpen1(true);
+      }
+    } catch (error) {
+      console.error("Error deleting report:", error);
+    } finally {
+      setMarkLoader(false);
+    }
+  }
+
+  const downloadReports = async (id) => {
+    try {
+      setMarkLoader(true);
+      const res = await DownloadReport(id);
+      if (res.status === 200) {
+        setPrimaryMessage("Download Report Successfully");
+        setSecondaryMessage("You have successfully Download the report");
         setTimer(3);
         setIsModalOpen1(true);
       }

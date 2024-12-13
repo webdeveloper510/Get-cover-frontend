@@ -1140,6 +1140,11 @@ function ClaimList(props) {
   ];
 
   const validationSchema = Yup.object().shape({});
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() - 1);
+
+  const today = new Date();
 
   const formik1 = useFormik({
     initialValues: {
@@ -1159,12 +1164,24 @@ function ClaimList(props) {
       orderId: "",
       trackingNumber: "",
       dateFilter: "openDate",
-      startDate: "",
-      endDate: "",
+      startDate: oneYearAgo.toISOString().split("T")[0], // Set default to 1 year ago
+      endDate: today.toISOString().split("T")[0],
       trackingType: "",
       claimPaidStatus: "",
     },
-    validationSchema,
+    validationSchema: Yup.object().shape({
+      startDate: Yup.date()
+        .required("Start Date is required")
+        .min(
+          new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+          "Date must be within the last year"
+        )
+        .max(new Date(), "Date cannot be in the future"),
+      endDate: Yup.date()
+        .required("End Date is required")
+        .max(new Date(), "End Date cannot be in the future"),
+    }),
+
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
       setIsDisapprovedOpen(false);
@@ -3289,6 +3306,10 @@ function ClaimList(props) {
                       className="!bg-white z-10"
                       label="Start Date"
                       placeholder=""
+                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                        .toISOString()
+                        .split("T")[0]}
+                      maxDate={new Date().toISOString().split("T")[0]}
                       {...formik1.getFieldProps("startDate")}
                     />
                   </div>
@@ -3298,6 +3319,7 @@ function ClaimList(props) {
                       name="endDate"
                       className="!bg-white z-10"
                       label="End Date"
+                      maxDate={new Date().toISOString().split("T")[0]}
                       placeholder=""
                       {...formik1.getFieldProps("endDate")}
                     />
@@ -3447,9 +3469,9 @@ function ClaimList(props) {
           ) : (
             <div>
               <p className="text-center text-3xl font-semibold mb-5 mx-auto">
-                Report
+                Generate Report
               </p>
-              <div>
+              <div className="px-8">
                 <form>
                   <Grid>
                     <div className="col-span-12">
