@@ -360,10 +360,10 @@ function ClaimList(props) {
 
   const fileGenrateForm = useFormik({
     initialValues: {
-      fileName: '',
+      reportName: '',
       remarks: ''
     }, validationSchema: Yup.object({
-      fileName: Yup.string().required('File name is required'),
+      reportName: Yup.string().required('Report name is required'),
     }),
     onSubmit: async (values) => {
       console.log(values,formik1.values);
@@ -3490,21 +3490,21 @@ if(data.code==200){
     <form onSubmit={fileGenrateForm.handleSubmit}>
       {/* File Name Field */}
       <div className="col-span-12">
-        <label htmlFor="fileName" className="block text-base font-semibold">
+        <label htmlFor="reportName" className="block text-base font-semibold">
           File Name
         </label>
         <input
           type="text"
-          id="fileName"
-          name="fileName"
-          value={fileGenrateForm.values.fileName}
+          id="reportName"
+          name="reportName"
+          value={fileGenrateForm.values.reportName}
           onChange={fileGenrateForm.handleChange}
           onBlur={fileGenrateForm.handleBlur}
           className="!bg-white block w-full border-gray-300 rounded-lg p-2"
           placeholder="Enter file name"
         />
-        {fileGenrateForm.touched.fileName && fileGenrateForm.errors.fileName && (
-          <div className="text-red-500 text-sm">{fileGenrateForm.errors.fileName}</div>
+        {fileGenrateForm.touched.reportName && fileGenrateForm.errors.reportName && (
+          <div className="text-red-500 text-sm">{fileGenrateForm.errors.reportName}</div>
         )}
       </div>
 
