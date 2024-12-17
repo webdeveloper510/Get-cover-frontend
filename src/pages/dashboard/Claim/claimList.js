@@ -3457,9 +3457,11 @@ function ClaimList(props) {
             </>
           ) : (
             <div>
-              <p className="text-center text-3xl font-semibold mb-5 mx-auto">
+              <p className="text-center text-3xl font-semibold mb-2 mx-auto">
                 Generate Report
               </p>
+              <p className="text-center w-2/3 mx-auto mb-5">This report will include all claims within the specified date range along with key details for  your review.
+                Please provide the <b> Report Name </b> and any <b> Remarks </b> in the text fields below before proceeding.</p>
               <div className="px-8">
                 <form>
                   <Grid>
