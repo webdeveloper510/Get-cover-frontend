@@ -361,17 +361,24 @@ function ClaimList(props) {
   const fileGenrateForm = useFormik({
     initialValues: {
       reportName: '',
-      remarks: ''
+      remark: ''
     }, validationSchema: Yup.object({
       reportName: Yup.string().required('Report name is required'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values,{ setSubmitting }) => {
       console.log(values,formik1.values);
-      const data =await exportDataForClaim({...values,...formik1.values})
-if(data.code==200){
+      try {
+        // Combine values from both forms
+        const data = await exportDataForClaim({ ...values, ...formik1.values });
 
-  setreportSuccess(true)
-}
+        if (data.code === 200) {
+          setreportSuccess(true);
+        }
+      } catch (error) {
+        console.error('Error exporting data:', error);
+      } finally {
+        setSubmitting(false);
+      }
     }
   });
 
@@ -3510,15 +3517,15 @@ if(data.code==200){
 
       {/* Remarks Field */}
       <div className="col-span-12 mt-4">
-        <label htmlFor="remarks" className="block text-base font-semibold">
-          Remarks
+        <label htmlFor="remark" className="block text-base font-semibold">
+          Remark
         </label>
         <textarea
-          id="remarks"
-          name="remarks"
+          id="remark"
+          name="remark"
           rows="4"
           maxLength={150}
-          value={fileGenrateForm.values.remarks}
+          value={fileGenrateForm.values.remark}
           onChange={fileGenrateForm.handleChange}
           onBlur={fileGenrateForm.handleBlur}
           className="resize-none block w-full border-gray-300 rounded-lg p-2"
@@ -3536,11 +3543,12 @@ if(data.code==200){
           Cancel
         </button>
         <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-        >
-          Generate
-        </button>
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            disabled={fileGenrateForm.isSubmitting}
+          >
+            {fileGenrateForm.isSubmitting ? 'Generating...' : 'Generate'}
+          </button>
       </div>
     </form>
   </div>
