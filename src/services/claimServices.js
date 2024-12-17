@@ -89,6 +89,22 @@ export const checkClaimAmount = async (id) => {
   }
 };
 
+
+export const exportDataForClaim = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/claim/exportDataForClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
 export const uploadClaimEvidence = async (data) => {
   const accessToken = getAccessToken(); // Assuming getAccessToken returns the access token
   const headers = {
