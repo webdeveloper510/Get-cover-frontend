@@ -418,10 +418,10 @@ function OrderDetails() {
                       </Link> */}
                     </div>
                     <div className="w-[80%]">
-                      <p className="text-sm text-neutral-grey font-Regular">
+                      <p className="text-sm font-Regular">
                         Servicer Name
                       </p>
-                      <p className="text-base text-white font-semibold">
+                      <p className="text-base font-semibold">
                         {userDetails?.servicerData?.status
                           ? userDetails?.servicerData?.name
                           : ""}
@@ -434,18 +434,18 @@ function OrderDetails() {
 
               <Grid className="!py-5">
                 <div className="col-span-6">
-                  <InActiveButton className=" !text-sm border flex">
+                  <Button className=" !text-sm flex">
                     <span className="self-center">
                       <PdfGenerator
                         data={orderDetails._id}
                         setLoading={setLoading1}
                       />
                     </span>
-                  </InActiveButton>
+                  </Button>
                 </div>
                 <div className="col-span-6">
                   {orderDetails?.termCondition?.fileName == '' || orderDetails?.termCondition == undefined ? <></> : (
-                    <InActiveButton className="!text-sm border flex cursor-pointer">
+                    <Button className="!text-sm flex cursor-pointer">
                       <span className="self-center">
                         {" "}
                         <FileDownloader
@@ -454,7 +454,7 @@ function OrderDetails() {
                           apiUrlData={baseUrl}
                         />
                       </span>
-                    </InActiveButton>
+                    </Button>
                   )}
                 </div>
               </Grid>
