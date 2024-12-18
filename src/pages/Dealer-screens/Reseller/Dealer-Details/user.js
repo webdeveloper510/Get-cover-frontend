@@ -465,7 +465,7 @@ function UserList(props) {
                 </div>
                 <div
                   onClick={() => openNotification(row._id)}
-                  className={`text-left cursor-pointer flex border-b py-1 px-2`}
+                  className={`text-left cursor-pointer flex border-b py-1`}
                 >
                   <div
                     style={{
@@ -893,11 +893,11 @@ function UserList(props) {
               <div className="col-span-6">
                 <Input
                   type="tel"
+                  nonumber={true}
                   name="phoneNumber"
                   label="Phone Number"
                   required={true}
                   className="!bg-white"
-                  nonumber={true}
                   placeholder=""
                   value={formik.values.phoneNumber}
                   onChange={(e) => {

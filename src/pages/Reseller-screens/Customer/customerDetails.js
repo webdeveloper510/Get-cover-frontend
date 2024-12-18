@@ -957,6 +957,7 @@ function ResellerCustomerDetails() {
                     type="tel"
                     name="phoneNumber"
                     label="Phone"
+                    nonumber={true}
                     required={true}
                     className="!bg-white"
                     placeholder=""

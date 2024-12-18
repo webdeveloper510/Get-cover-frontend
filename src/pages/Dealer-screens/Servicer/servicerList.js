@@ -254,7 +254,7 @@ function DealerServicerList() {
               <p className="text-xl font-semibold">Servicer List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+              <div className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
