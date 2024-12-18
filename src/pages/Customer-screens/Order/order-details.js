@@ -311,7 +311,7 @@ function CustomerOrderDetails() {
               {orderList?.termCondition?.fileName == "" || orderList?.termCondition == undefined ? (
                 <></>
               ) : (
-                <Button className=" w-full justify-center mt-[10%] !text-sm border flex cursor-pointer ">
+                <Button className=" w-full justify-center mt-[10%] !text-sm flex cursor-pointer ">
                   <span className="self-center">
                     {" "}
                     <FileDownloader data={orderId} setLoading={setLoading} />
