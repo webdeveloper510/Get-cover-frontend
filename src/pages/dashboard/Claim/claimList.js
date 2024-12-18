@@ -3513,41 +3513,43 @@ function ClaimList(props) {
 
                   {/* Remarks Field */}
                   <div className="col-span-12 mt-4">
-                    <label
-                      htmlFor="Remark"
-                      className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
-                    >
-                      Remark
-                    </label>
-                    <textarea
-                      id="remark"
-                      name="remark"
-                      rows="4"
-                      maxLength={150}
-                      value={fileGenrateForm.values.remark}
-                      onChange={fileGenrateForm.handleChange}
-                      onBlur={fileGenrateForm.handleBlur}
-                      className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
-                      placeholder=""
-                    />
+                    <div className="relative">
+                      <label
+                        htmlFor="Remark"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Remark
+                      </label>
+                      <textarea
+                        id="remark"
+                        name="remark"
+                        rows="4"
+                        maxLength={150}
+                        value={fileGenrateForm.values.remark}
+                        onChange={fileGenrateForm.handleChange}
+                        onBlur={fileGenrateForm.handleBlur}
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                        placeholder=""
+                      />
+                    </div>
                   </div>
 
                   {/* Submit Buttons */}
                   <div className="col-span-12 mt-6 flex justify-end">
-                    <button
+                    <InActiveButton
                       type="button"
-                      className="mr-3 border px-4 py-2 rounded-lg"
+                      className="mr-3 "
                       onClick={closeReport}
                     >
                       Cancel
-                    </button>
-                    <button
+                    </InActiveButton>
+                    <Button
                       type="submit"
-                      className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                      className=""
                       disabled={fileGenrateForm.isSubmitting}
                     >
                       {fileGenrateForm.isSubmitting ? 'Generating...' : 'Generate'}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </div>

@@ -782,6 +782,12 @@ function SideBar() {
           image: Dropdown2,
           active: SeacondActive,
         },
+        {
+          name: "Report List",
+          url: "/dealer/Reporting/List",
+          image: Dropdown2,
+          active: ForthActive,
+        },
       ],
     },
     {
@@ -901,6 +907,12 @@ function SideBar() {
           url: "/reseller/reporting",
           image: Dropdown2,
           active: SeacondActive,
+        },
+        {
+          name: "Report List",
+          url: "/reseller/Reporting/List",
+          image: Dropdown2,
+          active: ForthActive,
         },
       ],
     },

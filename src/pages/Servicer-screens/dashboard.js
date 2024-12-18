@@ -233,8 +233,8 @@ function ServicerDashboard() {
         localStorage.setItem('reloadDashboard', 'false');
         setTimeout(() => {
           window.location.reload(true);
-          setLoading(false);
-        }, 2000)
+          // setLoading(false);
+        }, 3000)
       }
     }
   }, []);

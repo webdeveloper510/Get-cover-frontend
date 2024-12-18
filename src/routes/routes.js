@@ -93,6 +93,8 @@ import ResellerClaimList from "../pages/Reseller-screens/Claim/claimList";
 import AllList from "../pages/Servicer-screens/Reporting/claims";
 import ClaimListing from "../pages/dashboard/Claim/claimListing";
 import ReportDownload from "../pages/dashboard/Reporting/reportDownload";
+import DealerReportDownload from "../pages/Dealer-screens/Reporting/reportDownload";
+import ResellerReportDownload from "../pages/Reseller-screens/Reporting/reportDownload";
 
 const routes = [
   {
@@ -724,6 +726,16 @@ const routes = [
         ),
       },
       {
+        path: "/dealer/Reporting/list",
+        element: (
+          <PrivateRoute
+            element={<DealerReportDownload />}
+            role={"Super Admin"}
+            path="/dealer/Reporting/list"
+          />
+        ),
+      },
+      {
         path: "/dealer/claimList/:claimIdValue?",
         element: (
           <PrivateRoute
@@ -1017,6 +1029,16 @@ const routes = [
             element={<DealerSale />}
             role={"reseller"}
             path="/reseller/sale"
+          />
+        ),
+      },
+      {
+        path: "/reseller/Reporting/list",
+        element: (
+          <PrivateRoute
+            element={<ResellerReportDownload />}
+            role={"Super Admin"}
+            path="/reseller/Reporting/list"
           />
         ),
       },
