@@ -100,7 +100,7 @@ function AddOrder() {
     useParams();
   const location = useLocation();
   const { dealerIdFromCustomer, resellerIdFromCustomer, customerIdFromCustomer, servicerIdFromCustomer } = location.state || {};
-  console.log(dealerIdFromCustomer, resellerIdFromCustomer);
+  console.log(location.state);
 
   const period = [
     { label: "Monthly", value: "Monthly" },
@@ -220,7 +220,6 @@ function AddOrder() {
   };
 
   const handleGOBack = () => {
-    console.log("dealerId:", dealerId);
     console.log("dealerIdFromCustomer:", dealerIdFromCustomer);
 
     if (dealerIdFromCustomer && !dealerId && !dealerValue) {
@@ -548,116 +547,124 @@ function AddOrder() {
       const result = await orderDetailsById(orderId);
 
       if (result && result.result) {
-        getServiceCoverage(result.result.dealerId, "Edit");
-        const {
-          dealerId,
-          resellerId,
-          servicerId,
-          billDetail,
-          productsArray,
-          venderOrder,
-          serviceCoverageType,
-          orderAmount,
-          paidAmount,
-          coverageType,
-          paymentStatus,
-          termCondition,
-        } = result.result;
-        setSelected(result.result.coverageType);
-        getResellerList(dealerId);
-        getServiceCoverage(dealerId, "Edit");
-        getCustomerList({ dealerId, resellerId });
-        getServicerList({ dealerId, resellerId });
-        productsArray?.forEach((product, index) => {
-          getCategoryList(
-            dealerId,
-            {
-              priceBookId: product.priceBookId,
-              priceCatId: product.categoryId,
-              term: product.term,
-              dealerSku: "", //add this
-              pName: product.pName,
-              coverageType: coverageType.map((item) => item.value),
-            },
-            index
-          );
+ if(result.result.status == 'Pending'){
+  getServiceCoverage(result.result.dealerId, "Edit");
+  const {
+    dealerId,
+    resellerId,
+    servicerId,
+    billDetail,
+    productsArray,
+    venderOrder,
+    serviceCoverageType,
+    orderAmount,
+    paidAmount,
+    coverageType,
+    paymentStatus,
+    termCondition,
+  } = result.result;
+  setSelected(result.result.coverageType);
+  getResellerList(dealerId);
+  getServiceCoverage(dealerId, "Edit");
+  getCustomerList({ dealerId, resellerId });
+  getServicerList({ dealerId, resellerId });
+  productsArray?.forEach((product, index) => {
+    getCategoryList(
+      dealerId,
+      {
+        priceBookId: product.priceBookId,
+        priceCatId: product.categoryId,
+        term: product.term,
+        dealerSku: "", //add this
+        pName: product.pName,
+        coverageType: coverageType.map((item) => item.value),
+      },
+      index
+    );
 
-          setFileValues((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = product.orderFile.name ? product.orderFile : null;
-            return newArray;
-          });
+    setFileValues((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = product.orderFile.name ? product.orderFile : null;
+      return newArray;
+    });
 
-          setNumberOfOrders((prevFileValues) => {
-            const newArray = [...prevFileValues];
-            newArray[index] = product.noOfProducts;
-            return newArray;
-          });
-        });
+    setNumberOfOrders((prevFileValues) => {
+      const newArray = [...prevFileValues];
+      newArray[index] = product.noOfProducts;
+      return newArray;
+    });
+  });
 
-        orderDetail(result.result);
+  orderDetail(result.result);
 
-        formik.setFieldValue("servicerId", servicerId);
-        formik.setFieldValue("billTo", billDetail?.billTo);
-        formik.setFieldValue("name", billDetail?.detail?.name);
-        formik.setFieldValue("address", billDetail?.detail?.address);
-        formik.setFieldValue("phoneNumber", billDetail?.detail?.phoneNumber);
-        formik.setFieldValue("email", billDetail?.detail?.email);
+  formik.setFieldValue("servicerId", servicerId);
+  formik.setFieldValue("billTo", billDetail?.billTo);
+  formik.setFieldValue("name", billDetail?.detail?.name);
+  formik.setFieldValue("address", billDetail?.detail?.address);
+  formik.setFieldValue("phoneNumber", billDetail?.detail?.phoneNumber);
+  formik.setFieldValue("email", billDetail?.detail?.email);
 
-        setClaimOver(
-          productsArray?.map((product) => product?.noOfClaim?.value === -1)
-        );
-        setClaimInCoveragePeriod(
-          productsArray?.map((product) => product?.noOfClaimPerPeriod === -1)
-        );
+  setClaimOver(
+    productsArray?.map((product) => product?.noOfClaim?.value === -1)
+  );
+  setClaimInCoveragePeriod(
+    productsArray?.map((product) => product?.noOfClaimPerPeriod === -1)
+  );
 
-        formikStep3.setValues({
-          ...formikStep3.values,
-          productsArray: productsArray?.map((product, index) => ({
-            categoryId: product.categoryId || "",
-            priceBookId: product.priceBookId || "",
-            unitPrice: product.unitPrice || null,
-            noOfProducts: product.noOfProducts || "",
-            price: product.price || null,
-            file: product.orderFile || "",
-            coverageStartDate: product.coverageStartDate1 || "",
-            description: product.description || "",
-            term: product.term || "",
-            priceType: product.priceType || "",
-            adh: product.adh || 0,
-            adhDays: product?.mergedData || [],
-            additionalNotes: product.additionalNotes || "",
-            QuantityPricing: product.QuantityPricing || [],
-            pName: product.pName || "",
-            rangeStart: product.rangeStart || 0,
-            rangeEnd: product.rangeEnd || 0,
-            checkNumberProducts: product.checkNumberProducts || "",
-            orderFile: product.orderFile || "",
-            fileValue: "",
-            priceBookDetails: product?.priceBookDetail || {},
-            dealerSku: product.dealerSku || "",
-            dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
-            noOfClaim: product?.noOfClaim || {},
-            noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 1,
-            isManufacturerWarranty: product?.isManufacturerWarranty,
-            isMaxClaimAmount: product?.isMaxClaimAmount,
-          })),
-        });
+  formikStep3.setValues({
+    ...formikStep3.values,
+    productsArray: productsArray?.map((product, index) => ({
+      categoryId: product.categoryId || "",
+      priceBookId: product.priceBookId || "",
+      unitPrice: product.unitPrice || null,
+      noOfProducts: product.noOfProducts || "",
+      price: product.price || null,
+      file: product.orderFile || "",
+      coverageStartDate: product.coverageStartDate1 || "",
+      description: product.description || "",
+      term: product.term || "",
+      priceType: product.priceType || "",
+      adh: product.adh || 0,
+      adhDays: product?.mergedData || [],
+      additionalNotes: product.additionalNotes || "",
+      QuantityPricing: product.QuantityPricing || [],
+      pName: product.pName || "",
+      rangeStart: product.rangeStart || 0,
+      rangeEnd: product.rangeEnd || 0,
+      checkNumberProducts: product.checkNumberProducts || "",
+      orderFile: product.orderFile || "",
+      fileValue: "",
+      priceBookDetails: product?.priceBookDetail || {},
+      dealerSku: product.dealerSku || "",
+      dealerPriceBookDetails: product?.dealerPriceBookDetail || {},
+      noOfClaim: product?.noOfClaim || {},
+      noOfClaimPerPeriod: product?.noOfClaimPerPeriod || 1,
+      isManufacturerWarranty: product?.isManufacturerWarranty,
+      isMaxClaimAmount: product?.isMaxClaimAmount,
+    })),
+  });
 
-        formik.setFieldValue("resellerId", resellerId);
-        formik.setFieldValue("dealerId", dealerId);
-        formik.setFieldValue("customerId", result?.result?.customerId);
-        formik4.setFieldValue("pendingAmount", orderAmount - paidAmount);
-        formik4.setFieldError("paidAmount", "");
-        formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
-        setSelectedFile2(termCondition);
-        setSendNotification(result?.result.sendNotification)
-        formikStep2.setFieldValue("termCondition", termCondition);
-        formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
-        formikStep2.setFieldValue("coverageType", coverageType);
-        formik4.setFieldValue("paymentStatus", paymentStatus);
-        formik4.setFieldValue("paidAmount", paidAmount);
-      } else {
+  formik.setFieldValue("resellerId", resellerId);
+  formik.setFieldValue("dealerId", dealerId);
+  formik.setFieldValue("customerId", result?.result?.customerId);
+  formik4.setFieldValue("pendingAmount", orderAmount - paidAmount);
+  formik4.setFieldError("paidAmount", "");
+  formikStep2.setFieldValue("dealerPurchaseOrder", venderOrder);
+  setSelectedFile2(termCondition);
+  setSendNotification(result?.result.sendNotification)
+  formikStep2.setFieldValue("termCondition", termCondition);
+  formikStep2.setFieldValue("serviceCoverageType", serviceCoverageType);
+  formikStep2.setFieldValue("coverageType", coverageType);
+  formik4.setFieldValue("paymentStatus", paymentStatus);
+  formik4.setFieldValue("paidAmount", paidAmount);
+ }
+ else if(result.result.status == 'Archieved'){
+  navigate('/archiveOrder');
+ }
+ else if(result.result.status == 'Active'){
+  navigate('/orderList');
+ }
+     } else {
         console.error("Result or result.result is undefined");
       }
     } catch (error) {
@@ -669,19 +676,6 @@ function AddOrder() {
   };
 
   useEffect(() => {
-
-
-    // Assuming you retrieved this timestamp from MongoDB
-    const timestampFromDB = "2032-10-08T18:30:00.000Z";
-
-    // Parse the ISO string into a Date object
-    const date = parseISO(timestampFromDB);
-
-    // Format to MM-DD-YYYY in the local timezone
-    const formattedDate = format(date, 'MM-dd-yyyy');
-
-    console.log('new date', new Date(timestampFromDB));
-    // Output will be in local time
     if (location.pathname.includes("/editOrder")) {
       // setLoading1(true);
     }
@@ -1711,10 +1705,12 @@ function AddOrder() {
       );
     }
 
-    if (name === "resellerId") {
+    if (name == "resellerId") {
+      console.log(value)
+      formik.setFieldValue("customerId", "");
+
       // Clear dependent values if reseller is changed or empty
       if (value === "") {
-
         formik.setFieldValue("billTo", "Dealer");
         formik.setFieldValue("servicerId", "");
         formik.setFieldValue("customerId", "");
@@ -1733,7 +1729,7 @@ function AddOrder() {
     }
 
     if (name === "customerId") {
-      customerIdFromCustomer = value;
+      // customerIdFromCustomer = value;
       // Clear and set values based on selected customer
       let customerEmail = null;
 
@@ -1904,6 +1900,12 @@ function AddOrder() {
       setServicerData([]);
     }
     formik.resetForm({ values: newValues });
+    location.state = {
+      dealerIdFromCustomer:"",
+      resellerIdFromCustomer:"",
+      customerIdFromCustomer:"",
+      servicerIdFromCustomer:"",
+    };
   };
 
   const handleInputClickReset = (index) => {

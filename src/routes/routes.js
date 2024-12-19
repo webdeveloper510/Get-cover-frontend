@@ -502,7 +502,7 @@ const routes = [
         element: <PrivateRoute element={<Claims />} path="/Reporting/claims" />,
       },
       {
-        path: "/archiveOrder",
+        path: "/archiveOrder/:orderId?",
         element: (
           <PrivateRoute
             element={<ArchiveOrderList />}
@@ -585,7 +585,7 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/archiveOrder",
+        path: "/dealer/archiveOrder/:orderId?",
         element: (
           <PrivateRoute
             element={<ArchiveOrderList />}
@@ -954,7 +954,7 @@ const routes = [
         ),
       },
       {
-        path: "/reseller/archiveOrder",
+        path: "/reseller/archiveOrder/:orderId?",
         element: (
           <PrivateRoute
             element={<ArchiveOrderList />}

@@ -88,7 +88,7 @@ function ReportDownload() {
           Name
         </div>
       ),
-      selector: (row) => row.fileName,
+      selector: (row) => row.reportName,
       sortable: true,
       // minWidth: "100px",
 

@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../../common/button";
-
-import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import AddItem from "../../../assets/images/icons/addItem.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
 import unassign from "../../../assets/images/Unassign.png";
 import AddDealer from "../../../assets/images/dealer-book.svg";
@@ -14,9 +11,8 @@ import Grid from "../../../common/grid";
 import Input from "../../../common/input";
 import DataTable from "react-data-table-component";
 import Primary from "../../../assets/images/SetPrimary.png";
-import Select from "../../../common/select";
 import { RotateLoader } from "react-spinners";
-import { getArchiveOrders, getOrders } from "../../../services/orderServices";
+import { getArchiveOrders } from "../../../services/orderServices";
 import Modal from "../../../common/model";
 import Cross from "../../../assets/images/Cross.png";
 import { useFormik } from "formik";
@@ -27,7 +23,6 @@ import InActiveButton from "../../../common/inActiveButton";
 
 function ArchiveOrderList() {
   const [selectedAction, setSelectedAction] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [timer, setTimer] = useState(3);
   const [orderList, setOrderList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,15 +62,12 @@ function ArchiveOrderList() {
     console.log(formik.values);
     getOrderList();
   };
+  
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
 
-  const openArchive = () => {
-    setIsArchiveOpen(true);
-  };
-
-  const closeModal1 = () => {
+ const closeModal1 = () => {
     setIsModalOpen1(false);
   };
 
@@ -86,41 +78,28 @@ function ArchiveOrderList() {
   const closeArchive = () => {
     setIsArchiveOpen(false);
   };
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleSelectChange1 = (label, value) => {
-    console.log(label, value, "selected");
-    setSelectedProduct(value);
-  };
-  const [loading, setLoading] = useState(false);
 
-  const status = [
-    { label: "Active", value: true },
-    { label: "Pending", value: false },
-  ];
+  const [loading, setLoading] = useState(false);
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      // Close the dropdown if the click is outside of it
       setSelectedAction(null);
     }
   };
+
   useEffect(() => {
     getOrderList();
   }, [location]);
 
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
+  useEffect(() => { return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   const getOrderList = async (data = {}) => {
     closeDisapproved();
     setLoading(true);
@@ -133,6 +112,7 @@ function ArchiveOrderList() {
     setOrderList(result.result);
     setLoading(false);
   };
+
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -467,6 +447,7 @@ function ArchiveOrderList() {
       </Modal>
     </>
   );
+
 }
 
 export default ArchiveOrderList;
