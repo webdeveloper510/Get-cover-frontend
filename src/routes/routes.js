@@ -95,6 +95,8 @@ import ClaimListing from "../pages/dashboard/Claim/claimListing";
 import ReportDownload from "../pages/dashboard/Reporting/reportDownload";
 import DealerReportDownload from "../pages/Dealer-screens/Reporting/reportDownload";
 import ResellerReportDownload from "../pages/Reseller-screens/Reporting/reportDownload";
+import ServicerReportDownload from "../pages/Servicer-screens/Reporting/reportDownload";
+import CustomerReportDownload from "../pages/Customer-screens/Claim/reportDownload";
 
 const routes = [
   {
@@ -730,7 +732,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<DealerReportDownload />}
-            role={"Super Admin"}
+            role={"dealer"}
             path="/dealer/Reporting/list"
           />
         ),
@@ -859,6 +861,16 @@ const routes = [
             element={<ServicerAddBulkClaim />}
             role={"servicer"}
             path="/servicer/addBulkClaim"
+          />
+        ),
+      },
+      {
+        path: "/servicer/Reporting/list",
+        element: (
+          <PrivateRoute
+            element={<ServicerReportDownload />}
+            role={"servicer"}
+            path="/servicer/Reporting/list"
           />
         ),
       },
@@ -1037,7 +1049,7 @@ const routes = [
         element: (
           <PrivateRoute
             element={<ResellerReportDownload />}
-            role={"Super Admin"}
+            role={"reseller"}
             path="/reseller/Reporting/list"
           />
         ),
@@ -1155,6 +1167,16 @@ const routes = [
             element={<CustomerAddOrder />}
             role={"customer"}
             path="/customer/addOrder"
+          />
+        ),
+      },
+      {
+        path: "/customer/Reporting/list",
+        element: (
+          <PrivateRoute
+            element={<CustomerReportDownload />}
+            role={"customer"}
+            path="/customer/Reporting/list"
           />
         ),
       },

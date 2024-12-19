@@ -135,10 +135,25 @@ function DealerResellerList() {
       });
     }
   };
+
+  const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle rows per page change
+  const handleRowsPerPageChange = (newPerPage, page) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(page);
+  };
+
   const columns = [
     {
       name: "Serial #",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -488,6 +503,8 @@ function DealerResellerList() {
                 pagination
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handleRowsPerPageChange}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
               />
             )}

@@ -1061,6 +1061,7 @@ function ServicerUser() {
                   <Input
                     type="tel"
                     name="phoneNumber"
+                    nonumber={true}
                     label="Phone"
                     required={true}
                     className="!bg-white"

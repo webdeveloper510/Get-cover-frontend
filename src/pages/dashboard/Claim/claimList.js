@@ -3207,7 +3207,8 @@ function ClaimList(props) {
                     {...formik1.getFieldProps("pName")}
                   />
                 </div>
-                {props?.flag == "" || props == '' && (
+                {/* {props?.flag === "" || props === '' && ( */}
+                {role == "Super Admin" && (
                   <>
                     <div className="col-span-6">
                       <Input

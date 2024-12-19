@@ -943,10 +943,23 @@ function SideBar() {
       url: "/servicer/claimList",
     },
     {
-      name: "Claims Reporting",
+      name: "Reporting",
       image: ReportImage,
       active: ActiveReport,
-      url: "/servicer/claims",
+      items: [
+        {
+          name: "Claims",
+          url: "/servicer/claims",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Report List",
+          url: "/servicer/Reporting/List",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
     },
     {
       name: "Manage Account",
@@ -1000,10 +1013,23 @@ function SideBar() {
       image: ProductImage,
     },
     {
-      name: "Claims Reporting",
+      name: "Reporting",
       image: ReportImage,
       active: ActiveReport,
-      url: "/customer/claims",
+      items: [
+        {
+          name: "Claims",
+          url: "/customer/claims",
+          image: Dropdown1,
+          active: Actives,
+        },
+        {
+          name: "Report List",
+          url: "/customer/Reporting/List",
+          image: Dropdown2,
+          active: SeacondActive,
+        },
+      ],
     },
     {
       name: "Manage Account",

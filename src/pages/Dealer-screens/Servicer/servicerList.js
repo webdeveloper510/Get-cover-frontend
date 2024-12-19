@@ -109,10 +109,25 @@ function DealerServicerList() {
     console.log(formik.values);
     getServicerList();
   };
+
+  const [currentPage, setCurrentPage] = useState(1); // Tracks current page
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Tracks rows per page
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  // Handle rows per page change
+  const handleRowsPerPageChange = (newPerPage, page) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(page);
+  };
+
   const columns = [
     {
       name: "Serial #",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => (currentPage - 1) * rowsPerPage + index + 1,
       sortable: true,
       minWidth: "auto",
       maxWidth: "90px",
@@ -147,72 +162,6 @@ function DealerServicerList() {
       sortable: true,
       minWidth: "180px",
     },
-    // {
-    //   name: "Status",
-    //   cell: (row) => (
-    //     <div className="relative">
-    //       <div
-    //         className={` ${
-    //           row.servicerData.status === true ? "bg-[#6BD133]" : "bg-[#FF4747]"
-    //         } absolute h-3 w-3 rounded-full top-[33%] ml-[8px]`}
-    //       ></div>
-    //       <select
-    //         value={row.servicerData.status === true ? "active" : "inactive"}
-    //         onChange={(e) => handleStatusChange(row, e.target.value)}
-    //         className="text-[12px] border border-gray-300 text-[#727378] rounded pl-[20px] py-2 pr-1 font-semibold rounded-xl"
-    //       >
-    //         <option value="active">Active</option>
-    //         <option value="inactive">Inactive</option>
-    //       </select>
-    //     </div>
-    //   ),
-    //   sortable: true,
-    // },
-    // {
-    //   name: "Action",
-    //   minWidth: "auto",
-    //   maxWidth: "80px",
-    //   cell: (row, index) => {
-    //     // console.log(index, index % 10 == 9)
-    //     return (
-    //       <div className="relative">
-    //         <div
-    //           onClick={() =>
-    //             setSelectedAction(
-    //               selectedAction === row.servicerData.unique_key
-    //                 ? null
-    //                 : row.servicerData.unique_key
-    //             )
-    //           }
-    //         >
-    //           <img
-    //             src={ActiveIcon}
-    //             className="cursor-pointer	w-[35px]"
-    //             alt="Active Icon"
-    //           />
-    //         </div>
-    //         {selectedAction === row.servicerData.unique_key && (
-    //           <div
-    //             ref={dropdownRef}
-    //             className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 p-2 bg-white border rounded-lg shadow-md ${calculateDropdownPosition(
-    //               index
-    //             )}`}
-    //           >
-    //             <div
-    //               className="text-center cursor-pointer py-1"
-    //               onClick={() => {
-    //                 localStorage.removeItem("servicer");
-    //                 navigate(`/servicerDetails/${row.metaId.toString()}`);
-    //               }}
-    //             >
-    //               View
-    //             </div>
-    //           </div>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   const CustomNoDataComponent = () => (
@@ -254,7 +203,7 @@ function DealerServicerList() {
               <p className="text-xl font-semibold">Servicer List</p>
             </div>
             <div className="col-span-7">
-              <div className="bg-grayf9 rounded-[30px] p-3 border-[1px] border-Light-Grey">
+              <div className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
                 <form onSubmit={formik.handleSubmit}>
                   <Grid className="!grid-cols-11">
                     <div className="col-span-3 self-center">
@@ -378,6 +327,8 @@ function DealerServicerList() {
                 paginationPerPage={10}
                 paginationComponentOptions={paginationOptions}
                 paginationRowsPerPageOptions={[10, 20, 50, 100]}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={handleRowsPerPageChange}
                 noDataComponent={<CustomNoDataComponent />}
               />
             )}
