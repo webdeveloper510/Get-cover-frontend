@@ -766,7 +766,7 @@ function AddOrder() {
       termCondition: selectedFile2,
     },
     validationSchema: Yup.object().shape({
-      dealerPurchaseOrder: Yup.string().required(
+      dealerPurchaseOrder: Yup.string().trim().required(
         "Dealer Purchase Order is Required"
       ),
       serviceCoverageType: Yup.string().required(
@@ -1711,6 +1711,7 @@ function AddOrder() {
 
       // Clear dependent values if reseller is changed or empty
       if (value === "") {
+        customerIdFromCustomer = "";
         formik.setFieldValue("billTo", "Dealer");
         formik.setFieldValue("servicerId", "");
         formik.setFieldValue("customerId", "");

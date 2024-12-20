@@ -572,7 +572,7 @@ function DealerAddOrder() {
       coverageType: [],
     },
     validationSchema: Yup.object().shape({
-      dealerPurchaseOrder: Yup.string().required(
+      dealerPurchaseOrder: Yup.string().trim().required(
         "Dealer Purchase Order is Required"
       ),
       serviceCoverageType: Yup.string().required(
@@ -1401,6 +1401,7 @@ function DealerAddOrder() {
     console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
       if (value == "") {
+      customerIdFromCustomer = "";
         formik.setFieldValue("billTo", "Dealer");
       }
       getCustomerList({

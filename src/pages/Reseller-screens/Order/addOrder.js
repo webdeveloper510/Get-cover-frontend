@@ -412,7 +412,7 @@ function ResellerAddOrder() {
       coverageType: [],
     },
     validationSchema: Yup.object().shape({
-      dealerPurchaseOrder: Yup.string().required(
+      dealerPurchaseOrder: Yup.string().trim().required(
         "Dealer Purchase Order is Required"
       ),
       serviceCoverageType: Yup.string().required(
