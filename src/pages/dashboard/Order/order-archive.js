@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../common/button";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Search from "../../../assets/images/icons/SearchIcon.svg";
@@ -36,9 +36,11 @@ function ArchiveOrderList() {
   };
   const location = useLocation();
   const validationSchema = Yup.object().shape({});
+  const { orderId } = useParams();
+  console.log(orderId)
 
   const initialValues = {
-    orderId: "",
+    orderId: orderId,
     venderOrder: "",
     // serialNo: "",
     dealerName: "",

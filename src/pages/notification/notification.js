@@ -46,7 +46,7 @@ function Notification() {
     }
   };
 
-  const handleUpdateNotification = async (id, type) => {
+  const handleUpdateNotification = async (id, type,endPoint) => {
     try {
       const res = await updateNotifications(id);
       if (res) {
@@ -75,6 +75,9 @@ function Notification() {
           case "Dealer Price Book":
             navigate("/dealerPriceList");
             break;
+            case "Order Archieved":
+              navigate(endPoint);
+              break;
           case "priceBook":
             navigate("/companyPriceBook");
             break;
@@ -182,7 +185,7 @@ function Notification() {
                         key={key}
                         className=""
                         onClick={() =>
-                          handleUpdateNotification(data?._id, data.flag)
+                          handleUpdateNotification(data?._id, data.flag,data.endPoint)
                         }
                         style={{ cursor: "pointer" }}
                       >
