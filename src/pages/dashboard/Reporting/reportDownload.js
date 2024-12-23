@@ -17,7 +17,7 @@ import { deleteDownloadReport, DownloadReport, getdeleteReports } from "../../..
 import Modal from "../../../common/model";
 import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
-import { downloadFile } from "../../../services/userServices";
+import { downloadFile, dowreportingTimeUpdate } from "../../../services/userServices";
 import { saveAs } from "file-saver";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
@@ -183,7 +183,7 @@ function ReportDownload() {
                 >
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer border-b"
-                    onClick={() => downloadReports(row.filePath,index)}
+                    onClick={() => downloadReports(row,index)}
                   >
                     <div
                       style={{
@@ -261,11 +261,13 @@ function ReportDownload() {
     }
   }
 
-  const downloadReports = async (fileName,index) => {
+  const downloadReports = async (row,index) => {
     try {
 
-      const data = { key: fileName };
+      const data = { key: row.filePath };
       const fileBuffer = await downloadFile(data);
+      const updateTime =await dowreportingTimeUpdate(row._id)
+      console.log(updateTime)
 
       // Create a Blob for the file
       const blob = new Blob([fileBuffer], {
@@ -273,7 +275,7 @@ function ReportDownload() {
       });
 
       // Use file-saver to save the file
-      saveAs(blob, `${fileName}`);
+      saveAs(blob, `${row.filePath}`);
       const updatedReports = [...deleteReport];
       updatedReports[index].lastDownloadTime = new Date().toISOString(); 
       console.log('updatedReports',updatedReports)

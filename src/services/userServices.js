@@ -189,7 +189,19 @@ export const addUserToCustomerPortal = async (data) => {
     throw error;
   }
 };
+ export const dowreportingTimeUpdate = async (reportingId) => {
+  const headers = createHeaders();
+  try {
+    const response = await axios.get(`${url}/claim/updateReportingDownloadTime/${reportingId}` , {
+      headers
+    });
 
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
 export const downloadFile = async (fileName) => {
   const headers = createHeaders();
   try {
@@ -203,4 +215,5 @@ export const downloadFile = async (fileName) => {
   } catch (error) {
     throw error;
   }
+ 
 };
