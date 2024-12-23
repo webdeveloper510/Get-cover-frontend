@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -63,6 +63,7 @@ function OrderList() {
   const dropdownRef = useRef(null);
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const { orderValue } = useParams();
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -86,7 +87,9 @@ function OrderList() {
   const handleFilterIconClick = () => {
     formik.resetForm();
     console.log(formik.values);
-    getOrderList();
+    formik.setFieldValue('orderId','')
+    navigate('/orderList')
+    // getOrderList();
   };
   useEffect(() => {
     let intervalId;
@@ -206,7 +209,8 @@ function OrderList() {
   };
 
   useEffect(() => {
-    getOrderList();
+    initialValues.orderId=orderValue
+    getOrderList(orderValue == undefined ?{}:{orderId:orderValue});
 
     document.addEventListener("click", handleClickOutside);
 

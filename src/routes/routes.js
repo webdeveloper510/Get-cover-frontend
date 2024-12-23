@@ -419,12 +419,12 @@ const routes = [
         element: <PrivateRoute element={<AddOrder />} role={"Super Admin"} />,
       },
       {
-        path: "/orderList",
+        path: "/orderList/:orderValue?",
         element: (
           <PrivateRoute
             element={<OrderList />}
             role={"Super Admin"}
-            path="/orderList/:orderId?"
+            path="/orderList/:orderValue?"
           />
         ),
       },

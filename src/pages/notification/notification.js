@@ -47,6 +47,8 @@ function Notification() {
   };
 
   const handleUpdateNotification = async (id, type,endPoint) => {
+    const path = endPoint.replace("https://demo.codewarranty.com", "");
+    console.log(id, type,endPoint)
     try {
       const res = await updateNotifications(id);
       if (res) {
@@ -66,9 +68,7 @@ function Notification() {
           case "customer":
             navigate("/customerList");
             break;
-          case "order":
-            navigate("/orderList");
-            break;
+       
           case "claim":
             navigate("/claimList");
             break;
@@ -76,8 +76,14 @@ function Notification() {
             navigate("/dealerPriceList");
             break;
             case "Order Archieved":
-              navigate(endPoint);
+              navigate(path);
               break;
+              case "order":
+                navigate(path);
+                break;
+              case "edit_order":
+                navigate(path);
+                break;  
           case "priceBook":
             navigate("/companyPriceBook");
             break;

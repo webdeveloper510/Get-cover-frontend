@@ -40,7 +40,7 @@ function ArchiveOrderList() {
   console.log(orderId)
 
   const initialValues = {
-    orderId: orderId,
+    orderId: "",
     venderOrder: "",
     // serialNo: "",
     dealerName: "",
@@ -61,8 +61,10 @@ function ArchiveOrderList() {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
-    console.log(formik.values);
-    getOrderList();
+    formik.setFieldValue('orderId','')
+    navigate('/archiveOrder')
+    // console.log(formik.values);
+    // getOrderList();
   };
   
   const openDisapproved = () => {
@@ -94,7 +96,8 @@ function ArchiveOrderList() {
   };
 
   useEffect(() => {
-    getOrderList();
+    initialValues.orderId=orderId
+    getOrderList(orderId == undefined ?{}:{orderId:orderId});
   }, [location]);
 
   useEffect(() => { return () => {
