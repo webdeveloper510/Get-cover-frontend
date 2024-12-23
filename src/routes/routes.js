@@ -509,7 +509,6 @@ const routes = [
           <PrivateRoute
             element={<ArchiveOrderList />}
             role={"Super Admin"}
-            path="/archiveOrder"
           />
         ),
       },
