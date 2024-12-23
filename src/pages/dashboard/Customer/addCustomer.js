@@ -352,7 +352,7 @@ function AddCustomer() {
           navigate('/addOrder', {
             state: {
               dealerIdFromCustomer: dealerId || "",
-              resellerIdFromCustomer: resellerId || "",
+              resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
               customerIdFromCustomer: customerData._id || undefined,
               servicerIdFromCustomer: servicerId
             },
@@ -362,7 +362,7 @@ function AddCustomer() {
           navigate(`/editOrder/${orderId}`, {
             state: {
               dealerIdFromCustomer: dealerId || "",
-              resellerIdFromCustomer: resellerId || "",
+              resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
               customerIdFromCustomer: customerData._id || undefined,
               servicerIdFromCustomer: servicerId
             },
@@ -372,7 +372,7 @@ function AddCustomer() {
           navigate('/addOrder', {
             state: {
               dealerIdFromCustomer: dealerId || "",
-              resellerIdFromCustomer: resellerId || "",
+              resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
               customerIdFromCustomer: customerData._id || undefined,
               servicerIdFromCustomer: servicerId
             },
@@ -382,7 +382,7 @@ function AddCustomer() {
           navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
             state: {
               dealerIdFromCustomer: dealerId || "",
-              resellerIdFromCustomer: resellerId || "",
+              resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
               customerIdFromCustomer: customerData._id || undefined,
               servicerIdFromCustomer: servicerId
             },
@@ -473,7 +473,7 @@ function AddCustomer() {
       navigate('/addOrder', {
         state: {
           dealerIdFromCustomer: dealerId || "",
-          resellerIdFromCustomer: resellerId || "",
+          resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
           servicerIdFromCustomer: servicerId
         },
       });
@@ -482,7 +482,7 @@ function AddCustomer() {
       navigate(`/editOrder/${orderId}`, {
         state: {
           dealerIdFromCustomer: dealerId || "",
-          resellerIdFromCustomer: resellerId || "",
+          resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
           customerIdFromCustomer: customerData._id || undefined,
           servicerIdFromCustomer: servicerId
 
@@ -493,7 +493,7 @@ function AddCustomer() {
       navigate(`/addOrder/${dealerId}`, {
         state: {
           dealerIdFromCustomer: dealerId || "",
-          resellerIdFromCustomer: resellerId || "",
+          resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
           customerIdFromCustomer: customerData._id || undefined,
           servicerIdFromCustomer: servicerId
         },
@@ -503,7 +503,7 @@ function AddCustomer() {
       navigate(`/addOrderforReseller/${resellerId}/${dealerId}`, {
         state: {
           dealerIdFromCustomer: dealerId || "",
-          resellerIdFromCustomer: resellerId || "",
+          resellerIdFromCustomer: resellerId== "" ? formik.values.resellerName:"",
           customerIdFromCustomer: customerData._id || undefined,
           servicerIdFromCustomer: servicerId
         },

@@ -307,7 +307,7 @@ function AddOrder() {
     return () => clearInterval(intervalId);
   }, [isModalOpen, timer]);
 
-  const getCustomerList = async (data) => {
+  const getCustomerList = async (data,value=customerIdFromCustomer) => {
     let arr = [];
     const resellerId = data?.resellerId == null ? "" : data.resellerId;
     const result = await getCustomerListByDealerIdAndResellerId({
@@ -325,12 +325,12 @@ function AddOrder() {
     });
 
     setCustomerList(arr);
-    if (customerIdFromCustomer) {
-      formik.setFieldValue('customerId', customerIdFromCustomer)
-    }
+if(customerIdFromCustomer){
+  formik.setFieldValue('customerId', value)
+}
   };
 
-  const getResellerList = async (dealerId) => {
+  const getResellerList = async (dealerId,value=resellerIdFromCustomer) => {
     let arr = [];
     const result = await getResellerListOrderByDealerId({ dealerId });
     result?.result?.map((res) => {
@@ -340,9 +340,10 @@ function AddOrder() {
       });
     });
     setResllerList(arr);
-    if (resellerIdFromCustomer) {
-      formik.setFieldValue('resellerId', resellerIdFromCustomer)
-    }
+  if(resellerIdFromCustomer){
+    formik.setFieldValue('resellerId', value)
+  }
+    
   };
 
   const getResellerListByDealerCustomerId = async (
@@ -1674,23 +1675,25 @@ function AddOrder() {
       setSelected([]); // Clear selected items
       formikStep2.resetForm();
 
+   
+      formik.setFieldValue("dealerId", value);
+      location.state= {
+        dealerIdFromCustomer:value,
+        resellerIdFromCustomer:"",
+        customerIdFromCustomer:"",
+        servicerIdFromCustomer:"",
+      } 
       formik.setFieldValue("servicerId", "");
       formik.setFieldValue("customerId", "");
       formik.setFieldValue("resellerId", "");
-      formik.setFieldValue("dealerId", value);
-      dealerIdFromCustomer = value;
-      resellerIdFromCustomer = "";
-      customerIdFromCustomer = "";
-      servicerIdFromCustomer = "";
-
       const dealerData = {
         dealerId: value,
         resellerId: "",
       };
       getServicerList(dealerData);
       getServiceCoverage(value);
-      getCustomerList(dealerData);
-      getResellerList(value);
+      getCustomerList(dealerData,'');
+      getResellerList(value,'');
       getCategoryList(
         value,
         {
@@ -1711,7 +1714,6 @@ function AddOrder() {
 
       // Clear dependent values if reseller is changed or empty
       if (value === "") {
-        customerIdFromCustomer = "";
         formik.setFieldValue("billTo", "Dealer");
         formik.setFieldValue("servicerId", "");
         formik.setFieldValue("customerId", "");
@@ -1726,7 +1728,7 @@ function AddOrder() {
         resellerId: value,
       };
       getServicerList(resellerData);
-      getCustomerList(resellerData);
+      getCustomerList(resellerData,customerIdFromCustomer);
     }
 
     if (name === "customerId") {
@@ -2068,7 +2070,7 @@ function AddOrder() {
                           onBlur={formik.handleBlur}
                         />
                         <span className="ml-3 mt-2"></span>
-                        {formik.values?.dealerId !== '' && formik.values?.customerId === '' && (
+                        {formik.values?.dealerId != '' && (formik.values?.customerId == '' || formik.values?.customerId == undefined ) && (
                           <Link
                             to={{
                               pathname: "/addCustomer",

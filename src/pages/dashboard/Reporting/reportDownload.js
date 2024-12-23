@@ -170,7 +170,7 @@ function ReportDownload() {
                 />
               </div> :
               <>
-                {row.status === 'pending' ?
+                {row.status === 'Pending' ?
                   <p className="bg-[blue] text-white rounded-[10px] p-2"> Preparing ... </p> : <p className="bg-red text-white rounded-[10px] p-2"> Failed </p>
 
                 }
@@ -183,7 +183,7 @@ function ReportDownload() {
                 >
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer border-b"
-                    onClick={() => downloadReports(row.filePath)}
+                    onClick={() => downloadReports(row.filePath,index)}
                   >
                     <div
                       style={{
@@ -261,7 +261,7 @@ function ReportDownload() {
     }
   }
 
-  const downloadReports = async (fileName) => {
+  const downloadReports = async (fileName,index) => {
     try {
 
       const data = { key: fileName };
@@ -274,7 +274,10 @@ function ReportDownload() {
 
       // Use file-saver to save the file
       saveAs(blob, `${fileName}`);
-
+      const updatedReports = [...deleteReport];
+      updatedReports[index].lastDownloadTime = new Date().toISOString(); 
+      console.log('updatedReports',updatedReports)
+      setDeleteReport(updatedReports);
       setSelectedAction(null)
     } catch (error) {
       console.error("Error downloading report:", error);
