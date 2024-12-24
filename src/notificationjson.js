@@ -42,7 +42,7 @@ export const Notifications = [
             },
             {
                 "label": "File bulk claim",
-                "action": "fileBulkClaimAdmin",
+                "action": "fileBulkClaim",
 
             },
             {

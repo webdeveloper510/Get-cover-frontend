@@ -3237,18 +3237,22 @@ function ClaimList(props) {
                   />
                 </div>
                 {/* {props?.flag === "" || props === '' && ( */}
-                {role == "Super Admin" && (
+                {role == "Super Admin"  &&  !location.pathname.includes('/resellerDetails') &&  !location.pathname.includes('/customerDetails') && (
                   <>
-                    <div className="col-span-6">
-                      <Input
-                        type="text"
-                        name="dealerName"
-                        className="!bg-white"
-                        label="Dealer Name"
-                        placeholder=""
-                        {...formik1.getFieldProps("dealerName")}
-                      />
-                    </div>
+                   {
+                     !location.pathname.includes('/dealerDetails') &&
+                     <div className="col-span-6">
+                     <Input
+                       type="text"
+                       name="dealerName"
+                       className="!bg-white"
+                       label="Dealer Name"
+                       placeholder=""
+                       {...formik1.getFieldProps("dealerName")}
+                     />
+                   </div>
+                   }
+                 
                     <div className="col-span-6">
                       <Input
                         type="text"
