@@ -190,15 +190,27 @@ function ClaimList(props) {
       alert("Date range cannot exceed one year.");
     }
   };
-  const handleApply = () => {
+  const formatDateToYYYYDDMM = (date) => {
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+  useEffect (()=>{
     const { startDate, endDate } = selectedRange;
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+    const startDateStr = formatDateToYYYYDDMM(startDate)
+    const endDateStr = formatDateToYYYYDDMM(endDate)
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     console.log("handleApply", startDateStr, endDateStr)
     formik1.setFieldValue('startDate', startDateStr)
     formik1.setFieldValue('endDate', endDateStr)
+    console.log(formik1.values)
+  },[selectedRange])
+  const handleApply = () => {
+
     isFormSubmittedRef.current = true;
     getAllClaims();
     closeModal();
@@ -1226,8 +1238,8 @@ function ClaimList(props) {
   });
 
   const today = new Date();
-  const endDate = today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
-  const startDate = new Date(today.setDate(today.getDate() - 14)).toISOString().split('T')[0];
+const startDate = formatDateToYYYYDDMM(new Date(today.setDate(today.getDate() - 14)));
+const endDate = formatDateToYYYYDDMM(new Date());
 
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
@@ -1240,7 +1252,7 @@ function ClaimList(props) {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
       ...(isFormSubmittedRef.current ? formik1.values : {
-        startDate: startDate,
+        startDate:startDate,
         endDate: endDate,
       }),
     };
@@ -3428,7 +3440,7 @@ function ClaimList(props) {
         <SelectedDateRangeComponent
           selectedRange={selectedRange}
           onRangeChange={handleRangeChange}
-          onApply={handleApply}
+          onApply={()=>{handleApply()}}
         />
         <div className="flex justify-end mb-4">
           <InActiveButton onClick={closeModal} className="mr-3">
