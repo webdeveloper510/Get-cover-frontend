@@ -1225,6 +1225,11 @@ function ClaimList(props) {
     },
   });
 
+  const today = new Date();
+  const endDate = today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+  const startDate = new Date(today.setDate(today.getDate() - 14)).toISOString().split('T')[0];
+
+
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
     console.log(formik1.values, 'search -----------------');
     if (loader) {
@@ -1234,7 +1239,10 @@ function ClaimList(props) {
     let data = {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik1.values : {}),
+      ...(isFormSubmittedRef.current ? formik1.values : {
+        startDate: startDate,
+        endDate: endDate,
+      }),
     };
     let getClaimListPromise;
 
@@ -1540,6 +1548,15 @@ function ClaimList(props) {
             </Grid>
 
             <div className="px-3 mt-5">
+              {props.activeTab == "Paid Claims" && role == "Super Admin" && (
+                <>
+                  <div className="text-right">
+
+                    <Button className='mr-3' onClick={openModal}>Date Approved Filter</Button>
+                    <Button onClick={() => handleDownload()}>Export Claim</Button>
+                  </div>
+                </>
+              )}
               {totalRecords == 0 ? (
                 <></>
               ) : (
@@ -1558,15 +1575,7 @@ function ClaimList(props) {
                       )}
                     </>
                   )}
-                  {props.activeTab == "Paid Claims" && role == "Super Admin" && (
-                    <>
-                      <div className="text-right">
 
-                        <Button className='mr-3' onClick={openModal}>Date Approved Filter</Button>
-                        <Button onClick={() => handleDownload()}>Export Claim</Button>
-                      </div>
-                    </>
-                  )}
                 </>
               )}
               {loaderType == true ? (
