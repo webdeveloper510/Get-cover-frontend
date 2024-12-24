@@ -68,22 +68,18 @@ function Notification() {
           case "customer":
             navigate("/customerList");
             break;
-       
-          case "claim":
-            navigate("/claimList");
-            break;
           case "Dealer Price Book":
             navigate("/dealerPriceList");
             break;
-            case "Order Archieved":
-              navigate(path);
-              break;
-              case "order":
-                navigate(path);
-                break;
-              case "edit_order":
-                navigate(path);
-                break;  
+            // case "Order Archieved":
+            //   navigate(path);
+            //   break;
+            //   case "order":
+            //     navigate(path);
+            //     break;
+            //   case "edit_order":
+            //     navigate(path);
+            //     break;  
           case "priceBook":
             navigate("/companyPriceBook");
             break;
@@ -94,7 +90,7 @@ function Notification() {
             navigate("/resellerList");
             break;
           default:
-            navigate("/contractList");
+            navigate(path);
             break;
         }
       }

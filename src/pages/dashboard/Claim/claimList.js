@@ -149,6 +149,7 @@ function ClaimList(props) {
   const [sendto, setSendto] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const { claimIdValue } = useParams();
+  const [currentClaimId, setCurrentClaimId] = useState(claimIdValue);
 
   const excludedPaths = [
     "/customer/claimList",
@@ -228,8 +229,8 @@ function ClaimList(props) {
   };
 
   useEffect(() => {
-    if (claimIdValue != undefined) {
-      formik1.setFieldValue("claimId", claimIdValue);
+    if (currentClaimId != undefined) {
+      formik1.setFieldValue("claimId", currentClaimId);
     } else {
       handleFilterIconClick();
     }
@@ -1212,6 +1213,7 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader, stemp) => {
+   
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1235,12 +1237,13 @@ function ClaimList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      if (claimIdValue == undefined) {
+      console.log('currentClaimId',currentClaimId)
+      if (currentClaimId == undefined) {
         getClaimListPromise = getClaimList(data);
       } else {
         let newData = {
           ...data,
-          claimId: claimIdValue,
+          claimId: currentClaimId,
         };
         getClaimListPromise = getClaimList(newData);
       }
@@ -1333,11 +1336,34 @@ function ClaimList(props) {
     }
   };
 
+  useEffect(() => {
+
+    setCurrentClaimId(claimIdValue);
+    console.log('new testing',claimIdValue)
+    getAllClaims()
+  }, [ claimIdValue]);
+
   const handleFilterIconClick = () => {
-    formik1.values = {};
+  
+        formik1.values = {};
     formik1.resetForm();
+    
     isFormSubmittedRef.current = false;
-    getAllClaims();
+    // 
+    if (role == 'Super Admin') {
+      navigate(`/claimList`);
+    } else if (role === 'Dealer') {
+      navigate(`/dealer/claimList`);
+    }
+    else if (role === 'Reseller') {
+      navigate(`/reseller/claimList`);
+    }
+    else if (role === 'Servicer') {
+      navigate(`/servicer/claimList`);
+    }
+    else if (role === 'Customer') {
+      navigate(`/customer/claimList`);
+    } 
   };
   const onhandle = async (id) => {
     setIsCustomerOpen(true);
@@ -1462,7 +1488,10 @@ function ClaimList(props) {
                         className=""
 
                         onClick={() => {
+                           setCurrentClaimId(undefined)
+
                           handleFilterIconClick();
+                          getAllClaims()
                         }}
                       >
                         <div
