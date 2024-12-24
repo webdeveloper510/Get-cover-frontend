@@ -15,6 +15,7 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import AddDealer from "../../../../assets/images/dealer-book.svg";
 import DeleteImage from "../../../../assets/images/icons/Delete.svg";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
+import clock from "../../../../assets/images/icons/clock.svg";
 import productName from "../../../../assets/images/icons/productName1.svg";
 import pen from "../../../../assets/images/pencil.png";
 import Sendto from "../../../../assets/images/double-arrow.png";
@@ -73,6 +74,8 @@ import Card from "../../../../common/card";
 import { downloadFile } from "../../../../services/userServices";
 import SingleView from "../../../../common/singleView";
 import InActiveButton from "../../../../common/inActiveButton";
+import SelectedDateRangeComponent from "../../../../common/dateFilter";
+import xlexfile from "../../../../common/xlexfile";
 
 function ClaimList(props) {
   const baseUrl = apiUrl();
@@ -133,6 +136,10 @@ function ClaimList(props) {
     { label: "Breakdown", value: "Breakdown" },
     { label: "Accidental", value: "Accidental" },
   ]);
+  const [selectedRange, setSelectedRange] = useState({
+    startDate: new Date(new Date().setDate(new Date().getDate() - 14)),
+    endDate: new Date(),
+  });
   const navigate = useNavigate();
   const [isPayOpen, setIsPayOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -1018,7 +1025,24 @@ function ClaimList(props) {
       });
     },
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const isValidDateRange = (startDate, endDate) => {
+    const oneYear = 365 * 24 * 60 * 60 * 1000;
+    return endDate - startDate <= oneYear;
+  };
+  const handleDownload = async () => {
+    setLoading1(true);
+    let data = {
+      page: 1,
+      pageLimit: 1000000,
+    };
+    data.flag = 1
+    const result = await getPaidClaims(props.id, data);
+    console.log(result)
+    xlexfile(result?.result);
+    setLoading1(false);
+  };
   const days = [
     { label: "30 Days", value: "30" },
     { label: "45 Days", value: "45" },
@@ -1152,7 +1176,9 @@ function ClaimList(props) {
   ];
 
   const validationSchema = Yup.object().shape({});
-
+  const today = new Date();
+  const endDate = today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+  const startDate = new Date(today.setDate(today.getDate() - 14)).toISOString().split('T')[0];
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
@@ -1173,6 +1199,8 @@ function ClaimList(props) {
       trackingType: "",
       claimPaidStatus: "",
       noOfDays: "",
+      startDate: "",
+      endDate: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -1198,7 +1226,12 @@ function ClaimList(props) {
     let data = {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik1.values : {}),
+      ...(isFormSubmittedRef.current ? formik1.values :
+        {
+          startDate: startDate,
+          endDate: endDate,
+        }
+      ),
     };
     let getClaimListPromise;
 
@@ -1325,7 +1358,42 @@ function ClaimList(props) {
     getAllClaims();
   };
   // console.log(activeIndex, "++++++++++++++++_-------------------");
-  const addTracker = () => { };
+
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleRangeChange = (ranges) => {
+    const { startDate, endDate } = ranges.selection;
+
+    if (isValidDateRange(startDate, endDate)) {
+      setSelectedRange({
+        startDate: startDate > new Date() ? new Date() : startDate,
+        endDate: endDate > new Date() ? new Date() : endDate,
+      });
+    } else {
+      alert("Date range cannot exceed one year.");
+    }
+  };
+  const handleApply = () => {
+    const { startDate, endDate } = selectedRange;
+    const startDateStr = startDate.toISOString().split("T")[0];
+    const endDateStr = endDate.toISOString().split("T")[0];
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log("handleApply", startDateStr, endDateStr)
+    formik1.setFieldValue('startDate', startDateStr)
+    formik1.setFieldValue('endDate', endDateStr)
+    isFormSubmittedRef.current = true;
+    getAllClaims();
+    closeModal();
+  };
+
   return (
     <>
       {loading1 ? (
@@ -1464,6 +1532,15 @@ function ClaimList(props) {
             </Grid>
 
             <div className="px-3 mt-5">
+              {props.activeTab == "Paid Claims" && (
+                <>
+                  <div className="text-right">
+
+                    <Button className='mr-3' onClick={openModal}>Date Approved Filter</Button>
+                    <Button onClick={() => handleDownload()}>Export Claim</Button>
+                  </div>
+                </>
+              )}
               {totalRecords == 0 ? (
                 <></>
               ) : (
@@ -1629,21 +1706,44 @@ function ClaimList(props) {
                                 className={`${isExcludedPath ? "!grid-cols-5" : "!grid-cols-5"
                                   } !gap-0 bg-grayf9  border-Gray28 border-x`}
                               >
-                                <div className="col-span-1 flex ">
-                                  <img
-                                    src={productName}
-                                    className="self-center h-[50px] w-[50px] ml-3"
-                                    alt="productName"
-                                  />
-                                  <div className="py-4 px-3 self-center">
-                                    <p className="text-[#4a4a4a] text-[11px] font-Regular">
-                                      Dealer SKU
-                                    </p>
-                                    <p className="text-light-black text-sm font-semibold">
-                                      {res?.dealerSku}
-                                    </p>
+                                {props.activeTab == "Paid Claims" ?
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={clock}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="clock"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Approved Date
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.approveDate == '' ? <>
+                                        </>
+                                          :
+                                          <>
+                                            {format(new Date(new Date(res?.approveDate).setDate(new Date(res?.approveDate).getDate() - 1)), "MM/dd/yyyy")}
+                                          </>
+                                        }
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
+                                  :
+                                  <div className="col-span-1 flex ">
+                                    <img
+                                      src={productName}
+                                      className="self-center h-[50px] w-[50px] ml-3"
+                                      alt="productName"
+                                    />
+                                    <div className="py-4 px-3 self-center">
+                                      <p className="text-[#4a4a4a] text-[11px] font-Regular">
+                                        Dealer SKU
+                                      </p>
+                                      <p className="text-light-black text-sm font-semibold">
+                                        {res?.dealerSku}
+                                      </p>
+                                    </div>
+                                  </div>}
 
                                 <div className="col-span-1 flex">
                                   <img
@@ -3243,6 +3343,29 @@ function ClaimList(props) {
             </div>
           </div>
         )}
+      </Modal>
+
+      <Modal isOpen={isModalOpen} className="w-[72vw]" onClose={closeModal}>
+        <Button
+          onClick={closeModal}
+          className="absolute right-[-13px] z-10 top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <SelectedDateRangeComponent
+          selectedRange={selectedRange}
+          onRangeChange={handleRangeChange}
+          onApply={handleApply}
+        />
+        <div className="flex justify-end mb-4">
+          <InActiveButton onClick={closeModal} className="mr-3">
+            Cancel
+          </InActiveButton>
+          <Button onClick={handleApply}>Apply</Button>
+        </div>
       </Modal>
     </>
   );

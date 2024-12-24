@@ -1183,6 +1183,7 @@ function ClaimList(props) {
       productName: "",
       pName: "",
       dealerName: "",
+      resellerName: "",
       customerName: "",
       dealerSku: "",
       servicerName: "",
@@ -1196,6 +1197,8 @@ function ClaimList(props) {
       endDate: today.toISOString().split("T")[0],
       trackingType: "",
       claimPaidStatus: "",
+      userId: props.id,
+      flag: props.flag
     },
     validationSchema,
 
@@ -1213,7 +1216,7 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader, stemp) => {
-   
+
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1237,7 +1240,7 @@ function ClaimList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      console.log('currentClaimId',currentClaimId)
+      console.log('currentClaimId', currentClaimId)
       if (currentClaimId == undefined) {
         getClaimListPromise = getClaimList(data);
       } else {
@@ -1339,15 +1342,15 @@ function ClaimList(props) {
   useEffect(() => {
 
     setCurrentClaimId(claimIdValue);
-    console.log('new testing',claimIdValue)
+    console.log('new testing', claimIdValue)
     getAllClaims()
-  }, [ claimIdValue]);
+  }, [claimIdValue]);
 
   const handleFilterIconClick = () => {
-  
-        formik1.values = {};
+
+    formik1.values = {};
     formik1.resetForm();
-    
+
     isFormSubmittedRef.current = false;
     // 
     if (role == 'Super Admin') {
@@ -1363,7 +1366,7 @@ function ClaimList(props) {
     }
     else if (role === 'Customer') {
       navigate(`/customer/claimList`);
-    } 
+    }
   };
   const onhandle = async (id) => {
     setIsCustomerOpen(true);
@@ -1488,7 +1491,7 @@ function ClaimList(props) {
                         className=""
 
                         onClick={() => {
-                           setCurrentClaimId(undefined)
+                          setCurrentClaimId(undefined)
 
                           handleFilterIconClick();
                           getAllClaims()
@@ -1538,7 +1541,7 @@ function ClaimList(props) {
                 {claimList?.result?.length !== 0 &&
                   <div className="text-right">
                     <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
-                    <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
+                    <Button className='!text-sm !ml-3'> <Link to={window.location.pathname.includes("/customer/claimList") ? '/customer/Reporting/List' : '/Reporting/List'}> View Report </Link> </Button>
                   </div>}
 
                 {claimList?.result &&
@@ -3592,7 +3595,7 @@ function ClaimList(props) {
                   Thank you for generating the report. The report is currently being processed. Once ready, you can download it by visiting the reports page from below link.
                 </p>
                 <div className="text-center">
-                  <Link to="/Reporting/List" className="text-blue-500 hover:underline">
+                  <Link to={window.location.pathname.includes('customer/claimList') ? "/customer/Reporting/List" : "/Reporting/List"} className="text-blue-500 hover:underline">
                     Go to Reports Page
                   </Link>
                 </div>

@@ -300,6 +300,15 @@ function ServicerDetails() {
       ),
     },
     {
+      id: "Settings",
+      label: "Settings",
+      icons: Paid,
+      Activeicons: ActivePaid,
+      content: activeTab === "Settings" && (
+        <ServicerSetting id={servicerId} flag="servicer" activeTab={activeTab} />
+      ),
+    },
+    {
       id: "Unpaid Claims",
       label: "Unpaid Claims",
       icons: Unpaid,
@@ -317,15 +326,7 @@ function ServicerDetails() {
         <ClaimList12 id={servicerId} flag="servicer" activeTab={activeTab} />
       ),
     },
-    {
-      id: "Settings",
-      label: "Settings",
-      icons: Paid,
-      Activeicons: ActivePaid,
-      content: activeTab === "Settings" && (
-        <ServicerSetting id={servicerId} flag="servicer" activeTab={activeTab} />
-      ),
-    },
+
   ];
 
   const handleSelectChange = async (name, value) => {
