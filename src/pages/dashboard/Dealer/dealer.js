@@ -29,6 +29,7 @@ import {
   getCategoryListActiveData,
   getCategoryListCoverage,
   getCovrageList,
+  getCovrageList1,
 } from "../../../services/priceBookService";
 import { validateDealerData } from "../../../services/dealerServices";
 import Modal from "../../../common/model";
@@ -365,8 +366,8 @@ function Dealer() {
 
   const getCovrageListData = async () => {
     try {
-      const res = await getCovrageList();
-      setCoverage(res.result.value);
+      const res = await getCovrageList1();
+      setCoverage(res.result[0].value);
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

@@ -2888,9 +2888,9 @@ function Account() {
         <div className="py-3">
           <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
           <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
-            <Grid className="!grid-cols-2">
+            <Grid className="!grid-cols-2 !gap-1">
               {Object.entries(notificationList || []).map(([key, { index, title, sections, apiFieldName }], i) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-1">
                   <CollapsibleDiv
                     key={index}
                     ShowData={showdata}

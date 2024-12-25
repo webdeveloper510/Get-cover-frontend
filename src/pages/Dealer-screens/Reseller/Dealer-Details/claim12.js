@@ -1380,15 +1380,27 @@ function ClaimList(props) {
       alert("Date range cannot exceed one year.");
     }
   };
-  const handleApply = () => {
+  const formatDateToYYYYDDMM = (date) => {
+    const newDate = new Date(date);
+    const year = newDate.getUTCFullYear();
+    const day = String(newDate.getUTCDate()).padStart(2, '0');
+    const month = String(newDate.getUTCMonth() + 1).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+  useEffect(() => {
     const { startDate, endDate } = selectedRange;
-    const startDateStr = startDate.toISOString().split("T")[0];
-    const endDateStr = endDate.toISOString().split("T")[0];
+    const startDateStr = formatDateToYYYYDDMM(startDate)
+    const endDateStr = formatDateToYYYYDDMM(endDate)
     const diffTime = Math.abs(endDate - startDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     console.log("handleApply", startDateStr, endDateStr)
     formik1.setFieldValue('startDate', startDateStr)
     formik1.setFieldValue('endDate', endDateStr)
+    console.log(formik1.values)
+  }, [selectedRange])
+  const handleApply = () => {
+
     isFormSubmittedRef.current = true;
     getAllClaims();
     closeModal();

@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import {
   DownloadSet,
   getCovrageList,
+  getCovrageList1,
 } from "../../../../services/priceBookService";
 import Button from "../../../../common/button";
 import download from "../../../../assets/images/downloads.png";
@@ -332,9 +333,9 @@ function Setting(props) {
 
   const getCovrageListData = async () => {
     try {
-      const res = await getCovrageList();
-      console.log(res.result.value);
-      setCoverage(res.result.value);
+      const res = await getCovrageList1();
+      console.log(res.result[0].value);
+      setCoverage(res.result[0].value);
     } catch (error) {
       console.error("Error fetching category list:", error);
     }

@@ -190,6 +190,20 @@ export const getCovrageList = async () => {
   }
 };
 
+export const getCovrageList1 = async () => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.get(`${url}/user/getOptions/1?key[0]=coverage_type`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addCompanyPricBook = async (companyPriceBookDetails) => {
   const headers = createHeaders();
 

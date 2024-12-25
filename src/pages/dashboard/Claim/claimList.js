@@ -1352,7 +1352,7 @@ function ClaimList(props) {
     formik1.resetForm();
 
     isFormSubmittedRef.current = false;
-    // 
+
     if (role == 'Super Admin') {
       navigate(`/claimList`);
     } else if (role === 'Dealer') {
@@ -3240,22 +3240,22 @@ function ClaimList(props) {
                   />
                 </div>
                 {/* {props?.flag === "" || props === '' && ( */}
-                {role == "Super Admin"  &&  !location.pathname.includes('/resellerDetails') &&  !location.pathname.includes('/customerDetails') && (
+                {role == "Super Admin" && !location.pathname.includes('/resellerDetails') && !location.pathname.includes('/customerDetails') && (
                   <>
-                   {
-                     !location.pathname.includes('/dealerDetails') &&
-                     <div className="col-span-6">
-                     <Input
-                       type="text"
-                       name="dealerName"
-                       className="!bg-white"
-                       label="Dealer Name"
-                       placeholder=""
-                       {...formik1.getFieldProps("dealerName")}
-                     />
-                   </div>
-                   }
-                 
+                    {
+                      !location.pathname.includes('/dealerDetails') &&
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="dealerName"
+                          className="!bg-white"
+                          label="Dealer Name"
+                          placeholder=""
+                          {...formik1.getFieldProps("dealerName")}
+                        />
+                      </div>
+                    }
+
                     <div className="col-span-6">
                       <Input
                         type="text"
