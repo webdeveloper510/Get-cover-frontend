@@ -1617,7 +1617,7 @@ function Account() {
                         </Form>
                       )}
                     </Formik>
-                    {isPrimary && (
+                    {/* {isPrimary && (
                       <div className="col-span-12">
                         <form onSubmit={formikEmail.handleSubmit}>
                           <p className="text-xl font-semibold mb-4">
@@ -1680,12 +1680,12 @@ function Account() {
                           </div>
                         </form>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                 </>
                 {isPrimary && (
                   <>
-                    <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                    <p className="text-xl font-semibold mt-5 mb-3">Threshold Limit</p>
                     <form onSubmit={thresholdLimit.handleSubmit}>
                       <Grid>
                         <div className="col-span-6">

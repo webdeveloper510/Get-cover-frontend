@@ -67,6 +67,7 @@ function ServicerDetails() {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [userLoader, setUserLoader] = useState(false);
   const [refreshList, setRefreshUserList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const { servicerId } = useParams();
@@ -452,6 +453,7 @@ function ServicerDetails() {
 
     onSubmit: async (values, { setFieldError }) => {
       localStorage.setItem("servicer", "Users");
+      setUserLoader(true);
       console.log(values);
       setLoading(true);
       if (values.status === "yes") {
@@ -474,6 +476,7 @@ function ServicerDetails() {
         }
         setLoading(false);
       }
+      setUserLoader(false);
     },
   });
   const formatOrderValue = (orderValue) => {
@@ -905,173 +908,180 @@ function ServicerDetails() {
         </Grid>
         {/* user popup */}
         <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-          <div className="py-3">
-            <p className="text-center text-3xl mb-5 mt-2 font-bold">
-              Add New User
-            </p>
-            <form onSubmit={userValues.handleSubmit}>
-              <Grid className="px-8">
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="firstName"
-                    label="First Name"
-                    required={true}
-                    placeholder=""
-                    className="!bg-white"
-                    maxLength={"30"}
-                    value={userValues.values.firstName}
-                    onBlur={userValues.handleBlur}
-                    onChange={userValues.handleChange}
-                    error={
-                      userValues.touched.firstName &&
-                      userValues.errors.firstName
-                    }
-                  />
-                  {userValues.touched.firstName &&
-                    userValues.errors.firstName && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {userValues.errors.firstName}
-                      </div>
-                    )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="lastName"
-                    label="Last Name"
-                    required={true}
-                    placeholder=""
-                    className="!bg-white"
-                    maxLength={"30"}
-                    value={userValues.values.lastName}
-                    onBlur={userValues.handleBlur}
-                    onChange={userValues.handleChange}
-                    error={
-                      userValues.touched.lastName && userValues.errors.lastName
-                    }
-                  />
-                  {userValues.touched.lastName &&
-                    userValues.errors.lastName && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {userValues.errors.lastName}
-                      </div>
-                    )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="email"
-                    label="Email"
-                    placeholder=""
-                    className="!bg-white"
-                    required={true}
-                    value={userValues.values.email}
-                    onBlur={userValues.handleBlur}
-                    onChange={userValues.handleChange}
-                    error={userValues.touched.email && userValues.errors.email}
-                  />
-                  {userValues.touched.email && userValues.errors.email && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.email}
-                    </div>
-                  )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="tel"
-                    name="phoneNumber"
-                    label="Phone"
-                    required={true}
-                    nonumber={true}
-                    className="!bg-white"
-                    placeholder=""
-                    value={userValues.values.phoneNumber}
-                    onChange={(e) => {
-                      const sanitizedValue = e.target.value.replace(
-                        /[^0-9]/g,
-                        ""
-                      );
-                      console.log(sanitizedValue);
-                      userValues.handleChange({
-                        target: {
-                          name: "phoneNumber",
-                          value: sanitizedValue,
-                        },
-                      });
-                    }}
-                    onBlur={userValues.handleBlur}
-                    minLength={"10"}
-                    maxLength={"10"}
-                    error={
-                      userValues.touched.phoneNumber &&
-                      userValues.errors.phoneNumber
-                    }
-                  />
-                  {(userValues.touched.phoneNumber ||
-                    userValues.submitCount > 0) &&
-                    userValues.errors.phoneNumber && (
-                      <div className="text-red-500 text-sm pl-2 pt-2">
-                        {userValues.errors.phoneNumber}
-                      </div>
-                    )}
-                </div>
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="position"
-                    label="Position"
-                    className="!bg-white"
-                    placeholder=""
-                    maxLength={"50"}
-                    value={userValues.values.position}
-                    onBlur={userValues.handleBlur}
-                    onChange={userValues.handleChange}
-                    error={
-                      userValues.touched.position && userValues.errors.position
-                    }
-                  />
-                </div>
-                <div className="col-span-6">
-                  <p className="flex text-[12px] font-semibold mt-3 mb-6">
-                    Do you want to create an account?
-                    <RadioButton
-                      id="yes-create-account"
-                      label="Yes"
-                      value="yes"
-                      disabled={createAccount === false}
-                      checked={createAccountOption === "yes"}
-                      onChange={handleRadioChange}
+          {userLoader ?
+            <div className=" h-[400px] w-full flex py-5">
+              <div className="self-center mx-auto">
+                <RotateLoader color="#333" />
+              </div>
+            </div> :
+            <div className="py-3">
+              <p className="text-center text-3xl mb-5 mt-2 font-bold">
+                Add New User
+              </p>
+              <form onSubmit={userValues.handleSubmit}>
+                <Grid className="px-8">
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="firstName"
+                      label="First Name"
+                      required={true}
+                      placeholder=""
+                      className="!bg-white"
+                      maxLength={"30"}
+                      value={userValues.values.firstName}
+                      onBlur={userValues.handleBlur}
+                      onChange={userValues.handleChange}
+                      error={
+                        userValues.touched.firstName &&
+                        userValues.errors.firstName
+                      }
                     />
-                    <RadioButton
-                      id="no-create-account"
-                      label="No"
-                      value="no"
-                      disabled={createAccount === false}
-                      checked={createAccountOption === "no"}
-                      onChange={handleRadioChange}
+                    {userValues.touched.firstName &&
+                      userValues.errors.firstName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {userValues.errors.firstName}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="lastName"
+                      label="Last Name"
+                      required={true}
+                      placeholder=""
+                      className="!bg-white"
+                      maxLength={"30"}
+                      value={userValues.values.lastName}
+                      onBlur={userValues.handleBlur}
+                      onChange={userValues.handleChange}
+                      error={
+                        userValues.touched.lastName && userValues.errors.lastName
+                      }
                     />
-                  </p>
-                </div>
-              </Grid>
-              <Grid className="drop-shadow-5xl px-8">
-                <div className="col-span-4">
-                  <InActiveButton
-                    type="button"
-                    className="border w-full !text-sm !font-Regular"
-                    onClick={closeUserModal}
-                  >
-                    Cancel
-                  </InActiveButton>
-                </div>
-                <div className="col-span-8">
-                  <Button type="submit" className="w-full">
-                    Submit
-                  </Button>
-                </div>
-              </Grid>
-            </form>
-          </div>
+                    {userValues.touched.lastName &&
+                      userValues.errors.lastName && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {userValues.errors.lastName}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="email"
+                      label="Email"
+                      placeholder=""
+                      className="!bg-white"
+                      required={true}
+                      value={userValues.values.email}
+                      onBlur={userValues.handleBlur}
+                      onChange={userValues.handleChange}
+                      error={userValues.touched.email && userValues.errors.email}
+                    />
+                    {userValues.touched.email && userValues.errors.email && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.email}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="tel"
+                      name="phoneNumber"
+                      label="Phone"
+                      required={true}
+                      nonumber={true}
+                      className="!bg-white"
+                      placeholder=""
+                      value={userValues.values.phoneNumber}
+                      onChange={(e) => {
+                        const sanitizedValue = e.target.value.replace(
+                          /[^0-9]/g,
+                          ""
+                        );
+                        console.log(sanitizedValue);
+                        userValues.handleChange({
+                          target: {
+                            name: "phoneNumber",
+                            value: sanitizedValue,
+                          },
+                        });
+                      }}
+                      onBlur={userValues.handleBlur}
+                      minLength={"10"}
+                      maxLength={"10"}
+                      error={
+                        userValues.touched.phoneNumber &&
+                        userValues.errors.phoneNumber
+                      }
+                    />
+                    {(userValues.touched.phoneNumber ||
+                      userValues.submitCount > 0) &&
+                      userValues.errors.phoneNumber && (
+                        <div className="text-red-500 text-sm pl-2 pt-2">
+                          {userValues.errors.phoneNumber}
+                        </div>
+                      )}
+                  </div>
+                  <div className="col-span-6">
+                    <Input
+                      type="text"
+                      name="position"
+                      label="Position"
+                      className="!bg-white"
+                      placeholder=""
+                      maxLength={"50"}
+                      value={userValues.values.position}
+                      onBlur={userValues.handleBlur}
+                      onChange={userValues.handleChange}
+                      error={
+                        userValues.touched.position && userValues.errors.position
+                      }
+                    />
+                  </div>
+                  <div className="col-span-6">
+                    <p className="flex text-[12px] font-semibold mt-3 mb-6">
+                      Do you want to create an account?
+                      <RadioButton
+                        id="yes-create-account"
+                        label="Yes"
+                        value="yes"
+                        disabled={createAccount === false}
+                        checked={createAccountOption === "yes"}
+                        onChange={handleRadioChange}
+                      />
+                      <RadioButton
+                        id="no-create-account"
+                        label="No"
+                        value="no"
+                        disabled={createAccount === false}
+                        checked={createAccountOption === "no"}
+                        onChange={handleRadioChange}
+                      />
+                    </p>
+                  </div>
+                </Grid>
+                <Grid className="drop-shadow-5xl px-8">
+                  <div className="col-span-4">
+                    <InActiveButton
+                      type="button"
+                      className="border w-full !text-sm !font-Regular"
+                      onClick={closeUserModal}
+                    >
+                      Cancel
+                    </InActiveButton>
+                  </div>
+                  <div className="col-span-8">
+                    <Button type="submit" className="w-full">
+                      Submit
+                    </Button>
+                  </div>
+                </Grid>
+              </form>
+            </div>
+          }
         </Modal>
 
         {/* <div className="col-span-12">

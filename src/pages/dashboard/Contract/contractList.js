@@ -34,6 +34,7 @@ import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import { exportDataForClaim } from "../../../services/claimServices";
 
 function ContractList(props) {
   console.log(props);
@@ -41,9 +42,12 @@ function ContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState("Active");
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [value, setValue] = useState(null);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [viewLoader, setViewLoader] = useState(false);
+  const [reportSuccess, setreportSuccess] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [contractCount, setContractCount] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -135,6 +139,14 @@ function ContractList(props) {
     }
   };
 
+  const filterBy = [
+    {
+      value: "createdDate",
+      label: "Created Date",
+    },
+
+  ];
+
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
       return (orderValue / 1e6).toFixed(2) + "M";
@@ -159,7 +171,7 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: "",
+    status: "Active",
     model: "",
     dealerSku: "",
     serial: "",
@@ -167,6 +179,8 @@ function ContractList(props) {
     pName: "",
     eligibilty: "",
     resellerName: "",
+    startDate: "",
+    endDate: "",
   };
 
   const formik = useFormik({
@@ -216,6 +230,43 @@ function ContractList(props) {
     setSelectedProduct("");
     // getContract();
   };
+
+  const openReport = () => {
+    fileGenrateForm.resetForm();
+    setIsReportOpen(true);
+  }
+
+  const closeReport = () => {
+    setIsReportOpen(false)
+  }
+
+  const fileGenrateForm = useFormik({
+    initialValues: {
+      reportName: '',
+      remark: ''
+    }, validationSchema: Yup.object({
+      reportName: Yup.string().required('Report name is required'),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log(values, formik.values);
+      try {
+        setViewLoader(true);
+        // Combine values from both forms
+        const data = await exportDataForClaim({ ...values, ...formik.values });
+
+        if (data.code === 200) {
+          setreportSuccess(true);
+        }
+      } catch (error) {
+        console.error('Error exporting data:', error);
+      } finally {
+        setViewLoader(false);
+
+        setSubmitting(false);
+      }
+    }
+  });
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -385,6 +436,11 @@ function ContractList(props) {
                   </div>
                 ) : (
                   <>
+                    {contractList?.result?.length !== 0 &&
+                      <div className="text-right mt-5">
+                        <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
+                        <Button className='!text-sm !ml-3'> <Link to={window.location.pathname.includes("/customer/claimList") ? '/customer/Reporting/List' : '/Reporting/List'}> View Report </Link> </Button>
+                      </div>}
                     {contractList &&
                       contractList.map((res, index) => {
                         return (
@@ -769,6 +825,7 @@ function ContractList(props) {
                                     placeholder=""
                                   />
                                 </div>
+
                               </>
                             )}
                           </>
@@ -822,6 +879,32 @@ function ContractList(props) {
                     className="!text-[14px] !bg-white"
                     selectedValue={value}
                     onChange={handleSelectChange2}
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <Input
+                    type="date"
+                    name="startDate"
+                    className="!bg-white z-10"
+                    label="Start Date"
+                    placeholder=""
+                    min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                      .toISOString()
+                      .split("T")[0]}
+                    maxDate={new Date().toISOString().split("T")[0]}
+                    {...formik.getFieldProps("startDate")}
+                  />
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="date"
+                    name="endDate"
+                    className="!bg-white z-10"
+                    label="End Date"
+                    maxDate={new Date().toISOString().split("T")[0]}
+                    placeholder=""
+                    {...formik.getFieldProps("endDate")}
                   />
                 </div>
               </Grid>
@@ -1397,6 +1480,119 @@ function ContractList(props) {
               </>
             )}
           </div>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isReportOpen} onClose={closeReport}>
+        <Button
+          onClick={closeReport}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img
+            src={Cross}
+            className="w-full h-full text-black rounded-full p-0"
+          />
+        </Button>
+        <div className="py-3">
+          {viewLoader ? (
+            <>
+              <div className=" h-[400px] w-full flex py-5">
+                <div className="self-center mx-auto">
+                  <RotateLoader color="#333" />
+                </div>
+              </div>
+            </>
+          ) : (
+            !reportSuccess ? (<div>
+              <p className="text-center text-3xl font-semibold mb-2 mx-auto">
+                Generate Report
+              </p>
+              <p className="text-center w-2/3 mx-auto mb-5">
+                This report will include all contract within the specified date range
+                along with key details for your review. Please provide the{" "}
+                <b>Report Name</b> and any <b>Remarks</b> in the text fields below
+                before proceeding.
+              </p>
+              <div className="px-8">
+                <form onSubmit={fileGenrateForm.handleSubmit}>
+                  {/* File Name Field */}
+                  <div className="col-span-12">
+                    <Input
+                      type="text"
+                      id="reportName"
+                      name="reportName"
+                      label='File Name'
+                      required={true}
+                      value={fileGenrateForm.values.reportName}
+                      onChange={fileGenrateForm.handleChange}
+                      onBlur={fileGenrateForm.handleBlur}
+                      className="!bg-white"
+                      placeholder=""
+                    />
+                    {fileGenrateForm.touched.reportName && fileGenrateForm.errors.reportName && (
+                      <div className="text-red-500 text-sm">{fileGenrateForm.errors.reportName}</div>
+                    )}
+                  </div>
+
+                  {/* Remarks Field */}
+                  <div className="col-span-12 mt-4">
+                    <div className="relative">
+                      <label
+                        htmlFor="Remark"
+                        className="absolute text-base text-[#5D6E66] leading-6 duration-300 transform origin-[0] top-1 bg-white left-2 px-1 -translate-y-4 scale-75"
+                      >
+                        Remark
+                      </label>
+                      <textarea
+                        id="remark"
+                        name="remark"
+                        rows="4"
+                        maxLength={150}
+                        value={fileGenrateForm.values.remark}
+                        onChange={fileGenrateForm.handleChange}
+                        onBlur={fileGenrateForm.handleBlur}
+                        className="block px-2.5 pb-2.5 pt-4 w-full text-base font-semibold text-light-black bg-transparent rounded-lg border-[1px] border-gray-300 appearance-none peer resize-none	"
+                        placeholder=""
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit Buttons */}
+                  <div className="col-span-12 mt-6 flex justify-end">
+                    <InActiveButton
+                      type="button"
+                      className="mr-3 "
+                      onClick={closeReport}
+                    >
+                      Cancel
+                    </InActiveButton>
+                    <Button
+                      type="submit"
+                      className=""
+                      disabled={fileGenrateForm.isSubmitting}
+                    >
+                      {fileGenrateForm.isSubmitting ? 'Generating...' : 'Generate'}
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </div>) : (
+              <>
+                <p className="text-center text-3xl font-semibold mb-2 mx-auto">
+                  Generate Report
+                </p>
+                <p className="text-center w-2/3 mx-auto mb-5">
+                  Thank you for generating the report. The report is currently being processed. Once ready, you can download it by visiting the reports page from below link.
+                </p>
+                <div className="text-center">
+                  <Link to={window.location.pathname.includes('customer/claimList') ? "/customer/Reporting/List" : "/Reporting/List"} className="text-blue-500 hover:underline">
+                    Go to Reports Page
+                  </Link>
+                </div>
+              </>
+            )
+
+          )}
         </div>
       </Modal>
     </>
