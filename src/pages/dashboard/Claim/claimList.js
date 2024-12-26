@@ -1225,7 +1225,11 @@ function ClaimList(props) {
     let data = {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik1.values : {}),
+      ...(isFormSubmittedRef.current ? formik1.values : {
+        dateFilter: "openDate",
+        startDate: oneYearAgo.toISOString().split("T")[0],
+        endDate: today.toISOString().split("T")[0],
+      }),
     };
     let getClaimListPromise;
 

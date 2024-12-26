@@ -1217,6 +1217,7 @@ function AllList(props) {
       pName: "",
       dealerName: "",
       customerName: "",
+      resellerName: "",
       servicerName: "",
       repairStatus: "",
       customerStatusValue: "",
@@ -3043,18 +3044,26 @@ function AllList(props) {
                   {...formik1.getFieldProps("pName")}
                 />
               </div>
-              {props?.flag == "" && (
-                <div className="col-span-6">
-                  <Input
-                    type="text"
-                    name="dealerName"
-                    className="!bg-white"
-                    label="Dealer Name"
-                    placeholder=""
-                    {...formik1.getFieldProps("dealerName")}
-                  />
-                </div>
-              )}
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="dealerName"
+                  className="!bg-white"
+                  label="Dealer Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("dealerName")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="text"
+                  name="resellerName"
+                  className="!bg-white"
+                  label="Reseller Name"
+                  placeholder=""
+                  {...formik1.getFieldProps("resellerName")}
+                />
+              </div>
 
               {window.location.pathname.includes("/customer/claimList") ||
                 props?.flag == "customer" ? (
