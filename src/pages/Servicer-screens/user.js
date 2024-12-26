@@ -7,6 +7,7 @@ import ActiveIcon from "../../assets/images/icons/iconAction.svg";
 import DataTable from "react-data-table-component";
 import Modal from "../../common/model";
 import RadioButton from "../../common/radio";
+import NotificationImage from "../../assets/images/icons/Notification-icon.svg";
 import { RotateLoader } from "react-spinners";
 import Primary from "../.././assets/images/SetPrimary.png";
 import deleteUser10 from "../../assets/images/deleteUser.svg";
@@ -487,106 +488,122 @@ function ServicerUser() {
         </div>
       ),
     },
-    ...(isPrimary
-      ? [
-        {
-          name: "Action",
-          cell: (row, index) => {
-            return (
-              <div className="relative">
-                <div
-                  onClick={() =>
-                    setSelectedAction(
-                      selectedAction === row.email ? null : row.email
-                    )
-                  }
-                >
-                  <img
-                    src={ActiveIcon}
-                    className="cursor-pointer w-[35px]"
-                    alt="Active Icon"
-                  />
-                </div>
+    {
+      name: "Action",
+      cell: (row, index) => {
+        return (
+          <div className="relative">
+            <div
+              onClick={() =>
+                setSelectedAction(
+                  selectedAction === row.email ? null : row.email
+                )
+              }
+            >
+              <img
+                src={ActiveIcon}
+                className="cursor-pointer w-[35px]"
+                alt="Active Icon"
+              />
+            </div>
 
-                {selectedAction === row.email && (
-                  <SingleView
-                    ref={dropdownRef}
-                    className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[80px]"
-                      } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md`}
+            {selectedAction === row.email && (
+              <SingleView
+                ref={dropdownRef}
+                className={`absolute z-[9999] ${!row?.isPrimary ? "w-[140px]" : "w-[140px]"
+                  } drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md`}
+              >
+                {!row?.isPrimary && row.status && (
+                  <div
+                    className="text-left cursor-pointer flex py-1 px-2 border-b"
+                    onClick={() => makeUserPrimary(row)}
                   >
-                    {!row?.isPrimary && row.status && (
-                      <div
-                        className="text-left cursor-pointer flex py-1 px-2 border-b"
-                        onClick={() => makeUserPrimary(row)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${make})`,
-                            WebkitMaskImage: `url(${make})`,
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="self-center singleViews mr-2 h-4 w-4 "
-                        />
-                        {/* <img src={make} className="w-4 h-4 mr-2" />{" "} */}
-                        <span className="self-center"> Make Primary </span>
-                      </div>
-                    )}
-
                     <div
-                      className="text-left cursor-pointer flex py-1 px-2 border-b"
-                      onClick={() => editUser(row._id)}
-                    >
-                      <div
-                        style={{
-                          maskImage: `url(${edit})`,
-                          WebkitMaskImage: `url(${edit})`,
-                          maskRepeat: "no-repeat",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskPosition: "center",
-                          WebkitMaskPosition: "center",
-                          maskSize: "contain",
-                          WebkitMaskSize: "contain",
-                        }}
-                        className="self-center singleViews mr-2 h-4 w-4 "
-                      />
-                      {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
-                      <span className="self-center">Edit </span>
-                    </div>
-                    {!row?.isPrimary && (
-                      <div
-                        className="text-left cursor-pointer flex py-1 px-2"
-                        onClick={() => openModal1(row._id)}
-                      >
-                        <div
-                          style={{
-                            maskImage: `url(${delete1})`,
-                            WebkitMaskImage: `url(${delete1})`,
-                            maskRepeat: "no-repeat",
-                            WebkitMaskRepeat: "no-repeat",
-                            maskPosition: "center",
-                            WebkitMaskPosition: "center",
-                            maskSize: "contain",
-                            WebkitMaskSize: "contain",
-                          }}
-                          className="self-center singleViews mr-2 h-4 w-4 "
-                        />
-                        {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
-                        <span className="self-center">Delete</span>
-                      </div>
-                    )}
-                  </SingleView>
+                      style={{
+                        maskImage: `url(${make})`,
+                        WebkitMaskImage: `url(${make})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={make} className="w-4 h-4 mr-2" />{" "} */}
+                    <span className="self-center"> Make Primary </span>
+                  </div>
                 )}
-              </div>
-            );
-          },
-        },
-      ]
-      : []),
+
+                <div
+                  className="text-left cursor-pointer flex py-1 px-2 border-b"
+                  onClick={() => editUser(row._id)}
+                >
+                  <div
+                    style={{
+                      maskImage: `url(${edit})`,
+                      WebkitMaskImage: `url(${edit})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                  <span className="self-center">Edit </span>
+                </div>
+                <div
+                  onClick={() => openNotification(row._id)}
+                  className={`text-left cursor-pointer flex ${!row.isPrimary && 'border-b'} py-1 px-2`}
+                >
+                  <div
+                    style={{
+                      maskImage: `url(${NotificationImage})`,
+                      WebkitMaskImage: `url(${NotificationImage})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* <img src={edit} className="w-4 h-4 mr-2" />{" "} */}
+                  <span className="self-center">Notification </span>
+                </div>
+                {!row?.isPrimary && (
+                  <div
+                    className="text-left cursor-pointer flex py-1 px-2"
+                    onClick={() => openModal1(row._id)}
+                  >
+                    <div
+                      style={{
+                        maskImage: `url(${delete1})`,
+                        WebkitMaskImage: `url(${delete1})`,
+                        maskRepeat: "no-repeat",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskPosition: "center",
+                        WebkitMaskPosition: "center",
+                        maskSize: "contain",
+                        WebkitMaskSize: "contain",
+                      }}
+                      className="self-center singleViews mr-2 h-4 w-4 "
+                    />
+                    {/* <img src={delete1} className="w-4 h-4 mr-2" />{" "} */}
+                    <span className="self-center">Delete</span>
+                  </div>
+                )}
+              </SingleView>
+            )}
+          </div>
+        );
+      },
+    },
     ,
   ];
 
@@ -1224,6 +1241,7 @@ function ServicerUser() {
                 <div className="col-span-6">
                   <Input
                     type="tel"
+                    nonumber={true}
                     name="phoneNumber"
                     label="Phone Number"
                     required={true}
@@ -1388,9 +1406,9 @@ function ServicerUser() {
         <div className="py-3">
           <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
           <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
-            <Grid className="!grid-cols-2">
+            <Grid className="!grid-cols-2 !gap-1">
               {Object.entries(notificationList || []).map(([key, { index, title, sections, apiFieldName }], i) => (
-                <div key={index} className="mb-4">
+                <div key={index} className="mb-1">
                   <CollapsibleDiv
                     key={index}
                     ShowData={showdata}

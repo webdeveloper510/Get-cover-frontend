@@ -183,7 +183,7 @@ function ReportDownload() {
                 >
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer border-b"
-                    onClick={() => downloadReports(row,index)}
+                    onClick={() => downloadReports(row, index)}
                   >
                     <div
                       style={{
@@ -247,12 +247,14 @@ function ReportDownload() {
     try {
       setMarkLoader(true);
       const res = await deleteDownloadReport(id);
-      if (res.status === 200) {
+      console.log(res);
+      if (res.code === 200) {
+        closeArchive();
         setIsArchiveOpen(false);
+        setIsModalOpen1(true);
         setPrimaryMessage("Delete Report Successfully");
         setSecondaryMessage("You have successfully delete the report");
         setTimer(3);
-        setIsModalOpen1(true);
       }
     } catch (error) {
       console.error("Error deleting report:", error);
@@ -261,12 +263,12 @@ function ReportDownload() {
     }
   }
 
-  const downloadReports = async (row,index) => {
+  const downloadReports = async (row, index) => {
     try {
 
       const data = { key: row.filePath };
       const fileBuffer = await downloadFile(data);
-      const updateTime =await dowreportingTimeUpdate(row._id)
+      const updateTime = await dowreportingTimeUpdate(row._id)
       console.log(updateTime)
 
       // Create a Blob for the file
@@ -277,8 +279,8 @@ function ReportDownload() {
       // Use file-saver to save the file
       saveAs(blob, `${row.filePath}`);
       const updatedReports = [...deleteReport];
-      updatedReports[index].lastDownloadTime = new Date().toISOString(); 
-      console.log('updatedReports',updatedReports)
+      updatedReports[index].lastDownloadTime = new Date().toISOString();
+      console.log('updatedReports', updatedReports)
       setDeleteReport(updatedReports);
       setSelectedAction(null)
     } catch (error) {

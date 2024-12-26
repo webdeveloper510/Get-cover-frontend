@@ -88,7 +88,7 @@ function ServicerReportDownload() {
           Name
         </div>
       ),
-      selector: (row) => row.fileName,
+      selector: (row) => row.reportName,
       sortable: true,
       // minWidth: "100px",
 
@@ -247,7 +247,8 @@ function ServicerReportDownload() {
     try {
       setMarkLoader(true);
       const res = await deleteDownloadReport(id);
-      if (res.status === 200) {
+      console.log(res);
+      if (res.code === 200) {
         setIsArchiveOpen(false);
         setPrimaryMessage("Delete Report Successfully");
         setSecondaryMessage("You have successfully delete the report");

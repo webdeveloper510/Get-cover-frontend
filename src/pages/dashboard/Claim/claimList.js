@@ -1183,6 +1183,7 @@ function ClaimList(props) {
       productName: "",
       pName: "",
       dealerName: "",
+      resellerName: "",
       customerName: "",
       dealerSku: "",
       servicerName: "",
@@ -1196,6 +1197,8 @@ function ClaimList(props) {
       endDate: today.toISOString().split("T")[0],
       trackingType: "",
       claimPaidStatus: "",
+      userId: props.id,
+      flag: props.flag
     },
     validationSchema,
 
@@ -1213,7 +1216,7 @@ function ClaimList(props) {
   });
 
   const getAllClaims = async (page = 1, rowsPerPage, loader, stemp) => {
-   
+
     if (loader) {
       setLoaderType(false);
     } else setLoaderType(true);
@@ -1339,15 +1342,15 @@ function ClaimList(props) {
   useEffect(() => {
 formik1.setFieldValue('claimId',claimIdValue)
     setCurrentClaimId(claimIdValue);
-    console.log('new testing',claimIdValue)
+    console.log('new testing', claimIdValue)
     getAllClaims()
   }, [ ]);
 
   const handleFilterIconClick = () => {
-  
-        formik1.values = {};
+
+    formik1.values = {};
     formik1.resetForm();
-    
+
     isFormSubmittedRef.current = false;
     // const path = window.location.pathname;
     // let newPath = "/claimList";
@@ -1498,7 +1501,7 @@ formik1.setFieldValue('claimId',claimIdValue)
                         className=""
 
                         onClick={() => {
-                           setCurrentClaimId(undefined)
+                          setCurrentClaimId(undefined)
 
                           handleFilterIconClick();
                           getAllClaims()
@@ -1548,7 +1551,7 @@ formik1.setFieldValue('claimId',claimIdValue)
                 {claimList?.result?.length !== 0 &&
                   <div className="text-right">
                     <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
-                    <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
+                    <Button className='!text-sm !ml-3'> <Link to={window.location.pathname.includes("/customer/claimList") ? '/customer/Reporting/List' : '/Reporting/List'}> View Report </Link> </Button>
                   </div>}
 
                 {claimList?.result &&
@@ -3247,22 +3250,22 @@ formik1.setFieldValue('claimId',claimIdValue)
                   />
                 </div>
                 {/* {props?.flag === "" || props === '' && ( */}
-                {role == "Super Admin"  &&  !location.pathname.includes('/resellerDetails') &&  !location.pathname.includes('/customerDetails') && (
+                {role == "Super Admin" && !location.pathname.includes('/resellerDetails') && !location.pathname.includes('/customerDetails') && (
                   <>
-                   {
-                     !location.pathname.includes('/dealerDetails') &&
-                     <div className="col-span-6">
-                     <Input
-                       type="text"
-                       name="dealerName"
-                       className="!bg-white"
-                       label="Dealer Name"
-                       placeholder=""
-                       {...formik1.getFieldProps("dealerName")}
-                     />
-                   </div>
-                   }
-                 
+                    {
+                      !location.pathname.includes('/dealerDetails') &&
+                      <div className="col-span-6">
+                        <Input
+                          type="text"
+                          name="dealerName"
+                          className="!bg-white"
+                          label="Dealer Name"
+                          placeholder=""
+                          {...formik1.getFieldProps("dealerName")}
+                        />
+                      </div>
+                    }
+
                     <div className="col-span-6">
                       <Input
                         type="text"
@@ -3606,7 +3609,7 @@ formik1.setFieldValue('claimId',claimIdValue)
                   Thank you for generating the report. The report is currently being processed. Once ready, you can download it by visiting the reports page from below link.
                 </p>
                 <div className="text-center">
-                  <Link to="/Reporting/List" className="text-blue-500 hover:underline">
+                  <Link to={window.location.pathname.includes('customer/claimList') ? "/customer/Reporting/List" : "/Reporting/List"} className="text-blue-500 hover:underline">
                     Go to Reports Page
                   </Link>
                 </div>

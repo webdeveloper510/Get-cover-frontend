@@ -760,6 +760,7 @@ function ResellerAddServicer() {
                         className="!bg-white"
                         label="Phone"
                         required={true}
+                        nonumber={true}
                         placeholder=""
                         value={formik.values.members[index].phoneNumber}
                         onChange={(e) => {
