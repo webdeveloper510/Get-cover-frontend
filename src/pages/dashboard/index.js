@@ -619,7 +619,7 @@ function Dashboard() {
                     <BarChart graphData={claimAmount} />
                   </MultiColorView>
                 </div>
-                <div className="col-span-6 border-2 rounded-xl">
+                <div className="col-span-6 ">
                   <Card>
                     <p className="text-xl font-semibold pl-3 pt-2">
                       Last 5 Completed Orders
@@ -654,7 +654,7 @@ function Dashboard() {
                   </Card>
                 </div>
 
-                <div className="col-span-6 border-2 rounded-xl">
+                <div className="col-span-6 ">
                   <Card>
                     <p className="text-xl font-semibold pl-3 pt-2">
                       Last 5 Completed Claims
@@ -691,7 +691,7 @@ function Dashboard() {
               </Grid>
 
               <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-                <div className="col-span-6 border-2 rounded-xl">
+                <div className="col-span-6 ">
                   <Card>
                     <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
                       Top 5 Dealers
@@ -725,7 +725,7 @@ function Dashboard() {
                     </div>
                   </Card>
                 </div>
-                <div className="col-span-6 border-2 rounded-xl">
+                <div className="col-span-6 ">
                   <Card>
                     <p className="text-xl font-semibold pl-1 pr-1 pt-2  inline-block">
                       Top 5 Servicers
@@ -762,7 +762,7 @@ function Dashboard() {
               </Grid>
 
               <Grid className="s:grid-cols-3 md:grid-cols-6 xl:grid-cols-12 mt-3">
-                <div className="col-span-6 mt-4 border-2 rounded-xl">
+                <div className="col-span-6 mt-4 ">
                   <Card>
                     <div className="">
                       <p className="text-xl font-semibold pl-1 pr-1 pt-2">
@@ -796,7 +796,7 @@ function Dashboard() {
                     />
                   </Card>
                 </div>
-                <div className="col-span-6 mt-4 border-2 rounded-xl">
+                <div className="col-span-6 mt-4 ">
                   <Card>
                     <div className="">
                       <p className="text-xl font-semibold pl-1 pr-1 pt-2">

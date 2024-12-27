@@ -46,9 +46,9 @@ function Notification() {
     }
   };
 
-  const handleUpdateNotification = async (id, type,endPoint) => {
+  const handleUpdateNotification = async (id, type, endPoint) => {
     const path = endPoint.replace("https://demo.codewarranty.com", "");
-    console.log(id, type,endPoint)
+    console.log(id, type, endPoint)
     try {
       const res = await updateNotifications(id);
       if (res) {
@@ -71,15 +71,15 @@ function Notification() {
           case "Dealer Price Book":
             navigate("/dealerPriceList");
             break;
-            // case "Order Archieved":
-            //   navigate(path);
-            //   break;
-            //   case "order":
-            //     navigate(path);
-            //     break;
-            //   case "edit_order":
-            //     navigate(path);
-            //     break;  
+          // case "Order Archieved":
+          //   navigate(path);
+          //   break;
+          //   case "order":
+          //     navigate(path);
+          //     break;
+          //   case "edit_order":
+          //     navigate(path);
+          //     break;  
           case "priceBook":
             navigate("/companyPriceBook");
             break;
@@ -187,7 +187,7 @@ function Notification() {
                         key={key}
                         className=""
                         onClick={() =>
-                          handleUpdateNotification(data?._id, data.flag,data.endPoint)
+                          handleUpdateNotification(data?._id, data.flag, data.endPoint)
                         }
                         style={{ cursor: "pointer" }}
                       >
@@ -232,7 +232,7 @@ function Notification() {
                                   alt="Unread icon"
                                 /> */}
                                 <p className=" text-[15px] font-semibold">
-                                  {data?.title} : {data?.userId?.firstName}
+                                  {data?.title} :
                                 </p>
                               </div>
                               <div className="col-span-6 self-center flex w-full">
@@ -286,7 +286,7 @@ function Notification() {
                             </Grid>
                           </SingleView>
                         ) : (
-                          <Grid className="border-[1px] p-2 border-[#D1D1D2] relative">
+                          <Grid className="border-[1px] p-2 border-[#D1D1D2] relative text-black">
                             <div className="col-span-3 self-center flex w-full">
                               {/* <div
                                 style={{
@@ -325,7 +325,7 @@ function Notification() {
                                 alt="Read icon"
                               />
                               <p className=" text-base font-semibold ">
-                                {data?.title} : {data?.userId?.firstName}
+                                {data?.title} :
                               </p>
                             </div>
                             <div className="col-span-6 self-center flex w-full">

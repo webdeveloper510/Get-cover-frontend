@@ -34,7 +34,7 @@ import CommonTooltip from "../../../common/toolTip";
 import Card from "../../../common/card";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
-import { exportDataForClaim } from "../../../services/claimServices";
+import { exportDataForClaim, exportDataForContract } from "../../../services/claimServices";
 
 function ContractList(props) {
   console.log(props);
@@ -243,7 +243,8 @@ function ContractList(props) {
   const fileGenrateForm = useFormik({
     initialValues: {
       reportName: '',
-      remark: ''
+      remark: '',
+      category: 'contractReporting',
     }, validationSchema: Yup.object({
       reportName: Yup.string().required('Report name is required'),
     }),
@@ -252,7 +253,7 @@ function ContractList(props) {
       try {
         setViewLoader(true);
         // Combine values from both forms
-        const data = await exportDataForClaim({ ...values, ...formik.values });
+        const data = await exportDataForContract({ ...values, ...formik.values });
 
         if (data.code === 200) {
           setreportSuccess(true);
@@ -441,6 +442,7 @@ function ContractList(props) {
                         <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
                         <Button className='!text-sm !ml-3'> <Link to={window.location.pathname.includes("/customer/claimList") ? '/customer/Reporting/List' : '/Reporting/List'}> View Report </Link> </Button>
                       </div>}
+
                     {contractList &&
                       contractList.map((res, index) => {
                         return (
@@ -541,8 +543,8 @@ function ContractList(props) {
                                     </p>
                                   </div>
                                 </div>
-                                <div className={`col-span-1 border border-Light-Grey  ${res?.overThreshold === false && 'rounded-ee-xl'}`}>
-                                  <div className="py-4 px-3">
+                                <div className={`col-span-1 border border-Light-Grey relative ${res?.overThreshold === false && 'rounded-ee-xl'}`}>
+                                  <div className="py-4 px-3 ">
                                     <p className=" text-sm font-Regular">
                                       Eligibility
                                     </p>
@@ -564,6 +566,13 @@ function ContractList(props) {
                                       </p>
                                     )}
                                   </div>
+                                  <p className="text-sm pl-1">Created At : {new Date(
+                                    res?.createdAt
+                                  ).toLocaleDateString("en-US", {
+                                    month: "2-digit",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  })} </p>
                                 </div>
                                 {res?.overThreshold === false ? (
                                   <></>

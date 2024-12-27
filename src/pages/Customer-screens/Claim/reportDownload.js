@@ -19,6 +19,7 @@ import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
 import { downloadFile } from "../../../services/userServices";
 import { saveAs } from "file-saver";
+import Select from "../../../common/select";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function CustomerReportDownload() {
@@ -30,6 +31,7 @@ function CustomerReportDownload() {
   const [report, setReport] = useState();
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [primaryMessage, setPrimaryMessage] = useState("");
+  const [dateFilter, setDateFilter] = useState("All");
   const [secondaryMessage, setSecondaryMessage] = useState("");
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [markLoader, setMarkLoader] = useState(false);
@@ -315,6 +317,40 @@ function CustomerReportDownload() {
     setIsArchiveOpen(false);
   };
 
+  const filterBy = [
+    {
+      value: "All",
+      label: "All",
+    },
+    {
+      value: "claimReporting",
+      label: "Claims",
+    },
+    {
+      value: "contractReporting",
+      label: "Contracts",
+    },
+  ];
+
+  const handleSelectChange2 = async (selectedValue, value) => {
+    // const selectedValue = value;
+    setLoading(true);
+    setDateFilter(value);
+    console.log("Selected value:", dateFilter, value);
+    if (selectedValue) {
+      try {
+        const res = await getdeleteReports({ category: value });
+        console.log("API Response:", res);
+        setDeleteReport(res.result);
+        setLoading(false);
+      } catch (error) {
+        console.error("API Error:", error);
+        setLoading(false);
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -341,7 +377,19 @@ function CustomerReportDownload() {
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold py-4">Report List</p>
             </div>
-            <div className="col-span-9">
+            <div className="col-span-5"></div>
+            <div className="col-span-4">
+              <div className="ml-auto mt-3 ">
+                <Select
+                  name="dateFilter"
+                  label=" Filter By "
+                  options={filterBy}
+                  disableFirstOption={true}
+                  className="!bg-white"
+                  value={dateFilter}
+                  onChange={handleSelectChange2}
+                />
+              </div>
             </div>
           </Grid>
           <div className="mb-5 relative">

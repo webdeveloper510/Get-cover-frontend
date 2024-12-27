@@ -13,7 +13,7 @@ const MultiColorView = ({ children, className }) => {
             const colorScheme = storedUserDetails.colorScheme;
             colorScheme?.forEach(color => {
                 switch (color.colorType) {
-                    case 'sideBarColor':
+                    case 'chartSecondColor':
                         setBackGroundColor(color.colorCode);
                         break;
                     case 'chartFirstColor':

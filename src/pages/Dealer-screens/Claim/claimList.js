@@ -2292,7 +2292,8 @@ function ClaimList(props) {
   const fileGenrateForm = useFormik({
     initialValues: {
       reportName: '',
-      remark: ''
+      remark: '',
+      category: 'claimReporting'
     }, validationSchema: Yup.object({
       reportName: Yup.string().required('Report name is required'),
     }),
