@@ -36,6 +36,11 @@ export const Notifications = [
         "apiFieldName":"claimNotification",
         "sections": [
             {
+                "label": "Claim list - servicer update",
+                "action": "servicerUpdate1",
+
+            },  
+            {
                 "label": "File new single claim",
                 "action": "newClaim",
 
@@ -45,11 +50,7 @@ export const Notifications = [
                 "action": "fileBulkClaim",
 
             },
-            {
-                "label": "Claim list - servicer update",
-                "action": "servicerUpdate",
-
-            },
+           
             {
                 "label": "Claim list - Customer status update",
                 "action": "customerStatusUpdate",
