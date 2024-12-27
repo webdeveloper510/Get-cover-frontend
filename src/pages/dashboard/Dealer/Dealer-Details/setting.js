@@ -90,6 +90,7 @@ function Setting(props) {
   };
   const [sideBarColor, setSideBarColor] = useState('');
   const [chartFirstColor, setChartFirstColor] = useState('');
+  const [chartSecondColor, setChartSecondColor] = useState('');
   const [sideBarTextColor, setSideBarTextColor] = useState('');
   const [sideBarButtonColor, setSideBarButtonColor] = useState('');
   const [sideBarButton2ndColor, setSideBarButton2ndColor] = useState('');
@@ -560,6 +561,9 @@ function Setting(props) {
           switch (color.colorType) {
             case 'chartFirstColor':
               setChartFirstColor(color.colorCode);
+              break;
+            case 'chartSecondColor':
+              setChartSecondColor(color.colorCode);
               break;
             case 'sideBarColor':
               setSideBarColor(color.colorCode);
@@ -1417,6 +1421,19 @@ function Setting(props) {
                           label="Gradient Start Color "
                           placeholder=""
                           value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                        />
+                      </div>
+                      <div className="col-span-4 relative">
+                        <Input
+                          type="color"
+                          name={`chartSecondColor`}
+                          tooltip="15"
+                          className="!bg-white flex w-full"
+                          content='You can change website chart end color here.'
+                          className1="h-11 "
+                          label="Gradient End Color "
+                          placeholder=""
+                          value={chartSecondColor} onChange={handleColorChange('chartSecondColor', setChartSecondColor)}
                         />
                       </div>
                       <div className="col-span-4 relative">

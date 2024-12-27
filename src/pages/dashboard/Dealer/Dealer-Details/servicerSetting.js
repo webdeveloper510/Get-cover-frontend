@@ -57,6 +57,7 @@ function ServicerSetting(props) {
     const [buttonColor, setButtonColor] = useState('');
     const [buttonTextColor, setButtonTextColor] = useState('');
     const [chartFirstColor, setChartFirstColor] = useState('');
+    const [chartSecondColor, setChartSecondColor] = useState('');
     const [backGroundColor, setBackGroundColor] = useState('');
     const [modelBackgroundColor, setModelBackgroundColor] = useState('');
     const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
@@ -274,6 +275,12 @@ function ServicerSetting(props) {
                 const colorScheme = userDetails.result[0].colorScheme;
                 colorScheme?.forEach(color => {
                     switch (color.colorType) {
+                        case 'chartFirstColor':
+                            setChartFirstColor(color.colorCode);
+                            break;
+                        case 'chartSecondColor':
+                            setChartSecondColor(color.colorCode);
+                            break;
                         case 'sideBarColor':
                             setSideBarColor(color.colorCode);
                             break;
@@ -516,6 +523,19 @@ function ServicerSetting(props) {
                                                 label="Gradient Start Color "
                                                 placeholder=""
                                                 value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                                            />
+                                        </div>
+                                        <div className="col-span-4 relative">
+                                            <Input
+                                                type="color"
+                                                name={`chartSecondColor`}
+                                                tooltip="15"
+                                                className="!bg-white flex w-full"
+                                                content='You can change website chart end color here.'
+                                                className1="h-11 "
+                                                label="Gradient End Color "
+                                                placeholder=""
+                                                value={chartSecondColor} onChange={handleColorChange('chartSecondColor', setChartSecondColor)}
                                             />
                                         </div>
                                         <div className="col-span-4 relative">
