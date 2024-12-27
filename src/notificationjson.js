@@ -37,7 +37,7 @@ export const Notifications = [
         "sections": [
             {
                 "label": "Claim list - servicer update",
-                "action": "servicerUpdate1",
+                "action": "servicerUpdate",
 
             },  
             {
