@@ -33,10 +33,10 @@ export const getContractList = async (data = {}) => {
   }
 };
 
-export const getdeleteReports = async () => {
+export const getdeleteReports = async (data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`${url}/claim/getClaimReportings`, {
+    const response = await axios.post(`${url}/claim/getClaimReportings`, data, {
       headers,
     });
 
@@ -95,6 +95,21 @@ export const exportDataForClaim = async (data) => {
 
   try {
     const response = await axios.post(`${url}/claim/exportDataForClaim`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    handleAuthError(error);
+    throw error;
+  }
+};
+
+export const exportDataForContract = async (data) => {
+  const headers = createHeaders();
+
+  try {
+    const response = await axios.post(`${url}/contract/exportContractReporting`, data, {
       headers,
     });
 

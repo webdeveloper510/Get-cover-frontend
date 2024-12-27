@@ -1048,6 +1048,7 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
   const [inActiveButtonBackgroundColor, setInActiveButtonBackgroundColor] = useState('');
   const [inActiveButtonColor, setInActiveButtonColor] = useState('');
   const [chartFirstColor, setChartFirstColor] = useState('');
+  const [chartSecondColor, setChartSecondColor] = useState('');
 
   const [modelColor, setModelColor] = useState('');
   const [cardBackGroundColor, setCardBackGroundColor] = useState('');
@@ -1077,6 +1078,12 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
         const colorScheme = userDetails.result[0].colorScheme;
         colorScheme?.forEach(color => {
           switch (color.colorType) {
+            case 'chartFirstColor':
+              setChartFirstColor(color.colorCode);
+              break;
+            case 'chartSecondColor':
+              setChartSecondColor(color.colorCode);
+              break;
             case 'sideBarColor':
               setSideBarColor(color.colorCode);
               break;
@@ -1154,6 +1161,7 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
       title: title,
       sideBarColor: sideBarColor,
       chartFirstColor: chartFirstColor,
+      chartSecondColor: chartSecondColor,
       sideBarButton2ndColor: sideBarButton2ndColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -1181,6 +1189,7 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
         setLoading(true);
         const colorScheme = [
           { colorCode: values.chartFirstColor || chartFirstColor, colorType: "chartFirstColor" },
+          { colorCode: values.chartSecondColor || chartSecondColor, colorType: "chartSecondColor" },
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
@@ -1647,7 +1656,7 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
                         </Form>
                       )}
                     </Formik>
-                    {isPrimary && (
+                    {/* {isPrimary && (
                       <div className="col-span-12">
                         <form onSubmit={formikEmail.handleSubmit}>
                           <p className="text-xl font-semibold mb-4">
@@ -1710,12 +1719,12 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
                           </div>
                         </form>
                       </div>
-                    )}
+                    )} */}
                   </Grid>
                 </>
                 {isPrimary && (
                   <>
-                    <p className="text-xl font-semibold mb-3">Threshold Limit</p>
+                    <p className="text-xl font-semibold mt-5 mb-3">Threshold Limit</p>
                     <form onSubmit={thresholdLimit.handleSubmit}>
                       <Grid>
                         <div className="col-span-6">
@@ -2141,6 +2150,19 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
                           label="Gradient Start Color "
                           placeholder=""
                           value={chartFirstColor} onChange={handleColorChange('chartFirstColor', setChartFirstColor)}
+                        />
+                      </div>
+                      <div className="col-span-3 relative">
+                        <Input
+                          type="color"
+                          name={`chartSecondColor`}
+                          tooltip="15"
+                          className="!bg-white flex "
+                          content='you can change website chart end color here'
+                          className1="h-11"
+                          label="Gradient End Color "
+                          placeholder=""
+                          value={chartSecondColor} onChange={handleColorChange('chartSecondColor', setChartSecondColor)}
                         />
                       </div>
                       <div className="col-span-3 relative">

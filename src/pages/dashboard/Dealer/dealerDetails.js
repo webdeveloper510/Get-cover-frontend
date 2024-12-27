@@ -101,6 +101,7 @@ function DealerDetails() {
   const [modalOpen, setModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userLoader, setUserLoader] = useState(false);
   const [timer, setTimer] = useState(3);
   const [servicerList, setServicerList] = useState([]);
   const [flagValue, setFlagValue] = useState(false);
@@ -460,7 +461,7 @@ function DealerDetails() {
 
     onSubmit: async (values, { setFieldError }) => {
       localStorage.setItem("menu", "Users");
-
+      setUserLoader(true);
       values.status = createAccountOption;
       if (values.status === "yes") {
         values.status = true;
@@ -488,6 +489,7 @@ function DealerDetails() {
         setLoading(false);
       }
       localStorage.setItem("menu", "Users");
+      setUserLoader(false);
     },
   });
 
@@ -1377,175 +1379,182 @@ function DealerDetails() {
 
       {/* Modal Add User Popop */}
       <Modal isOpen={isUserModalOpen} onClose={closeUserModal}>
-        <div className=" py-3">
-          <p className=" text-center text-3xl mb-5 mt-2 font-bold">
-            Add New User
-          </p>
-          <form onSubmit={userValues.handleSubmit}>
-            <Grid className="px-8">
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="firstName"
-                  label="First Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.firstName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.firstName && userValues.errors.firstName
-                  }
-                />
-                {userValues.touched.firstName &&
-                  userValues.errors.firstName && (
+        {userLoader ?
+          <div className=" h-[400px] w-full flex py-5">
+            <div className="self-center mx-auto">
+              <RotateLoader color="#333" />
+            </div>
+          </div> :
+          <div className=" py-3">
+            <p className=" text-center text-3xl mb-5 mt-2 font-bold">
+              Add New User
+            </p>
+            <form onSubmit={userValues.handleSubmit}>
+              <Grid className="px-8">
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="firstName"
+                    label="First Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.firstName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.firstName && userValues.errors.firstName
+                    }
+                  />
+                  {userValues.touched.firstName &&
+                    userValues.errors.firstName && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.firstName}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="lastName"
+                    label="Last Name"
+                    required={true}
+                    placeholder=""
+                    className="!bg-white"
+                    maxLength={"30"}
+                    value={userValues.values.lastName}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.lastName && userValues.errors.lastName
+                    }
+                  />
+                  {userValues.touched.lastName && userValues.errors.lastName && (
                     <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.firstName}
+                      {userValues.errors.lastName}
                     </div>
                   )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="lastName"
-                  label="Last Name"
-                  required={true}
-                  placeholder=""
-                  className="!bg-white"
-                  maxLength={"30"}
-                  value={userValues.values.lastName}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.lastName && userValues.errors.lastName
-                  }
-                />
-                {userValues.touched.lastName && userValues.errors.lastName && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.lastName}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="email"
-                  label="Email"
-                  placeholder=""
-                  className="!bg-white"
-                  required={true}
-                  value={userValues.values.email}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={userValues.touched.email && userValues.errors.email}
-                />
-                {userValues.touched.email && userValues.errors.email && (
-                  <div className="text-red-500 text-sm pl-2 pt-2">
-                    {userValues.errors.email}
-                  </div>
-                )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="tel"
-                  name="phoneNumber"
-                  label="Phone"
-                  nonumber={true}
-                  required={true}
-                  className="!bg-white"
-                  placeholder=""
-                  value={userValues.values.phoneNumber}
-                  onChange={(e) => {
-                    const sanitizedValue = e.target.value.replace(
-                      /[^0-9]/g,
-                      ""
-                    );
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="email"
+                    label="Email"
+                    placeholder=""
+                    className="!bg-white"
+                    required={true}
+                    value={userValues.values.email}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={userValues.touched.email && userValues.errors.email}
+                  />
+                  {userValues.touched.email && userValues.errors.email && (
+                    <div className="text-red-500 text-sm pl-2 pt-2">
+                      {userValues.errors.email}
+                    </div>
+                  )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="tel"
+                    name="phoneNumber"
+                    label="Phone"
+                    nonumber={true}
+                    required={true}
+                    className="!bg-white"
+                    placeholder=""
+                    value={userValues.values.phoneNumber}
+                    onChange={(e) => {
+                      const sanitizedValue = e.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
 
-                    userValues.handleChange({
-                      target: {
-                        name: "phoneNumber",
-                        value: sanitizedValue,
-                      },
-                    });
-                  }}
-                  onBlur={userValues.handleBlur}
-                  minLength={"10"}
-                  maxLength={"10"}
-                  error={
-                    userValues.touched.phoneNumber &&
-                    userValues.errors.phoneNumber
-                  }
-                />
-                {(userValues.touched.phoneNumber ||
-                  userValues.submitCount > 0) &&
-                  userValues.errors.phoneNumber && (
-                    <div className="text-red-500 text-sm pl-2 pt-2">
-                      {userValues.errors.phoneNumber}
-                    </div>
-                  )}
-              </div>
-              <div className="col-span-6">
-                <Input
-                  type="text"
-                  name="position"
-                  label="Position"
-                  className="!bg-white"
-                  placeholder=""
-                  maxLength={"50"}
-                  value={userValues.values.position}
-                  onBlur={userValues.handleBlur}
-                  onChange={userValues.handleChange}
-                  error={
-                    userValues.touched.position && userValues.errors.position
-                  }
-                />
-              </div>
-              <div className="col-span-6">
-                <p className=" flex text-[12px] font-semibold mt-3 mb-6">
-                  Do you want to create an account?
-                  <RadioButton
-                    id="yes-create-account"
-                    label="Yes"
-                    value="yes"
-                    disabled={
-                      dealerDetails.dealerData?.isAccountCreate === false
+                      userValues.handleChange({
+                        target: {
+                          name: "phoneNumber",
+                          value: sanitizedValue,
+                        },
+                      });
+                    }}
+                    onBlur={userValues.handleBlur}
+                    minLength={"10"}
+                    maxLength={"10"}
+                    error={
+                      userValues.touched.phoneNumber &&
+                      userValues.errors.phoneNumber
                     }
-                    checked={createAccountOption === "yes"}
-                    onChange={handleRadioChange}
                   />
-                  <RadioButton
-                    id="no-create-account"
-                    label="No"
-                    value="no"
-                    checked={createAccountOption === "no"}
-                    disabled={
-                      dealerDetails.dealerData?.isAccountCreate === false
+                  {(userValues.touched.phoneNumber ||
+                    userValues.submitCount > 0) &&
+                    userValues.errors.phoneNumber && (
+                      <div className="text-red-500 text-sm pl-2 pt-2">
+                        {userValues.errors.phoneNumber}
+                      </div>
+                    )}
+                </div>
+                <div className="col-span-6">
+                  <Input
+                    type="text"
+                    name="position"
+                    label="Position"
+                    className="!bg-white"
+                    placeholder=""
+                    maxLength={"50"}
+                    value={userValues.values.position}
+                    onBlur={userValues.handleBlur}
+                    onChange={userValues.handleChange}
+                    error={
+                      userValues.touched.position && userValues.errors.position
                     }
-                    onChange={handleRadioChange}
                   />
-                </p>
-              </div>
-            </Grid>
-            <Grid className="drop-shadow-5xl px-8">
-              <div className="col-span-4">
-                <InActiveButton
-                  type="button"
-                  className="border w-full !text-sm !font-Regular"
-                  onClick={closeUserModal}
-                >
-                  Cancel
-                </InActiveButton>
-              </div>
-              <div className="col-span-8">
-                <Button type="submit" className="w-full">
-                  Submit
-                </Button>
-              </div>
-            </Grid>
-          </form>
-        </div>
+                </div>
+                <div className="col-span-6">
+                  <p className=" flex text-[12px] font-semibold mt-3 mb-6">
+                    Do you want to create an account?
+                    <RadioButton
+                      id="yes-create-account"
+                      label="Yes"
+                      value="yes"
+                      disabled={
+                        dealerDetails.dealerData?.isAccountCreate === false
+                      }
+                      checked={createAccountOption === "yes"}
+                      onChange={handleRadioChange}
+                    />
+                    <RadioButton
+                      id="no-create-account"
+                      label="No"
+                      value="no"
+                      checked={createAccountOption === "no"}
+                      disabled={
+                        dealerDetails.dealerData?.isAccountCreate === false
+                      }
+                      onChange={handleRadioChange}
+                    />
+                  </p>
+                </div>
+              </Grid>
+              <Grid className="drop-shadow-5xl px-8">
+                <div className="col-span-4">
+                  <InActiveButton
+                    type="button"
+                    className="border w-full !text-sm !font-Regular"
+                    onClick={closeUserModal}
+                  >
+                    Cancel
+                  </InActiveButton>
+                </div>
+                <div className="col-span-8">
+                  <Button type="submit" className="w-full">
+                    Submit
+                  </Button>
+                </div>
+              </Grid>
+            </form>
+          </div>
+        }
       </Modal>
 
       {/* Modal Detail Popop */}

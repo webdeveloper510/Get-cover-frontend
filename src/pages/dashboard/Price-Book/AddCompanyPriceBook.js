@@ -24,6 +24,7 @@ import {
   getCategoryListActiveData,
   getCompanyPriceBookById,
   getCovrageList,
+  getCovrageList1,
   getTermList,
 } from "../../../services/priceBookService";
 import { RotateLoader } from "react-spinners";
@@ -364,10 +365,10 @@ function AddCompanyPriceBook() {
 
   const getCovrageListData = async () => {
     try {
-      const res = await getCovrageList();
+      const res = await getCovrageList1();
       console.log(res);
       setCoverage(
-        res.result.value.map((item) => ({
+        res.result[0].value.map((item) => ({
           label: item.label,
           value: item.value,
         }))

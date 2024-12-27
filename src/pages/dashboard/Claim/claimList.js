@@ -362,7 +362,8 @@ function ClaimList(props) {
   const fileGenrateForm = useFormik({
     initialValues: {
       reportName: '',
-      remark: ''
+      remark: '',
+      category: 'claimReporting'
     }, validationSchema: Yup.object({
       reportName: Yup.string().required('Report name is required'),
     }),
@@ -1225,7 +1226,11 @@ function ClaimList(props) {
     let data = {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik1.values : {}),
+      ...(isFormSubmittedRef.current ? formik1.values : {
+        dateFilter: "openDate",
+        startDate: oneYearAgo.toISOString().split("T")[0],
+        endDate: today.toISOString().split("T")[0],
+      }),
     };
     let getClaimListPromise;
 
@@ -1240,7 +1245,7 @@ function ClaimList(props) {
     } else if (props.flag === "customer") {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
-      console.log('currentClaimId',formik1.values.claimId)
+      console.log('currentClaimId', formik1.values.claimId)
       if (currentClaimId == undefined) {
         getClaimListPromise = getClaimList(data);
       } else {
@@ -1340,11 +1345,11 @@ function ClaimList(props) {
   };
 
   useEffect(() => {
-formik1.setFieldValue('claimId',claimIdValue)
+    formik1.setFieldValue('claimId', claimIdValue)
     setCurrentClaimId(claimIdValue);
     console.log('new testing', claimIdValue)
     getAllClaims()
-  }, [ ]);
+  }, []);
 
   const handleFilterIconClick = () => {
 

@@ -3,9 +3,9 @@ import { saveAs } from 'file-saver';
 
 const xlexfile = (data) => {
     // Filter data to include only claim_id, approved_date, and claim_amount
-    const filteredData = data.map(({ unique_key, claimDate, totalAmount }) => {
+    const filteredData = data.map(({ unique_key, approveDate, totalAmount }) => {
         // Convert claimDate to MM/DD/YYYY format
-        const date = new Date(claimDate);
+        const date = new Date(approveDate);
         const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 
         return {
