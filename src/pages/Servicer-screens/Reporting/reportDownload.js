@@ -170,7 +170,7 @@ function ServicerReportDownload() {
                 />
               </div> :
               <>
-                {row.status === 'pending' ?
+                {row.status === 'Pending' ?
                   <p className="bg-[blue] text-white rounded-[10px] p-2"> Preparing ... </p> : <p className="bg-red text-white rounded-[10px] p-2"> Failed </p>
 
                 }
