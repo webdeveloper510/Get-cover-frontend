@@ -232,7 +232,7 @@ function Notification() {
                                   alt="Unread icon"
                                 /> */}
                                 <p className=" text-[15px] font-semibold">
-                                  {data?.title} :
+                                  {data?.title}
                                 </p>
                               </div>
                               <div className="col-span-6 self-center flex w-full">
@@ -325,7 +325,7 @@ function Notification() {
                                 alt="Read icon"
                               />
                               <p className=" text-base font-semibold ">
-                                {data?.title} :
+                                {data?.title}
                               </p>
                             </div>
                             <div className="col-span-6 self-center flex w-full">
@@ -439,7 +439,7 @@ function Notification() {
                               alt="Unread icon"
                             /> */}
                               <p className=" text-base font-semibold">
-                                {data?.title}: {data?.flag}
+                                {data?.title}
                               </p>
                             </div>
                             <div className="col-span-6 self-center flex w-full">
