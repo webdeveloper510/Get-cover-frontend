@@ -134,9 +134,12 @@ function ResellerReportDownload() {
       name: "Last Download",
       selector: (row) => row.lastDownloadTime,
       sortable: true,
-
+    
       cell: (row) => {
-
+        if (!row.lastDownloadTime) {
+          return "-";
+        }
+    
         const Timedate = new Date(row.lastDownloadTime);
         const formattedDate1 = Timedate.toLocaleDateString("en-US", {
           month: "long",
@@ -148,7 +151,6 @@ function ResellerReportDownload() {
           minute: "2-digit",
         });
         return `${formattedDate1}    ${formattedTime1}`;
-
       },
     },
     {
