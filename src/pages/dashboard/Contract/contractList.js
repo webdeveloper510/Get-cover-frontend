@@ -873,6 +873,7 @@ function ContractList(props) {
                     color="text-Black-Russian opacity-50"
                     value={selectedProduct}
                     // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                    OptionName='All'
                     className="!text-[14px] !bg-white"
                     selectedValue={selectedProduct}
                     onChange={handleSelectChange1}

@@ -1454,7 +1454,7 @@ function AllList(props) {
                 {claimList?.result?.length !== 0 &&
                   <div className="text-right">
                     <Button className='!text-sm' onClick={openReport}>Generate Report</Button>
-                    <Button className='!text-sm !ml-3'> <Link to={'/Reporting/List'}> View Report </Link> </Button>
+                    <Button className='!text-sm !ml-3'> <Link to={'/servicer/Reporting/List'}> View Report </Link> </Button>
                   </div>}
                 {claimList?.result &&
                   claimList?.result?.length !== 0 &&
@@ -3455,7 +3455,7 @@ function AllList(props) {
                   Thank you for generating the report. The report is currently being processed. Once ready, you can download it by visiting the reports page from below link.
                 </p>
                 <div className="text-center">
-                  <Link to="/Reporting/List" className="text-blue-500 hover:underline">
+                  <Link to="/servicer/Reporting/List" className="text-blue-500 hover:underline">
                     Go to Reports Page
                   </Link>
                 </div>
