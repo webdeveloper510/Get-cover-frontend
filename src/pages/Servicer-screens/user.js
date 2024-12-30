@@ -70,8 +70,8 @@ function ServicerUser() {
   const { toggleFlag } = useMyContext();
   const [activeIndex, setActiveIndex] = useState(null);
   const [showdata, setShowdata] = useState(true);
-  const [notificationSettings, setNotificationSettings] = useState({});
-  const [notificationList, setNotificationList] = useState(Notifications)
+  const [notificationSettings, setNotificationSettings] = useState([]);
+  const [notificationList, setNotificationList] = useState([])
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [notification, setNotification] = useState({})
   const [title, setTitle] = useState('');
@@ -707,30 +707,47 @@ function ServicerUser() {
   const [selectedEmail, setSelectedEmail] = useState([]);
   const [emails, setEmails] = useState([]);
 
-  const openNotification = async (id) => {
-    const data = await getUserNotificationData(id);
-    const notifications = data.result.notifications;
-    setNotification(data.result)
-    const mappedSettings = {};
-    Object.keys(notifications).forEach((categoryKey) => {
-      Object.keys(notifications[categoryKey]).forEach((subKey) => {
-        if (typeof notifications[categoryKey][subKey] === "boolean") {
-          mappedSettings[subKey] = notifications[categoryKey][subKey];
-        }
-      });
+   const openNotification = async (id) => {
+     const data = await getUserNotificationData(id);
+     const notifications = data.result.notifications;
+     const filteredNotifications = Notifications.filter(notification => {
+      const apiFieldName = notification.apiFieldName;
+      return data.result.notifications[apiFieldName] !== null;
     });
-    const newValue = notificationList.map((notification) => ({
-      ...notification,
-      sections: notification.sections.map((section) => ({
-        ...section,
-        isOn: mappedSettings[section.actionKey || section.action] || false,
-      })),
-    }));
-
-    console.log('------------red', newValue)
-    setNotificationSettings(mappedSettings);
-    setIsNotificationOpen(true);
-  };
+    setNotificationList(filteredNotifications)
+   
+     // Map settings for toggles
+     const mappedSettings = {};
+     Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+       if (typeof categoryValue === "object" && categoryValue!=null) {
+        console.log(categoryValue)
+         Object.entries(categoryValue).forEach(([key, value]) => {
+           if (typeof value === "boolean") {
+             mappedSettings[key] = value;
+           }
+         });
+       }
+     });
+ 
+     // Update notificationList to reflect the new settings
+   
+     const unifiedNotifications = Notifications.map(notification => {
+       const apiSection = notifications[notification.apiFieldName];
+       return {
+           index: notification.index,
+           title: notification.title,
+           apiFieldName: notification.apiFieldName,
+           sections: notification.sections.map(section => ({
+               label: section.label,
+               action: section.action,
+               status: apiSection ? apiSection[section.action] : null
+           }))
+       };
+   });
+     setNotificationSettings(unifiedNotifications);
+     setNotification(data.result);
+     setIsNotificationOpen(true);
+   };
 
 
   const handleAddOrUpdate1 = (actionKey) => {

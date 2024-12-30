@@ -71,8 +71,8 @@ function DealerUser() {
   const [secondaryText, SetSecondaryText] = useState("");
   const [title, setTitle] = useState('');
   const [mainStatus, setMainStatus] = useState(true);
-  const [notificationSettings, setNotificationSettings] = useState({});
-  const [notificationList, setNotificationList] = useState(Notifications)
+  const [notificationSettings, setNotificationSettings] = useState([]);
+  const [notificationList, setNotificationList] = useState([])
   const [notification, setNotification] = useState({})
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
@@ -834,42 +834,130 @@ function DealerUser() {
   );
 
 
-  const openNotification = async (id) => {
-    const data = await getUserNotificationData(id);
-    const notifications = data.result.notifications;
-    setNotification(data.result)
-    const mappedSettings = {};
-    Object.keys(notifications).forEach((categoryKey) => {
-      Object.keys(notifications[categoryKey]).forEach((subKey) => {
-        if (typeof notifications[categoryKey][subKey] === "boolean") {
-          mappedSettings[subKey] = notifications[categoryKey][subKey];
-        }
-      });
+   const openNotification = async (id) => {
+     const data = await getUserNotificationData(id);
+     const notifications = data.result.notifications;
+     const filteredNotifications = Notifications.filter(notification => {
+      const apiFieldName = notification.apiFieldName;
+      return data.result.notifications[apiFieldName] !== null;
     });
-    const newValue = notificationList.map((notification) => ({
-      ...notification,
-      sections: notification.sections.map((section) => ({
-        ...section,
-        isOn: mappedSettings[section.actionKey || section.action] || false,
-      })),
-    }));
+    setNotificationList(filteredNotifications)
+   
+     // Map settings for toggles
+     const mappedSettings = {};
+     Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+       if (typeof categoryValue === "object" && categoryValue!=null) {
+        console.log(categoryValue)
+         Object.entries(categoryValue).forEach(([key, value]) => {
+           if (typeof value === "boolean") {
+             mappedSettings[key] = value;
+           }
+         });
+       }
+     });
+ 
+     // Update notificationList to reflect the new settings
+   
+     const unifiedNotifications = Notifications.map(notification => {
+       const apiSection = notifications[notification.apiFieldName];
+       return {
+           index: notification.index,
+           title: notification.title,
+           apiFieldName: notification.apiFieldName,
+           sections: notification.sections.map(section => ({
+               label: section.label,
+               action: section.action,
+               status: apiSection ? apiSection[section.action] : null
+           }))
+       };
+   });
+     setNotificationSettings(unifiedNotifications);
+     setNotification(data.result);
+     setIsNotificationOpen(true);
+   };
 
-    console.log('------------red', newValue)
-    setNotificationSettings(mappedSettings);
-    setIsNotificationOpen(true);
-  };
 
-
-  const handleAddOrUpdate1 = (actionKey) => {
-    setNotificationSettings((prevSettings) => ({
-      ...prevSettings,
-      [actionKey]: !prevSettings[actionKey],
-    }));
-
-    setNotification((prevNotifications) =>
-      toggleNotification(prevNotifications, actionKey)
-    );
-  };
+   const checkAllStatusTrue = (sections, notificationSettings) => {
+     return sections.every(({ action }) => {
+       const section = notificationSettings?.find((n) =>
+         n.sections.some((s) => s.action === action)
+       );
+       return section?.sections?.find((s) => s.action === action)?.status ?? false;
+     });
+   };
+   
+   
+   const handleToggleAll = (allStatusTrue,  setNotificationSettings,i) => {
+     const updatedSettings = notificationSettings[i].sections.reduce((acc, { action, status }) => {
+       acc[action] = !allStatusTrue; 
+       return acc;
+     }, {});
+      setNotificationSettings((prevSettings) => {
+     // Clone the previous settings to avoid mutation
+     const newSettings = [...prevSettings];
+ 
+     // Update the sections for the specific index
+     newSettings[i] = {
+       ...newSettings[i],
+       sections: newSettings[i].sections.map((section) => ({
+         ...section,
+         status: !allStatusTrue, // Toggle all statuses
+       })),
+     }; const updatedNotifications = transformDataForAPI(newSettings);
+     updateNotification(updatedNotifications);
+ 
+     return newSettings;
+   });
+ 
+     
+   setNotificationSettings((prev) => {
+     return prev.map((notification, index) => {
+       if (index === i && notification.sections) {
+         notification.sections = notification.sections.map((section) => ({
+           ...section,
+           status: updatedSettings[section.action] 
+         }));
+       }
+       return notification;
+     });
+   });
+ };
+   
+ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
+   // Update the notification settings for the specified index
+   setNotificationSettings((prevSettings) =>
+     prevSettings.map((group, index) => {
+       if (index === i) {
+         return {
+           ...group,
+           sections: group.sections.map((section) =>
+             section.action === value
+               ? { ...section, status: !section.status }
+               : section
+           ),
+         };
+       }
+       return group;
+     })
+   );
+   
+   // Pass the updated settings to the API
+   setNotificationSettings((prevSettings) => {
+     const updatedNotifications = transformDataForAPI(prevSettings);
+     updateNotification(updatedNotifications);
+     return prevSettings;
+   });
+ };
+ 
+ // Transform function to structure data as per API requirements
+ 
+ // Update notification function
+ const updateNotification = (updatedNotifications) => {
+   console.log(notification)
+   updateNotificationData(notification._id, updatedNotifications).then((res) => {
+     console.log(res);
+   });
+ };
 
   const toggleNotification = (prevNotifications, actionKey) => {
     const updatedNotifications = { ...prevNotifications };
@@ -891,41 +979,7 @@ function DealerUser() {
     setIsNotificationOpen(false);
   }
 
-  const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
-    const updatedSettings = notificationSettings[i].sections.reduce((acc, { action, status }) => {
-      acc[action] = !allStatusTrue;
-      return acc;
-    }, {});
-    setNotificationSettings((prevSettings) => {
-      // Clone the previous settings to avoid mutation
-      const newSettings = [...prevSettings];
 
-      // Update the sections for the specific index
-      newSettings[i] = {
-        ...newSettings[i],
-        sections: newSettings[i].sections.map((section) => ({
-          ...section,
-          status: !allStatusTrue, // Toggle all statuses
-        })),
-      }; const updatedNotifications = transformDataForAPI(newSettings);
-      updateNotification(updatedNotifications);
-
-      return newSettings;
-    });
-
-
-    setNotificationSettings((prev) => {
-      return prev.map((notification, index) => {
-        if (index === i && notification.sections) {
-          notification.sections = notification.sections.map((section) => ({
-            ...section,
-            status: updatedSettings[section.action]
-          }));
-        }
-        return notification;
-      });
-    });
-  };
 
   const transformDataForAPI = (notificationSettings) => {
     const transformedData = notificationSettings.reduce((acc, group) => {
@@ -944,21 +998,6 @@ function DealerUser() {
     };
   };
 
-  const updateNotification = (updatedNotifications) => {
-    console.log(notification)
-    updateNotificationData(notification._id, updatedNotifications).then((res) => {
-      console.log(res);
-    });
-  };
-
-  const checkAllStatusTrue = (sections, notificationSettings) => {
-    return sections.every(({ action }) => {
-      const section = notificationSettings?.find((n) =>
-        n.sections.some((s) => s.action === action)
-      );
-      return section?.sections?.find((s) => s.action === action)?.status ?? false;
-    });
-  };
 
   return (
     <>
@@ -1568,87 +1607,87 @@ function DealerUser() {
       </Modal>
 
       <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
-        <Button
-          onClick={closeNotification}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-        >
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button>
-        <div className="py-3">
-          <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
-          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
-            <Grid className="!grid-cols-2 !gap-1">
-              {Object.entries(notificationList || []).map(([key, value], i) => {
-                if (!value) {
-                  return null;
-                }
+  <Button
+    onClick={closeNotification}
+    className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+  >
+    <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+  </Button>
+  <div className="py-3">
+    <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
+    <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
+      <Grid className="!grid-cols-2 !gap-1">
+      {Object.entries(notificationList || []).map(([key, value], i) => {
+  if (!value) {
+    return null;
+  }
 
-                const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+  const { index, title, sections, apiFieldName } = value;
+  const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
 
-                return (
-                  <div key={index} className="mb-1">
-                    <CollapsibleDiv
-                      key={index}
-                      ShowData={showdata}
-                      activeIndex={activeIndex1}
-                      setActiveIndex={setActiveIndex1}
-                      imageClass="w-10 h-10"
-                      className="!my-2"
-                      index={index}
-                      title={
-                        <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                          <p className="text-lg font-bold">{title}</p>
-                        </SingleView>
-                      }
-                    >
-                      <div className="px-4 pt-2 pb-4 border">
-                        <div className="text-end ml-auto mb-2">
-                          <Button
-                            type="button"
-                            className="!text-sm"
-                            onClick={() =>
-                              handleToggleAll(allStatusTrue, setNotificationSettings, i)
-                            }
-                          >
-                            {allStatusTrue ? "Unselect All" : "Select All"}
-                          </Button>
-                        </div>
-                        <Grid className="!grid-cols-12 !gap-2">
-                          {sections.map(({ label, action }, itemIdx) => (
-                            <div className="col-span-6" key={itemIdx}>
-                              <Grid className="!gap-0">
-                                <div className="col-span-8 self-center">
-                                  <p className="flex text-[12px] font-semibold justify-between">{label}</p>
-                                </div>
-                                <div className="col-span-4">
-                                  <SwitchButton
-                                    isOn={
-                                      notificationSettings?.find(
-                                        (n) =>
-                                          n.index === activeIndex1 &&
-                                          n.sections.some((s) => s.action === action)
-                                      )?.sections.find((s) => s.action === action)?.status ?? false
-                                    }
-                                    handleToggle={() =>
-                                      handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
-                                    }
-                                  />
-                                </div>
-                              </Grid>
-                            </div>
-                          ))}
-                        </Grid>
-                      </div>
-                    </CollapsibleDiv>
-                  </div>
-                );
-              })}
-
-            </Grid>
+  return (
+    <div key={index} className="mb-1">
+      <CollapsibleDiv
+        key={index}
+        ShowData={showdata}
+        activeIndex={activeIndex1}
+        setActiveIndex={setActiveIndex1}
+        imageClass="w-10 h-10"
+        className="!my-2"
+        index={index}
+        title={
+          <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+            <p className="text-lg font-bold">{title}</p>
+          </SingleView>
+        }
+      >
+        <div className="px-4 pt-2 pb-4 border">
+          <div className="text-end ml-auto mb-2">
+            <Button
+              type="button"
+              className="!text-sm"
+              onClick={() =>
+                handleToggleAll(allStatusTrue, setNotificationSettings, i)
+              }
+            >
+              {allStatusTrue ? "Unselect All" : "Select All"}
+            </Button>
           </div>
+          <Grid className="!grid-cols-12 !gap-2">
+            {sections.map(({ label, action }, itemIdx) => (
+              <div className="col-span-6" key={itemIdx}>
+                <Grid className="!gap-0">
+                  <div className="col-span-8 self-center">
+                    <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                  </div>
+                  <div className="col-span-4">
+                    <SwitchButton
+                      isOn={
+                        notificationSettings?.find(
+                          (n) =>
+                            n.index === activeIndex1 &&
+                            n.sections.some((s) => s.action === action)
+                        )?.sections.find((s) => s.action === action)?.status ?? false
+                      }
+                      handleToggle={() =>
+                        handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
+                      }
+                    />
+                  </div>
+                </Grid>
+              </div>
+            ))}
+          </Grid>
         </div>
-      </Modal>
+      </CollapsibleDiv>
+    </div>
+  );
+})}
+
+      </Grid>
+    </div>
+  </div>
+</Modal>
     </>
   );
 }
