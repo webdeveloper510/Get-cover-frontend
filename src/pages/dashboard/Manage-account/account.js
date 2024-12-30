@@ -369,6 +369,24 @@ function Account() {
       acc[action] = !allStatusTrue; 
       return acc;
     }, {});
+     setNotificationSettings((prevSettings) => {
+    // Clone the previous settings to avoid mutation
+    const newSettings = [...prevSettings];
+
+    // Update the sections for the specific index
+    newSettings[i] = {
+      ...newSettings[i],
+      sections: newSettings[i].sections.map((section) => ({
+        ...section,
+        status: !allStatusTrue, // Toggle all statuses
+      })),
+    }; const updatedNotifications = transformDataForAPI(newSettings);
+    updateNotification(updatedNotifications);
+
+    return newSettings;
+  });
+
+    
   setNotificationSettings((prev) => {
     return prev.map((notification, index) => {
       if (index === i && notification.sections) {
@@ -383,46 +401,57 @@ function Account() {
 };
   
 const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
-  console.log(value, allStatusTrue, i);
-
   // Update the notification settings for the specified index
   setNotificationSettings((prevSettings) =>
     prevSettings.map((group, index) => {
       if (index === i) {
-        // Update the sections of the target group
         return {
           ...group,
           sections: group.sections.map((section) =>
             section.action === value
-              ? { ...section, status: !section.status } // Toggle the status for the matching action
-              : section // Keep other sections unchanged
+              ? { ...section, status: !section.status }
+              : section
           ),
         };
       }
       return group;
     })
   );
-  console.log(notification)
+  
+  // Pass the updated settings to the API
+  setNotificationSettings((prevSettings) => {
+    const updatedNotifications = transformDataForAPI(prevSettings);
+    updateNotification(updatedNotifications);
+    return prevSettings;
+  });
 };
 
-  
-  
+// Transform function to structure data as per API requirements
+const transformDataForAPI = (notificationSettings) => {
+  const transformedData = notificationSettings.reduce((acc, group) => {
+    const apiFieldName = group.apiFieldName;
+    const sections = group.sections.reduce((innerAcc, section) => {
+      innerAcc[section.action] = section.status;
+      return innerAcc;
+    }, {});
 
-  const toggleNotification = (prevNotifications, actionKey) => {
-    const updatedNotifications = { ...prevNotifications };
-    for (const category in updatedNotifications.notifications) {
-      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
-        if (actionKey in updatedNotifications.notifications[category]) {
-          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
-          break;
-        }
-      }
-    }
-    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
-      console.log(res)
-    })
-    return updatedNotifications;
+    acc[apiFieldName] = sections;
+    return acc;
+  }, {});
+
+  return {
+    ...transformedData,
   };
+};
+
+// Update notification function
+const updateNotification = (updatedNotifications) => {
+  console.log(notification)
+  updateNotificationData(notification._id, updatedNotifications).then((res) => {
+    console.log(res);
+  });
+};
+
 
   const closeNotification = () => {
     setIsNotificationOpen(false);
@@ -1060,6 +1089,7 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
   const [address, setAddress] = useState('');
   const [defaults, setDefaults] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex1, setActiveIndex1] = useState(null);
   const [showdata, setShowdata] = useState(true);
   const handleColorChange = (field, setter) => (event) => {
     const newColor = event.target.value;
@@ -1376,7 +1406,6 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
       }
       else {
         if (editingRowId !== null && labelId) {
-          console.log('Updating row', editingRowId, labelId);
           updatedSections[sectionIndex].data.value = updatedSections[sectionIndex].data.value.map((item) =>
             item._id === editingRowId
               ? { ...item, label: currentLabel, value: currentValue }
@@ -2939,69 +2968,73 @@ const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) =>
     <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
     <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
       <Grid className="!grid-cols-2 !gap-1">
-        {Object.entries(notificationList || []).map(([key, { index, title, sections, apiFieldName }], i) => {
-          const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+      {Object.entries(notificationList || []).map(([key, value], i) => {
+  if (!value) {
+    return null;
+  }
 
-          return (
-            <div key={index} className="mb-1">
-              <CollapsibleDiv
-                key={index}
-                ShowData={showdata}
-                activeIndex={activeIndex}
-                setActiveIndex={setActiveIndex}
-                imageClass="w-10 h-10"
-                className="!my-2"
-                index={index}
-                title={
-                  <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
-                    <p className="text-lg font-bold">{title}</p>
-                  </SingleView>
-                }
-              >
-                <div className="px-4 pt-2 pb-4 border">
-                  <div className="text-end ml-auto mb-2">
-                    <Button
-                      type="button"
-                      className="!text-sm"
-                      onClick={() =>
-                        handleToggleAll(allStatusTrue, setNotificationSettings,i)
-                      }
-                    >
-                      {allStatusTrue ? "Unselect All" : "Select All"}
-                    </Button>
-                  </div>
-                  <Grid className="!grid-cols-12 !gap-2">
-                    {sections.map(({ label, action }, itemIdx) =>
-                    {
-return ( (
-<div className="col-span-6" key={itemIdx}>
-  <Grid className="!gap-0">
-    <div className="col-span-8 self-center">
-      <p className="flex text-[12px] font-semibold justify-between">{label}</p>
-    </div>
-    <div className="col-span-4">
-      <SwitchButton
-        isOn={
-          notificationSettings?.find((n) =>
-            n.sections.some((s) => s.action === action)
-          )?.sections.find((s) => s.action === action)?.status ?? false
+  const { index, title, sections, apiFieldName } = value;
+  const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+
+  return (
+    <div key={index} className="mb-1">
+      <CollapsibleDiv
+        key={index}
+        ShowData={showdata}
+        activeIndex={activeIndex1}
+        setActiveIndex={setActiveIndex1}
+        imageClass="w-10 h-10"
+        className="!my-2"
+        index={index}
+        title={
+          <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+            <p className="text-lg font-bold">{title}</p>
+          </SingleView>
         }
-        handleToggle={() => handleAddOrUpdate1(action,allStatusTrue, setNotificationSettings,i)}
-      />
+      >
+        <div className="px-4 pt-2 pb-4 border">
+          <div className="text-end ml-auto mb-2">
+            <Button
+              type="button"
+              className="!text-sm"
+              onClick={() =>
+                handleToggleAll(allStatusTrue, setNotificationSettings, i)
+              }
+            >
+              {allStatusTrue ? "Unselect All" : "Select All"}
+            </Button>
+          </div>
+          <Grid className="!grid-cols-12 !gap-2">
+            {sections.map(({ label, action }, itemIdx) => (
+              <div className="col-span-6" key={itemIdx}>
+                <Grid className="!gap-0">
+                  <div className="col-span-8 self-center">
+                    <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                  </div>
+                  <div className="col-span-4">
+                    <SwitchButton
+                      isOn={
+                        notificationSettings?.find(
+                          (n) =>
+                            n.index === activeIndex1 &&
+                            n.sections.some((s) => s.action === action)
+                        )?.sections.find((s) => s.action === action)?.status ?? false
+                      }
+                      handleToggle={() =>
+                        handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
+                      }
+                    />
+                  </div>
+                </Grid>
+              </div>
+            ))}
+          </Grid>
+        </div>
+      </CollapsibleDiv>
     </div>
-  </Grid>
-</div>
+  );
+})}
 
-))
-                    }
-                    
-                    )}
-                  </Grid>
-                </div>
-              </CollapsibleDiv>
-            </div>
-          );
-        })}
       </Grid>
     </div>
   </div>
