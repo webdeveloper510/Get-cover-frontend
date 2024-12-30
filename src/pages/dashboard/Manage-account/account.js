@@ -1262,7 +1262,6 @@ const updateNotification = (updatedNotifications) => {
         setTimeout(() => {
           window.location.reload()
         }, 3000);
-        // setLoading(false);
       } catch (error) {
         console.error(error);
         setLoading(false);

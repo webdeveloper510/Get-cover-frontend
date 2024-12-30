@@ -1201,7 +1201,7 @@ function ResellerClaimList(props) {
   const validationSchema = Yup.object().shape({});
   const oneYearAgo = new Date();
   oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
-  oneYearAgo.setDate(oneYearAgo.getDate() - 1);
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
 
   const today = new Date();
   const formik1 = useFormik({
