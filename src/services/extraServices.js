@@ -230,10 +230,10 @@ export const getSuperAdminMembers = async (data) => {
   }
 };
 
-export const getUserNotificationData = async (id) => {
+export const getUserNotificationData = async (id, flag) => {
   const headers = createHeaders();
   try {
-    const response = await axios.get(`${url}/user/getUserNotificationData/${id}`, {
+    const response = await axios.get(`${url}/user/getUserNotificationData/${id}/${flag}`, {
       headers,
     });
 
@@ -243,10 +243,10 @@ export const getUserNotificationData = async (id) => {
   }
 };
 
-export const updateNotificationData = async (id,data) => {
+export const updateNotificationData = async (id, data) => {
   const headers = createHeaders();
   try {
-    const response = await axios.put(`${url}/user/updateNotificationData/${id}`,data, {
+    const response = await axios.put(`${url}/user/updateNotificationData/${id}`, data, {
       headers,
     });
 

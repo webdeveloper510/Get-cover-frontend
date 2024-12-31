@@ -348,6 +348,7 @@ function DealerRegister() {
                         name="phoneNumber"
                         label="Phone Number"
                         required={true}
+                        nonumber={true}
                         placeholder=""
                         value={formik.values.phoneNumber}
                         onChange={(e) => {

@@ -555,27 +555,46 @@ function UserList(props) {
   );
 
   const openNotification = async (id) => {
-    const data = await getUserNotificationData(id);
+    const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
+    const data = await getUserNotificationData(id, capitalizedFlag);
     const notifications = data.result.notifications;
-    setNotification(data.result)
-    const mappedSettings = {};
-    Object.keys(notifications).forEach((categoryKey) => {
-      Object.keys(notifications[categoryKey]).forEach((subKey) => {
-        if (typeof notifications[categoryKey][subKey] === "boolean") {
-          mappedSettings[subKey] = notifications[categoryKey][subKey];
-        }
-      });
+    const filteredNotifications = Notifications.filter(notification => {
+      const apiFieldName = notification.apiFieldName;
+      return data.result.notifications[apiFieldName] !== null;
     });
-    const newValue = notificationList.map((notification) => ({
-      ...notification,
-      sections: notification.sections.map((section) => ({
-        ...section,
-        isOn: mappedSettings[section.actionKey || section.action] || false,
-      })),
-    }));
+    console.log(filteredNotifications)
+    setNotificationList(filteredNotifications)
 
-    console.log('------------red', newValue)
-    setNotificationSettings(mappedSettings);
+    // Map settings for toggles
+    const mappedSettings = {};
+    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+      if (typeof categoryValue === "object" && categoryValue != null) {
+        console.log(categoryValue)
+        Object.entries(categoryValue).forEach(([key, value]) => {
+          if (typeof value === "boolean") {
+            mappedSettings[key] = value;
+          }
+        });
+      }
+    });
+
+    // Update notificationList to reflect the new settings
+
+    const unifiedNotifications = Notifications.map(notification => {
+      const apiSection = notifications[notification.apiFieldName];
+      return {
+        index: notification.index,
+        title: notification.title,
+        apiFieldName: notification.apiFieldName,
+        sections: notification.sections.map(section => ({
+          label: section.label,
+          action: section.action,
+          status: apiSection ? apiSection[section.action] : null
+        }))
+      };
+    });
+    setNotificationSettings(unifiedNotifications);
+    setNotification(data.result);
     setIsNotificationOpen(true);
   };
 

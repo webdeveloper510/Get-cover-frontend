@@ -84,6 +84,14 @@ function DealerReportDownload() {
       maxWidth: "120px",
     },
     {
+      name: "Category",
+      selector: (row) => row.category,
+      sortable: true,
+      cell: (row) => (
+        <p className="self-center"> {row.category} </p>
+      ),
+    },
+    {
       name: (
         <div>
           Report
@@ -133,12 +141,12 @@ function DealerReportDownload() {
       name: "Last Download",
       selector: (row) => row.lastDownloadTime,
       sortable: true,
-    
+
       cell: (row) => {
         if (!row.lastDownloadTime) {
           return "-";
         }
-    
+
         const Timedate = new Date(row.lastDownloadTime);
         const formattedDate1 = Timedate.toLocaleDateString("en-US", {
           month: "long",
