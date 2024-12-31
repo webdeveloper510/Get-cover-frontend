@@ -563,21 +563,9 @@ function UserList(props) {
       return data.result.notifications[apiFieldName] !== null;
     });
     setNotificationList(filteredNotifications)
-    // Map settings for toggles
-    const mappedSettings = {};
-    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
-      if (typeof categoryValue === "object" && categoryValue!= null ) {
-        Object.entries(categoryValue).forEach(([key, value]) => {
-          if (typeof value === "boolean") {
-            mappedSettings[key] = value;
-          }
-        });
-      }
-    });
-
     // Update notificationList to reflect the new settings
 
-    const unifiedNotifications = Notifications.map(notification => {
+    const unifiedNotifications = filteredNotifications.map(notification => {
       const apiSection = notifications[notification.apiFieldName];
       return {
         index: notification.index,
@@ -597,13 +585,21 @@ function UserList(props) {
   };
 
 
-  const checkAllStatusTrue = (sections, notificationSettings) => {
-    return sections.every(({ action }) => {
-      const section = notificationSettings?.find((n) =>
-        n.sections.some((s) => s.action === action)
-      );
-      return section?.sections?.find((s) => s.action === action)?.status ?? false;
-    });
+  // const checkAllStatusTrue = (sections, notificationSettings) => {
+  //   return sections.every(({ action }) => {
+  //     const section = notificationSettings?.find((n) =>
+  //       n.sections.some((s) => s.action === action)
+  //     );
+  //     return section?.sections?.find((s) => s.action === action)?.status ?? false;
+  //   });
+  // };
+
+  const checkAllStatusTrue = (notificationSettings, index) => {
+   
+    const section = notificationSettings.find((n) => n.index === index);
+    console.log(section)
+    if (!section) return false; 
+    return section.sections.every((s) => s.status === true);
   };
 
 
@@ -613,17 +609,15 @@ function UserList(props) {
       return acc;
     }, {});
     setNotificationSettings((prevSettings) => {
-      // Clone the previous settings to avoid mutation
       const newSettings = [...prevSettings];
-
-      // Update the sections for the specific index
       newSettings[i] = {
         ...newSettings[i],
         sections: newSettings[i].sections.map((section) => ({
           ...section,
-          status: !allStatusTrue, // Toggle all statuses
+          status: !allStatusTrue,
         })),
-      }; const updatedNotifications = transformDataForAPI(newSettings);
+      }; 
+      const updatedNotifications = transformDataForAPI(newSettings);
       updateNotification(updatedNotifications);
 
       return newSettings;
@@ -1177,7 +1171,7 @@ function UserList(props) {
                 }
 
                 const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+                const allStatusTrue = checkAllStatusTrue(notificationSettings, activeIndex1);
 
                 return (
                   <div key={index} className="mb-1">
@@ -1216,13 +1210,10 @@ function UserList(props) {
                                 </div>
                                 <div className="col-span-4">
                                   <SwitchButton
-                                    isOn={
-                                      notificationSettings?.find(
-                                        (n) =>
-                                          n.index === activeIndex1 &&
-                                          n.sections.some((s) => s.action === action)
-                                      )?.sections.find((s) => s.action === action)?.status ?? false
-                                    }
+                                   isOn={
+                                    notificationSettings?.find((n) => n.index === activeIndex1)
+                                      ?.sections.find((s) => s.action === action)?.status ?? false
+                                  }
                                     handleToggle={() =>
                                       handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
                                     }
