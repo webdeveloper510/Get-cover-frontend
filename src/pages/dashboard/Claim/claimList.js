@@ -232,7 +232,7 @@ function ClaimList(props) {
     if (currentClaimId != undefined) {
       formik1.setFieldValue("claimId", currentClaimId);
     } else {
-      handleFilterIconClick();
+      // handleFilterIconClick();
     }
   }, [location]);
 
@@ -1217,7 +1217,7 @@ function ClaimList(props) {
     },
   });
 
-  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp) => {
+  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp,id=undefined) => {
 
     if (loader) {
       setLoaderType(false);
@@ -1247,12 +1247,12 @@ function ClaimList(props) {
       getClaimListPromise = getClaimListForCustomer(props.id, data);
     } else {
       console.log('currentClaimId', formik1.values.claimId)
-      if (currentClaimId == undefined) {
+      if (id == undefined) {
         getClaimListPromise = getClaimList(data);
       } else {
         let newData = {
           ...data,
-          claimId: formik1.values.claimId,
+          claimId: id,
         };
         getClaimListPromise = getClaimList(newData);
       }
@@ -1349,7 +1349,7 @@ function ClaimList(props) {
     formik1.setFieldValue('claimId', claimIdValue)
     setCurrentClaimId(claimIdValue);
     console.log('new testing', claimIdValue)
-    getAllClaims()
+    getAllClaims(undefined, undefined, false, true,claimIdValue);
   }, []);
 
   const handleFilterIconClick = () => {
@@ -1358,32 +1358,8 @@ function ClaimList(props) {
     formik1.resetForm();
 
     isFormSubmittedRef.current = false;
-    // const path = window.location.pathname;
-    // let newPath = "/claimList";
-    // if (path.includes("/dealer/claimList")) {
-    //   newPath = "/dealer/claimList";
-    // } else if (path.includes("/reseller/claimList")) {
-    //   newPath = "/reseller/claimList";
-    // } else if (path.includes("/customer/claimList")) {
-    //   newPath = "/customer/claimList";
-    // }
-    // navigate(newPath);
-    // 
-    // if (role == 'Super Admin') {
-    //   navigate(`/claimList`);
-    // } else if (role === 'Dealer') {
-    //   navigate(`/dealer/claimList`);
-    // }
-    // else if (role === 'Reseller') {
-    //   navigate(`/reseller/claimList`);
-    // }
-    // else if (role === 'Servicer') {
-    //   navigate(`/servicer/claimList`);
-    // }
-    // else if (role === 'Customer') {
-    //   navigate(`/customer/claimList`);
-    // } 
   };
+  
   const onhandle = async (id) => {
     setIsCustomerOpen(true);
     setViewLoader(true);
