@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -29,6 +29,7 @@ function NewDealerList() {
     id: null,
     action: null,
   });
+  const { dealerName } = useParams();
   const [loading, setLoading] = useState(false);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -100,13 +101,13 @@ function NewDealerList() {
   };
 
   useEffect(() => {
-    dealerPendingList();
+    dealerPendingList(dealerName);
   }, []);
 
-  const dealerPendingList = async () => {
+  const dealerPendingList = async (name='') => {
     setLoading(true);
 
-    const result = await getPendingDealersList({});
+    const result = await getPendingDealersList({name:dealerName});
     console.log(result.data);
     setPendingDealerList(result.data);
     setLoading(false);
@@ -130,11 +131,14 @@ function NewDealerList() {
     }),
     onSubmit: async (values) => {
       console.log("Forsssm values:", values);
-      filterPendingDealersList(values);
+      filterPendingDealersList();
     },
   });
 
-  const filterPendingDealersList = async (data) => {
+  const filterPendingDealersList = async () => {
+    let data ={
+      ...formik.values
+    }
     try {
       setLoading(true);
       const res = await getPendingDealersList(data);

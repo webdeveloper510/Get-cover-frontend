@@ -53,9 +53,9 @@ function Notification() {
       const res = await updateNotifications(id);
       if (res) {
         switch (type) {
-          case "dealer request":
-            navigate("/newDealerList");
-            break;
+          // case "dealer request":
+          //   navigate("/newDealerList");
+          //   break;
           case "dealer":
             navigate("/dealerList");
             break;

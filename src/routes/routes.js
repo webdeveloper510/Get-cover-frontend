@@ -345,12 +345,11 @@ const routes = [
         ),
       },
       {
-        path: "/newDealerList",
+        path: "/newDealerList/:dealerName?",
         element: (
           <PrivateRoute
             element={<NewDealerList />}
             role={"Super Admin"}
-            path="/newDealerList"
           />
         ),
       },

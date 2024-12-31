@@ -354,14 +354,12 @@ function Account() {
   };
 
 
-  const checkAllStatusTrue = (sections, notificationSettings) => {
-    return sections.every(({ action }) => {
-      const section = notificationSettings?.find((n) =>
-        n.sections.some((s) => s.action === action)
-      );
-      return section?.sections?.find((s) => s.action === action)?.status ?? false;
-    });
+  const checkAllStatusTrue = (notificationSettings, index) => {
+    const section = notificationSettings.find((n) => n.index === index);
+    if (!section) return false; // Return false if the index is not found
+    return section.sections.every((s) => s.status === true);
   };
+  
 
 
   const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
@@ -2974,7 +2972,7 @@ function Account() {
                 }
 
                 const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+                const allStatusTrue = checkAllStatusTrue( notificationSettings,activeIndex1);
 
                 return (
                   <div key={index} className="mb-1">
@@ -2992,6 +2990,7 @@ function Account() {
                         </SingleView>
                       }
                     >
+
                       <div className="px-4 pt-2 pb-4 border">
                         <div className="text-end ml-auto mb-2">
                           <Button
