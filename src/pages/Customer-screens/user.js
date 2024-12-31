@@ -1245,47 +1245,47 @@ function CustomerUser() {
     },
   });
 
-  const openNotification = async (id) => {
-    const data = await getUserNotificationData(id, 'Customer');
-    const notifications = data.result.notifications;
-    const filteredNotifications = Notifications.filter(notification => {
+   const openNotification = async (id) => {
+     const data = await getUserNotificationData(id);
+     const notifications = data.result.notifications;
+     const filteredNotifications = Notifications.filter(notification => {
       const apiFieldName = notification.apiFieldName;
       return data.result.notifications[apiFieldName] != null;
     });
     setNotificationList(filteredNotifications)
-
-    // Map settings for toggles
-    const mappedSettings = {};
-    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
-      if (typeof categoryValue === "object" && categoryValue != null) {
+   
+     // Map settings for toggles
+     const mappedSettings = {};
+     Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+       if (typeof categoryValue === "object" && categoryValue!=null) {
         console.log(categoryValue)
-        Object.entries(categoryValue).forEach(([key, value]) => {
-          if (typeof value === "boolean") {
-            mappedSettings[key] = value;
-          }
-        });
-      }
-    });
-
-    // Update notificationList to reflect the new settings
-
-    const unifiedNotifications = Notifications.map(notification => {
-      const apiSection = notifications[notification.apiFieldName];
-      return {
-        index: notification.index,
-        title: notification.title,
-        apiFieldName: notification.apiFieldName,
-        sections: notification.sections.map(section => ({
-          label: section.label,
-          action: section.action,
-          status: apiSection ? apiSection[section.action] : null
-        }))
-      };
-    });
-    setNotificationSettings(unifiedNotifications);
-    setNotification(data.result);
-    setIsNotificationOpen(true);
-  };
+         Object.entries(categoryValue).forEach(([key, value]) => {
+           if (typeof value === "boolean") {
+             mappedSettings[key] = value;
+           }
+         });
+       }
+     });
+ 
+     // Update notificationList to reflect the new settings
+   
+     const unifiedNotifications = Notifications.map(notification => {
+       const apiSection = notifications[notification.apiFieldName];
+       return {
+           index: notification.index,
+           title: notification.title,
+           apiFieldName: notification.apiFieldName,
+           sections: notification.sections.map(section => ({
+               label: section.label,
+               action: section.action,
+               status: apiSection ? apiSection[section.action] : null
+           }))
+       };
+   });
+     setNotificationSettings(unifiedNotifications);
+     setNotification(data.result);
+     setIsNotificationOpen(true);
+   };
 
   const closeNotification = () => {
     setIsNotificationOpen(false);
