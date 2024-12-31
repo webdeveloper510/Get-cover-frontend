@@ -80,9 +80,6 @@ function Notification() {
           //   case "edit_order":
           //     navigate(path);
           //     break;  
-          case "priceBook":
-            navigate("/companyPriceBook");
-            break;
           case "Super Admin":
             navigate("/manageAccount");
             break;

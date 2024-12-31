@@ -336,12 +336,11 @@ const routes = [
         ),
       },
       {
-        path: "/companyPriceBook",
+        path: "/companyPriceBook/:priceBookId?",
         element: (
           <PrivateRoute
             element={<CompanyPriceBook />}
             role={"Super Admin"}
-            path="/companyPriceBook"
           />
         ),
       },

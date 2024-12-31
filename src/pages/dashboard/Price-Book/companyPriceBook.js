@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -55,14 +55,19 @@ function CompanyPriceBook() {
   // color="text-Black-Russian opacity-50"
   // className="!text-[14px] !bg-white"
   // value={formik.values.pricetype}
+  const { priceBookId } = useParams();
+  console.log(priceBookId)
 
   useEffect(() => {
-    getPriceBookListData();
+    formik.setFieldValue('name',priceBookId)
+    getPriceBookListData(priceBookId);
     getCategoryListData();
     window.scrollTo(0, 0);
     getTermListData();
     getCovrageListData();
   }, []);
+
+
 
   const getCovrageListData = async () => {
     try {
@@ -79,11 +84,14 @@ function CompanyPriceBook() {
     }
   };
 
-  const getPriceBookListData = async () => {
+  const getPriceBookListData = async (id='') => {
     try {
       let data = {
         ...formik.values,
       };
+      if (id != '') {
+        data.name = id; 
+      }
       closeDisapproved();
       setLoading(true);
       const res = await getCompanyPriceList(data);
@@ -497,6 +505,8 @@ function CompanyPriceBook() {
     { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
   ];
 
+
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -555,13 +565,13 @@ function CompanyPriceBook() {
                   <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
-                        name="pName"
+                        name="name"
                         type="text"
-                        placeholder="Product Name"
+                        placeholder="Product SKU"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        value={formik.values.pName}
+                        value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
