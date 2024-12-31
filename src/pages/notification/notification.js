@@ -68,9 +68,9 @@ function Notification() {
           case "customer":
             navigate("/customerList");
             break;
-          case "Dealer Price Book":
-            navigate("/dealerPriceList");
-            break;
+          // case "Dealer Price Book":
+          //   navigate("/dealerPriceList");
+          //   break;
           // case "Order Archieved":
           //   navigate(path);
           //   break;

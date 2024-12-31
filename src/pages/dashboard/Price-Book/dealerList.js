@@ -44,7 +44,7 @@ function DealerPriceList() {
   const [selectedTearm, setSelectedTearm] = useState(false);
   const [dealerPriceBook, setDealerPriceBook] = useState([]);
   const [dealerPriceBookDetail, setDealerPriceBookDetail] = useState({});
-  const { dealerName } = useParams();
+  const { dealerName,dealerSku } = useParams();
   const [termList, setTermList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigte = useNavigate();
@@ -57,13 +57,13 @@ function DealerPriceList() {
   useEffect(() => {
     // getDealerList();
     getTermListData();
-    filterDataGetPriceBook({
-      category: "",
-      name: dealerName,
-      term: "",
-      status: "",
-    });
-    formik.setFieldValue("name", dealerName);
+    filterDataGetPriceBook(
+       dealerName,
+      dealerSku
+    );
+    formik.setFieldValue("dealerName", dealerName);
+    formik.setFieldValue("dealerSku", dealerSku);
+
     getCategoryListData();
     getCovrageListData();
   }, []);
@@ -102,11 +102,18 @@ function DealerPriceList() {
     // filterDataGetPriceBook();
   };
 
-  const filterDataGetPriceBook = async () => {
+  const filterDataGetPriceBook = async (dealerName='',dealerSku='') => {
     try {
       let data = {
         ...formik.values,
       };
+      if(dealerName !=''){
+        data.dealerName=dealerName
+
+      }
+      if (dealerSku!=''){
+        data.dealerSku=dealerSku
+      }
       closeDisapproved();
       setLoading(true);
       const res = await filterGetPriceBookDetails(data);
@@ -215,7 +222,7 @@ function DealerPriceList() {
     }),
     onSubmit: (values) => {
       console.log(values);
-      filterDataGetPriceBook(values);
+      filterDataGetPriceBook();
     },
   });
 

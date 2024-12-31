@@ -320,7 +320,7 @@ const routes = [
         element: <PrivateRoute element={<DealerList />} role={"Super Admin"} />,
       },
       {
-        path: "/dealerPriceList/:dealerName?",
+        path: "/dealerPriceList/:dealerName?/:dealerSku?",
         element: (
           <PrivateRoute element={<DealerPriceList />} role={"Super Admin"} />
         ),
