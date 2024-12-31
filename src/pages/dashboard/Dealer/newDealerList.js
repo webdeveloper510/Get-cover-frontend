@@ -106,8 +106,8 @@ function NewDealerList() {
 
   const dealerPendingList = async (name='') => {
     setLoading(true);
-
-    const result = await getPendingDealersList({name:dealerName});
+formik.setFieldValue('name',name)
+    const result = await getPendingDealersList({name:name});
     console.log(result.data);
     setPendingDealerList(result.data);
     setLoading(false);

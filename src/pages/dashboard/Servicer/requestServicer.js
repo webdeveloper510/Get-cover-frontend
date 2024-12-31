@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "../../../common/button";
 
 import ActiveIcon from "../../../assets/images/icons/iconAction.svg";
@@ -31,6 +31,7 @@ function RequestServicer() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [status, setStatus] = useState("");
   const [timer, setTimer] = useState(3);
+  const { servicerName } = useParams();
 
   const [approvalDetails, setApprovalDetails] = useState({
     id: null,
@@ -74,9 +75,16 @@ function RequestServicer() {
     rangeSeparatorText: "of",
   };
 
-  const getRequestServicerList = async () => {
+  const getRequestServicerList = async (name='') => {
     setLoading(true);
-    const result = await addNewServicerRequest("Pending");
+    let data ={
+      ...formik.values
+    }
+    if(name!=''){
+    formik.setFieldValue('name',name)
+      data.name=name
+    }
+    const result = await addNewServicerRequest("Pending",data);
     setList(result.data);
     console.log(result.data);
     setLoading(false);
@@ -258,7 +266,7 @@ function RequestServicer() {
   };
 
   useEffect(() => {
-    getRequestServicerList();
+    getRequestServicerList(servicerName);
   }, []);
   useEffect(() => {
     const handleOutsideClick = (event) => {

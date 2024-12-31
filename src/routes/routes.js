@@ -387,12 +387,12 @@ const routes = [
         ),
       },
       {
-        path: "/servicerRequestList",
+        path: "/servicerRequestList/:servicerName?",
         element: (
           <PrivateRoute
             element={<RequestServicer />}
             role={"Super Admin"}
-            path="/servicerRequestList"
+           
           />
         ),
       },

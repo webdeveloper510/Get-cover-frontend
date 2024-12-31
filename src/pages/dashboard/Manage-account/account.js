@@ -356,7 +356,7 @@ function Account() {
 
   const checkAllStatusTrue = (notificationSettings, index) => {
     const section = notificationSettings.find((n) => n.index === index);
-    if (!section) return false; // Return false if the index is not found
+    if (!section) return false; 
     return section.sections.every((s) => s.status === true);
   };
   

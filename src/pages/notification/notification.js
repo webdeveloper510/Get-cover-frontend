@@ -46,28 +46,28 @@ function Notification() {
     }
   };
 
-  const handleUpdateNotification = async (id, type, endPoint) => {
-    const path = endPoint.replace("https://demo.codewarranty.com", "");
-    console.log(id, type, endPoint)
+  const handleUpdateNotification = async (data) => {
+    const path = data.endPoint.replace("https://demo.codewarranty.com", "");
+    console.log(data.id, data.type, data.endPoint)
     try {
-      const res = await updateNotifications(id);
+      const res = await updateNotifications(data.id);
       if (res) {
-        switch (type) {
+        switch (data.type) {
           // case "dealer request":
           //   navigate("/newDealerList");
           //   break;
-          case "dealer":
-            navigate("/dealerList");
-            break;
-          case "servicer request":
-            navigate("/servicerRequestList");
-            break;
-          case "servicer":
-            navigate("/servicerList");
-            break;
-          case "customer":
-            navigate("/customerList");
-            break;
+          // case "dealer":
+          //   navigate("/dealerList");
+          //   break;
+          // case "servicer request":
+          //   navigate("/servicerRequestList");
+          //   break;
+          // case "servicer":
+          //   navigate("/servicerList");
+          //   break;
+          // case "customer":
+          //   navigate("/customerList");
+          //   break;
           // case "Dealer Price Book":
           //   navigate("/dealerPriceList");
           //   break;
@@ -83,10 +83,24 @@ function Notification() {
           case "Super Admin":
             navigate("/manageAccount");
             break;
-          case "reseller":
-            navigate("/resellerList");
-            break;
+          // case "reseller":
+          //   navigate("/resellerList");
+          //   break;
           default:
+            // return false
+            if(data.tabAction != ""){
+              if(data.tabAction == 'dealerUser')
+              localStorage.setItem('menu','Users')
+            if (data.tabAction == 'servicerUser'){
+              localStorage.setItem('servicer','Users')
+            }
+            if (data.tabAction == 'resellerUser'){
+              localStorage.setItem('Resellermenu','Users')
+            }
+            if (data.tabAction == 'customerUser'){
+              localStorage.setItem('customer','Users')
+            }
+            }
             navigate(path);
             break;
         }
@@ -184,7 +198,7 @@ function Notification() {
                         key={key}
                         className=""
                         onClick={() =>
-                          handleUpdateNotification(data?._id, data.flag, data.endPoint)
+                          handleUpdateNotification(data)
                         }
                         style={{ cursor: "pointer" }}
                       >
