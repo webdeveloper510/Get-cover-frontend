@@ -355,6 +355,7 @@ function Account() {
 
 
   const checkAllStatusTrue = (notificationSettings, index) => {
+    console.log(notificationSettings)
     const section = notificationSettings.find((n) => n.index === index);
     if (!section) return false; 
     return section.sections.every((s) => s.status === true);
@@ -2485,7 +2486,8 @@ function Account() {
                           </tr>
                         </thead>
                         <tbody className="w-full border-collapse border text-center">
-                          {section.data?.value.map((row) => (
+                          {section.data?.value.map((row) => 
+                          (
                             <tr key={row._id} className="w-full border-collapse border">
                               <td className="py-3">{row.label}</td>
                               <td>{row.value}</td>
@@ -3012,12 +3014,16 @@ function Account() {
                                 </div>
                                 <div className="col-span-4">
                                   <SwitchButton
+                                    // isOn={
+                                    //   notificationSettings?.find(
+                                    //     (n) =>
+                                    //       n.index == activeIndex1 &&
+                                    //       n.sections.some((s) => s.action == action)
+                                    //   )?.sections.find((s) => {console.log(s.action === action)})?.status ?? false
+                                    // }
                                     isOn={
-                                      notificationSettings?.find(
-                                        (n) =>
-                                          n.index === activeIndex1 &&
-                                          n.sections.some((s) => s.action === action)
-                                      )?.sections.find((s) => s.action === action)?.status ?? false
+                                      notificationSettings?.find((n) => n.index === activeIndex1)
+                                        ?.sections.find((s) => s.action === action)?.status ?? false
                                     }
                                     handleToggle={() =>
                                       handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)

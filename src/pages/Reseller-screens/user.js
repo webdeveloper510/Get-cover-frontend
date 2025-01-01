@@ -1661,13 +1661,10 @@ function ResellerUser() {
                                 </div>
                                 <div className="col-span-4">
                                   <SwitchButton
-                                    isOn={
-                                      notificationSettings?.find(
-                                        (n) =>
-                                          n.index === activeIndex1 &&
-                                          n.sections.some((s) => s.action === action)
-                                      )?.sections.find((s) => s.action === action)?.status ?? false
-                                    }
+                                   isOn={
+                                    notificationSettings?.find((n) => n.index === activeIndex1)
+                                      ?.sections.find((s) => s.action === action)?.status ?? false
+                                  }
                                     handleToggle={() =>
                                       handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
                                     }

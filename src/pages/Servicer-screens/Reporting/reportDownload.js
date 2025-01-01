@@ -429,7 +429,7 @@ function ServicerReportDownload() {
             <div className="text-center py-3">
               <img src={unassign} alt="email Image" className="mx-auto my-4" />
               <p className="text-3xl mb-0 mt-2 font-[800] px-10">
-                Would you like to delete {report?.fileName} Report?
+                Would you like to delete {report?.reportName} Report?
               </p>
               <Grid className="!grid-cols-4 my-5 ">
                 <div className="col-span-1"></div>

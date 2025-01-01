@@ -515,7 +515,6 @@ const routes = [
           <PrivateRoute
             element={<Account />}
             role={"Super Admin"}
-            path="/manageAccount"
           />
         ),
       },
