@@ -194,6 +194,7 @@ function ServicerSetting(props) {
             favIcon: selectedFile3,
             logoImage: selectedFile1,
             chartFirstColor: chartFirstColor,
+            chartSecondColor: chartSecondColor,
             sideBarButton2ndColor: sideBarButton2ndColor,
             sideBarColor: sideBarColor,
             sideBarTextColor: sideBarTextColor,

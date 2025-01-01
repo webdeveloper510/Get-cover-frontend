@@ -877,13 +877,10 @@ function DealerUser() {
   };
 
 
-  const checkAllStatusTrue = (sections, notificationSettings) => {
-    return sections.every(({ action }) => {
-      const section = notificationSettings?.find((n) =>
-        n.sections.some((s) => s.action === action)
-      );
-      return section?.sections?.find((s) => s.action === action)?.status ?? false;
-    });
+  const checkAllStatusTrue = (notificationSettings, index) => {
+    const section = notificationSettings.find((n) => n.index === index);
+    if (!section) return false; // Return false if the index is not found
+    return section.sections.every((s) => s.status === true);
   };
 
 
@@ -1623,7 +1620,7 @@ function DealerUser() {
                 }
 
                 const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue(sections, notificationSettings);
+                const allStatusTrue = checkAllStatusTrue(notificationSettings, activeIndex1);
 
                 return (
                   <div key={index} className="mb-1">

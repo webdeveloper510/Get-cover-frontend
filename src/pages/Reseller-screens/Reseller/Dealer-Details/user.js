@@ -4,6 +4,7 @@ import Button from "../../../../common/button";
 import ActiveIcon from "../../../../assets/images/icons/iconAction.svg";
 import star from "../../../../assets/images/icons/star.svg";
 import Primary from "../../../../assets/images/SetPrimary.png";
+import NotificationImage from "../../../../assets/images/icons/Notification-icon.svg";
 import deleteUser10 from "../../../../assets/images/deleteUser.svg";
 import assign from "../../../../assets/images/Unassign.png";
 import Search from "../../../../assets/images/icons/SearchIcon.svg";
@@ -34,18 +35,29 @@ import make from "../../../../assets/images/star.png";
 import edit from "../../../../assets/images/edit-text.png";
 import delete1 from "../../../../assets/images/delete.png";
 import SingleView from "../../../../common/singleView";
+import SwitchButton from "../../../../common/switch";
+import { getUserNotificationData, updateNotificationData } from "../../../../services/extraServices";
+import { Notifications } from "../../../../notificationjson";
+import CollapsibleDiv from "../../../../common/collapsibleDiv";
+import Cross from "../../../../assets/images/Cross.png";
 
 function UserList(props) {
   const { toggleFlag } = useMyContext();
   const [selectedAction, setSelectedAction] = useState(null);
   const [userList, setUserList] = useState([]);
+  const [activeIndex1, setActiveIndex1] = useState(null);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isModalOpen, SetIsModalOpen] = useState(false);
+  const [showdata, setShowdata] = useState(true);
+  const [title, setTitle] = useState('');
   const [isprimary, SetIsprimary] = useState(false);
+  const [notificationList, setNotificationList] = useState(Notifications)
   const [mainStatus, setMainStatus] = useState(true);
   const [servicerStatus, setServiceStatus] = useState(true);
   const [deleteId, setDeleteId] = useState("");
+  const [notificationSettings, setNotificationSettings] = useState([]);
   const [dealerStatus, setDealerStatus] = useState(true);
-
+  const [notification, setNotification] = useState({})
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
   const [timer, setTimer] = useState(3);
@@ -423,7 +435,7 @@ function UserList(props) {
             {selectedAction === row.email && (
               <SingleView
                 ref={dropdownRef}
-                className={`absolute z-[9999] ${!row.isPrimary ? "w-[120px]" : "w-[80px]"
+                className={`absolute z-[9999] ${!row.isPrimary ? "w-[140px]" : "w-[140px]"
                   }  drop-shadow-5xl -right-3 mt-2 py-1 border rounded-lg shadow-md top-[1rem] newImagecolor`}
               >
                 {!row.isPrimary && row.status && (
@@ -470,6 +482,26 @@ function UserList(props) {
                     Edit
                   </span>
                 </div>
+                <div
+                  onClick={() => openNotification(row._id)}
+                  className={`text-left cursor-pointer flex border-b py-1 px-2`}
+                >
+                  <div
+                    style={{
+                      maskImage: `url(${NotificationImage})`,
+                      WebkitMaskImage: `url(${NotificationImage})`,
+                      maskRepeat: "no-repeat",
+                      WebkitMaskRepeat: "no-repeat",
+                      maskPosition: "center",
+                      WebkitMaskPosition: "center",
+                      maskSize: "contain",
+                      WebkitMaskSize: "contain",
+                    }}
+                    className="self-center singleViews mr-2 h-4 w-4 "
+                  />
+                  {/* {/* <img src={edit} className="w-4 h-4 mr-2" />{" "}  */}
+                  <span className="self-center">Notification </span>
+                </div>
                 {!row.isPrimary && (
                   <div
                     className="text-left cursor-pointer flex border-b py-1 px-2"
@@ -506,6 +538,187 @@ function UserList(props) {
       <p>No records found.</p>
     </Card>
   );
+
+  const openNotification = async (id) => {
+    const data = await getUserNotificationData(id, props.flag);
+    const notifications = data.result.notifications;
+    const filteredNotifications = Notifications.filter(notification => {
+      const apiFieldName = notification.apiFieldName;
+      return data.result.notifications[apiFieldName] !== null;
+    });
+    setNotificationList(filteredNotifications)
+
+    // Map settings for toggles
+    const mappedSettings = {};
+    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+      if (typeof categoryValue === "object" && categoryValue != null) {
+        console.log(categoryValue)
+        Object.entries(categoryValue).forEach(([key, value]) => {
+          if (typeof value === "boolean") {
+            mappedSettings[key] = value;
+          }
+        });
+      }
+    });
+
+    // Update notificationList to reflect the new settings
+
+    const unifiedNotifications = Notifications.map(notification => {
+      const apiSection = notifications[notification.apiFieldName];
+      return {
+        index: notification.index,
+        title: notification.title,
+        apiFieldName: notification.apiFieldName,
+        sections: notification.sections.map(section => ({
+          label: section.label,
+          action: section.action,
+          status: apiSection ? apiSection[section.action] : null
+        }))
+      };
+    });
+    setNotificationSettings(unifiedNotifications);
+    setNotification(data.result);
+    setIsNotificationOpen(true);
+  };
+
+
+  const handleAddOrUpdate1 = (actionKey) => {
+    setNotificationSettings((prevSettings) => ({
+      ...prevSettings,
+      [actionKey]: !prevSettings[actionKey],
+    }));
+
+    setNotification((prevNotifications) =>
+      toggleNotification(prevNotifications, actionKey)
+    );
+  };
+
+  const toggleNotification = (prevNotifications, actionKey) => {
+    const updatedNotifications = { ...prevNotifications };
+    for (const category in updatedNotifications.notifications) {
+      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
+        if (actionKey in updatedNotifications.notifications[category]) {
+          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
+          break;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    return updatedNotifications;
+  };
+
+  const closeNotification = () => {
+    setIsNotificationOpen(false);
+  }
+
+  const handleSelectAll = (sectionKey, apiFieldName) => {
+    console.log(title, apiFieldName);
+    setNotificationSettings((prevSettings) => {
+      const updatedSettings = { ...prevSettings };
+      const section = Notifications.find((notification) => notification.index === sectionKey);
+
+      if (section && section.sections) {
+        section.sections.forEach(({ action, actionKey }) => {
+          const actionKeyToUse = actionKey || action;
+          updatedSettings[actionKeyToUse] = true;
+        });
+      }
+
+      console.log(updatedSettings);
+
+      return updatedSettings;
+    });
+    setNotification((prevNotifications) =>
+      toggleAllActionsInSection(prevNotifications, apiFieldName, true)
+    );
+  };
+
+  const toggleAllActionsInSection = (notifications, apiFieldName, value) => {
+    const updatedNotifications = { ...notifications };
+    console.log(notifications, apiFieldName)
+
+    if (updatedNotifications.notifications[apiFieldName]) {
+      const section = updatedNotifications.notifications[apiFieldName];
+      for (const key in section) {
+        if (key !== "_id" && typeof section[key] === "boolean") {
+          section[key] = value;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    console.log(updatedNotifications)
+    return updatedNotifications;
+  };
+
+  const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
+    const updatedSettings = notificationSettings[i].sections.reduce((acc, { action, status }) => {
+      acc[action] = !allStatusTrue;
+      return acc;
+    }, {});
+    setNotificationSettings((prevSettings) => {
+      // Clone the previous settings to avoid mutation
+      const newSettings = [...prevSettings];
+
+      // Update the sections for the specific index
+      newSettings[i] = {
+        ...newSettings[i],
+        sections: newSettings[i].sections.map((section) => ({
+          ...section,
+          status: !allStatusTrue, // Toggle all statuses
+        })),
+      }; const updatedNotifications = transformDataForAPI(newSettings);
+      updateNotification(updatedNotifications);
+
+      return newSettings;
+    });
+
+
+    setNotificationSettings((prev) => {
+      return prev.map((notification, index) => {
+        if (index === i && notification.sections) {
+          notification.sections = notification.sections.map((section) => ({
+            ...section,
+            status: updatedSettings[section.action]
+          }));
+        }
+        return notification;
+      });
+    });
+  };
+
+  const transformDataForAPI = (notificationSettings) => {
+    const transformedData = notificationSettings.reduce((acc, group) => {
+      const apiFieldName = group.apiFieldName;
+      const sections = group.sections.reduce((innerAcc, section) => {
+        innerAcc[section.action] = section.status;
+        return innerAcc;
+      }, {});
+
+      acc[apiFieldName] = sections;
+      return acc;
+    }, {});
+
+    return {
+      ...transformedData,
+    };
+  };
+
+  const updateNotification = (updatedNotifications) => {
+    console.log(notification)
+    updateNotificationData(notification._id, updatedNotifications).then((res) => {
+      console.log(res);
+    });
+  };
+
+  const checkAllStatusTrue = (notificationSettings, index) => {
+    const section = notificationSettings.find((n) => n.index === index);
+    if (!section) return false; // Return false if the index is not found
+    return section.sections.every((s) => s.status === true);
+  };
 
   return (
     <>
@@ -849,6 +1062,89 @@ function UserList(props) {
               </div>
             </Grid>
           </form>
+        </div>
+      </Modal>
+
+      <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
+        <Button
+          onClick={closeNotification}
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
+        >
+          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
+        </Button>
+        <div className="py-3">
+          <p className="text-3xl font-bold text-center mb-5">Notification Settings</p>
+          <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
+            <Grid className="!grid-cols-2 !gap-1">
+              {Object.entries(notificationList || []).map(([key, value], i) => {
+                if (!value) {
+                  return null;
+                }
+
+                const { index, title, sections, apiFieldName } = value;
+                const allStatusTrue = checkAllStatusTrue(notificationSettings, activeIndex1);
+
+                return (
+                  <div key={index} className="mb-1">
+                    <CollapsibleDiv
+                      key={index}
+                      ShowData={showdata}
+                      activeIndex={activeIndex1}
+                      setActiveIndex={setActiveIndex1}
+                      imageClass="w-10 h-10"
+                      className="!my-2"
+                      index={index}
+                      title={
+                        <SingleView className="border-Gray28 border px-4 py-2 rounded-t-[22px]">
+                          <p className="text-lg font-bold">{title}</p>
+                        </SingleView>
+                      }
+                    >
+                      <div className="px-4 pt-2 pb-4 border">
+                        <div className="text-end ml-auto mb-2">
+                          <Button
+                            type="button"
+                            className="!text-sm"
+                            onClick={() =>
+                              handleToggleAll(allStatusTrue, setNotificationSettings, i)
+                            }
+                          >
+                            {allStatusTrue ? "Unselect All" : "Select All"}
+                          </Button>
+                        </div>
+                        <Grid className="!grid-cols-12 !gap-2">
+                          {sections.map(({ label, action }, itemIdx) => (
+                            <div className="col-span-6" key={itemIdx}>
+                              <Grid className="!gap-0">
+                                <div className="col-span-8 self-center">
+                                  <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                                </div>
+                                <div className="col-span-4">
+                                  <SwitchButton
+                                    isOn={
+                                      notificationSettings?.find(
+                                        (n) =>
+                                          n.index === activeIndex1 &&
+                                          n.sections.some((s) => s.action === action)
+                                      )?.sections.find((s) => s.action === action)?.status ?? false
+                                    }
+                                    handleToggle={() =>
+                                      handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
+                                    }
+                                  />
+                                </div>
+                              </Grid>
+                            </div>
+                          ))}
+                        </Grid>
+                      </div>
+                    </CollapsibleDiv>
+                  </div>
+                );
+              })}
+
+            </Grid>
+          </div>
         </div>
       </Modal>
     </>

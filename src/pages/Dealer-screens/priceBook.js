@@ -429,13 +429,13 @@ function DealerPriceBook(props) {
                   <Grid className="!grid-cols-9">
                     <div className="col-span-2 self-center">
                       <Input
-                        name="pName"
+                        name="dealerSku"
                         type="text"
-                        placeholder="Product Name"
+                        placeholder="Dealer SKU"
                         className="!text-[14px] !bg-White-Smoke"
                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                         label=""
-                        value={formik.values.pName}
+                        value={formik.values.dealerSku}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                       />
