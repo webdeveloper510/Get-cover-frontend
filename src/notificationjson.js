@@ -142,7 +142,7 @@ export const Notifications = [
             // },
             {
                 "label": "Details updated",
-                "action": "userUpdate",
+                "action": "servicerUpdate",
 
             },
             {
@@ -150,11 +150,11 @@ export const Notifications = [
                 "action": "primaryChanged",
 
             },
-            // {
-            //     "label": "User Status Changed",
-            //     "action": "userStatusChanged",
+            {
+                "label": "User Update",
+                "action": "userUpdate",
 
-            // },
+            },
             {
                 "label": "User deleted",
                 "action": "userDelete",
@@ -186,18 +186,18 @@ export const Notifications = [
             {
                 "label": "Details updated",
 
-                "action": "userUpdate"
+                "action": "dealerUpdate"
             },
             {
                 "label": "Primary user changed",
 
                 "action": "primaryChanged"
             },
-            // {
-            //     "label": "User Status Changed",
+            {
+                "label": "User Update",
 
-            //     "action": "pricebookCategoryStatusChange"
-            // },
+                "action": "userUpdate"
+            },
             {
                 "label": "User deleted",
 
@@ -249,18 +249,18 @@ export const Notifications = [
             {
                 "label": "Details updated",
 
-                "action": "userUpdate"
+                "action": "resellerUpdate"
             },
             {
                 "label": "Primary user changed",
 
                 "action": "primaryChange"
             },
-            // {
-            //     "label": "User Status Changed",
+            {
+                "label": "User Update",
 
-            //     "action": "pricebookCategoryStatusChange"
-            // },
+                "action": "userUpdate"
+            },
             {
                 "label": "User deleted",
 
@@ -291,18 +291,18 @@ export const Notifications = [
             {
                 "label": "Details updated",
 
-                "action": "userUpdate"
+                "action": "customerUpdate"
             },
             {
                 "label": "Primary user changed",
 
                 "action": "primaryChange"
             },
-            // {
-            //     "label": "User Status Changed",
+            {
+                "label": "User Update",
 
-            //     "action": "pricebookCategoryStatusChange"
-            // },
+                "action": "userUpdate"
+            },
             {
                 "label": "User deleted",
 
