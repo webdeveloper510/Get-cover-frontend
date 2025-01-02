@@ -55,7 +55,7 @@ function UserList(props) {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [primaryText, SetPrimaryText] = useState("");
   const [secondaryText, SetSecondaryText] = useState("");
-    const [activeIndex1, setActiveIndex1] = useState(null);
+  const [activeIndex1, setActiveIndex1] = useState(null);
   const [timer, setTimer] = useState(3);
   const dropdownRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null);
@@ -554,8 +554,8 @@ function UserList(props) {
       <p>No records found.</p>
     </Card>
   );
- const openNotification = async (id) => {
-  const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
+  const openNotification = async (id) => {
+    const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
     const data = await getUserNotificationData(id, capitalizedFlag);
     const notifications = data.result.notifications;
     const filteredNotifications = Notifications.filter(notification => {
@@ -563,6 +563,18 @@ function UserList(props) {
       return data.result.notifications[apiFieldName] !== null;
     });
     setNotificationList(filteredNotifications)
+    // Map settings for toggles
+    // const mappedSettings = {};
+    // Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+    //   if (typeof categoryValue === "object" && categoryValue != null) {
+    //     Object.entries(categoryValue).forEach(([key, value]) => {
+    //       if (typeof value === "boolean") {
+    //         mappedSettings[key] = value;
+    //       }
+    //     });
+    //   }
+    // });
+
     // Update notificationList to reflect the new settings
 
     const unifiedNotifications = filteredNotifications.map(notification => {
@@ -595,10 +607,10 @@ function UserList(props) {
   // };
 
   const checkAllStatusTrue = (notificationSettings, index) => {
-   
+
     const section = notificationSettings.find((n) => n.index === index);
     console.log(section)
-    if (!section) return false; 
+    if (!section) return false;
     return section.sections.every((s) => s.status === true);
   };
 
@@ -616,7 +628,7 @@ function UserList(props) {
           ...section,
           status: !allStatusTrue,
         })),
-      }; 
+      };
       const updatedNotifications = transformDataForAPI(newSettings);
       updateNotification(updatedNotifications);
 
@@ -1210,10 +1222,10 @@ function UserList(props) {
                                 </div>
                                 <div className="col-span-4">
                                   <SwitchButton
-                                   isOn={
-                                    notificationSettings?.find((n) => n.index === activeIndex1)
-                                      ?.sections.find((s) => s.action === action)?.status ?? false
-                                  }
+                                    isOn={
+                                      notificationSettings?.find((n) => n.index === activeIndex1)
+                                        ?.sections.find((s) => s.action === action)?.status ?? false
+                                    }
                                     handleToggle={() =>
                                       handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, i)
                                     }

@@ -42,7 +42,7 @@ function ContractList(props) {
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("Active");
+  const [selectedProduct, setSelectedProduct] = useState(props.flag === 'contracts' ? '' : 'Active');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [isReportOpen, setIsReportOpen] = useState(false);
@@ -171,7 +171,7 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: "Active",
+    status: props.flag === 'contracts' ? '' : 'Active',
     model: "",
     dealerSku: "",
     serial: "",

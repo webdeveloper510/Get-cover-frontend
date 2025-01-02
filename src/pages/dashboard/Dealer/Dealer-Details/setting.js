@@ -478,6 +478,7 @@ function Setting(props) {
       favIcon: selectedFile3,
       logoImage: selectedFile1,
       chartFirstColor: chartFirstColor,
+      chartSecondColor: chartSecondColor,
       sideBarColor: sideBarColor,
       sideBarTextColor: sideBarTextColor,
       sideBarButtonColor: sideBarButtonColor,
@@ -505,6 +506,7 @@ function Setting(props) {
         setLoading(true);
         const colorScheme = [
           { colorCode: values.chartFirstColor || chartFirstColor, colorType: "chartFirstColor" },
+          { colorCode: values.chartSecondColor || chartSecondColor, colorType: "chartSecondColor" },
           { colorCode: values.sideBarColor || sideBarColor, colorType: "sideBarColor" },
           { colorCode: values.sideBarTextColor || sideBarTextColor, colorType: "sideBarTextColor" },
           { colorCode: values.sideBarButtonColor || sideBarButtonColor, colorType: "sideBarButtonColor" },
