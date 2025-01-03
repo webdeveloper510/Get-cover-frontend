@@ -886,7 +886,7 @@ function DealerUser() {
     const notifications = data.result.notifications;
     const filteredNotifications = Notifications.filter(notification => {
       const apiFieldName = notification.apiFieldName;
-      return data.result.notifications[apiFieldName] !== null;
+      return data.result.notifications[apiFieldName] != undefined;
     });
     setNotificationList(filteredNotifications)
 

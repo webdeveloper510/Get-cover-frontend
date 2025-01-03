@@ -560,22 +560,10 @@ function UserList(props) {
     const notifications = data.result.notifications;
     const filteredNotifications = Notifications.filter(notification => {
       const apiFieldName = notification.apiFieldName;
-      return data.result.notifications[apiFieldName] !== null;
+      console.log(data.result.notifications[apiFieldName],apiFieldName)
+      return data.result.notifications[apiFieldName] != undefined;
     });
     setNotificationList(filteredNotifications)
-    // Map settings for toggles
-    // const mappedSettings = {};
-    // Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
-    //   if (typeof categoryValue === "object" && categoryValue != null) {
-    //     Object.entries(categoryValue).forEach(([key, value]) => {
-    //       if (typeof value === "boolean") {
-    //         mappedSettings[key] = value;
-    //       }
-    //     });
-    //   }
-    // });
-
-    // Update notificationList to reflect the new settings
 
     const unifiedNotifications = filteredNotifications.map(notification => {
       const apiSection = notifications[notification.apiFieldName];
