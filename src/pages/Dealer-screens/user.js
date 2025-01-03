@@ -889,6 +889,7 @@ function DealerUser() {
       return data.result.notifications[apiFieldName] != undefined;
     });
     setNotificationList(filteredNotifications)
+    console.log(filteredNotifications);
 
     // Map settings for toggles
     const mappedSettings = {};
@@ -907,17 +908,25 @@ function DealerUser() {
 
     const unifiedNotifications = Notifications.map(notification => {
       const apiSection = notifications[notification.apiFieldName];
+      
+      
       return {
         index: notification.index,
         title: notification.title,
         apiFieldName: notification.apiFieldName,
-        sections: notification.sections.map(section => ({
-          label: section.label,
-          action: section.action,
-          status: apiSection ? apiSection[section.action] : null
-        }))
+        sections: notification.sections.map(section => {
+          if (apiSection && apiSection[section.action] != undefined) {
+            return {
+              label: section.label,
+              action: section.action,
+              status: apiSection[section.action] 
+            };
+          }
+          return null; 
+        }).filter(item => item !== null)  
       };
     });
+    
     setNotificationSettings(unifiedNotifications);
     setNotification(data.result);
     setIsNotificationOpen(true);
@@ -1603,34 +1612,35 @@ function DealerUser() {
                           </Button>
                         </div>
                         <Grid className="!grid-cols-12 !gap-2">
-                          {sections.map(({ label, action }, itemIdx) => (
-                            <div className="col-span-6" key={itemIdx}>
-                              <Grid className="!gap-0">
-                                <div className="col-span-8 self-center">
-                                  <p className="flex text-[12px] font-semibold justify-between">{label}</p>
-                                </div>
-                                <div className="col-span-4">
-                                  <SwitchButton
-                                    // isOn={
-                                    //   notificationSettings?.find(
-                                    //     (n) =>
-                                    //       n.index == activeIndex1 &&
-                                    //       n.sections.some((s) => s.action == action)
-                                    //   )?.sections.find((s) => {console.log(s.action === action)})?.status ?? false
-                                    // }
-                                    isOn={
-                                      notificationSettings?.find((n) => n.index === activeIndex1)
-                                        ?.sections.find((s) => s.action === action)?.status ?? false
-                                    }
-                                    handleToggle={() =>
-                                      handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
-                                    }
-                                  />
-                                </div>
-                              </Grid>
-                            </div>
-                          ))}
-                        </Grid>
+  {notificationSettings
+    .find((n) => n.index === activeIndex1)
+    ?.sections?.map(({ label, action }, itemIdx) => {
+      if (!label || !action) return null; 
+
+      const status = notificationSettings
+        .find((n) => n.index === activeIndex1)
+        ?.sections.find((s) => s.action === action)?.status ?? false;
+
+      return (
+        <div className="col-span-6" key={itemIdx}>
+          <Grid className="!gap-0">
+            <div className="col-span-8 self-center">
+              <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+            </div>
+            <div className="col-span-4">
+              <SwitchButton
+                isOn={status} 
+                handleToggle={() =>
+                  handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
+                }
+              />
+            </div>
+          </Grid>
+        </div>
+      );
+    })}
+</Grid>
+
                       </div>
                     </CollapsibleDiv>
                   </div>
