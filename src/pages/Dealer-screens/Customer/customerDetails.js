@@ -53,7 +53,12 @@ import CustomerSetting from "../Reseller/Dealer-Details/customerSetting";
 import InActiveButton from "../../../common/inActiveButton";
 
 function CustomerDetails() {
-  const [activeTab, setActiveTab] = useState("Order"); // Set the initial active tab
+  const getInitialActiveTab = () => {
+    const storedTab = localStorage.getItem("customer");
+    console.log(storedTab)
+    return storedTab ? storedTab : "Order";
+  };
+  const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [firstMessage, setFirstMessage] = useState("");
   const [secondMessage, setSecondMessage] = useState("");

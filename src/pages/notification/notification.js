@@ -53,33 +53,6 @@ function Notification() {
       const res = await updateNotifications(data.id);
       if (res) {
         switch (data.type) {
-          // case "dealer request":
-          //   navigate("/newDealerList");
-          //   break;
-          // case "dealer":
-          //   navigate("/dealerList");
-          //   break;
-          // case "servicer request":
-          //   navigate("/servicerRequestList");
-          //   break;
-          // case "servicer":
-          //   navigate("/servicerList");
-          //   break;
-          // case "customer":
-          //   navigate("/customerList");
-          //   break;
-          // case "Dealer Price Book":
-          //   navigate("/dealerPriceList");
-          //   break;
-          // case "Order Archieved":
-          //   navigate(path);
-          //   break;
-          //   case "order":
-          //     navigate(path);
-          //     break;
-          //   case "edit_order":
-          //     navigate(path);
-          //     break;  
           case "Super Admin":
             navigate("/manageAccount");
             break;
@@ -101,9 +74,10 @@ function Notification() {
               localStorage.setItem('customer','Users')
             }
             }
-            navigate(path);
             break;
         }
+        navigate(path);
+
       }
     } catch (error) {
       console.error("Error updating notification:", error);
