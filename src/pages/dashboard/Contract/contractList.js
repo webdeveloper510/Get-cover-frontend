@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "../../../common/button";
 import Grid from "../../../common/grid";
 import Input from "../../../common/input";
@@ -38,24 +38,26 @@ import { exportDataForClaim, exportDataForContract } from "../../../services/cla
 
 function ContractList(props) {
   console.log(props);
+  const navigate = useNavigate();
+  const location = useLocation();
   const userData = JSON.parse(localStorage.getItem("userDetails"));
   const [contractDetails, setContractDetails] = useState({});
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [disable, setDisable] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(props.flag === 'contracts' ? '' : 'Active');
+  const [selectedProduct, setSelectedProduct] = useState(location.pathname.includes('/orderDetails') ? '' : 'Active');
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [viewLoader, setViewLoader] = useState(false);
   const [reportSuccess, setreportSuccess] = useState(false);
   const [contractList, setContractList] = useState([]);
+    const isFormSubmittedRef = useRef(false);
   const [contractCount, setContractCount] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const [pageValue, setPageValue] = useState(1);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [flag, setFlag] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+
   const [loading, setLoading] = useState(false);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
@@ -110,7 +112,11 @@ function ContractList(props) {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
-      ...formik.values,
+      ...(isFormSubmittedRef.current ? formik.values : {
+        status: selectedProduct,
+        startDate: oneYearAgo.toISOString().split("T")[0],
+        endDate: today.toISOString().split("T")[0],
+      }),
     };
     console.log(location.pathname.includes("/reseller"));
 
@@ -161,6 +167,12 @@ function ContractList(props) {
   const openDisapproved = () => {
     setIsDisapprovedOpen(true);
   };
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
+  console.log(oneYearAgo, 'days-----')
+
+  const today = new Date();
   const validationSchema = Yup.object().shape({});
 
   const initialValues = {
@@ -171,7 +183,7 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: props.flag === 'contracts' ? '' : 'Active',
+    status: props.flag === 'contracts' ? '' : '',
     model: "",
     dealerSku: "",
     serial: "",
@@ -179,14 +191,15 @@ function ContractList(props) {
     pName: "",
     eligibilty: "",
     resellerName: "",
-    startDate: "",
-    endDate: "",
+    startDate: oneYearAgo.toISOString().split("T")[0],
+    endDate: today.toISOString().split("T")[0],
   };
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      isFormSubmittedRef.current = true;
       getContract(props?.orderId ?? null, 1, recordsPerPage);
       console.log(values);
       setIsDisapprovedOpen(false);
@@ -893,18 +906,18 @@ function ContractList(props) {
                 </div>
 
                 <div className="col-span-6">
-                  <Input
-                    type="date"
-                    name="startDate"
-                    className="!bg-white z-10"
-                    label="Start Date"
-                    placeholder=""
-                    min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
-                      .toISOString()
-                      .split("T")[0]}
-                    maxDate={new Date().toISOString().split("T")[0]}
-                    {...formik.getFieldProps("startDate")}
-                  />
+                <Input
+                      type="date"
+                      name="startDate"
+                      className="!bg-white z-10"
+                      label="Start Date"
+                      placeholder=""
+                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                        .toISOString()
+                        .split("T")[0]}
+                      maxDate={new Date().toISOString().split("T")[0]}
+                      {...formik.getFieldProps("startDate")}
+                    />
                 </div>
                 <div className="col-span-6">
                   <Input

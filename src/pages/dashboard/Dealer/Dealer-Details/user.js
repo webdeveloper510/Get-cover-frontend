@@ -560,24 +560,31 @@ function UserList(props) {
     const notifications = data.result.notifications;
     const filteredNotifications = Notifications.filter(notification => {
       const apiFieldName = notification.apiFieldName;
-      console.log(data.result.notifications[apiFieldName],apiFieldName)
       return data.result.notifications[apiFieldName] != undefined;
     });
+    console.log(filteredNotifications)
     setNotificationList(filteredNotifications)
 
-    const unifiedNotifications = filteredNotifications.map(notification => {
-      const apiSection = notifications[notification.apiFieldName];
-      return {
-        index: notification.index,
-        title: notification.title,
-        apiFieldName: notification.apiFieldName,
-        sections: notification.sections.map(section => ({
-          label: section.label,
-          action: section.action,
-          status: apiSection ? apiSection[section.action] : null
-        }))
-      };
-    });
+     const unifiedNotifications = Notifications.map(notification => {
+       const apiSection = notifications[notification.apiFieldName];
+       
+       
+       return {
+         index: notification.index,
+         title: notification.title,
+         apiFieldName: notification.apiFieldName,
+         sections: notification.sections.map(section => {
+           if (apiSection && apiSection[section.action] != undefined) {
+             return {
+               label: section.label,
+               action: section.action,
+               status: apiSection[section.action] 
+             };
+           }
+           return null; 
+         }).filter(item => item !== null)  
+       };
+     });
     console.log(unifiedNotifications)
     setNotificationSettings(unifiedNotifications);
     setNotification(data.result);
@@ -637,11 +644,36 @@ function UserList(props) {
     });
   };
 
+  // const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
+  //   // Update the notification settings for the specified index
+  //   setNotificationSettings((prevSettings) =>
+  //     prevSettings.map((group, index) => {
+  //       if (index === i) {
+  //         return {
+  //           ...group,
+  //           sections: group.sections.map((section) =>
+  //             section.action === value
+  //               ? { ...section, status: !section.status }
+  //               : section
+  //           ),
+  //         };
+  //       }
+  //       return group;
+  //     })
+  //   );
+
+  //   // Pass the updated settings to the API
+  //   setNotificationSettings((prevSettings) => {
+  //     const updatedNotifications = transformDataForAPI(prevSettings);
+  //     updateNotification(updatedNotifications);
+  //     return prevSettings;
+  //   });
+  // };
   const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
-    // Update the notification settings for the specified index
     setNotificationSettings((prevSettings) =>
       prevSettings.map((group, index) => {
-        if (index === i) {
+        console.log(group)
+        if (group.index == i) {
           return {
             ...group,
             sections: group.sections.map((section) =>
@@ -662,7 +694,6 @@ function UserList(props) {
       return prevSettings;
     });
   };
-
   // Transform function to structure data as per API requirements
   const transformDataForAPI = (notificationSettings) => {
     const transformedData = notificationSettings.reduce((acc, group) => {

@@ -689,12 +689,11 @@ const routes = [
         ),
       },
       {
-        path: "/dealer/priceBook",
+        path: "/dealer/priceBook/:priceBookId?",
         element: (
           <PrivateRoute
             element={<DealerPriceBook />}
             role={"dealer"}
-            path="/dealer/priceBook"
           />
         ),
       },
