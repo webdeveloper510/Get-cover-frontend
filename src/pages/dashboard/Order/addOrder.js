@@ -660,10 +660,23 @@ function AddOrder() {
           formik4.setFieldValue("paidAmount", paidAmount);
         }
         else if (result.result.status == 'Archieved') {
-          navigate('/archiveOrder');
+          navigate(`/archiveOrder/${orderId}`);
         }
         else if (result.result.status == 'Active') {
-          navigate('/orderList');
+          const userToken = JSON.parse(localStorage.getItem("userDetails"));
+          if(userToken.role =='Dealer'){
+            navigate(`/dealer/orderDetails/${orderId}`);
+          }
+          else if(userToken.role =='Reseller'){
+            navigate(`/reseller/orderDetails/${orderId}`);
+          }
+          else if(userToken.role =='Customer'){
+            navigate(`/customer/orderDetails/${orderId}`);
+
+          }
+          else{
+            navigate(`/orderDetails/${orderId}`);
+          }
         }
       } else {
         console.error("Result or result.result is undefined");
