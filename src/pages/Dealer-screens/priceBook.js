@@ -15,7 +15,7 @@ import {
   getTermList,
 } from "../../services/dealerServices";
 import { getCategoryList, getCovrageList } from "../../services/priceBookService";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "../../common/select";
@@ -50,14 +50,12 @@ function DealerPriceBook(props) {
   const [error, setError] = useState("");
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { priceBookId } = useParams();
   const calculateDropdownPosition = (index) => {
     const isCloseToBottom = priceBookList.length - index <= 10000;
     return isCloseToBottom ? "bottom-[1rem]" : "top-[1rem]";
   };
-  const status = [
-    { label: "Active", value: "true" },
-    { label: "Inactive", value: "false" },
-  ];
+  
   const paginationOptions = {
     rowsPerPageText: "Rows per page:",
     rangeSeparatorText: "of",
@@ -298,22 +296,52 @@ function DealerPriceBook(props) {
     }
   };
 
-  const navigte = useNavigate();
   const pricetype = [
     { label: "Regular Pricing", value: "Regular Pricing" },
     { label: "Flat Pricing", value: "Flat Pricing" },
     { label: "Quantity Pricing", value: "Quantity Pricing" },
   ];
-  const coverage = [
-    { label: "Breakdown", value: "Breakdown" },
-    { label: "Accidental", value: "Accidental" },
-    { label: "Breakdown & Accidental", value: "Breakdown & Accidental" },
-  ];
+  const formik = useFormik({
+    initialValues: {
+      dealerSku: "",
+      status: "",
+      pName: "",
+      category: "",
+      coverageType: "",
+      priceType: "",
+      term: "",
+      range: "",
+    },
+    validationSchema: Yup.object({
+      dealerSku: Yup.string(),
+      pName: Yup.string(),
+      status: Yup.boolean(),
+      category: Yup.string(),
+      priceType: Yup.string(),
+      term: Yup.string(),
+      range: Yup.string(),
+    }),
+    onSubmit: (values) => {
+      console.log("Form submitted with values:", values);
+      filterDealerPriceBook(values);
+      closeDisapproved();
+    },
+  });
   useEffect(() => {
+    if(priceBookId!=undefined){
+      formik.setFieldValue('dealerSku',priceBookId)
+      let data ={...formik.values}
+      data.dealerSku=priceBookId
+      filterDealerPriceBook(data);
+
+    }
+    else{
+      priceBookData();
+    }
     getTermListData();
-    priceBookData();
+  
     getCovrageListData();
-  }, [props]);
+  }, []);
 
   useEffect(() => {
     getCategoryListData();
@@ -365,34 +393,7 @@ function DealerPriceBook(props) {
     }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      dealerSku: "",
-      status: "",
-      pName: "",
-      category: "",
-      coverageType: "",
-      priceType: "",
-      term: "",
-      range: "",
-      dealerSku: "",
-    },
-    validationSchema: Yup.object({
-      dealerSku: Yup.string(),
-      pName: Yup.string(),
-      status: Yup.boolean(),
-      category: Yup.string(),
-      priceType: Yup.string(),
-      term: Yup.string(),
-      range: Yup.string(),
-      dealerSku: Yup.string(),
-    }),
-    onSubmit: (values) => {
-      console.log("Form submitted with values:", values);
-      filterDealerPriceBook(values);
-      closeDisapproved();
-    },
-  });
+
 
   const handleFilterIconClick = () => {
     formik.resetForm();
