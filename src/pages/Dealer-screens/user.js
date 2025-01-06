@@ -185,16 +185,16 @@ function DealerUser() {
   const checkAllStatusTrue = (notificationSettings, index) => {
     console.log(notificationSettings)
     const section = notificationSettings.find((n) => n.index === index);
-    if (!section) return false; 
+    if (!section) return false;
     return section.sections.every((s) => s.status === true);
   };
-  
+
 
 
   const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
     setNotificationSettings((prevSettings) => {
       const newSettings = prevSettings.map((notification, index) => {
-    console.log(notificationSettings, i,);
+        console.log(notificationSettings, i,);
 
         // Check if the current index matches the target index
         if (notification.index == i && notification.sections) {
@@ -210,11 +210,11 @@ function DealerUser() {
       });
       const updatedNotifications = transformDataForAPI(newSettings);
       updateNotification(updatedNotifications);
-  
+
       return newSettings;
     });
   };
-  
+
 
   const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
     setNotificationSettings((prevSettings) =>
@@ -908,8 +908,8 @@ function DealerUser() {
 
     const unifiedNotifications = Notifications.map(notification => {
       const apiSection = notifications[notification.apiFieldName];
-      
-      
+
+
       return {
         index: notification.index,
         title: notification.title,
@@ -919,14 +919,14 @@ function DealerUser() {
             return {
               label: section.label,
               action: section.action,
-              status: apiSection[section.action] 
+              status: apiSection[section.action]
             };
           }
-          return null; 
-        }).filter(item => item !== null)  
+          return null;
+        }).filter(item => item !== null)
       };
     });
-    
+
     setNotificationSettings(unifiedNotifications);
     setNotification(data.result);
     setIsNotificationOpen(true);
@@ -1574,13 +1574,13 @@ function DealerUser() {
           <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
             <Grid className="!grid-cols-2 !gap-1">
               {Object.entries(notificationList || []).map(([key, value], i) => {
-              
+
                 if (!value) {
                   return null;
                 }
 
                 const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue( notificationSettings,activeIndex1);
+                const allStatusTrue = checkAllStatusTrue(notificationSettings, activeIndex1);
 
                 return (
                   <div key={index} className="mb-1">
@@ -1612,34 +1612,34 @@ function DealerUser() {
                           </Button>
                         </div>
                         <Grid className="!grid-cols-12 !gap-2">
-  {notificationSettings
-    .find((n) => n.index === activeIndex1)
-    ?.sections?.map(({ label, action }, itemIdx) => {
-      if (!label || !action) return null; 
+                          {notificationSettings
+                            .find((n) => n.index === activeIndex1)
+                            ?.sections?.map(({ label, action }, itemIdx) => {
+                              if (!label || !action) return null;
 
-      const status = notificationSettings
-        .find((n) => n.index === activeIndex1)
-        ?.sections.find((s) => s.action === action)?.status ?? false;
+                              const status = notificationSettings
+                                .find((n) => n.index === activeIndex1)
+                                ?.sections.find((s) => s.action === action)?.status ?? false;
 
-      return (
-        <div className="col-span-6" key={itemIdx}>
-          <Grid className="!gap-0">
-            <div className="col-span-8 self-center">
-              <p className="flex text-[12px] font-semibold justify-between">{label}</p>
-            </div>
-            <div className="col-span-4">
-              <SwitchButton
-                isOn={status} 
-                handleToggle={() =>
-                  handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
-                }
-              />
-            </div>
-          </Grid>
-        </div>
-      );
-    })}
-</Grid>
+                              return (
+                                <div className="col-span-6" key={itemIdx}>
+                                  <Grid className="!gap-0">
+                                    <div className="col-span-8 self-center">
+                                      <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                                    </div>
+                                    <div className="col-span-4">
+                                      <SwitchButton
+                                        isOn={status}
+                                        handleToggle={() =>
+                                          handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
+                                        }
+                                      />
+                                    </div>
+                                  </Grid>
+                                </div>
+                              );
+                            })}
+                        </Grid>
 
                       </div>
                     </CollapsibleDiv>
