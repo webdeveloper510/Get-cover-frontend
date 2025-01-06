@@ -18,7 +18,7 @@ function Layout() {
   };
 
   const location = useLocation();
-  const { id, customerId, servicerId, resellerId, orderId } = useParams();
+  const { id, customerId, servicerId, resellerId, orderId, contractId } = useParams();
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -66,6 +66,7 @@ function Layout() {
   const shouldShowSidebar = () => {
     const excludedPaths = [
       `/dealerDetails/${id}`,
+      `/contractDetails/${contractId}`,
       `/customerDetails/${customerId}`,
       `/servicerDetails/${servicerId}`,
       `/orderDetails/${orderId}`,

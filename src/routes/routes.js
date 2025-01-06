@@ -97,6 +97,7 @@ import DealerReportDownload from "../pages/Dealer-screens/Reporting/reportDownlo
 import ResellerReportDownload from "../pages/Reseller-screens/Reporting/reportDownload";
 import ServicerReportDownload from "../pages/Servicer-screens/Reporting/reportDownload";
 import CustomerReportDownload from "../pages/Customer-screens/Claim/reportDownload";
+import ContractSingleView from "../pages/dashboard/Contract/contractSingleView";
 
 const routes = [
   {
@@ -392,7 +393,7 @@ const routes = [
           <PrivateRoute
             element={<RequestServicer />}
             role={"Super Admin"}
-           
+
           />
         ),
       },
@@ -432,6 +433,16 @@ const routes = [
             element={<ContractList />}
             role={"Super Admin"}
             path="/contractList"
+          />
+        ),
+      },
+      {
+        path: "/contractDetails/:contractId",
+        element: (
+          <PrivateRoute
+            element={<ContractSingleView />}
+            role={"Super Admin"}
+            path="/contractDetails/:contractId"
           />
         ),
       },
