@@ -51,7 +51,7 @@ function ContractList(props) {
   const [viewLoader, setViewLoader] = useState(false);
   const [reportSuccess, setreportSuccess] = useState(false);
   const [contractList, setContractList] = useState([]);
-    const isFormSubmittedRef = useRef(false);
+  const isFormSubmittedRef = useRef(false);
   const [contractCount, setContractCount] = useState(0);
   const [totalRecords, setTotalRecords] = useState(0);
   const [pageValue, setPageValue] = useState(1);
@@ -906,18 +906,18 @@ function ContractList(props) {
                 </div>
 
                 <div className="col-span-6">
-                <Input
-                      type="date"
-                      name="startDate"
-                      className="!bg-white z-10"
-                      label="Start Date"
-                      placeholder=""
-                      min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
-                        .toISOString()
-                        .split("T")[0]}
-                      maxDate={new Date().toISOString().split("T")[0]}
-                      {...formik.getFieldProps("startDate")}
-                    />
+                  <Input
+                    type="date"
+                    name="startDate"
+                    className="!bg-white z-10"
+                    label="Start Date"
+                    placeholder=""
+                    min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                      .toISOString()
+                      .split("T")[0]}
+                    maxDate={new Date().toISOString().split("T")[0]}
+                    {...formik.getFieldProps("startDate")}
+                  />
                 </div>
                 <div className="col-span-6">
                   <Input

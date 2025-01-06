@@ -120,13 +120,6 @@ function Account() {
     archivingOrder: false,
   });
 
-  const handleRadioNotification = (event, groupName) => {
-    const { value } = event.target;
-    setRadioStates((prevState) => ({
-      ...prevState,
-      [groupName]: value === "true" ? true : false,
-    }));
-  };
   const [userDetails, setUserDetails] = useState({});
   const dropdownRef = useRef(null);
   const [sections, setSections] = useState([]);
@@ -357,10 +350,10 @@ function Account() {
   const checkAllStatusTrue = (notificationSettings, index) => {
     console.log(notificationSettings)
     const section = notificationSettings.find((n) => n.index === index);
-    if (!section) return false; 
+    if (!section) return false;
     return section.sections.every((s) => s.status === true);
   };
-  
+
 
 
   const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
@@ -642,27 +635,7 @@ function Account() {
     return updatedNotifications;
   };
 
-  const handleSelectAll = (sectionKey, apiFieldName) => {
-    setNotificationSettings((prevSettings) => {
-      const updatedSettings = { ...prevSettings };
-      const section = notificationList.find((notification) => notification.index === sectionKey);
 
-      if (section && section.sections) {
-        section.sections.forEach(({ action, actionKey }) => {
-          const actionKeyToUse = actionKey || action;
-          updatedSettings[actionKeyToUse] = true;
-        });
-      }
-
-      console.log("Updated Settings:", updatedSettings);
-      return updatedSettings;
-    });
-
-    // Update notification state
-    setNotification((prevNotifications) =>
-      toggleAllActionsInSection(prevNotifications, apiFieldName, true)
-    );
-  };
 
 
 
@@ -2486,7 +2459,7 @@ function Account() {
                           </tr>
                         </thead>
                         <tbody className="w-full border-collapse border text-center">
-                          {section.data?.value.map((row) => 
+                          {section.data?.value.map((row) =>
                           (
                             <tr key={row._id} className="w-full border-collapse border">
                               <td className="py-3">{row.label}</td>
@@ -2957,6 +2930,8 @@ function Account() {
           </p>
         </div>
       </Modal>
+
+
       <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
         <Button
           onClick={closeNotification}
@@ -2974,7 +2949,7 @@ function Account() {
                 }
 
                 const { index, title, sections, apiFieldName } = value;
-                const allStatusTrue = checkAllStatusTrue( notificationSettings,activeIndex1);
+                const allStatusTrue = checkAllStatusTrue(notificationSettings, activeIndex1);
 
                 return (
                   <div key={index} className="mb-1">
