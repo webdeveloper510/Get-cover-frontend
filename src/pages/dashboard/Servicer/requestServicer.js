@@ -75,16 +75,16 @@ function RequestServicer() {
     rangeSeparatorText: "of",
   };
 
-  const getRequestServicerList = async (name='') => {
+  const getRequestServicerList = async (name = '') => {
     setLoading(true);
-    let data ={
+    let data = {
       ...formik.values
     }
-    if(name!=''){
-    formik.setFieldValue('name',name)
-      data.name=name
+    if (name != '') {
+      formik.setFieldValue('name', name)
+      data.name = name
     }
-    const result = await addNewServicerRequest("Pending",data);
+    const result = await addNewServicerRequest("Pending", data);
     setList(result.data);
     console.log(result.data);
     setLoading(false);
@@ -227,6 +227,7 @@ function RequestServicer() {
     }
     return () => clearInterval(intervalId);
   }, [isDisapprovedOpen, timer]);
+
   const closeModal = () => {
     setIsModalOpen(false);
   };

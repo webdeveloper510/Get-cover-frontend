@@ -1326,9 +1326,17 @@ function DealerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            <p className="text-3xl mb-0 mt-2 font-bold">
-              Assign Servicer
-            </p>
+
+            <Grid>
+              <div className="col-span-8">
+                <p className="text-3xl mb-0 mt-2 pl-5 font-bold text-left">
+                  Assign Servicer
+                </p>
+              </div>
+              <div className="col-span-4 pr-3 mt-4">
+                <Input placeholder="Search" className1='!p-1 ' type='search' />
+              </div>
+            </Grid>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}

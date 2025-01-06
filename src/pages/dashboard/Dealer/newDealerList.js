@@ -104,10 +104,10 @@ function NewDealerList() {
     dealerPendingList(dealerName);
   }, []);
 
-  const dealerPendingList = async (name='') => {
+  const dealerPendingList = async (name = '') => {
     setLoading(true);
-formik.setFieldValue('name',name)
-    const result = await getPendingDealersList({name:name});
+    formik.setFieldValue('name', name)
+    const result = await getPendingDealersList({ name: name });
     console.log(result.data);
     setPendingDealerList(result.data);
     setLoading(false);
@@ -136,7 +136,7 @@ formik.setFieldValue('name',name)
   });
 
   const filterPendingDealersList = async () => {
-    let data ={
+    let data = {
       ...formik.values
     }
     try {
@@ -291,10 +291,10 @@ formik.setFieldValue('name',name)
           <div className="pl-3">
             <p className="font-bold text-[36px] leading-9 mb-[3px]">Dealer</p>
             <ul className="flex self-center">
-              <li className="text-sm text-neutral-grey font-Regular">
+              <li className="text-sm font-Regular">
                 <Link to={'/'}>Home </Link> /{" "}
               </li>
-              <li className="text-sm text-neutral-grey font-semibold ml-1 pt-[1px]">
+              <li className="text-sm font-semibold ml-1 pt-[1px]">
                 {" "}
                 New Dealer Requests{" "}
               </li>
@@ -302,7 +302,7 @@ formik.setFieldValue('name',name)
           </div>
         </div>
 
-        <Card className="bg-white mt-10 border-[1px] border-Light-Grey rounded-xl">
+        <Card className="mt-10 border-[1px] border-Light-Grey rounded-xl">
           <Grid className="!p-[26px] !pt-[14px] !pb-0">
             <div className="col-span-5 self-center">
               <p className="text-xl font-semibold">Request List</p>
@@ -456,12 +456,12 @@ formik.setFieldValue('name',name)
                 </Button>
               </div>
               <div className="col-span-3">
-                <Button
-                  className="w-full !py-3 !bg-white border-Light-Grey border !text-light-black"
+                <InActiveButton
+                  className="w-full !py-3 border-Light-Grey border"
                   onClick={() => setIsModalOpen(false)}
                 >
                   No
-                </Button>
+                </InActiveButton>
               </div>
               <div className="col-span-3"></div>
             </Grid>
@@ -469,9 +469,6 @@ formik.setFieldValue('name',name)
         </Modal>
 
         <Modal isOpen={isDisapprovedOpen} onClose={closeDisapproved}>
-          {/* <Button onClick={closeModal} className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
-          <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
-        </Button> */}
           <div className="text-center py-3">
             <img src={disapproved} alt="email Image" className="mx-auto" />
             <p className="text-3xl mb-0 mt-4 font-semibold">
