@@ -78,6 +78,9 @@ function DealerDetails() {
     const storedTab = localStorage.getItem("menu");
     return storedTab ? storedTab : "Orders";
   };
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState('');
   const id = useParams();
   const [activeTab, setActiveTab] = useState(getInitialActiveTab()); // Set the initial active tab
   // const id = useParams();
@@ -104,6 +107,7 @@ function DealerDetails() {
   const [userLoader, setUserLoader] = useState(false);
   const [timer, setTimer] = useState(3);
   const [servicerList, setServicerList] = useState([]);
+  let [servicerListValue, setServicerListValue] = useState([]);
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
@@ -258,7 +262,7 @@ function DealerDetails() {
   };
 
   const modalOpen1 = () => {
-    getServicerList();
+    // getServicerList();
     setActiveTab("Servicer");
     setIsModalOpen1(true);
   };
@@ -273,14 +277,35 @@ function DealerDetails() {
   const getServicerList = async () => {
     const result = await getServicerListForDealer(id.id);
     console.log(result)
+    setServicerListValue(result.result)
     setServicerList(result.result);
+    return result.result
   };
 
   useEffect(() => {
     dealerData();
     // getServicerListData()
     getServicerList();
-  }, [id.id, flag]);
+  }, []);
+  
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer); 
+  }, [searchTerm]);
+  useEffect(() => {
+    const results = servicerList.filter((item) =>
+      item.name.toLowerCase().includes(debouncedTerm.toLowerCase())
+  );
+
+  setServicerListValue(results);
+  }, [debouncedTerm]);
 
   useEffect(() => {
     getUserList();
@@ -1334,13 +1359,19 @@ function DealerDetails() {
                 </p>
               </div>
               <div className="col-span-4 pr-3 mt-4">
-                <Input placeholder="Search" className1='!p-1 ' type='search' />
-              </div>
+        <input
+          placeholder="Search"
+          className="!p-1 border border-gray-300 rounded w-full"
+          type="search"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </div>
             </Grid>
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
-                data={servicerList}
+                data={servicerListValue}
                 highlightOnHover
                 draggableColumns={false}
                 sortIcon={
