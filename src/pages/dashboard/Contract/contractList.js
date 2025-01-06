@@ -489,17 +489,13 @@ function ContractList(props) {
 
                                   {/* <div className="col-span-1 self-center justify-end"></div> */}
                                   <div className="col-span-1 self-center flex justify-end">
-                                    <div
-                                      onClick={() => openView(res._id)}
-                                      className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center"
-                                    >
-                                      {" "}
+                                    <Link to={`/contractDetails/${res._id}`} className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center">
                                       <img
                                         src={view}
                                         className="ml-auto w-[23px] h-[23px] "
                                         alt="edit"
                                       />{" "}
-                                    </div>
+                                    </Link>
                                     {userData.role === 'Super Admin' && (
                                       <Link to={`/editContract/${res._id}`}>
                                         <img

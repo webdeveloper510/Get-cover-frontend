@@ -8,7 +8,10 @@ import Purchase from "../../../assets/images/order/Purchase.svg";
 import Coverage from "../../../assets/images/order/Coverage.svg";
 import Cross from "../../../assets/images/Cross.png";
 import DealerList from "../../../assets/images/icons/dealerList.svg";
+import DealerPO from "../../../assets/images/contract/DealerPO.svg";
+import status from "../../../assets/images/contract/Status.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
+import Eligibility from "../../../assets/images/contract/Eligible.svg";
 import contractActive from "../../../assets/images/order/ContractsActive.svg";
 import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
 import category1 from "../../../assets/images/contract/OrderID.svg";
@@ -22,7 +25,7 @@ import { getContractValues } from '../../../services/extraServices';
 import Button from '../../../common/button';
 import InActiveButton from '../../../common/inActiveButton';
 function ContractSingleView() {
-    const [loading, setLoading] = useState(false);
+    const [loading1, setLoading1] = useState(false);
     const [contractDetails, setContractDetails] = useState({});
     const getInitialActiveTab = () => {
         const storedTab = localStorage.getItem("contractMenu");
@@ -33,10 +36,10 @@ function ContractSingleView() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        setLoading(true);
-        getcontractDetails();
+        // setLoading1(true);
+        getcontractDetails(contractId);
         localStorage.setItem("contractMenu", activeTab);
-        setLoading(false);
+        // setLoading1(false);
     }, [activeTab]);
 
     const tabs = [
@@ -66,10 +69,10 @@ function ContractSingleView() {
         navigate(-1);
     };
 
-    const getcontractDetails = async (showLoader) => {
-        if (!showLoader) {
-            setLoading(true);
-        }
+    const getcontractDetails = async () => {
+
+        setLoading1(true);
+
         const result = await getContractValues(contractId);
         if (result.code == 200) {
             setContractDetails(result.result);
@@ -78,7 +81,7 @@ function ContractSingleView() {
         else {
             navigate(`/`);
         }
-        setLoading(false);
+        setLoading1(false);
     };
 
     const handleTabClick = (tabId) => {
@@ -148,7 +151,7 @@ function ContractSingleView() {
 
     return (
         <>
-            {loading && (
+            {loading1 && (
                 <div className=" fixed z-[999999] bg-[#333333c7] backdrop-blur-xl  h-screen w-full flex py-5">
                     <div className="self-center mx-auto">
                         <RotateLoader color="#fff" />
@@ -228,9 +231,9 @@ function ContractSingleView() {
                             </div>
                             <div className="flex my-4">
                                 <img
-                                    src={Purchase}
+                                    src={DealerPO}
                                     className="mr-3 bg-Onyx rounded-[14px] my-auto"
-                                    alt="Purchase"
+                                    alt="DealerPO"
                                 />
                                 <div>
                                     <p className="text-sm font-Regular mt-2">
@@ -241,40 +244,36 @@ function ContractSingleView() {
                                     </p>
                                 </div>
                             </div>
-                            <Grid className='!grid-cols-1 gap-2'>
-                                <div className="flex w-full">
-                                    <img
-                                        src={Purchase}
-                                        className="mr-3 bg-Onyx rounded-[14px] my-auto"
-                                        alt="Purchase"
-                                    />
-                                    <div className='w-full self-center'>
-                                        <p className="text-sm font-Regular">
-                                            Status
-                                        </p>
-                                        <p className="text-base font-semibold leading-5 break-words w-[92%]">
-                                            {contractDetails.status}
-                                        </p>
-                                    </div>
+                            <div className="flex my-4">
+                                <img
+                                    src={status}
+                                    className="mr-3 bg-Onyx rounded-[14px] my-auto"
+                                    alt="status"
+                                />
+                                <div className='w-full self-center'>
+                                    <p className="text-sm font-Regular">
+                                        Status
+                                    </p>
+                                    <p className="text-base font-semibold leading-5 break-words w-[92%]">
+                                        {contractDetails.status}
+                                    </p>
                                 </div>
-                                <div className="flex my-4 w-full">
-                                    <img
-                                        src={Purchase}
-                                        className="mr-3 bg-Onyx rounded-[14px] my-auto"
-                                        alt="Purchase"
-                                    />
-                                    <div className='w-full'>
-                                        <p className="text-sm font-Regular mt-2">
-                                            Eligibility
-                                        </p>
-                                        <p className="text-base font-semibold leading-5 break-words w-[92%]">
-                                            {contractDetails.eligibilty === false ? 'Not eligibilty' : 'eligibilty'}
-                                        </p>
-                                    </div>
+                            </div>
+                            <div className="flex my-4">
+                                <img
+                                    src={Eligibility}
+                                    className="mr-3 bg-Onyx rounded-[14px] my-auto"
+                                    alt="Eligibility"
+                                />
+                                <div className='w-full'>
+                                    <p className="text-sm font-Regular mt-2">
+                                        Eligibility
+                                    </p>
+                                    <p className="text-base font-semibold leading-5 break-words w-[92%]">
+                                        {contractDetails.eligibilty === false ? 'Not Eligibilty' : 'Eligibilty'}
+                                    </p>
                                 </div>
-                            </Grid>
-
-
+                            </div>
                             <div className="flex mb-4">
                                 <div className="relative">
                                     <img
