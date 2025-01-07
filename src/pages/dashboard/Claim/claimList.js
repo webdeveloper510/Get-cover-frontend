@@ -371,17 +371,23 @@ function ClaimList(props) {
       console.log(values, formik1.values);
       try {
         // Combine values from both forms
-        const data = await exportDataForClaim({ ...values, ...formik1.values });
+        setTimeout(() => {
+          setreportSuccess(true)
+          setSubmitting(false); 
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        }, 2000);
+        const data = await exportDataForClaim({ ...values, ...formik1.values });
+    
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setSubmitting(false);
+      
       }
     }
+    
   });
 
   const updateAndSetStatus = (statusObject, name, res) => {
@@ -692,6 +698,7 @@ function ClaimList(props) {
 
   const openReport = () => {
     fileGenrateForm.resetForm();
+    setreportSuccess(false)
     setIsReportOpen(true);
   }
   const closeReport = () => {
