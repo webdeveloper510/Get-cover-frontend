@@ -144,7 +144,9 @@ function ContractList(props) {
   oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
   oneYearAgo.setDate(oneYearAgo.getDate() + 1);
   console.log(oneYearAgo, 'days-----')
-
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
   const today = new Date();
   const initialValues = {
     orderId: "",
@@ -160,6 +162,8 @@ function ContractList(props) {
     status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     startDate: oneYearAgo.toISOString().split("T")[0],
     endDate: today.toISOString().split("T")[0],
+    userId: props.id,
+    flag: capitalizedFlag
   };
   const formik = useFormik({
     initialValues,

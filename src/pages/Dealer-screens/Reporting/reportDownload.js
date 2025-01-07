@@ -332,11 +332,11 @@ function DealerReportDownload() {
       label: "All",
     },
     {
-      value: "claimReporting",
+      value: "claim",
       label: "Claims",
     },
     {
-      value: "contractReporting",
+      value: "contract",
       label: "Contracts",
     },
   ];
