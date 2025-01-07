@@ -38,7 +38,7 @@ function Notification() {
         readFlag: activeTab === "unread" ? "false" : "",
       });
       setNotificationList(response.result);
-      console.log(response.result?.notification);
+      console.log(response.result);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     } finally {
@@ -61,18 +61,18 @@ function Notification() {
           //   break;
           default:
             // return false
-            if(data.tabAction != ""){
-              if(data.tabAction == 'dealerUser')
-              localStorage.setItem('menu','Users')
-            if (data.tabAction == 'servicerUser'){
-              localStorage.setItem('servicer','Users')
-            }
-            if (data.tabAction == 'resellerUser'){
-              localStorage.setItem('Resellermenu','Users')
-            }
-            if (data.tabAction == 'customerUser'){
-              localStorage.setItem('customer','Users')
-            }
+            if (data.tabAction != "") {
+              if (data.tabAction == 'dealerUser')
+                localStorage.setItem('menu', 'Users')
+              if (data.tabAction == 'servicerUser') {
+                localStorage.setItem('servicer', 'Users')
+              }
+              if (data.tabAction == 'resellerUser') {
+                localStorage.setItem('Resellermenu', 'Users')
+              }
+              if (data.tabAction == 'customerUser') {
+                localStorage.setItem('customer', 'Users')
+              }
             }
             break;
         }

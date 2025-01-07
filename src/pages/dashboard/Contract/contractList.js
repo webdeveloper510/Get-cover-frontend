@@ -112,11 +112,7 @@ function ContractList(props) {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik.values : {
-        status: selectedProduct,
-        startDate: oneYearAgo.toISOString().split("T")[0],
-        endDate: today.toISOString().split("T")[0],
-      }),
+      ...(isFormSubmittedRef.current ? formik.values : initialValues),
     };
     console.log(location.pathname.includes("/reseller"));
 
@@ -183,7 +179,7 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: props.flag === 'contracts' ? '' : '',
+    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     model: "",
     dealerSku: "",
     serial: "",

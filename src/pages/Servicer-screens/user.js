@@ -1445,8 +1445,7 @@ function ServicerUser() {
       <Modal isOpen={isNotificationOpen} onClose={closeNotification} className="!w-[90%]">
         <Button
           onClick={closeNotification}
-          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray"
-        >
+          className="absolute right-[-13px] top-0 h-[80px] w-[80px] !p-[19px] mt-[-9px] !rounded-full !bg-Granite-Gray">
           <img src={Cross} className="w-full h-full text-black rounded-full p-0" />
         </Button>
         <div className="py-3">
