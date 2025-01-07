@@ -538,9 +538,9 @@ function UserList(props) {
       <p>No records found.</p>
     </Card>
   );
-
   const openNotification = async (id) => {
-    const data = await getUserNotificationData(id, props.flag);
+    const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
+    const data = await getUserNotificationData(id, capitalizedFlag);
     const notifications = data.result.notifications;
     const filteredNotifications = Notifications.filter(notification => {
       const apiFieldName = notification.apiFieldName;
@@ -582,114 +582,73 @@ function UserList(props) {
   };
 
 
-  const handleAddOrUpdate1 = (actionKey) => {
-    setNotificationSettings((prevSettings) => ({
-      ...prevSettings,
-      [actionKey]: !prevSettings[actionKey],
-    }));
 
-    setNotification((prevNotifications) =>
-      toggleNotification(prevNotifications, actionKey)
-    );
-  };
-
-  const toggleNotification = (prevNotifications, actionKey) => {
-    const updatedNotifications = { ...prevNotifications };
-    for (const category in updatedNotifications.notifications) {
-      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
-        if (actionKey in updatedNotifications.notifications[category]) {
-          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
-          break;
-        }
-      }
-    }
-    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
-      console.log(res)
-    })
-    return updatedNotifications;
-  };
 
   const closeNotification = () => {
     setIsNotificationOpen(false);
   }
 
-  const handleSelectAll = (sectionKey, apiFieldName) => {
-    console.log(title, apiFieldName);
-    setNotificationSettings((prevSettings) => {
-      const updatedSettings = { ...prevSettings };
-      const section = Notifications.find((notification) => notification.index === sectionKey);
-
-      if (section && section.sections) {
-        section.sections.forEach(({ action, actionKey }) => {
-          const actionKeyToUse = actionKey || action;
-          updatedSettings[actionKeyToUse] = true;
-        });
-      }
-
-      console.log(updatedSettings);
-
-      return updatedSettings;
-    });
-    setNotification((prevNotifications) =>
-      toggleAllActionsInSection(prevNotifications, apiFieldName, true)
-    );
+  const checkAllStatusTrue = (notificationSettings, index) => {
+    console.log(notificationSettings)
+    const section = notificationSettings.find((n) => n.index === index);
+    if (!section) return false;
+    return section.sections.every((s) => s.status === true);
   };
 
-  const toggleAllActionsInSection = (notifications, apiFieldName, value) => {
-    const updatedNotifications = { ...notifications };
-    console.log(notifications, apiFieldName)
 
-    if (updatedNotifications.notifications[apiFieldName]) {
-      const section = updatedNotifications.notifications[apiFieldName];
-      for (const key in section) {
-        if (key !== "_id" && typeof section[key] === "boolean") {
-          section[key] = value;
-        }
-      }
-    }
-    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
-      console.log(res)
-    })
-    console.log(updatedNotifications)
-    return updatedNotifications;
-  };
 
   const handleToggleAll = (allStatusTrue, setNotificationSettings, i) => {
-    const updatedSettings = notificationSettings[i].sections.reduce((acc, { action, status }) => {
-      acc[action] = !allStatusTrue;
-      return acc;
-    }, {});
     setNotificationSettings((prevSettings) => {
-      // Clone the previous settings to avoid mutation
-      const newSettings = [...prevSettings];
+      const newSettings = prevSettings.map((notification, index) => {
+        console.log(notificationSettings, i,);
 
-      // Update the sections for the specific index
-      newSettings[i] = {
-        ...newSettings[i],
-        sections: newSettings[i].sections.map((section) => ({
-          ...section,
-          status: !allStatusTrue, // Toggle all statuses
-        })),
-      }; const updatedNotifications = transformDataForAPI(newSettings);
+        // Check if the current index matches the target index
+        if (notification.index == i && notification.sections) {
+          return {
+            ...notification,
+            sections: notification.sections.map((section) => ({
+              ...section,
+              status: !allStatusTrue, // Toggle status based on allStatusTrue
+            })),
+          };
+        }
+        return notification; // Leave other notifications unchanged
+      });
+      const updatedNotifications = transformDataForAPI(newSettings);
       updateNotification(updatedNotifications);
 
       return newSettings;
     });
+  };
 
 
-    setNotificationSettings((prev) => {
-      return prev.map((notification, index) => {
-        if (index === i && notification.sections) {
-          notification.sections = notification.sections.map((section) => ({
-            ...section,
-            status: updatedSettings[section.action]
-          }));
+  const handleAddOrUpdate1 = (value, allStatusTrue, setNotificationSettings, i) => {
+    setNotificationSettings((prevSettings) =>
+      prevSettings.map((group, index) => {
+        console.log(group.index == i)
+        if (group.index == i) {
+          return {
+            ...group,
+            sections: group.sections.map((section) =>
+              section.action === value
+                ? { ...section, status: !section.status }
+                : section
+            ),
+          };
         }
-        return notification;
-      });
+        return group;
+      })
+    );
+
+    // Pass the updated settings to the API
+    setNotificationSettings((prevSettings) => {
+      const updatedNotifications = transformDataForAPI(prevSettings);
+      updateNotification(updatedNotifications);
+      return prevSettings;
     });
   };
 
+  // Transform function to structure data as per API requirements
   const transformDataForAPI = (notificationSettings) => {
     const transformedData = notificationSettings.reduce((acc, group) => {
       const apiFieldName = group.apiFieldName;
@@ -707,6 +666,7 @@ function UserList(props) {
     };
   };
 
+  // Update notification function
   const updateNotification = (updatedNotifications) => {
     console.log(notification)
     updateNotificationData(notification._id, updatedNotifications).then((res) => {
@@ -714,10 +674,22 @@ function UserList(props) {
     });
   };
 
-  const checkAllStatusTrue = (notificationSettings, index) => {
-    const section = notificationSettings.find((n) => n.index === index);
-    if (!section) return false; // Return false if the index is not found
-    return section.sections.every((s) => s.status === true);
+
+
+  const toggleNotification = (prevNotifications, actionKey) => {
+    const updatedNotifications = { ...prevNotifications };
+    for (const category in updatedNotifications.notifications) {
+      if (updatedNotifications.notifications[category] && typeof updatedNotifications.notifications[category] === "object") {
+        if (actionKey in updatedNotifications.notifications[category]) {
+          updatedNotifications.notifications[category][actionKey] = !updatedNotifications.notifications[category][actionKey];
+          break;
+        }
+      }
+    }
+    updateNotificationData(updatedNotifications._id, updatedNotifications.notifications).then((res) => {
+      console.log(res)
+    })
+    return updatedNotifications;
   };
 
   return (
@@ -1077,6 +1049,7 @@ function UserList(props) {
           <div className="overflow-y-scroll min-h-[200px] max-h-[400px]">
             <Grid className="!grid-cols-2 !gap-1">
               {Object.entries(notificationList || []).map(([key, value], i) => {
+
                 if (!value) {
                   return null;
                 }
@@ -1100,47 +1073,49 @@ function UserList(props) {
                         </SingleView>
                       }
                     >
+
                       <div className="px-4 pt-2 pb-4 border">
                         <div className="text-end ml-auto mb-2">
                           <Button
                             type="button"
                             className="!text-sm"
                             onClick={() =>
-                              handleToggleAll(allStatusTrue, setNotificationSettings, i)
+                              handleToggleAll(allStatusTrue, setNotificationSettings, value.index)
                             }
                           >
                             {allStatusTrue ? "Unselect All" : "Select All"}
                           </Button>
                         </div>
                         <Grid className="!grid-cols-12 !gap-2">
-  {notificationSettings
-    .find((n) => n.index === activeIndex1)
-    ?.sections?.map(({ label, action }, itemIdx) => {
-      if (!label || !action) return null; 
+                          {notificationSettings
+                            .find((n) => n.index === activeIndex1)
+                            ?.sections?.map(({ label, action }, itemIdx) => {
+                              if (!label || !action) return null;
 
-      const status = notificationSettings
-        .find((n) => n.index === activeIndex1)
-        ?.sections.find((s) => s.action === action)?.status ?? false;
+                              const status = notificationSettings
+                                .find((n) => n.index === activeIndex1)
+                                ?.sections.find((s) => s.action === action)?.status ?? false;
 
-      return (
-        <div className="col-span-6" key={itemIdx}>
-          <Grid className="!gap-0">
-            <div className="col-span-8 self-center">
-              <p className="flex text-[12px] font-semibold justify-between">{label}</p>
-            </div>
-            <div className="col-span-4">
-              <SwitchButton
-                isOn={status} 
-                handleToggle={() =>
-                  handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
-                }
-              />
-            </div>
-          </Grid>
-        </div>
-      );
-    })}
-</Grid>
+                              return (
+                                <div className="col-span-6" key={itemIdx}>
+                                  <Grid className="!gap-0">
+                                    <div className="col-span-8 self-center">
+                                      <p className="flex text-[12px] font-semibold justify-between">{label}</p>
+                                    </div>
+                                    <div className="col-span-4">
+                                      <SwitchButton
+                                        isOn={status}
+                                        handleToggle={() =>
+                                          handleAddOrUpdate1(action, allStatusTrue, setNotificationSettings, value.index)
+                                        }
+                                      />
+                                    </div>
+                                  </Grid>
+                                </div>
+                              );
+                            })}
+                        </Grid>
+
                       </div>
                     </CollapsibleDiv>
                   </div>

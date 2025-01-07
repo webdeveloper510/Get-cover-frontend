@@ -158,6 +158,7 @@ function ResellerCustomerList() {
                 className={`absolute z-[2] w-[80px] drop-shadow-5xl -right-3 mt-2 py-2 border rounded-lg shadow-md ${calculateDropdownPosition(
                   index
                 )}`}
+                onClick={() => localStorage.removeItem("customer")}
               >
                 {/* <img src={arrowImage} className={`absolute  object-contain left-1/2 w-[12px] ${index%10 === 9 ? 'bottom-[-5px] rotate-180' : 'top-[-5px]'} `} alt='up arror'/> */}
                 <div
@@ -165,6 +166,7 @@ function ResellerCustomerList() {
                     navigate(
                       `/reseller/customerDetails/${row.customerData._id}`
                     );
+                    localStorage.removeItem("customer")
                   }}
                   className="text-left cursor-pointer flex px-2 py-1"
                 >
