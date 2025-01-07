@@ -538,6 +538,7 @@ function UserList(props) {
       <p>No records found.</p>
     </Card>
   );
+
   const openNotification = async (id) => {
     const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
     const data = await getUserNotificationData(id, capitalizedFlag);
@@ -547,6 +548,7 @@ function UserList(props) {
       return data.result.notifications[apiFieldName] != undefined;
     });
     setNotificationList(filteredNotifications)
+    console.log(filteredNotifications);
 
     // Map settings for toggles
     const mappedSettings = {};
@@ -565,22 +567,29 @@ function UserList(props) {
 
     const unifiedNotifications = Notifications.map(notification => {
       const apiSection = notifications[notification.apiFieldName];
+
+
       return {
         index: notification.index,
         title: notification.title,
         apiFieldName: notification.apiFieldName,
-        sections: notification.sections.map(section => ({
-          label: section.label,
-          action: section.action,
-          status: apiSection ? apiSection[section.action] : null
-        }))
+        sections: notification.sections.map(section => {
+          if (apiSection && apiSection[section.action] != undefined) {
+            return {
+              label: section.label,
+              action: section.action,
+              status: apiSection[section.action]
+            };
+          }
+          return null;
+        }).filter(item => item !== null)
       };
     });
+
     setNotificationSettings(unifiedNotifications);
     setNotification(data.result);
     setIsNotificationOpen(true);
   };
-
 
 
 
@@ -647,7 +656,6 @@ function UserList(props) {
       return prevSettings;
     });
   };
-
   // Transform function to structure data as per API requirements
   const transformDataForAPI = (notificationSettings) => {
     const transformedData = notificationSettings.reduce((acc, group) => {
@@ -667,7 +675,7 @@ function UserList(props) {
   };
 
   // Update notification function
-  const updateNotification = (updatedNotifications) => {
+ const updateNotification = (updatedNotifications) => {
     console.log(notification)
     updateNotificationData(notification._id, updatedNotifications).then((res) => {
       console.log(res);
