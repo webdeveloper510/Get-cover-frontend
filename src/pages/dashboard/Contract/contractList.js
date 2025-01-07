@@ -170,7 +170,9 @@ function ContractList(props) {
 
   const today = new Date();
   const validationSchema = Yup.object().shape({});
-
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
   const initialValues = {
     orderId: "",
     venderOrder: "",
@@ -179,7 +181,6 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     model: "",
     dealerSku: "",
     serial: "",
@@ -187,8 +188,11 @@ function ContractList(props) {
     pName: "",
     eligibilty: "",
     resellerName: "",
+    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     startDate: oneYearAgo.toISOString().split("T")[0],
     endDate: today.toISOString().split("T")[0],
+    userId: props.id,
+    flag: capitalizedFlag
   };
 
   const formik = useFormik({

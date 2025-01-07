@@ -1200,7 +1200,7 @@ function ClaimList(props) {
       trackingType: "",
       claimPaidStatus: "",
       userId: props.id,
-      flag: props.flag
+      flag: props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
     },
     validationSchema,
 
@@ -1217,7 +1217,7 @@ function ClaimList(props) {
     },
   });
 
-  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp,id=undefined) => {
+  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp, id = undefined) => {
 
     if (loader) {
       setLoaderType(false);
@@ -1349,7 +1349,7 @@ function ClaimList(props) {
     formik1.setFieldValue('claimId', claimIdValue)
     setCurrentClaimId(claimIdValue);
     console.log('new testing', claimIdValue)
-    getAllClaims(undefined, undefined, false, true,claimIdValue);
+    getAllClaims(undefined, undefined, false, true, claimIdValue);
   }, []);
 
   const handleFilterIconClick = () => {
@@ -1359,7 +1359,7 @@ function ClaimList(props) {
 
     isFormSubmittedRef.current = false;
   };
-  
+
   const onhandle = async (id) => {
     setIsCustomerOpen(true);
     setViewLoader(true);
