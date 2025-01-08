@@ -123,6 +123,8 @@ function DealerResellerDetails() {
     state: "",
     country: "USA",
     oldName: "",
+    isAccountCreate: createAccount,
+    isServicer: createServicerAccountOption,
   });
 
   const responsive = {

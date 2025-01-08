@@ -373,21 +373,21 @@ function ClaimList(props) {
         // Combine values from both forms
         setTimeout(() => {
           setreportSuccess(true)
-          setSubmitting(false); 
+          setSubmitting(false);
 
         }, 2000);
         const data = await exportDataForClaim({ ...values, ...formik1.values });
-    
+
         // if (data.code === 200) {
         //   setreportSuccess(true);
         // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-      
+
       }
     }
-    
+
   });
 
   const updateAndSetStatus = (statusObject, name, res) => {
@@ -1182,7 +1182,9 @@ function ClaimList(props) {
   console.log(oneYearAgo, 'days-----')
 
   const today = new Date();
-
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
@@ -1207,7 +1209,7 @@ function ClaimList(props) {
       trackingType: "",
       claimPaidStatus: "",
       userId: props.id,
-      flag: props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+      flag: capitalizedFlag
     },
     validationSchema,
 

@@ -287,24 +287,24 @@ function DealerDetails() {
     // getServicerListData()
     getServicerList();
   }, []);
-  
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedTerm(searchTerm);
     }, 300);
 
-    return () => clearTimeout(timer); 
+    return () => clearTimeout(timer);
   }, [searchTerm]);
   useEffect(() => {
     const results = servicerList.filter((item) =>
       item.name.toLowerCase().includes(debouncedTerm.toLowerCase())
-  );
+    );
 
-  setServicerListValue(results);
+    setServicerListValue(results);
   }, [debouncedTerm]);
 
   useEffect(() => {
@@ -1351,10 +1351,12 @@ function DealerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-
-            <Grid>
+            <p className="text-3xl mb-0 mt-2 font-bold text-center">
+              Assign Servicer
+            </p>
+            {/* <Grid>
               <div className="col-span-8">
-                <p className="text-3xl mb-0 mt-2 pl-5 font-bold text-left">
+                <p className="text-3xl mb-0 mt-2 font-bold text-center">
                   Assign Servicer
                 </p>
               </div>
@@ -1367,7 +1369,7 @@ function DealerDetails() {
           onChange={handleSearchChange}
         />
       </div>
-            </Grid>
+            </Grid> */}
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}

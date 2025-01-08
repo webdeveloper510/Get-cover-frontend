@@ -35,6 +35,7 @@ function ContractList(props) {
   const [loading, setLoading] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [viewLoader, setViewLoader] = useState(false);
+  const [value, setValue] = useState(null);
   const [reportSuccess, setreportSuccess] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(location.pathname.includes('/orderDetails') ? '' : 'Active');
   const [pageValue, setPageValue] = useState(1);
@@ -113,6 +114,11 @@ function ContractList(props) {
     }
   };
 
+  const Eligible = [
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
+  ];
+
   const findDate = (data, type) => {
     const product = contractList?.find((contract) => {
       return contract.order;
@@ -182,6 +188,11 @@ function ContractList(props) {
     setSelectedProduct(value);
   };
 
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
+
   const status = [
     { label: "Active", value: "Active" },
     { label: "Waiting", value: "Waiting" },
@@ -190,6 +201,7 @@ function ContractList(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setValue("");
     console.log(formik.values);
     setSelectedProduct("");
     // getContract();
@@ -978,6 +990,18 @@ function ContractList(props) {
                   className="!text-[14px] !bg-white"
                   selectedValue={selectedProduct}
                   onChange={handleSelectChange1}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Eligibility"
+                  options={Eligible}
+                  color="text-Black-Russian opacity-50"
+                  value={value}
+                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                  className="!text-[14px] !bg-white"
+                  selectedValue={value}
+                  onChange={handleSelectChange2}
                 />
               </div>
               <div className="col-span-6">

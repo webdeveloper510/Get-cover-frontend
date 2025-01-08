@@ -11,7 +11,7 @@ import view from "../../../assets/images/whiteView.png";
 import Edit from "../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../assets/images/icons/Clear-Filter-Icon-White.svg";
 import Headbar from "../../../common/headBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../common/model";
 import Select from "../../../common/select";
 import { getAllContractsForAdmin } from "../../../services/orderServices";
@@ -30,6 +30,7 @@ import InActiveButton from "../../../common/inActiveButton";
 import Card from "../../../common/card";
 import { exportDataForContract } from "../../../services/claimServices";
 function CustomerContractList(props) {
+  const location = useLocation();
   const [contractDetails, setContractDetails] = useState({});
   const [showTooltip, setShowTooltip] = useState(false);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
@@ -41,7 +42,7 @@ function CustomerContractList(props) {
   const [viewLoader, setViewLoader] = useState(false);
   const [reportSuccess, setreportSuccess] = useState(false);
   const [pageValue, setPageValue] = useState(1);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(location.pathname.includes('/orderDetails') ? '' : 'Active');
   const [recordsPerPage, setRecordsPerPage] = useState(10);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -65,7 +66,14 @@ function CustomerContractList(props) {
     setIsDisapprovedOpen(true);
   };
   const validationSchema = Yup.object().shape({});
-
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
+  console.log(oneYearAgo, 'days-----')
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
+  const today = new Date();
   const initialValues = {
     orderId: "",
     venderOrder: "",
@@ -74,12 +82,16 @@ function CustomerContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: "",
     model: "",
     serial: "",
     productName: "",
     eligibilty: "",
-    dealerSku: ""
+    dealerSku: "",
+    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
+    startDate: oneYearAgo.toISOString().split("T")[0],
+    endDate: today.toISOString().split("T")[0],
+    userId: props.id,
+    flag: capitalizedFlag
   };
 
   const formik = useFormik({
@@ -614,6 +626,31 @@ function CustomerContractList(props) {
                         className="!text-[14px] !bg-white"
                         selectedValue={value}
                         onChange={handleSelectChange2}
+                      />
+                    </div>
+                    <div className="col-span-6">
+                      <Input
+                        type="date"
+                        name="startDate"
+                        className="!bg-white z-10"
+                        label="Start Date"
+                        placeholder=""
+                        min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                          .toISOString()
+                          .split("T")[0]}
+                        maxDate={new Date().toISOString().split("T")[0]}
+                        {...formik.getFieldProps("startDate")}
+                      />
+                    </div>
+                    <div className="col-span-6">
+                      <Input
+                        type="date"
+                        name="endDate"
+                        className="!bg-white z-10"
+                        label="End Date"
+                        maxDate={new Date().toISOString().split("T")[0]}
+                        placeholder=""
+                        {...formik.getFieldProps("endDate")}
                       />
                     </div>
                     <div className="col-span-12">
