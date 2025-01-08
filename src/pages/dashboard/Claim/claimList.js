@@ -371,17 +371,23 @@ function ClaimList(props) {
       console.log(values, formik1.values);
       try {
         // Combine values from both forms
+        setTimeout(() => {
+          setreportSuccess(true)
+          setSubmitting(false);
+
+        }, 2000);
         const data = await exportDataForClaim({ ...values, ...formik1.values });
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setSubmitting(false);
+
       }
     }
+
   });
 
   const updateAndSetStatus = (statusObject, name, res) => {
@@ -692,6 +698,7 @@ function ClaimList(props) {
 
   const openReport = () => {
     fileGenrateForm.resetForm();
+    setreportSuccess(false)
     setIsReportOpen(true);
   }
   const closeReport = () => {
@@ -1175,7 +1182,9 @@ function ClaimList(props) {
   console.log(oneYearAgo, 'days-----')
 
   const today = new Date();
-
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
   const formik1 = useFormik({
     initialValues: {
       contractId: "",
@@ -1200,7 +1209,7 @@ function ClaimList(props) {
       trackingType: "",
       claimPaidStatus: "",
       userId: props.id,
-      flag: props.flag
+      flag: capitalizedFlag
     },
     validationSchema,
 
@@ -1217,7 +1226,7 @@ function ClaimList(props) {
     },
   });
 
-  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp,id=undefined) => {
+  const getAllClaims = async (page = 1, rowsPerPage, loader, stemp, id = undefined) => {
 
     if (loader) {
       setLoaderType(false);
@@ -1349,7 +1358,7 @@ function ClaimList(props) {
     formik1.setFieldValue('claimId', claimIdValue)
     setCurrentClaimId(claimIdValue);
     console.log('new testing', claimIdValue)
-    getAllClaims(undefined, undefined, false, true,claimIdValue);
+    getAllClaims(undefined, undefined, false, true, claimIdValue);
   }, []);
 
   const handleFilterIconClick = () => {
@@ -1359,7 +1368,7 @@ function ClaimList(props) {
 
     isFormSubmittedRef.current = false;
   };
-  
+
   const onhandle = async (id) => {
     setIsCustomerOpen(true);
     setViewLoader(true);

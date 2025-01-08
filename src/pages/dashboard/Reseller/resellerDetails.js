@@ -285,6 +285,7 @@ function ResellerDetails() {
         result?.reseller[0]?.resellerData?.isServicer
       );
       setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
+      setCreateAccountOption(result?.reseller[0]?.resellerData?.isAccountCreate == false ? 'no' : 'yes')
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
         oldName: result?.reseller[0]?.resellerData?.name,

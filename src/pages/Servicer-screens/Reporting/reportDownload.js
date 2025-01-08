@@ -17,8 +17,9 @@ import { deleteDownloadReport, DownloadReport, getdeleteReports } from "../../..
 import Modal from "../../../common/model";
 import InActiveButton from "../../../common/inActiveButton";
 import Button from "../../../common/button";
-import { downloadFile } from "../../../services/userServices";
+import { downloadFile, dowreportingTimeUpdate } from "../../../services/userServices";
 import { saveAs } from "file-saver";
+import Select from "../../../common/select";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function ServicerReportDownload() {
@@ -28,6 +29,7 @@ function ServicerReportDownload() {
   const [timer, setTimer] = useState(3);
   const [reportId, setReportId] = useState();
   const [report, setReport] = useState();
+  const [dateFilter, setDateFilter] = useState("All");
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [primaryMessage, setPrimaryMessage] = useState("");
   const [secondaryMessage, setSecondaryMessage] = useState("");
@@ -194,7 +196,7 @@ function ServicerReportDownload() {
                 >
                   <div
                     className="text-left py-1 px-2 flex cursor-pointer border-b"
-                    onClick={() => downloadReports(row.filePath)}
+                    onClick={() => downloadReports(row, index)}
                   >
                     <div
                       style={{
@@ -236,7 +238,20 @@ function ServicerReportDownload() {
       },
     },
   ];
-
+  const filterBy = [
+    {
+      value: "All",
+      label: "All",
+    },
+    {
+      value: "claim",
+      label: "Claims",
+    },
+    {
+      value: "contract",
+      label: "Contracts",
+    },
+  ];
   useEffect(() => {
     getReportListData();
     window.scrollTo(0, 0);
@@ -273,20 +288,24 @@ function ServicerReportDownload() {
     }
   }
 
-  const downloadReports = async (fileName) => {
+  const downloadReports = async (row, index) => {
     try {
 
-      const data = { key: fileName };
+      const data = { key: row.filePath };
       const fileBuffer = await downloadFile(data);
-
+      const updateTime = await dowreportingTimeUpdate(row._id)
+      console.log(updateTime)
       // Create a Blob for the file
       const blob = new Blob([fileBuffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
       // Use file-saver to save the file
-      saveAs(blob, `${fileName}`);
-
+      saveAs(blob, `${row.filePath}`);
+      const updatedReports = [...deleteReport];
+      updatedReports[index].lastDownloadTime = new Date().toISOString();
+      console.log('updatedReports', updatedReports)
+      setDeleteReport(updatedReports);
       setSelectedAction(null)
     } catch (error) {
       console.error("Error downloading report:", error);
@@ -326,6 +345,25 @@ function ServicerReportDownload() {
     setIsArchiveOpen(false);
   };
 
+  const handleSelectChange2 = async (selectedValue, value) => {
+    // const selectedValue = value;
+    setLoading(true);
+    setDateFilter(value);
+    console.log("Selected value:", dateFilter, value);
+    if (selectedValue) {
+      try {
+        const res = await getdeleteReports({ category: value });
+        console.log("API Response:", res);
+        setDeleteReport(res.result);
+        setLoading(false);
+      } catch (error) {
+        console.error("API Error:", error);
+        setLoading(false);
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <>
       <div className="mb-8 ml-3">
@@ -352,7 +390,19 @@ function ServicerReportDownload() {
             <div className="col-span-3 self-center">
               <p className="text-xl font-semibold py-4">Report List</p>
             </div>
-            <div className="col-span-9">
+            <div className="col-span-5"></div>
+            <div className="col-span-4">
+              <div className="ml-auto mt-3 ">
+                <Select
+                  name="dateFilter"
+                  label=" Filter By "
+                  options={filterBy}
+                  disableFirstOption={true}
+                  className="!bg-white"
+                  value={dateFilter}
+                  onChange={handleSelectChange2}
+                />
+              </div>
             </div>
           </Grid>
           <div className="mb-5 relative">

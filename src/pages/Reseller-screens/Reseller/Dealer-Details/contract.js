@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "../../../../common/button";
 import Grid from "../../../../common/grid";
 import Input from "../../../../common/input";
@@ -9,7 +9,7 @@ import view from "../../../../assets/images/whiteView.png";
 import Cross from "../../../../assets/images/Cross.png";
 import Edit from "../../../../assets/images/Dealer/EditIcon.svg";
 import clearFilter from "../../../../assets/images/icons/Clear-Filter-Icon-White.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getContractsforDealer } from "../../../../services/dealerServices";
 import { getContractsforReseller } from "../../../../services/reSellerServices";
 import { RotateLoader } from "react-spinners";
@@ -28,19 +28,22 @@ import InActiveButton from "../../../../common/inActiveButton";
 import { exportDataForContract } from "../../../../services/claimServices";
 function ContractList(props) {
   console.log(props, "-------------------->>>");
+  const location = useLocation();
   const [showTooltip, setShowTooltip] = useState(false);
   const [contractList, setContractList] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [viewLoader, setViewLoader] = useState(false);
+  const [value, setValue] = useState(null);
   const [reportSuccess, setreportSuccess] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(location.pathname.includes('/orderDetails') ? '' : 'Active');
   const [pageValue, setPageValue] = useState(1);
   const [isDisapprovedOpen, setIsDisapprovedOpen] = useState(false);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [singleContract, setSingleContract] = useState([]);
   const [recordsPerPage, setRecordsPerPage] = useState(10);
+  const isFormSubmittedRef = useRef(false);
   const closeDisapproved = () => {
     setIsDisapprovedOpen(false);
   };
@@ -50,7 +53,7 @@ function ContractList(props) {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
-      ...formik.values,
+      ...(isFormSubmittedRef.current ? formik.values : initialValues),
     };
     setLoading(true);
     console.log(props);
@@ -111,6 +114,11 @@ function ContractList(props) {
     }
   };
 
+  const Eligible = [
+    { label: "Eligible", value: true },
+    { label: "Not Eligible", value: false },
+  ];
+
   const findDate = (data, type) => {
     const product = contractList?.find((contract) => {
       return contract.order;
@@ -138,7 +146,14 @@ function ContractList(props) {
     return "";
   };
   const validationSchema = Yup.object().shape({});
-
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
+  console.log(oneYearAgo, 'days-----')
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
+  const today = new Date();
   const initialValues = {
     orderId: "",
     venderOrder: "",
@@ -147,15 +162,20 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: "",
     model: "",
     serial: "",
     productName: "",
+    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
+    startDate: oneYearAgo.toISOString().split("T")[0],
+    endDate: today.toISOString().split("T")[0],
+    userId: props.id,
+    flag: capitalizedFlag
   };
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: (values) => {
+      isFormSubmittedRef.current = true;
       getContracts(1, 10);
       console.log(values);
       setIsDisapprovedOpen(false);
@@ -168,6 +188,11 @@ function ContractList(props) {
     setSelectedProduct(value);
   };
 
+  const handleSelectChange2 = (label, value) => {
+    formik.setFieldValue("eligibilty", value);
+    setValue(value);
+  };
+
   const status = [
     { label: "Active", value: "Active" },
     { label: "Waiting", value: "Waiting" },
@@ -176,6 +201,7 @@ function ContractList(props) {
 
   const handleFilterIconClick = () => {
     formik.resetForm();
+    setValue("");
     console.log(formik.values);
     setSelectedProduct("");
     // getContract();
@@ -207,17 +233,23 @@ function ContractList(props) {
       try {
         setViewLoader(true);
         // Combine values from both forms
+        setTimeout(() => {
+          setreportSuccess(true)
+          setViewLoader(false);
+          setSubmitting(false);
+
+        }, 2000);
         const data = await exportDataForContract({ ...values, ...formik.values });
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setViewLoader(false);
+        // setViewLoader(false);
 
-        setSubmitting(false);
+        // setSubmitting(false);
       }
     }
   });
@@ -964,6 +996,43 @@ function ContractList(props) {
                   className="!text-[14px] !bg-white"
                   selectedValue={selectedProduct}
                   onChange={handleSelectChange1}
+                />
+              </div>
+              <div className="col-span-6">
+                <Select
+                  label="Eligibility"
+                  options={Eligible}
+                  color="text-Black-Russian opacity-50"
+                  value={value}
+                  // className1="!pt-1 !pb-1 !text-[13px] !bg-[white]"
+                  className="!text-[14px] !bg-white"
+                  selectedValue={value}
+                  onChange={handleSelectChange2}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="date"
+                  name="startDate"
+                  className="!bg-white z-10"
+                  label="Start Date"
+                  placeholder=""
+                  min={new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+                    .toISOString()
+                    .split("T")[0]}
+                  maxDate={new Date().toISOString().split("T")[0]}
+                  {...formik.getFieldProps("startDate")}
+                />
+              </div>
+              <div className="col-span-6">
+                <Input
+                  type="date"
+                  name="endDate"
+                  className="!bg-white z-10"
+                  label="End Date"
+                  maxDate={new Date().toISOString().split("T")[0]}
+                  placeholder=""
+                  {...formik.getFieldProps("endDate")}
                 />
               </div>
               <div className="col-span-12">

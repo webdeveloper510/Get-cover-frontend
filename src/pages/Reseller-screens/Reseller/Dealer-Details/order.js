@@ -145,9 +145,8 @@ function OrderList(props) {
     setIsArchiveOpen(false);
   };
   useEffect(() => {
-    if (props.activeTab === "Orders" || props.activeTab === "Orders") {
-      getOrderList();
-    }
+
+    getOrderList();
   }, [props?.flag]);
   const handleFilterIconClick = () => {
     formik.resetForm();

@@ -2301,15 +2301,21 @@ function ClaimList(props) {
       console.log(values, formik1.values);
       try {
         // Combine values from both forms
+        setTimeout(() => {
+          setreportSuccess(true)
+          // setViewLoader(false);
+          setSubmitting(false);
+
+        }, 2000);
         const data = await exportDataForClaim({ ...values, ...formik1.values });
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setSubmitting(false);
+        // setSubmitting(false);
       }
     }
   });

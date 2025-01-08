@@ -112,11 +112,7 @@ function ContractList(props) {
     let data = {
       page: page,
       pageLimit: rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik.values : {
-        status: selectedProduct,
-        startDate: oneYearAgo.toISOString().split("T")[0],
-        endDate: today.toISOString().split("T")[0],
-      }),
+      ...(isFormSubmittedRef.current ? formik.values : initialValues),
     };
     console.log(location.pathname.includes("/reseller"));
 
@@ -174,7 +170,9 @@ function ContractList(props) {
 
   const today = new Date();
   const validationSchema = Yup.object().shape({});
-
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
   const initialValues = {
     orderId: "",
     venderOrder: "",
@@ -183,7 +181,6 @@ function ContractList(props) {
     customerName: "",
     servicerName: "",
     manufacture: "",
-    status: props.flag === 'contracts' ? '' : '',
     model: "",
     dealerSku: "",
     serial: "",
@@ -191,8 +188,11 @@ function ContractList(props) {
     pName: "",
     eligibilty: "",
     resellerName: "",
+    status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     startDate: oneYearAgo.toISOString().split("T")[0],
     endDate: today.toISOString().split("T")[0],
+    userId: props.id,
+    flag: capitalizedFlag
   };
 
   const formik = useFormik({
@@ -266,17 +266,23 @@ function ContractList(props) {
       try {
         setViewLoader(true);
         // Combine values from both forms
+        setTimeout(() => {
+          setreportSuccess(true)
+          setViewLoader(false);
+          setSubmitting(false);
+
+        }, 2000);
         const data = await exportDataForContract({ ...values, ...formik.values });
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setViewLoader(false);
+        // setViewLoader(false);
 
-        setSubmitting(false);
+        // setSubmitting(false);
       }
     }
   });
