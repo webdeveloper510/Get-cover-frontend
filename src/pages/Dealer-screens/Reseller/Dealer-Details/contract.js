@@ -232,17 +232,23 @@ function ContractList(props) {
       try {
         setViewLoader(true);
         // Combine values from both forms
+        setTimeout(() => {
+          setreportSuccess(true)
+          setViewLoader(false);
+          setSubmitting(false);
+
+        }, 2000);
         const data = await exportDataForContract({ ...values, ...formik.values });
 
-        if (data.code === 200) {
-          setreportSuccess(true);
-        }
+        // if (data.code === 200) {
+        //   setreportSuccess(true);
+        // }
       } catch (error) {
         console.error('Error exporting data:', error);
       } finally {
-        setViewLoader(false);
+        // setViewLoader(false);
 
-        setSubmitting(false);
+        // setSubmitting(false);
       }
     }
   });
