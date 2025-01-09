@@ -11,6 +11,7 @@ import DealerList from "../../../assets/images/icons/dealerList.svg";
 import DealerPO from "../../../assets/images/contract/DealerPO.svg";
 import status from "../../../assets/images/contract/Status.svg";
 import CoverageType from "../../../assets/images/order/CoverageType.svg";
+import AddItem from "../../../assets/images/icons/addItem.svg";
 import Eligibility from "../../../assets/images/contract/Eligible.svg";
 import contractActive from "../../../assets/images/order/ContractsActive.svg";
 import orderActive from "../../../assets/images/order/orderSummaryActive.svg";
@@ -24,12 +25,13 @@ import SingleView from '../../../common/singleView';
 import { getContractValues } from '../../../services/extraServices';
 import Button from '../../../common/button';
 import InActiveButton from '../../../common/inActiveButton';
+import CommonTooltip from '../../../common/toolTip';
 function ContractSingleView() {
     const [loading1, setLoading1] = useState(false);
     const [contractDetails, setContractDetails] = useState({});
     const getInitialActiveTab = () => {
         const storedTab = localStorage.getItem("contractMenu");
-        return storedTab ? storedTab : "Contract Summary";
+        return storedTab ? storedTab : "Summary";
     };
     const { contractId } = useParams();
     const [activeTab, setActiveTab] = useState(getInitialActiveTab);
@@ -44,28 +46,28 @@ function ContractSingleView() {
 
     const tabs = [
         {
-            id: "Contract Summary",
-            label: "Contract Summary",
+            id: "Summary",
+            label: "Summary",
             icons: orderSummary,
             Activeicons: orderActive,
-            content: activeTab === "Contract Summary" && (
+            content: activeTab === "Summary" && (
                 <ContractSummary
                     data={contractDetails}
                 />
             ),
         },
         {
-            id: "Contract Claims",
-            label: "Contract Claims",
+            id: "Claims",
+            label: `Claims (${contractDetails.totalClaim}) `,
             icons: contract,
             Activeicons: contractActive,
-            content: activeTab === "Contract Claims" && (
-                <ContractClaim />
+            content: activeTab === "Claims" && (
+                <ContractClaim data={contractDetails} />
             ),
         },
     ];
     const handleGOBack = () => {
-        localStorage.removeItem("orderMenu");
+        localStorage.removeItem("contractMenu");
         navigate(-1);
     };
 
@@ -148,6 +150,11 @@ function ContractSingleView() {
             </span>
         </Button>
     );
+
+
+    const routeToPage = () => {
+        navigate(`/addClaim`);
+    }
 
     return (
         <>
@@ -269,8 +276,24 @@ function ContractSingleView() {
                                     <p className="text-sm font-Regular mt-2">
                                         Eligibility
                                     </p>
-                                    <p className="text-base font-semibold leading-5 break-words w-[92%]">
-                                        {contractDetails.eligibilty === false ? 'Not Eligibilty' : 'Eligibilty'}
+                                    <p className="text-base font-semibold leading-5 break-words w-1/2">
+                                        {contractDetails?.eligibilty === false ? (
+                                            <>
+                                                <CommonTooltip
+                                                    place="top"
+                                                    id={`tooltip-1`}
+                                                    content={contractDetails?.reason}
+                                                >
+                                                    <p className=" cursor-pointer text-base font-semibold">
+                                                        Not Eligible
+                                                    </p>
+                                                </CommonTooltip>
+                                            </>
+                                        ) : (
+                                            <p className=" text-base font-semibold">
+                                                Eligible
+                                            </p>
+                                        )}
                                     </p>
                                 </div>
                             </div>
@@ -299,56 +322,64 @@ function ContractSingleView() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="flex mb-4">
-                                <div className="relative">
-                                    <img
-                                        src={Name}
-                                        className="mr-3 bg-Onyx rounded-[14px]"
-                                        alt="Name"
-                                    />
-                                    <Link to={`/resellerDetails/${contractDetails.order?.[0]?.resellerId}`}>
-                                        {" "}
+                            {contractDetails?.order?.[0]?.resellerId == null ? (
+                                <></>
+                            ) : (
+                                <div className="flex mb-4">
+                                    <div className="relative">
                                         <img
-                                            src={DealerList}
-                                            className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                                            alt="DealerList"
-                                        />{" "}
-                                    </Link>
+                                            src={Name}
+                                            className="mr-3 bg-Onyx rounded-[14px]"
+                                            alt="Name"
+                                        />
+                                        <Link to={`/resellerDetails/${contractDetails.order?.[0]?.resellerId}`}>
+                                            {" "}
+                                            <img
+                                                src={DealerList}
+                                                className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                                                alt="DealerList"
+                                            />{" "}
+                                        </Link>
+                                    </div>
+                                    <div className="w-[75%]">
+                                        <p className="text-sm font-Regular">
+                                            Reseller Name
+                                        </p>
+                                        <p className="text-base font-semibold ">
+                                            {contractDetails?.order?.[0]?.reseller?.[0]?.name}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="w-[75%]">
-                                    <p className="text-sm font-Regular">
-                                        Reseller Name
-                                    </p>
-                                    <p className="text-base font-semibold ">
-                                        {contractDetails?.order?.[0]?.reseller?.[0]?.name}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex mb-4">
-                                <div className="relative">
-                                    <img
-                                        src={Name}
-                                        className="mr-3 bg-Onyx rounded-[14px]"
-                                        alt="Name"
-                                    />
-                                    <Link to={`/servicerDetails/${contractDetails.order?.[0]?.servicerId}`}>
-                                        {" "}
+                            )}
+                            {contractDetails?.order?.[0]?.servicerId == null ? (
+                                <></>
+                            ) : (
+                                <div className="flex mb-4">
+                                    <div className="relative">
                                         <img
-                                            src={DealerList}
-                                            className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
-                                            alt="DealerList"
-                                        />{" "}
-                                    </Link>
+                                            src={Name}
+                                            className="mr-3 bg-Onyx rounded-[14px]"
+                                            alt="Name"
+                                        />
+                                        <Link to={`/servicerDetails/${contractDetails.order?.[0]?.servicerId}`}>
+                                            {" "}
+                                            <img
+                                                src={DealerList}
+                                                className="mr-3 bg-Onyx cursor-pointer rounded-[14px] absolute top-3 -right-2"
+                                                alt="DealerList"
+                                            />{" "}
+                                        </Link>
+                                    </div>
+                                    <div className="w-[75%]">
+                                        <p className="text-sm font-Regular">
+                                            Servicer Name
+                                        </p>
+                                        <p className="text-base font-semibold ">
+                                            {contractDetails?.order?.[0]?.servicer?.[0]?.name}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="w-[75%]">
-                                    <p className="text-sm font-Regular">
-                                        Servicer Name
-                                    </p>
-                                    <p className="text-base font-semibold ">
-                                        {contractDetails?.order?.[0]?.servicer?.[0]?.name}
-                                    </p>
-                                </div>
-                            </div>
+                            )}
                             <div className="flex mb-4">
                                 <div className="relative">
                                     <img
@@ -390,6 +421,42 @@ function ContractSingleView() {
                                         )}
                                     </Grid>
                                 </div>
+                            </div>
+                            <div className=" col-span-7">
+                                {activeTab === "Claims" &&
+                                    (
+                                        <div
+                                            className="col-span-2 self-center"
+                                            onClick={() => routeToPage(activeTab)}
+                                        >
+                                            <InActiveButton className=" flex self-center h-[60px] rounded-xl ml-auto border-[1px] border-Light-Grey">
+
+                                                <div
+                                                    style={{
+                                                        maskImage: `url(${AddItem})`,
+                                                        WebkitMaskImage: `url(${AddItem})`,
+                                                        maskRepeat: "no-repeat",
+                                                        WebkitMaskRepeat: "no-repeat",
+                                                        maskPosition: "center",
+                                                        WebkitMaskPosition: "center",
+                                                        maskSize: "contain",
+                                                        WebkitMaskSize: "contain",
+                                                    }}
+                                                    className="self-center pr-1 py-1 h-4 w-4"
+                                                />
+                                                <span
+                                                    style={{
+                                                        borderLeftWidth: "1px",
+                                                        paddingLeft: "7px",
+                                                    }}
+                                                    className=" ml-1 text-[13px] self-center font-Regular !font-[700]"
+                                                >
+                                                    {activeTab === "Servicer" ? "Assign " : "Add "}{" "}
+                                                    {activeTab}
+                                                </span>
+                                            </InActiveButton>
+                                        </div>
+                                    )}
                             </div>
                         </Grid>
 

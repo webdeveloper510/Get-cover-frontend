@@ -503,13 +503,18 @@ function ContractList(props) {
                                       />{" "}
                                     </Link>
                                     {userData.role === 'Super Admin' && (
-                                      <Link to={`/editContract/${res._id}`}>
+                                      // <div onClick={() => localStorage.removeItem("contractMenu")}>
+                                      <Link to={`/editContract/${res._id}`}
+                                        onClick={() => {
+                                          localStorage.removeItem("contractMenu");
+                                        }} >
                                         <img
                                           src={Edit}
                                           className="ml-auto mr-2"
                                           alt="edit"
                                         />
                                       </Link>
+                                      // </div>
                                     )}
 
                                   </div>

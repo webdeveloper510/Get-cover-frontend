@@ -21,7 +21,14 @@ function ContractSummary(props) {
     <Card className="mt-6 border-[1px] border-Light-Grey rounded-xl">
 
       <div className=" my-5 ">
-        <Grid className="!gap-0 !grid-cols-5 ">
+        <Grid className="!px-[16px] !pt-0 !pb-0">
+          <div className="col-span-5 self-center">
+            <p className="text-xl font-semibold">Orders Details</p>
+          </div>
+          <div className="col-span-7"></div>
+        </Grid>
+
+        <Grid className="!gap-0 !grid-cols-5 pt-5">
           <div className="col-span-1 border border-Light-Grey">
             <div className="py-4 px-3">
               <p className=" text-sm font-Regular">
@@ -149,22 +156,6 @@ function ContractSummary(props) {
               </p>
             </div>
           </div>
-          {props.type == "customer" ? <></> :
-            <div className="col-span-1 border border-Light-Grey">
-              <div className="py-4 px-3">
-                <p className=" text-sm font-Regular">
-                  Claim Amount
-                </p>
-                <p className=" text-base font-semibold">
-                  $
-                  {props.data.claimAmount === undefined
-                    ? parseInt(0).toLocaleString(2)
-                    : formatOrderValue(
-                      props.data.claimAmount ?? parseInt(0)
-                    )}
-                </p>
-              </div>
-            </div>}
           {props.data?.order?.[0]?.productsArray?.[0]
             ?.priceType == "Flat Pricing" ? (
             <>
