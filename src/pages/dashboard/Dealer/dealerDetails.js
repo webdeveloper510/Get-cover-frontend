@@ -263,7 +263,7 @@ function DealerDetails() {
   };
 
   const modalOpen1 = () => {
-    // getServicerList();
+     getServicerList();
     setActiveTab("Servicer");
     setIsModalOpen1(true);
   };

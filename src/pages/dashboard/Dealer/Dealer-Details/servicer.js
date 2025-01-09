@@ -31,7 +31,6 @@ import InActiveButton from "../../../../common/inActiveButton";
 import SingleView from "../../../../common/singleView";
 
 function ServicerList(props) {
-  console.log(props);
   const [selectedAction, setSelectedAction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
