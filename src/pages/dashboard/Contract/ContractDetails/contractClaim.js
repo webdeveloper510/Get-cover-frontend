@@ -1393,17 +1393,7 @@ function ContractClaim(props) {
                                     <Grid className="!gap-1">
                                         <div className="col-span-8 self-center">
                                             <Grid className="!gap-2">
-                                                <div className="col-span-4 self-center">
-                                                    <Input
-                                                        name="contractId"
-                                                        type="text"
-                                                        className="!text-[14px] !bg-White-Smoke"
-                                                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
-                                                        label=""
-                                                        placeholder="Contract ID"
-                                                        {...formik1.getFieldProps("contractId")}
-                                                    />
-                                                </div>
+
                                                 <div className="col-span-4 self-center">
                                                     <Input
                                                         name="claimId"
@@ -1425,6 +1415,18 @@ function ContractClaim(props) {
                                                         className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
                                                         onChange={handleSelectChange2}
                                                         value={formik1.values.claimStatus}
+                                                    />
+                                                </div>
+                                                <div className="col-span-4 self-center">
+                                                    <Select
+                                                        options={customerValue?.value}
+                                                        name="customerStatusValue"
+                                                        OptionName="Customer Status"
+                                                        label=""
+                                                        className="!text-[14px] !bg-White-Smoke"
+                                                        className1="!text-[13px] !pt-1 placeholder-opacity-50 !pb-1 placeholder-Black-Russian !bg-[white]"
+                                                        onChange={handleSelectChange2}
+                                                        value={formik1.values.customerStatusValue}
                                                     />
                                                 </div>
                                             </Grid>
@@ -3104,16 +3106,7 @@ function ContractClaim(props) {
                     <form onSubmit={formik1.handleSubmit}>
                         <div className="overflow-y-auto max-h-[470px] min-h-[470px] pb-4">
                             <Grid className="mt-5 px-6">
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="contractId"
-                                        className="!bg-white"
-                                        label="Contract ID"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("contractId")}
-                                    />
-                                </div>
+
                                 <div className="col-span-6">
                                     <Input
                                         name="claimId"
@@ -3124,116 +3117,6 @@ function ContractClaim(props) {
                                         {...formik1.getFieldProps("claimId")}
                                     />
                                 </div>
-
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="orderId"
-                                        className="!bg-white"
-                                        label="Order ID"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("orderId")}
-                                    />
-                                </div>
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="venderOrder"
-                                        className="!bg-white"
-                                        label="Dealer P.O. #."
-                                        placeholder=""
-                                        {...formik1.getFieldProps("venderOrder")}
-                                    />
-                                </div>
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="serial"
-                                        className="!bg-white"
-                                        label="Serial # / Device ID"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("serial")}
-                                    />
-                                </div>
-                                {
-                                    role == "Super Admin" && (
-                                        <div className="col-span-6">
-                                            <Input
-                                                type="text"
-                                                name="productName"
-                                                className="!bg-white"
-                                                label="Product SKU"
-                                                placeholder=""
-                                                {...formik1.getFieldProps("productName")}
-                                            />
-                                        </div>
-                                    )
-                                }
-
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="dealerSku"
-                                        className="!bg-white"
-                                        label="Dealer SKU"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("dealerSku")}
-                                    />
-                                </div>
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="pName"
-                                        className="!bg-white"
-                                        label="Product Name"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("pName")}
-                                    />
-                                </div>
-                                {/* {props?.flag === "" || props === '' && ( */}
-                                {role == "Super Admin" && !location.pathname.includes('/resellerDetails') && !location.pathname.includes('/customerDetails') && (
-                                    <>
-
-
-                                        <div className="col-span-6">
-                                            <Input
-                                                type="text"
-                                                name="resellerName"
-                                                className="!bg-white"
-                                                label="Reseller Name"
-                                                placeholder=""
-                                                {...formik1.getFieldProps("resellerName")}
-                                            />
-                                        </div>
-                                    </>
-                                )}
-
-                                {window.location.pathname.includes("/customer/claimList") ||
-                                    props?.flag == "customer" ? (
-                                    ""
-                                ) : (
-                                    <div className="col-span-6">
-                                        <Input
-                                            type="text"
-                                            name="customerName"
-                                            className="!bg-white"
-                                            label="Customer Name"
-                                            placeholder=""
-                                            {...formik1.getFieldProps("customerName")}
-                                        />
-                                    </div>
-                                )}
-                                <div className="col-span-6">
-                                    <Input
-                                        type="text"
-                                        name="dealerName"
-                                        className="!bg-white"
-                                        label="Dealer Name"
-                                        placeholder=""
-                                        {...formik1.getFieldProps("dealerName")}
-                                    />
-                                </div>
-
                                 <div className="col-span-6">
                                     <Select
                                         name="claimStatus"
