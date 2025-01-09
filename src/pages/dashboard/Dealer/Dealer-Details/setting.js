@@ -1665,7 +1665,7 @@ function Setting(props) {
                   </div>
                 </Grid>
                 <div className="text-right">
-                  {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold" type="button">Set As Default Color</Button>}
+                  {/* {defaults && <Button onClick={() => setIsSetDefalt(true)} className="mt-3 mr-3 text-sm !font-semibold" type="button">Set As Default Color</Button>} */}
 
                   <InActiveButton onClick={() => handleReset(props.dealerDetails._id)} className="mt-3 mr-3 text-sm !font-semibold  !border-[1px]" type="button">Reset</InActiveButton>
                   <Button className="mt-3" type="submit">Submit</Button>

@@ -223,11 +223,11 @@ function CustomerContractList(props) {
     onSubmit: async (values, { setSubmitting }) => {
       console.log(values, formik.values);
       try {
-        setViewLoader(true);
+        // setViewLoader(true);
         // Combine values from both forms
         setTimeout(() => {
           setreportSuccess(true)
-          setViewLoader(false);
+          // setViewLoader(false);
           setSubmitting(false);
 
         }, 2000);
