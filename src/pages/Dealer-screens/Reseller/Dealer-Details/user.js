@@ -521,56 +521,6 @@ function UserList(props) {
     </Card>
   );
 
-  const openNotification = async (id) => {
-    const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
-    const data = await getUserNotificationData(id, capitalizedFlag);
-    const notifications = data.result.notifications;
-    const filteredNotifications = Notifications.filter(notification => {
-      const apiFieldName = notification.apiFieldName;
-      return data.result.notifications[apiFieldName] != undefined;
-    });
-    setNotificationList(filteredNotifications)
-
-    // Map settings for toggles
-    const mappedSettings = {};
-    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
-      if (typeof categoryValue === "object" && categoryValue != null) {
-        console.log(categoryValue)
-        Object.entries(categoryValue).forEach(([key, value]) => {
-          if (typeof value === "boolean") {
-            mappedSettings[key] = value;
-          }
-        });
-      }
-    });
-
-    // Update notificationList to reflect the new settings
-
-    const unifiedNotifications = Notifications.map(notification => {
-      const apiSection = notifications[notification.apiFieldName];
-      return {
-        index: notification.index,
-        title: notification.title,
-        apiFieldName: notification.apiFieldName,
-        sections: notification.sections.map(section => ({
-          label: section.label,
-          action: section.action,
-          status: apiSection ? apiSection[section.action] : null
-        }))
-      };
-    });
-    setNotificationSettings(unifiedNotifications);
-    setNotification(data.result);
-    setIsNotificationOpen(true);
-  };
-
-
-
-
-  const closeNotification = () => {
-    setIsNotificationOpen(false);
-  }
-
   const checkAllStatusTrue = (notificationSettings, index) => {
     console.log(notificationSettings)
     const section = notificationSettings.find((n) => n.index === index);
@@ -658,6 +608,58 @@ function UserList(props) {
   };
 
 
+  const openNotification = async (id) => {
+    const capitalizedFlag = props.flag.charAt(0).toUpperCase() + props.flag.slice(1);
+    const data = await getUserNotificationData(id, capitalizedFlag);
+    const notifications = data.result.notifications;
+    const filteredNotifications = Notifications.filter(notification => {
+      const apiFieldName = notification.apiFieldName;
+      return data.result.notifications[apiFieldName] != undefined;
+    });
+    setNotificationList(filteredNotifications)
+    console.log(filteredNotifications);
+
+    // Map settings for toggles
+    const mappedSettings = {};
+    Object.entries(notifications).forEach(([categoryKey, categoryValue]) => {
+      if (typeof categoryValue === "object" && categoryValue != null) {
+        console.log(categoryValue)
+        Object.entries(categoryValue).forEach(([key, value]) => {
+          if (typeof value === "boolean") {
+            mappedSettings[key] = value;
+          }
+        });
+      }
+    });
+
+    // Update notificationList to reflect the new settings
+
+    const unifiedNotifications = Notifications.map(notification => {
+      const apiSection = notifications[notification.apiFieldName];
+
+
+      return {
+        index: notification.index,
+        title: notification.title,
+        apiFieldName: notification.apiFieldName,
+        sections: notification.sections.map(section => {
+          if (apiSection && apiSection[section.action] != undefined) {
+            return {
+              label: section.label,
+              action: section.action,
+              status: apiSection[section.action]
+            };
+          }
+          return null;
+        }).filter(item => item !== null)
+      };
+    });
+
+    setNotificationSettings(unifiedNotifications);
+    setNotification(data.result);
+    setIsNotificationOpen(true);
+  };
+
 
   const toggleNotification = (prevNotifications, actionKey) => {
     const updatedNotifications = { ...prevNotifications };
@@ -674,6 +676,10 @@ function UserList(props) {
     })
     return updatedNotifications;
   };
+
+  const closeNotification = () => {
+    setIsNotificationOpen(false);
+  }
   return (
     <>
       <div className="my-8">

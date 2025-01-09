@@ -541,9 +541,9 @@ function Setting(props) {
         SetIsModalOpen(true);
         setTimer(3);
         fetchColorDetails12();
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 3000);
+        setTimeout(() => {
+          window.location.reload()
+        }, 3000);
         setLoading(false);
       } catch (error) {
         console.error(error);
