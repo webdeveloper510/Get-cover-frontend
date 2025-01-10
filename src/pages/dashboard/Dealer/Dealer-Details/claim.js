@@ -198,7 +198,7 @@ function ClaimList(props) {
 
     return `${year}-${month}-${day}`;
   };
-  useEffect (()=>{
+  useEffect(() => {
     const { startDate, endDate } = selectedRange;
     const startDateStr = formatDateToYYYYDDMM(startDate)
     const endDateStr = formatDateToYYYYDDMM(endDate)
@@ -208,7 +208,7 @@ function ClaimList(props) {
     formik1.setFieldValue('startDate', startDateStr)
     formik1.setFieldValue('endDate', endDateStr)
     console.log(formik1.values)
-  },[selectedRange])
+  }, [selectedRange])
   const handleApply = () => {
 
     isFormSubmittedRef.current = true;
@@ -1198,30 +1198,42 @@ function ClaimList(props) {
   ];
 
   const validationSchema = Yup.object().shape({});
+  const oneYearAgo = new Date();
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1); // Move back 1 year
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
+  console.log(oneYearAgo, 'days-----')
 
+  const today = new Date();
+  const capitalizedFlag = props.flag
+    ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
+    : '';
+  const [initialValues21, setInitialValues21] = useState({
+    contractId: "",
+    claimId: "",
+    venderOrder: "",
+    serial: "",
+    productName: "",
+    pName: "",
+    dealerName: "",
+    resellerName: "",
+    customerName: "",
+    dealerSku: "",
+    servicerName: "",
+    repairStatus: "",
+    customerStatusValue: "",
+    claimStatus: "",
+    orderId: "",
+    trackingNumber: "",
+    dateFilter: "openDate",
+    startDate: '',
+    endDate: '',
+    trackingType: "",
+    claimPaidStatus: "",
+    userId: props.id,
+    flag: capitalizedFlag
+  })
   const formik1 = useFormik({
-    initialValues: {
-      contractId: "",
-      claimId: "",
-      venderOrder: "",
-      serial: "",
-      productName: "",
-      pName: "",
-      dealerName: "",
-      customerName: "",
-      dealerSku: "",
-      servicerName: "",
-      repairStatus: "",
-      customerStatusValue: "",
-      claimStatus: "",
-      orderId: "",
-      trackingNumber: "",
-      trackingType: "",
-      claimPaidStatus: "",
-      noOfDays: "",
-      startDate: "",
-      endDate: "",
-    },
+    initialValues: initialValues21,
     validationSchema,
     onSubmit: (values) => {
       isFormSubmittedRef.current = true;
@@ -1237,9 +1249,9 @@ function ClaimList(props) {
     },
   });
 
-  const today = new Date();
-const startDate = formatDateToYYYYDDMM(new Date(today.setDate(today.getDate() - 14)));
-const endDate = formatDateToYYYYDDMM(new Date());
+  // const today = new Date();
+  const startDate = formatDateToYYYYDDMM(new Date(today.setDate(today.getDate() - 14)));
+  const endDate = formatDateToYYYYDDMM(new Date());
 
 
   const getAllClaims = async (page = 1, rowsPerPage, loader) => {
@@ -1251,10 +1263,7 @@ const endDate = formatDateToYYYYDDMM(new Date());
     let data = {
       page,
       pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-      ...(isFormSubmittedRef.current ? formik1.values : {
-        startDate:startDate,
-        endDate: endDate,
-      }),
+      ...(isFormSubmittedRef.current ? formik1.values : initialValues21),
     };
     let getClaimListPromise;
 
@@ -3440,7 +3449,7 @@ const endDate = formatDateToYYYYDDMM(new Date());
         <SelectedDateRangeComponent
           selectedRange={selectedRange}
           onRangeChange={handleRangeChange}
-          onApply={()=>{handleApply()}}
+          onApply={() => { handleApply() }}
         />
         <div className="flex justify-end mb-4">
           <InActiveButton onClick={closeModal} className="mr-3">

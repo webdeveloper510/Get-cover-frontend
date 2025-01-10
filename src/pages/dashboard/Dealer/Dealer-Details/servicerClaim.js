@@ -1186,32 +1186,33 @@ function ServicerClaim(props) {
     const capitalizedFlag = props.flag
         ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
         : '';
+    const [initialValues21, setInitialValues21] = useState({
+        contractId: "",
+        claimId: "",
+        venderOrder: "",
+        serial: "",
+        productName: "",
+        pName: "",
+        dealerName: "",
+        resellerName: "",
+        customerName: "",
+        dealerSku: "",
+        servicerName: "",
+        repairStatus: "",
+        customerStatusValue: "",
+        claimStatus: "",
+        orderId: "",
+        trackingNumber: "",
+        dateFilter: "openDate",
+        startDate: oneYearAgo.toISOString().split("T")[0],
+        endDate: today.toISOString().split("T")[0],
+        trackingType: "",
+        claimPaidStatus: "",
+        userId: props.id,
+        flag: capitalizedFlag
+    })
     const formik1 = useFormik({
-        initialValues: {
-            contractId: "",
-            claimId: "",
-            venderOrder: "",
-            serial: "",
-            productName: "",
-            pName: "",
-            dealerName: "",
-            resellerName: "",
-            customerName: "",
-            dealerSku: "",
-            servicerName: "",
-            repairStatus: "",
-            customerStatusValue: "",
-            claimStatus: "",
-            orderId: "",
-            trackingNumber: "",
-            dateFilter: "openDate",
-            startDate: oneYearAgo.toISOString().split("T")[0],
-            endDate: today.toISOString().split("T")[0],
-            trackingType: "",
-            claimPaidStatus: "",
-            userId: props.id,
-            flag: capitalizedFlag
-        },
+        initialValues: initialValues21,
         validationSchema,
 
         onSubmit: (values) => {
@@ -1237,11 +1238,7 @@ function ServicerClaim(props) {
         let data = {
             page,
             pageLimit: rowsPerPage == undefined ? recordsPerPage : rowsPerPage,
-            ...(isFormSubmittedRef.current ? formik1.values : {
-                dateFilter: "openDate",
-                startDate: oneYearAgo.toISOString().split("T")[0],
-                endDate: today.toISOString().split("T")[0],
-            }),
+            ...(isFormSubmittedRef.current ? formik1.values : initialValues21),
         };
         let getClaimListPromise;
         if (id == undefined) {
