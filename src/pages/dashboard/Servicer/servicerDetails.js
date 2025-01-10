@@ -596,7 +596,7 @@ function ServicerDetails() {
           borderLeftWidth: "1px",
           paddingLeft: "7px",
         }}
-        className="ml-1 py-1 text-[13px] font-Regular"
+        className="ml-1 py-1 text-[12px] font-Regular"
       >
         {tab.label}
       </span>
@@ -630,7 +630,7 @@ function ServicerDetails() {
           paddingLeft: "7px",
           color: buttonTextColor,
         }}
-        className="ml-1 py-1 text-[13px] font-Regular"
+        className="ml-1 py-1 text-[12px] font-Regular"
       >
         {tab.label}
       </span>
@@ -844,7 +844,7 @@ function ServicerDetails() {
           </div>
           <div className="col-span-3 max-h-[85vh] pr-3 overflow-y-scroll">
             <Grid className="">
-              <div className="col-span-11">
+              <div className="col-span-10">
                 <div className="rounded-[30px] p-3 border-[1px] border-Light-Grey">
                   <Grid className="!grid-cols-6 !gap-1">
                     {tabs.map((tab) =>
@@ -857,7 +857,7 @@ function ServicerDetails() {
                   </Grid>
                 </div>
               </div>
-              <div className="col-span-1">
+              <div className="col-span-2">
                 {activeTab !== "Unpaid Claims" &&
                   activeTab !== "Paid Claims" &&
                   activeTab !== "Settings" &&

@@ -263,7 +263,7 @@ function DealerDetails() {
   };
 
   const modalOpen1 = () => {
-     getServicerList();
+    getServicerList();
     setActiveTab("Servicer");
     setIsModalOpen1(true);
   };
@@ -542,7 +542,7 @@ function DealerDetails() {
         activeTab === "Users" ||
         activeTab === "PriceBook" ||
         activeTab === "Settings" ||
-        activeTab === "Servicer Claims" ||
+        // activeTab === "Servicer Claims" ||
         activeTab === "Paid Claims" ||
         activeTab === "Unpaid Claims"
       ) {
@@ -556,7 +556,7 @@ function DealerDetails() {
         activeTab === "Users" ||
         activeTab === "PriceBook" ||
         activeTab === "Settings" ||
-        activeTab === "Servicer Claims" ||
+        // activeTab === "Servicer Claims" ||
         activeTab === "Paid Claims" ||
         activeTab === "Unpaid Claims"
       ) {
@@ -718,15 +718,15 @@ function DealerDetails() {
 
   if (createServicerAccountOption === true) {
     tabs.push(
-      {
-        id: "Servicer Claims",
-        label: "Servicer Claims",
-        icons: Unpaid,
-        Activeicons: UnpaidActive,
-        content: activeTab === "Servicer Claims" && (
-          <ServicerClaim id={id.id} flag="dealer" activeTab={activeTab} />
-        ),
-      },
+      // {
+      //   id: "Servicer Claims",
+      //   label: "Servicer Claims",
+      //   icons: Unpaid,
+      //   Activeicons: UnpaidActive,
+      //   content: activeTab === "Servicer Claims" && (
+      //     <ServicerClaim id={id.id} flag="dealer" activeTab={activeTab} />
+      //   ),
+      // },
       {
         id: "Unpaid Claims",
         label: "Unpaid Claims",
@@ -1140,7 +1140,7 @@ function DealerDetails() {
                   {activeTab !== "Contracts" &&
                     activeTab !== "Unpaid Claims" &&
                     activeTab !== "Settings" &&
-                    activeTab !== "Servicer Claims" &&
+                    // activeTab !== "Servicer Claims" &&
                     activeTab !== "Paid Claims" ? (
                     <div
                       className="col-span-2 self-center"
@@ -1364,10 +1364,10 @@ function DealerDetails() {
       <Modal isOpen={isModalOpen1} onClose={closeModal1}>
         <form onSubmit={servicerForm.handleSubmit}>
           <div className="text-center py-3">
-            {/* <p className="text-3xl mb-0 mt-2 font-bold text-center">
+            <p className="text-3xl mb-0 mt-2 font-bold text-center">
               Assign Servicer
-            </p> */}
-            <Grid>
+            </p>
+            {/* <Grid>
               <div className="col-span-8">
                 <p className="text-3xl mb-0 mt-2 font-bold text-center">
                   Assign Servicer
@@ -1382,7 +1382,7 @@ function DealerDetails() {
                   onChange={handleSearchChange}
                 />
               </div>
-            </Grid>
+            </Grid> */}
             <div className="my-4 h-[350px] max-h-[350px] overflow-y-scroll">
               <DataTable
                 columns={columns}
