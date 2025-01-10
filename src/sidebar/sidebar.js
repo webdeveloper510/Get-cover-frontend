@@ -19,6 +19,7 @@ import DropdownArrowImage from "../assets/images/side-bar/downarrow.svg";
 import Dropdown1 from "../assets/images/side-bar/dropdownsecond.svg";
 import Dropdown2 from "../assets/images/side-bar/dropdown-2.svg";
 import manageAccount from "../assets/images/side-bar/activeAccount.svg";
+import mailLogs from "../assets/images/icons/emailLogs.svg";
 import ActiveAccount from "../assets/images/side-bar/manageAccount.svg";
 
 // Active Images icons
@@ -565,6 +566,12 @@ const Lists = [
         active: lastActive,
       },
     ],
+  },
+  {
+    name: "Mail Logs",
+    url: "/mailLogs",
+    image: mailLogs,
+    active: mailLogs,
   },
   {
     name: "Manage Account",

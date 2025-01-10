@@ -169,10 +169,10 @@ function ContractList(props) {
   console.log(oneYearAgo, 'days-----')
 
   const today = new Date();
-  const validationSchema = Yup.object().shape({});
   const capitalizedFlag = props.flag
     ? props.flag.charAt(0).toUpperCase() + props.flag.slice(1)
     : '';
+  const validationSchema = Yup.object().shape({});
   const initialValues = {
     orderId: "",
     venderOrder: "",

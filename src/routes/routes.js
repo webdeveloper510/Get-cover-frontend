@@ -98,6 +98,7 @@ import ResellerReportDownload from "../pages/Reseller-screens/Reporting/reportDo
 import ServicerReportDownload from "../pages/Servicer-screens/Reporting/reportDownload";
 import CustomerReportDownload from "../pages/Customer-screens/Claim/reportDownload";
 import ContractSingleView from "../pages/dashboard/Contract/contractSingleView";
+import MailLogs from "../pages/dashboard/mailLogs/mailLogs";
 
 const routes = [
   {
@@ -520,6 +521,16 @@ const routes = [
           />
         ),
       },
+      {
+        path: "/mailLogs",
+        element: (
+          <PrivateRoute
+            element={<MailLogs />}
+            role={"Super Admin"}
+          />
+        ),
+      },
+
       {
         path: "/manageAccount",
         element: (
