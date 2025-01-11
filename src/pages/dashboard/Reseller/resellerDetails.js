@@ -105,14 +105,15 @@ function ResellerDetails() {
   const [flagValue, setFlagValue] = useState(false);
   const navigate = useNavigate();
   const { servicerId } = useParams();
-  const [createAccountOption, setCreateAccountOption] = useState("no");
+  const [createAccountOption, setCreateAccountOption] = useState();
+  console.log(createAccountOption, '--------------there check')
   const [initialUserFormValues, setInitialUserFormValues] = useState({
     firstName: "",
     lastName: "",
     email: "",
     phoneNumber: "",
     position: "",
-    status: createAccountOption === "yes" ? true : false,
+    status: createAccountOption,
     resellerId: id.resellerId,
     isPrimary: false,
   });
@@ -188,6 +189,7 @@ function ResellerDetails() {
   }, [modalOpen, timer]);
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
+    console.log(selectedValue, 'there also ------------')
     userValues.setFieldValue("status", selectedValue === "yes" ? true : false);
     setCreateAccountOption(selectedValue);
   };
@@ -285,7 +287,7 @@ function ResellerDetails() {
         result?.reseller[0]?.resellerData?.isServicer
       );
       setCreateAccount(result?.reseller[0]?.resellerData?.isAccountCreate);
-      setCreateAccountOption(result?.reseller[0]?.resellerData?.isAccountCreate == false ? 'no' : 'yes')
+      setCreateAccountOption(result?.reseller[0]?.resellerData?.isAccountCreate === false ? 'no' : 'yes')
       setInitialFormValues({
         accountName: result?.reseller[0]?.resellerData?.name,
         oldName: result?.reseller[0]?.resellerData?.name,
@@ -434,11 +436,14 @@ function ResellerDetails() {
     }),
 
     onSubmit: async (values, { setFieldError }) => {
+      console.log(values, 'check therr-------------');
       localStorage.setItem("menu", "Users");
       setUserLoader(true);
-      console.log(values);
+      values.status = createAccountOption;
       if (values.status === "yes") {
         values.status = true;
+      } else if (values.status === "no") {
+        values.status = false;
       }
       setLoading(true);
       const result = await addUserByResellerId(values);
