@@ -1401,7 +1401,7 @@ function DealerAddOrder() {
     console.log(name, value, "onchange------------------->>");
     if (name == "resellerId") {
       if (value == "") {
-      customerIdFromCustomer = "";
+        customerIdFromCustomer = "";
         formik.setFieldValue("billTo", "Dealer");
       }
       getCustomerList({
@@ -2313,14 +2313,14 @@ function DealerAddOrder() {
                             onWheelCapture={(e) => {
                               e.preventDefault();
                             }}
-                            error={
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray &&
-                              formikStep3.values.productsArray[index] &&
-                              formikStep3.values.productsArray[index]
-                                .noOfProducts
-                            }
+                          // error={
+                          //   formikStep3.values.productsArray &&
+                          //   formikStep3.values.productsArray[index] &&
+                          //   formikStep3.values.productsArray &&
+                          //   formikStep3.values.productsArray[index] &&
+                          //   formikStep3.values.productsArray[index]
+                          //     .noOfProducts
+                          // }
                           />
                           {formikStep3.touched.productsArray &&
                             formikStep3.touched.productsArray[index] &&
@@ -2770,11 +2770,11 @@ function DealerAddOrder() {
                                   alt="Dropbox"
                                 />
                                 <div className="flex justify-between w-full">
-                                  <p className="self-center text-sm pr-3">
+                                  <p className="self-center text-sm pr-3 text-black">
                                     {" "}
                                     {fileValues[index].name}
                                   </p>
-                                  <p className="self-center text-sm">
+                                  <p className="self-center text-sm text-black">
                                     {(fileValues[index].size / 1000).toFixed(2)}{" "}
                                     kb
                                   </p>
@@ -2787,7 +2787,7 @@ function DealerAddOrder() {
                                   className="mx-auto mb-3"
                                   alt="Dropbox"
                                 />
-                                <p className="">
+                                <p className="mx-4">
                                   Accepted file types: csv, xlsx, xls Max. file
                                   size: 50 MB.
                                 </p>
@@ -3387,6 +3387,38 @@ function DealerAddOrder() {
                       </div>
                       <div className="col-span-4 pt-3 px-2">
                         <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
+                          <div className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
+                            {/* <div
+                              style={{
+                                maskImage: `url(${csvFile})`,
+                                WebkitMaskImage: `url(${csvFile})`,
+                                maskRepeat: "no-repeat",
+                                WebkitMaskRepeat: "no-repeat",
+                                maskPosition: "center",
+                                WebkitMaskPosition: "center",
+                                maskSize: "contain",
+                                WebkitMaskSize: "contain",
+                              }}
+                              className="self-center h-4 w-4 cardImage cursor-pointer mr-2"
+                            /> */}
+                            <img src={csvFile} className="mr-2" alt="Dropbox" />
+                            <div className="flex justify-between w-full">
+                              <p className="self-center text-black">
+                                {data?.file === "" || data?.file?.name === ""
+                                  ? "No File Selected"
+                                  : data?.file?.name}
+                              </p>
+
+                              <p className="self-center">
+                                {data?.file === "" || data?.file?.name === ""
+                                  ? ""
+                                  : (data?.file?.size / 1000)?.toFixed(2) +
+                                  "kb"}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        {/* <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
                           <InActiveButton className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
                             <div
                               style={{
@@ -3402,22 +3434,22 @@ function DealerAddOrder() {
                               className="self-center mr-2 h-4 w-4 cursor-pointer"
                             />
                             {/* <img src={csvFile} className="mr-2" alt="Dropbox" /> */}
-                            <div className="flex justify-between w-full">
-                              <p className="self-center text-black">
-                                {data?.file === "" || data?.file?.name === ""
-                                  ? "No File Selected"
-                                  : data?.file?.name}
-                              </p>
+                        {/* <div className="flex justify-between w-full">
+                          <p className="self-center text-black">
+                            {data?.file === "" || data?.file?.name === ""
+                              ? "No File Selected"
+                              : data?.file?.name}
+                          </p>
 
-                              <p className="self-center">
-                                {data?.file === "" || data?.file?.name === ""
-                                  ? ""
-                                  : (data?.file?.size / 1000)?.toFixed(2) +
-                                  "kb"}
-                              </p>
-                            </div>
-                          </InActiveButton>
+                          <p className="self-center">
+                            {data?.file === "" || data?.file?.name === ""
+                              ? ""
+                              : (data?.file?.size / 1000)?.toFixed(2) +
+                              "kb"}
+                          </p>
                         </div>
+                      </InActiveButton> */}
+                        {/* </div> */}
                         <div className="col-span-12 my-4 border-t py-3">
                           <div className=" w-full">
                             <p className="text-base mb-1 font-semibold">
@@ -3477,7 +3509,7 @@ function DealerAddOrder() {
                               : "No"}
                           </p>
                         </div>
-                      </div>
+                      </div >
 
                       <div className="col-span-12">
                         <p className="text-base font-bold mb-4 pl-3">
@@ -3560,7 +3592,7 @@ function DealerAddOrder() {
                 <div className="col-span-12"></div>
               </Grid>
               {error && <p className="text-red-500">{error}</p>}
-            </Card>
+            </Card >
 
             <InActiveButton
               className="mr-2"
@@ -3569,8 +3601,9 @@ function DealerAddOrder() {
               Previous
             </InActiveButton>
             <Button type="submit">Submit</Button>
-          </form>
-        )}
+          </form >
+        )
+        }
         {/* )} */}
       </>
     );

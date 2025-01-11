@@ -2168,13 +2168,13 @@ function ResellerAddOrder() {
                           onWheelCapture={(e) => {
                             e.preventDefault();
                           }}
-                          error={
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray &&
-                            formikStep3.values.productsArray[index] &&
-                            formikStep3.values.productsArray[index].noOfProducts
-                          }
+                        // error={
+                        //   formikStep3.values.productsArray &&
+                        //   formikStep3.values.productsArray[index] &&
+                        //   formikStep3.values.productsArray &&
+                        //   formikStep3.values.productsArray[index] &&
+                        //   formikStep3.values.productsArray[index].noOfProducts
+                        // }
                         />
                         {formikStep3.touched.productsArray &&
                           formikStep3.touched.productsArray[index] &&
@@ -3261,8 +3261,8 @@ function ResellerAddOrder() {
                       </div>
                       <div className="col-span-4 pt-3 px-2">
                         <div className="border border-dashed w-full h-[30%] relative mb-4 flex ">
-                          <InActiveButton className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
-                            <div
+                          <div className="self-center flex text-center mx-4 relative border w-full rounded-md p-3">
+                            {/* <div
                               style={{
                                 maskImage: `url(${csvFile})`,
                                 WebkitMaskImage: `url(${csvFile})`,
@@ -3273,9 +3273,9 @@ function ResellerAddOrder() {
                                 maskSize: "contain",
                                 WebkitMaskSize: "contain",
                               }}
-                              className="self-center mr-2 h-4 w-4 cursor-pointer"
-                            />
-                            {/* <img src={csvFile} className="mr-2" alt="Dropbox" /> */}
+                              className="self-center h-4 w-4 cardImage cursor-pointer mr-2"
+                            /> */}
+                            <img src={csvFile} className="mr-2" alt="Dropbox" />
                             <div className="flex justify-between w-full">
                               <p className="self-center text-black">
                                 {data?.file === "" || data?.file?.name === ""
@@ -3290,7 +3290,7 @@ function ResellerAddOrder() {
                                   "kb"}
                               </p>
                             </div>
-                          </InActiveButton>
+                          </div>
                         </div>
                         <div className="col-span-12 my-4 border-t py-3">
                           <div className=" w-full">
