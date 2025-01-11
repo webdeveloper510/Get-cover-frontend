@@ -47,18 +47,31 @@ function Notification() {
   };
 
   const handleUpdateNotification = async (data) => {
-    const path = data.endPoint.replace("https://demo.codewarranty.com", "");
-    console.log(data.id, data.type, data.endPoint)
+ 
+    const baseUrls = [
+      "https://demo.codewarranty.com",
+      "http://54.176.118.28",
+      "https://demo.getcover.com",
+      "https://app.getcover.com",
+    ];
+    
+    let path = data.endPoint;
+    for (const baseUrl of baseUrls) {
+      if (path.startsWith(baseUrl)) {
+        path = path.replace(baseUrl, "");
+        break;
+      }
+    }
+    
+  // const path = data.endPoint.replace("https://demo.codewarranty.com", "");
+    console.log(data, data.endPoint,path)
     try {
-      const res = await updateNotifications(data.id);
+      const res = await updateNotifications(data._id);
       if (res) {
         switch (data.type) {
           case "Super Admin":
             navigate("/manageAccount");
             break;
-          // case "reseller":
-          //   navigate("/resellerList");
-          //   break;
           default:
             // return false
             if (data.tabAction != "") {
