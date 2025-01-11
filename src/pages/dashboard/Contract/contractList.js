@@ -272,7 +272,7 @@ function ContractList(props) {
           setSubmitting(false);
 
         }, 2000);
-        const data = await exportDataForContract({ ...values, ...formik.values });
+        const data = await exportDataForContract({ ...values, ...formik.values,userId:props.orderId,flag:'Order' });
 
         // if (data.code === 200) {
         //   setreportSuccess(true);
