@@ -74,6 +74,7 @@ import ActivePaid from "../../../assets/images/icons/ActivePaid.svg";
 import { getUserDetailsFromLocalStorage } from "../../../services/extraServices";
 import SingleView from "../../../common/singleView";
 import InActiveButton from "../../../common/inActiveButton";
+import ServicerClaim from "../Dealer/Dealer-Details/servicerClaim";
 
 function ResellerDetails() {
   const getInitialActiveTab = () => {
@@ -247,10 +248,11 @@ function ResellerDetails() {
       activeTab === "Users" ||
       activeTab === "PriceBook" ||
       activeTab === "Paid Claims" ||
+      activeTab === "Servicer Claims" ||
       activeTab === "Unpaid Claims"
     ) {
       if (carouselRef.current) {
-        carouselRef.current.next(4);
+        carouselRef.current.next(5);
       }
     }
   }, [activeTab, carouselRef]);
@@ -609,6 +611,15 @@ function ResellerDetails() {
 
   if (createServicerAccountOption === true) {
     tabs.push(
+      {
+        id: "Servicer Claims",
+        label: "Servicer Claims",
+        icons: Unpaid,
+        Activeicons: UnpaidActive,
+        content: activeTab === "Servicer Claims" && (
+          <ServicerClaim id={id.resellerId} flag="reseller" activeTab={activeTab} />
+        ),
+      },
       {
         id: "Unpaid Claims",
         label: "Unpaid Claims",
@@ -1026,6 +1037,7 @@ function ResellerDetails() {
                   {activeTab !== "Servicer" &&
                     activeTab !== "PriceBook" &&
                     activeTab !== "Contracts" &&
+                    activeTab !== "Servicer Claims" &&
                     activeTab !== "Unpaid Claims" &&
                     activeTab !== "Paid Claims" ? (
                     <div

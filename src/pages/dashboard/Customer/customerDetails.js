@@ -705,12 +705,13 @@ function CustomerDetails() {
                     Address
                   </p>
                   <p className="text-base font-semibold leading-5">
-                    {customerDetail?.meta?.city}
-                    {", "}
                     {customerDetail?.meta?.street}
+                    {", "}
+                    {customerDetail?.meta?.city}
                     {", "}
                     {customerDetail?.meta?.state}
                     {", "}
+                    {customerDetail?.meta?.zip},
                     {customerDetail?.meta?.country}
                   </p>
                 </div>

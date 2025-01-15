@@ -5,6 +5,7 @@ import CommonTooltip from '../../../../common/toolTip'
 import Card from '../../../../common/card';
 
 function ContractSummary(props) {
+  const userData = JSON.parse(localStorage.getItem("userDetails"));
   console.log(props.data, 'data');
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -100,16 +101,22 @@ function ContractSummary(props) {
               </p>
             </div>
           </div>
-          <div className="col-span-1 border border-Light-Grey">
-            <div className="py-4 px-3">
-              <p className=" text-sm font-Regular">
-                Product SKU
-              </p>
-              <p className=" text-base font-semibold">
-                {props.data?.productName}
-              </p>
+          {userData.role == "Reseller" ||
+            userData.role == "Dealer" ||
+            userData.role == "Customer" ? (
+            ""
+          ) : (
+            <div className="col-span-1 border border-Light-Grey">
+              <div className="py-4 px-3">
+                <p className=" text-sm font-Regular">
+                  Product SKU
+                </p>
+                <p className=" text-base font-semibold">
+                  {props.data?.productName}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <div className="col-span-1 border border-Light-Grey">
             <div className="py-4 px-3">
               <p className=" text-sm font-Regular">

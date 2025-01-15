@@ -21,6 +21,7 @@ import Button from "../../../common/button";
 import { downloadFile, dowreportingTimeUpdate } from "../../../services/userServices";
 import { saveAs } from "file-saver";
 import Select from "../../../common/select";
+import Input from "../../../common/input";
 const url = process.env.REACT_APP_API_KEY_LOCAL;
 
 function MailLogs() {

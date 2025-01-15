@@ -105,6 +105,11 @@ function ContractList(props) {
     setValue(value);
   };
 
+  const handleSelectChange21 = (label, value) => {
+    formik.setFieldValue("equal", value);
+    setValue(value);
+  };
+
   const getContract = async (orderId = null, page = 1, rowsPerPage = 10) => {
     setDisable(true);
     setLoading(true);
@@ -141,13 +146,7 @@ function ContractList(props) {
     }
   };
 
-  const filterBy = [
-    {
-      value: "createdDate",
-      label: "Created Date",
-    },
 
-  ];
 
   const formatOrderValue = (orderValue) => {
     if (Math.abs(orderValue) >= 1e6) {
@@ -187,6 +186,8 @@ function ContractList(props) {
     productName: "",
     pName: "",
     eligibilty: "",
+    equal: '',
+    noOfClaimsPerContract: '',
     resellerName: "",
     status: props.flag === 'contracts' ? selectedProduct : selectedProduct,
     startDate: oneYearAgo.toISOString().split("T")[0],
@@ -222,7 +223,12 @@ function ContractList(props) {
       setLoading(false);
     }
   };
-
+  const optiondeductibles = [
+    { label: "NAN", value: "nan" },
+    { label: "=", value: "equalTo" },
+    { label: "<", value: "graterThen" },
+    { label: ">", value: "lessThen" },
+  ];
   const status = [
     { label: "Active", value: "Active" },
     { label: "Waiting", value: "Waiting" },
@@ -495,7 +501,9 @@ function ContractList(props) {
 
                                   {/* <div className="col-span-1 self-center justify-end"></div> */}
                                   <div className="col-span-1 self-center flex justify-end">
-                                    <Link to={`/contractDetails/${res._id}`} className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center">
+                                    <Link to={`/contractDetails/${res._id}`} className="self-center bg-[#464646] rounded-full cursor-pointer mr-2 p-1 text-center" onClick={() => {
+                                      localStorage.removeItem("contractMenu");
+                                    }}>
                                       <img
                                         src={view}
                                         className="ml-auto w-[23px] h-[23px] "
@@ -911,7 +919,31 @@ function ContractList(props) {
                     onChange={handleSelectChange2}
                   />
                 </div>
+                <div className="col-span-6">
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      name={`noOfClaimsPerContract`}
+                      label="# of claims per Contract"
+                      className="!bg-white"
+                      minLength={"1"}
+                      maxLength={"10"}
+                      onBlur={formik.handleBlur}
+                      {...formik.getFieldProps("noOfClaimsPerContract")}
+                    />
 
+                    <div className="absolute top-[1px] right-[1px]">
+                      <Select
+                        name={`equal`}
+                        label=""
+                        classBox="!bg-transparent"
+                        className1="!border-0 !border-l !rounded-s-[0px] !text-light-black !pr-2"
+                        options={optiondeductibles}
+                        onChange={handleSelectChange21}
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className="col-span-6">
                   <Input
                     type="date"

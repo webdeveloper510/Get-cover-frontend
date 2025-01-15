@@ -36,7 +36,7 @@ function ContractSingleView() {
     const { contractId } = useParams();
     const [activeTab, setActiveTab] = useState(getInitialActiveTab);
     const navigate = useNavigate();
-
+    const userData = JSON.parse(localStorage.getItem("userDetails"));
     useEffect(() => {
         // setLoading1(true);
         getcontractDetails(contractId);
@@ -187,7 +187,7 @@ function ContractSingleView() {
                                 <Link to={"/"}>Home / </Link>
                             </li>
                             <li className="text-sm  font-Regular pl-2">
-                                <Link to={"/orderList"}>Contract List / </Link>
+                                <Link to={"/contractList"}>Contract List / </Link>
                             </li>
                             <li className="text-sm  font-semibold ml-1 pt-[1px]">
                                 {activeTab}
@@ -209,7 +209,21 @@ function ContractSingleView() {
                                         {contractDetails.unique_key}{" "}
                                     </p>
                                 </div>
-                                <div className="col-span-3 text-end"></div>
+                                <div className="col-span-3 text-end">
+                                    {userData.role === 'Super Admin' && (
+                                        // <div onClick={() => localStorage.removeItem("contractMenu")}>
+                                        <Link to={`/editContract/${contractDetails._id}`}
+                                            onClick={() => {
+                                                localStorage.removeItem("contractMenu");
+                                            }} >
+                                            <Button>
+                                                Edit
+                                            </Button>
+                                        </Link>
+                                        // </div>
+                                    )}
+
+                                </div>
                             </Grid>
                             <div className="flex my-4">
                                 <div className="relative">
